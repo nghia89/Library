@@ -44,9 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChiTietPhieuMuon.cs" />
+    <Compile Include="ChiTietPhieuTra.cs" />
+    <Compile Include="Enum_V.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="IModel.cs" />
+    <Compile Include="PhieuMuon.cs" />
+    <Compile Include="PhieuTra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThanhVien.cs" />
+    <Compile Include="TrangThaiSach.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -40,7 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBLogic\ChiTietPhieuTraLogic.cs" />
     <Compile Include="DBLogic\ExampleLogic.cs" />
+    <Compile Include="DBLogic\PhieuTraLogic.cs" />
+    <Compile Include="DBLogic\PhieuMuonLogic.cs" />
+    <Compile Include="DBLogic\ChiTietPhieuMuonLogic.cs" />
+    <Compile Include="DBLogic\TrangThaiSachLogic.cs" />
+    <Compile Include="DBLogic\ThanhVienLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
