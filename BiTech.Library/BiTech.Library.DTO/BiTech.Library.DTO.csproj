@@ -46,7 +46,11 @@
   <ItemGroup>
     <Compile Include="Example.cs" />
     <Compile Include="IModel.cs" />
+    <Compile Include="LyDoXuat.cs" />
+    <Compile Include="NhapSach.cs" />
+    <Compile Include="NhaXuatBan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XuatSach.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
