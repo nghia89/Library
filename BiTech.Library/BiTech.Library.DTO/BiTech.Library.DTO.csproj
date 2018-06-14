@@ -44,9 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="KeSach.cs" />
+    <Compile Include="TheLoaiSach.cs" />
+    <Compile Include="Sach.cs" />
+    <Compile Include="SachTacGia.cs" />
+    <Compile Include="TacGia.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
