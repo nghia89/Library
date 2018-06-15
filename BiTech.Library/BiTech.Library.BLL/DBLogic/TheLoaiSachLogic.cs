@@ -15,13 +15,12 @@ namespace BiTech.Library.BLL.DBLogic
         public TheLoaiSachLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString, databaseName);
-            _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");
             _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");         
         }
 
-        public List<TheLoaiSach> GetAllTheLoaiSach()
-        {
-            return _theloaiSachEngine.GetAllTheLoaiSach();
-        }
+        //public List<TheLoaiSach> GetAllTheLoaiSach()
+        //{
+        //    return _theloaiSachEngine.GetAllTheLoaiSach();
+        //}
     }
 }

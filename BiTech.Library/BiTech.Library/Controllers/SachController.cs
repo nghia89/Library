@@ -23,13 +23,13 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
-        [ChildActionOnly]
-        public PartialViewResult TheLoaiSach()
-        {
-            var list = _theLoaiSachLogic.GetAllTheLoaiSach();
-            ViewBag.ListTheLoaiSach = list;
-            return PartialView();
-        }
+        //[ChildActionOnly]
+        //public PartialViewResult TheLoaiSach()
+        //{
+        //    var list = _theLoaiSachLogic.GetAllTheLoaiSach();
+        //    ViewBag.ListTheLoaiSach = list;
+        //    return PartialView();
+        //}
       
     }
 }
