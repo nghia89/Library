@@ -1,0 +1,28 @@
+﻿@model IEnumerable<BiTech.Library.Models.NhaXuatBanViewModels>
+@{
+    ViewBag.Title = "DanhSachNXB";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listNXB = ViewBag.ListNhaXuaBan;
+}
+
+<h2>Danh Sách NXB</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Tên Nhà Xuất Bản</th>
+            <th>Ghi Chú</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in listNXB)
+        {
+            <tr>
+                <td>@item.Ten</td>
+                <td>@item.GhiChu</td>
+                <td><a href="@Url.Action("SuaNXB",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("XoaNXB",new { id = item.Id})"> Xóa</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

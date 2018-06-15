@@ -177,11 +177,13 @@
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NhaXuatBanController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Models\NhaXuatBanViewModels.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -225,6 +227,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\NhaXuatBan\DanhSachNXB.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

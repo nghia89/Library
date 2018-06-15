@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBLogic\ExampleLogic.cs" />
+    <Compile Include="DBLogic\LyDoXuatLogic.cs" />
+    <Compile Include="DBLogic\NhapSachLogic.cs" />
+    <Compile Include="DBLogic\NhaXuatBanLogic.cs" />
+    <Compile Include="DBLogic\XuatSachLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
