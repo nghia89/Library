@@ -177,15 +177,11 @@
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-
     <Compile Include="Controllers\NhaXuatBanController.cs" />
-
-
+    <Compile Include="Controllers\ThongKeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
-
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -237,20 +233,15 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
-
     <Content Include="Views\NhaXuatBan\DanhSachNXB.cshtml" />
-
-
     <Content Include="Views\User\Index.cshtml" />
-
     <Content Include="Views\Sach\Index.cshtml" />
     <Content Include="Views\Sach\TheLoaiSach.cshtml" />
-
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\TheLoaiSach\" />
+    <Folder Include="Views\ThongKe\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
