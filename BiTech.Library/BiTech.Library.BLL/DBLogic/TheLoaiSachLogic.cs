@@ -15,10 +15,6 @@ namespace BiTech.Library.BLL.DBLogic
         public TheLoaiSachLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString, databaseName);
-<<<<<<< HEAD
-            _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");
-        }
-=======
             _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");         
         }
 
@@ -26,6 +22,6 @@ namespace BiTech.Library.BLL.DBLogic
         //{
         //    return _theloaiSachEngine.GetAllTheLoaiSach();
         //}
->>>>>>> Tai
+
     }
 }
