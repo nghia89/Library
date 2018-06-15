@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "_PartialUser";    
+}
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Chức vụ</th>
+            <th>CMND</th>
+            <th>Địa chỉ</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.lstUser)
+        {
+            <tr>
+                <td>@item.Ten</td>
+                <td>@item.GhiChu</td>
+                <td><a href="@Url.Action("SuaNXB",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("XoaNXB",new { id = item.Id})"> Xóa</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
