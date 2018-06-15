@@ -23,7 +23,7 @@ namespace BiTech.Library.DTO
         public string MaKiemSoat { get; set; }
 
         public string Hinh { get; set; }
-        public string SoLuong { get; set; }
+        public int SoLuong { get; set; }
         public int SoTrang { get; set; }
         public ENgonNgu NgonNgu { get; set; }
 

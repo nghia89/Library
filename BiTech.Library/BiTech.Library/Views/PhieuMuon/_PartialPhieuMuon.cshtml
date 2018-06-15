@@ -1,0 +1,31 @@
+﻿@model  List<BiTech.Library.DTO.PhieuMuon>
+@{
+    ViewBag.Title = "_PartialPhieuMuon";
+}
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Ngày mượn</th>
+            <th>Ngày phải trả</th>
+            <th>Ngày trả</th>            
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdUser</td>
+                <td>@item.NgayMuon</td>
+                <td>@item.NgayPhaiTra</td>
+                <td>@item.NgayTra</td>
+                <td>@item.TrangThaiPhieu</td>
+                <td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,4 +1,4 @@
-﻿
+﻿@model  List<BiTech.Library.DTO.ThanhVien>
 @{
     ViewBag.Title = "_PartialUser";    
 }
@@ -7,19 +7,25 @@
     <thead>
         <tr>
             <th>Tên</th>
-            <th>Chức vụ</th>
+            <th>Mã số thành viên</th>            
             <th>CMND</th>
             <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
             <th>Trạng thái</th>
+            <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in ViewBag.lstUser)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>@item.Ten</td>
-                <td>@item.GhiChu</td>
-                <td><a href="@Url.Action("SuaNXB",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("XoaNXB",new { id = item.Id})"> Xóa</a></td>
+                <td>@item.MaSoThanhVien</td>
+                <td>@item.CMND</td>
+                <td>@item.DiaChi</td>
+                <td>@item.SDT</td>
+                <td>@item.TrangThai</td>
+                <td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>
             </tr>
         }
     </tbody>

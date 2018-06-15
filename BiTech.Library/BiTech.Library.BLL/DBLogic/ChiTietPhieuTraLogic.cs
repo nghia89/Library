@@ -26,5 +26,27 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuTraEngine.GetAll();
         }
+        public ChiTietPhieuTra GetById(string id)
+        {
+            return _ChiTietPhieuTraEngine.GetById(id);
+        }
+        /// <summary>
+        /// Insert a ChiTietPhieuTra object
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public string Insert(ChiTietPhieuTra model)
+        {
+            return _ChiTietPhieuTraEngine.Insert(model);
+        }
+        /// <summary>
+        /// update - delete( update status)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Update(ChiTietPhieuTra model)
+        {
+            return _ChiTietPhieuTraEngine.Update(model);
+        }
     }
 }

@@ -1,0 +1,61 @@
+﻿@model BiTech.Library.Models.PhieuMuonModelView 
+@{
+    ViewBag.Title = "_EditPhieuMuon";
+}
+
+<h5 class="text-danger">@ViewBag.UnSuccess</h5>
+<h5 class="text-danger">@ViewBag.Validate</h5>
+<hr />
+
+@using (Html.BeginForm("_Edit", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Cập nhật.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        @Html.ValidationMessageFor(m => m.IdUser)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        @Html.ValidationMessageFor(m => m.IdUser)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.NgayMuon, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        @Html.ValidationMessageFor(m => m.NgayMuon)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.TrangThaiPhieu, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(m => m.TrangThaiPhieu)
+        </div>
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Lưu" />
+            </div>
+        </div>
+}
+
+
+
+

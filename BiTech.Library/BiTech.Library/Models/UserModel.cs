@@ -24,7 +24,11 @@ namespace BiTech.Library.Models
         public string Password { get; set; }
 
         [Required]
-        [Display(Name ="Tên người dùng")]
+        [Display(Name = "Tên người dùng")]
+        public string Ten { get; set; }
+
+        [Required]
+        [Display(Name ="Mã số người dùng")]
         public string MaSoThanhVien { get; set; }
 
         [Display(Name ="CMND")]

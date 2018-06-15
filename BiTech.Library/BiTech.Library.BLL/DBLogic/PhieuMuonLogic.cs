@@ -11,7 +11,7 @@ namespace BiTech.Library.BLL.DBLogic
 {
     public class PhieuMuonLogic
     {
-        private string TableName = "ThanhVien";
+        private string TableName = "PhieuMuon";
         public PhieuMuonEngine _PhieuMuonEngine { get; set; }
 
         public PhieuMuonLogic(string connectionString, string dbName)
@@ -25,6 +25,28 @@ namespace BiTech.Library.BLL.DBLogic
         public List<PhieuMuon> GetAll()
         {
             return _PhieuMuonEngine.GetAll();
+        }
+        public PhieuMuon GetById(string id)
+        {
+            return _PhieuMuonEngine.GetById(id);
+        }
+        /// <summary>
+        /// Insert a PhieuMuon object
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public string Insert(PhieuMuon model)
+        {
+            return _PhieuMuonEngine.Insert(model);
+        }
+        /// <summary>
+        /// update - delete( update status)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Update(PhieuMuon model)
+        {
+            return _PhieuMuonEngine.Update(model);
         }
     }
 }

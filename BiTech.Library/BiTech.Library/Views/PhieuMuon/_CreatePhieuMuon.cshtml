@@ -1,0 +1,77 @@
+﻿@model BiTech.Library.Models.PhieuMuonModelView
+@{
+    ViewBag.Title = "_CreatePhieuMuon";
+}
+SoLuong
+<h5 class="text-danger">@ViewBag.UnSuccess</h5>
+<h5 class="text-danger">@ViewBag.SoLuong</h5>
+<hr />
+
+@using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Tạo phiếu mượn.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(m => m.IdUser)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(m => m.MaSach)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SoLuong)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.NgayMuon, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(m => m.NgayMuon)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Tạo mới" />
+        </div>
+    </div>
+}
+
+

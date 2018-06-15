@@ -178,6 +178,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NhaXuatBanController.cs" />
+    <Compile Include="Controllers\PhieuMuonController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\SachViewModel.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Models\MuonTraSach.cs" />
     <Compile Include="Models\NhaXuatBanViewModels.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
@@ -237,6 +239,12 @@
     <Content Include="Views\Sach\Index.cshtml" />
     <Content Include="Views\Sach\TheLoaiSach.cshtml" />
     <Content Include="Views\User\_PartialUser.cshtml" />
+    <Content Include="Views\User\_CreateUser.cshtml" />
+    <Content Include="Views\User\_Edit.cshtml" />
+    <Content Include="Views\PhieuMuon\Index.cshtml" />
+    <Content Include="Views\PhieuMuon\_PartialPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\_CreatePhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\_EditPhieuMuon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
