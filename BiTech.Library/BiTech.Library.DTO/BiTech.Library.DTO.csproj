@@ -44,28 +44,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
+
     <Compile Include="ChiTietPhieuMuon.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
     <Compile Include="Enum_V.cs" />
-=======
+
     <Compile Include="Enums.cs" />
->>>>>>> Tai
+
     <Compile Include="Example.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="PhieuMuon.cs" />
     <Compile Include="PhieuTra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
+
     <Compile Include="ThanhVien.cs" />
     <Compile Include="TrangThaiSach.cs" />
-=======
+
     <Compile Include="KeSach.cs" />
     <Compile Include="TheLoaiSach.cs" />
     <Compile Include="Sach.cs" />
     <Compile Include="SachTacGia.cs" />
     <Compile Include="TacGia.cs" />
->>>>>>> Tai
+
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

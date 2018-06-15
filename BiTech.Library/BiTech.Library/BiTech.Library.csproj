@@ -177,12 +177,12 @@
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Controllers\UserController.cs" />
-=======
+
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
->>>>>>> Tai
+
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -233,12 +233,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
-<<<<<<< HEAD
+
     <Content Include="Views\User\Index.cshtml" />
-=======
+
     <Content Include="Views\Sach\Index.cshtml" />
     <Content Include="Views\Sach\TheLoaiSach.cshtml" />
->>>>>>> Tai
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
