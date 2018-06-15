@@ -1,0 +1,23 @@
+﻿@model 
+@{
+    ViewBag.Title = "Index";
+}
+
+<header id="topbar">
+    <div class="topbar-right" data-tour-init="1" data-tour-key="createButton">     
+    </div>
+</header>
+<div class="m10">
+    <div class="tray tray-center pt20 va-t posr">
+        <div class="panel">
+            <div class="panel-menu p12 admin-form theme-primary">
+                <h2>TEST</h2>
+            </div>
+            <div id="divListCusCustomerInfo" class="panel-body pn">
+                @Html.Partial("_Partial", Model)
+                @Html.Partial("_Partial", Model)
+            </div>
+        </div>
+
+    </div>
+</div>

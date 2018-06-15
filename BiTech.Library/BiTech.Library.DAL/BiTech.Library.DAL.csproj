@@ -65,11 +65,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
+    <Compile Include="Engines\ChiTietPhieuTraEngine.cs" />
     <Compile Include="Engines\ExampleEngine.cs" />
+<<<<<<< HEAD
     <Compile Include="Engines\LyDoXuatEngine.cs" />
     <Compile Include="Engines\NhapSachEngine.cs" />
     <Compile Include="Engines\NhaXuatBanEngine.cs" />
     <Compile Include="Engines\XuatSachEngine.cs" />
+=======
+
+    <Compile Include="Engines\ChiTietPhieuMuonEngine.cs" />
+    <Compile Include="Engines\PhieuTraEngine.cs" />
+    <Compile Include="Engines\PhieuMuonEngine.cs" />
+    <Compile Include="Engines\TrangThaiSachEngine.cs" />
+    <Compile Include="Engines\ThanhVienEngine.cs" />
+
+    <Compile Include="Engines\KeSachEngine.cs" />
+    <Compile Include="Engines\SachEngine.cs" />
+    <Compile Include="Engines\SachTacGiaEngine.cs" />
+    <Compile Include="Engines\TacGiaEngine.cs" />
+    <Compile Include="Engines\TheLoaiSachEngine.cs" />
+
+>>>>>>> master
     <Compile Include="IDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respository\EntityRepository.cs" />
