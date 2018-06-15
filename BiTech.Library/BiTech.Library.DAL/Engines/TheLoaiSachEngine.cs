@@ -16,5 +16,11 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection();
             _DatabaseCollection = _Database.GetCollection<TheLoaiSach>(tableName);
         }
+
+        public List<TheLoaiSach> GetAllTheLoaiSach()
+        {
+            return _DatabaseCollection.Find(_ => true).ToList();
+
+        }
     }
 }

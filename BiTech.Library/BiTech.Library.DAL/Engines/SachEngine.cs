@@ -16,5 +16,6 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection();
             _DatabaseCollection = _Database.GetCollection<Sach>(tableName);
         }
+      
     }
 }

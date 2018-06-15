@@ -1,26 +1,20 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using BiTech.Library.DTO;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
-namespace BiTech.Library.DTO
+namespace BiTech.Library.Helpers
 {
-    public class Sach : IModel
+    public class SachViewModel
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-
-        // Thời gian đối tượng được tạo
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime CreateDateTime { get; set; }
-
         public string TenSach { get; set; }
         public string IdDauSach { get; set; }
         public string IdTheLoai { get; set; }
         public string IdNhaXuatBan { get; set; }
         public string IdTrangThai { get; set; }
-
-        public string MaKiemSoat { get; set; }
 
         public string Hinh { get; set; }
         public string SoLuong { get; set; }
@@ -30,8 +24,13 @@ namespace BiTech.Library.DTO
         public string NamSanXuat { get; set; }
         public string GiaSach { get; set; }
         public string LinkBiaSach { get; set; }
-        public string TomTat { get; set; }      
-
-
+        public string TomTat { get; set; }
+    }
+    public class TheLoaiSachViewModel
+    {
+        [Display(Name = "Tên thể loại sách")]
+        public string TenTheLoai { get; set; }
+        [Display(Name = "Mô tả")]
+        public string MoTa { get; set; }
     }
 }
