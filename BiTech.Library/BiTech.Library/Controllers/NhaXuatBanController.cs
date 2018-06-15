@@ -21,9 +21,5 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
-        public ActionResult ThemNXB()
-        {
-             
-        }
     }
 }

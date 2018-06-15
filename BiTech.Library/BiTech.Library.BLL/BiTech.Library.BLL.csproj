@@ -42,12 +42,12 @@
   <ItemGroup>
     <Compile Include="DBLogic\ChiTietPhieuTraLogic.cs" />
     <Compile Include="DBLogic\ExampleLogic.cs" />
-<<<<<<< HEAD
+
     <Compile Include="DBLogic\LyDoXuatLogic.cs" />
     <Compile Include="DBLogic\NhapSachLogic.cs" />
     <Compile Include="DBLogic\NhaXuatBanLogic.cs" />
     <Compile Include="DBLogic\XuatSachLogic.cs" />
-=======
+
 
     <Compile Include="DBLogic\PhieuTraLogic.cs" />
     <Compile Include="DBLogic\PhieuMuonLogic.cs" />
@@ -61,7 +61,7 @@
     <Compile Include="DBLogic\TacGiaLogic.cs" />
     <Compile Include="DBLogic\TheLoaiSachLogic.cs" />
 
->>>>>>> master
+
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
