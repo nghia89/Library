@@ -1,0 +1,9 @@
+diff a/BiTech.Library/BiTech.Library.BLL/DBLogic/TheLoaiSachLogic.cs b/BiTech.Library/BiTech.Library.BLL/DBLogic/TheLoaiSachLogic.cs	(rejected hunks)
+@@ -15,7 +15,6 @@
+         public TheLoaiSachLogic(string connectionString, string databaseName)
+         {
+             Database database = new Database(connectionString, databaseName);
+-            _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");
+             _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");         
+         }
+ 
