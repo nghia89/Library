@@ -26,19 +26,13 @@ SoLuong
             @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
-        </div>
-        @Html.ValidationMessageFor(m => m.MaSach)
-    </div>
-    <div class="form-group">
+
+    @*<div class="form-group">
         @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
         </div>
-    </div>
+    </div>*@
     <div class="form-group">
         @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -71,6 +65,28 @@ SoLuong
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Tạo mới" />
         </div>
+    </div>
+    <hr />
+
+
+
+    <div class="form-group">
+
+        @Html.HiddenFor(m => m.MaSach);
+
+        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.ListBoxFor(m => m.MaSach,)
+        </div>
+        @Html.ValidationMessageFor(m => m.MaSach)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.ListBox()
+        </div>
+        @Html.ValidationMessageFor(m => m.MaSach)
     </div>
 }
 

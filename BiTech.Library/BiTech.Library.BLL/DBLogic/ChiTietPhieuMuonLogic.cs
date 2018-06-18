@@ -47,6 +47,6 @@ namespace BiTech.Library.BLL.DBLogic
         public bool Update(ChiTietPhieuMuon model)
         {
             return _ChiTietPhieuMuonEngine.Update(model);
-        },
+        }
     }
 }

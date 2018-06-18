@@ -20,7 +20,7 @@ namespace BiTech.Library.Models
 
         [Required]
         [Display(Name = "Mã sách")]
-        public string MaSach { get; set; }
+        public List<string> MaSach { get; set; }
 
         [Display(Name = "Tên sách")]
         public string TenSach{ get; set; }

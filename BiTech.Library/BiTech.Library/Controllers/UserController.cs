@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
+    //[Authorize]
     public class UserController : BaseController
     {
         private ThanhVienLogic _ThanhVienLogic;
@@ -27,6 +28,8 @@ namespace BiTech.Library.Controllers
         {
             List<ThanhVien> lstUser = _ThanhVienLogic.GetAll();
             return PartialView(lstUser);
+
+            //return new JsonResult(new { tensach = "", cover = "" });
         }
 
         public ActionResult _CreateUser()

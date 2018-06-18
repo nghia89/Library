@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
+    //[Authorize]
     public class PhieuMuonController : Controller
     {
         private PhieuMuonLogic _PhieuMuonLogic;
@@ -46,12 +47,10 @@ namespace BiTech.Library.Controllers
         /// <param name="idSach"></param>
         /// <param name="soLuong"></param>
         /// <returns></returns>
-        public bool Validate (string idSach, int soLuong)
+        public bool Validate(string idSach, int soLuong)
         {
-            //Sach sach = _SachLogic.GetById(idSach);
-            //return sach.SoLuong >= soLuong ? true : false;
-
-            return true;
+            Sach sach = _SachLogic.GetById(idSach);
+            return sach.SoLuong >= soLuong ? true : false;
         }
         /// <summary>
         /// Insert vào 2 bảng PhieuMuon và ChiTietPhieuMuon và cập nhật lại số lượng sách bảng Sach
@@ -63,52 +62,51 @@ namespace BiTech.Library.Controllers
         {
             try
             {
-                if (Validate(viewModel.MaSach, viewModel.SoLuong))
+                PhieuMuon modelPM = new PhieuMuon()
                 {
-                    PhieuMuon modelPM = new PhieuMuon()
+                    IdUser = viewModel.IdUser,
+                    NgayMuon = DateTime.Now,
+                    NgayPhaiTra = viewModel.NgayPhaiTra,
+                    TrangThaiPhieu = EPhieuMuon.ChuaTra, // mac dinh - Chua Tra
+                    CreateDateTime = DateTime.Now
+                };
+                //Insert bảng PhieuMuon
+                string idPhieuMuon = _PhieuMuonLogic.Insert(modelPM);
+                if (!String.IsNullOrEmpty(idPhieuMuon))
+                {
+                    ChiTietPhieuMuon modelCTPM = new ChiTietPhieuMuon()
                     {
-                        IdUser = viewModel.IdUser,
-                        NgayMuon = DateTime.Now,
-                        NgayPhaiTra = viewModel.NgayPhaiTra,
-                        TrangThaiPhieu = EPhieuMuon.ChuaTra, // mac dinh - Chua Tra
-                        CreateDateTime = DateTime.Now
+                        IdPhieuMuon = idPhieuMuon,
+                        //IdSach = viewModel.MaSach,
+                        SoLuong = viewModel.SoLuong,
+                        CreateDateTime = DateTime.Now,
                     };
-                    //Insert bảng PhieuMuon
-                    string idPhieuMuon = _PhieuMuonLogic.Insert(modelPM);
-                    if (!String.IsNullOrEmpty(idPhieuMuon))
+                    foreach (string lstIdSach in viewModel.MaSach)
                     {
-                        ChiTietPhieuMuon modelCTPM = new ChiTietPhieuMuon()
-                        {
-                            IdPhieuMuon = idPhieuMuon,
-                            IdSach = viewModel.MaSach,
-                            SoLuong = viewModel.SoLuong,
-                            CreateDateTime = DateTime.Now,
-                        };
+                        modelCTPM.IdSach = lstIdSach; // Gắn mã sách vào 1 chitietphieumuon
                         //Insert bảng ChiTietPhieuMuon
                         string idCTPM = _ChiTietPhieuMuonLogic.Insert(modelCTPM);
                         bool result = false;
 
                         #region Update bảng Sach
-                        //// Update lại số lượng sách trong bảng sách
-                        //Sach modelSach = _SachLogic.GetById(modelCTPM.IdSach);
-                        //modelSach.SoLuong -= modelCTPM.SoLuong;
-                        //result = _SachLogic.Update(modelSach); 
-
+                        // Update lại số lượng sách trong bảng sách
+                        Sach modelSach = _SachLogic.GetById(modelCTPM.IdSach);
+                        if (modelSach != null)
+                        {
+                            modelSach.SoLuong -= modelCTPM.SoLuong;
+                            result = _SachLogic.Update(modelSach);
+                        }
                         #endregion
 
-                        if (!result)
+                        if (result) //true
                         {
-                            //Fail              
-                            TempData["UnSuccess"] = "Thêm mới thất bại";
-                            return View();
-                        }
-                        else
-                        {
-                            TempData["Success"] = "Thêm mới thành công";
+                            TempData["Success"] = "Tạo phiếu mượn thành công";
                             return RedirectToAction("Index", "PhieuMuon");
                         }
-                    }
+                    }                                     
                 }
+                TempData["UnSuccess"] = "Tạo phiếu mượn thất bại";
+                return View();
             }
             catch (Exception ex)
             {
