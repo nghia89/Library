@@ -19,9 +19,9 @@
         {
             <tr>
                 <td>@item.IdUser</td>
-                <td>@item.NgayMuon</td>
-                <td>@item.NgayPhaiTra</td>
-                <td>@item.NgayTra</td>
+                <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+                <td>@item.NgayTra.ToString("dd-MM-yyyy")</td>
                 <td>@item.TrangThaiPhieu</td>
                 <td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>
             </tr>

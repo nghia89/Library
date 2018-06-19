@@ -16,6 +16,19 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection();
             _DatabaseCollection = _Database.GetCollection<Sach>(tableName);
         }
-      
+
+        #region vinh
+        /// <summary>
+        /// Get book by idDauSach
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <returns></returns>
+        public Sach GetByIdBook(string idBook)
+        {
+            return _DatabaseCollection.Find(_ => _.IdDauSach == idBook ).FirstOrDefault();
+        }
+
+        #endregion
+
     }
 }

@@ -32,7 +32,15 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.Update(model);
         }
-
+        /// <summary>
+        /// Get book by idBook
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <returns></returns>
+        public Sach GetByIdBook(string idBook)
+        {
+            return _sachEngine.GetByIdBook(idBook);
+        }
         #endregion
     }
 }

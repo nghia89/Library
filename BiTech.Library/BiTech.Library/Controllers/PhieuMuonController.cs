@@ -90,7 +90,7 @@ namespace BiTech.Library.Controllers
 
                         #region Update bảng Sach
                         // Update lại số lượng sách trong bảng sách
-                        Sach modelSach = _SachLogic.GetById(modelCTPM.IdSach);
+                        Sach modelSach = _SachLogic.GetByIdBook(modelCTPM.IdSach);
                         if (modelSach != null)
                         {
                             modelSach.SoLuong -= modelCTPM.SoLuong;
@@ -167,5 +167,19 @@ namespace BiTech.Library.Controllers
                 TempData["Success"] = "Xóa thất bại";
             return View();
         }
+        #region _Other
+        [HttpGet]
+        public JsonResult _GetBookItemById(string idBook)
+        {
+            JsonResult result = new JsonResult();
+            if (!String.IsNullOrWhiteSpace(idBook))
+            {              
+                result.Data = _SachLogic.GetByIdBook(idBook);
+                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            }
+            return result;
+        }
+
+        #endregion
     }
 }
