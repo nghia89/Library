@@ -1,0 +1,27 @@
+﻿@model  List<BiTech.Library.Models.ChiTietPMViewModel>
+@{
+    ViewBag.Title = "ChiTiet";
+}
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Mã sách</th>
+            <th>Tên sách</th>
+            <th>Tên sách</th>
+            <th>Số lượng</th>
+            <th>Ngày mượn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaSach</td>
+                <td>@item.TenSach</td>
+                <td>@item.SoLuong</td>
+                <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>                 
+            </tr>
+        }
+    </tbody>
+</table>

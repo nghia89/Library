@@ -3,11 +3,12 @@
     ViewBag.Title = "_CreatePhieuMuon";
     List<string> lstSach = new List<string>();
 }
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
 <h5 class="text-danger">@ViewBag.SoLuong</h5>
 <hr />
-
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 @using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -45,32 +46,32 @@
     <div class="form-group">
         @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayMuon, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.NgayMuon, new { @class = "form-control datepicker" })
         </div>
         @Html.ValidationMessageFor(m => m.NgayMuon)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control datepicker" })
         </div>
     </div>
     <div class="form-group">
-            @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
-            </div>
+        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
         </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Tạo mới" />
         </div>
     </div>
-    <hr />
+        <hr />
 
-
-    @*<div class="form-group">
+    // ---------------------------------------------------
+    <div class="form-group">
         @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control", @id = "maSach" })
@@ -78,84 +79,43 @@
         @Html.ValidationMessageFor(m => m.MaSach)
     </div>
 
-    <input type="button" value="Thêm" onclick="add_list_ajax()" />
+        <input type="button" value="Thêm" onclick="add_list_ajax()" />
 
+        <select id="lstValue" multiple>
+            <option value="empty">
+        </select>
 
-    <select id="lstValue" multiple>
-        <option value="empty">
-    </select>
+        <input type="button" name="delete" value="Delete" onclick="deleteValue()" />
 
-    <input type="button" name="delete" value="Delete" onclick="deleteValue()" />*@
+    //------------------------------------------------
 
 
 
     @*<div ng-app="bookList" ng-controller="myCtrl">
-        <ul>
-            <li ng-repeat="x in products">
-                {{x}}
-                <span ng-click="removeItem($index)">&times;</span>
-            </li>
-        </ul>
-        <input ng-model="addMe">
-        <button ng-click="addItem()">Add</button>
-        <p>{{errortext}}</p>
-    </div>*@
+            <ul>
+                <li ng-repeat="x in products">
+                    {{x}}
+                    <span ng-click="removeItem($index)">&times;</span>
+                </li>
+            </ul>
+            <input ng-model="addMe">
+            <button ng-click="addItem()">Add</button>
+            <p>{{errortext}}</p>
+        </div>*@
 }
 
 @section Scripts{
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script>
-            var i = 0;
-            function add_list_ajax() {
-                var result = "";
-                result = $("#maSach").val();
-                console.log(result);
-                $.ajax({
-                    type: "GET",
-                    url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
-                    data: "idBook=" + result,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        AddOpt = new Option(data.TenSach, data.IdDauSach);
-                        document.getElementById("lstValue").options[i++] = AddOpt;
-                     //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
-                        //$("#lstValue").append(kq);
-                    },
-                    error: function () { alert('False!'); }
-                });
-            }
-            function deleteValue() {
-                var s = 1;
-                var Index;
-                if (document.getElementById("lstValue").selectedIndex == -1) {
-                    alert("Please select any item from the ListBox");
-                    return true;
-                }
-                while (s > 0) {
-                    Index = document.getElementById("lstValue").selectedIndex;
-                    if (Index >= 0) {
-                        document.getElementById("lstValue").options[Index] = null;
-                        --i;
-                    }
-                    else
-                        s = 0;
-                }
-                return true;
-            }
-        </script>
-
-    @*<script>
-        var app = angular.module("bookList", []);
-        //
-            var i = 0;
-            function add_list_ajax() {
-                var result = "";
-                result = $("#maSach").val();
-                console.log(result);
-                $.ajax({
-                    type: "GET",
-                    url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
-                    data: "idBook=" + result,
+        var i = 0;
+        function add_list_ajax() {
+            var result = "";
+            result = $("#maSach").val();
+            console.log(result);
+            $.ajax({
+                type: "GET",
+                url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
+                data: "idBook=" + result,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -166,25 +126,99 @@
                 },
                 error: function () { alert('False!'); }
             });
+        }
+        function deleteValue() {
+            var s = 1;
+            var Index;
+            if (document.getElementById("lstValue").selectedIndex == -1) {
+                alert("Please select any item from the ListBox");
+                return true;
             }
-        //
-        app.controller("myCtrl", function ($scope) {
-            $scope.products = ["Milk", "Bread", "Cheese"];
-            $scope.addItem = function () {
-                $scope.errortext = "";
-                if (!$scope.addMe) { return; }
-                if ($scope.products.indexOf($scope.addMe) == -1) {
-                    $scope.products.push($scope.addMe);
-                } else {
-                    $scope.errortext = "The item is already in your shopping list.";
+            while (s > 0) {
+                Index = document.getElementById("lstValue").selectedIndex;
+                if (Index >= 0) {
+                    document.getElementById("lstValue").options[Index] = null;
+                    --i;
+                    $.ajax({
+                        type: "GET",
+                        url: "@(Url.Action("_Remove", "PhieuMuon"))",
+                        data: "idBook=" + result,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
+                            //$("#lstValue").append(kq);
+                        },
+                        error: function () { alert('False!'); }
+                    });
                 }
+                else
+                    s = 0;
             }
-            $scope.removeItem = function (x) {
-                $scope.errortext = "";
-                $scope.products.splice(x, 1);
-            }
+            return true;
+        }
+
+
+
+
+        $(function () {
+            $(".datepicker").datepicker({
+                showWeek: true,
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-10:+1"
+            }).attr('readonly', 'readonly');
         });
-    </script>*@
+
+        function onMonthSelectedChagned() {
+            window.location.href = '/ThongKe/DanhSachMuon?page=1&month=' + $("#month").val();
+        }
+
+
+    </script>
+
+    @*<script>
+            var app = angular.module("bookList", []);
+            //
+                var i = 0;
+                function add_list_ajax() {
+                    var result = "";
+                    result = $("#maSach").val();
+                    console.log(result);
+                    $.ajax({
+                        type: "GET",
+                        url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
+                        data: "idBook=" + result,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        AddOpt = new Option(data.TenSach, data.IdDauSach);
+                        document.getElementById("lstValue").options[i++] = AddOpt;
+                        //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
+                        //$("#lstValue").append(kq);
+                    },
+                    error: function () { alert('False!'); }
+                });
+                }
+            //
+            app.controller("myCtrl", function ($scope) {
+                $scope.products = ["Milk", "Bread", "Cheese"];
+                $scope.addItem = function () {
+                    $scope.errortext = "";
+                    if (!$scope.addMe) { return; }
+                    if ($scope.products.indexOf($scope.addMe) == -1) {
+                        $scope.products.push($scope.addMe);
+                    } else {
+                        $scope.errortext = "The item is already in your shopping list.";
+                    }
+                }
+                $scope.removeItem = function (x) {
+                    $scope.errortext = "";
+                    $scope.products.splice(x, 1);
+                }
+            });
+        </script>*@
 }
 
 

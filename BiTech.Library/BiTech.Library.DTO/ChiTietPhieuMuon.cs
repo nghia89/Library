@@ -20,6 +20,8 @@ namespace BiTech.Library.DTO
 
         public int SoLuong { get; set; }
 
+        public bool isDelete { get; set; }
+
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
     }

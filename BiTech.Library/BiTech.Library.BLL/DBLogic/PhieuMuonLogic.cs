@@ -48,5 +48,14 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuMuonEngine.Update(model);
         }
+        /// <summary>
+        /// Remove
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Remove(string id)
+        {
+            return _PhieuMuonEngine.Remove(id);
+        }
     }
 }

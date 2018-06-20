@@ -1,4 +1,4 @@
-﻿@model  List<BiTech.Library.DTO.PhieuMuon>
+﻿@model  List<BiTech.Library.Models.PhieuMuonModelView>
 @{
     ViewBag.Title = "_PartialPhieuMuon";
 }
@@ -11,6 +11,8 @@
             <th>Ngày phải trả</th>
             <th>Ngày trả</th>            
             <th>Trạng thái</th>
+            <th>Gia hạn</th>
+            <th>Ghi chú</th>
             <th>Hành động</th>
         </tr>
     </thead>
@@ -21,9 +23,21 @@
                 <td>@item.IdUser</td>
                 <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
                 <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
-                <td>@item.NgayTra.ToString("dd-MM-yyyy")</td>
+                <td>@if(item.NgayTra == null)
+                {
+                    item.NgayTra = (DateTime?)null;
+                }
+                else
+                {
+                    //item.NgayTra = DateTime.Parse(item.NgayTra.Value.ToString("dd-MM-yyyy"));
+                    @item.NgayTra.Value.ToString("dd-MM-yyyy");
+                }
+                </td>
                 <td>@item.TrangThaiPhieu</td>
-                <td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>
+                <td>@item.GiaHan</td>
+                <td>@item.GhiChu</td>
+                <td><a href="@Url.Action("_EditPhieuMuon",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a>
+                    | <a href="@Url.Action("ChiTietPhieuMuon",new { id = item.Id})"> Chi tiết</a> | <a href="@Url.Action("GiaHanPhieuMuon",new { idPM = item.Id})"> Gia hạn</a></td>
             </tr>
         }
     </tbody>

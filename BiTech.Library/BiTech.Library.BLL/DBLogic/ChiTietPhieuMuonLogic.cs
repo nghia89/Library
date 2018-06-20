@@ -26,6 +26,14 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuMuonEngine.GetAll();
         }
+        /// <summary>
+        /// Get by idPhieuMuon
+        /// </summary>
+        /// <returns></returns>
+        public List<ChiTietPhieuMuon> GetByIdPhieuMuon(string idPM)
+        {
+            return _ChiTietPhieuMuonEngine.GetByIdPhieuMuon(idPM);
+        }
         public ChiTietPhieuMuon GetById(string id)
         {
             return _ChiTietPhieuMuonEngine.GetById(id);

@@ -23,14 +23,14 @@ namespace BiTech.Library.DTO
         public DateTime NgayPhaiTra { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime NgayTra { get; set; }
+        public DateTime? NgayTra { get; set; }
         
         public EPhieuMuon TrangThaiPhieu { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
-        public string IdGiaHan { get; set; }
+        public string GiaHan { get; set; }
 
         public string GhiChu { get; set; }
     }

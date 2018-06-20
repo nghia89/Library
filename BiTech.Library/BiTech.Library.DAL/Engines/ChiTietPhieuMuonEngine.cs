@@ -23,6 +23,15 @@ namespace BiTech.Library.DAL.Engines
         public List<ChiTietPhieuMuon> GetAll()
         {
             return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();            
-        }           
+        }
+        /// <summary>
+        /// Get list chitietphieumuon by IdPM
+        /// </summary>
+        /// <param name="idPM"></param>
+        /// <returns></returns>
+        public List<ChiTietPhieuMuon> GetByIdPhieuMuon(string idPM)
+        {
+            return _DatabaseCollection.Find(_ => _.IdPhieuMuon == idPM).ToList();
+        }
     }
 }
