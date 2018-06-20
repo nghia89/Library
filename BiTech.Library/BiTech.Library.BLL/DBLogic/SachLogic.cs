@@ -16,5 +16,30 @@ namespace BiTech.Library.BLL.DBLogic
             Database database = new Database(connectionString, databaseName);
             _sachEngine = new SachEngine(database, "Sach");
         }
+
+        public List<Sach> getAllSach()
+        {
+            return _sachEngine.GetAllSach();
+        }
+
+        public string ThemSach(Sach s)
+        {
+            return _sachEngine.Insert(s);
+        }
+
+        public Sach getById(string id)
+        {
+            return _sachEngine.GetById(id);
+        }
+
+        public bool SuaSach(Sach s)
+        {
+            return _sachEngine.Update(s);
+        }
+
+        public bool XoaSach(string id)
+        {
+            return _sachEngine.Remove(id);
+        }
     }
 }

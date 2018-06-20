@@ -20,7 +20,6 @@ namespace BiTech.Library.DAL.Engines
         public List<TheLoaiSach> GetAllTheLoaiSach()
         {
             return _DatabaseCollection.Find(_ => true).ToList();
-
         }
     }
 }

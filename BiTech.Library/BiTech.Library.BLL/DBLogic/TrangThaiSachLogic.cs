@@ -26,5 +26,25 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _TrangThaiSachEngine.GetAll();
         }
+
+        public string ThemTrangThai(TrangThaiSach TT)
+        {
+            return _TrangThaiSachEngine.Insert(TT);
+        }
+
+        public TrangThaiSach getById(string id)
+        {
+            return _TrangThaiSachEngine.GetById(id);
+        }
+
+        public bool SuaTrangThai(TrangThaiSach TT)
+        {
+            return _TrangThaiSachEngine.Update(TT);
+        }
+
+        public bool XoaTrangThai(string id)
+        {
+            return _TrangThaiSachEngine.Remove(id);
+        }
     }
 }

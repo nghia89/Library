@@ -1,0 +1,22 @@
+﻿@model BiTech.Library.Models.TrangThaiSachViewModels
+@{
+    ViewBag.Title = "XoaTT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xóa Trạng Thái</h2>
+
+<div class="container">
+    @using (Html.BeginForm("XoaTT", "TrangThai", FormMethod.Post, new { role = "form" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên Trạng Thái</th>
+                    <th>@Html.TextBoxFor(m => m.TenTT)</th>
+                </tr>
+            </thead>
+        </table>
+        <input type="submit" name="btnXoaTheLoai" value="Xóa" />
+    }
+</div>

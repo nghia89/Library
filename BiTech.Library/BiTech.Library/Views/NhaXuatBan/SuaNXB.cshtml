@@ -1,0 +1,28 @@
+﻿@model BiTech.Library.Models.NhaXuatBanViewModels
+@{
+    ViewBag.Title = "SuaNXB";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sửa Nhà Xuất Bản</h2>
+<div class="container">
+    @using (Html.BeginForm("SuaNXB", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên Nhà Xuất Bản</th>
+                    <th>@Html.TextBoxFor(m => m.Ten)</th>
+                </tr>
+                <tr>
+                    <th>Ghi Chú</th>
+                    <th>@Html.TextBoxFor(m => m.GhiChu)</th>
+                </tr>
+            </thead>
+        </table>
+            <input type="submit" name="btnSuaNXB" value="Sửa" />
+    }
+</div>
+
+
+

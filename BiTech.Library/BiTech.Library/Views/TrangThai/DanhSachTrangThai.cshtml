@@ -1,0 +1,31 @@
+﻿@model IEnumerable<BiTech.Library.Models.TrangThaiSachViewModels>
+@{
+    ViewBag.Title = "DanhSachTrangThai";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listTT = ViewBag.ListTT; 
+}
+
+<h2>Danh Sách Trạng Thái</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Trạng Thái</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in listTT)
+        {
+            <tr>
+                <td>@item.TenTT</td>
+                <td><a href="@Url.Action("SuaTT",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("XoaTT",new { id = item.Id})"> Xóa</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("Thêm Mới", "CreateProduct")
+
+
+
+

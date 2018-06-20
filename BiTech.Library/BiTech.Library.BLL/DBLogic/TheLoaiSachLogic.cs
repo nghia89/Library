@@ -18,10 +18,29 @@ namespace BiTech.Library.BLL.DBLogic
             _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");         
         }
 
-        //public List<TheLoaiSach> GetAllTheLoaiSach()
-        //{
-        //    return _theloaiSachEngine.GetAllTheLoaiSach();
-        //}
+        public List<TheLoaiSach> GetAllTheLoaiSach()
+        {
+            return _theloaiSachEngine.GetAllTheLoaiSach();
+        }
 
+        public string ThemTheLoaiSach(TheLoaiSach TL)
+        {
+            return _theloaiSachEngine.Insert(TL);
+        }
+
+        public TheLoaiSach getById(string id)
+        {
+            return _theloaiSachEngine.GetById(id);
+        }
+
+        public bool SuaTheLoaiSach(TheLoaiSach TL)
+        {
+            return _theloaiSachEngine.Update(TL);
+        }
+
+        public bool XoaTheLoaiSach(string id)
+        {
+            return _theloaiSachEngine.Remove(id);
+        }
     }
 }

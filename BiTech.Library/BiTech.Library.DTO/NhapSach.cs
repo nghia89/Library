@@ -24,5 +24,9 @@ namespace BiTech.Library.DTO
         public int SoLuong { get; set; }
 
         public string IdSach { get; set; }
+
+        public string TenSach { get; set; }
+
+        public string TinhTrangSach { get; set; }
     }
 }

@@ -1,7 +1,55 @@
-﻿
+﻿@model IEnumerable<BiTech.Library.Models.SachViewModels>
 @{
     ViewBag.Title = "Index";
+    var listSach = ViewBag.ListSach;
 }
 
-<h2>Index</h2>
+<h2>Danh Sách</h2>
+@{int i = 0;}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Tên Sách</th>
+            <th>Id Đầu Sách</th>
+            <th>Loại Sách</th>
+            <th>Id Kệ Sách</th>
+            <th>Nhà Xuất Bản</th>
+            <th>Trạng Thái</th>
+            <th>Mã Kiểm Soát</th>
+            <th>Hình</th>
+            <th>Số Trang</th>
+            <th>Ngôn Ngữ</th>
+            <th>Năm Sản Xuất</th>
+            <th>Giá Sách</th>
+            <th>Link Bìa Sách</th>
+            <th>Tóm Tắt</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in listSach)
+        {
+            <tr>
+                <td>@item.TenSach</td>
+                <td>@item.IdDauSach</td>
+                <td>@ViewBag.listTL[i].TenTheLoai</td>
+                <td>@item.IdKeSach</td>               
+                <td>@ViewBag.listNXB[i].Ten</td>
+                <td>@ViewBag.listTT[i].TenTT</td>
+                <td>@item.MaKiemSoat</td>
+                <td>@item.Hinh</td>
+                <td>@item.SoTrang</td>
+                <td>@item.NgonNgu</td>
+                <td>@item.NamSanXuat</td>
+                <td>@item.GiaSach</td>
+                <td>@item.LinkBiaSach</td>
+                <td>@item.TomTat</td>
+                <td><a href="@Url.Action("SuaSach", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("XoaSach", new { id = item.Id })"> Xóa</a></td>
+            </tr>
+            { i++;}
+                }
+
+    </tbody>
+</table>
+@Html.ActionLink("Thêm Mới", "ThemSach")
 

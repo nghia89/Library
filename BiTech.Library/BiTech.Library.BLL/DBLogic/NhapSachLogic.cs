@@ -18,5 +18,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             _NhapSachEngine = new NhapSachEngine(new Database(connectionString, dbName), TableName);
         }
+
+        public string NhapSach(NhapSach ns)
+        {
+            return _NhapSachEngine.Insert(ns);
+        }
     }
 }
