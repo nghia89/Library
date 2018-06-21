@@ -21,9 +21,9 @@
             <tr>
                 <td>@item.TenTheLoai</td>
                 <td>@item.MoTa</td>
-                <td><a href="@Url.Action("SuaTheLoaiSach", new { id = item.Id })">Sửa</a>|<a href="@Url.Action("XoaTheLoaiSach", new {id = item.Id })">Xóa</a></td>
+                <td><a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a>|<a href="@Url.Action("Xoa", new {id = item.Id })">Xóa</a></td>
             </tr>
         }
     </tbody>
 </table>
-@Html.ActionLink("Thêm Mới", "ThemTheLoaiSach")
+@Html.ActionLink("Thêm Mới", "Them")

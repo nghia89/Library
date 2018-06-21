@@ -1,12 +1,12 @@
 ﻿@model BiTech.Library.Models.NhaXuatBanViewModels
 @{
-    ViewBag.Title = "ThemNXB";
+    ViewBag.Title = "SuaNXB";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Thêm Nhà Xuất Bản</h2>
+<h2>Sửa Nhà Xuất Bản</h2>
 <div class="container">
-    @using (Html.BeginForm("ThemNXB", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("Sua", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
     {
         <table>
             <thead>
@@ -20,7 +20,9 @@
                 </tr>
             </thead>
         </table>
-        <input type="submit" name="btnThemTheLoai" value="Thêm Mới" />
+            <input type="submit" name="btnSuaNXB" value="Sửa" />
     }
 </div>
+
+
 

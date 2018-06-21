@@ -10,16 +10,21 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    public class SachController : Controller
+    public class SachController : BaseController
     {
-        SachLogic _SachLogic = new SachLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
-        TheLoaiSachLogic _theLoaiSachLogic = new TheLoaiSachLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
-        NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
-        TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
-
         public ActionResult Index()
         {
-            //
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             List<NhaXuatBan> listNXB = new List<NhaXuatBan>();
             List<TheLoaiSach> listTL = new List<TheLoaiSach>();
             List<TrangThaiSach> listTT = new List<TrangThaiSach>();
@@ -27,7 +32,7 @@ namespace BiTech.Library.Controllers
             foreach(var item in list)
             {
                 var nxb = _NhaXuatBanLogic.getById(item.IdNhaXuatBan);
-                var TL = _theLoaiSachLogic.getById(item.IdTheLoai);
+                var TL = _TheLoaiSachLogic.getById(item.IdTheLoai);
                 var TT = _TrangThaiSachLogic.getById(item.IdTrangThai);
                 listNXB.Add(nxb);
                 listTL.Add(TL);
@@ -40,18 +45,40 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
-        public ActionResult ThemSach()
+        public ActionResult Them()
         {
-            ViewBag.ListTheLoai = _theLoaiSachLogic.GetAllTheLoaiSach();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.getAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
             return View();
         }
 
         [HttpPost]
-        public ActionResult ThemSach(SachViewModels model)
+        public ActionResult Them(SachViewModels model)
         {
-            ViewBag.ListTheLoai= _theLoaiSachLogic.GetAllTheLoaiSach();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            ViewBag.ListTheLoai= _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.getAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
             Sach s = new Sach()
@@ -75,9 +102,20 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
       
-        public ActionResult SuaSach(string id)
+        public ActionResult Sua(string id)
         {
-            ViewBag.ListTheLoai = _theLoaiSachLogic.GetAllTheLoaiSach();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.getAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
             Sach S = _SachLogic.getById(id);
@@ -103,9 +141,20 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
-        public ActionResult SuaSach(SachViewModels model)
+        public ActionResult Sua(SachViewModels model)
         {
-            ViewBag.ListTheLoai = _theLoaiSachLogic.GetAllTheLoaiSach();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.getAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
             Sach S = _SachLogic.getById(model.Id);
@@ -127,9 +176,20 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult XoaSach(string id)
+        public ActionResult Xoa(string id)
         {
-            ViewBag.ListTheLoai = _theLoaiSachLogic.GetAllTheLoaiSach();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.getAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
             Sach S = _SachLogic.getById(id);
@@ -155,9 +215,20 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
-        public ActionResult XoaSach(SachViewModels model)
+        public ActionResult Xoa(SachViewModels model)
         {
-            ViewBag.ListTheLoai = _theLoaiSachLogic.GetAllTheLoaiSach();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.getAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
             Sach s = _SachLogic.getById(model.Id);

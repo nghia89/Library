@@ -10,43 +10,62 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    public class TheLoaiSachController : Controller
+    public class TheLoaiSachController : BaseController
     {
-        private TheLoaiSachLogic _theLoaiSachLogic;
-        public TheLoaiSachController()
-        {
-            _theLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-        }
 
         // GET: TheLoaiSach
-        public ActionResult DanhSachTheLoaiSach()
+        public ActionResult Index()
         {
-            var ul = new TheLoaiSachLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
-            var list = ul.GetAllTheLoaiSach();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListTheLoai = list;
             return View();
         }
 
-        public ActionResult ThemTheLoaiSach()
+        public ActionResult Them()
         {
             return View();
         }
-        
+
         [HttpPost]
-        public ActionResult ThemTheLoaiSach(TheLoaiSach model)
+        public ActionResult Them(TheLoaiSach model)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             TheLoaiSach TLS = new TheLoaiSach()
             {
                 TenTheLoai = model.TenTheLoai,
                 MoTa = model.MoTa
             };
-            _theLoaiSachLogic.ThemTheLoaiSach(TLS);
-            return RedirectToAction("DanhSachTheLoaiSach");
+
+            _TheLoaiSachLogic.ThemTheLoaiSach(TLS);
+            return RedirectToAction("Index");
         }
 
-        public ActionResult SuaTheLoaiSach(string id)
+        public ActionResult Sua(string id)
         {
-            TheLoaiSach TLS = _theLoaiSachLogic.getById(id);
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            TheLoaiSach TLS = _TheLoaiSachLogic.getById(id);
             TheLoaiSachViewModels VM = new TheLoaiSachViewModels()
             {
                 Id = TLS.Id,
@@ -57,18 +76,34 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
-        public ActionResult SuaTheLoaiSach(TheLoaiSachViewModels model)
+        public ActionResult Sua(TheLoaiSachViewModels model)
         {
-            TheLoaiSach TLS = _theLoaiSachLogic.getById(model.Id);
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            TheLoaiSach TLS = _TheLoaiSachLogic.getById(model.Id);
             TLS.TenTheLoai = model.TenTheLoai;
             TLS.MoTa = model.MoTa;
-            _theLoaiSachLogic.SuaTheLoaiSach(TLS);
-            return RedirectToAction("DanhSachTheLoaiSach");
+            _TheLoaiSachLogic.SuaTheLoaiSach(TLS);
+            return RedirectToAction("Index");
         }
 
-        public ActionResult XoaTheLoaiSach(string id)
+        public ActionResult Xoa(string id)
         {
-            TheLoaiSach TLS = _theLoaiSachLogic.getById(id);
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            TheLoaiSach TLS = _TheLoaiSachLogic.getById(id);
             TheLoaiSachViewModels VM = new TheLoaiSachViewModels()
             {
                 Id = TLS.Id,
@@ -79,11 +114,19 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
-        public ActionResult XoaTheLoaiSach(TheLoaiSachViewModels model)
+        public ActionResult Xoa(TheLoaiSachViewModels model)
         {
-            TheLoaiSach TLS = _theLoaiSachLogic.getById(model.Id);
-            _theLoaiSachLogic.XoaTheLoaiSach(TLS.Id);
-            return RedirectToAction("DanhSachTheLoaiSach");
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            TheLoaiSach TLS = _TheLoaiSachLogic.getById(model.Id);
+            _TheLoaiSachLogic.XoaTheLoaiSach(TLS.Id);
+            return RedirectToAction("Index");
         }
     }
 }

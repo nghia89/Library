@@ -1,13 +1,13 @@
 ﻿@model BiTech.Library.Models.SachViewModels
 @{
-    ViewBag.Title = "SuaSach";
+    ViewBag.Title = "XoaSach";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Sửa Sách</h2>
+<h2>Xóa Sách</h2>
 
 <div class="container">
-    @using (Html.BeginForm("SuaSach", "Sach", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("Xoa", "Sach", FormMethod.Post, new { role = "form" }))
     {
         <table>
             <thead>
@@ -69,6 +69,6 @@
                 </tr>
             </thead>
         </table>
-        <input type="submit" name="btnThemUser" value="Sửa" />
+        <input type="submit" name="btnThemUser" value="Xóa" />
     }
 </div>

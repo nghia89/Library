@@ -1,6 +1,5 @@
 ﻿using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
-using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +9,9 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    public class NhaXuatBanController : BaseController
-    {    
-        // GET: NhaXuatBan
+    public class TrangThaiSachController : BaseController
+    {
+        // GET: TrangThai
         public ActionResult Index()
         {
             #region  Lấy thông tin người dùng
@@ -21,10 +20,10 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var list = _NhaXuatBanLogic.getAllNhaXuatBan();
-            ViewBag.ListNhaXuaBan = list;
+            var list = _TrangThaiSachLogic.GetAll();
+            ViewBag.ListTT = list;
             return View();
         }
 
@@ -34,7 +33,7 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
-        public ActionResult Them(NhaXuatBanViewModels model)
+        public ActionResult Them(TrangThaiSachViewModels model)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -42,14 +41,13 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            NhaXuatBan nxb = new NhaXuatBan()
+            TrangThaiSach tts = new TrangThaiSach()
             {
-                Ten = model.Ten,
-                GhiChu = model.GhiChu
+                TenTT = model.TenTT
             };
-            _NhaXuatBanLogic.ThemNXB(nxb);
+            _TrangThaiSachLogic.ThemTrangThai(tts);
             return RedirectToAction("Index");
         }
 
@@ -61,20 +59,19 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
-            NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
+            TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
+            TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
             {
-                Id = nxb.Id,
-                Ten = nxb.Ten,
-                GhiChu = nxb.GhiChu
+                Id = tts.Id,
+                TenTT = tts.TenTT
             };
             return View(VM);
         }
 
         [HttpPost]
-        public ActionResult Sua(NhaXuatBanViewModels model)
+        public ActionResult Sua(TrangThaiSachViewModels model)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -82,12 +79,11 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            NhaXuatBan nxb = _NhaXuatBanLogic.getById(model.Id);
-            nxb.Ten = model.Ten;
-            nxb.GhiChu = model.GhiChu;
-            _NhaXuatBanLogic.SuaNXB(nxb);
+            TrangThaiSach tts = _TrangThaiSachLogic.getById(model.Id);
+            tts.TenTT = model.TenTT;
+            _TrangThaiSachLogic.SuaTrangThai(tts);
             return RedirectToAction("Index");
         }
 
@@ -99,20 +95,19 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
-            NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
+            TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
+            TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
             {
-                Id = nxb.Id,
-                Ten = nxb.Ten,
-                GhiChu = nxb.GhiChu
+                Id = tts.Id,
+                TenTT = tts.TenTT
             };
             return View(VM);
         }
 
         [HttpPost]
-        public ActionResult Xoa(NhaXuatBanViewModels model)
+        public ActionResult Xoa(TrangThaiSachViewModels model)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -120,10 +115,10 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            NhaXuatBan nxb = _NhaXuatBanLogic.getById(model.Id);
-            _NhaXuatBanLogic.XoaNXB(nxb.Id);
+            TrangThaiSach tts = _TrangThaiSachLogic.getById(model.Id);
+            _TrangThaiSachLogic.XoaTrangThai(tts.Id);
             return RedirectToAction("Index");
         }
     }

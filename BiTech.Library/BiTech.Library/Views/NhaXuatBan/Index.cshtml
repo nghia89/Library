@@ -20,10 +20,10 @@
             <tr>
                 <td>@item.Ten</td>
                 <td>@item.GhiChu</td>
-                <td><a href="@Url.Action("SuaNXB",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("XoaNXB",new { id = item.Id})"> Xóa</a></td>
+                <td><a href="@Url.Action("Sua",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("Xoa",new { id = item.Id})"> Xóa</a></td>
             </tr>
         }
     </tbody>
 </table>
-@Html.ActionLink("Thêm Mới","ThemNXB")
+@Html.ActionLink("Thêm Mới","Them")
 

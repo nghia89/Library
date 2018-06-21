@@ -9,10 +9,8 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    public class NhapSachController : Controller
+    public class NhapSachController : BaseController
     {
-        NhapSachLogic _NhapSachLogic = new NhapSachLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
-        SachLogic _SachLogic = new SachLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
         public ActionResult Index()
         {
             return View();
@@ -20,6 +18,15 @@ namespace BiTech.Library.Controllers
 
         public ActionResult NhapSach()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhapSachLogic _NhapSachLogic = new NhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             var list = _SachLogic.getAllSach();
 
             List<SachViewModels> ListdsSach = new List<SachViewModels>();
@@ -50,6 +57,14 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult NhapSach(NhapSachViewModels model)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhapSachLogic _NhapSachLogic = new NhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             NhapSach NS = new NhapSach()
             {
                 Id = model.Id,

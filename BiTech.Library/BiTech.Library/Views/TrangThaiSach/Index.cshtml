@@ -19,12 +19,12 @@
         {
             <tr>
                 <td>@item.TenTT</td>
-                <td><a href="@Url.Action("SuaTT",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("XoaTT",new { id = item.Id})"> Xóa</a></td>
+                <td><a href="@Url.Action("Sua",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("Xoa",new { id = item.Id})"> Xóa</a></td>
             </tr>
         }
     </tbody>
 </table>
-@Html.ActionLink("Thêm Mới", "CreateProduct")
+@Html.ActionLink("Thêm Mới", "Them")
 
 
 
