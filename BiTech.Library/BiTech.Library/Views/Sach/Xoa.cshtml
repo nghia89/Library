@@ -1,0 +1,74 @@
+﻿@model BiTech.Library.Models.SachViewModels
+@{
+    ViewBag.Title = "XoaSach";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xóa Sách</h2>
+
+<div class="container">
+    @using (Html.BeginForm("Xoa", "Sach", FormMethod.Post, new { role = "form" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên Sách</th>
+                    <th>@Html.TextBoxFor(m => m.TenSach)</th>
+                </tr>
+                <tr>
+                    <th>Id Đầu Sách</th>
+                    <th>@Html.TextBoxFor(m => m.IdDauSach)</th>
+                </tr>
+                <tr>
+                    <th>Id Loại Sách</th>
+                    <th>@Html.DropDownListFor(m => m.IdTheLoai, new SelectList(ViewBag.ListTheLoai, "Id", "TenTheLoai"), " ")</th>
+                </tr>
+                <tr>
+                    <th>Id Kệ Sách</th>
+                    <th>@Html.TextBoxFor(m => m.IdKeSach)</th>
+                </tr>
+                <tr>
+                    <th>Id Nhà Xuất Bản</th>
+                    <th>@Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(ViewBag.ListNXB, "Id", "Ten"), "")</th>
+                </tr>
+                <tr>
+                    <th>Id Trang Thái</th>
+                    <th>@Html.DropDownListFor(m => m.IdTrangThai, new SelectList(ViewBag.ListTT, "Id", "TenTT"), "")</th>
+                </tr>
+                <tr>
+                    <th>Id Mã Kiểm Soát</th>
+                    <th>@Html.TextBoxFor(m => m.MaKiemSoat)</th>
+                </tr>
+                <tr>
+                    <th>Hình</th>
+                    <th>@Html.TextBoxFor(m => m.Hinh)</th>
+                </tr>
+                <tr>
+                    <th>Số Trang</th>
+                    <th>@Html.TextBoxFor(m => m.SoTrang)</th>
+                </tr>
+                <tr>
+                    <th>Ngôn Ngữ</th>
+                    <th>@Html.EnumDropDownListFor(m => m.NgonNgu)</th>
+                </tr>
+                <tr>
+                    <th>Năm Sản Xuất</th>
+                    <th>@Html.TextBoxFor(m => m.NamSanXuat)</th>
+                </tr>
+                <tr>
+                    <th>Giá Sách</th>
+                    <th>@Html.TextBoxFor(m => m.GiaSach)</th>
+                </tr>
+                <tr>
+                    <th>Link Bìa Sách</th>
+                    <th>@Html.TextBoxFor(m => m.LinkBiaSach)</th>
+                </tr>
+                <tr>
+                    <th>Tóm Tắt</th>
+                    <th>@Html.TextBoxFor(m => m.TomTat)</th>
+                </tr>
+            </thead>
+        </table>
+        <input type="submit" name="btnThemUser" value="Xóa" />
+    }
+</div>

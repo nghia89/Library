@@ -174,27 +174,28 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-
+    <Compile Include="Controllers\NhapSachController.cs" />
     <Compile Include="Controllers\NhaXuatBanController.cs" />
-
-
+    <Compile Include="Controllers\TrangThaiSachController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
-
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
-    <Compile Include="Helpers\SachViewModel.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Models\NhapSachViewModels.cs" />
     <Compile Include="Models\NhaXuatBanViewModels.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\SachViewModels.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
+    <Compile Include="Models\TheLoaiSachViewModels.cs" />
+    <Compile Include="Models\TrangThaiSachViewModels.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -237,20 +238,28 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
-
-    <Content Include="Views\NhaXuatBan\DanhSachNXB.cshtml" />
-
-
+    <Content Include="Views\NhaXuatBan\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-
     <Content Include="Views\Sach\Index.cshtml" />
     <Content Include="Views\Sach\TheLoaiSach.cshtml" />
-
-
+    <Content Include="Views\Sach\Them.cshtml" />
+    <Content Include="Views\TheLoaiSach\Index.cshtml" />
+    <Content Include="Views\TheLoaiSach\Them.cshtml" />
+    <Content Include="Views\TheLoaiSach\Sua.cshtml" />
+    <Content Include="Views\TheLoaiSach\Xoa.cshtml" />
+    <Content Include="Views\NhaXuatBan\Them.cshtml" />
+    <Content Include="Views\NhaXuatBan\Sua.cshtml" />
+    <Content Include="Views\TrangThaiSach\Index.cshtml" />
+    <Content Include="Views\TrangThaiSach\Them.cshtml" />
+    <Content Include="Views\NhaXuatBan\Xoa.cshtml" />
+    <Content Include="Views\TrangThaiSach\Sua.cshtml" />
+    <Content Include="Views\TrangThaiSach\Xoa.cshtml" />
+    <Content Include="Views\Sach\Sua.cshtml" />
+    <Content Include="Views\Sach\Xoa.cshtml" />
+    <Content Include="Views\NhapSach\NhapSach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\TheLoaiSach\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

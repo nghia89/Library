@@ -22,7 +22,7 @@ namespace BiTech.Library.DAL.Engines
         /// <returns></returns>
         public List<TrangThaiSach> GetAll()
         {
-            return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();
+            return _DatabaseCollection.Find(p => true).ToList();
         }
     }
 }
