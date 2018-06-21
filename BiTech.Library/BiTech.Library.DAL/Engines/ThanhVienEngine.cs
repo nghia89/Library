@@ -17,12 +17,21 @@ namespace BiTech.Library.DAL.Engines
             _DatabaseCollection = _Database.GetCollection<ThanhVien>(tableName);
         }
         /// <summary>
-        /// Get all ThanhVien object (Active - DeActive)
+        /// Get all ThanhVien object (Active - DeActive)GetByIdUser
         /// </summary>
         /// <returns></returns>
         public List<ThanhVien> GetAll()
         {
             return _DatabaseCollection.Find(_ => _.TrangThai != EUser.Deleted).ToList();
+        }
+        /// <summary>
+        /// Lấy 1 thành viên thông qua mã thành viên 
+        /// </summary>
+        /// <param name="idUser"></param>
+        /// <returns></returns>
+        public ThanhVien GetByIdUser(string idUser)
+        {
+            return _DatabaseCollection.Find(_ => _.MaSoThanhVien == idUser).FirstOrDefault();
         }
     }
 }

@@ -31,6 +31,15 @@ namespace BiTech.Library.BLL.DBLogic
             return _PhieuMuonEngine.GetById(id);
         }
         /// <summary>
+        /// get by UserID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<PhieuMuon> GetByIdUser(string idUser)
+        {
+            return _PhieuMuonEngine.GetByIdUser(idUser);
+        }
+        /// <summary>
         /// Insert a PhieuMuon object
         /// </summary>
         /// <param name="model"></param>

@@ -1,14 +1,17 @@
 ﻿@model BiTech.Library.Models.PhieuMuonModelView
+
 @{
     ViewBag.Title = "_CreatePhieuMuon";
-    List<string> lstSach = new List<string>();
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
 <h5 class="text-danger">@ViewBag.SoLuong</h5>
+<h5 class="text-danger">@ViewBag.Date</h5>
 <hr />
-<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
 @using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -18,14 +21,14 @@
     <div class="form-group">
         @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", onchange = "OnChangeEvent();", @id = "idUser" })
         </div>
         @Html.ValidationMessageFor(m => m.IdUser)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control", @readonly = "readonly", @id = "idTen" })
         </div>
     </div>
 
@@ -35,13 +38,13 @@
                 @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
             </div>
         </div>*@
-    <div class="form-group">
-        @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SoLuong)
-    </div>
+    @*<div class="form-group">
+            @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(m => m.SoLuong)
+        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
@@ -55,37 +58,49 @@
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control datepicker" })
         </div>
+        @Html.ValidationMessageFor(m => m.NgayPhaiTra)
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
+            @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Tạo mới" />
         </div>
     </div>
-        <hr />
+    <hr />
 
     // ---------------------------------------------------
-    <div class="form-group">
-        @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control", @id = "maSach" })
-        </div>
-        @Html.ValidationMessageFor(m => m.MaSach)
-    </div>
+    @*<div class="form-group">
+            @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control", @id = "maSach" })
+            </div>
+            @Html.ValidationMessageFor(m => m.MaSach)
+        </div>*@
 
-        <input type="button" value="Thêm" onclick="add_list_ajax()" />
+    @*<input type="text" name="IP" id="maSach" />
 
-        <select id="lstValue" multiple>
-            <option value="empty">
-        </select>
+            <div class="form-group">
+                @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+              
+                </div>
+                @Html.ValidationMessageFor(m => m.MaSach)
+            </div>
 
-        <input type="button" name="delete" value="Delete" onclick="deleteValue()" />
+            <input type="button" value="Thêm" onclick="add_list_ajax()" />
+
+                <select id="lstValue" multiple>
+                    <option value="empty">
+                </select>
+
+                <input type="button" name="delete" value="Delete" onclick="deleteValue()" />*@
 
     //------------------------------------------------
 
@@ -105,7 +120,7 @@
 }
 
 @section Scripts{
-<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script>
         var i = 0;
         function add_list_ajax() {
@@ -121,6 +136,8 @@
                 success: function (data) {
                     AddOpt = new Option(data.TenSach, data.IdDauSach);
                     document.getElementById("lstValue").options[i++] = AddOpt;
+                    $("#lstmaSach").add(data.TenSach)
+                    
                     //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
                     //$("#lstValue").append(kq);
                 },
@@ -169,10 +186,29 @@
                 changeYear: true,
                 yearRange: "-10:+1"
             }).attr('readonly', 'readonly');
+            //.attr('readonly', 'readonly')
         });
 
-        function onMonthSelectedChagned() {
-            window.location.href = '/ThongKe/DanhSachMuon?page=1&month=' + $("#month").val();
+        function OnChangeEvent() {
+            var result = "";
+            result = $("#idUser").val();
+            console.log(result);
+            $.ajax({
+                type: "GET",
+                url: "@(Url.Action("GetName", "PhieuMuon"))",
+                data: "idUser=" + result,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#idTen").val(data.Ten);
+                },
+                error: function () {
+                    alert('Mã thành viên không phù hợp');
+                    $("#idTen").val("");
+                    $("#idUser").val("");
+                }
+
+            });
         }
 
 

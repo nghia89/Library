@@ -30,7 +30,7 @@ namespace BiTech.Library.Models
         public int SoLuong { get; set; }
 
         [Required]
-        [Display(Name = "Ngày mượn")]
+        [Display(Name = "Ngày mượn")]        
         public DateTime NgayMuon { get; set; }
         
         [Display(Name = "Ngày phải trả")]
@@ -40,7 +40,10 @@ namespace BiTech.Library.Models
         public DateTime? NgayTra { get; set; }
 
         [Display(Name = "Trạng thái")]
-        public string TrangThaiPhieu { get; set; }
+        public EPhieuMuon TrangThaiPhieu { get; set; }
+
+        [Display(Name = "Trạng thái")]
+        public string TrangThai{ get; set; }
 
         [Display(Name = "Gia hạn")]
         public string GiaHan{ get; set; }
@@ -67,5 +70,30 @@ namespace BiTech.Library.Models
 
         [Display(Name = "Ngày trả")]
         public DateTime NgayTra { get; set; }
+    }
+
+    public class PhieuTraViewModel
+    {
+        public string  Id { get; set; }
+
+        public string IdPM { get; set; }
+
+        [Display(Name = "Ngày trả")]
+        public DateTime NgayTra { get; set; }
+
+        [Display(Name = "Người mượn")]
+        public string NguoiMuon { get; set; }
+
+        [Display(Name = "Mã người mượn")]
+        public string IdNguoiMuon { get; set; }
+
+        [Display(Name = "Mã sách")]
+        public string IdSach { get; set; }
+
+        [Display(Name = "Tên sách")]
+        public string TenSach { get; set; }
+
+        [Display(Name = "Tình trạng sách")]
+        public string IdTinhTrang { get; set; }
     }
 }

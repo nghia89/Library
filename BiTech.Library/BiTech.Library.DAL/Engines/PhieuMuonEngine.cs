@@ -25,6 +25,10 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted).ToList();            
         }   
 
+        public List<PhieuMuon> GetByIdUser(string idUser)
+        {
+            return _DatabaseCollection.Find(_ => _.IdUser == idUser).ToList();
+        }
         //public List<PhieuMuon> GetByDate()
     }
 }

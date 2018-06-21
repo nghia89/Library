@@ -33,5 +33,14 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.IdPhieuMuon == idPM).ToList();
         }
+        /// <summary>
+        /// Get list chitietphieumuon by idBook
+        /// </summary>
+        /// <param name="idPM"></param>
+        /// <returns></returns>
+        public List<ChiTietPhieuMuon> GetByIdBook(string idBook)
+        {
+            return _DatabaseCollection.Find(_ => _.IdSach == idBook).ToList();
+        }
     }
 }

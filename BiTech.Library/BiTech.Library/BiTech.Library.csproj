@@ -179,6 +179,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NhaXuatBanController.cs" />
     <Compile Include="Controllers\PhieuMuonController.cs" />
+    <Compile Include="Controllers\PhieuTraController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
@@ -292,6 +293,7 @@
     <Content Include="Views\PhieuMuon\_EditPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\ChiTietPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\GiaHanPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuTra\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
