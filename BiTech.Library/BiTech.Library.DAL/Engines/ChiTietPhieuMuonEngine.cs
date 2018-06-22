@@ -24,12 +24,31 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();            
         }
-
+		
         #region Tai
         public List<ChiTietPhieuMuon> GetCTPMbyId(string idPhieuMuon)
         {
             return _DatabaseCollection.Find(x => x.IdPhieuMuon == idPhieuMuon).ToList();
         }
         #endregion    
+		
+        /// <summary>
+        /// Get list chitietphieumuon by IdPM
+        /// </summary>
+        /// <param name="idPM"></param>
+        /// <returns></returns>
+        public List<ChiTietPhieuMuon> GetByIdPhieuMuon(string idPM)
+        {
+            return _DatabaseCollection.Find(_ => _.IdPhieuMuon == idPM).ToList();
+        }
+        /// <summary>
+        /// Get list chitietphieumuon by idBook
+        /// </summary>
+        /// <param name="idPM"></param>
+        /// <returns></returns>
+        public List<ChiTietPhieuMuon> GetByIdBook(string idBook)
+        {
+            return _DatabaseCollection.Find(_ => _.IdSach == idBook).ToList();
+        }
     }
 }

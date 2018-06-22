@@ -27,7 +27,11 @@ namespace BiTech.Library.DTO
         public string DiaChi { get; set; }
 
         public string SDT { get; set; }
-        
+
+        public string HinhChanDung { get; set; }
+
+        public string IdChucVu { get; set; }
+
         public EUser TrangThai { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]

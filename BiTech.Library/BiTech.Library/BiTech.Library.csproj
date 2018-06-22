@@ -187,6 +187,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NhaXuatBanController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
+    <Compile Include="Controllers\PhieuMuonController.cs" />
+    <Compile Include="Controllers\PhieuTraController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
@@ -196,10 +198,12 @@
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\SachViewModel.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Models\MuonTraSach.cs" />
     <Compile Include="Models\NhaXuatBanViewModels.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
     <Compile Include="Models\ThongKeViewModel.cs" />
+    <Compile Include="Models\TrangThaiSachViewModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -297,6 +301,16 @@
     <Content Include="Views\User\_PartialUser.cshtml" />
     <Content Include="Views\ThongKe\DanhSachMuon.cshtml" />
     <Content Include="Views\ThongKe\DanhSachTra.cshtml" />
+    <Content Include="Views\User\_CreateUser.cshtml" />
+    <Content Include="Views\User\_Edit.cshtml" />
+    <Content Include="Views\PhieuMuon\Index.cshtml" />
+    <Content Include="Views\PhieuMuon\_PartialPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\_CreatePhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\_EditPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\ChiTietPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\GiaHanPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuTra\Index.cshtml" />
+    <Content Include="Views\PhieuTra\TraSach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

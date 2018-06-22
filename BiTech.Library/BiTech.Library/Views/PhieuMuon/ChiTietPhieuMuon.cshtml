@@ -1,0 +1,159 @@
+﻿@model  List<BiTech.Library.Models.ChiTietPMViewModel>
+@{
+    ViewBag.Title = "ChiTiet";
+}
+<br />
+<table border="1">
+    <thead>
+        <tr>
+            <th>Mã sách</th>
+            <th>Tên sách</th>
+            <th>Số lượng mượn</th>
+            <th>Ngày mượn</th>
+            <th>Trả sách</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaSach</td>
+                <td>@item.TenSach</td>
+                <td>@item.SoLuong</td>
+                <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                <td>
+                @*<a href="@Url.Action("TraSach", "PhieuTra", new { @idPM = item.IdPM , @idSach = item.MaSach} )" 
+                        class="btn btn-primary" data-toggle="modal" data-target="#myModal">Trả</a>*@ 
+
+                    <a href="javascript:void(0);" class="anchorDetail" data-id="@item.IdPM" data-content="@item.MaSach">Trả sách</a>  
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<br />
+
+
+<!-- The Modal -->
+@*<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>*@
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <br />
+            <hr />
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+
+</div>  
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+
+    var TeamDetailPostBackURL = '/PhieuTra/TraSach';
+    $(function () {
+        $(".anchorDetail").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var idBook = $buttonClicked.attr('data-content');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "idPM": id, "idSach": idBook },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+        //$("#closebtn").on('click',function(){
+        //    $('#myModal').modal('hide');
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+    </script>
+
+}
+  
+
+@*<h4> Danh sách trả</h4>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Mã sách</th>
+            <th>Tên sách</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td id="maSach"></td>
+            <td id="tenSach"></td>
+        </tr>
+    </tbody>
+</table>*@
+@*@section Scripts{
+    <script>
+        var i = 0;
+        function addItem() {
+            var result = "";
+            result = $("#maSach").val();
+            console.log(result);
+            $.ajax({
+                type: "GET",
+                url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
+                data: "idBook=" + result,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    AddOpt = new Option(data.TenSach, data.IdDauSach);
+                    document.getElementById("lstValue").options[i++] = AddOpt;
+                    $("#lstmaSach").add(data.TenSach)
+
+                    //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
+                    //$("#lstValue").append(kq);
+                },
+                error: function () { alert('False!'); }
+            });
+        }
+    </script>
+}*@

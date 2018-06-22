@@ -4,10 +4,13 @@
 }
 
 <header id="topbar">
-    <div class="topbar-right" data-tour-init="1" data-tour-key="createButton">
-    </div>
+    <h5>@Html.ActionLink("Create", "_CreateUser", "User")</h5>
 </header>
+<h5 class="text-success">@ViewBag.Success</h5>
+<h5 class="text-danger">@ViewBag.UnSuccess</h5>
 <div class="m10">
-    @Html.Partial("_Partial", "User")
+    <div class="row">
+        @Html.Action("_PartialUser", "User")
+    </div>
 </div>
 

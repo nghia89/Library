@@ -1,0 +1,62 @@
+﻿@model BiTech.Library.Models.UserViewModel
+@{
+    ViewBag.Title = "_Edit";
+}
+
+<h5 class="text-danger">@ViewBag.UnSuccess</h5>
+<h5 class="text-danger">@ViewBag.Validate</h5>
+<hr />
+
+@using (Html.BeginForm("_Edit", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Cập nhật.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Ten, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(m => m.Ten)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MaSoThanhVien, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(m => m.MaSoThanhVien)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CMND, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CMND, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.SDT, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+            @Html.LabelFor(m => m.TrangThai, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(m => m.TrangThai)
+            </div>
+        </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Lưu" />
+        </div>
+    </div>
+}
+
+

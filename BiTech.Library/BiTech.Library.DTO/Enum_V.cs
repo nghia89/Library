@@ -18,5 +18,4 @@ namespace BiTech.Library.DTO
         ChuaTra,
         Deleted,
     }
-
 }

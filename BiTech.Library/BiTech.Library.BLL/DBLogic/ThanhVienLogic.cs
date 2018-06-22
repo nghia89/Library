@@ -26,5 +26,36 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetAll();
         }
+        public ThanhVien GetById(string id)
+        {
+            return _ThanhVienEngine.GetById(id);
+        }
+        /// <summary>
+        /// get by idUser
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ThanhVien GetByIdUser(string idUser)
+        {
+            return _ThanhVienEngine.GetByIdUser(idUser);
+        }
+        /// <summary>
+        /// Insert a ThanhVien object
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public string Insert(ThanhVien model)
+        {
+            return _ThanhVienEngine.Insert(model);
+        }
+        /// <summary>
+        /// update - delete( update status)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Update(ThanhVien model)
+        {
+            return _ThanhVienEngine.Update(model);
+        }
     }
 }

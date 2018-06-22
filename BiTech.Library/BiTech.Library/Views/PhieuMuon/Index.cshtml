@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<header id="topbar">
+    <h5>@Html.ActionLink("Create", "_CreatePhieuMuon", "PhieuMuon")</h5>
+</header>
+<h5 class="text-success">@ViewBag.Success</h5>
+<h5 class="text-danger">@ViewBag.UnSuccess</h5>
+<h5 class="text-danger">@ViewBag.SoLuong</h5>
+<h5 class="text-danger">@ViewBag.Date</h5>
+<div class="m10">
+    <div class="row">
+        @Html.Action("_PartialPhieuMuon", "PhieuMuon", new { @IdUser = ViewBag.IdUser })
+    </div>
+</div>
+
