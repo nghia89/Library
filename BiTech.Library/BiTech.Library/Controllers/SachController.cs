@@ -136,7 +136,7 @@ namespace BiTech.Library.Controllers
             ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
-            Sach S = _SachLogic.getById(id);
+            Sach S = _SachLogic.GetById(id);
             SachViewModels model = new SachViewModels()
             {
                 Id = S.Id,
@@ -177,7 +177,7 @@ namespace BiTech.Library.Controllers
                 ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
                 ViewBag.ListNXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
                 ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
-                Sach S = _SachLogic.getById(model.Id);
+                Sach S = _SachLogic.GetById(model.Id);
                 S.TenSach = model.TenSach;
                 S.IdDauSach = model.IdDauSach;
                 S.IdTheLoai = model.IdTheLoai;
@@ -192,7 +192,7 @@ namespace BiTech.Library.Controllers
                 S.GiaSach = model.GiaSach;
                 S.LinkBiaSach = model.LinkBiaSach;
                 S.TomTat = model.TomTat;
-                _SachLogic.SuaSach(S);
+                _SachLogic.Update(S);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -214,7 +214,7 @@ namespace BiTech.Library.Controllers
             ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
-            Sach S = _SachLogic.getById(id);
+            Sach S = _SachLogic.GetById(id);
             SachViewModels VM = new SachViewModels()
             {
                 Id = S.Id,
@@ -253,7 +253,7 @@ namespace BiTech.Library.Controllers
             ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.ListNXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
             ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
-            Sach s = _SachLogic.getById(model.Id);
+            Sach s = _SachLogic.GetById(model.Id);
             _SachLogic.XoaSach(s.Id);
             return RedirectToAction("Index");
         }

@@ -43,14 +43,14 @@ namespace BiTech.Library.Controllers
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
                 // Ngày phải trả <= ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
-                if (item.NgayPhaiTra <= DateTime.Now && item.NgayTra == ngayTraNull)
+                if (item.NgayPhaiTra <= DateTime.Now && item.NgayTra == ngayTraNull && item.NgayTra != null)
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.ChuaTra;
                     item.TenTrangThai = "Chưa trả";
                     soSachChuaTra++;
                 }
                 // Ngày phải trả > ngày hiện tại và ngày trả == NULL là GẦN TRẢ                                      
-                if (item.NgayPhaiTra > DateTime.Now && item.NgayTra == ngayTraNull)
+                if (item.NgayPhaiTra > DateTime.Now && item.NgayTra == ngayTraNull && item.NgayTra != null)
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.GanTra;
                     item.TenTrangThai = "Gần trả";
@@ -143,24 +143,24 @@ namespace BiTech.Library.Controllers
                 // Ngày phải trả <= ngày hiện tại và ngày trả <= ngày phải trả là TRẢ ĐÚNG HẸN
                 if (item.NgayPhaiTra <= DateTime.Now)
                 {
-                    if (item.NgayTra != ngayTraNull && item.NgayTra <= item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraDungHen;
                         item.TenTrangThai = "Trả đúng hẹn";
                     }
                     // ngày trả > ngày phải trả là TRẢ TRỄ
-                    if (item.NgayTra != ngayTraNull && item.NgayTra > item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraTre;
                         item.TenTrangThai = "Trả trễ";
-                        TimeSpan ts = item.NgayTra - item.NgayPhaiTra;
+                        TimeSpan ts = ((DateTime)item.NgayTra) - item.NgayPhaiTra;
                         item.SoNgayGiaoDong = ts.Days;
                     }
                 }
                 // Ngày phải trả > ngày hiện tại và ngày trả <= ngày phải phải trả là TRẢ ĐÚNG HẸN
                 else
                 {
-                    if (item.NgayTra != ngayTraNull && item.NgayTra <= item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraDungHen;
                         item.TenTrangThai = "Trả đúng hẹn";
@@ -179,7 +179,7 @@ namespace BiTech.Library.Controllers
                     }
                     else
                     {
-                        if (item.NgayTra.Month == month && item.NgayTra.Year == year)
+                        if (((DateTime)item.NgayTra).Month == month && ((DateTime)item.NgayTra).Year == year)
                         {
                             listMonthSelected.Add(item);
                         }
