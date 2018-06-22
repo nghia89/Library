@@ -3,8 +3,6 @@ var app = angular.module('LibraryApp', []);
 
 // Define the `BookGenresCtrlr` controller on the `LibraryApp` module
 app.controller('BookGenresCtrlr', function ($scope, $http) {
-    $scope.students = [];
-    $scope.statistics = [];
 
     $scope.GetAllData = function () {
         $http({
@@ -20,8 +18,6 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
 
 // Define the `PublishersCtrlr` controller on the `LibraryApp` module
 app.controller('PublishersCtrlr', function ($scope, $http) {
-    $scope.students = [];
-    $scope.statistics = [];
 
     $scope.GetAllData = function () {
         $http({

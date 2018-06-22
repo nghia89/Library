@@ -25,9 +25,9 @@
                 <tr>
                     <th>Id Loại Sách</th>
                     <th id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
-                        @Html.DropDownListFor(m => m.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
+                        @Html.DropDownListFor(m => m.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
                        new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options= "s.Id as s.TenTheLoai for s in list" })
-
+                        
                         <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" data-ajax="true"
                            data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập loại</a>
                     </th>
@@ -104,6 +104,7 @@
             $(this).removeClass('active');
 
             $("#ajax").html(data);
+
             $("#edit-student-modal").modal();
 
             var form = $("#edit-student-modal").closest("form");

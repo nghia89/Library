@@ -11,85 +11,89 @@
 <h5 class="text-danger">@ViewBag.SoLuong</h5>
 <h5 class="text-danger">@ViewBag.Date</h5>
 <hr />
-
-@using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Tạo phiếu mượn.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", onchange = "OnChangeEvent();", @id = "idUser" })
-        </div>
-        @Html.ValidationMessageFor(m => m.IdUser)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control", @readonly = "readonly", @id = "idTen" })
-        </div>
-    </div>
-
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
+<div ng-app="LibraryApp" class="container">
+    @using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Tạo phiếu mượn.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", onchange = "OnChangeEvent();", @id = "idUser" })
             </div>
-        </div>*@
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
+            @Html.ValidationMessageFor(m => m.IdUser)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control", @readonly = "readonly", @id = "idTen" })
             </div>
-            @Html.ValidationMessageFor(m => m.SoLuong)
-        </div>*@
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayMuon, new { @class = "form-control datepicker" })
         </div>
-        @Html.ValidationMessageFor(m => m.NgayMuon)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control datepicker" })
-        </div>
-        @Html.ValidationMessageFor(m => m.NgayPhaiTra)
-    </div>
 
-    <div class="form-group">
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
+                </div>
+            </div>*@
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.SoLuong)
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.NgayMuon, new { @class = "form-control datepicker" })
+            </div>
+            @Html.ValidationMessageFor(m => m.NgayMuon)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control datepicker" })
+            </div>
+            @Html.ValidationMessageFor(m => m.NgayPhaiTra)
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
+                @*@Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })*@
+
+                <div ng-repeat="sach in sachs" id="{{sach.Id}}">
+                    <p ng-cloak>{{sach.Name}}</p>
+                    <p ng-cloak>{{sach.Gia}}</p>
+                </div>
             </div>
         </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Tạo mới" />
-        </div>
-    </div>
-    <hr />
-
-    // ---------------------------------------------------
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control", @id = "maSach" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Tạo mới" />
             </div>
-            @Html.ValidationMessageFor(m => m.MaSach)
-        </div>*@
+        </div>
+        <hr />
+        // ---------------------------------------------------
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control", @id = "maSach" })
+                </div>
+                @Html.ValidationMessageFor(m => m.MaSach)
+            </div>*@
 
-    @*<input type="text" name="IP" id="maSach" />
+        @*<input type="text" name="IP" id="maSach" />
 
             <div class="form-group">
                 @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-              
+
                 </div>
                 @Html.ValidationMessageFor(m => m.MaSach)
             </div>
@@ -102,22 +106,23 @@
 
                 <input type="button" name="delete" value="Delete" onclick="deleteValue()" />*@
 
-    //------------------------------------------------
+        //------------------------------------------------
 
 
 
-    @*<div ng-app="bookList" ng-controller="myCtrl">
-            <ul>
-                <li ng-repeat="x in products">
-                    {{x}}
-                    <span ng-click="removeItem($index)">&times;</span>
-                </li>
-            </ul>
-            <input ng-model="addMe">
-            <button ng-click="addItem()">Add</button>
-            <p>{{errortext}}</p>
-        </div>*@
-}
+        @*<div ng-app="bookList" ng-controller="myCtrl">
+                <ul>
+                    <li ng-repeat="x in products">
+                        {{x}}
+                        <span ng-click="removeItem($index)">&times;</span>
+                    </li>
+                </ul>
+                <input ng-model="addMe">
+                <button ng-click="addItem()">Add</button>
+                <p>{{errortext}}</p>
+            </div>*@
+    }
+</div>
 
 @section Scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -137,7 +142,7 @@
                     AddOpt = new Option(data.TenSach, data.IdDauSach);
                     document.getElementById("lstValue").options[i++] = AddOpt;
                     $("#lstmaSach").add(data.TenSach)
-                    
+
                     //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
                     //$("#lstValue").append(kq);
                 },
