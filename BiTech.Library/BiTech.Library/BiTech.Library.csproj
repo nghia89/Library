@@ -193,6 +193,7 @@
     <Compile Include="Models\NhaXuatBanViewModels.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
+    <Compile Include="Models\TrangThaiSachViewModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -294,6 +295,7 @@
     <Content Include="Views\PhieuMuon\ChiTietPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\GiaHanPhieuMuon.cshtml" />
     <Content Include="Views\PhieuTra\Index.cshtml" />
+    <Content Include="Views\PhieuTra\TraSach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

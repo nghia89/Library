@@ -19,6 +19,7 @@ namespace BiTech.Library.Controllers
         private ChiTietPhieuTraLogic _ChiTietPhieuTraLogic;
         private SachLogic _SachLogic;
         private ThanhVienLogic _ThanhVienLogic;
+        private TrangThaiSachLogic _TrangThaiSachLogic;
         private List<String> lstSach = new List<String>();
         public PhieuMuonController()
         {
@@ -28,6 +29,7 @@ namespace BiTech.Library.Controllers
             _ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
+            _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
         }
         // GET: PhieuMuon
         public ActionResult Index(string IdUser)
@@ -108,6 +110,15 @@ namespace BiTech.Library.Controllers
         {
             try
             {
+                //Fake du lieu trang thai sach
+                TrangThaiSach tts = new TrangThaiSach()
+                {
+                    TenTT = "Còn mới",
+                };
+
+                var result = _TrangThaiSachLogic.Insert(tts);
+                //
+
                 if (viewModel.NgayMuon < viewModel.NgayPhaiTra) //ngày mượn phải nho hơn ngày trả
                 {
                     PhieuMuon modelPM = new PhieuMuon()
@@ -252,8 +263,7 @@ namespace BiTech.Library.Controllers
                     //update lại bảng chitiet - isDelete
                     foreach (var item in lstPMChiTiet)
                     {
-                        item.isDelete = true;
-                        result = _ChiTietPhieuMuonLogic.Update(item);
+                        result = _ChiTietPhieuMuonLogic.Remove(item.Id);
                     }
                 }
             }
@@ -325,6 +335,7 @@ namespace BiTech.Library.Controllers
 
             foreach (var item in lstChiTietPM)
             {
+                _modelChiTietPM.IdPM = item.IdPhieuMuon; //idPhieuMuon
                 _modelChiTietPM.MaSach = item.IdSach;
 
                 var sach = _SachLogic.GetByIdBook(item.IdSach);

@@ -64,5 +64,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuMuonEngine.Update(model);
         }
+
+        public bool Remove(string id)
+        {
+            return _ChiTietPhieuMuonEngine.Remove(id);
+        }
     }
 }

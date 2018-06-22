@@ -93,6 +93,9 @@ namespace BiTech.Library.Models
         [Display(Name = "Tên sách")]
         public string TenSach { get; set; }
 
+        [Display(Name = "Số lượng")]
+        public string SoLuong { get; set; }
+
         [Display(Name = "Tình trạng sách")]
         public string IdTinhTrang { get; set; }
     }
