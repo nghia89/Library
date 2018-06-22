@@ -1,6 +1,7 @@
 ﻿using BiTech.Library.DAL.Respository;
 using BiTech.Library.DTO;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace BiTech.Library.DAL.Engines
         {
             _Database = (IMongoDatabase)database.GetConnection();
             _DatabaseCollection = _Database.GetCollection<Example>(tableName);
+            
+
+            //_DatabaseCollection.EnsureIndex(new IndexKeysBuilder()
+            //    .Ascending("Data"), IndexOptions.SetUnique(true));
         }
 
         public List<Example> getAllExample()

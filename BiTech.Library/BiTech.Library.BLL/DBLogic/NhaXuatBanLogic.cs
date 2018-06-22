@@ -22,16 +22,9 @@ namespace BiTech.Library.BLL.DBLogic
         {
             _Database = new Database(connectionString, dbName);
             _NhaXuatBanEngine = new NhaXuatBanEngine(new Database(connectionString, dbName), TableName);
-
-            //NhaXuatBan NXB = new NhaXuatBan()
-            //{
-            //    Ten = "Nhi Đồng",
-            //    GhiChu = ""
-            //};
-            //_NhaXuatBanEngine.Insert(NXB);
         }
 
-        public List<NhaXuatBan> getAllNhaXuatBan()
+        public List<NhaXuatBan> GetAllNhaXuatBan()
         {
             return _NhaXuatBanEngine.GetAllNhaXuatBan();
         }
@@ -39,6 +32,20 @@ namespace BiTech.Library.BLL.DBLogic
         public NhaXuatBan getById(string id)
         {
             return _NhaXuatBanEngine.GetById(id);
+        }
+
+        public string ThemNXB(NhaXuatBan NXB)
+        {
+            return _NhaXuatBanEngine.Insert(NXB);
+        }
+
+        public bool SuaNXB(NhaXuatBan NXB)
+        {
+            return _NhaXuatBanEngine.Update(NXB);
+        }
+        public bool XoaNXB(string id)
+        {
+            return _NhaXuatBanEngine.Remove(id);
         }
     }
 }

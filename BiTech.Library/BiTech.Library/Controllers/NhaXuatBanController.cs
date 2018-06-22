@@ -1,6 +1,7 @@
 ﻿using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
+using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,159 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    public class NhaXuatBanController : Controller
+    public class NhaXuatBanController : BaseController
     {    
-        NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
         // GET: NhaXuatBan
-        public ActionResult DanhSachNXB()
+        public ActionResult Index()
         {
-            var ul = new NhaXuatBanLogic("mongodb://localhost:27017/BiTechLibraryDB", "BiTechLibraryDB");
-            var list = ul.getAllNhaXuatBan();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
             ViewBag.ListNhaXuaBan = list;
             return View();
         }
 
+        public ActionResult Them()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Them(NhaXuatBanViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            NhaXuatBan nxb = new NhaXuatBan()
+            {
+                Ten = model.Ten,
+                GhiChu = model.GhiChu
+            };
+            _NhaXuatBanLogic.ThemNXB(nxb);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ThemAjax(NhaXuatBanViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            NhaXuatBan nxb = new NhaXuatBan()
+            {
+                Ten = model.Ten,
+                GhiChu = model.GhiChu
+            };
+            _NhaXuatBanLogic.ThemNXB(nxb);
+            return Json(true);
+        }
+
+        public ActionResult Sua(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
+            NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
+            {
+                Id = nxb.Id,
+                Ten = nxb.Ten,
+                GhiChu = nxb.GhiChu
+            };
+            return View(VM);
+        }
+
+        [HttpPost]
+        public ActionResult Sua(NhaXuatBanViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            NhaXuatBan nxb = _NhaXuatBanLogic.getById(model.Id);
+            nxb.Ten = model.Ten;
+            nxb.GhiChu = model.GhiChu;
+            _NhaXuatBanLogic.SuaNXB(nxb);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Xoa(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
+            NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
+            {
+                Id = nxb.Id,
+                Ten = nxb.Ten,
+                GhiChu = nxb.GhiChu
+            };
+            return View(VM);
+        }
+
+        [HttpPost]
+        public ActionResult Xoa(NhaXuatBanViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            NhaXuatBan nxb = _NhaXuatBanLogic.getById(model.Id);
+            _NhaXuatBanLogic.XoaNXB(nxb.Id);
+            return RedirectToAction("Index");
+        }
+
+        #region AngularJS
+
+        public JsonResult Get_AllNhaXuatBan() //JsonResult
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            NhaXuatBanLogic _NhaXuatBanLogic =
+                new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+        #endregion
     }
 }

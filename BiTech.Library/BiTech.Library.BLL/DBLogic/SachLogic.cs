@@ -23,6 +23,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetById(id);
         }
+		
         /// <summary>
         /// update - delete( update status)
         /// </summary>
@@ -32,6 +33,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.Update(model);
         }
+		
         /// <summary>
         /// Get book by idBook
         /// </summary>
@@ -40,6 +42,23 @@ namespace BiTech.Library.BLL.DBLogic
         public Sach GetByIdBook(string idBook)
         {
             return _sachEngine.GetByIdBook(idBook);
+        }
+        #endregion
+		
+        #region Thinh
+        public List<Sach> getAllSach()
+        {
+            return _sachEngine.GetAllSach();
+        }
+
+        public string ThemSach(Sach s)
+        {
+            return _sachEngine.Insert(s);
+        }
+
+        public bool XoaSach(string id)
+        {
+            return _sachEngine.Remove(id);
         }
         #endregion
     }

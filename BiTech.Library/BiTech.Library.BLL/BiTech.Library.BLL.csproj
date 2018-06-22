@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBLogic\Base\BaseLogic.cs" />
     <Compile Include="DBLogic\ChiTietPhieuTraLogic.cs" />
     <Compile Include="DBLogic\ExampleLogic.cs" />
     <Compile Include="DBLogic\LyDoXuatLogic.cs" />

@@ -15,22 +15,34 @@ namespace BiTech.Library.Controllers
         protected virtual SSOUserDataModel GetUserData()
         {
             SSOUserDataModel data = null;
-
+            
             try
             {
-                data = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>((User.Identity as System.Web.Security.FormsIdentity).Ticket.UserData);
+                SSOUserDataModel loadData = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>((User.Identity as System.Web.Security.FormsIdentity).Ticket.UserData);
 
-                if (data.MyApps.Keys.Contains(AppCode))
+                if (loadData.MyApps.Keys.Contains(AppCode))
                 {
                     //data.MyApps[AppCode].Licence
                     //else
                     //{
                     //    return null;
                     //}
-                    return data;
+                    data = loadData;
                 }
             }
             catch { }
+
+            #region Demo
+
+            data = new SSOUserDataModel();
+            data.MyApps.Add(AppCode, new SSOUserAppModel()
+            {
+                AppName = "Quản lý thư viện",
+                ConnectionString = "mongodb://localhost:27017",
+                DatabaseName = "DemoLibTHPT"
+            });
+
+            #endregion
 
             return data;
         }

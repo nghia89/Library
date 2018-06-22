@@ -1,0 +1,102 @@
+﻿@model BiTech.Library.Models.SachViewModels
+@{
+    ViewBag.Title = "SuaSach";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sửa Sách</h2>
+
+<div class="container">
+    @using (Html.BeginForm("Sua", "Sach", FormMethod.Post, new { role = "form" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên Sách</th>
+                    <th>@Html.TextBoxFor(m => m.TenSach)</th>
+                </tr>
+                <tr>
+                    <th>Id Đầu Sách</th>
+                    <th>@Html.TextBoxFor(m => m.IdDauSach)</th>
+                </tr>
+                <tr>
+                    <th>Id Loại Sách</th>
+                    <th>@Html.DropDownListFor(m => m.IdTheLoai, new SelectList(ViewBag.ListTheLoai, "Id", "TenTheLoai"), " ")</th>
+                </tr>
+                <tr>
+                    <th>Id Kệ Sách</th>
+                    <th>@Html.TextBoxFor(m => m.IdKeSach)</th>
+                </tr>
+                <tr>
+                    <th>Id Nhà Xuất Bản</th>
+                    <th>@Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(ViewBag.ListNXB, "Id", "Ten"), "")</th>
+                </tr>
+                <tr>
+                    <th>Id Trang Thái</th>
+                    <th>@Html.DropDownListFor(m => m.IdTrangThai, new SelectList(ViewBag.ListTT, "Id", "TenTT"), "")</th>
+                </tr>
+                <tr>
+                    <th>Id Mã Kiểm Soát</th>
+                    <th>@Html.TextBoxFor(m => m.MaKiemSoat)</th>
+                </tr>
+                <tr>
+                    <th>Hình</th>
+                    <th>@Html.TextBoxFor(m => m.Hinh)</th>
+                </tr>
+                <tr>
+                    <th>Số Trang</th>
+                    <th>@Html.TextBoxFor(m => m.SoTrang)</th>
+                </tr>
+                <tr>
+                    <th>Ngôn Ngữ</th>
+                    <th>@Html.EnumDropDownListFor(m => m.NgonNgu)</th>
+                </tr>
+                <tr>
+                    <th>Năm Sản Xuất</th>
+                    <th>@Html.TextBoxFor(m => m.NamSanXuat)</th>
+                </tr>
+                <tr>
+                    <th>Giá Sách</th>
+                    <th>@Html.TextBoxFor(m => m.GiaSach)</th>
+                </tr>
+                <tr>
+                    <th>Link Bìa Sách</th>
+                    <th>@Html.TextBoxFor(m => m.LinkBiaSach)</th>
+                </tr>
+                <tr>
+                    <th>Tóm Tắt</th>
+                    <th>@Html.TextBoxFor(m => m.TomTat)</th>
+                </tr>
+            </thead>
+        </table>
+        <input type="submit" value="Sửa" />
+        <button value="Xoa" onclick="XoaCauHoi()"/>
+    }
+
+</div>
+
+@section scripts{
+    <script>
+        function XoaCauHoi() {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    // ajax post id to delete
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+        }
+    </script>
+}

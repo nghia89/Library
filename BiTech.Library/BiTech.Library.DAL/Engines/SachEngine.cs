@@ -30,5 +30,9 @@ namespace BiTech.Library.DAL.Engines
 
         #endregion
 
+        public List<Sach> GetAllSach()
+        {
+            return _DatabaseCollection.Find(p => true).ToList();
+        }
     }
 }
