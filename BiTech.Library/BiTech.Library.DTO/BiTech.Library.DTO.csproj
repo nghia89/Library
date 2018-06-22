@@ -35,6 +35,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,6 +50,7 @@
     <Compile Include="Enum_V.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Example.cs" />
+    <Compile Include="GiaHan.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="LyDoXuat.cs" />
     <Compile Include="NhapSach.cs" />

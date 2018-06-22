@@ -1,0 +1,163 @@
+﻿@model PagedList.IPagedList<PhieuMuon>
+@using System;
+@using System.Globalization;
+@using BiTech.Library.DTO;
+@using BiTech.Library.Models;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "DanhSachMuon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var test = false;
+
+    var months = DateTimeFormatInfo
+   .InvariantInfo
+   .MonthNames
+   .TakeWhile(monthName => monthName != String.Empty)
+   .Select((monthName, index) => new SelectListItem
+   {
+       Value = (index + 1).ToString(CultureInfo.InvariantCulture),
+       Text = string.Format("({0}) {1}", index + 1, monthName)
+   });
+
+    var years = Enumerable
+    .Range(2017, 10)
+    .Select(year => new SelectListItem
+    {
+        Value = year.ToString(CultureInfo.InvariantCulture),
+        Text = year.ToString(CultureInfo.InvariantCulture)
+    });
+
+
+
+}
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<h2 class="text-center">Thống kê danh mục mượn sách</h2>
+<h4 class="text-info">Số phiếu mượn sách: <div class="text-success">@ViewBag.SoSachDangDuocMuon</div></h4>
+<h4 class="text-info">Số phiếu mượn sách trễ hạn chưa trả: <div class="text-danger">@ViewBag.SoSachChuaTra</div></h4>
+<hr />
+<h4 class="text-info">Danh mục mượn sách theo tháng</h4>
+<div class="row">
+    <div class="col-md-1 text-right"><h5>Tháng</h5></div>
+    <div class="col-md-2">
+        @Html.DropDownList("month", months, new { onchange = @"onMonthSelectedChagned();", @class = "form-control" })
+    </div>
+    <div class="col-md-1 text-right"><h5>Năm</h5></div>
+    <div class="col-md-2">
+        @Html.DropDownList("year", years, new { onchange = @"onYearSelectedChagned();", @class = "form-control" })
+    </div>
+</div>
+<h4 class="text-info">Danh mục mượn sách theo ngày</h4>
+<div id="datepicker"></div>
+@*@Html.TextBox("day", "", new { @class = "form-control datepicker" }) <div id="datepicker"></div>*@
+@Html.TextBox("day", "", new { onchange = @"onDaySelectedChagned()", @class = "form-control datepicker" })
+<hr />
+<table class="table">
+    <thead>
+        <tr class="text-primary h4">
+            <th>Stt</th>
+            <th>Người mượn</th>
+            <th>Tên sách</th>
+            <th>Số lượng</th>
+            <th>Ngày mượn</th>
+            <th>Hạn phải trả</th>
+            <th>Tình trạng</th>
+            <th>Gia hạn</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    @{ int i = 0;int j = 0; int dem = 1;}
+    @foreach (var item in Model)
+    {
+        foreach (var sach in @ViewBag.ListChaCuaSach[i])
+        {
+            <tbody>
+                <tr>
+                    @if (test == false)
+                    {
+                        
+                        <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
+                        <td>@ViewBag.listThanhVien[i].Ten</td>
+                        <td>@sach.TenSach</td>
+                        <td>@ViewBag.ListSoLuong[j] cuốn</td>
+                        <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                        <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+                        if (item.SoNgayGiaoDong != null)
+                        {
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                        }
+                        else
+                        {
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
+                        }
+                        <td>@item.Id</td>
+                        <td></td>
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                        <td>@sach.TenSach</td>
+                        <td>@ViewBag.ListSoLuong[j] cuốn</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    }                                                         
+                  
+                    @{test=true;j++;}
+                </tr>
+            </tbody>
+        }       
+        { i++; dem++; test = false; }
+    }
+</table>
+
+<p>
+    @Html.PagedListPager(Model, Page => Url.Action("DanhSachMuon", new { page = Page, day = ViewBag.Day, month = ViewBag.Month, year = ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</p>
+
+<style>
+    .ChuaTra {
+        background: #ff9a9a;
+        color: #000;
+    }
+
+    .GanTra {
+        background: #b7dbff;
+        color: #000;
+    }
+</style>
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                //showWeek: true,
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-1:+8",
+                onSelect: function (dateText, inst) {
+                    var ngay = $("input[name='day']").val();
+
+                    //var ngay = a.toString().substring(0, 2);
+                    //var thang = a.toString().substring(3, 5);
+                    //var nam = a.toString().substring(6);
+
+                    window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + ngay;
+                }
+            }).attr("readonly", "readonly");
+        });
+
+        function onMonthSelectedChagned() {
+            window.location.href = '/ThongKe/DanhSachMuon?page=1&month=' + $("#month").val() + '&year=' + $("#year").val();
+        }
+
+        function onYearSelectedChagned() {
+            window.location.href = '/ThongKe/DanhSachMuon?page=1&month=' + $("#month").val() + '&year=' + $("#year").val();
+        }
+    </script>
+}

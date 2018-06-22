@@ -23,6 +23,13 @@ namespace BiTech.Library.DAL.Engines
         public List<ChiTietPhieuMuon> GetAll()
         {
             return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();            
-        }           
+        }
+
+        #region Tai
+        public List<ChiTietPhieuMuon> GetCTPMbyId(string idPhieuMuon)
+        {
+            return _DatabaseCollection.Find(x => x.IdPhieuMuon == idPhieuMuon).ToList();
+        }
+        #endregion    
     }
 }

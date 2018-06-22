@@ -29,5 +29,20 @@ namespace BiTech.Library.DTO
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
+
+        public string IdGiaHan { get; set; }
+
+        public string GhiChu { get; set; }
+
+
+        #region Tai
+        public  ETinhTrangPhieuMuon TrangThai { get; set; }
+        public string TenTrangThai { get; set; }
+        // Số ngày trễ hẹn trả hoặc số ngày gần trả
+        public int?SoNgayGiaoDong { get; set; }
+        public int STT { get; set; }
+
+
+        #endregion
     }
 }
