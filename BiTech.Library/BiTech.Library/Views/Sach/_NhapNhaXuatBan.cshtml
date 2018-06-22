@@ -1,0 +1,57 @@
+﻿@model BiTech.Library.Models.NhaXuatBanViewModels
+
+<form data-ajax="true" action="/NhaXuatBan/ThemAjax" 
+      id="update-information-form" class="form-horizontal" 
+      data-ajax-method="post" 
+      data-ajax-begin="updateStudentInfoBegin" data-ajax-success="updateStudentInfoSuccess">
+    <div class="modal fade" tabindex="-1" role="dialog" id="edit-student-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Nhập nhà xuất bản</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="TenTheLoai">Tên Thể Loại</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(_ => _.Ten, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(_ => _.Ten, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="MoTa">>Mô Tả</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(_ => _.GhiChu, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(_ => _.GhiChu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary has-spinner"
+                             id="update-student-info-save-button">Lưu<i class="glyphicon glyphicon-refresh"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    function updateStudentInfoBegin() {
+        $("#update-student-info-save-button").addClass("active");
+    }
+
+    function updateStudentInfoSuccess(data) {
+        $("#update-student-info-save-button").removeClass("active");
+
+        if (data == true) {
+            swal("Thành công", "Thêm xong", "success");
+            $("#edit-student-modal").modal('hide');
+            angular.element(document.getElementById('ListNXB')).scope().GetAllData();
+        }
+        else {
+            swal("Thành công", "FFF", "error");
+        }
+    }
+</script>
+

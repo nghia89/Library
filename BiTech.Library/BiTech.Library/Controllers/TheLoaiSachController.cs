@@ -55,6 +55,30 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult ThemAjax(TheLoaiSach model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            try
+            {
+                TheLoaiSach TLS = new TheLoaiSach()
+                {
+                    TenTheLoai = model.TenTheLoai,
+                    MoTa = model.MoTa
+                };
+                _TheLoaiSachLogic.ThemTheLoaiSach(TLS);
+                return Json(true);
+            }
+            catch { return Json(false); }
+        }
+
         public ActionResult Sua(string id)
         {
             #region  Lấy thông tin người dùng
@@ -128,5 +152,23 @@ namespace BiTech.Library.Controllers
             _TheLoaiSachLogic.XoaTheLoaiSach(TLS.Id);
             return RedirectToAction("Index");
         }
+
+        #region AngularJS
+
+        public JsonResult Get_AllTheLoaiSach() //JsonResult
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            TheLoaiSachLogic _TheLoaiSachLogic =
+                new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _TheLoaiSachLogic.GetAllTheLoaiSach();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+        #endregion
     }
 }

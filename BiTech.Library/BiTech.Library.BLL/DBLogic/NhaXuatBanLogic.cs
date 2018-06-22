@@ -24,7 +24,7 @@ namespace BiTech.Library.BLL.DBLogic
             _NhaXuatBanEngine = new NhaXuatBanEngine(new Database(connectionString, dbName), TableName);
         }
 
-        public List<NhaXuatBan> getAllNhaXuatBan()
+        public List<NhaXuatBan> GetAllNhaXuatBan()
         {
             return _NhaXuatBanEngine.GetAllNhaXuatBan();
         }

@@ -1,55 +1,145 @@
-﻿@model IEnumerable<BiTech.Library.Models.SachViewModels>
+﻿@model BiTech.Library.Models.ListBooks
 @{
     ViewBag.Title = "Index";
     var listSach = ViewBag.ListSach;
 }
 
 <h2>Danh Sách</h2>
-@{int i = 0;}
-<table border="1">
-    <thead>
-        <tr>
-            <th>Tên Sách</th>
-            <th>Id Đầu Sách</th>
-            <th>Loại Sách</th>
-            <th>Id Kệ Sách</th>
-            <th>Nhà Xuất Bản</th>
-            <th>Trạng Thái</th>
-            <th>Mã Kiểm Soát</th>
-            <th>Hình</th>
-            <th>Số Trang</th>
-            <th>Ngôn Ngữ</th>
-            <th>Năm Sản Xuất</th>
-            <th>Giá Sách</th>
-            <th>Link Bìa Sách</th>
-            <th>Tóm Tắt</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in listSach)
-        {
-            <tr>
-                <td>@item.TenSach</td>
-                <td>@item.IdDauSach</td>
-                <td>@ViewBag.listTL[i].TenTheLoai</td>
-                <td>@item.IdKeSach</td>               
-                <td>@ViewBag.listNXB[i].Ten</td>
-                <td>@ViewBag.listTT[i].TenTT</td>
-                <td>@item.MaKiemSoat</td>
-                <td>@item.Hinh</td>
-                <td>@item.SoTrang</td>
-                <td>@item.NgonNgu</td>
-                <td>@item.NamSanXuat</td>
-                <td>@item.GiaSach</td>
-                <td>@item.LinkBiaSach</td>
-                <td>@item.TomTat</td>
-                <td><a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a></td>
-            </tr>
-            { i++;}
-                }
-
-    </tbody>
-</table>
+@{int i = 1;}
 @Html.ActionLink("Thêm Mới", "Them")
 
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+
+<div style="display:block">
+    @foreach (var item in Model.Books)
+    {
+        <div style="height:170px; display:block;" class="col-sm-12">
+            <div style="float: left;">
+                @i
+            </div>
+            <div style="float: left; padding: 5px;">
+                <img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" />
+            </div>
+            <div style="padding-top:5px; display:block;">
+                <table border="1">
+                    <tr>
+                        <th width="110">Mã đầu sách</th>
+                        <th width="150">Tên</th>
+                        <th width="100">Kệ Sách</th>
+                        <th width="120">Nhà Xuất Bản</th>
+                        <th width="80">SL Tổng</th>
+                        <th width="200">Giá Sách</th>
+                    </tr>
+                    <tr>
+                        <td>@item.IdDauSach</td>
+                        <td>@item.TenSach</td>
+                        <td>@item.KeSach</td>
+                        <td>@item.NhaXuatBan</td>
+                        <td>@item.SoLuongTong</td>
+                        <td>@item.GiaSach</td>
+                    </tr>
+                    <tr>
+                        <th>Mã kiểm soát</th>
+                        <th>Thể loại</th>
+                        <th>Ngôn Ngữ</th>
+                        <th>Năm Xuất Bản</th>
+                        <th>SL Còn lại</th>
+                        <th>Tóm Tắt</th>
+                    </tr>
+                    <tr>
+                        <td>@item.MaKiemSoat</td>
+                        <td>@item.TheLoai</td>
+                        <td>@item.NgonNgu</td>
+                        <td>@item.NamXuatBan</td>
+                        <td>@item.SoLuongConLai</td>
+                        <td>@item.TomTat</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="display:block; margin-top:10px;">
+                <a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a>
+            </div>
+        </div>
+
+        { i++; }
+    }
+</div>
+
+<div style="display:block">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th width="130">Hình</th>
+                <th>Mã đầu sách</th>
+                <th>Mã kiểm soát</th>
+                <th>Tên</th>
+                <th>Thể loại</th>
+                <th>Kệ Sách</th>
+                <th>Nhà Xuất Bản</th>
+                <th>Năm Xuất Bản</th>
+                <th>Giá Sách</th>
+                <th>Ngôn Ngữ</th>
+                <th>Tóm Tắt</th>
+                <th>SL Tổng</th>
+                <th>SL Còn lại</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ i = 1;}
+            @foreach (var item in Model.Books)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td><img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" /></td>
+                    <td>@item.IdDauSach</td>
+                    <td>@item.MaKiemSoat</td>
+                    <td>@item.TenSach</td>
+                    <td>@item.TheLoai</td>
+                    <td>@item.KeSach</td>
+                    <td>@item.NhaXuatBan</td>
+                    <td>@item.NamXuatBan</td>
+                    <td>@item.GiaSach</td>
+                    <td>@item.NgonNgu</td>
+                    <td>@item.TomTat</td>
+                    <td>@item.SoLuongTong</td>
+                    <td>@item.SoLuongConLai</td>
+                    <td><a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a></td>
+                </tr>
+                { i++; }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+@Html.ActionLink("Thêm Mới", "Them")
+
+<button value="Xoa" onclick="XoaCauHoi()" />
+<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+@section scripts{
+    <script>
+        function XoaCauHoi() {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+        }
+    </script>
+}

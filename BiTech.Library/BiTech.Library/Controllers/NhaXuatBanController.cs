@@ -23,7 +23,7 @@ namespace BiTech.Library.Controllers
 
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var list = _NhaXuatBanLogic.getAllNhaXuatBan();
+            var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
             ViewBag.ListNhaXuaBan = list;
             return View();
         }
@@ -51,6 +51,26 @@ namespace BiTech.Library.Controllers
             };
             _NhaXuatBanLogic.ThemNXB(nxb);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ThemAjax(NhaXuatBanViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            NhaXuatBan nxb = new NhaXuatBan()
+            {
+                Ten = model.Ten,
+                GhiChu = model.GhiChu
+            };
+            _NhaXuatBanLogic.ThemNXB(nxb);
+            return Json(true);
         }
 
         public ActionResult Sua(string id)
@@ -126,5 +146,23 @@ namespace BiTech.Library.Controllers
             _NhaXuatBanLogic.XoaNXB(nxb.Id);
             return RedirectToAction("Index");
         }
+
+        #region AngularJS
+
+        public JsonResult Get_AllNhaXuatBan() //JsonResult
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            NhaXuatBanLogic _NhaXuatBanLogic =
+                new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+        #endregion
     }
 }

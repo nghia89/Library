@@ -6,66 +6,78 @@
 
 <h2>Thêm Sách</h2>
 
-<div class="container">
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/bower_components/jquery/dist/jquery.js"></script>
+<div ng-app="LibraryApp" class="container">
     @using (Html.BeginForm("Them", "Sach", FormMethod.Post, new { role = "form" }))
     {
         <table border="0">
             <thead>
                 <tr>
                     <th>Tên Sách</th>
-                    <th>@Html.TextBoxFor(m => m.TenSach)</th>
+                    <th>@Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Id Đầu Sách</th>
-                    <th>@Html.TextBoxFor(m => m.IdDauSach)</th>
+                    <th>@Html.TextBoxFor(m => m.IdDauSach, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Id Loại Sách</th>
-                    <th>@Html.DropDownListFor(m => m.IdTheLoai,new SelectList(ViewBag.ListTheLoai,"Id","TenTheLoai")," ")</th>
+                    <th id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
+                        @Html.DropDownListFor(m => m.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
+                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options= "s.Id as s.TenTheLoai for s in list" })
+
+                        <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" data-ajax="true"
+                           data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập loại</a>
+                    </th>
                 </tr>
                 <tr>
                     <th>Id Kệ Sách</th>
-                    <th>@Html.TextBoxFor(m => m.IdKeSach)</th>
+                    <th>@Html.TextBoxFor(m => m.IdKeSach, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Id Nhà Xuất Bản</th>
-                    <th>@Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(ViewBag.ListNXB, "Id", "Ten"), "")</th>
-                </tr>
-                <tr>
-                    <th>Id Trang Thái</th>
-                    <th>@Html.DropDownListFor(m => m.IdTrangThai,new SelectList(ViewBag.ListTT,"Id","TenTT"),"")</th>
+
+                    <th id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
+                        @Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
+                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Id as s.Ten for s in list" })
+                        
+                        <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" data-ajax="true"
+                           data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập nxb</a>
+                    </th>
                 </tr>
                 <tr>
                     <th>Id Mã Kiểm Soát</th>
-                    <th>@Html.TextBoxFor(m => m.MaKiemSoat)</th>
+                    <th>@Html.TextBoxFor(m => m.MaKiemSoat, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Hình</th>
-                    <th>@Html.TextBoxFor(m => m.Hinh)</th>
+                    <th>@Html.TextBoxFor(m => m.Hinh, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Số Trang</th>
-                    <th>@Html.TextBoxFor(m => m.SoTrang)</th>
+                    <th>@Html.TextBoxFor(m => m.SoTrang, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Ngôn Ngữ</th>
-                    <th>@Html.EnumDropDownListFor(m => m.NgonNgu)</th>
+                    <th>@Html.EnumDropDownListFor(m => m.NgonNgu, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Năm Sản Xuất</th>
-                    <th>@Html.TextBoxFor(m => m.NamSanXuat)</th>
+                    <th>@Html.TextBoxFor(m => m.NamSanXuat, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Giá Sách</th>
-                    <th>@Html.TextBoxFor(m => m.GiaSach)</th>
+                    <th>@Html.TextBoxFor(m => m.GiaSach, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Link Bìa Sách</th>
-                    <th>@Html.TextBoxFor(m => m.LinkBiaSach)</th>
+                    <th>@Html.TextBoxFor(m => m.LinkBiaSach, new { @class = "form-control" })</th>
                 </tr>
                 <tr>
                     <th>Tóm Tắt</th>
-                    <th>@Html.TextBoxFor(m => m.TomTat)</th>
+                    <th>@Html.TextBoxFor(m => m.TomTat, new { @class = "form-control" })</th>
                 </tr>
             </thead>
         </table>
@@ -73,5 +85,38 @@
     }
 </div>
 
+<div id="ajax"></div>
+@section scripts{
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
 
+    <script>
+        function RequestAltInsertGuiBegin() {
+            $(this).addClass('active');
+        }
 
+        function RequestAltInsertGuiSuccess(data) {
+            $(this).removeClass('active');
+
+            $("#ajax").html(data);
+            $("#edit-student-modal").modal();
+
+            var form = $("#edit-student-modal").closest("form");
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+        }
+
+        //$(document).ready(function () {
+        //    setInterval(function () {
+        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
+        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
+        //    }, 30000);
+        //});
+    </script>
+}

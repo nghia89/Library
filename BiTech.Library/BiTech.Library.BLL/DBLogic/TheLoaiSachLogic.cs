@@ -11,6 +11,7 @@ namespace BiTech.Library.BLL.DBLogic
 {    
     public class TheLoaiSachLogic
     {
+
         TheLoaiSachEngine _theloaiSachEngine;
         public TheLoaiSachLogic(string connectionString, string databaseName)
         {

@@ -32,17 +32,17 @@ namespace BiTech.Library.Controllers
             }
             catch { }
 
-            //#region Demo
+            #region Demo
 
-            //data = new SSOUserDataModel();
-            //data.MyApps.Add(AppCode, new SSOUserAppModel()
-            //{
-            //    AppName = "Quản lý thư viện",
-            //    ConnectionString = "mongodb://localhost:27017",
-            //    DatabaseName = "DemoLibTHPT"
-            //});
+            data = new SSOUserDataModel();
+            data.MyApps.Add(AppCode, new SSOUserAppModel()
+            {
+                AppName = "Quản lý thư viện",
+                ConnectionString = "mongodb://localhost:27017",
+                DatabaseName = "DemoLibTHPT"
+            });
 
-            //#endregion
+            #endregion
 
             return data;
         }

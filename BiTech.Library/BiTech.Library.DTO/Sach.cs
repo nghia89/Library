@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace BiTech.Library.DTO
 {
@@ -31,8 +32,6 @@ namespace BiTech.Library.DTO
         public string NamSanXuat { get; set; }
         public double GiaSach { get; set; }
         public string LinkBiaSach { get; set; }
-        public string TomTat { get; set; }      
-
-
+        public string TomTat { get; set; }
     }
 }
