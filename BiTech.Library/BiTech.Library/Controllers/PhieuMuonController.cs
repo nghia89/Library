@@ -111,12 +111,12 @@ namespace BiTech.Library.Controllers
             try
             {
                 //Fake du lieu trang thai sach
-                TrangThaiSach tts = new TrangThaiSach()
-                {
-                    TenTT = "Còn mới",
-                };
+                //TrangThaiSach tts = new TrangThaiSach()
+                //{
+                //    TenTT = "Còn mới",
+                //};
 
-                var result = _TrangThaiSachLogic.Insert(tts);
+                //var result = _TrangThaiSachLogic.Insert(tts);
                 //
 
                 if (viewModel.NgayMuon < viewModel.NgayPhaiTra) //ngày mượn phải nho hơn ngày trả
