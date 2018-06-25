@@ -297,7 +297,7 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
-
+        
         //public JsonResult _Remove(int index)
         //{
         //    JsonResult result = new JsonResult();
@@ -321,7 +321,6 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
-
         #endregion
 
         public ActionResult ChiTietPhieuMuon(string id)

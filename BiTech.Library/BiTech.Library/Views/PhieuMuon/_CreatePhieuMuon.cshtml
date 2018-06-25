@@ -68,16 +68,16 @@
         <div class="form-group">
             @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @*@Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })*@
+
                 <div ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2 w3-margin" style="max-width:400px;">
-                   
+
                     <div class="w3-container w3-light-grey w3-padding-16">
                         <div class="w3-row w3-margin-top">
                             <div class="w3-col s10">
-                                <input placeholder="Nhập mã sách" ng-model="addMe" class="w3-input w3-border w3-padding">
+                                <input id="idSach" placeholder="Nhập mã sách" ng-model="addMe" class="w3-input w3-border w3-padding">
                             </div>
                             <div class="w3-col s2">
-                                <button ng-click="addItem()" class="w3-btn w3-padding w3-green">Thêm </button>
+                                <a ng-click="addItem($idSach)" class="w3-btn w3-padding w3-green">Thêm </a>
                             </div>
                         </div>
                         <p class="w3-text-red">{{errortext}}</p>
@@ -87,48 +87,29 @@
                         <h3>Danh sách mượn</h3>
                     </header>
                     <ul class="w3-ul">
-                        <li ng-repeat="s in products" class="w3-padding-16">{{s}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
+                        <li ng-repeat="s in list" class="w3-padding-16">{{s.TenSach}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
                     </ul>
-
-
-                    @*a thinh*@
-                    @*<div ng-repeat="sach in sachs" id="{{sach.Id}}">
-                        <p ng-cloak>{{sach.Name}}</p>
-                        <p ng-cloak>{{sach.Gia}}</p>
-                    </div>*@
-
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="Tạo mới" />
+        <table ng-controller="AddBookCtrlr" border="1">
+            <tr ng-repeat="x in list">
+                <td>{{x.TenSach}}</td>
+            </tr>
+        </table>
+            @*<div ng-repeat="sach in sachs" id="{{sach.Id}}">
+                    <p ng-cloak>{{sach.Name}}</p>
+                    <p ng-cloak>{{sach.Gia}}</p>
+                </div>*@
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Tạo mới" />
+                </div>
             </div>
-        </div>
             <hr />
-
-
-        // Nhập mã sách
-        @*<div ng-app="LibraryApp" ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2 w3-margin" style="max-width:400px;">
-            <header class="w3-container w3-light-grey w3-padding-16">
-                <h3>Sách mượn</h3>
-            </header>
-            <ul class="w3-ul">
-                <li ng-repeat="s in products" class="w3-padding-16">{{s}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
-            </ul>
-            <div class="w3-container w3-light-grey w3-padding-16">
-                <div class="w3-row w3-margin-top">
-                    <div class="w3-col s10">
-                        <input placeholder="Add shopping items here" ng-model="addMe" class="w3-input w3-border w3-padding">
-                    </div>
-                    <div class="w3-col s2">
-                        <button ng-click="addItem()" class="w3-btn w3-padding w3-green">Add</button>
-                    </div>
-                </div>
-                <p class="w3-text-red">{{errortext}}</p>
-            </div>
-        </div>*@
 
 
         // ---------------------------------------------------
@@ -178,24 +159,26 @@
 
 @section Scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
     <script>
-        var app = angular.module("LibraryApp", []);
-        app.controller("AddBookCtrlr", function ($scope) {
-            $scope.products = ["Milk", "Bread", "Cheese"];
-            $scope.addItem = function () {
-                $scope.errortext = "";
-                if (!$scope.addMe) { return; }
-                if ($scope.products.indexOf($scope.addMe) == -1) {
-                    $scope.products.push($scope.addMe);
-                } else {
-                    $scope.errortext = "The item is already in your shopping list.";
-                }
-            }
-            $scope.removeItem = function (x) {
-                $scope.errortext = "";
-                $scope.products.splice(x, 1);
-            }
-        });
+        //var app = angular.module("LibraryApp", []);
+        //app.controller("AddBookCtrlr", function ($scope) {
+        //    $scope.products = ["A", "B", "C"];
+        //    $scope.addItem = function () {
+        //        $scope.errortext = "";
+        //        if (!$scope.addMe) { return; }
+        //        if ($scope.products.indexOf($scope.addMe) == -1) {
+        //            $scope.products.push($scope.addMe);
+        //        } else {
+        //            $scope.errortext = "The item is already in your shopping list.";
+        //        }
+        //    }
+        //    $scope.removeItem = function (x) {
+        //        $scope.errortext = "";
+        //        $scope.products.splice(x, 1);
+        //    }
+        //});
 
 
 
