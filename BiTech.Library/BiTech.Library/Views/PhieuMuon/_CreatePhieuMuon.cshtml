@@ -74,11 +74,14 @@
                     <div class="w3-container w3-light-grey w3-padding-16">
                         <div class="w3-row w3-margin-top">
                             <div class="w3-col s10">
-                                <input id="idSach" placeholder="Nhập mã sách" ng-model="addMe" class="w3-input w3-border w3-padding">
+                                <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding">
                             </div>
+
+
                             <div class="w3-col s2">
-                                <a ng-click="addItem($idSach)" class="w3-btn w3-padding w3-green">Thêm </a>
+                                <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
                             </div>
+
                         </div>
                         <p class="w3-text-red">{{errortext}}</p>
                     </div>
@@ -86,30 +89,37 @@
                     <header class="w3-container w3-light-grey w3-padding-16">
                         <h3>Danh sách mượn</h3>
                     </header>
+
                     <ul class="w3-ul">
-                        <li ng-repeat="s in list" class="w3-padding-16">{{s.IdDauSach}} - {{s.TenSach}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
+                        <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">{{s.IdDauSach}} - {{s.TenSach}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
                     </ul>
+
+
+                    <div ng-repeat="s in list">
+                        <input hidden="hidden" ng-cloak class="btn btn-default" name="MaSach" value="{{s.IdDauSach}}" />
+                    </div>
+
+                    @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
+                    @*<div class="form-group">
+                        @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauSach"),
+                             new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauSach as s.TenSach for s in list" })
+                    </div>*@
                 </div>
             </div>
         </div>
 
-        <table ng-controller="AddBookCtrlr" border="1">
-            <tr ng-repeat="x in list">
-                <td>{{x.TenSach}}</td>
-            </tr>
-        </table>
-            @*<div ng-repeat="sach in sachs" id="{{sach.Id}}">
-                    <p ng-cloak>{{sach.Name}}</p>
-                    <p ng-cloak>{{sach.Gia}}</p>
-                </div>*@
+        @*<div ng-repeat="sach in sachs" id="{{sach.Id}}">
+                <p ng-cloak>{{sach.Name}}</p>
+                <p ng-cloak>{{sach.Gia}}</p>
+            </div>*@
 
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default" value="Tạo mới" />
-                </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Tạo mới" />
             </div>
-            <hr />
+        </div>
+        <hr />
     }
 </div>
 
@@ -202,7 +212,7 @@
                 changeYear: true,
                 yearRange: "-10:+1"
             }).attr('readonly', 'readonly');
-            //.attr('readonly', 'readonly')
+            //.attr('readonly', 'readonly')OnChangeListBookEvent
         });
 
         function OnChangeEvent() {
@@ -225,6 +235,13 @@
                 }
 
             });
+        }
+
+        function OnChangeListBookEvent() {
+            var result = "";
+            result = $("#idUser").val();
+            console.log(result);
+            alert('ddd');
         }
 
 

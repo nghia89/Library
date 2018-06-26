@@ -131,14 +131,14 @@ namespace BiTech.Library.Controllers
                         CreateDateTime = DateTime.Now
                     };
                     //Kiểm tra số lượng
-                    foreach (var item in viewModel.MaSach)
-                    {
-                        if (!Validate(item, 1)) //kiem tra tung ma sach
-                        {
-                            TempData["SoLuong"] = "Số lượng sách mượn không phù hợp";
-                            return View();
-                        }
-                    }
+                    //foreach (var item in viewModel.MaSach)
+                    //{
+                    //    if (!Validate(item, 1)) //kiem tra tung ma sach
+                    //    {
+                    //        TempData["SoLuong"] = "Số lượng sách mượn không phù hợp";
+                    //        return View();
+                    //    }
+                    //}
 
                     //Insert bảng PhieuMuon
                     string idPhieuMuon = _PhieuMuonLogic.Insert(modelPM);

@@ -51,19 +51,23 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
 
 app.controller('AddBookCtrlr', function ($scope, $http) {
     $scope.list = [];
-    
     $scope.addItem = function () {
         $scope.errortext = "";
         $http({
             method: "get",
             url: "http://localhost:64002/PhieuMuon/_GetBookItemById",
-            params: { idBook: $scope.addMe }
+            params: { idBook: $scope.idBook }
         }).then(function (response) {
-            $scope.list.push(response.data);
+            if (response.data.TenSach != null) {
+                $scope.list.push(response.data);
+            }
+            else {
+                alert("Mã sách không phù hợp");
+            }
         }, function () {
             alert("Error Occur");
         })
-    }  
+    }
     $scope.removeItem = function (x) {
         $scope.errortext = "";
         $scope.list.splice(x, 1);
