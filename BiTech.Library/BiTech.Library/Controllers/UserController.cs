@@ -24,6 +24,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
+
         public PartialViewResult _PartialUser()
         {
             List<ThanhVien> lstUser = _ThanhVienLogic.GetAll();

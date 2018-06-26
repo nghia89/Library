@@ -89,6 +89,9 @@ namespace BiTech.Library.Controllers
 
             if (ModelState.IsValid)
             {
+                model.IdNhaXuatBan = model.IdNhaXuatBan.Replace("string:", "");
+                model.IdTheLoai = model.IdTheLoai.Replace("string:", "");
+
                 SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
                 TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
                 NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
