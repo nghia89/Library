@@ -22,7 +22,15 @@ namespace BiTech.Library.DAL.Engines
         /// <returns></returns>
         public List<ChiTietPhieuTra> GetAll()
         {
-            return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();            
-        }           
+            return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();
+        }
+
+
+        #region Tai
+        public List<ChiTietPhieuTra> GetCTPTByIdPT(string idPhieuTra)
+        {
+            return _DatabaseCollection.Find(_ => _.IdPhieuTra == idPhieuTra).ToList();
+        }
+        #endregion
     }
 }

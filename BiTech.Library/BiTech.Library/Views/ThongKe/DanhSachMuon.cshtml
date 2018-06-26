@@ -8,7 +8,7 @@
     ViewBag.Title = "DanhSachMuon";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var test = false;
+    var isMultiBook = false;
 
     var months = DateTimeFormatInfo
    .InvariantInfo
@@ -21,15 +21,12 @@
    });
 
     var years = Enumerable
-    .Range(2017, 10)
+    .Range(2018, 10)
     .Select(year => new SelectListItem
     {
         Value = year.ToString(CultureInfo.InvariantCulture),
         Text = year.ToString(CultureInfo.InvariantCulture)
     });
-
-
-
 }
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <h2 class="text-center">Thống kê danh mục mượn sách</h2>
@@ -48,9 +45,18 @@
     </div>
 </div>
 <h4 class="text-info">Danh mục mượn sách theo ngày</h4>
-<div id="datepicker"></div>
-@*@Html.TextBox("day", "", new { @class = "form-control datepicker" }) <div id="datepicker"></div>*@
 @Html.TextBox("day", "", new { onchange = @"onDaySelectedChagned()", @class = "form-control datepicker" })
+<hr />
+@if (ViewBag.Month != null && ViewBag.Year != null)
+{
+    <h4> Số sách được mượn trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoSachDuocMuon cuốn</h4>
+    <h4> Số người mượn sách trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoLuongThanhVien người</h4>
+}
+@if (ViewBag.Day != null)
+{
+    <h4> Số sách được mượn trong ngày "@ViewBag.Day" là: @ViewBag.SoSachDuocMuon cuốn</h4>
+    <h4> Số người mượn sách trong ngày "@ViewBag.Day" là: @ViewBag.SoLuongThanhVien người</h4>
+}
 <hr />
 <table class="table">
     <thead>
@@ -61,58 +67,83 @@
             <th>Số lượng</th>
             <th>Ngày mượn</th>
             <th>Hạn phải trả</th>
+            <th>Ngày trả</th>
             <th>Tình trạng</th>
             <th>Gia hạn</th>
             <th>Ghi chú</th>
         </tr>
     </thead>
-    @{ int i = 0;int j = 0; int dem = 1;}
+    @{ int i = 0; int j = 0; int dem = 1;}
     @foreach (var item in Model)
     {
         foreach (var sach in @ViewBag.ListChaCuaSach[i])
         {
             <tbody>
                 <tr>
-                    @if (test == false)
+                    @if (isMultiBook == false)
                     {
-                        
+
                         <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
-                        <td>@ViewBag.listThanhVien[i].Ten</td>
+                        <td><a href="ThongTinDocGia">@ViewBag.ListThanhVien[i].Ten</a></td>
                         <td>@sach.TenSach</td>
-                        <td>@ViewBag.ListSoLuong[j] cuốn</td>
+                        <td>@ViewBag.ListSoLuongSach[j] cuốn</td>
                         <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
                         <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
-                        if (item.SoNgayGiaoDong != null)
+
+
+                        DateTime? ngayTra = item.NgayTra;
+                        string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
+                        if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001")==false)
                         {
-                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                            <td>@ngayTraFormat</td>
+                            if (item.SoNgayGiaoDong != null)
+                            {
+                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
+                            }
+                            else
+                            {
+                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
+                            }
+
                         }
                         else
                         {
-                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
+                            <td>Chưa trả</td>
+                            if (item.SoNgayGiaoDong != null)
+                            {
+                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                            }
+                            else
+                            {
+                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
+                            }
                         }
+
+
                         <td>@item.Id</td>
                         <td></td>
-                        <td></td>
+
                     }
                     else
                     {
                         <td></td>
                         <td></td>
                         <td>@sach.TenSach</td>
-                        <td>@ViewBag.ListSoLuong[j] cuốn</td>
+                        <td>@ViewBag.ListSoLuongSach[j] cuốn</td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                    }                                                         
-                  
-                    @{test=true;j++;}
+                        <td></td>
+                    }
+
+                    @{isMultiBook = true; j++;}
                 </tr>
             </tbody>
-        }       
-        { i++; dem++; test = false; }
-    }
+                            }
+                            { i++; dem++; isMultiBook = false; }
+                        }
 </table>
 
 <p>
@@ -129,6 +160,16 @@
         background: #b7dbff;
         color: #000;
     }
+
+    .TraTre {
+        background: #fdf0b2;
+        color: #000;
+    }
+
+    .TraDungHen {
+        background: #91d8a9;
+        color: #000;
+    }
 </style>
 @section scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -137,6 +178,7 @@
             $(".datepicker").datepicker({
                 //showWeek: true,
                 dateFormat: "dd/mm/yy",
+                monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "-1:+8",

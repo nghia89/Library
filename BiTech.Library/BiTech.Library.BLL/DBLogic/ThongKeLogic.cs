@@ -23,6 +23,14 @@ namespace BiTech.Library.BLL.DBLogic
         private string TableName4 = "ThanhVien";
         ThanhVienEngine _thanhVienEngine;
 
+        private string TableName5 = "TrangThaiSach";
+        TrangThaiSachEngine _trangThaiSachEngine;
+
+        private string TableName6 = "PhieuTra";
+        PhieuTraEngine _phieuTraEngine;
+         
+        private string TableName7 = "ChiTietPhieuTra";
+        ChiTietPhieuTraEngine _chiTietPhieuTraEngine;
 
         public ThongKeLogic(string connectionString, string databaseName)
         {
@@ -32,18 +40,15 @@ namespace BiTech.Library.BLL.DBLogic
             _chiTietPhieuMuon = new ChiTietPhieuMuonEngine(database, TableName2);
             _sachEngine = new SachEngine(database, TableName3);
             _thanhVienEngine = new ThanhVienEngine(database, TableName4);
+            _trangThaiSachEngine = new TrangThaiSachEngine(database, TableName5);
+            _phieuTraEngine=new PhieuTraEngine(database, TableName6);
+            _chiTietPhieuTraEngine=new ChiTietPhieuTraEngine(database, TableName7);
 
             var ngayMuon = DateTime.ParseExact("26-02-2017", "dd-MM-yyyy", null);
             var ngayPhaiTra = DateTime.ParseExact("26-08-2018", "dd-MM-yyyy",null);
             var ngayTra = DateTime.ParseExact("25-04-2017", "dd-MM-yyyy", null);
-
-            PhieuMuon p = new PhieuMuon
-            {
-                NgayMuon= ngayMuon,
-                NgayPhaiTra = ngayPhaiTra
-                
-            };
-           // _thongKeEngine.Insert(p);
+                     
+            // _thongKeEngine.Insert(p);
 
         }
 
@@ -57,6 +62,11 @@ namespace BiTech.Library.BLL.DBLogic
             return _sachEngine.GetById(idSach);
         }
 
+        public Sach GetSachByIdDauSach(string idDauSach)
+        {
+            return _sachEngine.GetByIdBook(idDauSach);
+        }
+
         public List<ChiTietPhieuMuon> GetCTPMById(string idPhieuMuon)
         {
             return _chiTietPhieuMuon.GetCTPMbyId(idPhieuMuon);
@@ -65,6 +75,18 @@ namespace BiTech.Library.BLL.DBLogic
         public ThanhVien GetThanhVienById(string idThanhVien)
         {                    
             return _thanhVienEngine.GetById(idThanhVien);
+        }
+
+
+        // Danh mục trả sách
+        public List<PhieuTra> GetPTByIdPM(string idPhieuMuon)
+        {
+            return _phieuTraEngine.GetPTByIdPM(idPhieuMuon);
+        }
+
+        public List<ChiTietPhieuTra> GetCTPTByIdPT(string idPhieuTra)
+        {
+            return _chiTietPhieuTraEngine.GetCTPTByIdPT(idPhieuTra);
         }
 
              

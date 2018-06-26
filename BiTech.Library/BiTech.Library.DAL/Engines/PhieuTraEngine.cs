@@ -22,7 +22,14 @@ namespace BiTech.Library.DAL.Engines
         /// <returns></returns>
         public List<PhieuTra> GetAll()
         {
-            return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();            
-        }           
+            return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();
+        }
+
+        #region Tai
+        public List<PhieuTra> GetPTByIdPM(string idPhieuMuon)
+        {
+            return _DatabaseCollection.Find(_ => _.IdPhieuMuon == idPhieuMuon).ToList();
+        }
+        #endregion
     }
 }

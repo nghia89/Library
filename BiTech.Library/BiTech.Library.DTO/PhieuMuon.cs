@@ -41,7 +41,7 @@ namespace BiTech.Library.DTO
         // Số ngày trễ hẹn trả hoặc số ngày gần trả
         public int?SoNgayGiaoDong { get; set; }
         public int STT { get; set; }
-
+        public string IdGiaHan { get; set; }
 
         #endregion
     }
