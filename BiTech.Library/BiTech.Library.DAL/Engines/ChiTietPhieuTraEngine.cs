@@ -23,6 +23,14 @@ namespace BiTech.Library.DAL.Engines
         public List<ChiTietPhieuTra> GetAll()
         {
             return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();            
-        }           
+        }
+        /// <summary>
+        /// Get by ChiTietPhieuTra by IdBook
+        /// </summary>
+        /// <returns></returns>
+        public List<ChiTietPhieuTra> GetByIdBook(string IdBook)
+        {
+            return _DatabaseCollection.Find(_ => _.IdSach == IdBook ).ToList();
+        }
     }
 }

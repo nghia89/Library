@@ -36,20 +36,6 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
-                </div>
-            </div>*@
-        @*<div class="form-group">
-                @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control" })
-                </div>
-                @Html.ValidationMessageFor(m => m.SoLuong)
-            </div>*@
-
         <div class="form-group">
             @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -65,6 +51,7 @@
             @Html.ValidationMessageFor(m => m.NgayPhaiTra)
         </div>
 
+        @* Nhập nhiều mã sách *@
         <div class="form-group">
             @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -76,7 +63,6 @@
                             <div class="w3-col s10">
                                 <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding">
                             </div>
-
 
                             <div class="w3-col s2">
                                 <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
@@ -94,25 +80,14 @@
                         <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">{{s.IdDauSach}} - {{s.TenSach}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
                     </ul>
 
-
+                    @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
+                    @*Hide idBook - post to controller*@
                     <div ng-repeat="s in list">
                         <input hidden="hidden" ng-cloak class="btn btn-default" name="MaSach" value="{{s.IdDauSach}}" />
                     </div>
-
-                    @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
-                    @*<div class="form-group">
-                        @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauSach"),
-                             new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauSach as s.TenSach for s in list" })
-                    </div>*@
                 </div>
             </div>
         </div>
-
-        @*<div ng-repeat="sach in sachs" id="{{sach.Id}}">
-                <p ng-cloak>{{sach.Name}}</p>
-                <p ng-cloak>{{sach.Gia}}</p>
-            </div>*@
-
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -128,26 +103,6 @@
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/LibraryAngularJS.js"></script>
     <script>
-        //var app = angular.module("LibraryApp", []);
-        //app.controller("AddBookCtrlr", function ($scope) {
-        //    $scope.products = ["A", "B", "C"];
-        //    $scope.addItem = function () {
-        //        $scope.errortext = "";
-        //        if (!$scope.addMe) { return; }
-        //        if ($scope.products.indexOf($scope.addMe) == -1) {
-        //            $scope.products.push($scope.addMe);
-        //        } else {
-        //            $scope.errortext = "The item is already in your shopping list.";
-        //        }
-        //    }
-        //    $scope.removeItem = function (x) {
-        //        $scope.errortext = "";
-        //        $scope.products.splice(x, 1);
-        //    }
-        //});
-
-
-
         var i = 0;
         function add_list_ajax() {
             var result = "";
@@ -201,9 +156,6 @@
             return true;
         }
 
-
-
-
         $(function () {
             $(".datepicker").datepicker({
                 showWeek: true,
@@ -212,7 +164,6 @@
                 changeYear: true,
                 yearRange: "-10:+1"
             }).attr('readonly', 'readonly');
-            //.attr('readonly', 'readonly')OnChangeListBookEvent
         });
 
         function OnChangeEvent() {
@@ -244,50 +195,7 @@
             alert('ddd');
         }
 
-
     </script>
-
-    @*<script>
-            var app = angular.module("bookList", []);
-            //
-                var i = 0;
-                function add_list_ajax() {
-                    var result = "";
-                    result = $("#maSach").val();
-                    console.log(result);
-                    $.ajax({
-                        type: "GET",
-                        url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
-                        data: "idBook=" + result,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        AddOpt = new Option(data.TenSach, data.IdDauSach);
-                        document.getElementById("lstValue").options[i++] = AddOpt;
-                        //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
-                        //$("#lstValue").append(kq);
-                    },
-                    error: function () { alert('False!'); }
-                });
-                }
-            //
-            app.controller("myCtrl", function ($scope) {
-                $scope.products = ["Milk", "Bread", "Cheese"];
-                $scope.addItem = function () {
-                    $scope.errortext = "";
-                    if (!$scope.addMe) { return; }
-                    if ($scope.products.indexOf($scope.addMe) == -1) {
-                        $scope.products.push($scope.addMe);
-                    } else {
-                        $scope.errortext = "The item is already in your shopping list.";
-                    }
-                }
-                $scope.removeItem = function (x) {
-                    $scope.errortext = "";
-                    $scope.products.splice(x, 1);
-                }
-            });
-        </script>*@
 }
 
 

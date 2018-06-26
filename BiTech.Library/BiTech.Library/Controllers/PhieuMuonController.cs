@@ -97,8 +97,9 @@ namespace BiTech.Library.Controllers
         public bool Validate(string idSach, int soLuong)
         {
             Sach sach = _SachLogic.GetByIdBook(idSach);
-            List<ChiTietPhieuMuon> ctpm = _ChiTietPhieuMuonLogic.GetByIdBook(idSach);
-            return soLuong <= (sach.SoLuong - ctpm.Count) ? true : false;
+            List<ChiTietPhieuMuon> ctpm = _ChiTietPhieuMuonLogic.GetByIdBook(idSach); // so luong sach dc muon
+            List<ChiTietPhieuTra> ctpt = _ChiTietPhieuTraLogic.GetByIdBook(idSach); // so luong sach da tra
+            return soLuong <= (sach.SoLuong - ( ctpm.Count - ctpt.Count)) ? true : false;
         }
         /// <summary>
         /// Insert vào 2 bảng PhieuMuon và ChiTietPhieuMuon và cập nhật lại số lượng sách bảng Sach
@@ -131,14 +132,14 @@ namespace BiTech.Library.Controllers
                         CreateDateTime = DateTime.Now
                     };
                     //Kiểm tra số lượng
-                    //foreach (var item in viewModel.MaSach)
-                    //{
-                    //    if (!Validate(item, 1)) //kiem tra tung ma sach
-                    //    {
-                    //        TempData["SoLuong"] = "Số lượng sách mượn không phù hợp";
-                    //        return View();
-                    //    }
-                    //}
+                    foreach (var idSach in viewModel.MaSach)
+                    {
+                        if (!Validate(idSach, 1)) //kiem tra tung ma sach _ 
+                        {
+                            TempData["SoLuong"] = "Số lượng sách mượn không phù hợp";
+                            return View();
+                        }
+                    }
 
                     //Insert bảng PhieuMuon
                     string idPhieuMuon = _PhieuMuonLogic.Insert(modelPM);
@@ -285,6 +286,11 @@ namespace BiTech.Library.Controllers
             return View();
         }
         #region _Other
+        /// <summary>
+        /// Lấy thông tin sách thông qua idBook
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult _GetBookItemById(string idBook)
         {
@@ -298,17 +304,6 @@ namespace BiTech.Library.Controllers
             return result;
         }
         
-        //public JsonResult _Remove(int index)
-        //{
-        //    JsonResult result = new JsonResult();
-        //    if (!String.IsNullOrWhiteSpace(index.ToString()))
-        //    {
-        //        lstSach.RemoveAt(index);
-        //        result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-        //    }
-        //    return result ;
-        //}
-
         public JsonResult GetName(string idUser)
         {
             JsonResult result = new JsonResult();

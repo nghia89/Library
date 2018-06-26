@@ -31,24 +31,7 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
     };
 });
 
-// Add IdBook to list
-//app.controller('AddBookCtrlr', function ($scope, $http) {
-//    $scope.list = ["A", "B", "C"];
-//    $scope.addItem = function () {
-//        $scope.errortext = "";
-//        if (!$scope.addMe) { return; }
-//        if ($scope.list.indexOf($scope.addMe) == -1) {
-//            $scope.list.push($scope.addMe);
-//        } else {
-//            $scope.errortext = "The item is already in your shopping list.";
-//        }
-//    }
-//    $scope.removeItem = function (x) {
-//        $scope.errortext = "";
-//        $scope.list.splice(x, 1);
-//    }
-//});
-
+// Get a book by Id - show bookName
 app.controller('AddBookCtrlr', function ($scope, $http) {
     $scope.list = [];
     $scope.addItem = function () {
