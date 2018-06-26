@@ -1,24 +1,240 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿html, body {
+    padding: 0;
+    margin: 0;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.contain .fa {
+    color: #fff;
+    cursor: pointer;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+a:hover {
+    text-decoration: none;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.bt_menu {
+    padding: 8px;
+    display: inline-block;
+    font-size: 25px;
 }
+
+.content .Title {
+    font-size: 30px;
+    margin: 0 60px 20px;
+    border-bottom: 2px solid;
+    position: relative;
+    color: #2E5894;
+    display: inline-block;
+}
+/*---Menu left---*/
+.menu .icon {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    float: left;
+    font-size: 20px;
+    background: #2A5598;
+}
+
+    .menu .icon .fa {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+        line-height: 40px;
+    }
+
+.menu .name {
+    color: #fff;
+    line-height: 40px;
+    font-size: 18px;
+    margin-left: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+}
+
+.menu li:hover .name {
+    background: #343a40;
+}
+
+.menu .action {
+    background: #2E5894;
+}
+
+    .menu .action .icon {
+        border-left: 3px solid #fff;
+        background: #ffffff3b;
+    }
+
+    .menu .action .name:before {
+        content: " ";
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 8px solid #fff;
+        position: absolute;
+        right: 0;
+        top: 13px;
+    }
+
+    .menu .action:hover .name {
+        background: #154D81;
+    }
+
+.contain .top {
+    background: #343a40;
+    height: 40px;
+    position: relative;
+    z-index: 3;
+}
+
+.contain .left {
+}
+
+    .contain .left .bg {
+        background: #282C31;
+        height: 100%;
+        width: 200px;
+        display: inline-block;
+        left: 0;
+        position: fixed;
+        top: 0;
+    }
+
+    .contain .left .bg_icon {
+        background: #2A5598;
+        height: 100%;
+        width: 40px;
+        display: inline-block;
+        left: 0;
+        position: fixed;
+        top: 0;
+    }
+
+    .contain .left .menu {
+        height: 500px;
+        width: 200px;
+        display: inline-block;
+        float: left;
+        position: relative;
+    }
+
+        .contain .left .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+/*---End Menu left---*/
+
+/*--- right---*/
+.contain .right {
+    background: #fff;
+    height: 500px;
+    width: calc(100% - 200px);
+    float: right;
+    padding: 0 10px;
+}
+
+    .contain .right .content {
+        box-shadow: 0 0 10px #ccc;
+        min-height: 500px;
+    }
+/*---End right---*/
+/*menu top*/
+.menutop {
+    float: right;
+}
+
+.box-search {
+    margin-top: 1px;
+}
+/*end menu top*/
+/*--- small_menu---*/
+.small_menu .left .bg,
+.small_menu .left .bg_icon,
+.small_menu .left .menu {
+    width: 40px;
+}
+
+
+.small_menu .menu .name {
+    display: none;
+}
+
+.small_menu .right {
+    width: calc(100% - 40px);
+}
+
+.small_menu .right,
+.small_menu .bg,
+.small_menu .bg_icon,
+.small_menu .menu {
+    transition: all 0.3s ease-out;
+}
+/*---End small_menu---*/
+
+/*---Sách---*/
+.book_box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+    .book_box .book_Title {
+        padding-bottom: 10px;
+    }
+
+        .book_box .book_Title .book_number {
+            background: #2E5894;
+            color: #fff;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50%;
+            float: left;
+        }
+
+        .book_box .book_Title .book_control {
+            float: left;
+            padding-left: 16px;
+        }
+
+    .book_box .book_content .book_image {
+        float: left;
+        width: 13%;
+    }
+    .book_box .book_content .book_image img{
+        width: 100%;
+    }
+    .book_box .book_content .book_information {
+        float: left;
+        width: 87%;
+        padding: 0 10px;
+    }
+
+        .book_box .book_content .book_information .book_cell_information {
+            float: left;
+            width: 33%;
+        }
+
+            .book_box .book_content .book_information .book_cell_information .book_title_information,
+            .book_box .book_content .book_information .book_cell_information .book_content_information {
+                float: left;
+                width: 50%;
+                padding: 5px;
+                border-bottom: 1px solid;
+                box-sizing: border-box;
+            }
+
+            .book_box .book_content .book_information .book_cell_information .book_title_information {
+                font-weight: bold;
+            }
