@@ -44,6 +44,25 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", "PhieuMuon", new { @IdUser =  model.IdNguoiMuon});
         }
 
+        /// <summary>
+        /// Tạo phiếu trả sách
+        /// HttpGet
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TaoPhieuTra(string idPM)
+        {
+            PhieuMuon pm = _PhieuMuonLogic.GetById(idPM); // lay phieumuon thong qua idPM - lay idUser
+            ThanhVien nguoiMuon = _ThanhVienLogic.GetByIdUser(pm.IdUser); //ten ngupoi muon
+         
+            PhieuTraViewModel model = new PhieuTraViewModel()
+            {
+                IdPM = idPM,
+                IdNguoiMuon = nguoiMuon.MaSoThanhVien,
+                NguoiMuon = nguoiMuon.Ten,
+            };
+            return View(model);
+        }
+
         public ActionResult TraSach(string idPM, string idSach)
         {
             ViewBag.ListTinhTrangSach = _TrangThaiSachLogic.GetAll();

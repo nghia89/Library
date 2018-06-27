@@ -41,7 +41,7 @@ app.controller('AddBookCtrlr', function ($scope, $http) {
             url: "http://localhost:64002/PhieuMuon/_GetBookItemById",
             params: { idBook: $scope.idBook }
         }).then(function (response) {
-            if (response.data.TenSach != null) {
+            if (response.data) {
                 $scope.list.push(response.data);
             }
             else {

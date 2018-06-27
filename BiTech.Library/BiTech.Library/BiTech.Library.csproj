@@ -674,6 +674,7 @@
     <Content Include="Views\Sach\_NhapNhaXuatBan.cshtml" />
     <Content Include="Views\NhapSach\NhapSach.cshtml" />
     <Content Include="Views\KeSach\Index.cshtml" />
+    <Content Include="Views\PhieuTra\TaoPhieuTra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

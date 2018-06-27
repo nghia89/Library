@@ -3,6 +3,9 @@
     ViewBag.Title = "ChiTiet";
 }
 <br />
+<h5>@Html.ActionLink("Trả sách", "TraSach", "PhieuTra")</h5>
+<br />
+
 <table border="1">
     <thead>
         <tr>
@@ -113,47 +116,4 @@
 
     </script>
 
-}
-  
-
-@*<h4> Danh sách trả</h4>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Mã sách</th>
-            <th>Tên sách</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td id="maSach"></td>
-            <td id="tenSach"></td>
-        </tr>
-    </tbody>
-</table>*@
-@*@section Scripts{
-    <script>
-        var i = 0;
-        function addItem() {
-            var result = "";
-            result = $("#maSach").val();
-            console.log(result);
-            $.ajax({
-                type: "GET",
-                url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
-                data: "idBook=" + result,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    AddOpt = new Option(data.TenSach, data.IdDauSach);
-                    document.getElementById("lstValue").options[i++] = AddOpt;
-                    $("#lstmaSach").add(data.TenSach)
-
-                    //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
-                    //$("#lstValue").append(kq);
-                },
-                error: function () { alert('False!'); }
-            });
-        }
-    </script>
-}*@
+} 
