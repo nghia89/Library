@@ -217,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
+    <Content Include="Assets\Images\Sana Twice 1996.jpg" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\gulpfile.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.min.js" />

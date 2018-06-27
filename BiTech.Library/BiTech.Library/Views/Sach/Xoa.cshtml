@@ -1,74 +1,109 @@
 ﻿@model BiTech.Library.Models.SachViewModels
 @{
     ViewBag.Title = "XoaSach";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<h2>Xóa Sách</h2>
-
-<div class="container">
+<div class="Title">Xóa Sách</div>
+<div class="container-lib clearfix">
     @using (Html.BeginForm("Xoa", "Sach", FormMethod.Post, new { role = "form" }))
     {
-        <table>
-            <thead>
-                <tr>
-                    <th>Tên Sách</th>
-                    <th>@Html.TextBoxFor(m => m.TenSach)</th>
-                </tr>
-                <tr>
-                    <th>Id Đầu Sách</th>
-                    <th>@Html.TextBoxFor(m => m.IdDauSach)</th>
-                </tr>
-                <tr>
-                    <th>Id Loại Sách</th>
-                    <th>@Html.DropDownListFor(m => m.IdTheLoai, new SelectList(ViewBag.ListTheLoai, "Id", "TenTheLoai"), " ")</th>
-                </tr>
-                <tr>
-                    <th>Id Kệ Sách</th>
-                    <th>@Html.TextBoxFor(m => m.IdKeSach)</th>
-                </tr>
-                <tr>
-                    <th>Id Nhà Xuất Bản</th>
-                    <th>@Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(ViewBag.ListNXB, "Id", "Ten"), "")</th>
-                </tr>
-                <tr>
-                    <th>Id Trang Thái</th>
-                    <th>@Html.DropDownListFor(m => m.IdTrangThai, new SelectList(ViewBag.ListTT, "Id", "TenTT"), "")</th>
-                </tr>
-                <tr>
-                    <th>Id Mã Kiểm Soát</th>
-                    <th>@Html.TextBoxFor(m => m.MaKiemSoat)</th>
-                </tr>
-                <tr>
-                    <th>Hình</th>
-                    <th>@Html.TextBoxFor(m => m.Hinh)</th>
-                </tr>
-                <tr>
-                    <th>Số Trang</th>
-                    <th>@Html.TextBoxFor(m => m.SoTrang)</th>
-                </tr>
-                <tr>
-                    <th>Ngôn Ngữ</th>
-                    <th>@Html.EnumDropDownListFor(m => m.NgonNgu)</th>
-                </tr>
-                <tr>
-                    <th>Năm Sản Xuất</th>
-                    <th>@Html.TextBoxFor(m => m.NamSanXuat)</th>
-                </tr>
-                <tr>
-                    <th>Giá Sách</th>
-                    <th>@Html.TextBoxFor(m => m.GiaSach)</th>
-                </tr>
-                <tr>
-                    <th>Link Bìa Sách</th>
-                    <th>@Html.TextBoxFor(m => m.LinkBiaSach)</th>
-                </tr>
-                <tr>
-                    <th>Tóm Tắt</th>
-                    <th>@Html.TextBoxFor(m => m.TomTat)</th>
-                </tr>
-            </thead>
-        </table>
-        <input type="submit" name="btnThemUser" value="Xóa" />
+
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="TenSach">Tên Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control", @id = "TenSach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="iddausach">Id Đầu Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.IdDauSach, new { @class = "form-control", @id = "iddausach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="TenTheLoai">Thể Loại Sách:</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.IdTheLoai, new SelectList(ViewBag.ListTheLoai, "Id", "TenTheLoai"), " ", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="IdKeSach">Id Kệ sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.IdKeSach, new { @class = "form-control", @id = "IdKeSach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="IdNhaXuatBan">Id Nhà Xuất Bản:</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(ViewBag.ListNXB, "Id", "Ten"), "", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="IdNhaXuatBan">Id Trang Thái:</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.IdTrangThai, new SelectList(ViewBag.ListTT, "Id", "TenTT"), "", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="MaKiemSoat">Id Mã Kiểm Soát:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.MaKiemSoat, new { @class = "form-control", @id = "MaKiemSoat" })
+            </div>
+        </div>
+        @*<div class="form-group row">
+                <label class="col-form-label col-sm-3" for="Hinh">Hình:</label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Hinh, new { @class = "form-control", @id = "Hinh" })
+                </div>
+            </div>*@
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="SoTrang">Số Trang:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SoTrang, new { @class = "form-control", @id = "SoTrang" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="NgonNgu">Ngôn Ngữ:</label>
+            <div class="col-sm-9">
+                @Html.EnumDropDownListFor(m => m.NgonNgu, new { @class = "form-control", @id = "NgonNgu" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="NamSanXuat">Năm Sản Xuất:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.NamSanXuat, new { @class = "form-control", @id = "NamSanXuat" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="GiaSach">Giá Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.GiaSach, new { @class = "form-control", @id = "GiaSach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="LinkBiaSach">Link Bìa Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.LinkBiaSach, new { @class = "form-control", @id = "LinkBiaSach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="TomTat">Tóm Tắt:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.TomTat, new { @class = "form-control", @id = "TomTat" })
+            </div>
+        </div>
+        <div class="form-group row box_temp_lg">
+            <label class="col-form-label col-sm-3" for=""></label>
+            <div class="col-sm-9">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for=""></label>
+            <div class="col-sm-9">
+                <input type="submit" name="btnThemUser" class="btn btn-primary" value="Xóa" />
+            </div>
+        </div>
+        
     }
 </div>
