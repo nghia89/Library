@@ -121,5 +121,22 @@ namespace BiTech.Library.Controllers
             _TrangThaiSachLogic.XoaTrangThai(tts.Id);
             return RedirectToAction("Index");
         }
+        #region AngularJS
+
+        public JsonResult Get_AllTrangThaiSach() //JsonResult
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            TrangThaiSachLogic _TrangThaiSachLogic =
+                new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _TrangThaiSachLogic.GetAll();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+        #endregion
     }
 }

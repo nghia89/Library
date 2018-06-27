@@ -43,8 +43,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetByIdBook(idBook);
         }
+        public Sach GetBookById(string idBook)
+        {
+            return _sachEngine.GetBookById(idBook);
+        }
         #endregion
-		
+
         #region Thinh
         public List<Sach> getAllSach()
         {

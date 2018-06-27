@@ -1,0 +1,83 @@
+﻿@model BiTech.Library.Models.PhieuNhapSachModel
+@{
+    ViewBag.Title = "TaoPhieuNhapSach";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listsach = ViewBag.sach;
+}
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/LibraryAngularJS.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+<div ng-app="LibraryApp">
+@using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <h2>TaoPhieuNhapSach</h2>
+    <div class="form-group">
+        <div class="col-md-10">
+
+            <div ng-cloak ng-controller="BookCtrlr" class="w3-card-2 w3-margin" style="max-width:400px;">
+
+                @*@Html.TextAreaFor(m => m.GhiChu);*@
+                <textarea name="GhiChu" placeholder="Ghi chú">
+
+                </textarea>
+
+                <div class="w3-container w3-light-grey w3-padding-16">
+                    <div class="w3-row w3-margin-top">
+                        <div class="w3-col s10">
+                            <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding">
+                        </div>
+                        <div class="w3-col s10">
+                            <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="w3-input w3-border w3-padding">
+                        </div>
+                        <div class="w3-col s10">
+                            @Html.DropDownList("TrangThai", new SelectList(Model.ListTrangThai, "Id", "Ten"), "--chon tt--", new { ng_model="idTrangThai", @class= "w3-input w3-border w3-padding" })
+                            @*<input id="TrangThai" placeholder="Trạng Thái" ng-model="idTrangThai" class="w3-input w3-border w3-padding">*@
+                        </div>
+                          
+                            <div class="w3-col s10">
+                                @*@Html.DropDownListFor(m => m.DanhsachSach);*@
+                            </div>
+
+                            <div class="w3-col s2">
+                                <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
+                            </div>
+
+                        </div>
+                    <p class="w3-text-red">{{errortext}}</p>
+                </div>
+
+                <header class="w3-container w3-light-grey w3-padding-16">
+                    <h3>Danh sách sách nhập</h3>
+                </header>
+
+                <ul class="w3-ul">
+                    <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">{{s.ten}} - {{s.soLuong}} - {{s.tenTinhTrang}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
+                </ul>
+                
+                <div ng-repeat="s in list">
+                    <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
+                </div>
+
+                @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
+                @*<div class="form-group">
+                        @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauSach"),
+                             new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauSach as s.TenSach for s in list" })
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Tạo mới" />
+        </div>
+    </div>
+        <hr />
+}
+</div>
+
+
+

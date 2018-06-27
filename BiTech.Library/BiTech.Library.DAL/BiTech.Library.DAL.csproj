@@ -69,11 +69,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
+    <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
     <Compile Include="Engines\ChiTietPhieuTraEngine.cs" />
     <Compile Include="Engines\ExampleEngine.cs" />
     <Compile Include="Engines\LyDoXuatEngine.cs" />
-    <Compile Include="Engines\NhapSachEngine.cs" />
+    <Compile Include="Engines\PhieuNhapSachEngine.cs" />
     <Compile Include="Engines\NhaXuatBanEngine.cs" />
+    <Compile Include="Engines\SoLuongSachTrangThaiEngine.cs" />
     <Compile Include="Engines\ThongKeEngine.cs" />
     <Compile Include="Engines\XuatSachEngine.cs" />
     <Compile Include="Engines\ChiTietPhieuMuonEngine.cs" />

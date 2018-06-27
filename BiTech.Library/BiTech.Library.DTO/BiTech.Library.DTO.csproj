@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
     <Compile Include="Enum_V.cs" />
@@ -53,8 +54,9 @@
     <Compile Include="GiaHan.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="LyDoXuat.cs" />
-    <Compile Include="NhapSach.cs" />
+    <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="NhaXuatBan.cs" />
+    <Compile Include="SoLuongSachTrangThai.cs" />
     <Compile Include="XuatSach.cs" />
     <Compile Include="PhieuMuon.cs" />
     <Compile Include="PhieuTra.cs" />

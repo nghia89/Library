@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.DAL.Engines
 {
-    public class TacGiaEngine : EntityRepository<TacGia>
+    public class ChiTietNhapSachEngine : EntityRepository<ChiTietNhapSach>
     {
-        public TacGiaEngine(IDatabase database, string tableName) : base(database, tableName)
+        public ChiTietNhapSachEngine(IDatabase database, string tableName) : base(database, tableName)
         {
             _Database = (IMongoDatabase)database.GetConnection();
-            _DatabaseCollection = _Database.GetCollection<TacGia>(tableName);
+            _DatabaseCollection = _Database.GetCollection<ChiTietNhapSach>(tableName);
         }
-        public List<TacGia> GetAllTacGia()
+        public List<ChiTietNhapSach> GetAllChiTietNhapSach()
         {
             return _DatabaseCollection.Find(x => true).ToList();
         }

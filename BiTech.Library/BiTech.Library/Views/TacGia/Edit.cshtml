@@ -1,0 +1,77 @@
+﻿@model BiTech.Library.Models.TacGiaViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<h2>Edit</h2>
+<div class="container">
+    @using (Html.BeginForm("Edit", "TacGia", FormMethod.Post, new { role = "form" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên Tác Giả</th>
+                    <th>@Html.TextBoxFor(m => m.TenTacGia)</th>
+                    
+                </tr>
+                <tr>
+                    <th>Quốc tích</th>
+                    <th>@Html.TextBoxFor(m => m.QuocTich)</th>
+                </tr>
+                <tr>
+                    <th>Mô Tả</th>
+                    <th>@Html.TextBoxFor(m => m.MoTa)</th>
+                </tr>
+            </thead>
+        </table>
+        <input type="hidden" value="@Model.Id"/>
+        <input type="submit" name="btnSuaTacGia" value="Sửa" />
+        <a onclick="XoaTacGia('@Model.Id','@Model.TenTacGia')">Xóa</a>
+        @*<button value="Xoa" onclick="XoaTacGia()" />*@
+    }
+</div>
+@section scripts{
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function XoaTacGia(id,ten) {
+            swal({
+                title: " Bạn có muốn xóa tác giả " + ten + "?",
+                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/TacGia/Delete",
+                        data: { "Id": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function (isConfirm) {
+                                window.location.href = '/TacGia/Index';
+                            });
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+        }
+    </script>
+}
