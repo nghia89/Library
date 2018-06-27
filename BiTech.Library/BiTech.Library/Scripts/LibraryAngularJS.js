@@ -34,3 +34,35 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
         })
     };
 });
+
+// 
+app.controller('BookCtrlr', function ($scope, $http) {
+
+        $scope.list = [];
+        $scope.addItem = function () {
+            $scope.errortext = "";
+            $http({
+                method: "get",
+                url: "http://localhost:64002/PhieuNhapSach/_GetBookItemById",
+                params: {
+                    idBook: $scope.idBook,
+                    soLuong: $scope.soLuong,
+                    idTrangThai: $scope.idTrangThai
+                }
+            }).then(function (response) {
+                if (response.data != null) {
+                    $scope.list.push(response.data);
+                }
+                else {
+                    alert("Mã sách không phù hợp");
+                }
+            }, function () {
+                alert("Error Occur");
+            })
+        }
+        $scope.removeItem = function (x) {
+            $scope.errortext = "";
+            $scope.list.splice(x, 1);
+        };
+     
+});

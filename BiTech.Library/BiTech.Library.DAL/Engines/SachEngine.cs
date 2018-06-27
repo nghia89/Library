@@ -27,7 +27,10 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.IdDauSach == idBook ).FirstOrDefault();
         }
-
+        public Sach GetBookById(string Id)
+        {
+            return _DatabaseCollection.Find(x => x.Id == Id).FirstOrDefault();
+        }
         #endregion
 
         public List<Sach> GetAllSach()

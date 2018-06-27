@@ -41,11 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBLogic\Base\BaseLogic.cs" />
+    <Compile Include="DBLogic\ChiTietNhapSachLogic.cs" />
     <Compile Include="DBLogic\ChiTietPhieuTraLogic.cs" />
     <Compile Include="DBLogic\ExampleLogic.cs" />
     <Compile Include="DBLogic\LyDoXuatLogic.cs" />
-    <Compile Include="DBLogic\NhapSachLogic.cs" />
+    <Compile Include="DBLogic\PhieuNhapSachLogic.cs" />
     <Compile Include="DBLogic\NhaXuatBanLogic.cs" />
+    <Compile Include="DBLogic\SoLuongSachTrangThaiLogic.cs" />
     <Compile Include="DBLogic\ThongKeLogic.cs" />
     <Compile Include="DBLogic\XuatSachLogic.cs" />
     <Compile Include="DBLogic\PhieuTraLogic.cs" />

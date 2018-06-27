@@ -1,0 +1,30 @@
+﻿@model BiTech.Library.Models.TacGiaViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+<div class="container">
+    @using (Html.BeginForm("Create", "TacGia", FormMethod.Post, new { role = "form" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên Tác Giả</th>
+                    <th>@Html.TextBoxFor(m => m.TenTacGia)</th>
+                </tr>
+                <tr>
+                    <th>Quốc Tịch</th>
+                    <th>@Html.TextBoxFor(m => m.QuocTich)</th>
+                </tr>
+                <tr>
+                    <th>Mô Tả</th>
+                    <th>@Html.TextBoxFor(m => m.MoTa)</th>
+                </tr>
+            </thead>
+        </table>
+        <input type="submit" name="btnThemTacGia" value="Thêm Mới" />
+    }
+</div>
+

@@ -105,4 +105,6 @@ namespace BiTech.Library.Models
         [Required]
         public int SoLuongConLai { get; set; }
     }
+
+   
 }

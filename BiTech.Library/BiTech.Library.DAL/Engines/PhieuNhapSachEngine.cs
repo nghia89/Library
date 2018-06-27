@@ -9,15 +9,15 @@ using MongoDB.Driver;
 
 namespace BiTech.Library.DAL.Engines
 {
-    public class NhapSachEngine : EntityRepository<NhapSach>
+    public class PhieuNhapSachEngine : EntityRepository<PhieuNhapSach>
     {
-        public NhapSachEngine(IDatabase database, string tableName) : base(database, tableName)
+        public PhieuNhapSachEngine(IDatabase database, string tableName) : base(database, tableName)
         {
             _Database = (IMongoDatabase)database.GetConnection();
-            _DatabaseCollection = _Database.GetCollection<NhapSach>(tableName);
+            _DatabaseCollection = _Database.GetCollection<PhieuNhapSach>(tableName);
         }
 
-        public List<NhapSach> getAll()
+        public List<PhieuNhapSach> getAll()
         {
             return _DatabaseCollection.Find(p => true).ToList();
         }

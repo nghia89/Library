@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BiTech.Library.Models.TacGiaViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listTacGia = ViewBag.ListTacGia;
+}
+@if(TempData["xoa"]!=null)
+{
+    <script>
+        alert("Bạn xóa thành công")
+    </script>
+}
+<h2>Danh Sách Tác Giả</h2>
+@Html.ActionLink("Thêm tác giả", "Create")
+<table border="1">
+    <thead>
+        <tr>
+            <th>Tên Tác Giả</th>
+            <th>Quốc Tịch</th>
+            <th>Mô Tả</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in listTacGia)
+        {
+            <tr>
+                <td>@item.TenTacGia</td>
+                <td>@item.QuocTich</td>
+                <td>@item.MoTa</td>
+                <td>
+                <td><a href="@Url.Action("Edit","TacGia", new { id = item.Id })">Sửa</a></td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
