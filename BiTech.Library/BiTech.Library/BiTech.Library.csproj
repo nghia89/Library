@@ -616,6 +616,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -674,6 +675,9 @@
     <Content Include="Views\Sach\_NhapNhaXuatBan.cshtml" />
     <Content Include="Views\NhapSach\NhapSach.cshtml" />
     <Content Include="Views\KeSach\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutMain.cshtml" />
+    <Content Include="Views\Shared\layout\header.cshtml" />
+    <Content Include="Views\Shared\layout\menuleft.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

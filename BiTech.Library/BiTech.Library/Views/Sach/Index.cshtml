@@ -2,122 +2,196 @@
 @{
     ViewBag.Title = "Index";
     var listSach = ViewBag.ListSach;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<h2>Danh Sách</h2>
-@{int i = 1;}
-@Html.ActionLink("Thêm Mới", "Them")
+<div class="Title">Danh Sách</div>
+<div class="container clearfix">
+    @{int i = 1;}
+    @Html.ActionLink("Thêm Mới", "Them")
 
-<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+    <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 
-<div style="display:block">
-    @foreach (var item in Model.Books)
-    {
-        <div style="height:170px; display:block;" class="col-sm-12">
-            <div style="float: left;">
-                @i
+    <div style="display:block">
+        @foreach (var item in Model.Books)
+        {
+            <div style="height:170px; display:block;" class="col-sm-12">
+                <div style="float: left;">
+                    @i
+                </div>
+                <div style="float: left; padding: 5px;">
+                    <img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" />
+                </div>
+                <div style="padding-top:5px; display:block;">
+                    <table border="1">
+                        <tr>
+                            <th width="110">Mã đầu sách</th>
+                            <th width="150">Tên</th>
+                            <th width="100">Kệ Sách</th>
+                            <th width="120">Nhà Xuất Bản</th>
+                            <th width="80">SL Tổng</th>
+                            <th width="200">Giá Sách</th>
+                        </tr>
+                        <tr>
+                            <td>@item.IdDauSach</td>
+                            <td>@item.TenSach</td>
+                            <td>@item.KeSach</td>
+                            <td>@item.NhaXuatBan</td>
+                            <td>@item.SoLuongTong</td>
+                            <td>@item.GiaSach</td>
+                        </tr>
+                        <tr>
+                            <th>Mã kiểm soát</th>
+                            <th>Thể loại</th>
+                            <th>Ngôn Ngữ</th>
+                            <th>Năm Xuất Bản</th>
+                            <th>SL Còn lại</th>
+                            <th>Tóm Tắt</th>
+                        </tr>
+                        <tr>
+                            <td>@item.MaKiemSoat</td>
+                            <td>@item.TheLoai</td>
+                            <td>@item.NgonNgu</td>
+                            <td>@item.NamXuatBan</td>
+                            <td>@item.SoLuongConLai</td>
+                            <td>@item.TomTat</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="display:block; margin-top:10px;">
+                    <a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a>
+                </div>
             </div>
-            <div style="float: left; padding: 5px;">
-                <img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" />
+
+            { i++; }
+        }
+    </div>
+
+    @Html.ActionLink("Thêm Mới", "Them")
+
+    <div class="book_content clearfix">
+        @foreach (var item in Model.Books)
+        {
+            <div class="book_box clearfix">
+                <div class="book_Title clearfix">
+                    <div class="book_number">@i</div>
+                    <div class="book_control">
+                        <a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a>
+                    </div>
+                </div>
+                <div class="book_content">
+                    <div class="book_image"><img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" /></div>
+                    <div class="book_information">
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Mã đầu sách</div>
+                            <div class="book_content_information">@item.IdDauSach</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Tên</div>
+                            <div class="book_content_information">@item.TenSach</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Kệ Sách</div>
+                            <div class="book_content_information">@item.KeSach</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Nhà Xuất Bản</div>
+                            <div class="book_content_information">@item.NhaXuatBan</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">SL Tổng</div>
+                            <div class="book_content_information">@item.SoLuongTong</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Giá Sách</div>
+                            <div class="book_content_information">@item.GiaSach</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Mã kiểm soát</div>
+                            <div class="book_content_information">@item.MaKiemSoat</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Thể loại</div>
+                            <div class="book_content_information">@item.TheLoai</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Ngôn Ngữ</div>
+                            <div class="book_content_information">@item.NgonNgu</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Năm Xuất Bản</div>
+                            <div class="book_content_information">@item.NamXuatBan</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">SL Còn lại</div>
+                            <div class="book_content_information">@item.SoLuongConLai</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">Tóm Tắt</div>
+                            <div class="book_content_information">@item.TomTat</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div style="padding-top:5px; display:block;">
-                <table border="1">
+        }
+
+    </div>
+
+</div>
+
+
+@*<div style="display:block">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th width="130">Hình</th>
+                    <th>Mã đầu sách</th>
+                    <th>Mã kiểm soát</th>
+                    <th>Tên</th>
+                    <th>Thể loại</th>
+                    <th>Kệ Sách</th>
+                    <th>Nhà Xuất Bản</th>
+                    <th>Năm Xuất Bản</th>
+                    <th>Giá Sách</th>
+                    <th>Ngôn Ngữ</th>
+                    <th>Tóm Tắt</th>
+                    <th>SL Tổng</th>
+                    <th>SL Còn lại</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ i = 1;}
+                @foreach (var item in Model.Books)
+                {
                     <tr>
-                        <th width="110">Mã đầu sách</th>
-                        <th width="150">Tên</th>
-                        <th width="100">Kệ Sách</th>
-                        <th width="120">Nhà Xuất Bản</th>
-                        <th width="80">SL Tổng</th>
-                        <th width="200">Giá Sách</th>
-                    </tr>
-                    <tr>
+                        <td>@i</td>
+                        <td><img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" /></td>
                         <td>@item.IdDauSach</td>
+                        <td>@item.MaKiemSoat</td>
                         <td>@item.TenSach</td>
+                        <td>@item.TheLoai</td>
                         <td>@item.KeSach</td>
                         <td>@item.NhaXuatBan</td>
-                        <td>@item.SoLuongTong</td>
-                        <td>@item.GiaSach</td>
-                    </tr>
-                    <tr>
-                        <th>Mã kiểm soát</th>
-                        <th>Thể loại</th>
-                        <th>Ngôn Ngữ</th>
-                        <th>Năm Xuất Bản</th>
-                        <th>SL Còn lại</th>
-                        <th>Tóm Tắt</th>
-                    </tr>
-                    <tr>
-                        <td>@item.MaKiemSoat</td>
-                        <td>@item.TheLoai</td>
-                        <td>@item.NgonNgu</td>
                         <td>@item.NamXuatBan</td>
-                        <td>@item.SoLuongConLai</td>
+                        <td>@item.GiaSach</td>
+                        <td>@item.NgonNgu</td>
                         <td>@item.TomTat</td>
+                        <td>@item.SoLuongTong</td>
+                        <td>@item.SoLuongConLai</td>
+                        <td><a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a></td>
                     </tr>
-                </table>
-            </div>
-            <div style="display:block; margin-top:10px;">
-                <a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a>
-            </div>
-        </div>
+                    { i++; }
+                }
 
-        { i++; }
-    }
-</div>
-
-<div style="display:block">
-    <table border="1">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th width="130">Hình</th>
-                <th>Mã đầu sách</th>
-                <th>Mã kiểm soát</th>
-                <th>Tên</th>
-                <th>Thể loại</th>
-                <th>Kệ Sách</th>
-                <th>Nhà Xuất Bản</th>
-                <th>Năm Xuất Bản</th>
-                <th>Giá Sách</th>
-                <th>Ngôn Ngữ</th>
-                <th>Tóm Tắt</th>
-                <th>SL Tổng</th>
-                <th>SL Còn lại</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{ i = 1;}
-            @foreach (var item in Model.Books)
-            {
-                <tr>
-                    <td>@i</td>
-                    <td><img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" /></td>
-                    <td>@item.IdDauSach</td>
-                    <td>@item.MaKiemSoat</td>
-                    <td>@item.TenSach</td>
-                    <td>@item.TheLoai</td>
-                    <td>@item.KeSach</td>
-                    <td>@item.NhaXuatBan</td>
-                    <td>@item.NamXuatBan</td>
-                    <td>@item.GiaSach</td>
-                    <td>@item.NgonNgu</td>
-                    <td>@item.TomTat</td>
-                    <td>@item.SoLuongTong</td>
-                    <td>@item.SoLuongConLai</td>
-                    <td><a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a></td>
-                </tr>
-                { i++; }
-            }
-
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>*@
 
 
-@Html.ActionLink("Thêm Mới", "Them")
 
-<button value="Xoa" onclick="XoaCauHoi()" />
+@*<button value="Xoa" onclick="XoaCauHoi()" />*@
 <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 @section scripts{
     <script>
