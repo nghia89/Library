@@ -3,9 +3,14 @@
     margin: 0;
 }
 
-.contain .fa {
+.contain .menu .fa {
     color: #fff;
     cursor: pointer;
+}
+
+.content .right {
+    position: relative;
+    z-index: 0;
 }
 
 a:hover {
@@ -20,12 +25,26 @@ a:hover {
 
 .content .Title {
     font-size: 30px;
-    margin: 0 60px 20px;
+    margin: 0 17px 20px;
     border-bottom: 2px solid;
     position: relative;
     color: #2E5894;
     display: inline-block;
 }
+
+.container-lib {
+    padding: 0 15px;
+}
+
+    .container-lib .form-group {
+        width: 50%;
+        padding: 10px;
+        float: left;
+    }
+
+        .container-lib .form-group:nth-child(2n+1) {
+            clear: both;
+        }
 /*---Menu left---*/
 .menu .icon {
     width: 40px;
@@ -93,7 +112,12 @@ a:hover {
 }
 
 .contain .left {
+    position: relative;
+    z-index: 1;
+    width: 200px;
+    float: left;
 }
+
 
     .contain .left .bg {
         background: #282C31;
@@ -104,6 +128,8 @@ a:hover {
         position: fixed;
         top: 0;
     }
+
+
 
     .contain .left .bg_icon {
         background: #2A5598;
@@ -116,7 +142,7 @@ a:hover {
     }
 
     .contain .left .menu {
-        height: 500px;
+        min-height: 500px;
         width: 200px;
         display: inline-block;
         float: left;
@@ -133,7 +159,7 @@ a:hover {
 /*--- right---*/
 .contain .right {
     background: #fff;
-    height: 500px;
+    min-height: 500px;
     width: calc(100% - 200px);
     float: right;
     padding: 0 10px;
@@ -142,6 +168,8 @@ a:hover {
     .contain .right .content {
         box-shadow: 0 0 10px #ccc;
         min-height: 500px;
+        margin-bottom: 50px;
+        padding-bottom: 10px;
     }
 /*---End right---*/
 /*menu top*/
@@ -154,6 +182,7 @@ a:hover {
 }
 /*end menu top*/
 /*--- small_menu---*/
+.small_menu .left,
 .small_menu .left .bg,
 .small_menu .left .bg_icon,
 .small_menu .left .menu {
@@ -173,48 +202,107 @@ a:hover {
 .small_menu .bg,
 .small_menu .bg_icon,
 .small_menu .menu {
-    transition: all 0.3s ease-out;
+    /*transition: all 0.3s ease-out;*/
 }
+
+.small_menu .menu {
+    overflow-x: hidden;
+}
+
+.small_menu .action {
+    background: none;
+}
+
+
+.bg,
+.bg_icon,
+.menu,
+.right {
+    /*transition: all 0.3s ease-out;*/
+}
+
+    .menu .action {
+        /*transition-delay: 0.3s;*/
+    }
+
+    .menu ul {
+        min-width: 200px;
+    }
 /*---End small_menu---*/
 
 /*---Sách---*/
+.line-xl {
+    clear: both;
+    border-bottom: 1px solid;
+    box-sizing: border-box;
+}
+
+.line-gl {
+    clear: both;
+    border-bottom: 1px solid;
+    box-sizing: border-box;
+    display: none;
+}
+
+.book_content {
+    margin-top: 10px;
+    position: relative;
+}
+
 .book_box {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
     float: left;
+    width: 100%;
+    /*margin: 5px;*/
 }
+
+
 
     .book_box .book_Title {
         padding-bottom: 10px;
     }
 
-        .book_box .book_Title .book_number {
-            background: #2E5894;
-            color: #fff;
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            line-height: 30px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 50%;
-            float: left;
-        }
+
 
         .book_box .book_Title .book_control {
             float: left;
             padding-left: 16px;
         }
 
+    .book_box:nth-child(2n+1) {
+        clear: both;
+    }
+
     .book_box .book_content .book_image {
         float: left;
         width: 13%;
     }
-    .book_box .book_content .book_image img{
-        width: 100%;
+
+        .book_box .book_content .book_image img {
+            width: 100%;
+            max-width: 120px;
+            display: block;
+        }
+
+    .book_box .book_image .book_number {
+        background: #2E5894;
+        color: #fff;
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50%;
+        float: left;
+        position: absolute;
+        top: -10px;
+        left: -10px;
     }
+
     .book_box .book_content .book_information {
         float: left;
         width: 87%;
@@ -226,15 +314,114 @@ a:hover {
             width: 33%;
         }
 
+
             .book_box .book_content .book_information .book_cell_information .book_title_information,
             .book_box .book_content .book_information .book_cell_information .book_content_information {
                 float: left;
                 width: 50%;
                 padding: 5px;
-                border-bottom: 1px solid;
-                box-sizing: border-box;
             }
 
             .book_box .book_content .book_information .book_cell_information .book_title_information {
                 font-weight: bold;
             }
+
+        .book_box .book_content .book_information .tomtac {
+            width: 100% !important;
+        }
+
+            .book_box .book_content .book_information .tomtac .book_title_information {
+                width: 16%;
+            }
+
+            .book_box .book_content .book_information .tomtac .book_content_information {
+                width: 84%;
+                max-height: 100px;
+                overflow: hidden;
+            }
+
+    .book_box .book_content .book_image .book_image_in {
+        margin: 0 auto;
+        width: 120px;
+        position: relative;
+        text-align: center;
+    }
+
+.table tr.table-info>th {
+    background: #2F81B5;
+    color: #fff;
+}
+.table-striped a{
+    color: #000;
+}
+.table-striped a:hover{
+    color: #f00;
+}
+@media screen and (max-width: 992px) {
+    .line-xl {
+        display: none;
+    }
+
+    .line-gl {
+        display: block;
+    }
+
+    .box_temp_lg {
+        display: none;
+    }
+
+    .content .Title {
+        margin: 0 17px 20px;
+    }
+
+    .book_box .book_content .book_image {
+        width: 100%;
+    }
+
+
+
+    .book_box .book_content .book_information {
+        width: 100%;
+    }
+
+        .book_box .book_content .book_information .book_cell_information {
+            width: 50%;
+        }
+
+        .book_box .book_content .book_information .tomtac .book_title_information {
+            width: 25%;
+        }
+
+        .book_box .book_content .book_information .tomtac .book_content_information {
+            width: 75%;
+        }
+
+    .container-lib .form-group {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .line-gl,
+    .box_temp {
+        display: none;
+    }
+
+    .book_box .book_content .book_information .book_cell_information {
+        width: 100%;
+        border-bottom: 1px solid;
+    }
+
+    .book_box .book_content .book_information .tomtac .book_title_information,
+    .book_box .book_content .book_information .tomtac .book_content_information {
+        width: 50%;
+    }
+
+    .contain .right {
+        width: calc(100% - 40px);
+    }
+
+    .contain .left .menu {
+        position: absolute;
+    }
+}

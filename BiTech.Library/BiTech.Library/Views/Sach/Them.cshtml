@@ -7,25 +7,25 @@
 <div class="Title">Thêm Sách</div>
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 @*<script src="~/bower_components/jquery/dist/jquery.js"></script>*@
-<div ng-app="LibraryApp" class="container">
+<div ng-app="LibraryApp" class="container-lib clearfix">
     @using (Html.BeginForm("Them", "Sach", FormMethod.Post, new { role = "form" }))
     {
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="tensach">Tên Sách:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="tensach">Tên Sách:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control", @id = "tensach" })
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="iddausach">Id Đầu Sách:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="iddausach">Id Đầu Sách:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.IdDauSach, new { @class = "form-control", @id = "iddausach" })
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="ListTT">Id Loại Sách:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="ListTT">Id Loại Sách:</label>
+            <div class="col-sm-9">
                 <div id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
                        new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Id as s.TenTheLoai for s in list" })
@@ -36,14 +36,14 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="idkesach">Id Kệ Sách:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="idkesach">Id Kệ Sách:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.IdKeSach, new { @class = "form-control", @id = "idkesach" })
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="ListNXB">Id Nhà Xuất Bản:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="ListNXB">Nhà Xuất Bản:</label>
+            <div class="col-sm-9">
                 <div id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
                        new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Id as s.Ten for s in list" })
@@ -55,67 +55,73 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="idmakiemsoat">Id Mã Kiểm Soát:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="idmakiemsoat">Mã Kiểm Soát:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat" })
             </div>
         </div>
 
         @*<div class="form-group row">
-            <label class="col-form-label col-sm-2" for="hinh">Hình:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="hinh">Hình:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.Hinh, new { @class = "form-control", @id = "hinh" })
             </div>
         </div>*@
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="sotrang">Số Trang:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="sotrang">Số Trang:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.SoTrang, new { @class = "form-control", @id = "sotrang" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="NgonNgu">Ngôn Ngữ:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="NgonNgu">Ngôn Ngữ:</label>
+            <div class="col-sm-9">
                 @Html.EnumDropDownListFor(m => m.NgonNgu, new { @class = "form-control", @id = "NgonNgu" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="NamSanXuat">Năm Sản Xuất:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="NamSanXuat">Năm Sản Xuất:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.NamSanXuat, new { @class = "form-control", @id = "NamSanXuat" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="GiaSach">Giá Sách:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="GiaSach">Giá Sách:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.GiaSach, new { @class = "form-control", @id = "GiaSach" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="LinkBiaSach">Link Bìa Sách:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="LinkBiaSach">Link Bìa Sách:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.LinkBiaSach, new { @class = "form-control", @id = "LinkBiaSach" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="TomTat">Tóm Tắt:</label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3" for="TomTat">Tóm Tắt:</label>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TomTat, new { @class = "form-control", @id = "TomTat" })
             </div>
         </div>
+        
         <div class="form-group row">
-            <label class="col-form-label col-sm-2"></label>
-            <div class="col-sm-10">
+            <label class="col-form-label col-sm-3"></label>
+            <div class="col-sm-9">
                 <input type="submit" class="btn btn-primary" name="btnThemSach" value="Thêm Mới" />
+                <button onclick="goBack()" class="btn btn-default">Trở lại</button>
             </div>
         </div>
-        <br/>
+        <div class="form-group row box_temp_lg">
+            <label class="col-form-label col-sm-3"></label>
+            <div class="col-sm-9">
+            </div>
+        </div>
         
     }
 </div>

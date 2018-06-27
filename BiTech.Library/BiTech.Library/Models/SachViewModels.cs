@@ -32,7 +32,6 @@ namespace BiTech.Library.Models
         [Required]
         public string MaKiemSoat { get; set; }
 
-        [Required]
         public string Hinh { get; set; }
 
         [Required]

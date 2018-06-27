@@ -1,29 +1,41 @@
 ﻿@model IEnumerable<BiTech.Library.Models.TheLoaiSachViewModels>
 @{
     ViewBag.Title = "DanhSachTheLoaiSach";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var listTheLoai = ViewBag.ListTheLoai;
 }
-
-<h2>Danh Sách Thể Loại Sách</h2>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>Tên Thể Loại</th>
-            <th>Mô Tả</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in listTheLoai)
-        {
-            <tr>
-                <td>@item.TenTheLoai</td>
-                <td>@item.MoTa</td>
-                <td><a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a>|<a href="@Url.Action("Xoa", new {id = item.Id })">Xóa</a></td>
+<div class="Title">Danh Sách Thể Loại Sách</div>
+<div class="container-lib clearfix">
+    <table class="table table-striped">
+        <thead>
+            <tr class="table-info">
+                <th width="30%">Tên Thể Loại</th>
+                <th width="50%">Mô Tả</th>
+                <th width="10%">Sửa</th>
+                <th width="10%">Xoá</th>
             </tr>
-        }
-    </tbody>
-</table>
-@Html.ActionLink("Thêm Mới", "Them")
+        </thead>
+        <tbody>
+            @foreach (var item in listTheLoai)
+            {
+                <tr>
+                    <td>@item.TenTheLoai</td>
+                    <td>@item.MoTa</td>
+                    <td>
+                        <a href="@Url.Action("Sua", new { id = item.Id })">
+                            <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="@Url.Action("Xoa", new {id = item.Id })">
+                            <i style="font-size:24px" class="fa">&#xf014;</i> Xóa
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.ActionLink("Thêm Mới", "Them")
+</div>
+
