@@ -9,6 +9,7 @@ namespace BiTech.Library.DTO
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        public string IdParent { get; set; }
 
         // Thời gian đối tượng được tạo
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]

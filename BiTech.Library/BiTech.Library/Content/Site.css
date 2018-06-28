@@ -3,7 +3,8 @@
     margin: 0;
 }
 
-.contain .menu .fa {
+.contain .menu .fa,
+.bt_menu .fa{
     color: #fff;
     cursor: pointer;
 }

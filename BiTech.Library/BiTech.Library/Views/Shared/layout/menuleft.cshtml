@@ -1,4 +1,5 @@
-﻿<div class="left ">
+﻿@{ var active = @ViewContext.RouteData.Values["controller"].ToString(); /*Response.Write(active);*/}
+<div class="left ">
     <div class="bg">
 
     </div>
@@ -7,27 +8,27 @@
     </div>
     <div class="menu">
         <ul>
-            <li class="clearfix ">
-                <a href="#">
+            <li class="clearfix @((@active == "Sach") ? "action" : "") ">
+                <a href="/Sach" title="Sách">
                     <div class="icon">
-                        <i class="fa fa-cloud"></i>
+                        <i style="font-size:24px" class="fa">&#xf02d;</i>
                     </div>
                     <div class="name">
-                        Danh muc 1
+                        Sách
                     </div>
                 </a>
             </li>
-            <li class="clearfix ">
-                <a href="#">
+            <li class="clearfix @((@active == "TheLoaiSach") ? "action" : "")">
+                <a href="/TheLoaiSach" title="Thể loại sách">
                     <div class="icon">
-                        <i class="fa fa-heart"></i>
+                        <i style="font-size:24px" class="fa">&#xf2ba;</i>
                     </div>
                     <div class="name">
-                        Danh muc 2
+                        Thể loại sách
                     </div>
                 </a>
             </li>
-            <li class="clearfix action">
+            <li class="clearfix">
                 <a href="#">
                     <div class="icon">
                         <i class="fa fa-file"></i>
