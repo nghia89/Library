@@ -1,58 +1,63 @@
-﻿@model BiTech.Library.Models.PhieuNhapSachModel
+﻿@model BiTech.Library.Models.PhieuXuatSachModels
 @{
-    ViewBag.Title = "TaoPhieuNhapSach";
+    ViewBag.Title = "TaoPhieuXuatSach";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-   
-    
 }
+
 <script src="~/Scripts/angular.min.js"></script>
 <script src="~/Scripts/LibraryAngularJS.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/themes/client.css" rel="stylesheet" />
 
-<div class="Title">Tạo Phiếu Nhập Sách</div>
+<div class="Title">Tạo Phiếu Xuất Sách</div>
 <div ng-app="LibraryApp" class="container clearfix">
-    @using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("TaoPhieuXuatSach", "PhieuXuatSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
-      
+
         <div class="form-group">
             <div class="col-md-10">
 
-                <div ng-cloak ng-controller="BookCtrlr" class="w3-card-2 w3-margin" style="max-width:600px;">
+                <div ng-cloak ng-controller="ExportBookCtrlr" class="w3-card-2 w3-margin" style="max-width:600px;">
+
+                    @*@Html.TextAreaFor(m => m.GhiChu);*@
 
 
                     <div class="w3-container w3-light-grey w3-padding-16">
                         <div class="w3-row w3-margin-top">
                             <div class="form-group">
                                 <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
-                               
                             </div>
                             <div class="form-group">
-                                <input id="idSach" name="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="form-control">
+                                <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="form-control">
                             </div>
                             <div class="form-group">
                                 <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control">
-                               
-                                
                             </div>
                             <div class="form-group">
                                 @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn Tình Trạng--", new { ng_model = "idTrangThai", @class = "form-control" })
-                               
+                                
                             </div>
 
                             <div class="form-group">
-                                <a ng-click="addItem()" class="btn btn-primary">Thêm </a>
+                                @Html.DropDownList("LyDo", new SelectList(ViewBag.listld, "Id", "LyDo"), "--Chọn Lý Do--", new { ng_model = "idLyDo", @class = "form-control" })
+
+                            </div>
+
+                            <div class="form-group">
+                                <a ng-click="addItema()" class="btn btn-primary">Thêm </a>
                             </div>
                             <hr />
                             <div class="container">
-                                <div class="Title" style="margin-left:110px">Danh sách sách nhập</div>
+                                <div class="Title" style="margin-left:110px">Danh sách sách xuất</div>
 
                                 <div class="form-group">
-                                    
+
                                     <div ng-repeat="s in list" style="margin:20px" id="lstItem">
-                                        {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}}
+                                        {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Lý Do: {{s.lyDo}}
                                         <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button><hr />
                                     </div>
+
 
 
                                     <div ng-repeat="s in list">
@@ -64,6 +69,7 @@
                         </div>
                         <p class="w3-text-red">{{errortext}}</p>
                     </div>
+
 
                     @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
                     @*<div class="form-group">
@@ -78,8 +84,9 @@
                 <input type="submit" class="btn btn-primary" value="Tạo mới" />
             </div>
         </div>
-       
+
     }
 </div>
+
 
 

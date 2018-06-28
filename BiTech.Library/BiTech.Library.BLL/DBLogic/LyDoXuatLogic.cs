@@ -18,5 +18,28 @@ namespace BiTech.Library.BLL.DBLogic
         {
             _LyDoXuatEngine = new LyDoXuatEngine(new Database(connectionString, dbName), TableName);    
         }
+        public List<LyDoXuat> GetAll()
+        {
+            return _LyDoXuatEngine.GetAll();
+        }
+        public string Insert(LyDoXuat ldx)
+        {
+            return _LyDoXuatEngine.Insert(ldx);
+        }
+
+        public LyDoXuat GetById(string id)
+        {
+            return _LyDoXuatEngine.GetById(id);
+        }
+
+        public bool Update(LyDoXuat ldx)
+        {
+            return _LyDoXuatEngine.Update(ldx);
+        }
+
+        public bool Delete(string id)
+        {
+            return _LyDoXuatEngine.Remove(id);
+        }
     }
 }

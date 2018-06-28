@@ -16,5 +16,9 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection();
             _DatabaseCollection = _Database.GetCollection<LyDoXuat>(tableName);
         }
+        public List<LyDoXuat> GetAll()
+        {
+            return _DatabaseCollection.Find(x => true).ToList();
+        }
     }
 }

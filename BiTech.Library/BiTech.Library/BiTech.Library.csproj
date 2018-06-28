@@ -186,6 +186,8 @@
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LyDoXuatController.cs" />
+    <Compile Include="Controllers\PhieuXuatSachController.cs" />
     <Compile Include="Controllers\TacGiaController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
     <Compile Include="Controllers\PhieuMuonController.cs" />
@@ -202,10 +204,11 @@
     </Compile>
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Models\LyDoXuatViewModel.cs" />
     <Compile Include="Models\MuonTraSach.cs" />
-    <Compile Include="Models\ChiTietNhapSachViewModels.cs" />
     <Compile Include="Models\NhaXuatBanViewModels.cs" />
     <Compile Include="Models\PhieuNhapSachModels.cs" />
+    <Compile Include="Models\PhieuXuatSachModels.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SachViewModels.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
@@ -567,6 +570,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\themes\client.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -686,6 +690,10 @@
     <Content Include="Views\TacGia\Create.cshtml" />
     <Content Include="Views\TacGia\Edit.cshtml" />
     <Content Include="Views\PhieuNhapSach\TaoPhieuNhapSach.cshtml" />
+    <Content Include="Views\PhieuXuatSach\TaoPhieuXuatSach.cshtml" />
+    <Content Include="Views\LyDoXuat\Index.cshtml" />
+    <Content Include="Views\LyDoXuat\Edit.cshtml" />
+    <Content Include="Views\LyDoXuat\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

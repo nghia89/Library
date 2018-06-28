@@ -84,20 +84,8 @@ namespace BiTech.Library.Controllers
 
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            PhieuNhapSachModel model = new PhieuNhapSachModel();
-
-            var listTT_DTO = _TrangThaiSachLogic.GetAll();
-
-            foreach (var item in listTT_DTO)
-            {
-                model.ListTrangThai.Add(new TrangThai()
-                {
-                    Id = item.Id,
-                    Ten = item.TenTT
-                });
-            }
-
-            return View(model);
+            ViewBag.listtt = _TrangThaiSachLogic.GetAll();
+            return View();
         }
         [HttpPost]
         public ActionResult TaoPhieuNhapSach(PhieuNhapSachModel model)
@@ -167,19 +155,10 @@ namespace BiTech.Library.Controllers
                 }
             }
 
-            var listTT_DTO = _TrangThaiSachLogic.GetAll();
-
-            foreach (var item in listTT_DTO)
-            {
-                model.ListTrangThai.Add(new TrangThai()
-                {
-                    Id = item.Id,
-                    Ten = item.TenTT
-                });
-            }
+            ViewBag.listtt = _TrangThaiSachLogic.GetAll();
             ModelState.Clear();
 
-            return View(model);
+            return View();
         }
         [HttpGet]
         public JsonResult _GetBookItemById(string idBook, int soLuong, string idtrangthai)
@@ -215,6 +194,8 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
+
+       
     }
 
 }
