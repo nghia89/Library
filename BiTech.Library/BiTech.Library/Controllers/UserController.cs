@@ -17,6 +17,8 @@ namespace BiTech.Library.Controllers
         public UserController()
         {
             _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
+
+            //_SlTT_LOgic.insert(new slttDTO("5b28396079ccd72e08b0a0d7", "5b281d0979ccd728145a5097", 45)})
         }
 
         // GET: User

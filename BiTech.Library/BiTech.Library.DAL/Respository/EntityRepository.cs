@@ -1,6 +1,8 @@
 ﻿using BiTech.Library.DTO;
 using MongoDB.Driver;
 using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace BiTech.Library.DAL.Respository
 {
@@ -43,5 +45,8 @@ namespace BiTech.Library.DAL.Respository
             var updateResult = _DatabaseCollection.ReplaceOne<T>(m => m.Id == entity.Id, entity);
             return (updateResult.ModifiedCount > 0);
         }
+  
+
+    
     }
 }
