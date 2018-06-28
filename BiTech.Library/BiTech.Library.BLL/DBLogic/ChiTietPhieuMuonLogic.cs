@@ -42,6 +42,16 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuMuonEngine.GetByIdBook(idBook);
         }
+        /// <summary>
+        /// Get list by idBook and idPM
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <param name="idPM"></param>
+        /// <returns></returns>
+        public ChiTietPhieuMuon GetByIdBook_IdPM(string idBook, string idPM)
+        {
+            return _ChiTietPhieuMuonEngine.GetByIdBook_IdPM(idBook, idPM);
+        }
         public ChiTietPhieuMuon GetById(string id)
         {
             return _ChiTietPhieuMuonEngine.GetById(id);

@@ -3,46 +3,99 @@
     ViewBag.Title = "TaoPhieuTra";
 }
 
-@using (Html.BeginForm("TraSach", "PhieuTra", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdNguoiMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdNguoiMuon, new { @class = "form-control", @readonly = "readonly" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.NguoiMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NguoiMuon, new { @class = "form-control", @readonly = "readonly" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdSach, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdSach, new { @class = "form-control"})
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control", @readonly = "readonly" })
-        </div>
-    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/bower_components/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/LibraryAngularJS.js"></script>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdTinhTrang, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.IdTinhTrang, new SelectList(ViewBag.ListTinhTrangSach, "Id", "TenTT"))
-        </div>
-    </div>
+<h5 class="text-danger">@ViewBag.UnSuccess</h5>
+<h5 class="text-danger">@ViewBag.SoLuong</h5>
+<h5 class="text-danger">@ViewBag.Date</h5>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Trả sách" />
+<div ng-app="LibraryApp" class="container">
+    @using (Html.BeginForm("TaoPhieuTra", "PhieuTra", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.IdPM, new { @id = "idPM"})
+        <div class="form-group">
+            @Html.LabelFor(m => m.IdNguoiMuon, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.IdNguoiMuon, new { @class = "form-control", @readonly = "readonly" })
+            </div>
         </div>
-    </div>
-}
+        <div class="form-group">
+            @Html.LabelFor(m => m.NguoiMuon, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.NguoiMuon, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>                
 
+        <div ng-cloak ng-controller="TraSachCtrlr"  ng-init="GetAllData()" class="w3-card-2 w3-margin" style="max-width:400px;">
+            <div class="w3-container w3-light-grey w3-padding-16">
+                <div class="w3-row w3-margin-top">
+                    <div class="w3-col s10">
+                        <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding">
+                    </div>
+                    <div class="w3-col s10">
+                        <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="w3-input w3-border w3-padding">
+                    </div>
+                    <div class="w3-col s10">
+                        @Html.DropDownList("TrangThai", new SelectList(Model.ListTrangThai, "Id", "TenTT", 1), new { ng_model = "idTrangThai", @class = "w3-input w3-border w3-padding" })
+                    </div>
+
+                    <div class="w3-col s2">
+                        <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
+                    </div>
+
+                </div>
+                <p class="w3-text-red">{{errortext}}</p>
+            </div>        
+
+            <ul class="w3-ul">
+                <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">{{s.TenSach}} - {{s.SoLuong}} - {{s.TrangThaiSach}}</li>
+            </ul>
+
+            <div ng-repeat="s in list">
+                <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
+            </div>
+
+           
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Trả sách" />
+                </div>
+            </div>
+            @* Danh sách đã mượn*@
+            <div class="form-group">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Mã sách</th>
+                            @*<th>Tên sách</th>
+                        <th>Số lượng mượn</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td ng-repeat="s in listGet">{{s.MaSach}} - {{s.TenSach}} - {{s.SoLuong}}</td>
+                            @*<td>
+                            <a href="javascript:void(0);" class="anchorDetail" data-id="@item.IdPM" data-content="@item.MaSach">Trả sách</a>
+                        </td>*@
+                        </tr>
+
+                    </tbody>
+                </table>
+                <hr />
+                <br />
+            </div>
+            @**@
+        </div>
+    }
+</div>

@@ -38,8 +38,10 @@
                 <td>@item.TrangThai</td>
                 <td>@item.GiaHan</td>
                 <td>@item.GhiChu</td>
-                <td><a href="@Url.Action("_EditPhieuMuon",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a>
-                    | <a href="@Url.Action("ChiTietPhieuMuon",new { id = item.Id})"> Chi tiết</a> | <a href="@Url.Action("TaoPhieuTra", "PhieuTra", new { idPM = item.Id})"> Trả sách</a></td>
+                @*<a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a> |
+                    <a href="@Url.Action("ChiTietPhieuMuon",new { id = item.Id})"> Chi tiết</a>*@ 
+                <td><a href="@Url.Action("_EditPhieuMuon",new { @id = item.Id})">Sửa</a> 
+                    | <a href="@Url.Action("TaoPhieuTra", "PhieuTra", new { idPM = item.Id})"> Trả sách</a></td>
             </tr>
         }
     </tbody>

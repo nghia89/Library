@@ -362,6 +362,48 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
+
+        public JsonResult GetChiTietPhieuJSon(string idPM, int soLuong)
+        {
+            JsonResult result = new JsonResult();
+            var chiTietPM_DTO = _ChiTietPhieuMuonLogic.GetByIdPhieuMuon(idPM);
+            List < ChiTietPMViewModel > lstCT= new List<ChiTietPMViewModel>();
+            ChiTietPMViewModel chiTietModel;
+            foreach (var item in chiTietPM_DTO)
+            {                
+                int a = TempData["SoLuong"] == null ? soLuong : Convert.ToInt32(TempData["SoLuong"].ToString());
+                if(TempData["SoLuong"] == null)
+                    TempData["SoLuongView"] = null;
+                chiTietModel = new ChiTietPMViewModel()
+                {
+                    IdPM = item.IdPhieuMuon,
+                    MaSach = item.IdSach,
+                    TenSach = _SachLogic.GetByIdBook(item.IdSach).TenSach,
+                    SoLuong = TempData["SoLuongView"] == null ?  item.SoLuong - a : (int.Parse(TempData["SoLuongView"].ToString()) - a),
+                };
+                if (TempData["SoLuong"] != null)
+                    TempData["SoLuongView"] = item.SoLuong - a;
+
+                if (chiTietModel.SoLuong <= 0)
+                {
+                    lstCT.Remove(chiTietModel);
+                }
+                else
+                {
+                    lstCT.Add(chiTietModel);
+                }
+                
+                //Neu so luong  = 0 => k hien thi tren giao dien             
+                
+            }
+            if (!String.IsNullOrWhiteSpace(idPM))
+            {
+                result.Data = lstCT; 
+                //lstSach.Add(idBook); // add item to list to get list idSach - inset chitietphieumuon
+                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            }
+            return result;
+        }
         #endregion
 
         public ActionResult ChiTietPhieuMuon(string id)

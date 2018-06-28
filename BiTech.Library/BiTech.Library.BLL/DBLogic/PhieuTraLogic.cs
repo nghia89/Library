@@ -48,5 +48,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuTraEngine.Update(model);
         }
+        public bool Remove (string id)
+        {
+            return _PhieuTraEngine.Remove(id);
+        }
+
     }
 }
