@@ -1,0 +1,107 @@
+﻿@model PagedList.IPagedList<PhieuMuon>
+@using System;
+@using System.Globalization;
+@using BiTech.Library.DTO;
+@using PagedList.Mvc;
+@{
+
+    ViewBag.Title = "DanhSachChuaTra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Danh sách độc giả chưa trả sách</h2>
+
+
+<table class="table">
+    <thead>
+        <tr class="text-primary h4">
+            <th>Stt</th>
+            <th>Người mượn</th>
+            <th>Tên sách</th>
+            <th>Số lượng</th>
+            <th>Ngày mượn</th>
+            <th>Hạn phải trả</th>
+            <th>Ngày trả</th>
+            <th>Trạng thái</th>
+            <th>Tiền phạt</th>
+            <th>Gia hạn</th>
+            @*<th>Ghi chú</th>*@
+        </tr>
+    </thead>
+    @{ int i = ViewBag.pageSize * (ViewBag.pages - 1); int j = ViewBag.pageSize * (ViewBag.pages - 1); int dem = 1;}
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
+                @{
+                    string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;
+                }
+                <td>@Html.ActionLink(TenThanhVien, "ThongTinDocGia", new { id = @ViewBag.ListIdThanhVien[i], page = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
+                <td>@ViewBag.ListSach[i].TenSach,..</td>
+                <td>@ViewBag.SoLuongSachMuon[j] cuốn</td>
+                <td class="text-center">@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+                @{
+                    DateTime? ngayTra = item.NgayTra;
+                    string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
+                }
+                @if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001") == false)
+                {
+                    <td>@ngayTraFormat</td>
+                    if (item.SoNgayGiaoDong != null)
+                    {
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
+                    }
+                    else
+                    {
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
+                    }
+                }
+                else
+                {
+                    <td class="text-center">---//---</td>
+                    if (item.SoNgayGiaoDong != null && item.SoNgayGiaoDong < 30)
+                    {
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                    }
+                    else
+                    {
+                        if (item.SoNgayGiaoDong == null)
+                        {
+                            var ngayTre = DateTime.Now - item.NgayPhaiTra;
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
+                        }
+                        else
+                        {
+                            <td class="@item.TrangThai.ToString()">Còn @item.SoNgayGiaoDong.ToString() ngày</td>
+                        }
+                    }
+                }
+                <td>TienPhat</td>
+                <td>xxx</td>
+            </tr>
+        </tbody>
+
+                        {
+                            i++; dem++; j++;
+                        }
+                    }
+
+</table>
+
+<p>
+    @Html.PagedListPager(Model, Page => Url.Action("DanhSachChuaTra", new { page = Page, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</p>
+
+<style>
+    .ChuaTra {
+        background: #ff9a9a;
+        color: #000;
+    }
+
+    .GanTra {
+        background: #b7dbff;
+        color: #000;
+    }      
+</style>

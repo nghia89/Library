@@ -521,6 +521,7 @@
     <Content Include="bower_components\sweetalert\themes\twitter\twitter.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\avatar.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -674,6 +675,8 @@
     <Content Include="Views\Sach\_NhapNhaXuatBan.cshtml" />
     <Content Include="Views\NhapSach\NhapSach.cshtml" />
     <Content Include="Views\KeSach\Index.cshtml" />
+    <Content Include="Views\ThongKe\DanhSachChuaTra.cshtml" />
+    <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
   </ItemGroup>
   <ItemGroup>

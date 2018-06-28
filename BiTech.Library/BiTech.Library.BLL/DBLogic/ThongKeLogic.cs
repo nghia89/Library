@@ -13,6 +13,8 @@ namespace BiTech.Library.BLL.DBLogic
     {
         private string TableName1 = "PhieuMuon";
         ThongKeEngine _thongKeEngine;
+        PhieuMuonEngine _phieuMuonEngine;
+
 
         private string TableName2 = "ChiTietPhieuMuon";
         ChiTietPhieuMuonEngine _chiTietPhieuMuon;
@@ -30,13 +32,14 @@ namespace BiTech.Library.BLL.DBLogic
         PhieuTraEngine _phieuTraEngine;
          
         private string TableName7 = "ChiTietPhieuTra";
-        ChiTietPhieuTraEngine _chiTietPhieuTraEngine;
-
+        ChiTietPhieuTraEngine _chiTietPhieuTraEngine;       
+     
         public ThongKeLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString, databaseName);
 
             _thongKeEngine = new ThongKeEngine(database, TableName1);
+            _phieuMuonEngine = new PhieuMuonEngine(database, TableName1);
             _chiTietPhieuMuon = new ChiTietPhieuMuonEngine(database, TableName2);
             _sachEngine = new SachEngine(database, TableName3);
             _thanhVienEngine = new ThanhVienEngine(database, TableName4);
@@ -47,14 +50,19 @@ namespace BiTech.Library.BLL.DBLogic
             var ngayMuon = DateTime.ParseExact("26-02-2017", "dd-MM-yyyy", null);
             var ngayPhaiTra = DateTime.ParseExact("26-08-2018", "dd-MM-yyyy",null);
             var ngayTra = DateTime.ParseExact("25-04-2017", "dd-MM-yyyy", null);
-                     
-            // _thongKeEngine.Insert(p);
+
 
         }
 
-        public List<PhieuMuon> ListPhieuMuon()
+        public List<PhieuMuon> GetAllPhieuMuon()
         {
             return _thongKeEngine.ListPhieuMuon();
+        }
+
+
+        public List<PhieuMuon>GetPMByIdThanhVien(string idThanhVien)
+        {
+            return _phieuMuonEngine.GetByIdUser(idThanhVien);
         }
 
         public Sach GetSachById(string idSach)
@@ -76,7 +84,7 @@ namespace BiTech.Library.BLL.DBLogic
         {                    
             return _thanhVienEngine.GetById(idThanhVien);
         }
-
+       
 
         // Danh mục trả sách
         public List<PhieuTra> GetPTByIdPM(string idPhieuMuon)

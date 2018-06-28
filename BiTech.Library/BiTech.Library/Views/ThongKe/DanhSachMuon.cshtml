@@ -2,7 +2,6 @@
 @using System;
 @using System.Globalization;
 @using BiTech.Library.DTO;
-@using BiTech.Library.Models;
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "DanhSachMuon";
@@ -29,7 +28,7 @@
     });
 }
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-<h2 class="text-center">Thống kê danh mục mượn sách</h2>
+<h2 class="text-center">Danh sách phiếu mượn</h2>
 <h4 class="text-info">Số phiếu mượn sách: <div class="text-success">@ViewBag.SoSachDangDuocMuon</div></h4>
 <h4 class="text-info">Số phiếu mượn sách trễ hạn chưa trả: <div class="text-danger">@ViewBag.SoSachChuaTra</div></h4>
 <hr />
@@ -47,12 +46,12 @@
 <h4 class="text-info">Danh mục mượn sách theo ngày</h4>
 @Html.TextBox("day", "", new { onchange = @"onDaySelectedChagned()", @class = "form-control datepicker" })
 <hr />
-@if (ViewBag.Month != null && ViewBag.Year != null)
+@if (ViewBag.Month != 0 && ViewBag.Year != 0)
 {
     <h4> Số sách được mượn trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoSachDuocMuon cuốn</h4>
     <h4> Số người mượn sách trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoLuongThanhVien người</h4>
 }
-@if (ViewBag.Day != null)
+@if (ViewBag.Day != null&& ViewBag.Day != "0")
 {
     <h4> Số sách được mượn trong ngày "@ViewBag.Day" là: @ViewBag.SoSachDuocMuon cuốn</h4>
     <h4> Số người mượn sách trong ngày "@ViewBag.Day" là: @ViewBag.SoLuongThanhVien người</h4>
@@ -70,80 +69,71 @@
             <th>Ngày trả</th>
             <th>Tình trạng</th>
             <th>Gia hạn</th>
-            <th>Ghi chú</th>
+            @*<th>Ghi chú</th>*@
         </tr>
     </thead>
-    @{ int i = 0; int j = 0; int dem = 1;}
+    @{ int i = ViewBag.pageSize * (ViewBag.pages - 1); int dem = 1;}
     @foreach (var item in Model)
     {
-        foreach (var sach in @ViewBag.ListChaCuaSach[i])
-        {
-            <tbody>
-                <tr>
-                    @if (isMultiBook == false)
+        <tbody>
+            <tr>
+                <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
+                @{
+                    string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;
+                }
+                <td>@Html.ActionLink(TenThanhVien, "LichSuMuonSach", new {page=1, id = @ViewBag.ListThanhVien[i].Id,pagePM= @ViewBag.Page, day= @ViewBag.Day,month= @ViewBag.Month, year= @ViewBag.Year }, null) </td>
+                <td>@ViewBag.ListSach[i].TenSach,..</td>
+                <td>tổng @ViewBag.ListSoSachTong[i] cuốn</td>
+                <td class="text-center">@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+
+                @{
+                    DateTime? ngayTra = item.NgayTra;
+                    string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
+                }
+
+                @if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001") == false)
+                {
+                    <td>@ngayTraFormat</td>
+                    if (item.SoNgayGiaoDong != null)
                     {
-
-                        <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
-                        <td><a href="ThongTinDocGia">@ViewBag.ListThanhVien[i].Ten</a></td>
-                        <td>@sach.TenSach</td>
-                        <td>@ViewBag.ListSoLuongSach[j] cuốn</td>
-                        <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
-                        <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
-
-
-                        DateTime? ngayTra = item.NgayTra;
-                        string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
-                        if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001")==false)
-                        {
-                            <td>@ngayTraFormat</td>
-                            if (item.SoNgayGiaoDong != null)
-                            {
-                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
-                            }
-                            else
-                            {
-                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
-                            }
-
-                        }
-                        else
-                        {
-                            <td>Chưa trả</td>
-                            if (item.SoNgayGiaoDong != null)
-                            {
-                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
-                            }
-                            else
-                            {
-                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
-                            }
-                        }
-
-
-                        <td>@item.Id</td>
-                        <td></td>
-
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
                     }
                     else
                     {
-                        <td></td>
-                        <td></td>
-                        <td>@sach.TenSach</td>
-                        <td>@ViewBag.ListSoLuongSach[j] cuốn</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
                     }
-
-                    @{isMultiBook = true; j++;}
-                </tr>
-            </tbody>
-                            }
-                            { i++; dem++; isMultiBook = false; }
+                }
+                else
+                {
+                    <td class="text-center">---//---</td>
+                    if (item.SoNgayGiaoDong != null && item.SoNgayGiaoDong < 30)
+                    {
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                    }
+                    else
+                    {
+                        if (item.SoNgayGiaoDong == null)
+                        {
+                            var ngayTre = DateTime.Now - item.NgayPhaiTra;
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                         }
+                        else
+                        {
+                            <td class="@item.TrangThai.ToString()">Còn @item.SoNgayGiaoDong.ToString() ngày</td>
+                        }
+                    }
+                }
+                <td>@item.Id</td>
+                @*<td></td>*@
+                @{isMultiBook = true;}
+            </tr>
+        </tbody>
+                        {
+                            i++; dem++; isMultiBook = false;
+                        }
+
+                    }
 </table>
 
 <p>
@@ -189,17 +179,17 @@
                     //var thang = a.toString().substring(3, 5);
                     //var nam = a.toString().substring(6);
 
-                    window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + ngay;
+                    window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + ngay + '&month=' + 0 + '&year=' + 0;
                 }
             }).attr("readonly", "readonly");
         });
 
         function onMonthSelectedChagned() {
-            window.location.href = '/ThongKe/DanhSachMuon?page=1&month=' + $("#month").val() + '&year=' + $("#year").val();
+            window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
         }
 
         function onYearSelectedChagned() {
-            window.location.href = '/ThongKe/DanhSachMuon?page=1&month=' + $("#month").val() + '&year=' + $("#year").val();
+            window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
         }
     </script>
 }

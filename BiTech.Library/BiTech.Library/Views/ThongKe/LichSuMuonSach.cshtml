@@ -1,68 +1,44 @@
-﻿@model BiTech.Library.Models.ThongKeViewModel
-@using BiTech.Library.DTO
+﻿@model PagedList.IPagedList<PhieuMuon>
+@using System;
+@using System.Globalization;
+@using BiTech.Library.DTO;
+@using PagedList.Mvc;
 @{
+
     ViewBag.Title = "ThongTinDocGia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2 class="text-center">Lịch sử mượn sách</h2>
+<h4 class="text-info">Độc giả: @ViewBag.TenThanhVien</h4>
 
-<h3 class="text-info">Thông tin đọc giả</h3>
-
-
-<div class="container">
-    <img src="~/Content/Images/avatar.png" alt="Hình độc giả" style="width:150px;height:150px;" />
-    @*<img src=@Model.HinhChanDung alt="Hình độc giả" style="width:150px;height:150px;" />*@
-    <div class="row">
-        <div class="col-md-2">Tên đọc giả</div>
-        <div class="col-md-5">@Model.TenDocGia</div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2">Số điện thoại</div>
-        <div class="col-md-5">@Model.SDT</div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2">CMND</div>
-        <div class="col-md-5">@Model.CMND</div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2">Địa chỉ</div>
-        <div class="col-md-5">@Model.DiaChi</div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2">IdChucVu</div>
-        <div class="col-md-5">@Model.IdChucVu</div>
-    </div>
-</div>
-<hr />
-<h3 class="text-info">Danh sách sách chưa trả</h3>
 <table class="table">
     <thead>
-        <tr>
-            <th>STT</th>
+        <tr class="text-primary h4">
+            <th>Stt</th>
             <th>Tên sách</th>
             <th>Số lượng</th>
             <th>Ngày mượn</th>
             <th>Hạn phải trả</th>
+            <th>Ngày trả</th>
             <th>Trạng thái</th>
-            <th>Gia hạn</th>
             <th>Tiền phạt</th>
+            <th>Gia hạn</th>
+            @*<th>Ghi chú</th>*@
         </tr>
     </thead>
-    @{ int i = 0; int j = 0; int dem = 1;}
-    @foreach (var item in Model.ListPhieuMuon)
+    @{ int i = ViewBag.pageSize * (ViewBag.pages - 1); int j = ViewBag.pageSize * (ViewBag.pages - 1); int dem = 1;}
+    @foreach (var item in Model)
     {
-        foreach (var sach in Model.ListChaCuaSach[i])
+        foreach (var sach in @ViewBag.ListChaCuaSach[i])
         {
             <tbody>
                 <tr>
-                    <td>@dem.ToString()</td>
+                    <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
                     <td>@sach.TenSach</td>
-                    <td>@Model.ListSoLuong[j] cuốn</td>
-                    <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
-                    <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+                    <td>@ViewBag.SoLuongSachMuon[j] cuốn</td>
+                    <td class="text-center">@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                    <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
 
                     @{
                         DateTime? ngayTra = item.NgayTra;
@@ -82,6 +58,7 @@
                     }
                     else
                     {
+                        <td class="text-center">---//---</td>
                         if (item.SoNgayGiaoDong != null && item.SoNgayGiaoDong < 30)
                         {
                             <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
@@ -99,19 +76,30 @@
                             }
                         }
                     }
-
-                    <td>GiaHan</td>
                     <td>TienPhat</td>
+                    <td>GiaHan</td>
                 </tr>
             </tbody>
-                                { j++; i++; dem++; }
+                                { dem++; j++; }
                             }
+                            { i++; }
                         }
 
 </table>
 
-@Html.ActionLink("Xem lịch sử mượn sách", "LichSuMuonSach", new { page = 1, id = @ViewBag.IdThanhVien }, new { @class = "btn btn-primary" })
-@Html.ActionLink("Trở về", "DanhSachChuaTra", new { page = @ViewBag.Page }, new { @class = "btn btn-primary" })
+<p>
+    @Html.PagedListPager(Model, Page => Url.Action("ThongTinDocGia", new { page = Page, id = ViewBag.Id, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</p>
+@if (@ViewBag.Day != null || @ViewBag.Monthyear != null @*|| @ViewBag.Year == null*@)
+{
+    @Html.ActionLink("Trở về danh sách phiếu mượn", "DanhSachMuon",
+                          new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-primary" })
+}
+else
+{
+  @Html.ActionLink("Trở về thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-primary" })
+}
+
 
 <style>
     .ChuaTra {
@@ -121,6 +109,16 @@
 
     .GanTra {
         background: #b7dbff;
+        color: #000;
+    }
+
+    .TraTre {
+        background: #fdf0b2;
+        color: #000;
+    }
+
+    .TraDungHen {
+        background: #91d8a9;
         color: #000;
     }
 </style>
