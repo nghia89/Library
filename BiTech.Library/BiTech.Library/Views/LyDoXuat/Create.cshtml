@@ -1,0 +1,33 @@
+﻿@model BiTech.Library.Models.LyDoXuatViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="Title">Thêm Lý Do</div>
+<div class="container">
+    @using (Html.BeginForm("Create", "LyDoXuat", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="tensach">Lý Do Xuất</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.LyDo, new { @class = "form-control", @id = "tentacgia" })
+            </div>
+            @Html.ValidationMessageFor(m => m.LyDo)
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3"></label>
+            <div class="col-sm-9">
+                <input type="submit" class="btn btn-primary" name="btnThemTacGia" value="Thêm Mới" />
+                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
+            </div>
+        </div>
+
+    }
+</div>
+
+
+

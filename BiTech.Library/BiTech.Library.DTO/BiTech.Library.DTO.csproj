@@ -48,6 +48,7 @@
     <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
+    <Compile Include="ChiTietXuatSach.cs" />
     <Compile Include="Enum_V.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Example.cs" />
@@ -57,7 +58,7 @@
     <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="NhaXuatBan.cs" />
     <Compile Include="SoLuongSachTrangThai.cs" />
-    <Compile Include="XuatSach.cs" />
+    <Compile Include="PhieuXuatSach.cs" />
     <Compile Include="PhieuMuon.cs" />
     <Compile Include="PhieuTra.cs" />
     <Compile Include="ThanhVien.cs" />

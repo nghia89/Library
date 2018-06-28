@@ -9,11 +9,14 @@ namespace BiTech.Library.Models
     public class TacGiaViewModel
     {
         public string Id { get; set; }
-        [Required]
+        [Display(Name ="Tên Tác Giả")]
+        [Required(ErrorMessage ="Vui lòng nhập tên tác giả")]
         public string TenTacGia { get; set; }
-        [Required]
+        [Display(Name = "Mô Tả")]
+        [Required(ErrorMessage = "Vui lòng nhập mô tả")]
         public string MoTa { get; set; }
-        [Required]
+        [Display(Name = "Quốc Tịch")]
+        [Required(ErrorMessage="Vui lòng nhập quốc tịch")]
         public string QuocTich { get; set; }
        
     }

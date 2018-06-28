@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BiTech.Library.DTO
 {
-    public class XuatSach : IModel
+    public class PhieuXuatSach : IModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -16,12 +16,13 @@ namespace BiTech.Library.DTO
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
-        
-        public string IdSach { get; set; }
-
-        public string IdLyDo { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime NgayXuat { get; set; }
+        public DateTime NgayNhap { get; set; }
+
+
+        public string IdUserAdmin { get; set; }
+
+        public string GhiChu { get; set; }
     }
 }

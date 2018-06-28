@@ -1,47 +1,34 @@
-﻿@model BiTech.Library.Models.TacGiaViewModel
+﻿@model BiTech.Library.Models.LyDoXuatViewModel
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-<div class="Title">Sửa Tác Giả</div>
+<div class="Title">Sửa Lý Do</div>
 <div class="container">
-    @using (Html.BeginForm("Edit", "TacGia", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("Edit", "LyDoXuat", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
             <label class="col-form-label col-sm-3" for="tensach">Tên Tác Giả:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.TenTacGia, new { @class = "form-control", @id = "tentacgia" })
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3" for="tensach">Quốc Tịch:</label>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.QuocTich, new { @class = "form-control", @id = "quoctich" })
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3" for="tensach">Mô Tả:</label>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.MoTa, new { @class = "form-control", @id = "mota" })
+                @Html.TextBoxFor(m => m.LyDo, new { @class = "form-control", @id = "LyDo" })
             </div>
         </div>
         
-        <input type="hidden" value="@Model.Id"/>
+        <input type="hidden" value="@Model.Id" />
         <input type="submit" name="btnSuaTacGia" class="btn btn-primary" value="Cập nhật" />
-        <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaTacGia('@Model.Id','@Model.TenTacGia')" />
-        @*<button value="Xoa" onclick="XoaTacGia()" />*@
+        <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaLyDo('@Model.Id')" />
+       
     }
 </div>
 @section scripts{
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        function XoaTacGia(id,ten) {
+        function XoaLyDo(id) {
             swal({
-                title: " Bạn có muốn xóa tác giả " + ten + "?",
-                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                title: " Bạn có muốn xóa lý do ?",
+                text: "Bạn sẽ không thể khôi phục lại lý do này sau khi xóa!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -54,19 +41,19 @@
                 if (isConfirm) {
                     $.ajax({
                         type: 'POST',
-                        url: "/TacGia/Delete",
+                        url: "/LyDoXuat/Delete",
                         data: { "Id": id },
                         success: function (resultData) {
                             swal({
                                 title: "Bạn đã xóa thành công!",
-                                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                                text: "Bạn sẽ không thể khôi phục lại lý do này sau khi xóa!",
                                 type: "success",
                                 showCancelButton: false,
                                 confirmButtonText: "OK",
                                 closeOnConfirm: false
                             },
                             function (isConfirm) {
-                                window.location.href = '/TacGia/Index';
+                                window.location.href = '/LyDoXuat/Index';
                             });
                         }
                     });
@@ -77,3 +64,4 @@
         }
     </script>
 }
+
