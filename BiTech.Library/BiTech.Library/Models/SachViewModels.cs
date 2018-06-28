@@ -13,7 +13,7 @@ namespace BiTech.Library.Models
 
         [Required]
         public string TenSach { get; set; }
-        
+
 
         [Required]
         public string IdDauSach { get; set; }
@@ -26,7 +26,7 @@ namespace BiTech.Library.Models
 
         [Required]
         public string IdNhaXuatBan { get; set; }
-        
+
         public string IdTrangThai { get; set; }
 
         [Required]
@@ -43,7 +43,7 @@ namespace BiTech.Library.Models
 
         [Required]
         public ENgonNgu NgonNgu { get; set; }
-        
+
         public string NamSanXuat { get; set; }
 
         [Required]
@@ -56,7 +56,7 @@ namespace BiTech.Library.Models
         public string TomTat { get; set; }
 
     }
-    
+
     public class ListBooks
     {
         public List<BookView> Books { get; set; } = new List<BookView>();
@@ -65,7 +65,7 @@ namespace BiTech.Library.Models
     public class BookView
     {
         public string Id { get; set; }
-        
+
         [Required]
         public string IdDauSach { get; set; }
 
@@ -105,4 +105,7 @@ namespace BiTech.Library.Models
         [Required]
         public int SoLuongConLai { get; set; }
     }
+
+   
+
 }
