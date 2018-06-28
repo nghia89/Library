@@ -39,7 +39,7 @@ namespace BiTech.Library.Controllers
             {
                 AppName = "Quản lý thư viện",
                 ConnectionString = "mongodb://localhost:27017",
-                DatabaseName = "DemoLibTHPT"
+                DatabaseName = "BiTechLibraryDB"
             });
 
             #endregion

@@ -37,5 +37,6 @@ namespace BiTech.Library.DAL.Respository
         /// <param name="entity">Entity cần cập nhật</param>
         /// <returns>Kết quả cập nhật entity</returns>
         bool Update(IEntity entity);
+      
     }
 }

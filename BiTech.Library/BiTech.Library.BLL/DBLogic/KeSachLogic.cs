@@ -17,5 +17,29 @@ namespace BiTech.Library.BLL.DBLogic
             Database database = new Database(connectionString, databaseName);
             _keSachEngine = new KeSachEngine(database, "KeSach");
         }
+
+        public List<KeSach> GetAll()
+        {
+            return _keSachEngine.GetAllKeSach();
+        }
+
+        public string Add(KeSach TL)
+        {
+            return _keSachEngine.Insert(TL);
+        }
+        public KeSach getById(string id)
+        {
+            return _keSachEngine.GetById(id);
+        }
+        public bool Update(KeSach id)
+        {
+            return _keSachEngine.Update(id);
+        }
+
+        public bool Delete(string Id)
+        {
+            return _keSachEngine.Remove(Id);
+        }
+
     }
 }

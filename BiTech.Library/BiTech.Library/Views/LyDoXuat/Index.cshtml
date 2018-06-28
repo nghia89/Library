@@ -1,10 +1,12 @@
-﻿@model IEnumerable<BiTech.Library.Models.TacGiaViewModel>
+﻿@model IEnumerable<BiTech.Library.Models.LyDoXuatViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var listTacGia = ViewBag.ListTacGia;
+    var listlydo = ViewBag.ListLyDo;
 }
-<div class="Title">Danh Sách Tác Giả</div>
+
+<h2>Index</h2>
+<div class="Title">Danh Sách Lý Do</div>
 <div class="container clearfix">
 
     <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
@@ -12,20 +14,18 @@
         <table class="table table-striped" border="1">
             <thead>
                 <tr style="background:orange">
-                    <th>Tên Tác Giả</th>
-                    <th>Quốc Tịch</th>
-                    <th>Mô Tả</th>
+                    
+                    <th>Lý Do Xuất</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in listTacGia)
+                @foreach (var item in listlydo)
             {
                     <tr>
-                        <td>@item.TenTacGia</td>
-                        <td>@item.QuocTich</td>
-                        <td>@item.MoTa</td>
-                        <td><a href="@Url.Action("Edit","TacGia", new { id = item.Id })">Sửa</a></td>
+                      
+                        <td>@item.LyDo</td>
+                        <td><a href="@Url.Action("Edit","LyDoXuat", new { id = item.Id })">Sửa</a></td>
                     </tr>
                 }
             </tbody>

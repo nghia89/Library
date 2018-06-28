@@ -35,7 +35,7 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
     };
 });
 
-// 
+// nhập sách
 app.controller('BookCtrlr', function ($scope, $http) {
 
         $scope.list = [];
@@ -65,4 +65,36 @@ app.controller('BookCtrlr', function ($scope, $http) {
             $scope.list.splice(x, 1);
         };
      
+});
+//xuất sách
+app.controller('ExportBookCtrlr', function ($scope, $http) {
+
+    $scope.list = [];
+    $scope.addItema = function () {
+        $scope.errortext = "";
+        $http({
+            method: "get",
+            url: "http://localhost:64002/PhieuXuatSach/_GetBookItemById",
+            params: {
+                idBook: $scope.idBook,
+                soLuong: $scope.soLuong,
+                idTrangThai: $scope.idTrangThai,
+                idLyDo:$scope.idLyDo
+            }
+        }).then(function (response) {
+            if (response.data != null) {
+                $scope.list.push(response.data);
+            }
+            else {
+                alert("Mã sách không phù hợp");
+            }
+        }, function () {
+            alert("Error Occur");
+        })
+    }
+    $scope.removeItem = function (x) {
+        $scope.errortext = "";
+        $scope.list.splice(x, 1);
+    };
+
 });
