@@ -1,46 +1,76 @@
 ﻿@model IEnumerable<BiTech.Library.Models.KesachViewModels>
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var ks = ViewBag.ListKeSach;
+    var i = 0;
+    <style>
+        .color-white:hover{color:white;}
+    </style>
 }
+
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-<h2>Ke sach</h2>
-<a href="@Url.Action("Create")">create</a>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Tên Thể Loại</th>
-            <th>Mô Tả</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        
-        @foreach (var item in Model)
-        {
-            <tr>
-                @*<td ><input type="hidden" value="@item.Id" /> </td>*@
-                <td>@item.TenKe</td>
-                <td>@item.ViTri</td>
-                <td>@item.GhiChu </td>
-                <td><a href="@Url.Action("Edit", new { id = item.Id })">Sửa</a>|
-                <a onclick="DeleteItem('@item.Id','@item.TenKe')">Xóa</a></td>
-               
-            </tr>
-          
-        }
-        
-    </tbody>
-    
-</table>
+<div class="row">
+    <div class="col-lg-10">
+        <h2>Danh sách kệ sách</h2>
+        <button type="button" style="margin-bottom: 11px;float: right;" class="btn btn-primary"><a class="button_a" href="@Url.Action("Create")">create</a></button>
+
+
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Vị trí</th>
+                    <th scope="col">Tên kệ</th>
+                    <th scope="col">Ghi chú</th>
+                    <th scope="col">Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in ks)
+            {
+                i++;
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.TenKe</td>
+                        <td>@item.ViTri</td>
+                        <td>@item.GhiChu </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-primary">
+                                <a class="color-white"  href="@Url.Action("Edit", new { id = item.Id })">
+                                    Sửa
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                            </button>|
+                            <button type="button" class="btn btn-outline-danger">
+                                <a class="button_a" onclick="DeleteItem('@item.Id','@item.TenKe')">
+                                    Xóa
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+
+        </table>
+    </div>
+
+</div>
+
 @section scripts{
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        
-        function DeleteItem(Id,name) {
+
+        function DeleteItem(Id, name) {
 
             swal({
-                title: " bạn có thật sự muôn xóa "+ name +"",
+                title: " bạn có thật sự muôn xóa " + name + "",
                 text: "Bạn không thể khôi phục lại sau khi xóa!",
                 type: "warning",
                 showCancelButton: true,
