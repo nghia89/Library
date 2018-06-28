@@ -4,16 +4,14 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var ks = ViewBag.ListKeSach;
     var i = 0;
-    <style>
-        .color-white:hover{color:white;}
-    </style>
+
 }
 
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="row">
     <div class="col-lg-10">
         <h2>Danh sách kệ sách</h2>
-        <button type="button" style="margin-bottom: 11px;float: right;" class="btn btn-primary"><a class="button_a" href="@Url.Action("Create")">create</a></button>
+        <button type="button" style="margin-bottom: 11px;float: right;" class="btn btn-primary"><a class="button_a color-white" href="@Url.Action("Create")">create</a></button>
 
 
         <table class="table table-hover table-bordered">
@@ -42,7 +40,7 @@
                                     Sửa
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a>
-                            </button>|
+                            </button> |
                             <button type="button" class="btn btn-outline-danger">
                                 <a class="button_a" onclick="DeleteItem('@item.Id','@item.TenKe')">
                                     Xóa
