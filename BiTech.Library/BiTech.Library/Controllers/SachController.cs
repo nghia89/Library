@@ -1,6 +1,5 @@
 ﻿using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
-using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static BiTech.Library.Helpers.Tool;
 
 namespace BiTech.Library.Controllers
 {
@@ -20,17 +20,17 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            
+
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);            
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             KeSachLogic _KeSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ListBooks model = new ListBooks();
 
             var list = _SachLogic.getAllSach();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 var nxb = _NhaXuatBanLogic.getById(item.IdNhaXuatBan);
                 var TL = _TheLoaiSachLogic.getById(item.IdTheLoai);
@@ -38,20 +38,20 @@ namespace BiTech.Library.Controllers
 
                 model.Books.Add(new BookView()
                 {
-                    Id            = item.Id,
-                    GiaSach       = item.GiaSach.ToString("0.##"),
-                    IdDauSach     = item.IdDauSach,
-                    KeSach        = item.IdKeSach, //_KeSachLogic.GetKeSach(item.IdKeSach).Name
-                    LinkBiaSach   = item.LinkBiaSach,
-                    MaKiemSoat    = item.MaKiemSoat,
-                    NgonNgu       = item.NgonNgu.ToString(),
-                    NamXuatBan    = item.NamSanXuat,
+                    Id = item.Id,
+                    GiaSach = item.GiaSach.ToString("0.##"),
+                    IdDauSach = item.IdDauSach,
+                    KeSach = item.IdKeSach, //_KeSachLogic.GetKeSach(item.IdKeSach).Name
+                    LinkBiaSach = item.LinkBiaSach,
+                    MaKiemSoat = item.MaKiemSoat,
+                    NgonNgu = item.NgonNgu.ToString(),
+                    NamXuatBan = item.NamSanXuat,
                     SoLuongConLai = item.SoLuong,
-                    SoLuongTong   = item.SoLuong,
-                    TenSach       = item.TenSach,
-                    TheLoai       = _TheLoaiSachLogic.getById(item.IdTheLoai).TenTheLoai,
-                    NhaXuatBan    = _NhaXuatBanLogic.getById(item.IdNhaXuatBan).Ten,
-                    TomTat        = item.TomTat
+                    SoLuongTong = item.SoLuong,
+                    TenSach = item.TenSach,
+                    TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai).TenTheLoai,
+                    NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan).Ten,
+                    TomTat = item.TomTat
                 });
             }
 
@@ -102,13 +102,6 @@ namespace BiTech.Library.Controllers
                 ViewBag.ListNXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
                 ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
 
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    model.FileImageCover.InputStream.CopyTo(memoryStream);
-
-                    //memoryStream
-                }
-
                 Sach s = new Sach()
                 {
                     TenSach = model.TenSach,
@@ -123,15 +116,46 @@ namespace BiTech.Library.Controllers
                     NgonNgu = model.NgonNgu,
                     NamSanXuat = model.NamSanXuat,
                     GiaSach = model.GiaSach,
-                    LinkBiaSach = model.LinkBiaSach,
-                    TomTat = model.TomTat
+                    TomTat = model.TomTat,
+                    LinkBiaSach = "",
+                    SoLuong = 0,
+                    CreateDateTime = DateTime.Now
                 };
-                _SachLogic.ThemSach(s);
+                string id = _SachLogic.ThemSach(s);
+
+                try
+                {
+                    string physicalWebRootPath = Server.MapPath("~/");
+
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.BookCovers) + id;
+
+                    var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, Guid.NewGuid() + Path.GetExtension(model.FileImageCover.FileName));
+                    string location = Path.GetDirectoryName(uploadFileName);
+
+                    if (!Directory.Exists(location))
+                    {
+                        Directory.CreateDirectory(location);
+                    }
+
+                    using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                    {
+                        model.FileImageCover.InputStream.CopyTo(fileStream);
+
+                        var book = _SachLogic.GetById(id);
+                        book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "./").Replace(@"\",@"/").Replace(@"//",@"/");
+                        _SachLogic.Update(book);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
                 return RedirectToAction("Index");
             }
             return View(model);
         }
-      
+
         public ActionResult Sua(string id)
         {
             #region  Lấy thông tin người dùng
