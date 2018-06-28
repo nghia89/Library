@@ -47,12 +47,14 @@ namespace BiTech.Library.Models
 
         [Required]
         public double GiaSach { get; set; }
-
-        [Required]
+        
         public string LinkBiaSach { get; set; }
 
         [Required]
         public string TomTat { get; set; }
+
+        [Required]
+        public HttpPostedFileBase FileImageCover { get; set; }
 
     }
 

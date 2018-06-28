@@ -4,6 +4,7 @@ using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -100,6 +101,14 @@ namespace BiTech.Library.Controllers
                 ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
                 ViewBag.ListNXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
                 ViewBag.ListTT = _TrangThaiSachLogic.GetAll();
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    model.FileImageCover.InputStream.CopyTo(memoryStream);
+
+                    //memoryStream
+                }
+
                 Sach s = new Sach()
                 {
                     TenSach = model.TenSach,

@@ -8,7 +8,7 @@
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 @*<script src="~/bower_components/jquery/dist/jquery.js"></script>*@
 <div ng-app="LibraryApp" class="container-lib clearfix">
-    @using (Html.BeginForm("Them", "Sach", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("Them", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
     {
 
         <div class="form-group row">
@@ -62,11 +62,11 @@
         </div>
 
         @*<div class="form-group row">
-            <label class="col-form-label col-sm-3" for="hinh">Hình:</label>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.Hinh, new { @class = "form-control", @id = "hinh" })
-            </div>
-        </div>*@
+                <label class="col-form-label col-sm-3" for="hinh">Hình:</label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Hinh, new { @class = "form-control", @id = "hinh" })
+                </div>
+            </div>*@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3" for="sotrang">Số Trang:</label>
@@ -96,25 +96,35 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        @*<div class="form-group row">
             <label class="col-form-label col-sm-3" for="LinkBiaSach">Link Bìa Sách:</label>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.LinkBiaSach, new { @class = "form-control", @id = "LinkBiaSach" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3" for="TomTat">Tóm Tắt:</label>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TomTat, new { @class = "form-control", @id = "TomTat" })
+                @Html.ValidationMessageFor(m => m.TomTat)
             </div>
         </div>
-        
+
         <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="TomTat">Bìa Sách:</label>
+            <div class="col-sm-9">
+                <img id="blah" src="../Assets/Images/Sana Twice 1996.jpg" alt="your image" style="width:200px" />
+                @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
+                @Html.ValidationMessageFor(m => m.FileImageCover)
+            </div>
+        </div>
+
+        <div class="form-group row box_temp_lg">
             <label class="col-form-label col-sm-3"></label>
             <div class="col-sm-9">
                 <input type="submit" class="btn btn-primary" name="btnThemSach" value="Thêm Mới" />
-                <input type="button" onclick="goBack()" class="btn btn-default"value="Trở lại" />
+                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
             </div>
         </div>
         <div class="form-group row box_temp_lg">
@@ -122,7 +132,7 @@
             <div class="col-sm-9">
             </div>
         </div>
-        
+
     }
 </div>
 
@@ -152,6 +162,23 @@
             form.removeData('unobtrusiveValidation');
             $.validator.unobtrusive.parse(form);
         }
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#FileImageCover").change(function () {
+            readURL(this);
+        });
 
         //$(document).ready(function () {
         //    setInterval(function () {
