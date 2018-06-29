@@ -8,19 +8,36 @@
 <div class="container">
     @using (Html.BeginForm("Sua", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
     {
-        <table>
-            <thead>
-                <tr>
-                    <th>Tên Nhà Xuất Bản</th>
-                    <th>@Html.TextBoxFor(m => m.Ten)</th>
-                </tr>
-                <tr>
-                    <th>Ghi Chú</th>
-                    <th>@Html.TextBoxFor(m => m.GhiChu)</th>
-                </tr>
-            </thead>
-        </table>
-            <input type="submit" name="btnSuaNXB" value="Sửa" />
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Sửa thông tin</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <label class="control-label col-lg-2">Tên Nhà Xuất Bản</label>
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-lg-2">Ghi Chú</label>
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GhiChu, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Sửa" class="btn btn-default" />
+                </div>
+            </div>
+        </div>   
     }
 </div>
 
