@@ -9,7 +9,7 @@
 <script src="~/Scripts/LibraryAngularJS.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-
+<script src="~/Scripts/jquery-1.12.4.js"></script>
 <div class="Title">Tạo Phiếu Nhập Sách</div>
 <div ng-app="LibraryApp" class="container clearfix">
     @using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -30,6 +30,37 @@
                             <div class="form-group">
                                 <input id="idSach" name="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="form-control">
                             </div>
+                            <script type="text/javascript" language="javascript">
+            $(document).ready(function () {
+                $("#idSach").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "/PhieuNhapSach/AutoComplete",
+
+                            dataType: "json",
+                            method: "post",
+                            data: { a: request.term },
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { label: item.IdDauSach, value: item.IdDauSach };
+                                }))
+
+                            }
+                        })
+                    },
+                    messages: {
+                        noResults: "", results: ""
+                    }
+                });
+            })
+
+    @*$(document).ready(function () {
+        $('#IdDauSach').autocomplete({
+            source: '@Url.Action("Autocomplete")'
+        });
+    })*@
+                            </script>
+
                             <div class="form-group">
                                 <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control">
                                
