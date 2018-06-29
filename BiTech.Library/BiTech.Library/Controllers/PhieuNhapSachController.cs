@@ -133,7 +133,7 @@ namespace BiTech.Library.Controllers
                         _ChiTietNhapSachLogic.Insert(ctns);
                         {
                             var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctns.IdTinhtrang);
-                            if(sltt != null)
+                            if (sltt != null)
                             {
                                 sltt.SoLuong += ctns.soLuong;
                                 _SoLuongSachTrangThaiLogic.Update(sltt);
@@ -170,7 +170,7 @@ namespace BiTech.Library.Controllers
             #endregion
             SachLogic _SachLogic =
                 new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = 
+            TrangThaiSachLogic _TrangThaiSachLogic =
                 new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             JsonResult result = new JsonResult();
@@ -195,7 +195,24 @@ namespace BiTech.Library.Controllers
             return result;
         }
 
-       
-    }
+        //code	   
+        [HttpPost]
+        public ActionResult Autocomplete(string a)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            SachLogic _SachLogic =
+               new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var ListTD = (from N in _SachLogic.getAllSach()
+                          where N.IdDauSach.StartsWith(a)
+                          select new { N.IdDauSach });
+
+            return Json(ListTD, JsonRequestBehavior.AllowGet);
+        }
+    } 
 
 }
