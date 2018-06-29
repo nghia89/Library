@@ -24,6 +24,16 @@ namespace BiTech.Library.BLL.DBLogic
             return _theloaiSachEngine.GetAllTheLoaiSach();
         }
 
+        public List<TheLoaiSach> GetAllTheLoaiSachRoot()
+        {
+            return _theloaiSachEngine.GetTheTheLoaiSachRoot();
+        }
+
+        public List<TheLoaiSach> GetAllTheLoaiSachChildren(string idParent)
+        {
+            return _theloaiSachEngine.GetTheTheLoaiSachChildren(idParent);
+        }
+
         public string ThemTheLoaiSach(TheLoaiSach TL)
         {
             return _theloaiSachEngine.Insert(TL);

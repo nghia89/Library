@@ -123,8 +123,32 @@ namespace BiTech.Library.Controllers
                 TenTheLoai = TLS.TenTheLoai,
                 MoTa = TLS.MoTa,
             };
-            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
+            var list_root = _TheLoaiSachLogic.GetAllTheLoaiSachRoot();
+            List<TheLoaiSach> ListTheLoai = new List<TheLoaiSach>();
+            foreach(TheLoaiSach item in list_root)
+            {
+                ListTheLoai.Add(item);
+                ListTheLoai.AddRange(ListTheLoaiChildren(item, _TheLoaiSachLogic));
+            }
+
+            ViewBag.ListTheLoai = ListTheLoai;
             return View(VM);
+        }
+
+        public List<TheLoaiSach> ListTheLoaiChildren(TheLoaiSach _TheLoaiSach, TheLoaiSachLogic _TheLoaiSachLogic)
+        {
+            List<TheLoaiSach> kq = new List<TheLoaiSach>();
+            var list = _TheLoaiSachLogic.GetAllTheLoaiSachChildren(_TheLoaiSach.Id);
+            if (list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    item.TenTheLoai = " " + item.TenTheLoai;
+                    kq.Add(item);
+                    kq.AddRange(ListTheLoaiChildren(item, _TheLoaiSachLogic));
+                }
+            }
+            return kq;
         }
 
         [HttpPost]
