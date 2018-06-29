@@ -10,7 +10,7 @@
     @using (Html.BeginForm("Edit", "LyDoXuat", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
-            <label class="col-form-label col-sm-3" for="tensach">Tên Tác Giả:</label>
+            <label class="col-form-label col-sm-2" for="tensach">Tên Tác Giả:</label>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.LyDo, new { @class = "form-control", @id = "LyDo" })
             </div>

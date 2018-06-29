@@ -1,10 +1,11 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
 <header id="topbar">
-    <h5>@Html.ActionLink("Create", "_CreatePhieuMuon", "PhieuMuon")</h5>
+    <h5>@Html.ActionLink("Thêm mới", "_CreatePhieuMuon", "PhieuMuon")</h5>
 </header>
 <h5 class="text-success">@ViewBag.Success</h5>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>

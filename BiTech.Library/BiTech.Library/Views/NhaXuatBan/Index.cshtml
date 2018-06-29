@@ -24,25 +24,27 @@
                         <td>@item.Ten</td>
                         <td>@item.GhiChu</td>
                         <td>
-                            <button type="button" class="btn btn-outline-primary">
-                                <a class="color-white" href="@Url.Action("Sua",new { id = item.Id})">Sửa
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                            </button>
-                      
-                             | 
-                            <button type="button" class="btn btn-outline-danger">
-                                <a class="color-white" href="@Url.Action("Xoa",new { id = item.Id})"> Xóa
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </a>
-                            </button>
-                         
+
+                            <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua",new { id = item.Id})">
+                                Sửa
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+
+
+                            |
+
+                            <a class="color-white btn btn-outline-danger" href="@Url.Action("Xoa",new { id = item.Id})">
+                                Xóa
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+
+
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        </div>
     </div>
-   
+</div>
+
 
