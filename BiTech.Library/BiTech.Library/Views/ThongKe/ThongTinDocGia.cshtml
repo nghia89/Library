@@ -1,0 +1,126 @@
+﻿@model BiTech.Library.Models.ThongKeViewModel
+@using BiTech.Library.DTO
+@{
+    ViewBag.Title = "ThongTinDocGia";
+}
+
+
+<h3 class="text-info">Thông tin đọc giả</h3>
+
+
+<div class="container">
+    <img src="~/Content/Images/avatar.png" alt="Hình độc giả" style="width:150px;height:150px;" />
+    @*<img src=@Model.HinhChanDung alt="Hình độc giả" style="width:150px;height:150px;" />*@
+    <div class="row">
+        <div class="col-md-2">Tên đọc giả</div>
+        <div class="col-md-5">@Model.TenDocGia</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Số điện thoại</div>
+        <div class="col-md-5">@Model.SDT</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">CMND</div>
+        <div class="col-md-5">@Model.CMND</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Địa chỉ</div>
+        <div class="col-md-5">@Model.DiaChi</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">IdChucVu</div>
+        <div class="col-md-5">@Model.IdChucVu</div>
+    </div>
+</div>
+<hr />
+<h3 class="text-info">Danh sách sách chưa trả</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tên sách</th>
+            <th>Số lượng</th>
+            <th>Ngày mượn</th>
+            <th>Hạn phải trả</th>
+            <th>Trạng thái</th>
+            <th>Gia hạn</th>
+            <th>Tiền phạt</th>
+        </tr>
+    </thead>
+    @{ int i = 0; int j = 0; int dem = 1;}
+    @foreach (var item in Model.ListPhieuMuon)
+    {
+        foreach (var sach in Model.ListChaCuaSach[i])
+        {
+            <tbody>
+                <tr>
+                    <td>@dem.ToString()</td>
+                    <td>@sach.TenSach</td>
+                    <td>@Model.ListSoLuong[j] cuốn</td>
+                    <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                    <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+
+                    @{
+                        DateTime? ngayTra = item.NgayTra;
+                        string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
+                    }
+                    @if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001") == false)
+                    {
+                        <td>@ngayTraFormat</td>
+                        if (item.SoNgayGiaoDong != null)
+                        {
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
+                        }
+                        else
+                        {
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
+                        }
+                    }
+                    else
+                    {
+                        if (item.SoNgayGiaoDong != null && item.SoNgayGiaoDong < 30)
+                        {
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                        }
+                        else
+                        {
+                            if (item.SoNgayGiaoDong == null)
+                            {
+                                var ngayTre = DateTime.Now - item.NgayPhaiTra;
+                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
+                            }
+                            else
+                            {
+                                <td class="@item.TrangThai.ToString()">Còn @item.SoNgayGiaoDong.ToString() ngày</td>
+                            }
+                        }
+                    }
+
+                    <td>GiaHan</td>
+                    <td>TienPhat</td>
+                </tr>
+            </tbody>
+                                { j++; i++; dem++; }
+                            }
+                        }
+
+</table>
+
+@Html.ActionLink("Xem lịch sử mượn sách", "LichSuMuonSach", new { page = 1, id = @ViewBag.IdThanhVien }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Trở về", "DanhSachChuaTra", new { page = @ViewBag.Page }, new { @class = "btn btn-primary" })
+
+<style>
+    .ChuaTra {
+        background: #ff9a9a;
+        color: #000;
+    }
+
+    .GanTra {
+        background: #b7dbff;
+        color: #000;
+    }
+</style>

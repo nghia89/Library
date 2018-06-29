@@ -30,5 +30,8 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(_ => _.IdUser == idUser).ToList();
         }
         //public List<PhieuMuon> GetByDate()
+
+        #region Tai
+        #endregion
     }
 }

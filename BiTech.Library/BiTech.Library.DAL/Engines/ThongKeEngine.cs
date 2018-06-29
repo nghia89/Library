@@ -19,7 +19,8 @@ namespace BiTech.Library.DAL.Engines
 
         public List<PhieuMuon> ListPhieuMuon()
         {
-            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted).SortByDescending(x=>x.NgayPhaiTra).ToList();
+            // return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted).SortByDescending(x=>x.NgayPhaiTra).ToList();
+            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted).ToList();
         }      
     }
 }
