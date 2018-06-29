@@ -102,13 +102,13 @@
             <div class="col-sm-9">
                 <input type="submit" value="Cập nhật" class="btn btn-primary" />
                 <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaCauHoi()" />
-                <input type="button" value="Trở lại" onclick="goBack()" class="btn btn-default"/>
+                <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default"/>
             </div>
         </div>
     }
 
 </div>
-
+<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 @section scripts{
     <script>
         function XoaCauHoi() {

@@ -25,12 +25,37 @@ namespace BiTech.Library.Controllers
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             var list = _TheLoaiSachLogic.GetAllTheLoaiSach();
-            ViewBag.ListTheLoai = list;
+            List<TheLoaiSachViewModels> list_viewmode = new List<TheLoaiSachViewModels>();
+            foreach(TheLoaiSach item in list)
+            {
+                TheLoaiSachViewModels Theloai = new TheLoaiSachViewModels();
+                Theloai.Id = item.Id;
+                Theloai.IdParent = item.IdParent;
+                Theloai.TenTheLoai = item.TenTheLoai;
+                if(item.IdParent != null)
+                {
+                    var parent = _TheLoaiSachLogic.getById(item.IdParent);
+                    if(parent != null)
+                        Theloai.TenTheLoaiParent = parent.TenTheLoai;
+                }
+                Theloai.MoTa = item.MoTa;
+                list_viewmode.Add(Theloai);
+            }
+            ViewBag.ListTheLoai = list_viewmode;
             return View();
         }
 
         public ActionResult Them()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
+
             return View();
         }
 
@@ -47,10 +72,11 @@ namespace BiTech.Library.Controllers
 
             TheLoaiSach TLS = new TheLoaiSach()
             {
+                IdParent = model.IdParent,
                 TenTheLoai = model.TenTheLoai,
                 MoTa = model.MoTa
             };
-
+            
             _TheLoaiSachLogic.ThemTheLoaiSach(TLS);
             return RedirectToAction("Index");
         }
@@ -93,9 +119,11 @@ namespace BiTech.Library.Controllers
             TheLoaiSachViewModels VM = new TheLoaiSachViewModels()
             {
                 Id = TLS.Id,
+                IdParent = TLS.IdParent,
                 TenTheLoai = TLS.TenTheLoai,
                 MoTa = TLS.MoTa,
             };
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
             return View(VM);
         }
 
@@ -111,6 +139,7 @@ namespace BiTech.Library.Controllers
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             TheLoaiSach TLS = _TheLoaiSachLogic.getById(model.Id);
+            TLS.IdParent = model.IdParent;
             TLS.TenTheLoai = model.TenTheLoai;
             TLS.MoTa = model.MoTa;
             _TheLoaiSachLogic.SuaTheLoaiSach(TLS);
