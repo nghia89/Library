@@ -17,17 +17,21 @@ namespace BiTech.Library.DAL.Engines
             _DatabaseCollection = _Database.GetCollection<PhieuMuon>(tableName);
         }
         /// <summary>
-        /// Get all PhieuMuon object 
+        /// Get all PhieuMuon object _ chưa trả
         /// </summary>
         /// <returns></returns>
         public List<PhieuMuon> GetAll()
         {
-            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted).ToList();            
+            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted && _.NgayTra == null).ToList();            
         }   
-
+        /// <summary>
+        /// Get list PhieuMuon chưa trả
+        /// </summary>
+        /// <param name="idUser"></param>
+        /// <returns></returns>
         public List<PhieuMuon> GetByIdUser(string idUser)
         {
-            return _DatabaseCollection.Find(_ => _.IdUser == idUser).ToList();
+            return _DatabaseCollection.Find(_ => _.IdUser == idUser && _.NgayTra == null).ToList();
         }
         //public List<PhieuMuon> GetByDate()
 

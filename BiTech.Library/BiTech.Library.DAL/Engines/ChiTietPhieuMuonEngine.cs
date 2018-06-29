@@ -50,5 +50,15 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.IdSach == idBook).ToList();
         }
+        /// <summary>
+        /// Get list by idBook and idPM
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <param name="idPM"></param>
+        /// <returns></returns>
+        public ChiTietPhieuMuon GetByIdBook_IdPM(string idBook, string idPM)
+        {
+            return _DatabaseCollection.Find(_ => _.IdPhieuMuon == idPM && _.IdSach == idBook).FirstOrDefault();
+        }
     }
 }

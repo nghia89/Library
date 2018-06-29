@@ -13,6 +13,7 @@ namespace BiTech.Library.Controllers
     //[Authorize]
     public class PhieuMuonController : BaseController
     {
+        public static int SoNgayPhaiTra = 15;
         private PhieuMuonLogic _PhieuMuonLogic;
         private ChiTietPhieuMuonLogic _ChiTietPhieuMuonLogic;
         private PhieuTraLogic _PhieuTraLogic;
@@ -85,7 +86,14 @@ namespace BiTech.Library.Controllers
             ViewBag.UnSuccess = TempData["UnSuccess"];
             ViewBag.SoLuong = TempData["SoLuong"];
             ViewBag.Date = TempData["Date"];
-            return View();
+            
+            PhieuMuonModelView model = new PhieuMuonModelView()
+            {
+                NgayMuon = DateTime.Now,
+                NgayPhaiTra = DateTime.Now.AddDays(SoNgayPhaiTra)
+                
+            };
+            return View(model);
         }
         /// <summary>
         /// Hàm kiểm tra số lượng mượn _ số lượng hiện có
@@ -97,8 +105,20 @@ namespace BiTech.Library.Controllers
         public bool Validate(string idSach, int soLuong)
         {
             Sach sach = _SachLogic.GetByIdBook(idSach);
-            List<ChiTietPhieuMuon> ctpm = _ChiTietPhieuMuonLogic.GetByIdBook(idSach);
-            return soLuong <= (sach.SoLuong - ctpm.Count) ? true : false;
+            List<ChiTietPhieuMuon> ctpm = _ChiTietPhieuMuonLogic.GetByIdBook(idSach); // so luong sach dc muon
+            int slSachMuon = 0;
+            int slSachTra = 0;
+            foreach (var item in ctpm) //so luong sach muon
+            {
+                slSachMuon += item.SoLuong;
+            }
+            List<ChiTietPhieuTra> ctpt = _ChiTietPhieuTraLogic.GetByIdBook(idSach); // so luong sach da tra
+            foreach(var item in ctpt) //so luong sach tra
+            {
+                slSachTra += item.SoLuong;
+            }
+            //(tong - (muon -tra) = kha dung
+            return soLuong <= (sach.SoLuong - (slSachMuon - slSachTra)) ? true : false;
         }
         /// <summary>
         /// Insert vào 2 bảng PhieuMuon và ChiTietPhieuMuon và cập nhật lại số lượng sách bảng Sach
@@ -111,12 +131,12 @@ namespace BiTech.Library.Controllers
             try
             {
                 //Fake du lieu trang thai sach
-                TrangThaiSach tts = new TrangThaiSach()
-                {
-                    TenTT = "Còn mới",
-                };
+                //TrangThaiSach tts = new TrangThaiSach()
+                //{
+                //    TenTT = "Còn mới",
+                //};
 
-                var result = _TrangThaiSachLogic.Insert(tts);
+                //var result = _TrangThaiSachLogic.Insert(tts);
                 //
 
                 if (viewModel.NgayMuon < viewModel.NgayPhaiTra) //ngày mượn phải nho hơn ngày trả
@@ -124,20 +144,38 @@ namespace BiTech.Library.Controllers
                     PhieuMuon modelPM = new PhieuMuon()
                     {
                         IdUser = viewModel.IdUser,
-                        NgayMuon = DateTime.Now,
+                        NgayMuon = viewModel.NgayMuon,
                         NgayPhaiTra = viewModel.NgayPhaiTra,
                         NgayTra = null,
                         TrangThaiPhieu = EPhieuMuon.ChuaTra, // mac dinh - Chua Tra
                         CreateDateTime = DateTime.Now
                     };
                     //Kiểm tra số lượng
-                    foreach (var item in viewModel.MaSach)
+
+                    List<String> query = new List<String>(); //List tam de so sanh
+                    int soLuong = 0;
+                    //lay so luong tung cuon sach
+                    foreach (var idSach in viewModel.MaSach)
                     {
-                        if (!Validate(item, 1)) //kiem tra tung ma sach
+                        if (query.Contains(idSach))
+                            continue;                        
+                        for (int i = 0; i < viewModel.MaSach.Count; i++)
+                        {
+                            if (idSach == viewModel.MaSach[i])
+                            {
+                                ++soLuong;
+                            }
+                            if(!query.Contains(idSach))
+                                query.Add(idSach);
+                        }
+
+                        if (!Validate(idSach, soLuong)) //kiem tra tung ma sach _ 
                         {
                             TempData["SoLuong"] = "Số lượng sách mượn không phù hợp";
+                            soLuong = 0;
                             return View();
                         }
+                        soLuong = 0;
                     }
 
                     //Insert bảng PhieuMuon
@@ -152,20 +190,29 @@ namespace BiTech.Library.Controllers
                             CreateDateTime = DateTime.Now,
                         };
                         try
-                        {
-                            int i = 0;
-                            foreach (string lstIdSach in viewModel.MaSach)
+                        {                         
+                            query.Clear();
+                            //lay so luong tung cuon sach
+                            foreach (var idSach in viewModel.MaSach)
                             {
-                                for(int j = 0; j<viewModel.MaSach.Count; j++)
+                                if (query.Contains(idSach))
+                                    continue;
+                                for (int i = 0; i < viewModel.MaSach.Count; i++)
                                 {
-                                    if (lstIdSach == viewModel.MaSach[j])
-                                        i++;
-                                }
-                                modelCTPM.SoLuong = i; //so luong muon cua Ma Sach
-                                modelCTPM.IdSach = lstIdSach; // Gắn mã sách vào 1 chitietphieumuon
+                                    if (idSach == viewModel.MaSach[i])
+                                    {
+                                        ++soLuong;
+                                    }
+                                    if (!query.Contains(idSach))
+                                        query.Add(idSach);
+                                }                                
+                         
+                                modelCTPM.SoLuong = soLuong; //so luong muon cua Ma Sach
+                                modelCTPM.IdSach = idSach; // Gắn mã sách vào 1 chitietphieumuon
                                                               //Insert bảng ChiTietPhieuMuon
+                                modelCTPM.Id = "";
                                 string idCTPM = _ChiTietPhieuMuonLogic.Insert(modelCTPM);
-
+                                soLuong = 0;
 
                                 //bool result = false;
 
@@ -181,10 +228,10 @@ namespace BiTech.Library.Controllers
 
                                 if (!String.IsNullOrEmpty(idCTPM)) //true
                                 {
-                                    TempData["Success"] = "Tạo phiếu mượn thành công";
-                                    return RedirectToAction("Index", "PhieuMuon");
-                                }
+                                    TempData["Success"] = "Tạo phiếu mượn thành công";                                   
+                                }                                
                             }
+                            return RedirectToAction("Index", "PhieuMuon");
                         }
                         catch (Exception ex)
                         {
@@ -285,6 +332,11 @@ namespace BiTech.Library.Controllers
             return View();
         }
         #region _Other
+        /// <summary>
+        /// Lấy thông tin sách thông qua idBook
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult _GetBookItemById(string idBook)
         {
@@ -297,18 +349,7 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
-
-        //public JsonResult _Remove(int index)
-        //{
-        //    JsonResult result = new JsonResult();
-        //    if (!String.IsNullOrWhiteSpace(index.ToString()))
-        //    {
-        //        lstSach.RemoveAt(index);
-        //        result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-        //    }
-        //    return result ;
-        //}
-
+        
         public JsonResult GetName(string idUser)
         {
             JsonResult result = new JsonResult();
@@ -322,19 +363,62 @@ namespace BiTech.Library.Controllers
             return result;
         }
 
+        public JsonResult GetChiTietPhieuJSon(string idPM, int soLuong)
+        {
+            JsonResult result = new JsonResult();
+            var chiTietPM_DTO = _ChiTietPhieuMuonLogic.GetByIdPhieuMuon(idPM);
+            List < ChiTietPMViewModel > lstCT= new List<ChiTietPMViewModel>();
+            ChiTietPMViewModel chiTietModel;
+            foreach (var item in chiTietPM_DTO)
+            {                
+                int a = TempData["SoLuong"] == null ? soLuong : Convert.ToInt32(TempData["SoLuong"].ToString());
+                if(TempData["SoLuong"] == null)
+                    TempData["SoLuongView"] = null;
+                chiTietModel = new ChiTietPMViewModel()
+                {
+                    IdPM = item.IdPhieuMuon,
+                    MaSach = item.IdSach,
+                    TenSach = _SachLogic.GetByIdBook(item.IdSach).TenSach,
+                    SoLuong = TempData["SoLuongView"] == null ?  item.SoLuong - a : (int.Parse(TempData["SoLuongView"].ToString()) - a),
+                };
+                if (TempData["SoLuong"] != null)
+                    TempData["SoLuongView"] = item.SoLuong - a;
+
+                if (chiTietModel.SoLuong <= 0)
+                {
+                    lstCT.Remove(chiTietModel);
+                }
+                else
+                {
+                    lstCT.Add(chiTietModel);
+                }
+                
+                //Neu so luong  = 0 => k hien thi tren giao dien             
+                
+            }
+            if (!String.IsNullOrWhiteSpace(idPM))
+            {
+                result.Data = lstCT; 
+                //lstSach.Add(idBook); // add item to list to get list idSach - inset chitietphieumuon
+                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            }
+            return result;
+        }
         #endregion
 
         public ActionResult ChiTietPhieuMuon(string id)
         {
             List<ChiTietPhieuMuon> lstChiTietPM = _ChiTietPhieuMuonLogic.GetByIdPhieuMuon(id); //Lấy danh sách chitiet thông qua id PhieuMuon
             List<ChiTietPMViewModel> modelChiTietPM = new List<ChiTietPMViewModel>();
-            ChiTietPMViewModel _modelChiTietPM = new ChiTietPMViewModel();
+            ChiTietPMViewModel _modelChiTietPM;
 
             var phieuMuon = _PhieuMuonLogic.GetById(id); //id của phiếu mượn
-            _modelChiTietPM.NgayMuon = phieuMuon.NgayMuon;
+           
 
             foreach (var item in lstChiTietPM)
             {
+                _modelChiTietPM = new ChiTietPMViewModel();
+                _modelChiTietPM.NgayMuon = phieuMuon.NgayMuon;
                 _modelChiTietPM.IdPM = item.IdPhieuMuon; //idPhieuMuon
                 _modelChiTietPM.MaSach = item.IdSach;
 

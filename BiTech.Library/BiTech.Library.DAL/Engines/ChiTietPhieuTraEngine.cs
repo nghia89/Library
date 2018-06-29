@@ -27,10 +27,22 @@ namespace BiTech.Library.DAL.Engines
 
 
         #region Tai
+		
         public List<ChiTietPhieuTra> GetCTPTByIdPT(string idPhieuTra)
         {
             return _DatabaseCollection.Find(_ => _.IdPhieuTra == idPhieuTra).ToList();
         }
+		
         #endregion
+
+        /// <summary>
+        /// Get by ChiTietPhieuTra by IdBook
+        /// </summary>
+        /// <returns></returns>
+        public List<ChiTietPhieuTra> GetByIdBook(string IdBook)
+        {
+            return _DatabaseCollection.Find(_ => _.IdSach == IdBook ).ToList();
+        }
+		
     }
 }

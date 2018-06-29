@@ -19,7 +19,7 @@ namespace BiTech.Library.BLL.DBLogic
             _PhieuMuonEngine = new PhieuMuonEngine(new Database(connectionString, dbName), TableName);
         }
         /// <summary>
-        /// Get all PhieuMuon object 
+        /// Get all PhieuMuon object _ chưa trả
         /// </summary>
         /// <returns></returns>
         public List<PhieuMuon> GetAll()
@@ -31,7 +31,7 @@ namespace BiTech.Library.BLL.DBLogic
             return _PhieuMuonEngine.GetById(id);
         }
         /// <summary>
-        /// get by UserID
+        /// get by UserID _ chưa trả
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

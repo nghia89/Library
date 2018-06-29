@@ -6,121 +6,102 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<script src="~/bower_components/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
 <h5 class="text-danger">@ViewBag.SoLuong</h5>
 <h5 class="text-danger">@ViewBag.Date</h5>
 <hr />
-
-@using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Tạo phiếu mượn.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", onchange = "OnChangeEvent();", @id = "idUser" })
-        </div>
-        @Html.ValidationMessageFor(m => m.IdUser)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control", @readonly = "readonly", @id = "idTen" })
-        </div>
-    </div>
-
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
+<div ng-app="LibraryApp" class="container">
+    @using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Tạo phiếu mượn.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", onchange = "OnChangeEvent();", @id = "idUser" })
             </div>
-        </div>*@
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.SoLuong, new { @class = "col-md-2 control-label" })
+            @Html.ValidationMessageFor(m => m.IdUser)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control", @readonly = "readonly", @id = "idTen" })
             </div>
-            @Html.ValidationMessageFor(m => m.SoLuong)
-        </div>*@
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayMuon, new { @class = "form-control datepicker" })
         </div>
-        @Html.ValidationMessageFor(m => m.NgayMuon)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayPhaiTra, new { @class = "form-control datepicker" })
-        </div>
-        @Html.ValidationMessageFor(m => m.NgayPhaiTra)
-    </div>
 
-    <div class="form-group">
+        <div class="form-group">
+            @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.NgayMuon, "{0:d-MM-yyyy}", new { @class = "form-control datepicker", onchange = "OnChangeDayEvent();", @id = "ngayMuon"})
+            </div>
+            @Html.ValidationMessageFor(m => m.NgayMuon)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:d-MM-yyyy}", new { @class = "form-control datepicker", onchange = "OnChangeDayEvent();", @id = "ngayPhaiTra" })
+            </div>
+            @Html.ValidationMessageFor(m => m.NgayPhaiTra)
+        </div>
+
+        @* Nhập nhiều mã sách *@
+        <div class="form-group">
             @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control" })
-            </div>
-        </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Tạo mới" />
-        </div>
-    </div>
-    <hr />
+                <div ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2 w3-margin" style="max-width:400px;">
 
-    // ---------------------------------------------------
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.MaSach, new { @class = "form-control", @id = "maSach" })
-            </div>
-            @Html.ValidationMessageFor(m => m.MaSach)
-        </div>*@
+                    <div class="w3-container w3-light-grey w3-padding-16">
+                        <div class="w3-row w3-margin-top">
+                            <div class="w3-col s10">
+                                <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding">
+                            </div>
 
-    @*<input type="text" name="IP" id="maSach" />
+                            <div class="w3-col s2">
+                                <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
+                            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-              
+                        </div>
+                        <p class="w3-text-red">{{errortext}}</p>
+                    </div>
+
+                    <header class="w3-container w3-light-grey w3-padding-16">
+                        <h3>Danh sách mượn</h3>
+                    </header>
+
+                    <ul class="w3-ul">
+                        <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">{{s.IdDauSach}} - {{s.TenSach}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
+                    </ul>
+
+                    @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
+                    @*Hide idBook - post to controller*@
+                    <div ng-repeat="s in list">
+                        <input hidden="hidden" ng-cloak class="btn btn-default" name="MaSach" value="{{s.IdDauSach}}" />
+                    </div>
                 </div>
-                @Html.ValidationMessageFor(m => m.MaSach)
             </div>
+        </div>
 
-            <input type="button" value="Thêm" onclick="add_list_ajax()" />
-
-                <select id="lstValue" multiple>
-                    <option value="empty">
-                </select>
-
-                <input type="button" name="delete" value="Delete" onclick="deleteValue()" />*@
-
-    //------------------------------------------------
-
-
-
-    @*<div ng-app="bookList" ng-controller="myCtrl">
-            <ul>
-                <li ng-repeat="x in products">
-                    {{x}}
-                    <span ng-click="removeItem($index)">&times;</span>
-                </li>
-            </ul>
-            <input ng-model="addMe">
-            <button ng-click="addItem()">Add</button>
-            <p>{{errortext}}</p>
-        </div>*@
-}
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Tạo mới" />
+            </div>
+        </div>
+        <hr />
+    }
+</div>
 
 @section Scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
     <script>
         var i = 0;
         function add_list_ajax() {
@@ -137,7 +118,7 @@
                     AddOpt = new Option(data.TenSach, data.IdDauSach);
                     document.getElementById("lstValue").options[i++] = AddOpt;
                     $("#lstmaSach").add(data.TenSach)
-                    
+
                     //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
                     //$("#lstValue").append(kq);
                 },
@@ -175,18 +156,14 @@
             return true;
         }
 
-
-
-
         $(function () {
             $(".datepicker").datepicker({
                 showWeek: true,
-                dateFormat: "dd/mm/yy",
+                dateFormat: "dd-mm-yy",
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "-10:+1"
             }).attr('readonly', 'readonly');
-            //.attr('readonly', 'readonly')
         });
 
         function OnChangeEvent() {
@@ -211,50 +188,18 @@
             });
         }
 
+        function OnChangeDayEvent() {
+            var ngayPhaiTra = "";
+            var ngayMuon = "";
+            ngayMuon= $("#ngayMuon").val();
+            ngayPhaiTra = $("#ngayPhaiTra").val();
+            if (ngayPhaiTra >= ngayMuon) {
+                alert('Ngày phải trả cần lớn hơn ngày mượn');
+                $("#ngayPhaiTra").val("");
+            }
+        }
 
     </script>
-
-    @*<script>
-            var app = angular.module("bookList", []);
-            //
-                var i = 0;
-                function add_list_ajax() {
-                    var result = "";
-                    result = $("#maSach").val();
-                    console.log(result);
-                    $.ajax({
-                        type: "GET",
-                        url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
-                        data: "idBook=" + result,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        AddOpt = new Option(data.TenSach, data.IdDauSach);
-                        document.getElementById("lstValue").options[i++] = AddOpt;
-                        //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
-                        //$("#lstValue").append(kq);
-                    },
-                    error: function () { alert('False!'); }
-                });
-                }
-            //
-            app.controller("myCtrl", function ($scope) {
-                $scope.products = ["Milk", "Bread", "Cheese"];
-                $scope.addItem = function () {
-                    $scope.errortext = "";
-                    if (!$scope.addMe) { return; }
-                    if ($scope.products.indexOf($scope.addMe) == -1) {
-                        $scope.products.push($scope.addMe);
-                    } else {
-                        $scope.errortext = "The item is already in your shopping list.";
-                    }
-                }
-                $scope.removeItem = function (x) {
-                    $scope.errortext = "";
-                    $scope.products.splice(x, 1);
-                }
-            });
-        </script>*@
 }
 
 

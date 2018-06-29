@@ -31,6 +31,15 @@ namespace BiTech.Library.BLL.DBLogic
             return _ChiTietPhieuTraEngine.GetById(id);
         }
         /// <summary>
+        /// Get list ChiTietPhieuTra by IdBook
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<ChiTietPhieuTra> GetByIdBook(string idBook)
+        {
+            return _ChiTietPhieuTraEngine.GetByIdBook(idBook);
+        }
+        /// <summary>
         /// Insert a ChiTietPhieuTra object
         /// </summary>
         /// <param name="model"></param>
@@ -47,6 +56,10 @@ namespace BiTech.Library.BLL.DBLogic
         public bool Update(ChiTietPhieuTra model)
         {
             return _ChiTietPhieuTraEngine.Update(model);
+        }
+        public bool Remove(string id)
+        {
+            return _ChiTietPhieuTraEngine.Remove(id);
         }
     }
 }

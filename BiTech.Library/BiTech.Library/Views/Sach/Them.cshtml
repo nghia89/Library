@@ -10,7 +10,6 @@
 <div ng-app="LibraryApp" class="container-lib clearfix">
     @using (Html.BeginForm("Them", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
     {
-
         <div class="form-group row">
             <label class="col-form-label col-sm-3" for="tensach">Tên Sách:</label>
             <div class="col-sm-9">
@@ -47,7 +46,6 @@
                 <div id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
                        new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Id as s.Ten for s in list" })
-
                     <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" data-ajax="true"
                        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập nxb</a>
                 </div>
@@ -155,6 +153,7 @@
             $(this).removeClass('active');
 
             $("#ajax").html(data);
+
             $("#edit-student-modal").modal();
 
             var form = $("#edit-student-modal").closest("form");

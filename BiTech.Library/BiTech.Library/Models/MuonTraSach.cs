@@ -87,6 +87,15 @@ namespace BiTech.Library.Models
         [Display(Name = "Mã người mượn")]
         public string IdNguoiMuon { get; set; }
 
+        public List<TrangThai> ListTrangThai { get; set; } = new List<TrangThai>();
+
+        public List<string> listChiTietJsonString { get; set; } = new List<string>();
+    }
+
+    public class ChiTietPhieuTraViewModel
+    {
+        public string IdPT { get; set; }
+
         [Display(Name = "Mã sách")]
         public string IdSach { get; set; }
 
@@ -94,9 +103,22 @@ namespace BiTech.Library.Models
         public string TenSach { get; set; }
 
         [Display(Name = "Số lượng")]
-        public string SoLuong { get; set; }
+        public int SoLuong { get; set; }
 
-        [Display(Name = "Tình trạng sách")]
-        public string IdTinhTrang { get; set; }
+        [Display(Name = "Người mượn")]
+        public string NguoiMuon { get; set; }
+
+        [Display(Name = "Mã người mượn")]
+        public string IdNguoiMuon { get; set; }
+
+        public string IdTrangThaiSach { get; set; }
+
+        public string TrangThaiSach { get; set; }
+    }
+    public class TrangThai
+    {
+        public string Id { get; set; }
+
+        public string TenTT { get; set; }
     }
 }
