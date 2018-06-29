@@ -23,6 +23,31 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(_ => true).ToList();
         }
 
+        public List<TheLoaiSach> GetTheTheLoaiSachRoot()
+        {
+            FilterDefinitionBuilder<TheLoaiSach> builder = Builders<TheLoaiSach>.Filter;
+
+            FilterDefinition<TheLoaiSach> filter = builder.Empty;
+
+            filter = filter & builder.Eq(m => m.IdParent, null);
+
+            return _DatabaseCollection.Find(filter).ToList();
+        }
+
+        public List<TheLoaiSach> GetTheTheLoaiSachChildren(string idParent)
+        {
+            FilterDefinitionBuilder<TheLoaiSach> builder = Builders<TheLoaiSach>.Filter;
+
+            FilterDefinition<TheLoaiSach> filter = builder.Empty;
+
+            if (idParent.Length > 0)
+            {
+                filter = filter & builder.Eq(m => m.IdParent, idParent);
+            }
+
+            return _DatabaseCollection.Find(filter).ToList();
+        }
+
         public List<TheLoaiSach> GetTheCon(string idParent, string mota)
         {
             FilterDefinitionBuilder<TheLoaiSach> builder = Builders<TheLoaiSach>.Filter;
