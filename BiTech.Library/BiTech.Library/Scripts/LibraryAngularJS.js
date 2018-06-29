@@ -68,7 +68,8 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
             params: {
                 idBook: $scope.idBook,
                 soLuong: $scope.soLuong,
-                idTrangThai: $scope.idTrangThai,             
+                idTrangThai: $scope.idTrangThai,
+                idPM : $("idPM").val()
             }
         }).then(function (response) {
             if (response.data) {

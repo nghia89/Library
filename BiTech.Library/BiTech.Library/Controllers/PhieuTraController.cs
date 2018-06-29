@@ -183,7 +183,7 @@ namespace BiTech.Library.Controllers
             return soLuong == soLuongMuon ? true : false;
         }
 
-        public JsonResult GetThongTinPhieuTra(string idBook, int soLuong, string idTrangThai)
+        public JsonResult GetThongTinPhieuTra(string idBook, int soLuong, string idTrangThai, string idPM)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -206,8 +206,7 @@ namespace BiTech.Library.Controllers
                     ctpt.TrangThaiSach = trangThai.TenTT;
                 };
                 TempData["SoLuong"] = soLuong;
-                var b = _PhieuTraLogic.GetById(chiTiet[0].Id).Id;
-                var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idBook, b).SoLuong;
+                var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idBook, idPM).SoLuong;
                 if (soLuong > a)
                 {
                     result.Data = null;
