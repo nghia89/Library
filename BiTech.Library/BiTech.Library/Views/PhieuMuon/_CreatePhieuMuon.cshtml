@@ -27,7 +27,6 @@
             <div class="col-md-10">
                 @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", onchange = "OnChangeEvent();", @id = "idUser" })
             </div>
-            @Html.ValidationMessageFor(m => m.IdUser)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
@@ -36,19 +35,17 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.TextBoxFor(m => m.NgayMuon, "{0:d-MM-yyyy}", new { @class = "form-control datepicker", onchange = "OnChangeDayEvent();", @id = "ngayMuon"})
             </div>
-            @Html.ValidationMessageFor(m => m.NgayMuon)
-        </div>
+        </div>*@
         <div class="form-group">
             @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:d-MM-yyyy}", new { @class = "form-control datepicker", onchange = "OnChangeDayEvent();", @id = "ngayPhaiTra" })
+                @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:d-MM-yyyy}", new { @class = "form-control", @id = "ngayPhaiTra", @readonly = "readonly" })
             </div>
-            @Html.ValidationMessageFor(m => m.NgayPhaiTra)
         </div>
 
         @* Nhập nhiều mã sách *@
@@ -187,15 +184,15 @@
 
             });
         }
-
         function OnChangeDayEvent() {
             var ngayPhaiTra = "";
             var ngayMuon = "";
-            ngayMuon= $("#ngayMuon").val();
+            ngayMuon= $("#ngayMuon").val("dd-MM-yyyy");
             ngayPhaiTra = $("#ngayPhaiTra").val();
-            if (ngayPhaiTra >= ngayMuon) {
+            if (ngayPhaiTra <= ngayMuon) {
                 alert('Ngày phải trả cần lớn hơn ngày mượn');
                 $("#ngayPhaiTra").val("");
+                $("#ngayMuon").val("");
             }
         }
 

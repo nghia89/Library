@@ -53,6 +53,11 @@ namespace BiTech.Library.Controllers
         /// <returns></returns>
         public ActionResult TaoPhieuTra(string idPM)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSuccess = TempData["UnSuccess"];
             ViewBag.SoLuong = TempData["SoLuong"];
@@ -206,7 +211,7 @@ namespace BiTech.Library.Controllers
                     ctpt.TrangThaiSach = trangThai.TenTT;
                 };
                 TempData["SoLuong"] = soLuong;
-                var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idBook, idPM).SoLuong;
+                    var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idBook, idPM).SoLuong;
                 if (soLuong > a)
                 {
                     result.Data = null;

@@ -1,0 +1,26 @@
+﻿@model BiTech.Library.Models.SachViewModels
+@{
+    ViewBag.Title = "TaoMaBarCode_QR";
+}
+<div class="container-lib clearfix">
+    @using (Html.BeginForm("TaoMaBarCode_QR", "PhieuMuon", FormMethod.Post, new { role = "form" }))
+    {
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="iddausach">Id Đầu Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.IdDauSach, new { @class = "form-control", @id = "iddausach" })
+            </div>
+        </div>
+
+        <p>
+            <img alt="barcode" src="@ViewData["BarCodePath"]" width="300px" height="75px"/>
+        </p>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for=""></label>
+            <div class="col-sm-9">
+                <input type="submit" value="Tạo " class="btn btn-primary" />
+            </div>
+        </div>
+    }
+</div>
+

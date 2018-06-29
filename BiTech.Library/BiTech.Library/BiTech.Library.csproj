@@ -46,6 +46,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.BarCode, Version=18.6.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\DemoBarCodeForm\DemoBarCodeForm\Lib\Aspose.BarCode.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -191,6 +195,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\Aspose\FileManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
@@ -209,7 +214,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
+    <Compile Include="Helpers\LicenseHelper.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Controllers\BaseClass\baseBarCodeLic.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
     <Compile Include="Models\MuonTraSach.cs" />
@@ -705,9 +712,12 @@
     <Content Include="Views\ThongKe\DanhSachChuaTra.cshtml" />
     <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
+    <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\BarCodes\" />
+    <Folder Include="Content\TempFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

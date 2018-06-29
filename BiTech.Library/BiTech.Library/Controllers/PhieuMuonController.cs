@@ -45,7 +45,7 @@ namespace BiTech.Library.Controllers
             List<PhieuMuon> lstPhieuMuon = new List<PhieuMuon>();
             if (String.IsNullOrEmpty(IdUser))
             {
-                 lstPhieuMuon = _PhieuMuonLogic.GetAll();
+                lstPhieuMuon = _PhieuMuonLogic.GetAll();
             }
             else
             {
@@ -86,12 +86,12 @@ namespace BiTech.Library.Controllers
             ViewBag.UnSuccess = TempData["UnSuccess"];
             ViewBag.SoLuong = TempData["SoLuong"];
             ViewBag.Date = TempData["Date"];
-            
+
             PhieuMuonModelView model = new PhieuMuonModelView()
             {
                 NgayMuon = DateTime.Now,
                 NgayPhaiTra = DateTime.Now.AddDays(SoNgayPhaiTra)
-                
+
             };
             return View(model);
         }
@@ -113,7 +113,7 @@ namespace BiTech.Library.Controllers
                 slSachMuon += item.SoLuong;
             }
             List<ChiTietPhieuTra> ctpt = _ChiTietPhieuTraLogic.GetByIdBook(idSach); // so luong sach da tra
-            foreach(var item in ctpt) //so luong sach tra
+            foreach (var item in ctpt) //so luong sach tra
             {
                 slSachTra += item.SoLuong;
             }
@@ -158,14 +158,14 @@ namespace BiTech.Library.Controllers
                     foreach (var idSach in viewModel.MaSach)
                     {
                         if (query.Contains(idSach))
-                            continue;                        
+                            continue;
                         for (int i = 0; i < viewModel.MaSach.Count; i++)
                         {
                             if (idSach == viewModel.MaSach[i])
                             {
                                 ++soLuong;
                             }
-                            if(!query.Contains(idSach))
+                            if (!query.Contains(idSach))
                                 query.Add(idSach);
                         }
 
@@ -190,7 +190,7 @@ namespace BiTech.Library.Controllers
                             CreateDateTime = DateTime.Now,
                         };
                         try
-                        {                         
+                        {
                             query.Clear();
                             //lay so luong tung cuon sach
                             foreach (var idSach in viewModel.MaSach)
@@ -205,11 +205,11 @@ namespace BiTech.Library.Controllers
                                     }
                                     if (!query.Contains(idSach))
                                         query.Add(idSach);
-                                }                                
-                         
+                                }
+
                                 modelCTPM.SoLuong = soLuong; //so luong muon cua Ma Sach
                                 modelCTPM.IdSach = idSach; // Gắn mã sách vào 1 chitietphieumuon
-                                                              //Insert bảng ChiTietPhieuMuon
+                                                           //Insert bảng ChiTietPhieuMuon
                                 modelCTPM.Id = "";
                                 string idCTPM = _ChiTietPhieuMuonLogic.Insert(modelCTPM);
                                 soLuong = 0;
@@ -228,8 +228,8 @@ namespace BiTech.Library.Controllers
 
                                 if (!String.IsNullOrEmpty(idCTPM)) //true
                                 {
-                                    TempData["Success"] = "Tạo phiếu mượn thành công";                                   
-                                }                                
+                                    TempData["Success"] = "Tạo phiếu mượn thành công";
+                                }
                             }
                             return RedirectToAction("Index", "PhieuMuon");
                         }
@@ -349,7 +349,7 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
-        
+
         public JsonResult GetName(string idUser)
         {
             JsonResult result = new JsonResult();
@@ -372,19 +372,19 @@ namespace BiTech.Library.Controllers
         {
             JsonResult result = new JsonResult();
             var chiTietPM_DTO = _ChiTietPhieuMuonLogic.GetByIdPhieuMuon(idPM);
-            List < ChiTietPMViewModel > lstCT= new List<ChiTietPMViewModel>();
+            List<ChiTietPMViewModel> lstCT = new List<ChiTietPMViewModel>();
             ChiTietPMViewModel chiTietModel;
             foreach (var item in chiTietPM_DTO)
-            {                
+            {
                 int a = TempData["SoLuong"] == null ? soLuong : Convert.ToInt32(TempData["SoLuong"].ToString());
-                if(TempData["SoLuong"] == null)
+                if (TempData["SoLuong"] == null)
                     TempData["SoLuongView"] = null;
                 chiTietModel = new ChiTietPMViewModel()
                 {
                     IdPM = item.IdPhieuMuon,
                     MaSach = item.IdSach,
                     TenSach = _SachLogic.GetByIdBook(item.IdSach).TenSach,
-                    SoLuong = TempData["SoLuongView"] == null ?  item.SoLuong - a : (int.Parse(TempData["SoLuongView"].ToString()) - a),
+                    SoLuong = TempData["SoLuongView"] == null ? item.SoLuong - a : (int.Parse(TempData["SoLuongView"].ToString()) - a),
                 };
                 if (TempData["SoLuong"] != null)
                     TempData["SoLuongView"] = item.SoLuong - a;
@@ -397,13 +397,13 @@ namespace BiTech.Library.Controllers
                 {
                     lstCT.Add(chiTietModel);
                 }
-                
+
                 //Neu so luong  = 0 => k hien thi tren giao dien             
-                
+
             }
             if (!String.IsNullOrWhiteSpace(idPM))
             {
-                result.Data = lstCT; 
+                result.Data = lstCT;
                 //lstSach.Add(idBook); // add item to list to get list idSach - inset chitietphieumuon
                 result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             }
@@ -418,7 +418,7 @@ namespace BiTech.Library.Controllers
             ChiTietPMViewModel _modelChiTietPM;
 
             var phieuMuon = _PhieuMuonLogic.GetById(id); //id của phiếu mượn
-           
+
 
             foreach (var item in lstChiTietPM)
             {
@@ -441,6 +441,30 @@ namespace BiTech.Library.Controllers
         public ActionResult GiaHanPhieuMuon(string idPM)
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult TaoMaBarCode_QR()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult TaoMaBarCode_QR(SachViewModels model)
+        {
+            var sach = _SachLogic.GetByIdBook(model.IdDauSach); //Sai - hàm trả về phải là 1 list Sach. Hiện tại đang lấy 1 cuốn
+            SachViewModels modelSach = new SachViewModels()
+            {
+                IdDauSach = sach.IdDauSach,
+                TenSach = sach.TenSach
+            };
+
+            FileManager barcode = new FileManager();
+            string barCodePath = barcode.CreateBarCode(modelSach.IdDauSach, modelSach.IdDauSach);
+
+            ViewData["BarCodePath"] = barCodePath;
+
+            return View(modelSach);
         }
     }
 }
