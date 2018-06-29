@@ -362,7 +362,12 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
-
+        /// <summary>
+        /// Lấy danh sách phieumuon
+        /// </summary>
+        /// <param name="idPM"></param>
+        /// <param name="soLuong"></param>
+        /// <returns></returns>
         public JsonResult GetChiTietPhieuJSon(string idPM, int soLuong)
         {
             JsonResult result = new JsonResult();
