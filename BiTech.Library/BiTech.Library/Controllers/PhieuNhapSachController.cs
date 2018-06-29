@@ -172,7 +172,7 @@ namespace BiTech.Library.Controllers
                 new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic =
                 new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
+           
             JsonResult result = new JsonResult();
             if (!String.IsNullOrWhiteSpace(idBook))
             {
@@ -210,6 +210,7 @@ namespace BiTech.Library.Controllers
             var ListTD = (from N in _SachLogic.getAllSach()
                           where N.IdDauSach.StartsWith(a)
                           select new { N.IdDauSach });
+           
 
             return Json(ListTD, JsonRequestBehavior.AllowGet);
         }
