@@ -288,6 +288,7 @@ a:hover {
             width: 100%;
             max-width: 120px;
             display: block;
+            max-height: 160px;
         }
 
     .book_box .book_image .book_number {
