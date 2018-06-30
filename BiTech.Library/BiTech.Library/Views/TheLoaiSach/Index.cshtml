@@ -5,9 +5,9 @@
     var listTheLoai = ViewBag.ListTheLoai;
 }
 <div class="Title">Danh Sách Thể Loại Sách</div>
-<div class="container-lib clearfix">
+
     <p>@Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })</p>
-    <table class="table ">
+    <table class="table table-hover table-bordered ">
         <thead>
             <tr class="table-info">
                 <th width="20%">Tên Thể Loại</th>
@@ -26,7 +26,7 @@
                     <td>@item.MoTa</td>
                     <td>
 
-                        <a class="btn btn-primary color-white" href="@Url.Action("Sua", new { id = item.Id })">
+                        <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua", new { id = item.Id })">
                             <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
                         </a>
                     </td>
@@ -42,4 +42,4 @@
     </table>
 
     @Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })
-</div>
+

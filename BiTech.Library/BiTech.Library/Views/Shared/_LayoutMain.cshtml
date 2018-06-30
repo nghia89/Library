@@ -10,13 +10,15 @@
 
 </head>
 <body>
-    
+
     <div class="contain @(Request.Cookies["menu"] != null ?Request.Cookies["menu"].Value:"")" id="contain">
         @Html.Partial("layout/header")
         @Html.Partial("layout/menuleft")
         <div class="right">
             <div class="content">
-                @RenderBody()
+                <div class="container-lib clearfix">
+                    @RenderBody()
+                </div>
             </div>
         </div>
     </div>
