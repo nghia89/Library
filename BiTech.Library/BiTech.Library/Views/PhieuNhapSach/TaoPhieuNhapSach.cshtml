@@ -21,10 +21,7 @@
 
                     <div class="w3-container w3-light-grey w3-padding-16">
                         <div class="w3-row w3-margin-top">
-                            <div class="form-group">
-                                <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
-                               
-                            </div>
+                            
                             <div class="form-group">
                                 <input id="idSach" name="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="form-control">
                             </div>
@@ -67,6 +64,10 @@
                             <div class="form-group">
                                 @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn Tình Trạng--", new { ng_model = "idTrangThai", @class = "form-control" })
                                
+                            </div>
+                            <div class="form-group">
+                                <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
+
                             </div>
 
                             <div class="form-group">
