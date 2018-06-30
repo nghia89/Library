@@ -674,7 +674,6 @@
     <Content Include="Views\PhieuTra\Index.cshtml" />
     <Content Include="Views\PhieuTra\TraSach.cshtml" />
     <Content Include="Views\PhieuTra\TaoPhieuTra.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Them.cshtml" />
     <Content Include="Views\TheLoaiSach\Sua.cshtml" />
