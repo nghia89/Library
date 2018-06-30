@@ -68,6 +68,7 @@ namespace BiTech.Library.Controllers
                 TenTT = tts.TenTT
             };
             return View(VM);
+            
         }
 
         [HttpPost]
