@@ -34,6 +34,7 @@ namespace BiTech.Library.Models
         public DateTime NgayMuon { get; set; }
         
         [Display(Name = "Ngày phải trả")]
+        [DataType(DataType.Date)]
         public DateTime NgayPhaiTra { get; set; }
 
         [Display(Name = "Ngày trả")]
