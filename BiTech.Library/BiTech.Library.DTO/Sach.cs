@@ -15,23 +15,78 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
-        public string TenSach { get; set; }
         public string IdDauSach { get; set; }
-        public string IdTheLoai { get; set; }
-        public string IdKeSach { get; set; }
-        public string IdNhaXuatBan { get; set; }
-        public string IdTrangThai { get; set; }
 
+        /// <summary>
+        /// Mã do thư viện qui định
+        /// </summary>
         public string MaKiemSoat { get; set; }
 
-        public string Hinh { get; set; }
-        public int SoLuong { get; set; }
-        public int SoTrang { get; set; }
-        public ENgonNgu NgonNgu { get; set; }
+        /// <summary>
+        /// Tên của sách
+        /// </summary>
+        public string TenSach { get; set; }
 
-        public string NamSanXuat { get; set; }
-        public double GiaSach { get; set; }
+        /// <summary>
+        /// Mã thể loại sách
+        /// </summary>
+        public string IdTheLoai { get; set; }
+
+        /// <summary>
+        /// Vị trí sách ở kệ nào
+        /// </summary>
+        public string IdKeSach { get; set; }
+
+        /// <summary>
+        /// Mã nhà xuất bản
+        /// </summary>
+        public string IdNhaXuatBan { get; set; }
+
+        /// <summary>
+        /// Link ảnh bìa
+        /// </summary>
         public string LinkBiaSach { get; set; }
+
+        /// <summary>
+        /// Số trang
+        /// </summary>
+        public int SoTrang { get; set; }
+
+        /// <summary>
+        /// Năm xuất bản
+        /// </summary>
+        public string NamSanXuat { get; set; }
+
+        /// <summary>
+        /// Tóm tắt
+        /// </summary>
         public string TomTat { get; set; }
+
+        /// <summary>
+        /// Giá tiền của sách
+        /// </summary>
+        public double GiaSach { get; set; }
+
+        /// <summary>
+        /// Phí mượn sách nếu có
+        /// </summary>
+        public double PhiMuonSach { get; set; }
+
+        /// <summary>
+        /// Số lượng tổng toàn bộ
+        /// </summary>
+        public int SoLuongTong { get; set; }
+
+        /// <summary>
+        /// Số lường còn lại trong kho
+        /// </summary>
+        public int SoLuongConLai { get; set; }
+
+        public int SoLanDuocMuon { get; set; }
+
+        /// <summary>
+        /// Mã ngôn ngữ
+        /// </summary>
+        public string NgonNgu { get; set; }
     }
 }
