@@ -13,22 +13,32 @@ namespace BiTech.Library.Controllers
     //[Authorize]
     public class UserController : BaseController
     {
-        private ThanhVienLogic _ThanhVienLogic;
         public UserController()
-        {
-            _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-
-            //_SlTT_LOgic.insert(new slttDTO("5b28396079ccd72e08b0a0d7", "5b281d0979ccd728145a5097", 45)})
+        {          
         }
 
         // GET: User
         public ActionResult Index()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            
             return View();
         }
 
         public PartialViewResult _PartialUser()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return null;
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             List<ThanhVien> lstUser = _ThanhVienLogic.GetAll();
             return PartialView(lstUser);
 
@@ -37,6 +47,12 @@ namespace BiTech.Library.Controllers
 
         public ActionResult _CreateUser()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSuccess = TempData["UnSuccess"];
             return View();
@@ -49,6 +65,14 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _CreateUser(UserViewModel viewModel)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             ThanhVien model = new ThanhVien()
             {
                 UserName = viewModel.UserName,
@@ -76,6 +100,14 @@ namespace BiTech.Library.Controllers
         //Get
         public ActionResult _Edit(string id)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSucces = TempData["UnSuccess"];
             ThanhVien us = _ThanhVienLogic.GetById(id);
@@ -93,6 +125,14 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _Edit(UserViewModel viewModel, string id)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             var model = _ThanhVienLogic.GetById(id); //lay 1 tai khoan 
                 model.Ten = viewModel.Ten;
                 model.MaSoThanhVien = viewModel.MaSoThanhVien;
@@ -115,6 +155,14 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Delete(string id)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             ViewBag.Success = TempData["Success"];
             var model = _ThanhVienLogic.GetById(id);
             model.TrangThai = EUser.Deleted;

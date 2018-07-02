@@ -13,7 +13,7 @@ namespace BiTech.Library.Controllers
     //[Authorize]
     public class PhieuMuonController : BaseController
     {
-        public static int SoNgayPhaiTra = 15;
+        public static int SoNgayPhaiTraToiDa = 15;
         private PhieuMuonLogic _PhieuMuonLogic;
         private ChiTietPhieuMuonLogic _ChiTietPhieuMuonLogic;
         private PhieuTraLogic _PhieuTraLogic;
@@ -89,8 +89,8 @@ namespace BiTech.Library.Controllers
 
             PhieuMuonModelView model = new PhieuMuonModelView()
             {
-                NgayMuon = DateTime.Now,
-                NgayPhaiTra = DateTime.Now.AddDays(SoNgayPhaiTra)
+                NgayMuon = DateTime.Today,
+                NgayPhaiTra = DateTime.Now.AddDays(SoNgayPhaiTraToiDa)
 
             };
             return View(model);
@@ -459,7 +459,7 @@ namespace BiTech.Library.Controllers
                 TenSach = sach.TenSach
             };
 
-            FileManager barcode = new FileManager();
+            BarCodeManager barcode = new BarCodeManager();
             string barCodePath = barcode.CreateBarCode(modelSach.IdDauSach, modelSach.IdDauSach);
 
             ViewData["BarCodePath"] = barCodePath;
