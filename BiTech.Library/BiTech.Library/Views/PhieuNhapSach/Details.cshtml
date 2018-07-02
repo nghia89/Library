@@ -1,4 +1,4 @@
-﻿@model BiTech.Library.Models.PhieuNhapSachModel
+﻿@model BiTech.Library.Models.PhieuNhapSachModels
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -25,12 +25,12 @@
 </div>
     </div>
     <div class="Title">Danh Sách Chi Tiết Phiếu Nhập</div>
-    <div class="container clearfix">
+  
 
-        <div class="book_content clearfix">
-            <table class="table table-striped" border="1">
+        
+            <table class="table table-hover table-bordered">
                 <thead>
-                    <tr style="background:orange">
+                    <tr class="table-info">
                         <th>Tên Sách</th>
                         <th>Số lượng</th>
                         <th>Tình Trạng</th>
@@ -51,6 +51,5 @@
 
             </table>
             <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
-        </div>
-    </div>
+     
 

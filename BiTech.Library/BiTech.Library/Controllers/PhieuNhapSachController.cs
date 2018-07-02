@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
     public class PhieuNhapSachController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -19,10 +21,25 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
             PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            var lst = _PhieuNhapSachLogic.Getall();
+            List<PhieuNhapSachModels> lstpns = new List<PhieuNhapSachModels>();
+            foreach (var item in lst)
+            {
+                PhieuNhapSachModels pns = new PhieuNhapSachModels()
+                {
+                    IdPhieuNhap = item.Id,
+                    IdUserAdmin = item.IdUserAdmin,
+                    GhiChu = item.GhiChu,
+                    NgayNhap = item.NgayNhap
 
+                };
+                lstpns.Add(pns);
+            }
 
-            ViewBag.listphieunhap = _PhieuNhapSachLogic.Getall();
-            return View();
+           
+            return View(lstpns.OrderByDescending(x=>x.NgayNhap).ToPagedList(PageNumber,PageSize));
         }
 
         public ActionResult NhapSach()
@@ -97,7 +114,7 @@ namespace BiTech.Library.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult TaoPhieuNhapSach(PhieuNhapSachModel model)
+        public ActionResult TaoPhieuNhapSach(PhieuNhapSachModels model)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -190,7 +207,7 @@ namespace BiTech.Library.Controllers
 
             var model = _ChiTietNhapSachLogic.GetAllChiTietById(id);
             var phieunhap = _PhieuNhapSachLogic.GetById(id);
-            PhieuNhapSachModel pns = new PhieuNhapSachModel()
+            PhieuNhapSachModels pns = new PhieuNhapSachModels()
             {
                 
                 IdUserAdmin = phieunhap.IdUserAdmin,

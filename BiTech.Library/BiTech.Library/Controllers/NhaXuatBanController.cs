@@ -7,13 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
     public class NhaXuatBanController : BaseController
     {    
         // GET: NhaXuatBan
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -24,8 +26,21 @@ namespace BiTech.Library.Controllers
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
-            ViewBag.ListNhaXuaBan = list;
-            return View();
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            List<NhaXuatBanViewModels> lst = new List<NhaXuatBanViewModels>();
+            foreach(var item in list)
+            {
+                NhaXuatBanViewModels nxb = new NhaXuatBanViewModels()
+                {
+                    Id = item.Id,
+                    Ten = item.Ten,
+                    GhiChu = item.GhiChu
+                };
+                lst.Add(nxb);
+            }
+
+            return View(lst.OrderBy(m => m.Ten).ToPagedList(PageNumber, PageSize));
         }
 
         public ActionResult Them()
@@ -111,28 +126,9 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Xoa(string id)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
-            NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
-            {
-                Id = nxb.Id,
-                Ten = nxb.Ten,
-                GhiChu = nxb.GhiChu
-            };
-            return View(VM);
-        }
-
+       
         [HttpPost]
-        public ActionResult Xoa(NhaXuatBanViewModels model)
+        public ActionResult Xoa(string Id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -141,12 +137,10 @@ namespace BiTech.Library.Controllers
             #endregion
 
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            NhaXuatBan nxb = _NhaXuatBanLogic.getById(model.Id);
+            var nxb = _NhaXuatBanLogic.getById(Id);
             _NhaXuatBanLogic.XoaNXB(nxb.Id);
             return RedirectToAction("Index");
         }
-
         #region AngularJS
 
         public JsonResult Get_AllNhaXuatBan() //JsonResult

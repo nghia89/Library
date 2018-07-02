@@ -676,16 +676,13 @@
     <Content Include="Views\TheLoaiSach\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Them.cshtml" />
     <Content Include="Views\TheLoaiSach\Sua.cshtml" />
-    <Content Include="Views\TheLoaiSach\Xoa.cshtml" />
     <Content Include="Views\NhaXuatBan\DanhSachNXB.cshtml" />
     <Content Include="Views\NhaXuatBan\Index.cshtml" />
     <Content Include="Views\NhaXuatBan\Them.cshtml" />
     <Content Include="Views\NhaXuatBan\Sua.cshtml" />
-    <Content Include="Views\NhaXuatBan\Xoa.cshtml" />
     <Content Include="Views\TrangThaiSach\Index.cshtml" />
     <Content Include="Views\TrangThaiSach\Them.cshtml" />
     <Content Include="Views\TrangThaiSach\Sua.cshtml" />
-    <Content Include="Views\TrangThaiSach\Xoa.cshtml" />
     <Content Include="Views\Sach\Index.cshtml" />
     <Content Include="Views\Sach\Them.cshtml" />
     <Content Include="Views\Sach\Sua.cshtml" />

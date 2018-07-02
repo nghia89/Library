@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
     public class KeSachController : BaseController
     {
         // GET: KeSach
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
 
             #region  Lấy thông tin người dùng
@@ -22,10 +24,24 @@ namespace BiTech.Library.Controllers
             #endregion
 
             KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
             var list = _keSachLogic.GetAll();
-            ViewBag.ListKeSach = list;
-            return View();
+            List<KesachViewModels> lst = new List<KesachViewModels>();
+            foreach (var item in list)
+            {
+                KesachViewModels ks = new KesachViewModels()
+                {
+                    Id = item.Id,
+                    TenKe = item.TenKe,
+                    CreateDateTime = item.CreateDateTime,
+                    GhiChu = item.GhiChu,
+                    ViTri = item.ViTri
+                };
+                lst.Add(ks);
+            }
+
+            return View(lst.OrderBy(x => x.TenKe).ToPagedList(PageNumber, PageSize));
         }
 
         public ActionResult Create()
@@ -53,7 +69,7 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string Id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -62,8 +78,8 @@ namespace BiTech.Library.Controllers
             #endregion
 
             KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            //var dl = _keSachLogic.GetById(id);
-            _keSachLogic.Delete(id);
+            var dl = _keSachLogic.getById(Id);
+            _keSachLogic.Delete(dl.Id);
             return RedirectToAction("Index");
         }
         public ActionResult Edit(string Id)
@@ -76,15 +92,18 @@ namespace BiTech.Library.Controllers
 
             KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var list = _keSachLogic.getById(Id);
-            KesachViewModels ks = new KesachViewModels();
+
+            KesachViewModels ks = new KesachViewModels()
             {
-                ks.TenKe = list.TenKe;
-                ks.ViTri = list.ViTri;
-                ks.GhiChu = list.ViTri;
-               
-            }
+                Id = list.Id,
+                TenKe = list.TenKe,
+                ViTri = list.ViTri,
+                GhiChu = list.GhiChu,
+            };
+
             return View(ks);
         }
+
         [HttpPost]
         public ActionResult Edit(KesachViewModels model)
         {
@@ -98,11 +117,12 @@ namespace BiTech.Library.Controllers
             KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             KeSach keSach = new KeSach()
             {
+                Id = model.Id,
                 TenKe = model.TenKe,
                 ViTri = model.ViTri,
                 GhiChu = model.GhiChu
             };
-            _keSachLogic.Add(keSach);
+            _keSachLogic.Update(keSach);
             return RedirectToAction("Index");
         }
     }

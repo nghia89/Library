@@ -4,62 +4,65 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<div class="Title">Xem lịch sử người mượn</div>
+<div class="container">
+    @using (Html.BeginForm("_DanhSachPhieu", "PhieuTra", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+       
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="tensach">Mã Người Mượn:</label>
+            <div class="col-sm-9">
 
-@using (Html.BeginForm("_DanhSachPhieu", "PhieuTra", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdNguoiMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdNguoiMuon, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.IdNguoiMuon, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(m => m.IdNguoiMuon)
         </div>
-        @Html.ValidationMessageFor(m => m.IdNguoiMuon)
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Xem lịch sử mượn sách" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="Xem lịch sử mượn sách" />
+            </div>
         </div>
-    </div>
 
-    @*@Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.NguoiMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NguoiMuon, new { @class = "form-control" })
-        </div>
-    </div>
+        @*@Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.NguoiMuon, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.NguoiMuon, new { @class = "form-control" })
+                </div>
+            </div>
 
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdSach, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdSach, new { @class = "form-control" })
-        </div>
-    </div>
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
-        </div>
-    </div>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.IdSach, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.IdSach, new { @class = "form-control" })
+                </div>
+            </div>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.TenSach, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control" })
+                </div>
+            </div>
 
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.NgayTra, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayTra, new { @class = "form-control datepicker" })
-        </div>
-    </div>
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdTinhTrang, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.IdTinhTrang, new SelectList(ViewBag.ListTinhTrangSach, "Id", "TenTT"))
-        </div>
-    </div>*@
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.NgayTra, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.NgayTra, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.IdTinhTrang, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.IdTinhTrang, new SelectList(ViewBag.ListTinhTrangSach, "Id", "TenTT"))
+                </div>
+            </div>*@
 
-}
+    }
+</div>

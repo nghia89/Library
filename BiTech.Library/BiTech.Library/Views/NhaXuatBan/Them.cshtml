@@ -8,22 +8,26 @@
 <div class="container">
     @using (Html.BeginForm("Them", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
     {
-        <div class="form-group">
-            <label class="control-label col-md-2">Tên  Nhà Xuất Bản</label>
-            <div class="col-md-10">
-               @Html.EditorFor(Model=>Model.Ten,new { htmlAttributes = new { @class = "form-control" } })
-                <span class="text-danger" data-valsmg-for="Ten"></span>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="tensach">Tên Nhà Xuất Bản:</label>
+            <div class="col-sm-9">
+                @Html.EditorFor(Model => Model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+               
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-md-2" >GhiChu</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" name="GhiChu" />
-                <span class="text-danger" data-valsmg-for="GhiChu"></span>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="tensach">Ghi Chú:</label>
+            <div class="col-sm-9">
+                <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
             </div>
         </div>
-        
-        <input type="submit" name="btnThemTheLoai" class="btn btn-default" value="Thêm Mới" />
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2"></label>
+            <div class="col-sm-9">
+                <input type="submit" name="btnThemTheLoai" class="btn btn-primary" value="Thêm Mới" />
+                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
+            </div>
+        </div>
     }
 </div>
 

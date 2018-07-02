@@ -46,9 +46,7 @@ a:hover {
 }
 
     .container-lib .form-group {
-        width: 50%;
         padding: 10px;
-        float: left;
     }
 
         .container-lib .form-group:nth-child(2n+1) {
@@ -357,6 +355,10 @@ a:hover {
 
 .menu ul {
     min-width: 220px;
+}
+
+.small_menu .menu>ul {
+    min-width: 40px;
 }
 /*---End small_menu---*/
 

@@ -1,35 +1,39 @@
-﻿@model IEnumerable<BiTech.Library.Models.TacGiaViewModel>
+﻿@model PagedList.IPagedList<BiTech.Library.Models.TacGiaViewModel>
+@using PagedList.Mvc
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var listTacGia = ViewBag.ListTacGia;
+   
 }
+
 <div class="Title">Danh Sách Tác Giả</div>
-<div class="container clearfix">
 
-    <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
-    <div class="book_content clearfix">
-        <table class="table table-hover table-bordered" border="1">
-            <thead>
-                <tr class="table-info">
-                    <th>Tên Tác Giả</th>
-                    <th>Quốc Tịch</th>
-                    <th>Mô Tả</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in listTacGia)
+
+
+<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
+<table class="table table-hover table-bordered" border="1">
+    <thead>
+        <tr class="table-info">
+            <th>Tên Tác Giả</th>
+            <th>Quốc Tịch</th>
+            <th>Mô Tả</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
             {
-                    <tr>
-                        <td>@item.TenTacGia</td>
-                        <td>@item.QuocTich</td>
-                        <td>@item.MoTa</td>
-                        <td><a class="color-white btn btn-outline-primary" href="@Url.Action("Edit","TacGia", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+            <tr>
+                <td>@item.TenTacGia</td>
+                <td>@item.QuocTich</td>
+                <td>@item.MoTa</td>
+                <td><a class="color-white btn btn-outline-primary" href="@Url.Action("Edit","TacGia", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

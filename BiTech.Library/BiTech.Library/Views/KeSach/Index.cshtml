@@ -1,32 +1,31 @@
-﻿@model IEnumerable<BiTech.Library.Models.KesachViewModels>
+﻿@model PagedList.IPagedList<BiTech.Library.Models.KesachViewModels>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var ks = ViewBag.ListKeSach;
     var i = 0;
 
 }
 
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-<div class="row">
-    <div class="col-lg-10">
-        <h2>Danh sách kệ sách</h2>
-        <button type="button" style="margin-bottom: 11px;float: right;" class="btn btn-primary"><a class="button_a color-white" href="@Url.Action("Create")">Thêm mới</a></button>
+<div class="Title">Danh Sách Kệ Sách</div>
+    
+      <p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
 
 
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="table-info">
                     <th scope="col">#</th>
-                    <th scope="col">Vị trí</th>
                     <th scope="col">Tên kệ</th>
+                    <th scope="col">Vị trí</th>
                     <th scope="col">Ghi chú</th>
-                    <th scope="col">Tác vụ</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
 
-                @foreach (var item in ks)
+                @foreach (var item in Model)
             {
                 i++;
                     <tr>
@@ -34,6 +33,7 @@
                         <td>@item.TenKe</td>
                         <td>@item.ViTri</td>
                         <td>@item.GhiChu </td>
+                      
                         <td>
 
                             <a class="color-white btn btn-outline-primary" href="@Url.Action("Edit", new { id = item.Id })">
@@ -42,10 +42,7 @@
                             </a>
 
 
-                            <a class="button_a btn btn-outline-danger" onclick="DeleteItem('@item.Id','@item.TenKe')">
-                                Xóa
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
+                          
 
                         </td>
 
@@ -57,53 +54,9 @@
 
 
         </table>
-    </div>
-
+    
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
 
-@section scripts{
-    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-
-        function DeleteItem(Id, name) {
-
-            swal({
-                title: " bạn có thật sự muôn xóa " + name + "",
-                text: "Bạn không thể khôi phục lại sau khi xóa!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes",
-                cancelButtonText: "No",
-                closeOnConfirm: false,
-                closeOnCancel: false
-
-            },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        type: 'POST',
-                        url: "/Kesach/Delete",
-                        data: { "Id": Id },
-                        success: function (resultData) {
-                            swal({
-                                title: "Bạn đã xóa thành công!",
-                                text: "bạn không thể khôi phục sau khi xóa!",
-                                type: "success",
-                                showCancelButton: false,
-                                confirmButtonText: "OK",
-                                closeOnConfirm: false
-                            },
-                            function (isConfirm) {
-                                window.location.href = '/KeSach/Index';
-                            });
-                        }
-                    });
-                } else {
-                    swal("Cancelled", "Your imaginary file is safe :)", "error");
-                }
-            });
-        }
-    </script>
-}
 

@@ -107,17 +107,17 @@
                     </div>
                 </a>
                 <ul>
-                    <li class="@((@action == "TaoPhieuNhapSach") ? "action" : "")">
-                        <a href="@Url.Action("TaoPhieuNhapSach","PhieuNhapSach")" title="Nhập sách">
+                    <li class="@((@controller == "PhieuNhapSach") ? "action" : "")">
+                        <a href="@Url.Action("Index","PhieuNhapSach")" title="Nhập sách">
                             Nhập sách
                         </a>
                     </li>
-                    <li class="@((@action == "TaoPhieuXuatSach") ? "action" : "")">
-                        <a href="@Url.Action("TaoPhieuXuatSach","PhieuXuatSach")" title="Xuất sách">
+                    <li class="@((@controller == "PhieuXuatSach") ? "action" : "")">
+                        <a href="@Url.Action("Index","PhieuXuatSach")" title="Xuất sách">
                             Xuất sách
                         </a>
                     </li>
-                    <li class="@((@action == "Index") ? "action" : "")">
+                    <li class="@((@controller == "LyDoXuat") ? "action" : "")">
                         <a href="@Url.Action("Index","LyDoXuat")" title="Lý do xuất">
                             Lý do xuất
                         </a>
