@@ -712,6 +712,10 @@
     <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
     <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
+    <Content Include="Views\PhieuXuatSach\Index.cshtml" />
+    <Content Include="Views\PhieuXuatSach\Details.cshtml" />
+    <Content Include="Views\PhieuNhapSach\Details.cshtml" />
+    <Content Include="Views\PhieuNhapSach\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
