@@ -44,7 +44,8 @@
         <div class="form-group">
             @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:d-MM-yyyy}", new { @class = "form-control", @id = "ngayPhaiTra", @readonly = "readonly" })
+                @*@Html.EditorFor(m => m.NgayPhaiTra, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:dd/MM/yyyy}", new { @class = "form-control", @id = "ngayPhaiTra" })
             </div>
         </div>
 
@@ -52,19 +53,15 @@
         <div class="form-group">
             @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-
-                <div ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2 w3-margin" style="max-width:400px;">
-
+                <div id="ListTT" ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2 w3-margin" style="max-width:400px;">
                     <div class="w3-container w3-light-grey w3-padding-16">
                         <div class="w3-row w3-margin-top">
                             <div class="w3-col s10">
                                 <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding">
                             </div>
-
                             <div class="w3-col s2">
                                 <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
                             </div>
-
                         </div>
                         <p class="w3-text-red">{{errortext}}</p>
                     </div>
@@ -122,6 +119,7 @@
                 error: function () { alert('False!'); }
             });
         }
+
         function deleteValue() {
             var s = 1;
             var Index;
@@ -152,16 +150,16 @@
             }
             return true;
         }
-
-        $(function () {
-            $(".datepicker").datepicker({
-                showWeek: true,
-                dateFormat: "dd-mm-yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-10:+1"
-            }).attr('readonly', 'readonly');
-        });
+        
+        //$(function () {
+        //    $(".datepicker").datepicker({
+        //        showWeek: true,
+        //        dateFormat: "dd-mm-yy",
+        //        changeMonth: true,
+        //        changeYear: true,
+        //        yearRange: "-10:+1"
+        //    }).attr('readonly', 'readonly');
+        //});
 
         function OnChangeEvent() {
             var result = "";
@@ -184,18 +182,31 @@
 
             });
         }
-        function OnChangeDayEvent() {
-            var ngayPhaiTra = "";
-            var ngayMuon = "";
-            ngayMuon= $("#ngayMuon").val("dd-MM-yyyy");
-            ngayPhaiTra = $("#ngayPhaiTra").val();
-            if (ngayPhaiTra <= ngayMuon) {
-                alert('Ngày phải trả cần lớn hơn ngày mượn');
-                $("#ngayPhaiTra").val("");
-                $("#ngayMuon").val("");
-            }
-        }
+        //function OnChangeDayEvent() {
+        //    var ngayPhaiTra = "";
+        //    var ngayMuon = "";
+        //    ngayMuon= $("#ngayMuon").val("dd-MM-yyyy");
+        //    ngayPhaiTra = $("#ngayPhaiTra").val();
+        //    if (ngayPhaiTra <= ngayMuon) {
+        //        alert('Ngày phải trả cần lớn hơn ngày mượn');
+        //        $("#ngayPhaiTra").val("");
+        //        $("#ngayMuon").val("");
+        //    }
+        //}
 
+        $(document).ready(function () {
+            $("#ngayPhaiTra").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                gotoCurrent: true,
+                maxDate: '@Html.Raw(ViewBag.MaxDate)'
+            });
+        });
+
+        $(document).ready(function () {
+            angular.element(document.getElementById('ListTT')).scope().addListItems(@Html.Raw(Json.Encode(Model.MaSach)));
+        });
     </script>
 }
 

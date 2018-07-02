@@ -16,30 +16,76 @@ namespace BiTech.Library.Controllers
         public static int SoNgayPhaiTra = 15;
         private PhieuMuonLogic _PhieuMuonLogic;
         private ChiTietPhieuMuonLogic _ChiTietPhieuMuonLogic;
-        private PhieuTraLogic _PhieuTraLogic;
-        private ChiTietPhieuTraLogic _ChiTietPhieuTraLogic;
+        //private PhieuTraLogic _PhieuTraLogic;
+        //private ChiTietPhieuTraLogic _ChiTietPhieuTraLogic;
         private SachLogic _SachLogic;
         private ThanhVienLogic _ThanhVienLogic;
         private TrangThaiSachLogic _TrangThaiSachLogic;
         private List<String> lstSach = new List<String>();
+
         public PhieuMuonController()
         {
             _PhieuMuonLogic = new PhieuMuonLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             _ChiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            _PhieuTraLogic = new PhieuTraLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            _ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
+            //_PhieuTraLogic = new PhieuTraLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
+            //_ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
         }
+
         // GET: PhieuMuon
         public ActionResult Index(string IdUser)
         {
-            if (String.IsNullOrEmpty(IdUser))
-                IdUser = "";
-            ViewBag.IdUser = IdUser;
-            return View();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            List<PhieuMuon> lstPhieuMuon = new List<PhieuMuon>();
+            if (string.IsNullOrEmpty(IdUser))
+            {
+                lstPhieuMuon = _PhieuMuonLogic.GetAll();
+            }
+            else
+            {
+                lstPhieuMuon = _PhieuMuonLogic.GetByIdUser(IdUser);
+            }
+
+            PhieuMuonModelView _vmodel;
+            List<PhieuMuonModelView> vmodel = new List<PhieuMuonModelView>();
+
+            foreach (var item in lstPhieuMuon)
+            {
+                _vmodel = new PhieuMuonModelView();
+                _vmodel.Id = item.Id;
+                _vmodel.IdUser = item.IdUser;
+                _vmodel.TenNguoiMuon = _ThanhVienLogic.GetByIdUser(item.IdUser).Ten;
+                _vmodel.NgayMuon = item.NgayMuon;
+                _vmodel.NgayPhaiTra = item.NgayPhaiTra;
+                _vmodel.NgayTra = item.NgayTra;
+                _vmodel.GiaHan = item.GiaHan;
+                _vmodel.GhiChu = item.GhiChu;
+                if (item.TrangThaiPhieu == EPhieuMuon.DaTra)
+                {
+                    _vmodel.TrangThai = "Đã trả";
+                }
+                else
+                {
+                    if (item.TrangThaiPhieu == EPhieuMuon.ChuaTra)
+                    {
+                        _vmodel.TrangThai = "Chưa trả";
+                    }
+                }
+                //Add vào list 
+                vmodel.Add(_vmodel);
+            }
+            return View(vmodel);
         }
+
         public PartialViewResult _PartialPhieuMuon(string IdUser)
         {
             List<PhieuMuon> lstPhieuMuon = new List<PhieuMuon>();
@@ -80,6 +126,7 @@ namespace BiTech.Library.Controllers
             }
             return PartialView(vmodel);
         }
+
         public ActionResult _CreatePhieuMuon()
         {
             ViewBag.Success = TempData["Success"];
@@ -89,10 +136,11 @@ namespace BiTech.Library.Controllers
 
             PhieuMuonModelView model = new PhieuMuonModelView()
             {
-                NgayMuon = DateTime.Now,
-                NgayPhaiTra = DateTime.Now.AddDays(SoNgayPhaiTra)
+                NgayPhaiTra = DateTime.Today.AddDays(1),
+                MaSach = new List<string>()
 
             };
+            ViewBag.MaxDate = SoNgayPhaiTra;
             return View(model);
         }
         /// <summary>
@@ -120,6 +168,7 @@ namespace BiTech.Library.Controllers
             //(tong - (muon -tra) = kha dung
             return soLuong <= (sach.SoLuong - (slSachMuon - slSachTra)) ? true : false;
         }
+
         /// <summary>
         /// Insert vào 2 bảng PhieuMuon và ChiTietPhieuMuon và cập nhật lại số lượng sách bảng Sach
         /// </summary>
@@ -130,29 +179,23 @@ namespace BiTech.Library.Controllers
         {
             try
             {
-                //Fake du lieu trang thai sach
-                //TrangThaiSach tts = new TrangThaiSach()
-                //{
-                //    TenTT = "Còn mới",
-                //};
+                double days = (viewModel.NgayPhaiTra - DateTime.Today).TotalDays;
 
-                //var result = _TrangThaiSachLogic.Insert(tts);
-                //
-
-                if (viewModel.NgayMuon < viewModel.NgayPhaiTra) //ngày mượn phải nho hơn ngày trả
+                if (0 < days && days <= SoNgayPhaiTra) //ngày mượn phải nho hơn hoặc bằng số ngày được phép mượn
                 {
                     PhieuMuon modelPM = new PhieuMuon()
                     {
                         IdUser = viewModel.IdUser,
-                        NgayMuon = viewModel.NgayMuon,
+                        NgayMuon = DateTime.Today, // luôn luôn đúng là ngày hôm nay. ko tính giờ
                         NgayPhaiTra = viewModel.NgayPhaiTra,
                         NgayTra = null,
                         TrangThaiPhieu = EPhieuMuon.ChuaTra, // mac dinh - Chua Tra
                         CreateDateTime = DateTime.Now
                     };
+
                     //Kiểm tra số lượng
 
-                    List<String> query = new List<String>(); //List tam de so sanh
+                    List<string> query = new List<string>(); //List tam de so sanh
                     int soLuong = 0;
                     //lay so luong tung cuon sach
                     foreach (var idSach in viewModel.MaSach)
@@ -173,14 +216,14 @@ namespace BiTech.Library.Controllers
                         {
                             TempData["SoLuong"] = "Số lượng sách mượn không phù hợp";
                             soLuong = 0;
-                            return View();
+                            return View(viewModel);
                         }
                         soLuong = 0;
                     }
 
                     //Insert bảng PhieuMuon
                     string idPhieuMuon = _PhieuMuonLogic.Insert(modelPM);
-                    if (!String.IsNullOrEmpty(idPhieuMuon))
+                    if (!string.IsNullOrEmpty(idPhieuMuon))
                     {
                         ChiTietPhieuMuon modelCTPM = new ChiTietPhieuMuon()
                         {
@@ -226,7 +269,7 @@ namespace BiTech.Library.Controllers
                                 //}
                                 //#endregion
 
-                                if (!String.IsNullOrEmpty(idCTPM)) //true
+                                if (!string.IsNullOrEmpty(idCTPM)) //true
                                 {
                                     TempData["Success"] = "Tạo phiếu mượn thành công";
                                 }
@@ -242,7 +285,7 @@ namespace BiTech.Library.Controllers
 
                     }
                     TempData["UnSuccess"] = "Tạo phiếu mượn thất bại";
-                    return View();
+                    return View(viewModel);
                 }
                 else
                 {
@@ -253,7 +296,7 @@ namespace BiTech.Library.Controllers
             {
                 throw ex;
             }
-            return View();
+            return View(viewModel);
         }
 
         //Get
@@ -331,6 +374,7 @@ namespace BiTech.Library.Controllers
                 TempData["Success"] = "Xóa thất bại";
             return View();
         }
+
         #region _Other
         /// <summary>
         /// Lấy thông tin sách thông qua idBook

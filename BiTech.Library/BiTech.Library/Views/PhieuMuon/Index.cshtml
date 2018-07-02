@@ -1,4 +1,4 @@
-﻿
+﻿@model  List<BiTech.Library.Models.PhieuMuonModelView>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -13,7 +13,55 @@
 <h5 class="text-danger">@ViewBag.Date</h5>
 <div class="m10">
     <div class="row">
-        @Html.Action("_PartialPhieuMuon", "PhieuMuon", new { @IdUser = ViewBag.IdUser })
+        @*@Html.Action("_PartialPhieuMuon", "PhieuMuon", new { @IdUser = ViewBag.IdUser })*@
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Mã thành viên</th>
+                    <th>Tên người mượn</th>
+                    <th>Ngày mượn</th>
+                    <th>Ngày phải trả</th>
+                    <th>Ngày trả</th>
+                    <th>Trạng thái</th>
+                    <th>Gia hạn</th>
+                    <th>Ghi chú</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IdUser</td>
+                        <td>@item.TenNguoiMuon</td>
+                        <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
+                        <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @if (item.NgayTra == null)
+                        {
+                            item.NgayTra = (DateTime?)null;
+                        }
+                        else
+                        {
+                            //item.NgayTra = DateTime.Parse(item.NgayTra.Value.ToString("dd-MM-yyyy"));
+                            @item.NgayTra.Value.ToString("dd-MM-yyyy");
+                }
+                    </td>
+                    <td>@item.TrangThai</td>
+                    <td>@item.GiaHan</td>
+                    <td>@item.GhiChu</td>
+                    @*<a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a> |
+                    <a href="@Url.Action("ChiTietPhieuMuon",new { id = item.Id})"> Chi tiết</a>*@
+                    <td>
+                        <a href="@Url.Action("_EditPhieuMuon",new { @id = item.Id})">Sửa</a>
+                        | <a href="@Url.Action("TaoPhieuTra", "PhieuTra", new { idPM = item.Id})"> Trả sách</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
     </div>
 </div>
 
