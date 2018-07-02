@@ -4,14 +4,19 @@
 }
 
 .contain .menu .fa,
-.bt_menu .fa{
+.bt_menu .fa {
     color: #fff;
     cursor: pointer;
 }
-.button_a{
-    color:white;
+
+.button_a {
+    color: white;
 }
-.color-white:hover{color:white;}
+
+.color-white:hover {
+    color: white;
+}
+
 .content .right {
     position: relative;
     z-index: 0;
@@ -50,6 +55,7 @@ a:hover {
             clear: both;
         }
 /*---Menu left---*/
+
 .menu .icon {
     width: 40px;
     height: 40px;
@@ -67,24 +73,28 @@ a:hover {
         bottom: 0;
         text-align: center;
         line-height: 40px;
+        font-size: 17px;
     }
 
 .menu .name {
     color: #fff;
     line-height: 40px;
-    font-size: 18px;
+    font-size: 16px;
     margin-left: 40px;
     padding-left: 10px;
     padding-right: 10px;
     position: relative;
 }
 
-.menu li:hover .name {
-    background: #343a40;
+.menu li {
+    position: relative;
 }
 
+    .menu li:hover .name {
+        /*background: #343a40;*/
+    }
+
 .menu .action {
-    background: #2E5894;
 }
 
     .menu .action .icon {
@@ -98,7 +108,7 @@ a:hover {
         height: 0;
         border-top: 8px solid transparent;
         border-bottom: 8px solid transparent;
-        border-right: 8px solid #fff;
+        border-right: 8px solid #fff !important;
         position: absolute;
         right: 0;
         top: 13px;
@@ -107,6 +117,81 @@ a:hover {
     .menu .action:hover .name {
         background: #154D81;
     }
+
+.contain .left .menu .action .name {
+    background: #2E5894;
+}
+
+.contain .left .menu ul li ul {
+}
+
+.contain .left .menu li:hover .name:before {
+    content: " ";
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #52565A;
+    position: absolute;
+    right: 0;
+    top: 13px;
+}
+
+.contain .left .menu ul li ul {
+    position: absolute;
+    left: 220px;
+    top: 0;
+    display: none;
+}
+
+.contain .left .menu ul li:hover ul {
+    display: inline-block;
+}
+
+.contain .left .menu ul li ul li {
+    background: #52565A;
+    padding-left: 20px;
+    line-height: 40px;
+    border-bottom: 1px solid #666;
+}
+
+    .contain .left .menu ul li ul li:after {
+        content: "";
+    }
+
+    .contain .left .menu ul li ul li:hover {
+        background: #2C3034;
+    }
+
+    .contain .left .menu ul li ul li a {
+        display: block;
+        color: #fff;
+    }
+
+.contain .left .menu .action ul {
+    padding-left: 40px;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: auto;
+}
+
+    .contain .left .menu .action ul li {
+        padding-left: 20px;
+        background: #585b5f4f;
+    }
+
+        .contain .left .menu .action ul li a {
+            display: block;
+            color: #ccc;
+        }
+
+        .contain .left .menu .action ul li.action a {
+            color: #fff;
+            font-weight: 600;
+        }
+
 
 .contain .top {
     background: #343a40;
@@ -118,7 +203,7 @@ a:hover {
 .contain .left {
     position: relative;
     z-index: 1;
-    width: 200px;
+    width: 220px;
     float: left;
 }
 
@@ -126,7 +211,7 @@ a:hover {
     .contain .left .bg {
         background: #282C31;
         height: 100%;
-        width: 200px;
+        width: 220px;
         display: inline-block;
         left: 0;
         position: fixed;
@@ -147,7 +232,7 @@ a:hover {
 
     .contain .left .menu {
         min-height: 500px;
-        width: 200px;
+        width: 220px;
         display: inline-block;
         float: left;
         position: relative;
@@ -164,7 +249,7 @@ a:hover {
 .contain .right {
     background: #fff;
     min-height: 500px;
-    width: calc(100% - 200px);
+    width: calc(100% - 220px);
     float: right;
     padding: 0 10px;
 }
@@ -186,6 +271,33 @@ a:hover {
 }
 /*end menu top*/
 /*--- small_menu---*/
+.small_menu .menu > ul > li {
+    width: 40px;
+}
+
+.small_menu .left .menu .action ul {
+    display: none !important;
+}
+
+.small_menu .left .menu .action:hover ul {
+    display: block !important;
+    position: absolute;
+    padding-left: 0px;
+}
+
+.small_menu .left .menu .action:hover ul {
+    left: 40px;
+}
+
+.small_menu .left .menu ul li ul li,
+.small_menu .left .menu .action ul li {
+    background: #2C3034;
+}
+
+    .small_menu .left .menu ul li ul li:hover {
+        background: #000;
+    }
+
 .small_menu .left,
 .small_menu .left .bg,
 .small_menu .left .bg_icon,
@@ -209,29 +321,43 @@ a:hover {
     /*transition: all 0.3s ease-out;*/
 }
 
+.small_menu .left .menu ul li ul {
+    left: 40px;
+}
+
+    .small_menu .left .menu ul li ul:before {
+        content: " ";
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 8px solid #2C3034 !important;
+        position: absolute;
+        left: -8px;
+        top: 13px;
+    }
+
 .small_menu .menu {
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 
 .small_menu .action {
     background: none;
 }
 
-
+/*Hiệu ứng */
 .bg,
 .bg_icon,
 .menu,
-.right {
-    /*transition: all 0.3s ease-out;*/
+.right,
+.left
+ {
+    /*transition: all 0.2s ease-out;*/
 }
 
-    .menu .action {
-        /*transition-delay: 0.3s;*/
-    }
-
-    .menu ul {
-        min-width: 200px;
-    }
+.menu ul {
+    min-width: 220px;
+}
 /*---End small_menu---*/
 
 /*---Sách---*/
@@ -352,16 +478,29 @@ a:hover {
         text-align: center;
     }
 
-.table tr.table-info>th {
+.table tr.table-info > th {
     background: #2F81B5;
     color: #fff;
 }
-.table-striped a{
+
+.table-striped a {
     color: #000;
 }
-.table-striped a:hover{
-    color: #f00;
+
+    .table-striped a:hover {
+        color: #f00;
+    }
+
+@media screen and (max-width: 1200px) {
+    .book_box .book_content .book_image {
+        width: 20%;
+    }
+
+    .book_box .book_content .book_information {
+        width: 80%;
+    }
 }
+
 @media screen and (max-width: 992px) {
     .line-xl {
         display: none;
@@ -404,6 +543,14 @@ a:hover {
     .container-lib .form-group {
         width: 100%;
     }
+
+    .contain .right {
+        width: calc(100% - 40px);
+    }
+
+    .contain .left .menu {
+        position: absolute;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -420,13 +567,5 @@ a:hover {
     .book_box .book_content .book_information .tomtac .book_title_information,
     .book_box .book_content .book_information .tomtac .book_content_information {
         width: 50%;
-    }
-
-    .contain .right {
-        width: calc(100% - 40px);
-    }
-
-    .contain .left .menu {
-        position: absolute;
     }
 }

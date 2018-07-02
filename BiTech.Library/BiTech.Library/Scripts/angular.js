@@ -5281,7 +5281,7 @@ function $AnchorScrollProvider() {
 
          .anchor {
            border: 2px dashed DarkOrchid;
-           padding: 10px 10px 200px 10px;
+           padding: 10px 10px 220px 10px;
          }
 
          .fixed-header {
