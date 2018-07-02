@@ -14,6 +14,7 @@ namespace BiTech.Library.Controllers
     public class PhieuMuonController : BaseController
     {
         public static int SoNgayPhaiTra = 15;
+
         //private PhieuMuonLogic _PhieuMuonLogic;
         //private ChiTietPhieuMuonLogic _ChiTietPhieuMuonLogic;
         //private PhieuTraLogic _PhieuTraLogic;
@@ -148,37 +149,6 @@ namespace BiTech.Library.Controllers
             };
             ViewBag.MaxDate = SoNgayPhaiTra;
             return View(model);
-        }
-
-        /// <summary>
-        /// Hàm kiểm tra số lượng mượn _ số lượng hiện có
-        /// True = Được mượn, false = ngược lại
-        /// </summary>
-        /// <param name="idSach"></param>
-        /// <param name="soLuong"></param>
-        /// <returns></returns>
-        private bool Validate(string idSach, int soLuong, SSOUserDataModel userdata)
-        {
-            ChiTietPhieuMuonLogic _ChiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            ChiTietPhieuTraLogic _ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            Sach sach = _SachLogic.GetByIdBook(idSach);
-            
-            List<ChiTietPhieuMuon> ctpm = _ChiTietPhieuMuonLogic.GetByIdBook(idSach); // so luong sach dc muon
-            int slSachMuon = 0;
-            int slSachTra = 0;
-            foreach (var item in ctpm) //so luong sach muon
-            {
-                slSachMuon += item.SoLuong;
-            }
-            List<ChiTietPhieuTra> ctpt = _ChiTietPhieuTraLogic.GetByIdBook(idSach); // so luong sach da tra
-            foreach (var item in ctpt) //so luong sach tra
-            {
-                slSachTra += item.SoLuong;
-            }
-            //(tong - (muon -tra) = kha dung
-            return soLuong <= (sach.SoLuong - (slSachMuon - slSachTra)) ? true : false;
         }
 
         /// <summary>
@@ -345,6 +315,7 @@ namespace BiTech.Library.Controllers
             };
             return View(model);
         }
+
         [HttpPost]
         public ActionResult _EditPhieuMuon(PhieuMuonModelView viewModel, string id)
         {
@@ -421,7 +392,7 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
-        #region _Other
+        #region Angular
 
         /// <summary>
         /// Lấy thông tin sách thông qua idBook
@@ -467,6 +438,7 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
+
         /// <summary>
         /// Lấy danh sách phieumuon
         /// </summary>
@@ -523,6 +495,43 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
+
+        #endregion
+
+        #region private
+
+
+        /// <summary>
+        /// Hàm kiểm tra số lượng mượn _ số lượng hiện có
+        /// True = Được mượn, false = ngược lại
+        /// </summary>
+        /// <param name="idSach"></param>
+        /// <param name="soLuong"></param>
+        /// <returns></returns>
+        private bool Validate(string idSach, int soLuong, SSOUserDataModel userdata)
+        {
+            ChiTietPhieuMuonLogic _ChiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ChiTietPhieuTraLogic _ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            Sach sach = _SachLogic.GetByIdBook(idSach);
+
+            List<ChiTietPhieuMuon> ctpm = _ChiTietPhieuMuonLogic.GetByIdBook(idSach); // so luong sach dc muon
+            int slSachMuon = 0;
+            int slSachTra = 0;
+            foreach (var item in ctpm) //so luong sach muon
+            {
+                slSachMuon += item.SoLuong;
+            }
+            List<ChiTietPhieuTra> ctpt = _ChiTietPhieuTraLogic.GetByIdBook(idSach); // so luong sach da tra
+            foreach (var item in ctpt) //so luong sach tra
+            {
+                slSachTra += item.SoLuong;
+            }
+            //(tong - (muon -tra) = kha dung
+            return soLuong <= (sach.SoLuong - (slSachMuon - slSachTra)) ? true : false;
+        }
+
         #endregion
 
         public ActionResult ChiTietPhieuMuon(string id)
