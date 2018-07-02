@@ -1,31 +1,45 @@
 ﻿@model IEnumerable<BiTech.Library.Models.TrangThaiSachViewModels>
 @{
     ViewBag.Title = "DanhSachTrangThai";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var listTT = ViewBag.ListTT; 
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var listTT = ViewBag.ListTT;
 }
 
-<h2>Danh Sách Trạng Thái</h2>
+<div class="container-lib clearfix">
+    <div class="row">
+        <div class="col-lg-10">
+            <h2>Danh Sách Trạng Thái</h2>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>Trạng Thái</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in listTT)
-        {
-            <tr>
-                <td>@item.TenTT</td>
-                <td><a href="@Url.Action("Sua",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("Xoa",new { id = item.Id})"> Xóa</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-@Html.ActionLink("Thêm Mới", "Them")
+            <table class="table table-hover table-bordered" border="1">
+                <thead>
+                    <tr class="table-info">
+                        <th>Trạng Thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in listTT)
+            {
+                        <tr>
+                            <td>@item.TenTT</td>
+                            <td>
+                                <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua",new { id = item.Id})">
+                                    Sửa
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                |
+                                <a class=" btn btn-outline-danger" href="@Url.Action("Xoa",new { id = item.Id})">
+                                    Xóa
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a href="/TrangThaiSach/Them" class="btn btn-primary">Thêm mới</a>
 
+        </div>
 
-
-
+        </div>
+    </div>

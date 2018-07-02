@@ -11,19 +11,19 @@
     @using (Html.BeginForm("Edit", "TacGia", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
-            <label class="col-form-label col-sm-3" for="tensach">Tên Tác Giả:</label>
+            <label class="col-form-label col-sm-2" for="tensach">Tên Tác Giả:</label>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TenTacGia, new { @class = "form-control", @id = "tentacgia" })
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-3" for="tensach">Quốc Tịch:</label>
+            <label class="col-form-label col-sm-2" for="tensach">Quốc Tịch:</label>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.QuocTich, new { @class = "form-control", @id = "quoctich" })
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-3" for="tensach">Mô Tả:</label>
+            <label class="col-form-label col-sm-2" for="tensach">Mô Tả:</label>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.MoTa, new { @class = "form-control", @id = "mota" })
             </div>

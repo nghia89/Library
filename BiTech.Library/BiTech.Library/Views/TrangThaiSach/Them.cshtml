@@ -1,24 +1,26 @@
 ﻿@model BiTech.Library.Models.TrangThaiSachViewModels
 @{
     ViewBag.Title = "ThemTT";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
+<div class="container clearfix">
+    <h2 style="">Thêm Trạng Thái</h2>
 
-<h2>Thêm Trạng Thái</h2>
+    <div class="container">
+        @using (Html.BeginForm("Them", "TrangThaiSach", FormMethod.Post, new { role = "form" }))
+        {
+            <div class="form-group row">
+                <label>Tên trang thái</label>
+                <div  class="col-sm-10">
+                    <input type="text" class="input-group-text" name="TenTT" />
+                </div>
+            </div>
 
-<div class="container">
-    @using (Html.BeginForm("Them", "TrangThaiSach", FormMethod.Post, new { role = "form" }))
-    {
-        <table>
-            <thead>
-                <tr>
-                    <th>Tên Trạng Thái</th>
-                    <th>@Html.TextBoxFor(m => m.TenTT)</th>
-                </tr>
-            </thead>
-        </table>
-        <input type="submit" name="btnThemTrangThai" value="Thêm Mới" />
-    }
+            <div class="form-group row">
+                <input type="submit" name="btnThemTrangThai" value="Thêm Mới" />
+            </div>
+            
+        }
+    </div>
 </div>
-
 

@@ -8,19 +8,22 @@
 <div class="container">
     @using (Html.BeginForm("Them", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
     {
-        <table>
-            <thead>
-                <tr>
-                    <th>Tên Nhà Xuất Bản</th>
-                    <th>@Html.TextBoxFor(m => m.Ten)</th>
-                </tr>
-                <tr>
-                    <th>Ghi Chú</th>
-                    <th>@Html.TextBoxFor(m => m.GhiChu)</th>
-                </tr>
-            </thead>
-        </table>
-        <input type="submit" name="btnThemTheLoai" value="Thêm Mới" />
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên  Nhà Xuất Bản</label>
+            <div class="col-md-10">
+               @Html.EditorFor(Model=>Model.Ten,new { htmlAttributes = new { @class = "form-control" } })
+                <span class="text-danger" data-valsmg-for="Ten"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" >GhiChu</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="GhiChu" />
+                <span class="text-danger" data-valsmg-for="GhiChu"></span>
+            </div>
+        </div>
+        
+        <input type="submit" name="btnThemTheLoai" class="btn btn-default" value="Thêm Mới" />
     }
 </div>
 
