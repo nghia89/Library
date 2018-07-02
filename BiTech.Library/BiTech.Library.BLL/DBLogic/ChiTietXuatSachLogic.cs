@@ -12,7 +12,7 @@ namespace BiTech.Library.BLL.DBLogic
     public class ChiTietXuatSachLogic
     {
         ChiTietXuatSachEngine _ChiTietXuatSachEngine;
-        private string TableName = "ChiTietNhapSach";
+        private string TableName = "ChiTietXuatSach";
         public ChiTietXuatSachLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString, databaseName);
@@ -25,6 +25,11 @@ namespace BiTech.Library.BLL.DBLogic
         public string Insert(ChiTietXuatSach ctxs)
         {
             return _ChiTietXuatSachEngine.Insert(ctxs);
+        }
+
+        public List<ChiTietXuatSach> GetAllChiTietById(string id)
+        {
+            return _ChiTietXuatSachEngine.GetAllChiTietById(id);
         }
 
         public ChiTietXuatSach GetById(string id)

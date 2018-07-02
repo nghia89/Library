@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BiTech.Library.Models.PhieuXuatSachModels>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="Title">Danh Sách Phiếu Xuất</div>
+<div class="container clearfix">
+
+    <a href="@Url.Action("TaoPhieuXuatSach")" class="btn btn-primary">Thêm Mới</a>
+    <div class="book_content clearfix">
+        <table class="table table-striped" border="1">
+            <thead>
+                <tr style="background:orange">
+                    <th>IdUserAdmin</th>
+                    <th>GhiChu</th>
+                    <th>NgayXuat</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.listphieuxuat)
+                {
+                    <tr>
+                        <td>@item.IdUserAdmin</td>
+                        <td>@item.GhiChu</td>
+                        <td>@String.Format("{0:M/d/yyyy}", item.NgayXuat)</td>
+                        <td><a href="@Url.Action("Details","PhieuXuatSach", new { id = item.Id })">Xem chi tiết</a></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+
+

@@ -76,16 +76,26 @@
                                  new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauSach as s.TenSach for s in list" })
                         </div>*@
                 </div>
+                <div ng-cloak ng-controller="ExportBookCtrlr" class="w3-card-2 w3-margin" style="max-width:600px;">
+
+                    @*@Html.TextAreaFor(m => m.GhiChu);*@
+
+                    @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
+                    @*<div class="form-group">
+                @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauSach"),
+                     new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauSach as s.TenSach for s in list" })
+            </div>*@
+                </div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn btn-primary" value="Tạo mới" />
+                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
             </div>
         </div>
-
-    }
-</div>
+            }
+        </div>
 @section scripts{
     <script type="text/javascript" language="javascript">
                                 $(document).ready(function () {

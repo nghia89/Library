@@ -13,6 +13,15 @@ namespace BiTech.Library.Controllers
     {
         public ActionResult Index()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
+            ViewBag.listphieunhap = _PhieuNhapSachLogic.Getall();
             return View();
         }
 
@@ -150,8 +159,10 @@ namespace BiTech.Library.Controllers
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuong += ctns.soLuong;
                             _SachLogic.Update(updatesl);
+                           
                         }
                     }
+                    return RedirectToAction("Index");
                 }
             }
 
@@ -159,6 +170,56 @@ namespace BiTech.Library.Controllers
             ModelState.Clear();
 
             return View();
+        }
+        public ActionResult Details(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic =
+              new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            PhieuNhapSachLogic _PhieuNhapSachLogic =
+             new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
+
+
+            var model = _ChiTietNhapSachLogic.GetAllChiTietById(id);
+            var phieunhap = _PhieuNhapSachLogic.GetById(id);
+            PhieuNhapSachModel pns = new PhieuNhapSachModel()
+            {
+                
+                IdUserAdmin = phieunhap.IdUserAdmin,
+                GhiChu = phieunhap.GhiChu,
+                NgayNhap = phieunhap.NgayNhap
+
+            };
+            List<ChiTietNhapSachViewModels> lst = new List<ChiTietNhapSachViewModels>();
+            foreach (var item in model)
+            {
+
+                ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
+                ctns.Id = item.Id;
+                ctns.IdTinhTrang = item.IdTinhtrang;
+                var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
+                ctns.tenTinhTrang = TinhTrang.TenTT;
+                ctns.IdSach = item.IdSach;
+                var TenSach = _SachLogic.GetBookById(ctns.IdSach);
+                ctns.ten = TenSach.TenSach;
+                ctns.IdDauSach = TenSach.IdDauSach;
+                ctns.IdPhieuNhap = item.IdPhieuNhap;
+                ctns.soLuong = item.soLuong;
+
+                lst.Add(ctns);
+
+            }
+            ViewBag.lstctnhap = lst;
+
+            return View(pns);
         }
         [HttpGet]
         public JsonResult _GetBookItemById(string idBook, int soLuong, string idtrangthai)
