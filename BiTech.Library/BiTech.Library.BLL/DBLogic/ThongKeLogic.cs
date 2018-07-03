@@ -58,11 +58,13 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _thongKeEngine.ListPhieuMuon();
         }
-
-
         public List<PhieuMuon>GetPMByIdThanhVien(string idThanhVien)
         {
-            return _phieuMuonEngine.GetByIdUser(idThanhVien);
+            return _phieuMuonEngine.GetPMByIdUser(idThanhVien);
+        }
+        public List<PhieuMuon> GetPMByNgayMuon(DateTime ngayMuon)
+        {
+            return _thongKeEngine.GetPMByNgayMuon(ngayMuon);
         }
 
         public Sach GetSachById(string idSach)

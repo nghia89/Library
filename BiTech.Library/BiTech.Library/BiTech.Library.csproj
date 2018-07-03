@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -193,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
+    <Compile Include="Controllers\BaseClass\NghiepVuThongKeController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Aspose\FileManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -671,6 +673,7 @@
     <Content Include="Views\PhieuMuon\_EditPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\ChiTietPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\GiaHanPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
     <Content Include="Views\PhieuTra\Index.cshtml" />
     <Content Include="Views\PhieuTra\TraSach.cshtml" />
     <Content Include="Views\PhieuTra\TaoPhieuTra.cshtml" />
@@ -697,20 +700,20 @@
     <Content Include="Views\TacGia\Index.cshtml" />
     <Content Include="Views\TacGia\Create.cshtml" />
     <Content Include="Views\TacGia\Edit.cshtml" />
-    <Content Include="Views\PhieuNhapSach\TaoPhieuNhapSach.cshtml" />
     <Content Include="Views\KeSach\Index.cshtml" />
     <Content Include="Views\KeSach\Create.cshtml" />
     <Content Include="Views\KeSach\Edit.cshtml" />
-    <Content Include="Views\PhieuXuatSach\TaoPhieuXuatSach.cshtml" />
     <Content Include="Views\LyDoXuat\Index.cshtml" />
     <Content Include="Views\LyDoXuat\Edit.cshtml" />
     <Content Include="Views\LyDoXuat\Create.cshtml" />
     <Content Include="Views\ThongKe\DanhSachChuaTra.cshtml" />
     <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
-    <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
+    <Content Include="Views\ThongKe\BieuDoPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuXuatSach\TaoPhieuXuatSach.cshtml" />
     <Content Include="Views\PhieuXuatSach\Index.cshtml" />
     <Content Include="Views\PhieuXuatSach\Details.cshtml" />
+    <Content Include="Views\PhieuNhapSach\TaoPhieuNhapSach.cshtml" />
     <Content Include="Views\PhieuNhapSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Index.cshtml" />
   </ItemGroup>
