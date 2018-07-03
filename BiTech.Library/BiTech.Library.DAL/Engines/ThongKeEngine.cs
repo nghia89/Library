@@ -21,6 +21,11 @@ namespace BiTech.Library.DAL.Engines
         {
             // return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted).SortByDescending(x=>x.NgayPhaiTra).ToList();
             return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted).ToList();
-        }      
+        }    
+        public List<PhieuMuon>GetPMByNgayMuon(DateTime ngayMuon)
+        {
+            return _DatabaseCollection.Find(_ => _.NgayMuon == ngayMuon).ToList();
+        }
+              
     }
 }
