@@ -11,6 +11,7 @@ namespace BiTech.Library.Controllers
 {
     public class KeSachController : BaseController
     {
+  
         // GET: KeSach
         public ActionResult Index()
         {

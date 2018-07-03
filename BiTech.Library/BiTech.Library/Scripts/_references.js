@@ -1,4 +1,7 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="../app/app.js" />
+/// <reference path="../bower_components/angular-chart.js/dist/angular-chart.js" />
+/// <reference path="../bower_components/chart.js/chart.js" />
 /// <reference path="../bower_components/jquery/dist/jquery.js" />
 /// <reference path="../bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js" />
 /// <reference path="../bower_components/jquery-validation/dist/jquery.validate.js" />

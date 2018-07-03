@@ -198,6 +198,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TacGiaController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
     <Compile Include="Controllers\PhieuMuonController.cs" />
@@ -235,8 +236,16 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="Assets\Images\Sana Twice 1996.jpg" />
+    <Content Include="bower_components\angular-chart.js\angular-chart.js" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.css" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.js" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.css" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.js" />
+    <Content Include="bower_components\angular-chart.js\gulpfile.js" />
+    <Content Include="bower_components\Chart.js\Chart.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\gulpfile.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.min.js" />
@@ -621,6 +630,21 @@
     <Content Include="bower_components\jquery\sizzle\dist\sizzle.min.map" />
     <Content Include="bower_components\jquery\src\.jshintrc" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="bower_components\Chart.js\.bower.json" />
+    <Content Include="bower_components\Chart.js\bower.json" />
+    <Content Include="bower_components\angular-chart.js\.bower.json" />
+    <Content Include="bower_components\angular-chart.js\angular-chart.less" />
+    <Content Include="bower_components\angular-chart.js\bower.json" />
+    <Content Include="bower_components\angular-chart.js\CONTRIBUTING.md" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.js.tar.gz" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.css.map" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.js.map" />
+    <Content Include="bower_components\angular-chart.js\Dockerfile" />
+    <Content Include="bower_components\angular-chart.js\ISSUE_TEMPLATE.md" />
+    <Content Include="bower_components\angular-chart.js\LICENSE" />
+    <Content Include="bower_components\angular-chart.js\package.json" />
+    <Content Include="bower_components\angular-chart.js\PULL_REQUEST_TEMPLATE.md" />
+    <Content Include="bower_components\angular-chart.js\README.md" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -716,11 +740,15 @@
     <Content Include="Views\PhieuXuatSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Index.cshtml" />
+    <Content Include="Views\Statistic\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\components\" />
+    <Folder Include="app\shared\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\BarCodes\" />
     <Folder Include="Content\TempFiles\" />
+    <Folder Include="Views\Statictical\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
