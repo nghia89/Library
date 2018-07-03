@@ -54,6 +54,11 @@ a:hover {
         .container-lib .form-group:nth-child(2n+1) {
             clear: both;
         }
+
+.form-label {
+    text-align: right;
+    font-weight: 600;
+}
 /*---Menu left---*/
 
 .menu .icon {

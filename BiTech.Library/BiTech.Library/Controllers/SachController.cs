@@ -28,17 +28,17 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ListBooksModel model = new ListBooksModel();
-
+            
             var list = _SachLogic.getAllSach();
             foreach (var item in list)
             {
                 BookView book = new BookView(item);
 
-                book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai??"--";
-                book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten??"--";
-                book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe??"--";
-                book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten??"--";
-
+                book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
+                book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
+                book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
+                book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
+                
                 model.Books.Add(book);
             }
 
@@ -96,7 +96,7 @@ namespace BiTech.Library.Controllers
                             model.FileImageCover.InputStream.CopyTo(fileStream);
 
                             var book = _SachLogic.GetById(id);
-                            book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "./").Replace(@"\", @"/").Replace(@"//", @"/");
+                            book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                             _SachLogic.Update(book);
                         }
                     }
@@ -120,11 +120,19 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             Sach sachDTO = _SachLogic.GetById(id);
-
+            if (sachDTO == null)
+            {
+                return RedirectToAction("Index");
+            }
             SachUploadModel model = new SachUploadModel(sachDTO);
             model.Languages = _LanguageLogic.GetAll();
 

@@ -26,7 +26,7 @@ namespace BiTech.Library.DAL.Respository
 
         public T GetById(string id)
         {
-            if (id.Length != 24)
+            if (id?.Length != 24)
                 return default(T);
             return _DatabaseCollection.Find(m => m.Id == id).FirstOrDefault();
         }

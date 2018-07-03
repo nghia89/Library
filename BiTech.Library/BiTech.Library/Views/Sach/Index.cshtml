@@ -24,8 +24,8 @@
                     <div class="book_image">
                         <div class="book_image_in">
                             <div class="book_number">@i</div>
-                            <object data='@Html.Raw(!string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) ? item.SachDTO.LinkBiaSach:"../Assets/Images/Sana Twice 1996.jpg")' type="image/png">
-                                <img src="../Assets/Images/Sana Twice 1996.jpg" />
+                            <object data='@Html.Raw(!string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) ? item.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")' type="image/png">
+                                <img src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" />
                             </object>
                             <a href="@Url.Action("Edit", new { id = item.SachDTO.Id })">Xem</a>
                         </div>
