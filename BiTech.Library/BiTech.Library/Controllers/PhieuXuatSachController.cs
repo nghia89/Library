@@ -79,21 +79,22 @@ namespace BiTech.Library.Controllers
                         {
                             IdPhieuNhap = idPhieuXuat,
                             IdSach = ctModel.IdSach,
-                            IdTinhtrang = ctModel.IdTinhTrang,
+                            IdTinhTrang = ctModel.IdTinhTrang,
                             IdLyDo = ctModel.IdLydo,
-                            soLuong = ctModel.soLuong,
+                            SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now
                         };
 
                         _ChiTietNhapSachLogic.Insert(ctxs);
                         {
                             //update số lượng sách trạng thái
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhtrang);
-                            sltt.SoLuong -= ctxs.soLuong;
+                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhTrang);
+                            sltt.SoLuong -= ctxs.SoLuong;
                             _SoLuongSachTrangThaiLogic.Update(sltt);
                             //update tổng số lượng sách
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
-                            updatesl.SoLuong -= ctxs.soLuong;
+                            updatesl.SoLuongTong -= ctxs.SoLuong;
+                            updatesl.SoLuongConLai -= ctxs.SoLuong;
                             _SachLogic.Update(updatesl);
                         }
                     }

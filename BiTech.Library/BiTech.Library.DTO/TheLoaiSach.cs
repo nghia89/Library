@@ -16,6 +16,9 @@ namespace BiTech.Library.DTO
         public DateTime CreateDateTime { get; set; }
 
         public string TenTheLoai { get; set; }
+
+        public string IdTheLoaiCha { get; set; }
+
         public string MoTa { get; set; }
     }
 }

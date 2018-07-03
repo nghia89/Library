@@ -1,0 +1,147 @@
+﻿@model BiTech.Library.Models.SachUploadModel
+@{
+    ViewBag.Title = "SuaSach";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="Title">Sửa Sách</div>
+<div ng-app="LibraryApp" class="container-lib clearfix">
+    @using (Html.BeginForm("Sua", "Sach", FormMethod.Post, new { role = "form" }))
+    {
+
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="tensach">Tên Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control", @id = "tensach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="iddausach">Id Đầu Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.IdDauSach, new { @class = "form-control", @id = "iddausach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="TenTheLoai">Thể Loại Sách:</label>
+            <div class="col-sm-9" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
+                @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
+                    new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+                @*s.Id as s.TenTheLoai for s in list*@
+                <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" data-ajax="true"
+                    data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập loại</a>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="IdKeSach">Id Kệ sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.IdKeSach, new { @class = "form-control", @id = "IdKeSach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="IdNhaXuatBan">Nhà Xuất Bản:</label>
+            <div class="col-sm-9" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
+                @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
+                    new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" data-ajax="true"
+                    data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập nxb</a>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="MaKiemSoat">Id Mã Kiểm Soát:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.MaKiemSoat, new { @class = "form-control", @id = "MaKiemSoat" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="SoTrang">Số Trang:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control", @id = "SoTrang" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="NgonNgu">Ngôn Ngữ:</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(Model.Languages, "Id", "Ten"), new { @class = "form-control", @id = "NgonNgu" })
+                @*@Html.EnumDropDownListFor(m => m.NgonNgu, new { @class = "form-control", @id = "NgonNgu" })*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="NamXuatBan">Năm Sản Xuất:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control", @id = "NamSanXuat" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="GiaSach">Giá Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control", @id = "GiaSach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="LinkBiaSach">Link Bìa Sách:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.LinkBiaSach, new { @class = "form-control", @id = "LinkBiaSach" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for="TomTat">Tóm Tắt:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.SachDTO.TomTat, new { @class = "form-control", @id = "TomTat" })
+            </div>
+        </div>
+        <div class="form-group row box_temp_lg">
+            <label class="col-form-label col-sm-3" for=""></label>
+            <div class="col-sm-9">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3" for=""></label>
+            <div class="col-sm-9">
+                <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaItem('@Model.SachDTO.Id')" />
+                <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default"/>
+            </div>
+        </div>
+    }
+
+</div>
+<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/LibraryAngularJS.js"></script>
+@section scripts{
+    <script>
+        function XoaItem(id) {
+            swal({
+                title: " Bạn có muốn xóa?",
+                text: "Bạn sẽ không thể khôi phục lại sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Sach/Delete",
+                        data: { "Id": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function (isConfirm) {
+                                window.location.href = '/Sach';
+                            });
+                        }
+                    });
+                } 
+            });
+        }
+    </script>
+}

@@ -4,6 +4,7 @@ namespace BiTech.Library.Models
 {
     public class SSOUserDataModel
     {
+        public string Id { get; set; } = "";
         public string Role { get; set; } = "";
 
         public Dictionary<string, SSOUserAppModel> MyApps { get; set; } = new Dictionary<string, SSOUserAppModel>();

@@ -1,4 +1,4 @@
-﻿@model  BiTech.Library.Models.SachViewModels
+﻿@model  BiTech.Library.Models.SachUploadModel
 @{
     ViewBag.Title = "ThemSach";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -8,44 +8,48 @@
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 @*<script src="~/bower_components/jquery/dist/jquery.js"></script>*@
 <div ng-app="LibraryApp" class="container-lib clearfix">
-    @using (Html.BeginForm("Them", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
     {
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="tensach">Tên Sách:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.TenSach, new { @class = "form-control", @id = "tensach" })
+                @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control", @id = "tensach" })
             </div>
         </div>
+
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="iddausach">Id Đầu Sách:</label>
+            <label class="col-form-label col-sm-2" for="iddausach">Mã Đầu Sách:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.IdDauSach, new { @class = "form-control", @id = "iddausach" })
+                @Html.TextBoxFor(m => m.SachDTO.IdDauSach, new { @class = "form-control", @id = "iddausach" })
             </div>
         </div>
+
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="ListTT">Id Loại Sách:</label>
+            <label class="col-form-label col-sm-2" for="ListTT">Loại Sách:</label>
             <div class="col-sm-9">
                 <div id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
-                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Id as s.TenTheLoai for s in list" })
-
+                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
+                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+                    @*s.Id as s.TenTheLoai for s in list*@
                     <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" data-ajax="true"
                        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập loại</a>
                 </div>
             </div>
         </div>
+
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="idkesach">Id Kệ Sách:</label>
+            <label class="col-form-label col-sm-2" for="idkesach">Kệ Sách:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.IdKeSach, new { @class = "form-control", @id = "idkesach" })
+                @Html.TextBoxFor(m => m.SachDTO.IdKeSach, new { @class = "form-control", @id = "idkesach" })
             </div>
         </div>
+
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="ListNXB">Nhà Xuất Bản:</label>
             <div class="col-sm-9">
                 <div id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
-                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Id as s.Ten for s in list" })
+                    @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
+                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                     <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" data-ajax="true"
                        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Nhập nxb</a>
                 </div>
@@ -55,57 +59,50 @@
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="idmakiemsoat">Mã Kiểm Soát:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat" })
+                @Html.TextBoxFor(m => m.SachDTO.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat" })
             </div>
         </div>
-
-        @*<div class="form-group row">
-                <label class="col-form-label col-sm-3" for="hinh">Hình:</label>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.Hinh, new { @class = "form-control", @id = "hinh" })
-                </div>
-            </div>*@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="sotrang">Số Trang:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.SoTrang, new { @class = "form-control", @id = "sotrang" })
+                @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control", @id = "sotrang" })
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="NgonNgu">Ngôn Ngữ:</label>
             <div class="col-sm-9">
-                @Html.EnumDropDownListFor(m => m.NgonNgu, new { @class = "form-control", @id = "NgonNgu" })
+                @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(Model.Languages, "Id", "Ten"), new { @class = "form-control", @id = "NgonNgu" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="NamSanXuat">Năm Sản Xuất:</label>
+            <label class="col-form-label col-sm-2" for="NamSanXuat">Năm Xuất Bản:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.NamSanXuat, new { @class = "form-control", @id = "NamSanXuat" })
+                @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control", @id = "NamSanXuat" })
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="GiaSach">Giá Sách:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.GiaSach, new { @class = "form-control", @id = "GiaSach" })
+                @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control", @id = "GiaSach" })
             </div>
         </div>
 
-        @*<div class="form-group row">
-            <label class="col-form-label col-sm-3" for="LinkBiaSach">Link Bìa Sách:</label>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="PhiMuonSach">Phí mượn sách:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.LinkBiaSach, new { @class = "form-control", @id = "LinkBiaSach" })
+                @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control", @id = "PhiMuonSach" })
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="TomTat">Tóm Tắt:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.TomTat, new { @class = "form-control", @id = "TomTat" })
-                @Html.ValidationMessageFor(m => m.TomTat)
+                @Html.TextBoxFor(m => m.SachDTO.TomTat, new { @class = "form-control", @id = "TomTat" })
+                @Html.ValidationMessageFor(m => m.SachDTO.TomTat)
             </div>
         </div>
 
@@ -117,17 +114,12 @@
                 @Html.ValidationMessageFor(m => m.FileImageCover)
             </div>
         </div>
-
+        
         <div class="form-group row box_temp_lg">
             <label class="col-form-label col-sm-2"></label>
             <div class="col-sm-9">
                 <input type="submit" class="btn btn-primary" name="btnThemSach" value="Thêm Mới" />
                 <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default" />
-            </div>
-        </div>
-        <div class="form-group row box_temp_lg">
-            <label class="col-form-label col-sm-2"></label>
-            <div class="col-sm-9">
             </div>
         </div>
 

@@ -45,29 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChiTietNhapSach.cs" />
-    <Compile Include="ChiTietPhieuMuon.cs" />
-    <Compile Include="ChiTietPhieuTra.cs" />
-    <Compile Include="ChiTietXuatSach.cs" />
-    <Compile Include="Enum_V.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="Example.cs" />
+    <Compile Include="NhapXuatKho\ChiTietNhapSach.cs" />
+    <Compile Include="MuonTra\ChiTietPhieuMuon.cs" />
+    <Compile Include="MuonTra\ChiTietPhieuTra.cs" />
+    <Compile Include="NhapXuatKho\ChiTietXuatSach.cs" />
+    <Compile Include="base\Enums.cs" />
     <Compile Include="GiaHan.cs" />
-    <Compile Include="IModel.cs" />
-    <Compile Include="LyDoXuat.cs" />
-    <Compile Include="PhieuNhapSach.cs" />
-    <Compile Include="NhaXuatBan.cs" />
-    <Compile Include="SoLuongSachTrangThai.cs" />
-    <Compile Include="PhieuXuatSach.cs" />
-    <Compile Include="PhieuMuon.cs" />
-    <Compile Include="PhieuTra.cs" />
-    <Compile Include="ThanhVien.cs" />
-    <Compile Include="TrangThaiSach.cs" />
-    <Compile Include="KeSach.cs" />
-    <Compile Include="TheLoaiSach.cs" />
-    <Compile Include="Sach.cs" />
-    <Compile Include="SachTacGia.cs" />
-    <Compile Include="TacGia.cs" />
+    <Compile Include="base\IModel.cs" />
+    <Compile Include="NhapXuatKho\LyDoXuat.cs" />
+    <Compile Include="NhapXuatKho\PhieuNhapSach.cs" />
+    <Compile Include="Sach\Language.cs" />
+    <Compile Include="Sach\NhaXuatBan.cs" />
+    <Compile Include="Sach\SoLuongSachTrangThai.cs" />
+    <Compile Include="NhapXuatKho\PhieuXuatSach.cs" />
+    <Compile Include="MuonTra\PhieuMuon.cs" />
+    <Compile Include="MuonTra\PhieuTra.cs" />
+    <Compile Include="ThanhVien\ThanhVien.cs" />
+    <Compile Include="ThuVien\ThongTinThuVien.cs" />
+    <Compile Include="Sach\TrangThaiSach.cs" />
+    <Compile Include="Sach\KeSach.cs" />
+    <Compile Include="Sach\TheLoaiSach.cs" />
+    <Compile Include="Sach\Sach.cs" />
+    <Compile Include="Sach\SachTacGia.cs" />
+    <Compile Include="Sach\TacGia.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

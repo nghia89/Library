@@ -58,6 +58,10 @@
       <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\MongoDB.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
       <Private>True</Private>
@@ -198,6 +202,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
+    <Compile Include="Controllers\Sach\NgonNguController.cs" />
     <Compile Include="Controllers\TacGiaController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
     <Compile Include="Controllers\PhieuMuonController.cs" />
@@ -224,6 +229,7 @@
     <Compile Include="Models\PhieuXuatSachModels.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SachViewModels.cs" />
+    <Compile Include="Models\Sach\LanguageViewModels.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
     <Compile Include="Models\TacGiaViewModel.cs" />
     <Compile Include="Models\ThongKeViewModel.cs" />
@@ -687,9 +693,8 @@
     <Content Include="Views\TrangThaiSach\Sua.cshtml" />
     <Content Include="Views\TrangThaiSach\Xoa.cshtml" />
     <Content Include="Views\Sach\Index.cshtml" />
-    <Content Include="Views\Sach\Them.cshtml" />
-    <Content Include="Views\Sach\Sua.cshtml" />
-    <Content Include="Views\Sach\Xoa.cshtml" />
+    <Content Include="Views\Sach\Create.cshtml" />
+    <Content Include="Views\Sach\Edit.cshtml" />
     <Content Include="Views\Sach\_NhapLoaiSach.cshtml" />
     <Content Include="Views\Sach\_NhapNhaXuatBan.cshtml" />
     <Content Include="Views\NhapSach\NhapSach.cshtml" />
@@ -711,6 +716,9 @@
     <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
     <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
+    <Content Include="Views\NgonNgu\Index.cshtml" />
+    <Content Include="Views\NgonNgu\Edit.cshtml" />
+    <Content Include="Views\NgonNgu\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

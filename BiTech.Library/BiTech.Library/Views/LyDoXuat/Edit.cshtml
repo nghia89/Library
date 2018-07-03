@@ -36,7 +36,7 @@
                 confirmButtonText: "Có",
                 cancelButtonText: "Không",
                 closeOnConfirm: false,
-                closeOnCancel: false
+                closeOnCancel: true
             },
             function (isConfirm) {
                 if (isConfirm) {
@@ -59,7 +59,6 @@
                         }
                     });
                 } else {
-                    swal("Cancelled", "Your imaginary file is safe :)", "error");
                 }
             });
         }

@@ -127,7 +127,6 @@ namespace BiTech.Library.Controllers
         //    }
         //    return PartialView(vmodel);
         //}
-
         public ActionResult _CreatePhieuMuon()
         {
             #region  Lấy thông tin người dùng
@@ -151,12 +150,12 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
+        [HttpPost]
         /// <summary>
         /// Insert vào 2 bảng PhieuMuon và ChiTietPhieuMuon và cập nhật lại số lượng sách bảng Sach
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        [HttpPost]
         public ActionResult _CreatePhieuMuon(PhieuMuonModelView viewModel)
         {
             #region  Lấy thông tin người dùng
@@ -529,7 +528,7 @@ namespace BiTech.Library.Controllers
                 slSachTra += item.SoLuong;
             }
             //(tong - (muon -tra) = kha dung
-            return soLuong <= (sach.SoLuong - (slSachMuon - slSachTra)) ? true : false;
+            return soLuong <= (sach.SoLuongTong - (slSachMuon - slSachTra)) ? true : false;
         }
 
         #endregion

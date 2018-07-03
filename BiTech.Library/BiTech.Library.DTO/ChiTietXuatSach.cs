@@ -18,9 +18,13 @@ namespace BiTech.Library.DTO
         public DateTime CreateDateTime { get; set; }
 
         public string IdPhieuNhap { get; set; }
+
         public string IdSach { get; set; }
-        public string IdTinhtrang { get; set; }
+
+        public string IdTinhTrang { get; set; }
+
         public string IdLyDo { get; set; }
-        public int soLuong { get; set; }
+
+        public int SoLuong { get; set; }
     }
 }

@@ -26,11 +26,16 @@ namespace BiTech.Library.DAL.Respository
 
         public T GetById(string id)
         {
+            if (id.Length != 24)
+                return default(T);
             return _DatabaseCollection.Find(m => m.Id == id).FirstOrDefault();
         }
 
         public string Insert(T entity)
         {
+            entity.Id = null;
+            entity.CreateDateTime = DateTime.Now;
+
             _DatabaseCollection.InsertOne(entity);
             return entity.Id.ToString();
         }
