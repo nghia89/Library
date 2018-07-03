@@ -1,4 +1,5 @@
-﻿using BiTech.Library.BLL.DBLogic;
+﻿using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
@@ -459,7 +460,7 @@ namespace BiTech.Library.Controllers
                 TenSach = sach.TenSach
             };
 
-            BarCodeManager barcode = new BarCodeManager();
+            BarCodeQRManager barcode = new BarCodeQRManager();
             string barCodePath = barcode.CreateBarCode(modelSach.IdDauSach, modelSach.IdDauSach);
 
             ViewData["BarCodePath"] = barCodePath;

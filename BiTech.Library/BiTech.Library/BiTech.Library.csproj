@@ -59,6 +59,10 @@
       <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
     <Reference Include="OnBarcode.Barcode.BarcodeScanner">
       <HintPath>C:\Users\vinh\Downloads\OnBarcode.BarcodeReader.Dotnet\OnBarcode.BarcodeReader.Dotnet\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
     </Reference>
@@ -207,7 +211,6 @@
     <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\Aspose\BarCodeManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
@@ -228,7 +231,6 @@
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\LicenseHelper.cs" />
     <Compile Include="Helpers\Tool.cs" />
-    <Compile Include="Controllers\BaseClass\baseBarCodeLic.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
     <Compile Include="Models\MuonTraSach.cs" />
@@ -687,7 +689,6 @@
     <Content Include="Views\PhieuTra\Index.cshtml" />
     <Content Include="Views\PhieuTra\TraSach.cshtml" />
     <Content Include="Views\PhieuTra\TaoPhieuTra.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Them.cshtml" />
     <Content Include="Views\TheLoaiSach\Sua.cshtml" />

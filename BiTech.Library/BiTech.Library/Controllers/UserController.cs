@@ -1,12 +1,15 @@
-﻿using BiTech.Library.BLL.DBLogic;
+﻿using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static BiTech.Library.Helpers.Tool;
 
 namespace BiTech.Library.Controllers
 {
@@ -18,29 +21,37 @@ namespace BiTech.Library.Controllers
         }
 
         // GET: User
-        public ActionResult Index()
+        public ActionResult Index(string IdUser)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            
+            if (String.IsNullOrEmpty(IdUser))
+                IdUser = "";
+            ViewBag.IdUser = IdUser;            
             return View();
         }
 
-        public PartialViewResult _PartialUser()
+        public PartialViewResult _PartialUser(string IdUser)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
                 return null;
             #endregion
-
+            List<ThanhVien> lstUser = new List<ThanhVien>();
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            List<ThanhVien> lstUser = _ThanhVienLogic.GetAll();
-            return PartialView(lstUser);
+            if (String.IsNullOrEmpty(IdUser))
+            {
+                lstUser = _ThanhVienLogic.GetAll();
+            }
+            else
+            {
+                lstUser.Add(_ThanhVienLogic.GetByIdUser(IdUser));
+            }
+            return PartialView(lstUser);                     
 
             //return new JsonResult(new { tensach = "", cover = "" });
         }
@@ -70,7 +81,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
+            BarCodeQRManager barcode = new BarCodeQRManager();
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ThanhVien model = new ThanhVien()
@@ -84,8 +95,31 @@ namespace BiTech.Library.Controllers
                 SDT = viewModel.SDT,
                 TrangThai = EUser.Active, // mac dinh la Active
                 CreateDateTime = DateTime.Now
-            };
+            };          
+            //insert
             string id = _ThanhVienLogic.Insert(model);
+            try
+            {
+                // Lấy đường dẫn lưu QR
+                string physicalWebRootPath = Server.MapPath("~/");
+
+                string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+
+                var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, id + ".bmp");
+                string location = Path.GetDirectoryName(uploadFileName);
+                if (!Directory.Exists(location))
+                {
+                    Directory.CreateDirectory(location);
+                }
+
+                var a = uploadFileName.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                //Tạo mã QR
+                bool bolQR = barcode.CreateQRCode(model.Id, a);
+            }
+            catch (Exception ex)
+            {
+                
+            }
             if(id == null || id == "")
             {
                 //Fail              
@@ -176,5 +210,14 @@ namespace BiTech.Library.Controllers
                 TempData["Success"] = "Xóa thất bại";          
             return View();
         }
+        /// <summary>
+        /// Tìm kiếm
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult Search(UserViewModel model  )
+        {
+            return RedirectToAction("Index", new { @IdUser = model.MaSoThanhVien });
+        }        
     }
 }

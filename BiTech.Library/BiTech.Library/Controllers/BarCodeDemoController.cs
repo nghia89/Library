@@ -1,5 +1,5 @@
-﻿
-using Aspose.BarCodeRecognition;
+﻿using Aspose.BarCodeRecognition;
+using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.Models;
 using OnBarcode.Barcode.BarcodeScanner;
 using System;
@@ -27,11 +27,11 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult BarCodeRead(HttpPostedFileBase barCodeUpload)
         {
-            String localSavePath = "~/UploadFiles/";
+            String localSavePath = "~/Upload/";
             string str = string.Empty;
             string strImage = string.Empty;
             string strBarCode = string.Empty;
-            BarCodeManager barcode = new BarCodeManager();
+            BarCodeQRManager barcode = new BarCodeQRManager();
 
             if (barCodeUpload != null)
             {
@@ -60,7 +60,7 @@ namespace BiTech.Library.Controllers
                 else
                 {
                     //img từ local
-                    strImage = "http://localhost:" + Request.Url.Port + "/UploadFiles/" + fileName;
+                    strImage = "http://localhost:" + Request.Url.Port + "/Upload/" + fileName;
 
                     strBarCode = barcode.ReadBarCode(Server.MapPath(localSavePath));
 
