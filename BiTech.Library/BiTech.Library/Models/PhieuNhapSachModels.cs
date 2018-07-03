@@ -6,8 +6,9 @@ using System.Web;
 
 namespace BiTech.Library.Models
 {
-    public class PhieuNhapSachModel
+    public class PhieuNhapSachModels
     {
+        public string IdPhieuNhap { get; set; }
         [Display(Name = "Ghi Chú")]
         [Required(ErrorMessage = "Vui lòng nhập ghi chú")]
         public string GhiChu { get; set; } = "";

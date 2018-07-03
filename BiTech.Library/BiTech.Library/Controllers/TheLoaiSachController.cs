@@ -170,28 +170,10 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Xoa(string id)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            TheLoaiSach TLS = _TheLoaiSachLogic.getById(id);
-            TheLoaiSachViewModels VM = new TheLoaiSachViewModels()
-            {
-                Id = TLS.Id,
-                TenTheLoai = TLS.TenTheLoai,
-                MoTa = TLS.MoTa,
-            };
-            return View(VM);
-        }
+     
 
         [HttpPost]
-        public ActionResult Xoa(TheLoaiSachViewModels model)
+        public ActionResult Xoa(string Id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -201,11 +183,11 @@ namespace BiTech.Library.Controllers
 
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            TheLoaiSach TLS = _TheLoaiSachLogic.getById(model.Id);
+           var TLS = _TheLoaiSachLogic.getById(Id);
             _TheLoaiSachLogic.XoaTheLoaiSach(TLS.Id);
             return RedirectToAction("Index");
         }
-
+        
         #region AngularJS
 
         public JsonResult Get_AllTheLoaiSach() //JsonResult

@@ -24,9 +24,9 @@ namespace BiTech.Library.DAL.Respository
             _DatabaseCollection = _Database.GetCollection<T>(_TableName);
         }
 
-        public T GetById(string id)
+        public T GetById(string Id)
         {
-            return _DatabaseCollection.Find(m => m.Id == id).FirstOrDefault();
+            return _DatabaseCollection.Find(m => m.Id == Id).FirstOrDefault();
         }
 
         public string Insert(T entity)

@@ -4,7 +4,10 @@
   margin: 20px 0;
   border-radius: 4px;
 }
-
+.pagination-container
+{
+    text-align:center;
+}
 .pagination > li {
   display: inline;
 }

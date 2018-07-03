@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using PagedList;
+using PagedList.Mvc;
 namespace BiTech.Library.Controllers
 {
     public class PhieuXuatSachController : BaseController
     {
         // GET: PhieuXuatSach
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -20,10 +21,24 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
             PhieuXuatSachLogic _PhieuXuatSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            var lst = _PhieuXuatSachLogic.Getall();
+            List<PhieuXuatSachModels> lstpxs = new List<PhieuXuatSachModels>();
+            foreach (var item in lst)
+            {
+                PhieuXuatSachModels pxs = new PhieuXuatSachModels()
+                {
+                    IdPhieuXuat=item.Id,
+                    IdUserAdmin=item.IdUserAdmin,
+                    GhiChu=item.GhiChu,
+                    NgayXuat=item.NgayXuat
 
-
-            ViewBag.listphieuxuat = _PhieuXuatSachLogic.Getall();
-            return View();
+                };
+                lstpxs.Add(pxs);
+            }
+            
+            return View(lstpxs.OrderByDescending(x=>x.NgayXuat).ToPagedList(PageNumber,PageSize));
         }
         public ActionResult Details(string id)
         {

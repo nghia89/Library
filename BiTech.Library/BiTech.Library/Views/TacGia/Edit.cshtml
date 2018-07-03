@@ -28,11 +28,17 @@
                 @Html.TextBoxFor(m => m.MoTa, new { @class = "form-control", @id = "mota" })
             </div>
         </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for=""></label>
+            <div class="col-sm-9">
+                <input type="hidden" value="@Model.Id" />
+                <input type="submit" name="btnSuaTacGia" class="btn btn-primary" value="Cập nhật" />
+                <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaTacGia('@Model.Id','@Model.TenTacGia')" />
+                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
+                @*<button value="Xoa" onclick="XoaTacGia()" />*@
+            </div>
+        </div>
         
-        <input type="hidden" value="@Model.Id"/>
-        <input type="submit" name="btnSuaTacGia" class="btn btn-primary" value="Cập nhật" />
-        <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaTacGia('@Model.Id','@Model.TenTacGia')" />
-        @*<button value="Xoa" onclick="XoaTacGia()" />*@
     }
 </div>
 @section scripts{

@@ -4,19 +4,73 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<h2 style="padding-bottom:50px">Sửa Trạng Thái Sách</h2>
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<div class="Title">Sửa Trạng Thái Sách</div>
 
 <div class="container">
     @using (Html.BeginForm("Sua", "TrangThaiSach", FormMethod.Post, new { role = "form" }))
     {
-        <div class="form-group">
-            <label class="class=" col-form-label col-sm-2">Tên Trạng Thái</label>
-            <div class="col-sm-6">
-                <input class="form-control" value="@Model.TenTT" name="TenTT" />
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="tensach">Trạng Thái:</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.TenTT, new { @class = "form-control", @id = "tentt" })
+                @Html.ValidationMessageFor(m => m.TenTT, "", new { @class = "text-danger" })
             </div>
+
         </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2"></label>
+                <div class="col-sm-9">
+                    <input type="submit" class="btn btn-primary" name="btnSuaTheLoai" value="Sửa" />
+                    <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaTTS('@Model.Id','@Model.TenTT')" />
+                    <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
+                </div>
+
+            </div>
+
         
-        <input type="submit" class="btn btn-default" name="btnSuaTheLoai" value="Sửa" />
     }
 </div>
+@section scripts{
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function XoaTTS(id,ten) {
+            swal({
+                title: " Bạn có muốn xóa trạng thái" + ten + "?",
+                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/TrangThaiSach/Xoa",
+                        data: { "Id": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function (isConfirm) {
+                                window.location.href = '/TrangThaiSach/Index';
+                            });
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+        }
+    </script>
+}
 

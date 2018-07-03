@@ -1,0 +1,153 @@
+﻿
+@using System;
+@using System.Globalization;
+@using BiTech.Library.DTO;
+@model BiTech.Library.Models.BieuDoPhieuMuonViewModel
+@{
+    ViewBag.Title = "BieuDoPhieuMuon";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+
+    var months = DateTimeFormatInfo
+    .InvariantInfo
+    .MonthNames
+    .TakeWhile(monthName => monthName != String.Empty)
+    .Select((monthName, index) => new SelectListItem
+    {
+        Value = (index + 1).ToString(CultureInfo.InvariantCulture),
+        Text = string.Format("({0}) {1}", index + 1, monthName)
+    });
+
+    var years = Enumerable
+    .Range(2017, 10)
+    .Select(year => new SelectListItem
+    {
+        Value = year.ToString(CultureInfo.InvariantCulture),
+        Text = year.ToString(CultureInfo.InvariantCulture)
+    });
+}
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<h2 class="text-center">Biểu đồ phiếu mượn</h2>
+<h6 class="text-info">Số phiếu mượn sách: <div class="text-success">@ViewBag.SoPhieuMuonSach</div></h6>
+<h6 class="text-info">Số phiếu mượn sách trễ hạn chưa trả: <div class="text-danger">@ViewBag.SoSachChuaTra</div></h6>
+<hr />
+<h4 class="text-info text-center">Thống kê theo tháng</h4>
+<div class="row">
+    <div class="col-md-1 text-right"><h5>Tháng</h5></div>
+    <div class="col-md-2">
+        @Html.DropDownList("month", months, new { onchange = @"onMonthSelectedChagned();", @class = "form-control" })
+    </div>
+    <div class="col-md-1 text-right"><h5>Năm</h5></div>
+    <div class="col-md-2">
+        @Html.DropDownList("year", years, new { onchange = @"onYearSelectedChagned();", @class = "form-control" })
+    </div>
+</div>
+@{ int ngay = 0; int soNguoiTraTreTrongNgay = 0; int soNguoiKhongTraTrongNgay = 0; }
+@foreach (var item in @Model.lsoNgayTrongThang)
+{
+    {
+        int tre = @Model.lsoNguoiTraTreTrongNgay[ngay];
+        int khongTra = @Model.lsoNguoiKhongTraTrongNgay[ngay];
+        soNguoiTraTreTrongNgay =tre != -1 ? tre : 0;
+        soNguoiKhongTraTrongNgay = khongTra != -1 ? khongTra : 0;
+    }
+    <h5 class="text-info">Ngày @item có:</h5>
+    <h6>* số "phiếu mượn" là: @Model.lsoPMTrongNgay[ngay] phiếu</h6>
+    <h6>* số "người mượn" là: @Model.lsoNguoiMuonTrongNgay[ngay] người</h6>
+    <h6>* số "người trả trể" là: @soNguoiTraTreTrongNgay người</h6>
+    <h6>* số "người không trả" là: @soNguoiKhongTraTrongNgay người</h6>   
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNgay[ngay] cuốn</h6>
+
+    { ngay++; }
+}
+
+
+<h4 class="text-info text-center">Thống kê theo quý</h4>
+@for (int i = 1; i <= 4; i++)
+{
+    <h5 class="text-info">Quý @i năm @ViewBag.Year có:</h5>
+    <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongQuy[i - 1] phiếu</h6>
+    <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongQuy[i - 1] người</h6>
+    <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongQuy[i - 1] người</h6>
+    <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongQuy[i - 1] người</h6>
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongQuy[i - 1] cuốn</h6>    
+    <hr />  
+}
+<h5 class="text-info">Quý 1 năm @ViewBag.Year có:</h5>
+    @for (int i = 1; i <= 3; i++)
+    {      
+                       
+        <h5 class="text-info">tháng @i :</h5>
+        <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
+        <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+        <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+        <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+        <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+        <hr />
+    }
+<h5 class="text-info">Quý 2 năm @ViewBag.Year có:</h5>
+@for (int i = 4; i <= 6; i++)
+{
+
+    <h5 class="text-info">tháng @i </h5>
+    <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
+        <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+        <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+        <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+        <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+        <hr />
+}
+<h5 class="text-info">Quý 3 năm @ViewBag.Year có:</h5>
+@for (int i = 7; i <= 9; i++)
+{
+
+    <h5 class="text-info">tháng @i </h5>
+    <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
+            <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+            <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+            <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+            <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+            <hr />
+}
+<h5 class="text-info">Quý 4 năm @ViewBag.Year có:</h5>
+@for (int i = 10; i <= 12; i++)
+{
+
+    <h5 class="text-info">tháng @i </h5>
+    <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
+            <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+            <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+            <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+            <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+            <hr />
+}
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                //showWeek: true,
+                dateFormat: "dd/mm/yy",
+                monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-1:+8",
+                onSelect: function (dateText, inst) {
+                    var ngay = $("input[name='day']").val();                    
+                    window.location.href = '/ThongKe/BieuDoPhieuMuon?&month=' + 0 + '&year=' + 0;
+                }
+            }).attr("readonly", "readonly");
+        });
+
+        function onMonthSelectedChagned() {
+            window.location.href = '/ThongKe/BieuDoPhieuMuon?&month=' + $("#month").val() + '&year=' + $("#year").val();
+        }
+
+        function onYearSelectedChagned() {
+            window.location.href = '/ThongKe/BieuDoPhieuMuon?&month=' + $("#month").val() + '&year=' + $("#year").val();
+        }
+    </script>
+}

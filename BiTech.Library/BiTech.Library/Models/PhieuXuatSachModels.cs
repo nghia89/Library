@@ -7,6 +7,7 @@ namespace BiTech.Library.Models
 {
     public class PhieuXuatSachModels
     {
+        public string IdPhieuXuat { get; set; }
         public string GhiChu { get; set; } = "";
 
         public DateTime NgayXuat { get; set; }

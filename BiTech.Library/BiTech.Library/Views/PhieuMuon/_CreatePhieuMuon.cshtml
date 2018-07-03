@@ -16,12 +16,13 @@
 <h5 class="text-danger">@ViewBag.SoLuong</h5>
 <h5 class="text-danger">@ViewBag.Date</h5>
 <hr />
+<div class="Title">Tạo phiếu mượn</div>
 <div ng-app="LibraryApp" class="container">
     @using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
-        <h4>Tạo phiếu mượn.</h4>
-        <hr />
+        
+       
         @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
@@ -87,6 +88,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn btn-primary" value="Tạo mới" />
+                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
             </div>
         </div>
         <hr />
