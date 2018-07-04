@@ -13,6 +13,17 @@ namespace BiTech.Library.BLL
         public static string Languages_Table = "NgonNgu";
         public static string KeSach_Table = "KeSach";
         public static string NhaXuatBan_Table = "NhaXuatBan";
+        public static string ChiTietPhieuMuon_Table = "ChiTietPhieuMuon";
+        public static string PhieuMuon_Table = "PhieuMuon";
+        public static string PhieuTra_Table = "PhieuTra";
+        public static string ChiTietPhieuTra_Table = "ChiTietPhieuTra";
+        //public static string _Table = "";
+        //public static string _Table = "";
+        //public static string _Table = "";
+        //public static string _Table = "";
+        //public static string _Table = "";
+        //public static string _Table = "";
+        //public static string _Table = "";
         //public static string _Table = "";
         //public static string _Table = "";
         //public static string _Table = "";

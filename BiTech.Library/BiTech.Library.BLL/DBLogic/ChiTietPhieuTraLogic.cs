@@ -18,6 +18,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             _ChiTietPhieuTraEngine = new ChiTietPhieuTraEngine(new Database(connectionString, dbName), TableName);
         }
+
         /// <summary>
         /// Get all ChiTietPhieuTraEngine object
         /// </summary>
@@ -30,6 +31,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuTraEngine.GetById(id);
         }
+
         /// <summary>
         /// Get list ChiTietPhieuTra by IdBook
         /// </summary>
@@ -39,6 +41,17 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuTraEngine.GetByIdBook(idBook);
         }
+
+        /// <summary>
+        /// Get list ChiTietPhieuTra by IdPhieuTra
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<ChiTietPhieuTra> GetByIdPhieuTra(string id)
+        {
+            return _ChiTietPhieuTraEngine.GetByIdPhieuTra(id);
+        }
+
         /// <summary>
         /// Insert a ChiTietPhieuTra object
         /// </summary>
@@ -48,6 +61,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuTraEngine.Insert(model);
         }
+
         /// <summary>
         /// update - delete( update status)
         /// </summary>
@@ -57,6 +71,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuTraEngine.Update(model);
         }
+
         public bool Remove(string id)
         {
             return _ChiTietPhieuTraEngine.Remove(id);

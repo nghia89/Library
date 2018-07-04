@@ -56,23 +56,33 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            var _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            #region Logics
+
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            ViewBag.Success = TempData["Success"];
-            ViewBag.UnSuccess = TempData["UnSuccess"];
-            ViewBag.SoLuong = TempData["SoLuong"];
-            PhieuMuon pm = _PhieuMuonLogic.GetById(idPM); // lay phieumuon thong qua idPM - lay idUser
-            ThanhVien nguoiMuon = _ThanhVienLogic.GetByIdUser(pm.IdUser); //ten ngupoi muon
+            var _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            
+            #endregion Logics
 
+            ViewBag.Success = TempData["Success"] = "";
+            ViewBag.UnSuccess = TempData["UnSuccess"] = "";
+            ViewBag.SoLuong = TempData["SoLuong"] = "";
+
+            var phieuMuon = _PhieuMuonLogic.GetById(idPM); // lay phieumuon thong qua idPM - lay idUser
+
+            var thanhVien = _ThanhVienLogic.GetByIdUser(phieuMuon.IdUser); //ten ngupoi muon
+            
             PhieuTraViewModel model = new PhieuTraViewModel()
             {
                 IdPM = idPM,
-                IdNguoiMuon = nguoiMuon.MaSoThanhVien,
-                NguoiMuon = nguoiMuon.Ten,
+                IdNguoiMuon = thanhVien.MaSoThanhVien,
+                NguoiMuon = thanhVien.Ten,
             };
+
             var listTTSach = _TrangThaiSachLogic.GetAll();
+
             // Load danh sách trạng thái
             ViewBag.ListTinhTrangSach = _TrangThaiSachLogic.GetAll();
 
@@ -163,7 +173,6 @@ namespace BiTech.Library.Controllers
                         _PhieuTraLogic.Remove(idPhieuTra);
                         throw ex;
                     }
-
                 }
             }
             var listTTSach = _TrangThaiSachLogic.GetAll();
@@ -212,7 +221,7 @@ namespace BiTech.Library.Controllers
                     ctpt.TrangThaiSach = trangThai.TenTT;
                 };
                 TempData["SoLuong"] = soLuong;
-                    var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idBook, idPM).SoLuong;
+                var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idBook, idPM).SoLuong;
                 if (soLuong > a)
                 {
                     result.Data = null;
