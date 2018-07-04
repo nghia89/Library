@@ -59,6 +59,13 @@
       <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
+      <HintPath>C:\Users\vinh\Downloads\OnBarcode.BarcodeReader.Dotnet\OnBarcode.BarcodeReader.Dotnet\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
       <Private>True</Private>
@@ -128,6 +135,14 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="zxing, Version=0.14.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.14.0.1\lib\net40\zxing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.14.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.14.0.1\lib\net40\zxing.presentation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -193,9 +208,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\Aspose\FileManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
@@ -216,7 +231,6 @@
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\LicenseHelper.cs" />
     <Compile Include="Helpers\Tool.cs" />
-    <Compile Include="Controllers\BaseClass\baseBarCodeLic.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
     <Compile Include="Models\MuonTraSach.cs" />
@@ -590,6 +604,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Properties\BarcodeScanControl.rd.xml" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
@@ -712,6 +727,7 @@
     <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
     <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
+    <Content Include="Views\BarCodeDemo\BarCodeRead.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

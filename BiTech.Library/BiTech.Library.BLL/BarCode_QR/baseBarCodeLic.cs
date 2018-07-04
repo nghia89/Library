@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BiTech.Library.Models
+namespace BiTech.Library.BLL.BarCode_QR
 {
     public class baseBarCodeLic
     {
