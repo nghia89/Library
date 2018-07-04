@@ -44,25 +44,26 @@
         @Html.DropDownList("year", years, new { onchange = @"onYearSelectedChagned();", @class = "form-control" })
     </div>
 </div>
-@{ int ngay = 0; int soNguoiTraTreTrongNgay = 0; int soNguoiKhongTraTrongNgay = 0; }
-@foreach (var item in @Model.lsoNgayTrongThang)
+@{ int soNguoiTraTreTrongNgay = 0; int soNguoiKhongTraTrongNgay = 0; int soNgayTrongThang = 0;}
+@*Số ngày mượn trong tháng*@
+@for (int i = 1; i <= @Model.SoNgayTrongThang; i++)
 {
-    {
-        int tre = @Model.lsoNguoiTraTreTrongNgay[ngay];
-        int khongTra = @Model.lsoNguoiKhongTraTrongNgay[ngay];
-        soNguoiTraTreTrongNgay =tre != -1 ? tre : 0;
+    {        
+        int tre = @Model.lsoNguoiTraTreTrongNgay[i];
+        int khongTra = @Model.lsoNguoiKhongTraTrongNgay[i];
+        soNguoiTraTreTrongNgay = tre != -1 ? tre : 0;
         soNguoiKhongTraTrongNgay = khongTra != -1 ? khongTra : 0;
+        soNgayTrongThang = @i;
+
     }
-    <h5 class="text-info">Ngày @item có:</h5>
-    <h6>* số "phiếu mượn" là: @Model.lsoPMTrongNgay[ngay] phiếu</h6>
-    <h6>* số "người mượn" là: @Model.lsoNguoiMuonTrongNgay[ngay] người</h6>
+    <h5 class="text-info">Ngày @soNgayTrongThang có:</h5>
+    <h6>* số "phiếu mượn" là: @Model.lsoPMTrongNgay[i] phiếu</h6>
+    <h6>* số "người mượn" là: @Model.lsoNguoiMuonTrongNgay[i] người</h6>
     <h6>* số "người trả trể" là: @soNguoiTraTreTrongNgay người</h6>
-    <h6>* số "người không trả" là: @soNguoiKhongTraTrongNgay người</h6>   
-    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNgay[ngay] cuốn</h6>
-
-    { ngay++; }
+    <h6>* số "người không trả" là: @soNguoiKhongTraTrongNgay người</h6>
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNgay[i] cuốn</h6>
+  
 }
-
 
 <h4 class="text-info text-center">Thống kê theo quý</h4>
 @for (int i = 1; i <= 4; i++)
@@ -72,29 +73,28 @@
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongQuy[i - 1] người</h6>
     <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongQuy[i - 1] người</h6>
     <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongQuy[i - 1] người</h6>
-    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongQuy[i - 1] cuốn</h6>    
-    <hr />  
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongQuy[i - 1] cuốn</h6>
+    <hr />
 }
 <h5 class="text-info">Quý 1 năm @ViewBag.Year có:</h5>
-    @for (int i = 1; i <= 3; i++)
-    {      
-                       
-        <h5 class="text-info">tháng @i :</h5>
-        <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
+@for (int i = 1; i <= 3; i++)
+{
+    <h5 class="text-info">tháng @i :</h5>
+    <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
         <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
         <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
         <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
         <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
         <hr />
-    }
+}
 <h5 class="text-info">Quý 2 năm @ViewBag.Year có:</h5>
 @for (int i = 4; i <= 6; i++)
 {
 
     <h5 class="text-info">tháng @i </h5>
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
-        <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
-        <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+    <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+    <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
         <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
         <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
         <hr />
@@ -105,8 +105,8 @@
 
     <h5 class="text-info">tháng @i </h5>
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
-            <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
-            <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+    <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+    <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
             <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
             <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
             <hr />
@@ -117,8 +117,8 @@
 
     <h5 class="text-info">tháng @i </h5>
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
-            <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
-            <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+    <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+    <h6>* số "người trả trể" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
             <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
             <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
             <hr />
@@ -126,22 +126,7 @@
 
 @section scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script>
-        $(function () {
-            $(".datepicker").datepicker({
-                //showWeek: true,
-                dateFormat: "dd/mm/yy",
-                monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-1:+8",
-                onSelect: function (dateText, inst) {
-                    var ngay = $("input[name='day']").val();                    
-                    window.location.href = '/ThongKe/BieuDoPhieuMuon?&month=' + 0 + '&year=' + 0;
-                }
-            }).attr("readonly", "readonly");
-        });
-
+    <script>   
         function onMonthSelectedChagned() {
             window.location.href = '/ThongKe/BieuDoPhieuMuon?&month=' + $("#month").val() + '&year=' + $("#year").val();
         }

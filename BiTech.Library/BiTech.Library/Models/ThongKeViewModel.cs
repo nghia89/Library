@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace BiTech.Library.Models
 {
     public class ThongKeViewModel
@@ -71,12 +72,13 @@ namespace BiTech.Library.Models
         public int[] lsoNguoiKhongTraTrongQuy { get; set; }
         public int[] lsoNguoiTraTreTrongQuy { get; set; }
         // List chứa dữ liệu thống kê trong 31 ngày
-        
-        public List<int> lsoNgayTrongThang { get; set; }
-        public List<int> lsoPMTrongNgay { get; set; }
-        public List<int> lsoNguoiMuonTrongNgay { get; set; }
-        public List<int> lsoSachDuocMuonTrongNgay { get; set; }
-        public List<int> lsoNguoiKhongTraTrongNgay { get; set; }
-        public List<int> lsoNguoiTraTreTrongNgay { get; set; }
-    }
+        public int SoNgayTrongThang { get; set; }
+        public int[] lsoNgayTrongThang { get; set; }
+        public int[] lsoPMTrongNgay { get; set; }
+        public int[] lsoNguoiMuonTrongNgay { get; set; }
+        public int[] lsoSachDuocMuonTrongNgay { get; set; }
+        public int[] lsoNguoiKhongTraTrongNgay { get; set; }
+        public int[] lsoNguoiTraTreTrongNgay { get; set; }
+    }    
+
 }

@@ -80,7 +80,7 @@
                 @{
                     string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;
                 }
-                <td>@Html.ActionLink(TenThanhVien, "LichSuMuonSach", new { page = 1, id = @ViewBag.ListThanhVien[i].Id, pagePM = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
+                <td>@Html.ActionLink(TenThanhVien, "LichSuMuonSach", new { page = 1, id = @ViewBag.ListThanhVien[i].MaSoThanhVien, pagePM = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
                 <td>@ViewBag.ListSach[i].TenSach,..</td>
                 <td>tổng @ViewBag.ListSoSachTong[i] cuốn</td>
                 <td class="text-center">@item.NgayMuon.ToString("dd-MM-yyyy")</td>
