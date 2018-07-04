@@ -57,14 +57,14 @@ namespace BiTech.Library.Controllers
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
                 // Ngày phải trả < ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
-                if (item.NgayPhaiTra < DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra < DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.ChuaTra;
                     item.TenTrangThai = "Chưa trả";
                     soSachChuaTra++;
                 }
                 // Ngày phải trả > ngày hiện tại và ngày trả == NULL là GẦN TRẢ                                      
-                if (item.NgayPhaiTra >= DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra >= DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.GanTra;
                     item.TenTrangThai = "Gần trả";
@@ -75,13 +75,13 @@ namespace BiTech.Library.Controllers
                 // Ngày phải trả <= ngày hiện tại và ngày trả <= ngày phải trả là TRẢ ĐÚNG HẸN
                 if (item.NgayPhaiTra <= DateTime.Today)
                 {
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraDungHen;
                         item.TenTrangThai = "Trả đúng hẹn";
                     }
                     // ngày trả > ngày phải trả là TRẢ TRỄ
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraTre;
                         item.TenTrangThai = "Trả trễ";
@@ -118,7 +118,7 @@ namespace BiTech.Library.Controllers
                 }
             }
 
-            // var _listPhieuMuon = listAll.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
+            ///List<PhieuMuon> _listPhieuMuon = listAll.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
             List<PhieuMuon> _listPhieuMuon = listMonthSelected.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
             // --------------------THÔNG TIN PHIẾU MƯỢN--------------------           
             foreach (var item in _listPhieuMuon)
@@ -437,13 +437,7 @@ namespace BiTech.Library.Controllers
                 soPhieuMuonTrongQuy[i] = nghiepVu.DemSoPhieuMuon(list);
                 soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list);
             }
-            // Khai báo list chứa dữ liệu thống kê của từng ngày trong tháng 
-            List<int> lsoNgayTrongThang = new List<int>();
-            List<int> lsoPMTrongNgay = new List<int>();
-            List<int> lsoNguoiMuonTrongNgay = new List<int>();
-            List<int> lsoSachDuocMuonTrongNgay = new List<int>();
-            List<int> lsoNguoiKhongTraTrongNgay = new List<int>();
-            List<int> lsoNguoiTraTreTrongNgay = new List<int>();
+
             // Chọn số ngày cho từng tháng
             int soNgayTrongThang = 0;
             switch (month)
@@ -476,8 +470,8 @@ namespace BiTech.Library.Controllers
                         break;
                     }
 
-            }                     
-            
+            }
+
             // Chuyền dữ liệu vào Model
             model = new BieuDoPhieuMuonViewModel
             {
@@ -501,7 +495,7 @@ namespace BiTech.Library.Controllers
                 lsoSachDuocMuonTrongNgay = soSachDuocMuonTrongThang,
                 lsoNguoiKhongTraTrongNgay = soNguoiKhongTraTrongThang,
                 lsoNguoiTraTreTrongNgay = soNguoiTraTreTrongThang
-              
+
             };
             // Tháng, năm       
             //  ViewBag.Month = month;//!= null ? month : 1;
@@ -529,13 +523,13 @@ namespace BiTech.Library.Controllers
                 // Ngày phải trả <= ngày hiện tại và ngày trả <= ngày phải trả là TRẢ ĐÚNG HẸN
                 if (item.NgayPhaiTra <= DateTime.Today)
                 {
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraDungHen;
                         item.TenTrangThai = "Trả đúng hẹn";
                     }
                     // ngày trả > ngày phải trả là TRẢ TRỄ
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraTre;
                         item.TenTrangThai = "Trả trễ";
@@ -629,13 +623,13 @@ namespace BiTech.Library.Controllers
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
                 // Ngày phải trả <= ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
-                if (item.NgayPhaiTra <= DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra <= DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.ChuaTra;
                     item.TenTrangThai = "Chưa trả";
                 }
                 // Ngày phải trả > ngày hiện tại và ngày trả == NULL là GẦN TRẢ                                      
-                if (item.NgayPhaiTra > DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra > DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.GanTra;
                     item.TenTrangThai = "Gần trả";
@@ -671,8 +665,8 @@ namespace BiTech.Library.Controllers
                     }
                 }
             }
-            // --------            
-            var _listPhieuMuon = listPhieuMuon.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayMuon);
+            // Sort theo trạng thái và ngày phải trả       
+            var _listPhieuMuon = listPhieuMuon.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
             // Duyệt dữ liệu từ danh sách đã được sắp xếp lại
             foreach (var item in _listPhieuMuon)
             {
@@ -725,7 +719,7 @@ namespace BiTech.Library.Controllers
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
-                if (item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayTra == ngayTraNull || item.NgayTra == null)
                 {
                     // Ngày phải trả <= ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
                     if (item.NgayPhaiTra <= DateTime.Today)
@@ -744,29 +738,29 @@ namespace BiTech.Library.Controllers
                     listChuaTra.Add(item);
                 }
                 //--- Kiểm tra tên trùng
-                if (listPMChuaTra.Count == 0)
-                {
-                    listPMChuaTra.Add(item);
-                }
-                else
-                {
-                    foreach (var id in listPMChuaTra)
-                    {
-                        if (id.IdUser.Equals(item.IdUser) == true)
-                        {
-                            testName = false;
-                            break;
-                        }
-                        else
-                        {
-                            testName = true;
-                        }
-                    }
-                }
-                if (testName)
-                {
-                    listPMChuaTra.Add(item);
-                }
+                //if (listPMChuaTra.Count == 0)
+                //{
+                //    listPMChuaTra.Add(item);
+                //}
+                //else
+                //{
+                //    foreach (var id in listPMChuaTra)
+                //    {
+                //        if (id.IdUser.Equals(item.IdUser) == true)
+                //        {
+                //            testName = false;
+                //            break;
+                //        }
+                //        else
+                //        {
+                //            testName = true;
+                //        }
+                //    }
+                //}
+                //if (testName)
+                //{
+                //    listPMChuaTra.Add(item);
+                //}
             }
             // Sắp xếp lại phiếu mượn         
             // var _listPhieuMuon = listPMChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
@@ -833,15 +827,13 @@ namespace BiTech.Library.Controllers
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
-                if (item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayTra == ngayTraNull || item.NgayTra == null)
                 {
-                    // Ngày phải trả <= ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
                     if (item.NgayPhaiTra <= DateTime.Today)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.ChuaTra;
                         item.TenTrangThai = "Chưa trả";
                     }
-                    // Ngày phải trả > ngày hiện tại và ngày trả == NULL là GẦN TRẢ                                      
                     else
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.GanTra;
@@ -853,8 +845,9 @@ namespace BiTech.Library.Controllers
                 }
             }
             // --------                 
-            var _listPhieuMuon = listChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayMuon);
+            var _listPhieuMuon = listChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
             // Duyệt dữ liệu từ danh sách đã được sắp xếp lại
+
             foreach (PhieuMuon item in _listPhieuMuon)
             {
                 listModelPM.Add(item);
