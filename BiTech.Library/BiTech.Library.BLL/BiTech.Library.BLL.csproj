@@ -34,8 +34,13 @@
     <Reference Include="Aspose.BarCode">
       <HintPath>..\..\Libs\Aspose.BarCode.dll</HintPath>
     </Reference>
+    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
+      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarCode_QR\BarCodeQRManager.cs" />
+    <Compile Include="BarCode_QR\baseBarCodeLic.cs" />
     <Compile Include="DBLogic\Base\BaseLogic.cs" />
     <Compile Include="DBLogic\ChiTietNhapSachLogic.cs" />
     <Compile Include="DBLogic\ChiTietPhieuTraLogic.cs" />
@@ -65,6 +72,7 @@
     <Compile Include="DBLogic\SachTacGiaLogic.cs" />
     <Compile Include="DBLogic\TacGiaLogic.cs" />
     <Compile Include="DBLogic\TheLoaiSachLogic.cs" />
+    <Compile Include="Helper\LicenseHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

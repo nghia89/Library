@@ -1,42 +1,69 @@
-﻿using BiTech.Library.BLL.DBLogic;
+﻿using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static BiTech.Library.Helpers.Tool;
 
 namespace BiTech.Library.Controllers
 {
     //[Authorize]
     public class UserController : BaseController
     {
-        private ThanhVienLogic _ThanhVienLogic;
         public UserController()
-        {
-            _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-
-            //_SlTT_LOgic.insert(new slttDTO("5b28396079ccd72e08b0a0d7", "5b281d0979ccd728145a5097", 45)})
+        {          
         }
 
         // GET: User
-        public ActionResult Index()
+        public ActionResult Index(string IdUser)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            if (String.IsNullOrEmpty(IdUser))
+                IdUser = "";
+            ViewBag.IdUser = IdUser;            
             return View();
         }
 
-        public PartialViewResult _PartialUser()
+        public PartialViewResult _PartialUser(string IdUser)
         {
-            List<ThanhVien> lstUser = _ThanhVienLogic.GetAll();
-            return PartialView(lstUser);
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return null;
+            #endregion
+            List<ThanhVien> lstUser = new List<ThanhVien>();
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            if (String.IsNullOrEmpty(IdUser))
+            {
+                lstUser = _ThanhVienLogic.GetAll();
+            }
+            else
+            {
+                lstUser.Add(_ThanhVienLogic.GetByIdUser(IdUser));
+            }
+            return PartialView(lstUser);                     
 
             //return new JsonResult(new { tensach = "", cover = "" });
         }
 
         public ActionResult _CreateUser()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSuccess = TempData["UnSuccess"];
             return View();
@@ -49,6 +76,14 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _CreateUser(UserViewModel viewModel)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            BarCodeQRManager barcode = new BarCodeQRManager();
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             ThanhVien model = new ThanhVien()
             {
                 UserName = viewModel.UserName,
@@ -60,8 +95,31 @@ namespace BiTech.Library.Controllers
                 SDT = viewModel.SDT,
                 TrangThai = EUser.Active, // mac dinh la Active
                 CreateDateTime = DateTime.Now
-            };
+            };          
+            //insert
             string id = _ThanhVienLogic.Insert(model);
+            try
+            {
+                // Lấy đường dẫn lưu QR
+                string physicalWebRootPath = Server.MapPath("~/");
+
+                string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+
+                var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, id + ".bmp");
+                string location = Path.GetDirectoryName(uploadFileName);
+                if (!Directory.Exists(location))
+                {
+                    Directory.CreateDirectory(location);
+                }
+
+                var a = uploadFileName.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                //Tạo mã QR
+                bool bolQR = barcode.CreateQRCode(model.Id, a);
+            }
+            catch (Exception ex)
+            {
+                
+            }
             if(id == null || id == "")
             {
                 //Fail              
@@ -76,6 +134,14 @@ namespace BiTech.Library.Controllers
         //Get
         public ActionResult _Edit(string id)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSucces = TempData["UnSuccess"];
             ThanhVien us = _ThanhVienLogic.GetById(id);
@@ -93,6 +159,14 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _Edit(UserViewModel viewModel, string id)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             var model = _ThanhVienLogic.GetById(id); //lay 1 tai khoan 
                 model.Ten = viewModel.Ten;
                 model.MaSoThanhVien = viewModel.MaSoThanhVien;
@@ -115,6 +189,14 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Delete(string id)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             ViewBag.Success = TempData["Success"];
             var model = _ThanhVienLogic.GetById(id);
             model.TrangThai = EUser.Deleted;
@@ -128,5 +210,14 @@ namespace BiTech.Library.Controllers
                 TempData["Success"] = "Xóa thất bại";          
             return View();
         }
+        /// <summary>
+        /// Tìm kiếm
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult Search(UserViewModel model  )
+        {
+            return RedirectToAction("Index", new { @IdUser = model.MaSoThanhVien });
+        }        
     }
 }

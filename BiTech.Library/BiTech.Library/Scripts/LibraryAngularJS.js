@@ -1,5 +1,7 @@
-﻿// Define the `LibraryApp` module
-var app = angular.module('LibraryApp', []);
+﻿/// <reference path="angular.js" />
+// Define the `LibraryApp` module
+
+var app = angular.module('LibraryApp', ['chart.js']);
 
 // Define the `BookGenresCtrlr` controller on the `LibraryApp` module
 app.controller('BookGenresCtrlr', function ($scope, $http) {
@@ -197,3 +199,4 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
         })
     };
 });
+
