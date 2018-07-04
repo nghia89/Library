@@ -464,6 +464,8 @@ namespace BiTech.Library.Controllers
                     lsoNguoiTraTreTrongNgay.Add(soNguoiTraTreTrongThang[i]);
                 }
             }
+
+            JsonResult result = new JsonResult();
             // Chuyền dữ liệu vào Model
             model = new BieuDoPhieuMuonViewModel
             {

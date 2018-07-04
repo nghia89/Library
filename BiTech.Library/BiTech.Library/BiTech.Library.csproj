@@ -748,7 +748,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\BarCodes\" />
     <Folder Include="Content\TempFiles\" />
-    <Folder Include="Views\Statictical\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,8 +1,28 @@
 ﻿
 var app = angular.module('MyApp', ['chart.js']);
 
+//(function (app) {
+//    app.factory('apiService', apiService);
 
-app.controller('Statistic', function ($scope, $http) {
+//    apiService.$inject = ['$http', 'notificationService', 'authenticationService'];
+
+//    function apiService($http, notificationService, authenticationService) {
+//        return {
+//            get: get,
+
+//        }
+//        function get(url, params, success, failure) {
+//            authenticationService.setHeader();
+//            $http.get(url, params).then(function (result) {
+//                success(result);
+//            }, function (error) {
+//                failure(error);
+//            });
+//        }
+//    }
+//});
+
+app.controller('Statistic', function ($scope, $http, $location) {
     Chart.defaults.global.colours = [
     { // blue
         fillColor: "rgba(151,187,205,0.2)",
@@ -61,27 +81,107 @@ app.controller('Statistic', function ($scope, $http) {
         pointHighlightStroke: "rgba(77,83,96,1)"
     }
     ];
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A', 'Series B'];
-    $scope.data = [
-      [65, 59, 80, 81, 56, 55, 40],
-      [28, 48, 40, 19, 86, 27, 90],
-      [28, 48, 40, 19, 86, 27, 20],
-      [28, 48, 70, 89, 86, 87, 90],
-      [28, 48, 90, 5, 86, 27, 20]
-    ];
-    $scope.GetAllData = function () {
-        $http({
-            method: "get",
-            url: "",
-            params: {
-                idPM: $('#idPM').val(),
-                soLuong: 0
-            }
-        }).then(function (response) {
-            $scope.list = response.data;
-        }, function () {
-            alert("Error Occur");
-        })
+
+
+
+     
+
+
+
+
+    //apiService.$inject = ['$http', 'notificationService', 'authenticationService'];
+    $scope.data = {
+        model:null,
+        items:[{ code: 1, name: 'Tháng 01' }, { code: 2, name: 'Tháng 02' },
+            { code: 3, name: 'Tháng 03' }, { code: 4, name: 'Tháng 04' },
+            { code: 5, name: 'Tháng 05' }, { code: 6, name: 'Tháng 06' },
+            { code: 7, name: 'Tháng 07' }, { code: 8, name: 'Tháng 08' },
+            { code: 9, name: 'Tháng 09' }, { code: 10, name: 'Tháng 10' },
+            { code: 11, name: 'Tháng 11' }, { code: 12, name: 'Tháng 12' },
+        ]
     };
+    $scope.selectedUser = $scope.data.items[0];
+    $scope.day =$scope.data.model;
+    $scope.changedValue = function (item) {
+        $scope.itemList.push(item.name);
+    }
+
+  
+
+
+    $scope.tabledata = [];
+    $scope.labels = ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', ' Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', ' Tháng 10', 'Tháng 11', 'Tháng 12'];
+    //$scope.labels = ['Tháng 01'];
+
+    $scope.series = ['phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả'];
+    $scope.chartdata = [];
+
+    $scope.switchLanguage = function () {
+        langKey = $scope.selected;
+
+        function getStatistic() {
+            var config = {
+                param: {
+                    //mm/dd/yyyy
+                    year: langKey
+                }
+            }
+
+            $http({
+                method: "get",
+                url: "http://localhost:64002/Statistic/BieuDoPhieuMuon?&month=" + config.param.day + "&year=" + config.param.year,
+            }).then(function (response) {
+                if (response.data) {
+                    $scope.tabledata = response.data;
+                    var labels = [];
+                    var chartData = [];
+
+                    var lsoPhieuMuonTrongNam = [];
+                    var lsoNguoiMuonSachTrongNam = [];
+                    var lsoNguoiKhongTraTrongNam = [];
+                    //$.each(response.data, function (i, item) {
+                    //    labels.push('1');
+                    //    revenues.push(item.lsoPhieuMuonTrongNam);
+                    //    benefits.push(item.lsoNguoiMuonSachTrongNam);
+                    //    benefits.push(item.lsoNguoiKhongTraTrongNam);
+                    //});
+
+                    //response.data.lsoNguoiMuonSachTrongNam.forEach(function (i, item) {
+                    //    benefits.push(item);
+                    //});
+                    response.data.lsoPhieuMuonTrongNam.forEach(function (i, index) {
+                        lsoPhieuMuonTrongNam.push(i);
+                    });
+                    response.data.lsoNguoiMuonSachTrongNam.forEach(function (i, index) {
+                        lsoNguoiMuonSachTrongNam.push(i);
+                    });
+                    response.data.lsoNguoiKhongTraTrongNam.forEach(function (i, index) {
+                        lsoNguoiKhongTraTrongNam.push(i);
+                    });
+                    //response.data.lsoPhieuMuonTrongNam.forEach(function (i, index) {
+                    //    revenues.push(i);
+                    //});
+                    //response.data.lsoPhieuMuonTrongNam.forEach(function (i, index) {
+                    //    revenues.push(i);
+                    //});
+
+                    chartData.push(lsoPhieuMuonTrongNam);
+                    chartData.push(lsoNguoiMuonSachTrongNam);
+                    chartData.push(lsoNguoiKhongTraTrongNam);
+                    //chartData.push(benefits);
+                    //chartData.push(benefits);
+
+                    $scope.chartdata = chartData;
+                    //$scope.labels = labels;
+                }
+                else {
+                    alert("Mã sách không phù hợp");
+                }
+
+            })
+        }
+
+        getStatistic();
+    }
+ 
 });
