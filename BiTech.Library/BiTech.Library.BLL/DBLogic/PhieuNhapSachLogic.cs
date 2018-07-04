@@ -23,5 +23,13 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _NhapSachEngine.Insert(ns);
         }
+        public List<PhieuNhapSach> Getall()
+        {
+            return _NhapSachEngine.getAll();
+        }
+        public PhieuNhapSach GetById(string id)
+        {
+            return _NhapSachEngine.GetById(id);
+        }
     }
 }

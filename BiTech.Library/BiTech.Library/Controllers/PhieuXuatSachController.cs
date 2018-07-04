@@ -6,15 +6,89 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using PagedList;
+using PagedList.Mvc;
 namespace BiTech.Library.Controllers
 {
     public class PhieuXuatSachController : BaseController
     {
         // GET: PhieuXuatSach
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            PhieuXuatSachLogic _PhieuXuatSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            var lst = _PhieuXuatSachLogic.Getall();
+            List<PhieuXuatSachModels> lstpxs = new List<PhieuXuatSachModels>();
+            foreach (var item in lst)
+            {
+                PhieuXuatSachModels pxs = new PhieuXuatSachModels()
+                {
+                    IdPhieuXuat=item.Id,
+                    IdUserAdmin=item.IdUserAdmin,
+                    GhiChu=item.GhiChu,
+                    NgayXuat=item.NgayXuat
+
+                };
+                lstpxs.Add(pxs);
+            }
+            
+            return View(lstpxs.OrderByDescending(x=>x.NgayXuat).ToPagedList(PageNumber,PageSize));
+        }
+        public ActionResult Details(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic =
+              new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            PhieuXuatSachLogic _PhieuXuatSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
+            var model = _ChiTietXuatSachLogic.GetAllChiTietById(id);
+            var phieuxuat = _PhieuXuatSachLogic.GetById(id);
+            PhieuXuatSachModels pxs = new PhieuXuatSachModels()
+            {
+
+                IdUserAdmin = phieuxuat.IdUserAdmin,
+                GhiChu = phieuxuat.GhiChu,
+                NgayXuat = phieuxuat.NgayXuat
+
+            };
+            List<ChiTietXuatSachViewModels> lst = new List<ChiTietXuatSachViewModels>();
+            foreach(var item in model)
+            {
+               
+                ChiTietXuatSachViewModels ctxs = new ChiTietXuatSachViewModels();
+                ctxs.Id = item.Id;
+                ctxs.IdLydo = item.IdLyDo;
+                var LyDo = _LyDoXuatLogic.GetById(ctxs.IdLydo);
+                ctxs.lyDo = LyDo.LyDo;
+                ctxs.IdTinhTrang = item.IdTinhtrang;
+                var TinhTrang = _TrangThaiSachLogic.getById(ctxs.IdTinhTrang);
+                ctxs.tenTinhTrang = TinhTrang.TenTT;
+                ctxs.IdSach = item.IdSach;
+                var TenSach = _SachLogic.GetBookById(ctxs.IdSach);
+                ctxs.ten = TenSach.TenSach;
+                ctxs.IdPhieuXuat = item.IdPhieuXuat;
+                ctxs.soLuong = item.soLuong;
+                lst.Add(ctxs);
+               
+            }
+            ViewBag.lstctxuat = lst;
+
+
+            return View(pxs);
         }
         public ActionResult TaoPhieuXuatSach()
         {
@@ -28,7 +102,8 @@ namespace BiTech.Library.Controllers
 
             LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-           
+         
+
 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
 
@@ -56,13 +131,16 @@ namespace BiTech.Library.Controllers
              new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LyDoXuatLogic _LyDoXuatLogic =
             new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            PhieuXuatSachLogic _PhieuXuatSachLogic = 
+                new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
 
 
             if (model.listChiTietJsonString.Count > 0)
             {
                 PhieuXuatSach pxs = new PhieuXuatSach()
                 {
-                    NgayNhap = DateTime.Now,
+                    NgayXuat = DateTime.Now,
                     GhiChu = model.GhiChu,
                     IdUserAdmin = "",
 
@@ -77,7 +155,7 @@ namespace BiTech.Library.Controllers
 
                         var ctxs = new ChiTietXuatSach()
                         {
-                            IdPhieuNhap = idPhieuXuat,
+                            IdPhieuXuat = idPhieuXuat,
                             IdSach = ctModel.IdSach,
                             IdTinhtrang = ctModel.IdTinhTrang,
                             IdLyDo = ctModel.IdLydo,
@@ -95,8 +173,10 @@ namespace BiTech.Library.Controllers
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuong -= ctxs.soLuong;
                             _SachLogic.Update(updatesl);
+                           
                         }
                     }
+                    return RedirectToAction("Index");
                 }
             }
 
@@ -105,6 +185,7 @@ namespace BiTech.Library.Controllers
 
 
             ViewBag.listld = _LyDoXuatLogic.GetAll();
+         
             ModelState.Clear();
 
             return View();

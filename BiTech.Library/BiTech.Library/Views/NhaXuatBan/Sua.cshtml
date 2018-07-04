@@ -4,42 +4,78 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<h2>Sửa Nhà Xuất Bản</h2>
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<div class="Title">Sửa Nhà Xuất Bản</div>
 <div class="container">
     @using (Html.BeginForm("Sua", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Sửa thông tin</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="tensach">Tên Nhà Xuất Bản:</label>
+            <div class="col-sm-9">
+                @Html.EditorFor(Model => Model.Ten, new { htmlAttributes = new { @class = "form-control" } })
 
-            <div class="form-group">
-                <label class="control-label col-lg-2">Tên Nhà Xuất Bản</label>
-
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
-                </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-lg-2">Ghi Chú</label>
-
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.GhiChu, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
-                </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="tensach">Ghi Chú:</label>
+            <div class="col-sm-9">
+                <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
             </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Sửa" class="btn btn-default" />
-                </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2"></label>
+            <div class="col-sm-9">
+                <input type="submit" name="btnSuanxb" class="btn btn-primary" value="Cập nhật" />
+                <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaNXB('@Model.Id','@Model.Ten')" />
+                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
             </div>
-        </div>   
+        </div>
     }
 </div>
+@section scripts{
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function XoaNXB(id,ten) {
+            swal({
+                title: " Bạn có muốn xóa nhà xuất bản " + ten + "?",
+                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/NhaXuatBan/Xoa",
+                        data: { "Id": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                text: "Bạn sẽ không thể khôi phục lại tác giả này sau khi xóa!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function (isConfirm) {
+                                window.location.href = '/NhaXuatBan/Index';
+                            });
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+        }
+    </script>
+}
 
 
 

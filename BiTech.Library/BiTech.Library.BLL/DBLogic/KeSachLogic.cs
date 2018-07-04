@@ -27,9 +27,9 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _keSachEngine.Insert(TL);
         }
-        public KeSach getById(string id)
+        public KeSach getById(string Id)
         {
-            return _keSachEngine.GetById(id);
+            return _keSachEngine.GetById(Id);
         }
         public bool Update(KeSach id)
         {

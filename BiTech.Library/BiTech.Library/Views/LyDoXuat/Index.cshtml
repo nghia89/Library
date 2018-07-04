@@ -1,35 +1,38 @@
-﻿@model IEnumerable<BiTech.Library.Models.LyDoXuatViewModel>
+﻿@model PagedList.IPagedList<BiTech.Library.Models.LyDoXuatViewModel>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var listlydo = ViewBag.ListLyDo;
+ 
 }
 
-<h2>Index</h2>
 <div class="Title">Danh Sách Lý Do</div>
-<div class="container clearfix">
 
-    <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
-    <div class="book_content clearfix">
-        <table class="table table-striped" border="1">
-            <thead>
-                <tr style="background:orange">
-                    
-                    <th>Lý Do Xuất</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in listlydo)
+
+<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr class="table-info">
+
+            <th>Lý Do Xuất</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
             {
-                    <tr>
-                      
-                        <td>@item.LyDo</td>
-                        <td><a href="@Url.Action("Edit","LyDoXuat", new { id = item.Id })">Sửa</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            <tr>
+
+                <td>@item.LyDo</td>
+                <td><a class="color-white btn btn-outline-primary" href="@Url.Action("Edit","LyDoXuat", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
+
+
 

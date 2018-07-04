@@ -19,9 +19,14 @@ namespace BiTech.Library.BLL.DBLogic
             Database database = new Database(connectionString, databaseName);
             _ChiTietNhapSachEngine = new ChiTietNhapSachEngine(database, TableName);
         }
-        public List<ChiTietNhapSach> GetAllTacGia()
+        public List<ChiTietNhapSach> GetAll()
         {
             return _ChiTietNhapSachEngine.GetAllChiTietNhapSach();
+        }
+
+        public List<ChiTietNhapSach> GetAllChiTietById(string id)
+        {
+            return _ChiTietNhapSachEngine.GetAllChiTietById(id);
         }
         public string Insert(ChiTietNhapSach ctns)
         {

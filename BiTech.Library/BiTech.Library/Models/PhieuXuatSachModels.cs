@@ -7,9 +7,12 @@ namespace BiTech.Library.Models
 {
     public class PhieuXuatSachModels
     {
+        public string IdPhieuXuat { get; set; }
         public string GhiChu { get; set; } = "";
 
-   
+        public DateTime NgayXuat { get; set; }
+
+        public string IdUserAdmin { get; set; }
         public List<string> listChiTietJsonString { get; set; } = new List<string>();
 
 
@@ -18,10 +21,10 @@ namespace BiTech.Library.Models
     {
         public string Id { get; set; }
 
-        public string IdPhieuNhap { get; set; }
+        public string IdPhieuXuat { get; set; }
 
         public string IdSach { get; set; }
-
+     
         public string IdTinhTrang { get; set; }
 
         public string tenTinhTrang { get; set; }
@@ -35,6 +38,8 @@ namespace BiTech.Library.Models
         public string ten { get; set; }
 
         public string IdDauSach { get; set; }
+
+      
     }
 
 

@@ -1,0 +1,46 @@
+﻿@model PagedList.IPagedList<BiTech.Library.Models.PhieuNhapSachModels>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="Title">Danh Sách Phiếu Nhập</div>
+
+
+
+<p>@Html.ActionLink("Thêm Mới", "TaoPhieuNhapSach", null, new { @class = "btn btn-primary" })</p>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr class="table-info">
+            <th>IdUserAdmin</th>
+            <th>Ghi Chú</th>
+            <th>Ngày Nhập</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.IdUserAdmin</td>
+                <td>@item.GhiChu</td>
+                <td>@String.Format("{0:M/d/yyyy}", item.NgayNhap)</td>
+                <td>
+                    <a class="color-white btn btn-outline-primary" href="@Url.Action("Details",new { id = item.IdPhieuNhap})">
+                        Xem chi tiết
+                        
+                    </a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
+

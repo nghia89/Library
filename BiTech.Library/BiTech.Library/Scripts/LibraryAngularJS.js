@@ -1,5 +1,7 @@
-﻿// Define the `LibraryApp` module
-var app = angular.module('LibraryApp', []);
+﻿/// <reference path="angular.js" />
+// Define the `LibraryApp` module
+
+var app = angular.module('LibraryApp', ['chart.js']);
 
 // Define the `BookGenresCtrlr` controller on the `LibraryApp` module
 app.controller('BookGenresCtrlr', function ($scope, $http) {
@@ -99,6 +101,16 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 // Get a book by Id - show bookName 
 app.controller('AddBookCtrlr', function ($scope, $http) {
     $scope.list = [];
+
+    $scope.addListItems = function (lstSach) {
+        if (lstSach != null) {
+            for (i = 0; i < lstSach.length; i++) {
+                $scope.idBook = lstSach[i];
+                $scope.addItem();
+            }
+        }
+    }
+
     $scope.addItem = function () {
         $scope.errortext = "";
         $http({
@@ -187,3 +199,4 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
         })
     };
 });
+

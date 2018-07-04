@@ -7,13 +7,15 @@ using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
     public class TacGiaController : BaseController
     {
         // GET: TacGia
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -22,10 +24,23 @@ namespace BiTech.Library.Controllers
             #endregion
 
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
             var lst = _TacGiaLogic.GetAllTacGia();
-            ViewBag.ListtacGia = lst;
-
-            return View();
+            List<TacGiaViewModel> lsttg = new List<TacGiaViewModel>();
+            foreach(var item in lst)
+            {
+                TacGiaViewModel tg = new TacGiaViewModel()
+                {
+                    Id = item.Id,
+                    TenTacGia = item.TenTacGia,
+                    MoTa = item.MoTa,
+                    QuocTich = item.QuocTich
+                };
+                lsttg.Add(tg);
+            }
+          
+            return View(lsttg.OrderBy(m=>m.TenTacGia).ToPagedList(PageNumber, PageSize));
         }
         public ActionResult Create()
         {

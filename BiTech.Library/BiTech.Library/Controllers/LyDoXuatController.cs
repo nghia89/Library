@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using PagedList;
+using PagedList.Mvc;
 namespace BiTech.Library.Controllers
 {
     public class LyDoXuatController : BaseController
     {
         // GET: LyDoXuat
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -21,8 +22,24 @@ namespace BiTech.Library.Controllers
             #endregion
 
             LyDoXuatLogic _LyDoLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+           
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
             var lst = _LyDoLogic.GetAll();
-            ViewBag.ListLyDo = lst;
+            List<LyDoXuatViewModel> lstld = new List<LyDoXuatViewModel>();
+            foreach (var item in lst)
+            {
+                LyDoXuatViewModel ld = new LyDoXuatViewModel()
+                {
+                    Id = item.Id,
+                  LyDo=item.LyDo
+
+                };
+                lstld.Add(ld);
+            }
+
+            return View(lstld.OrderBy(x => x.LyDo).ToPagedList(PageNumber, PageSize));
+          
 
             return View();
         }

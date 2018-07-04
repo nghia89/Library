@@ -6,14 +6,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
     public class PhieuNhapSachController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View();
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            var lst = _PhieuNhapSachLogic.Getall();
+            List<PhieuNhapSachModels> lstpns = new List<PhieuNhapSachModels>();
+            foreach (var item in lst)
+            {
+                PhieuNhapSachModels pns = new PhieuNhapSachModels()
+                {
+                    IdPhieuNhap = item.Id,
+                    IdUserAdmin = item.IdUserAdmin,
+                    GhiChu = item.GhiChu,
+                    NgayNhap = item.NgayNhap
+
+                };
+                lstpns.Add(pns);
+            }
+
+           
+            return View(lstpns.OrderByDescending(x=>x.NgayNhap).ToPagedList(PageNumber,PageSize));
         }
 
         public ActionResult NhapSach()
@@ -88,7 +114,7 @@ namespace BiTech.Library.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult TaoPhieuNhapSach(PhieuNhapSachModel model)
+        public ActionResult TaoPhieuNhapSach(PhieuNhapSachModels model)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -150,8 +176,10 @@ namespace BiTech.Library.Controllers
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuong += ctns.soLuong;
                             _SachLogic.Update(updatesl);
+                           
                         }
                     }
+                    return RedirectToAction("Index");
                 }
             }
 
@@ -159,6 +187,56 @@ namespace BiTech.Library.Controllers
             ModelState.Clear();
 
             return View();
+        }
+        public ActionResult Details(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic =
+              new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            PhieuNhapSachLogic _PhieuNhapSachLogic =
+             new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
+
+
+            var model = _ChiTietNhapSachLogic.GetAllChiTietById(id);
+            var phieunhap = _PhieuNhapSachLogic.GetById(id);
+            PhieuNhapSachModels pns = new PhieuNhapSachModels()
+            {
+                
+                IdUserAdmin = phieunhap.IdUserAdmin,
+                GhiChu = phieunhap.GhiChu,
+                NgayNhap = phieunhap.NgayNhap
+
+            };
+            List<ChiTietNhapSachViewModels> lst = new List<ChiTietNhapSachViewModels>();
+            foreach (var item in model)
+            {
+
+                ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
+                ctns.Id = item.Id;
+                ctns.IdTinhTrang = item.IdTinhtrang;
+                var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
+                ctns.tenTinhTrang = TinhTrang.TenTT;
+                ctns.IdSach = item.IdSach;
+                var TenSach = _SachLogic.GetBookById(ctns.IdSach);
+                ctns.ten = TenSach.TenSach;
+                ctns.IdDauSach = TenSach.IdDauSach;
+                ctns.IdPhieuNhap = item.IdPhieuNhap;
+                ctns.soLuong = item.soLuong;
+
+                lst.Add(ctns);
+
+            }
+            ViewBag.lstctnhap = lst;
+
+            return View(pns);
         }
         [HttpGet]
         public JsonResult _GetBookItemById(string idBook, int soLuong, string idtrangthai)
@@ -172,7 +250,7 @@ namespace BiTech.Library.Controllers
                 new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic =
                 new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
+           
             JsonResult result = new JsonResult();
             if (!String.IsNullOrWhiteSpace(idBook))
             {
@@ -210,6 +288,7 @@ namespace BiTech.Library.Controllers
             var ListTD = (from N in _SachLogic.getAllSach()
                           where N.IdDauSach.StartsWith(a)
                           select new { N.IdDauSach });
+           
 
             return Json(ListTD, JsonRequestBehavior.AllowGet);
         }

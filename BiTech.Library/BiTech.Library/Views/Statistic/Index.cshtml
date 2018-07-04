@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<link href="~/bower_components/angular-chart.js/dist/angular-chart.min.css" rel="stylesheet" />
+<script src="~/Scripts/angular.js"></script>
+<script src="~/bower_components/Chart.js/Chart.js"></script>
+<script src="~/bower_components/angular-chart.js/angular-chart.js"></script>
+
+<script src="~/app/app.js"></script>
+
+@*<script src="~/Scripts/LibraryAngularJS.js"></script>*@
+
+<section class="content" ng-app="MyApp">
+    <div class="row" ng-controller="Statistic">
+        <!-- Left col -->
+        <section class="col-lg-7">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="nav-tabs-custom">
+                <!-- Tabs within a box -->
+                <ul class="nav nav-tabs pull-right">
+                    <li class="active"><a href="#revenue-chart" data-toggle="tab">Doanh thu</a></li>
+                </ul>
+                <div class="tab-content no-padding">
+                    <!-- Morris chart - Sales -->
+                    @*<canvas id="bar" class="chart chart-bar"
+                            chart-data="chartdata" chart-labels="labels" chart-series="series"></canvas>*@
+                    <canvas id="bar" class="chart chart-line colours"
+                            chart-data="data" chart-labels="labels" chart-color="colours"
+                        chart-series="series">
+                    </canvas></div>
+                @*<div ng-if="loading">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4">
+                        <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                    </div>
+                    <div class="col-xs-4"></div>
+                </div>*@
+            </div>
+
+        </section>
+    </div>
+</section>
+

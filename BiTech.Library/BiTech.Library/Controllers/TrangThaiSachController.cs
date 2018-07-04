@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
     public class TrangThaiSachController : BaseController
     {
         // GET: TrangThai
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -22,9 +24,23 @@ namespace BiTech.Library.Controllers
 
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var list = _TrangThaiSachLogic.GetAll();
-            ViewBag.ListTT = list;
-            return View();
+           
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            var lst = _TrangThaiSachLogic.GetAll();
+            List<TrangThaiSachViewModels> lsttt = new List<TrangThaiSachViewModels>();
+            foreach (var item in lst)
+            {
+                TrangThaiSachViewModels tt = new TrangThaiSachViewModels()
+                {
+                    Id = item.Id,
+                    TenTT = item.TenTT
+                   
+                };
+                lsttt.Add(tt);
+            }
+           
+            return View(lsttt.OrderBy(x=>x.TenTT).ToPagedList(PageNumber,PageSize));
         }
 
         public ActionResult Them()
@@ -68,6 +84,7 @@ namespace BiTech.Library.Controllers
                 TenTT = tts.TenTT
             };
             return View(VM);
+            
         }
 
         [HttpPost]
@@ -87,27 +104,10 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Xoa(string id)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
-            TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
-            {
-                Id = tts.Id,
-                TenTT = tts.TenTT
-            };
-            return View(VM);
-        }
+       
 
         [HttpPost]
-        public ActionResult Xoa(TrangThaiSachViewModels model)
+        public ActionResult Xoa(string Id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -117,7 +117,7 @@ namespace BiTech.Library.Controllers
 
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            TrangThaiSach tts = _TrangThaiSachLogic.getById(model.Id);
+            var tts = _TrangThaiSachLogic.getById(Id);
             _TrangThaiSachLogic.XoaTrangThai(tts.Id);
             return RedirectToAction("Index");
         }

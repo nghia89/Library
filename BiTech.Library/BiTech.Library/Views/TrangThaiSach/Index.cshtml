@@ -1,31 +1,42 @@
-﻿@model IEnumerable<BiTech.Library.Models.TrangThaiSachViewModels>
+﻿@model PagedList.IPagedList<BiTech.Library.Models.TrangThaiSachViewModels>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "DanhSachTrangThai";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var listTT = ViewBag.ListTT; 
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+   
 }
 
-<h2>Danh Sách Trạng Thái</h2>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>Trạng Thái</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in listTT)
-        {
-            <tr>
-                <td>@item.TenTT</td>
-                <td><a href="@Url.Action("Sua",new { id = item.Id})">Sửa</a> | <a href="@Url.Action("Xoa",new { id = item.Id})"> Xóa</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-@Html.ActionLink("Thêm Mới", "Them")
+            <div class="Title">Danh Sách Trạng Thái</div>
+<p>@Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })</p>
+            <table class="table table-hover table-bordered" border="1">
+                <thead>
+                    <tr class="table-info">
+                        <th>Trạng Thái</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>@item.TenTT</td>
+                            <td>
+                                <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua",new { id = item.Id})">
+                                    Sửa
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                             
+                                
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+      
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+     
 
-
-
-
+      

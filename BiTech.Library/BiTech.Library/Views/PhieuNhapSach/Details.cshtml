@@ -1,0 +1,55 @@
+﻿@model BiTech.Library.Models.PhieuNhapSachModels
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="Title">Phiếu Nhập</div>
+<div class="container">
+<div class="form-group row">
+    <label class="col-form-label col-sm-3" for="tensach">IdUserAdmin</label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(m => m.IdUserAdmin, new { @class = "form-control", @id = "IdUserAdmin", @readonly=true})
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-form-label col-sm-3" for="tensach">Ngày Nhập:</label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(m => m.NgayNhap, new { @class = "form-control", @id = "NgayNhap", @readonly = true })
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-form-label col-sm-3" for="tensach">Ghi Chú:</label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(m => m.GhiChu, new { @class = "form-control", @id = "GhiChu", @readonly = true })
+    </div>
+</div>
+    </div>
+    <div class="Title">Danh Sách Chi Tiết Phiếu Nhập</div>
+  
+
+        
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr class="table-info">
+                        <th>Tên Sách</th>
+                        <th>Số lượng</th>
+                        <th>Tình Trạng</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.lstctnhap)
+                    {
+                        <tr>
+                            <td>@item.ten</td>
+                            <td>@item.soLuong</td>
+                        <td>@item.tenTinhTrang</td>
+
+                    </tr>
+                    }
+                </tbody>
+
+            </table>
+            <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
+     
+

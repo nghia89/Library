@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,9 +47,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.BarCode, Version=18.6.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\DemoBarCodeForm\DemoBarCodeForm\Lib\Aspose.BarCode.dll</HintPath>
+    <Reference Include="Aspose.BarCode">
+      <HintPath>..\..\..\Aspose.BarCode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -210,10 +210,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
+    <Compile Include="Controllers\BaseClass\NghiepVuThongKeController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TacGiaController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
     <Compile Include="Controllers\PhieuMuonController.cs" />
@@ -250,8 +252,16 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="Assets\Images\Sana Twice 1996.jpg" />
+    <Content Include="bower_components\angular-chart.js\angular-chart.js" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.css" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.js" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.css" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.js" />
+    <Content Include="bower_components\angular-chart.js\gulpfile.js" />
+    <Content Include="bower_components\Chart.js\Chart.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\gulpfile.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.min.js" />
@@ -608,6 +618,7 @@
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angularjs.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bower_components\sweetalert\.bower.json" />
@@ -636,6 +647,21 @@
     <Content Include="bower_components\jquery\sizzle\dist\sizzle.min.map" />
     <Content Include="bower_components\jquery\src\.jshintrc" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="bower_components\Chart.js\.bower.json" />
+    <Content Include="bower_components\Chart.js\bower.json" />
+    <Content Include="bower_components\angular-chart.js\.bower.json" />
+    <Content Include="bower_components\angular-chart.js\angular-chart.less" />
+    <Content Include="bower_components\angular-chart.js\bower.json" />
+    <Content Include="bower_components\angular-chart.js\CONTRIBUTING.md" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.js.tar.gz" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.css.map" />
+    <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.js.map" />
+    <Content Include="bower_components\angular-chart.js\Dockerfile" />
+    <Content Include="bower_components\angular-chart.js\ISSUE_TEMPLATE.md" />
+    <Content Include="bower_components\angular-chart.js\LICENSE" />
+    <Content Include="bower_components\angular-chart.js\package.json" />
+    <Content Include="bower_components\angular-chart.js\PULL_REQUEST_TEMPLATE.md" />
+    <Content Include="bower_components\angular-chart.js\README.md" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -686,22 +712,20 @@
     <Content Include="Views\PhieuMuon\_EditPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\ChiTietPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\GiaHanPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
     <Content Include="Views\PhieuTra\Index.cshtml" />
     <Content Include="Views\PhieuTra\TraSach.cshtml" />
     <Content Include="Views\PhieuTra\TaoPhieuTra.cshtml" />
     <Content Include="Views\TheLoaiSach\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Them.cshtml" />
     <Content Include="Views\TheLoaiSach\Sua.cshtml" />
-    <Content Include="Views\TheLoaiSach\Xoa.cshtml" />
     <Content Include="Views\NhaXuatBan\DanhSachNXB.cshtml" />
     <Content Include="Views\NhaXuatBan\Index.cshtml" />
     <Content Include="Views\NhaXuatBan\Them.cshtml" />
     <Content Include="Views\NhaXuatBan\Sua.cshtml" />
-    <Content Include="Views\NhaXuatBan\Xoa.cshtml" />
     <Content Include="Views\TrangThaiSach\Index.cshtml" />
     <Content Include="Views\TrangThaiSach\Them.cshtml" />
     <Content Include="Views\TrangThaiSach\Sua.cshtml" />
-    <Content Include="Views\TrangThaiSach\Xoa.cshtml" />
     <Content Include="Views\Sach\Index.cshtml" />
     <Content Include="Views\Sach\Them.cshtml" />
     <Content Include="Views\Sach\Sua.cshtml" />
@@ -715,24 +739,33 @@
     <Content Include="Views\TacGia\Index.cshtml" />
     <Content Include="Views\TacGia\Create.cshtml" />
     <Content Include="Views\TacGia\Edit.cshtml" />
-    <Content Include="Views\PhieuNhapSach\TaoPhieuNhapSach.cshtml" />
     <Content Include="Views\KeSach\Index.cshtml" />
     <Content Include="Views\KeSach\Create.cshtml" />
     <Content Include="Views\KeSach\Edit.cshtml" />
-    <Content Include="Views\PhieuXuatSach\TaoPhieuXuatSach.cshtml" />
     <Content Include="Views\LyDoXuat\Index.cshtml" />
     <Content Include="Views\LyDoXuat\Edit.cshtml" />
     <Content Include="Views\LyDoXuat\Create.cshtml" />
     <Content Include="Views\ThongKe\DanhSachChuaTra.cshtml" />
     <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
+    <Content Include="Views\ThongKe\BieuDoPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuXuatSach\TaoPhieuXuatSach.cshtml" />
+    <Content Include="Views\PhieuXuatSach\Index.cshtml" />
+    <Content Include="Views\PhieuXuatSach\Details.cshtml" />
+    <Content Include="Views\PhieuNhapSach\TaoPhieuNhapSach.cshtml" />
+    <Content Include="Views\PhieuNhapSach\Details.cshtml" />
+    <Content Include="Views\PhieuNhapSach\Index.cshtml" />
+    <Content Include="Views\Statistic\Index.cshtml" />
     <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
     <Content Include="Views\BarCodeDemo\BarCodeRead.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\components\" />
+    <Folder Include="app\shared\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\BarCodes\" />
     <Folder Include="Content\TempFiles\" />
+    <Folder Include="Views\Statictical\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

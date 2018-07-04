@@ -1,48 +1,44 @@
-﻿@model IEnumerable<BiTech.Library.Models.NhaXuatBanViewModels>
+﻿@model PagedList.IPagedList<BiTech.Library.Models.NhaXuatBanViewModels>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "DanhSachNXB";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var listNXB = ViewBag.ListNhaXuaBan;
+   
 }
-<div class="row">
-    <div class="col-lg-10">
-        <h2>Danh Sách nhà xuất bản</h2>
-        <button type="button" style="margin-bottom: 11px;float: right;" class="btn btn-primary"><a class="button_a color-white" href="@Url.Action("Them")">Thêm mới</a></button>
 
+        <div class="Title">Danh Sách nhà xuất bản</div>
+      
+        <p>@Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })</p>
         <table class="table table-hover table-bordered">
             <thead>
-                <tr>
+                <tr class="table-info">
                     <th>Tên Nhà Xuất Bản</th>
                     <th>Ghi Chú</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in listNXB)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>@item.Ten</td>
                         <td>@item.GhiChu</td>
                         <td>
-                            <button type="button" class="btn btn-outline-primary">
-                                <a class="color-white" href="@Url.Action("Sua",new { id = item.Id})">Sửa
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                            </button>
-                      
-                             | 
-                            <button type="button" class="btn btn-outline-danger">
-                                <a class="color-white" href="@Url.Action("Xoa",new { id = item.Id})"> Xóa
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </a>
-                            </button>
-                         
+
+                            <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua",new { id = item.Id})">
+                                Sửa
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+
+
+
+
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        </div>
-    </div>
-   
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
 

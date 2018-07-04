@@ -5,10 +5,16 @@
 
     //Nếu width trình duyệt lớn hơn 1200 thì hiện menu left sau khi load
     var width_screen = $(window).width();
-    if (width_screen < 600) {
+    if (width_screen < 992) {
         turn_off_menu();
     }
-    //turn_on_off_menu_cookie("menu");
+    $(window).resize(function () {
+        var width_screen = $(window).width();
+        if (width_screen < 992) {
+            turn_off_menu();
+        }
+        console.log(width_screen);
+    });
 });
 
 
