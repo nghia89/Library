@@ -162,22 +162,26 @@ namespace BiTech.Library.Controllers
             return View(_listPhieuMuon.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult BieuDoPhieuMuon(int? month, int? year,BieuDoPhieuMuonViewModel model)
+        public ActionResult BieuDoPhieuMuon(int? month, int? year, BieuDoPhieuMuonViewModel model)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
+            if (month == null && year == null)
+            {
+                month = 1;
+                year = DateTime.Now.Year;
+            }
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             // 1 tháng có 31 ngày
-            int[] soNguoiMuonSachTrongThang = new int[31];
-            int[] soNguoiTraTreTrongThang = new int[31];
-            int[] soNguoiKhongTraTrongThang = new int[31];
-            int[] soPhieuMuonTrongThang = new int[31];
-            int[] soSachDuocMuonTrongThang = new int[31];
+            int[] soNguoiMuonSachTrongThang = new int[32];
+            int[] soNguoiTraTreTrongThang = new int[32];
+            int[] soNguoiKhongTraTrongThang = new int[32];
+            int[] soPhieuMuonTrongThang = new int[32];
+            int[] soSachDuocMuonTrongThang = new int[32];
             // 1 năm có 4 quý
             int[] soNguoiMuonSachTrongQuy = new int[4];
             int[] soNguoiTraTreTrongQuy = new int[4];
@@ -235,6 +239,7 @@ namespace BiTech.Library.Controllers
                 soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) : -1;
                 soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) : -1;
                 soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) : -1;
+
             }
             foreach (var item in listYearSelected)
             {
@@ -439,33 +444,40 @@ namespace BiTech.Library.Controllers
             List<int> lsoSachDuocMuonTrongNgay = new List<int>();
             List<int> lsoNguoiKhongTraTrongNgay = new List<int>();
             List<int> lsoNguoiTraTreTrongNgay = new List<int>();
-            // chọn ra những ngày nào có phiếu mượn để gắn vào list 
-            for (int i = 0; i < 31; i++)
+            // Chọn số ngày cho từng tháng
+            int soNgayTrongThang = 0;
+            switch (month)
             {
-                if (soPhieuMuonTrongThang[i] != 0)
-                {
-                    lsoNgayTrongThang.Add(i);
-                    lsoPMTrongNgay.Add(soPhieuMuonTrongThang[i]);
-                }
-                if (soNguoiMuonSachTrongThang[i] != 0)
-                {
-                    lsoNguoiMuonTrongNgay.Add(soNguoiMuonSachTrongThang[i]);
-                }
-                if (soSachDuocMuonTrongThang[i] != 0)
-                {
-                    lsoSachDuocMuonTrongNgay.Add(soSachDuocMuonTrongThang[i]);
-                }
-                if (soNguoiKhongTraTrongThang[i] != 0)
-                {
-                    lsoNguoiKhongTraTrongNgay.Add(soNguoiKhongTraTrongThang[i]);
-                }
-                if (soNguoiTraTreTrongThang[i] != 0)
-                {
-                    lsoNguoiTraTreTrongNgay.Add(soNguoiTraTreTrongThang[i]);
-                }
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    {
+                        soNgayTrongThang = 31;
+                        break;
+                    }
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    {
+                        soNgayTrongThang = 30;
+                        break;
+                    }
+                case 2:
+                    {
+                        if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
+                            soNgayTrongThang = 29;
+                        else
+                            soNgayTrongThang = 28;
+                        break;
+                    }
+
             }
 
-            JsonResult result = new JsonResult();
             // Chuyền dữ liệu vào Model
             model = new BieuDoPhieuMuonViewModel
             {
@@ -483,16 +495,19 @@ namespace BiTech.Library.Controllers
                 lsoNguoiKhongTraTrongQuy = soNguoiKhongTraTrongQuy,
                 lsoNguoiTraTreTrongQuy = soNguoiTraTreTrongQuy,
                 // Thống kê trong Tháng (chia ra 31 ngày)
-                lsoNgayTrongThang = lsoNgayTrongThang,
-                lsoPMTrongNgay = lsoPMTrongNgay,
-                lsoNguoiMuonTrongNgay = lsoNguoiMuonTrongNgay,
-                lsoSachDuocMuonTrongNgay = lsoSachDuocMuonTrongNgay,
-                lsoNguoiKhongTraTrongNgay = lsoNguoiKhongTraTrongNgay,
-                lsoNguoiTraTreTrongNgay = lsoNguoiTraTreTrongNgay
+                SoNgayTrongThang = soNgayTrongThang,
+                lsoPMTrongNgay = soPhieuMuonTrongThang,
+                lsoNguoiMuonTrongNgay = soNguoiMuonSachTrongThang,
+                lsoSachDuocMuonTrongNgay = soSachDuocMuonTrongThang,
+                lsoNguoiKhongTraTrongNgay = soNguoiKhongTraTrongThang,
+                lsoNguoiTraTreTrongNgay = soNguoiTraTreTrongThang
+
             };
             // Tháng, năm       
-            ViewBag.Month = month;//!= null ? month : 1;
-            ViewBag.Year = year;// != null ? year : DateTime.Now.Year;
+            //  ViewBag.Month = month;//!= null ? month : 1;
+            //  ViewBag.Year = year;// != null ? year : DateTime.Now.Year;
+            ViewBag.Month = month != null ? month : 1;
+            ViewBag.Year = year != null ? year : 2017;
             return View(model);
         }
         public ActionResult DanhSachTra(int? page, string day, int? month, int? year)
@@ -873,6 +888,7 @@ namespace BiTech.Library.Controllers
 
             return View(model);
         }
+
 
     }
 }

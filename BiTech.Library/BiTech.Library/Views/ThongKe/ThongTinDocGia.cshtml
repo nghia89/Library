@@ -91,7 +91,7 @@
                         {
                             if (item.SoNgayGiaoDong == null)
                             {
-                                var ngayTre = DateTime.Now - item.NgayPhaiTra;
+                                var ngayTre = DateTime.Today - item.NgayPhaiTra;
                                 <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                             }
                             else

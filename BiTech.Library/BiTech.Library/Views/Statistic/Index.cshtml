@@ -80,6 +80,7 @@
             <div class="col-md-1 text-right"><h5>Năm</h5></div>
             <div class="col-md-2">
                 <select class="form-control" data-width="auto" >
+             
                     @for (int i = 1; i <= 5; i++)
                     {
                         <option value="@i">tháng @i</option>
@@ -90,7 +91,8 @@
 
             <div class="col-md-2">
                 <select class="form-control" data-width="auto" ng-model="selected" ng-change="switchLanguage()">
-                    @for (int i = 2017; i <= DateTime.Now.Year; i++)
+                    <option value="2017"  ng-model="selected">Năm 2017</option>
+                     @for (int i = 2018; i <= DateTime.Now.Year; i++)
                      {
                         <option value="@i">Năm @i</option>
                     }

@@ -84,7 +84,7 @@ namespace BiTech.Library.BLL.DBLogic
 
         public ThanhVien GetThanhVienById(string idThanhVien)
         {                    
-            return _thanhVienEngine.GetById(idThanhVien);
+            return _thanhVienEngine.GetByIdUser(idThanhVien);
         }
        
 
