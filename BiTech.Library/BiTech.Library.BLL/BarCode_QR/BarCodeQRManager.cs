@@ -33,7 +33,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             // The path to the documents directory.
             //string dataDir = "./";
 
-            BarCodeBuilder barCodeBarCodeBuilder_ISBN = new BarCodeBuilder(barcodeString, Symbology.Code128);
+            BarCodeBuilder barCodeBarCodeBuilder_ISBN = new BarCodeBuilder(barcodeString, Symbology.ISBN);
             barCodeBarCodeBuilder_ISBN.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
 
             //BarCodeBuilder barCodeBarCodeBuilder_QR = new BarCodeBuilder("1234567890", Symbology.QR);
@@ -53,8 +53,8 @@ namespace BiTech.Library.BLL.BarCode_QR
             {
                 //string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this.codePath + qrCodeSavePath.ToString() + ".bmp");
                 string barcodeSavePath = HttpContext.Current.Server.MapPath(qrCodeSavePath.ToString());
-                BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(qrCodeString, Symbology.QR);
-                barCodeBuilder_QR.ImageQuality = ImageQualityMode.Default;
+                BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(qrCodeSavePath, Symbology.QR);
+                barCodeBuilder_QR.CodeLocation = CodeLocation.None; // Ẩn codetext trên QR
                 barCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
             }
             catch (Exception ex)
@@ -74,9 +74,19 @@ namespace BiTech.Library.BLL.BarCode_QR
             //BarCodeReader reader = new BarCodeReader(@"d:\q.jpeg");
             //var a = reader;
 
-            String[] barcodes = BarcodeScanner.Scan(_filePath, BarcodeType.Code128);
+            String[] barcodes = BarcodeScanner.Scan(_filePath, BarcodeType.ISBN);
             return barcodes[0];
             //return reader.GetCodeText();
+        }
+        /// <summary>
+        /// Đọc mã QR
+        /// </summary>
+        /// <param name="_filePath"></param>
+        /// <returns></returns>
+        public string ReadQRCode(string _filePath)
+        {
+            String[] barcodes = BarcodeScanner.Scan(_filePath, BarcodeType.QRCode);
+            return barcodes[0];
         }
     }
 }

@@ -16,6 +16,7 @@ namespace BiTech.Library.Models
 
         [Required]
         [Display(Name ="User name")]
+        [StringLength(40, ErrorMessage = "Tên quá dài")]
         public string UserName{ get; set; }
 
         [Required]
