@@ -1,4 +1,5 @@
-﻿using BiTech.Library.BLL.DBLogic;
+﻿using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
@@ -21,7 +22,7 @@ namespace BiTech.Library.Controllers
         //private SachLogic _SachLogic;
         //private ThanhVienLogic _ThanhVienLogic;
         //private TrangThaiSachLogic _TrangThaiSachLogic;
-
+		
         public PhieuMuonController()
         {
             //_PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
@@ -590,7 +591,7 @@ namespace BiTech.Library.Controllers
                 TenSach = sach.TenSach
             };
 
-            FileManager barcode = new FileManager();
+            BarCodeQRManager barcode = new BarCodeQRManager();
             string barCodePath = barcode.CreateBarCode(modelSach.IdDauSach, modelSach.IdDauSach);
 
             ViewData["BarCodePath"] = barCodePath;
