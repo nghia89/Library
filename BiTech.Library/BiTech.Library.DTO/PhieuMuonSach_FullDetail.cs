@@ -8,6 +8,6 @@ namespace BiTech.Library.DTO
 {
     public class PhieuMuonSach_FullDetail : PhieuMuon
     {
-        public List<ChiTietPhieuMuon_FullDetail> BookList { get; set; }
+        public List<ChiTietPhieuMuon_FullDetail> BookList { get; set; } = new List<ChiTietPhieuMuon_FullDetail>();
     }
 }

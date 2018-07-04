@@ -15,6 +15,7 @@ namespace BiTech.Library.BLL.DBLogic
         private ChiTietPhieuMuonEngine _ChiTietPhieuMuonEngine;
         private PhieuTraEngine _PhieuTraEngine;
         private ChiTietPhieuTraEngine _ChiTietPhieuTraEngine;
+        private SachEngine _SachEngine;
 
         public PhieuMuonLogic(string connectionString, string dbName)
         {
@@ -23,6 +24,8 @@ namespace BiTech.Library.BLL.DBLogic
             
             _PhieuTraEngine = new PhieuTraEngine(new Database(connectionString, dbName), DBTableNames.PhieuTra_Table);
             _ChiTietPhieuTraEngine = new ChiTietPhieuTraEngine(new Database(connectionString, dbName), DBTableNames.ChiTietPhieuTra_Table);
+
+            _SachEngine = new SachEngine(new Database(connectionString, dbName), DBTableNames.Sach_Table);
         }
 
         /// <summary>
@@ -89,6 +92,8 @@ namespace BiTech.Library.BLL.DBLogic
         public PhieuMuonSach_FullDetail GetReturnBooksTicket(string idPM)
         {
             var PM = _PhieuMuonEngine.GetById(idPM);
+            if (PM == null)
+                return null;
             var lstCT_PM = _ChiTietPhieuMuonEngine.GetByIdPhieuMuon(idPM);
 
             // lấy toàn bộ sách trong các phiếu trả
@@ -100,7 +105,24 @@ namespace BiTech.Library.BLL.DBLogic
             }
 
             // Đổi phiếu tra sang full detail
-            var detail = new PhieuMuonSach_FullDetail();
+            var detail = new PhieuMuonSach_FullDetail()
+            {
+                Id = PM.Id,
+                CreateDateTime = PM.CreateDateTime,
+                GhiChu = PM.GhiChu,
+                GiaHan = PM.GiaHan,
+                IdGiaHan= PM.IdGiaHan,
+                IdUser = PM.IdUser,
+                NgayMuon = PM.NgayMuon,
+                NgayPhaiTra = PM.NgayPhaiTra,
+                NgayTra = PM.NgayTra,
+                SoNgayGiaoDong = PM.SoNgayGiaoDong,
+                STT = PM.STT,
+                TenTrangThai = PM.TenTrangThai,
+                TrangThai = PM.TrangThai,
+                TrangThaiPhieu = PM.TrangThaiPhieu
+            };
+
             foreach(var ct in lstCT_PM)
             {
                 detail.BookList.Add(new ChiTietPhieuMuon_FullDetail()
@@ -117,7 +139,9 @@ namespace BiTech.Library.BLL.DBLogic
             // Tính số sách đã được trả
             foreach (var book in detail.BookList)
             {
-                foreach(var ct in allPhieuTra_bookList)
+                book.TenSach = _SachEngine.GetByIdBook(book.IdSach).TenSach;
+
+                foreach (var ct in allPhieuTra_bookList)
                 {
                     if(book.IdSach == ct.IdSach)
                     {

@@ -70,30 +70,24 @@ namespace BiTech.Library.Controllers
             ViewBag.UnSuccess = TempData["UnSuccess"] = "";
             ViewBag.SoLuong = TempData["SoLuong"] = "";
 
-            var phieuMuon = _PhieuMuonLogic.GetById(idPM); // lay phieumuon thong qua idPM - lay idUser
+            var detail = _PhieuMuonLogic.GetReturnBooksTicket(idPM); // lay all thong tin phieu muon thong qua idPM - lay idUser
 
-            var thanhVien = _ThanhVienLogic.GetByIdUser(phieuMuon.IdUser); //ten ngupoi muon
+            if(detail == null)
+                return RedirectToAction("Index");
             
+            var thanhVien = _ThanhVienLogic.GetByIdUser(detail.IdUser); //ten ngupoi muon
+
             PhieuTraViewModel model = new PhieuTraViewModel()
             {
                 IdPM = idPM,
                 IdNguoiMuon = thanhVien.MaSoThanhVien,
                 NguoiMuon = thanhVien.Ten,
+                detail = detail
             };
 
-            var listTTSach = _TrangThaiSachLogic.GetAll();
-
             // Load danh sách trạng thái
-            ViewBag.ListTinhTrangSach = _TrangThaiSachLogic.GetAll();
+            model.ListTrangThai = _TrangThaiSachLogic.GetAll();
 
-            foreach (var item in listTTSach)
-            {
-                model.ListTrangThai.Add(new TrangThai()
-                {
-                    Id = item.Id,
-                    TenTT = item.TenTT
-                });
-            }
             return View(model);
         }
 
@@ -111,6 +105,8 @@ namespace BiTech.Library.Controllers
             var _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
+            model.detail = _PhieuMuonLogic.GetReturnBooksTicket(model.IdPM); 
+            
             if (model.listChiTietJsonString.Count > 0)
             {
                 PhieuTra phieuTra = new PhieuTra()
@@ -121,7 +117,7 @@ namespace BiTech.Library.Controllers
                 };
                 //insert phieutra
                 string idPhieuTra = _PhieuTraLogic.Insert(phieuTra);
-                if (!String.IsNullOrEmpty(idPhieuTra))
+                if (!string.IsNullOrEmpty(idPhieuTra))
                 {
                     try
                     {
@@ -160,7 +156,7 @@ namespace BiTech.Library.Controllers
                                 throw ex;
                             }
                             string idUser = _PhieuMuonLogic.GetById(model.IdPM).IdUser;
-                            if (!String.IsNullOrEmpty(idCtpt)) //true
+                            if (!string.IsNullOrEmpty(idCtpt)) //true
                             {
                                 TempData["Success"] = "Tạo phiếu mượn thành công";
                                 return RedirectToAction("Index", "PhieuMuon", new { @IdUser = idUser });
@@ -175,18 +171,9 @@ namespace BiTech.Library.Controllers
                     }
                 }
             }
-            var listTTSach = _TrangThaiSachLogic.GetAll();
-            // Load danh sách trạng thái
-            ViewBag.ListTinhTrangSach = _TrangThaiSachLogic.GetAll();
 
-            foreach (var item in listTTSach)
-            {
-                model.ListTrangThai.Add(new TrangThai()
-                {
-                    Id = item.Id,
-                    TenTT = item.TenTT
-                });
-            }
+            //// Load danh sách trạng thái
+            model.ListTrangThai = _TrangThaiSachLogic.GetAll();
 
             return View(model);
         }

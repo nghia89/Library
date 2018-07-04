@@ -72,20 +72,17 @@ namespace BiTech.Library.Models
 
     public class PhieuTraViewModel
     {
-        public string  Id { get; set; }
-
         public string IdPM { get; set; }
-
-        [Display(Name = "Ngày trả")]
-        public DateTime NgayTra { get; set; }
-
-        [Display(Name = "Người mượn")]
-        public string NguoiMuon { get; set; }
 
         [Display(Name = "Mã người mượn")]
         public string IdNguoiMuon { get; set; }
 
-        public List<TrangThai> ListTrangThai { get; set; } = new List<TrangThai>();
+        [Display(Name = "Người mượn")]
+        public string NguoiMuon { get; set; }
+
+        public List<TrangThaiSach> ListTrangThai { get; set; } = new List<TrangThaiSach>();
+
+        public PhieuMuonSach_FullDetail detail { get; set; }
 
         public List<string> listChiTietJsonString { get; set; } = new List<string>();
     }

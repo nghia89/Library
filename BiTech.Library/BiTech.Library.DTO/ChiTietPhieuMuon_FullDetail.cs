@@ -8,6 +8,8 @@ namespace BiTech.Library.DTO
 {
     public class ChiTietPhieuMuon_FullDetail : ChiTietPhieuMuon
     {
+        public string TenSach { get; set; }
+
         public int SoLuongSachDaTra { get; set; }
 
         public bool IsPaid { get { return SoLuong == SoLuongSachDaTra; } }
