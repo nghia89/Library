@@ -53,7 +53,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             {
                 //string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this.codePath + qrCodeSavePath.ToString() + ".bmp");
                 string barcodeSavePath = HttpContext.Current.Server.MapPath(qrCodeSavePath.ToString());
-                BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(qrCodeSavePath, Symbology.QR);
+                BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(qrCodeString, Symbology.QR);
                 barCodeBuilder_QR.CodeLocation = CodeLocation.None; // Ẩn codetext trên QR
                 barCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
             }
