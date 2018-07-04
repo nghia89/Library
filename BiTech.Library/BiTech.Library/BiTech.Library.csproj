@@ -712,6 +712,7 @@
     <Content Include="Views\PhieuXuatSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Index.cshtml" />
+    <Content Include="Views\TheLoaiSach\_NhapLoaiSach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
