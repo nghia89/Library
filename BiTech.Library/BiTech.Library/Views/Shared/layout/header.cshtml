@@ -1,46 +1,54 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     Layout = null;
 }
 <div class="top">
     <div class="bt_menu" title="menu">
         <i class="fa fa-bars"></i>
     </div>
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
 
-    <ul class="nav menutop">
-        @*<li class="nav-item">
-            <form class="form-inline my-2 my-lg-0 mr-lg-2">
-                <div class="input-group box-search">
-                    <input class="form-control" type="text" placeholder="Search for...">
-                    <span class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </form>
-        </li>*@
-        <li class="nav-item">
-            <div class="dropdown">
-                <div class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-fw fa-sign-out"></i>
-                    Dropdown button
-                </div>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
-                </div>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a href="http://google.com">
-                <div class="btn btn-dark">
 
-                    <i class="fa fa-fw fa-sign-out"></i>Logout
+            <ul class="nav menutop">
+                @*<li class="nav-item">
+                        <form class="form-inline my-2 my-lg-0 mr-lg-2">
+                            <div class="input-group box-search">
+                                <input class="form-control" type="text" placeholder="Search for...">
+                                <span class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </li>*@
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <div class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-fw fa-sign-out"></i>
+                            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        </div>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Link 1</a>
+                            <a class="dropdown-item" href="#">Link 2</a>
+                            <a class="dropdown-item" href="#">Link 3</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                        <div class="btn btn-dark">
 
-                </div>
-            </a>
-        </li>
-    </ul>
+                            <i class="fa fa-fw fa-sign-out"></i>Logout
 
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        }
+    }
 </div>

@@ -1,6 +1,7 @@
 ﻿@model BiTech.Library.Models.PhieuMuonModelView
 @{
     ViewBag.Title = "GiaHanPhieuMuon";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
 @using (Html.BeginForm("GiaHanPhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

@@ -1,6 +1,7 @@
 @model  BiTech.Library.Models.UserViewModel
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
 @using (Html.BeginForm("Search", "User", FormMethod.Post, new { role = "form" }))
@@ -53,6 +54,7 @@
     <div class="row">
         @Html.Action("_PartialUser", "User", new { @IdUser = ViewBag.IdUser })
     </div>
+<<<<<<< HEAD
 </div>
 
 @*@section Scripts{
@@ -79,3 +81,6 @@
         }
     </script>
 }*@
+=======
+</div>
+>>>>>>> 229fde3eebbc9c7dac5217a6a8761de890636945
