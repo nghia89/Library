@@ -66,6 +66,7 @@ namespace BiTech.Library.Controllers
 
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSuccess = TempData["UnSuccess"];
+            ViewBag.IdUser = TempData["IdUser"];
             return View();
         }
         /// <summary>
@@ -81,6 +82,13 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+
+            if(viewModel.MaSoThanhVien == null || viewModel.Ten == null || viewModel.Password == null)
+            {
+                TempData["IdUser"] = "Dữ liệu không phù hợp";
+                return View();
+            }
+
             BarCodeQRManager barcode = new BarCodeQRManager();
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
@@ -111,10 +119,10 @@ namespace BiTech.Library.Controllers
                 {
                     Directory.CreateDirectory(location);
                 }
-
-                var a = uploadFileName.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                //đường dẫn hoàn chỉnh
+                var path = uploadFileName.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
                 //Tạo mã QR
-                bool bolQR = barcode.CreateQRCode(model.Id, a);
+                bool bolQR = barcode.CreateQRCode(model.Id, path);
             }
             catch (Exception ex)
             {
