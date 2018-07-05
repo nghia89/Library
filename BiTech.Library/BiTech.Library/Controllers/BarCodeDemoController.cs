@@ -1,7 +1,7 @@
 ﻿using Aspose.BarCodeRecognition;
 using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.Models;
-using OnBarcode.Barcode.BarcodeScanner;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;

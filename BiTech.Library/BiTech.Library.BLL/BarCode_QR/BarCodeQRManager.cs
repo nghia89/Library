@@ -1,4 +1,5 @@
-﻿using Aspose.BarCode;
+﻿
+using Aspose.BarCode;
 using OnBarcode.Barcode.BarcodeScanner;
 using System;
 using System.Collections.Generic;
