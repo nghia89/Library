@@ -118,7 +118,7 @@ namespace BiTech.Library.Controllers
                 }
             }
 
-            ///List<PhieuMuon> _listPhieuMuon = listAll.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
+            //List<PhieuMuon> _listPhieuMuon = listAll.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
             List<PhieuMuon> _listPhieuMuon = listMonthSelected.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
             // --------------------THÔNG TIN PHIẾU MƯỢN--------------------           
             foreach (var item in _listPhieuMuon)
@@ -127,8 +127,7 @@ namespace BiTech.Library.Controllers
                 // Lấy danh sách Thành Viên
                 listThanhVien.Add(_thongKeLogic.GetThanhVienById(item.IdUser));
                 // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
-                var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
-                // listSach = new List<Sach>();
+                var listCTPM = _thongKeLogic.GetCTPMById(item.Id);             
                 soSachTong = 0;
                 foreach (var i in listCTPM)
                 {
@@ -737,7 +736,7 @@ namespace BiTech.Library.Controllers
                     }
                     listChuaTra.Add(item);
                 }
-                //--- Kiểm tra tên trùng
+                #region Kiểm tra tên trùng
                 //if (listPMChuaTra.Count == 0)
                 //{
                 //    listPMChuaTra.Add(item);
@@ -761,6 +760,7 @@ namespace BiTech.Library.Controllers
                 //{
                 //    listPMChuaTra.Add(item);
                 //}
+                #endregion
             }
             // Sắp xếp lại phiếu mượn         
             // var _listPhieuMuon = listPMChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
@@ -774,6 +774,7 @@ namespace BiTech.Library.Controllers
                 // Lấy danh sách CTPM
                 var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
                 // listSach = new List<Sach>();
+                soSachDuocMuon = 0;
                 foreach (var ctpm in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
@@ -781,9 +782,9 @@ namespace BiTech.Library.Controllers
                     listSach.Add(sach);
                     // số lượng sách được mượn
                     var soLuong = ctpm.SoLuong != 0 ? ctpm.SoLuong : 1;
-                    soSachDuocMuon += soLuong;
-                    listSoLuongSach.Add(soLuong);
+                    soSachDuocMuon += soLuong;                  
                 }
+                listSoLuongSach.Add(soSachDuocMuon);
                 listChaCuaSach.Add(listSach);
             }
             ViewBag.ListChaCuaSach = listChaCuaSach;
@@ -853,7 +854,7 @@ namespace BiTech.Library.Controllers
                 listModelPM.Add(item);
                 var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
                 listSach = new List<Sach>();
-
+                soSachDuocMuon = 0;
                 foreach (var ctpm in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn

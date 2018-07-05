@@ -33,22 +33,22 @@ namespace BiTech.Library.Controllers.BaseClass
         public int DemSoNguoiMuonSach(List<PhieuMuon> listPM)
         {
             bool flat = false;
-            List<object> listSoLuongThanhVienTrongNgay = new List<object>();
-            string idThanhVienTrongNgay = null;
+            List<object> listSoLuongThanhVien = new List<object>();
+            string idThanhVien = null;
             foreach (var pm in listPM)
             {
                 // Đếm số người mượn trong ngày (không trùng)
                 flat = false;
-                idThanhVienTrongNgay = pm.IdUser;
-                if (listSoLuongThanhVienTrongNgay.Count == 0)
+                idThanhVien = pm.IdUser;
+                if (listSoLuongThanhVien.Count == 0)
                 {
-                    listSoLuongThanhVienTrongNgay.Add(idThanhVienTrongNgay);
+                    listSoLuongThanhVien.Add(idThanhVien);
                 }
                 else
                 {
-                    foreach (var x in listSoLuongThanhVienTrongNgay.ToList())
+                    foreach (var x in listSoLuongThanhVien.ToList())
                     {
-                        if (x.ToString() != idThanhVienTrongNgay.ToString())
+                        if (x.ToString() != idThanhVien.ToString())
                         {
                             flat = true;
                         }
@@ -62,10 +62,10 @@ namespace BiTech.Library.Controllers.BaseClass
                 // Kiểm tra trùng người,nếu không thì tính đó là 1 người mượn 
                 if (flat)
                 {
-                    listSoLuongThanhVienTrongNgay.Add(idThanhVienTrongNgay);
+                    listSoLuongThanhVien.Add(idThanhVien);
                 }
             }
-            return listSoLuongThanhVienTrongNgay.Count();
+            return listSoLuongThanhVien.Count();
         }
         /// <summary>
         /// Đếm số người trả sách trễ trong phiếu mượn
@@ -74,16 +74,16 @@ namespace BiTech.Library.Controllers.BaseClass
         /// <returns></returns>
         public int DemSoNguoiTraTre(List<PhieuMuon> listPM)
         {
-            int soNguoiTraTreTrongNgay = 0;
+            int soNguoiTraTre = 0;
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var pm in listPM)
             {
                 if (pm.NgayTra != ngayTraNull && pm.NgayTra != null && pm.NgayTra != null && pm.NgayTra > pm.NgayPhaiTra)
                 {
-                    soNguoiTraTreTrongNgay++;
+                    soNguoiTraTre++;
                 }
             }
-            return soNguoiTraTreTrongNgay;
+            return soNguoiTraTre;
         }
         /// <summary>
         /// Đếm số người không trả sách trong phiếu mượn
@@ -92,16 +92,16 @@ namespace BiTech.Library.Controllers.BaseClass
         /// <returns></returns>
         public int DemSoNguoiKhongTra(List<PhieuMuon> listPM)
         {
-            int soNguoiKhongTraTrongNgay = 0;
+            int soNguoiKhongTra = 0;
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var pm in listPM)
             {
                 if (pm.NgayPhaiTra < DateTime.Today && pm.NgayTra == ngayTraNull && pm.NgayTra != null)
                 {
-                    soNguoiKhongTraTrongNgay++;
+                    soNguoiKhongTra++;
                 }
             }
-            return soNguoiKhongTraTrongNgay;
+            return soNguoiKhongTra;
         }   
         /// <summary>
         /// Đếm số sách được mượn trong phiếu mượn
@@ -116,18 +116,18 @@ namespace BiTech.Library.Controllers.BaseClass
                 return 0;
             #endregion        
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            int soLuongSachTrongNgay = 0;                       
+            int soLuongSach = 0;                       
             foreach (var pm in listPM)
             {
-                var listCTPMTrongNgay = _thongKeLogic.GetCTPMById(pm.Id);               
-                foreach (var i in listCTPMTrongNgay)
+                var listCTPM = _thongKeLogic.GetCTPMById(pm.Id);               
+                foreach (var i in listCTPM)
                 {
                     // số lượng sách được mượn
                     var soLuong = i.SoLuong != 0 ? i.SoLuong : 1;
-                    soLuongSachTrongNgay += soLuong; // tổng số sách được mượn trong danh sách phiếu mượn (tháng/ngày)
+                    soLuongSach += soLuong; // tổng số sách được mượn trong danh sách phiếu mượn (tháng/ngày)
                 }
             }
-            return soLuongSachTrongNgay;
+            return soLuongSach;
         }
 
     }
