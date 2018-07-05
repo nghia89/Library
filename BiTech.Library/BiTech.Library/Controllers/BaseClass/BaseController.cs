@@ -35,6 +35,7 @@ namespace BiTech.Library.Controllers
             #region Demo
 
             data = new SSOUserDataModel();
+            data.Id = "123";
             data.MyApps.Add(AppCode, new SSOUserAppModel()
             {
                 AppName = "Quản lý thư viện",

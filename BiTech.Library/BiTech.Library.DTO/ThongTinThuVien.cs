@@ -2,13 +2,10 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BiTech.Library.DTO
 {
-    public class GiaHan : IModel
+    public class ThongTinThuVien : IModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -18,6 +15,19 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
-        public string SoNgayGiaHan { get; set; }
+        /// <summary>
+        /// Tên thư viện
+        /// </summary>
+        public string Ten { get; set; }
+
+        /// <summary>
+        /// Địa chỉ thư viện
+        /// </summary>
+        public string DiaChi { get; set; }
+
+        /// <summary>
+        /// Số lần mượn tối đa
+        /// </summary>
+        public int SoLanMuonMax { get; set; }
     }
 }

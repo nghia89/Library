@@ -13,10 +13,11 @@ namespace BiTech.Library.DTO
         // Thời gian đối tượng được tạo
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
-
-
+        
         public string TenKe { get; set; }
+
         public string ViTri { get; set; }
+
         public string GhiChu { get; set; }
     }
 }

@@ -73,9 +73,9 @@
     <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
     <Compile Include="Engines\ChiTietPhieuTraEngine.cs" />
     <Compile Include="Engines\ChiTietXuatSachEngine.cs" />
-    <Compile Include="Engines\ExampleEngine.cs" />
     <Compile Include="Engines\LyDoXuatEngine.cs" />
     <Compile Include="Engines\PhieuNhapSachEngine.cs" />
+    <Compile Include="Engines\LanguageEngine.cs" />
     <Compile Include="Engines\NhaXuatBanEngine.cs" />
     <Compile Include="Engines\SoLuongSachTrangThaiEngine.cs" />
     <Compile Include="Engines\ThongKeEngine.cs" />

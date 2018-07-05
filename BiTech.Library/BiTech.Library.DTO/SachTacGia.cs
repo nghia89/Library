@@ -16,8 +16,5 @@ namespace BiTech.Library.DTO
 
         public string IdSach { get; set; }
         public string IdTacGia { get; set; }
-        public int SoLuongTacGia { get; set; }
-
-    
     }
 }

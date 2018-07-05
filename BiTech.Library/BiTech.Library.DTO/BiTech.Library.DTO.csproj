@@ -48,21 +48,23 @@
   <ItemGroup>
     <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
+    <Compile Include="ChiTietPhieuMuon_FullDetail.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
     <Compile Include="ChiTietXuatSach.cs" />
-    <Compile Include="Enum_V.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Example.cs" />
     <Compile Include="GiaHan.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="LyDoXuat.cs" />
     <Compile Include="PhieuNhapSach.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="NhaXuatBan.cs" />
+    <Compile Include="PhieuMuonSach_FullDetail.cs" />
     <Compile Include="SoLuongSachTrangThai.cs" />
     <Compile Include="PhieuXuatSach.cs" />
     <Compile Include="PhieuMuon.cs" />
     <Compile Include="PhieuTra.cs" />
     <Compile Include="ThanhVien.cs" />
+    <Compile Include="ThongTinThuVien.cs" />
     <Compile Include="TrangThaiSach.cs" />
     <Compile Include="KeSach.cs" />
     <Compile Include="TheLoaiSach.cs" />

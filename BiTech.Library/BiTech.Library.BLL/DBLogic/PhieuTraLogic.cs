@@ -18,6 +18,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             _PhieuTraEngine = new PhieuTraEngine(new Database(connectionString, dbName), TableName);
         }
+
         /// <summary>
         /// Get all PhieuTra object 
         /// </summary>
@@ -26,10 +27,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuTraEngine.GetAll();
         }
+
         public PhieuTra GetById(string id)
         {
             return _PhieuTraEngine.GetById(id);
         }
+        
         /// <summary>
         /// Insert a PhieuTra object
         /// </summary>
@@ -39,6 +42,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuTraEngine.Insert(model);
         }
+
         /// <summary>
         /// update - delete( update status)
         /// </summary>
@@ -48,10 +52,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuTraEngine.Update(model);
         }
+
         public bool Remove (string id)
         {
             return _PhieuTraEngine.Remove(id);
         }
-
     }
 }

@@ -14,9 +14,9 @@ namespace BiTech.Library.DTO
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        public string TenTT { get; set; }
-
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
+
+        public string TenTT { get; set; }
     }
 }

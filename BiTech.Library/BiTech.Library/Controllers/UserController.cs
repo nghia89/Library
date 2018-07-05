@@ -28,9 +28,10 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+			
             if (String.IsNullOrEmpty(IdUser))
                 IdUser = "";
-            ViewBag.IdUser = IdUser;            
+            ViewBag.IdUser = IdUser;
             return View();
         }
 
@@ -41,6 +42,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return null;
             #endregion
+			
             List<ThanhVien> lstUser = new List<ThanhVien>();
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             if (String.IsNullOrEmpty(IdUser))
@@ -51,7 +53,7 @@ namespace BiTech.Library.Controllers
             {
                 lstUser.Add(_ThanhVienLogic.GetByIdUser(IdUser));
             }
-            return PartialView(lstUser);                     
+            return PartialView(lstUser);
 
             //return new JsonResult(new { tensach = "", cover = "" });
         }
@@ -69,6 +71,7 @@ namespace BiTech.Library.Controllers
             ViewBag.IdUser = TempData["IdUser"];
             return View();
         }
+
         /// <summary>
         /// Create User
         /// </summary>
@@ -164,6 +167,7 @@ namespace BiTech.Library.Controllers
             };
             return View(model);
         }
+
         [HttpPost]
         public ActionResult _Edit(UserViewModel viewModel, string id)
         {
