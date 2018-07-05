@@ -65,7 +65,7 @@
       <HintPath>Bin\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="OnBarcode.Barcode.BarcodeScanner">
-      <HintPath>C:\Users\vinh\Downloads\OnBarcode.BarcodeReader.Dotnet\OnBarcode.BarcodeReader.Dotnet\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
     </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -569,6 +569,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\avatar.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\StatisticCss.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -785,6 +786,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
