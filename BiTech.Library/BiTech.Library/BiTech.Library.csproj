@@ -721,6 +721,7 @@
     <Content Include="Views\TheLoaiSach\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Them.cshtml" />
     <Content Include="Views\TheLoaiSach\Sua.cshtml" />
+    <Content Include="Views\TheLoaiSach\_NhapLoaiSach.cshtml" />
     <Content Include="Views\NhaXuatBan\DanhSachNXB.cshtml" />
     <Content Include="Views\NhaXuatBan\Index.cshtml" />
     <Content Include="Views\NhaXuatBan\Them.cshtml" />

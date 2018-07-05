@@ -13,7 +13,6 @@
         if (width_screen < 992) {
             turn_off_menu();
         }
-        console.log(width_screen);
     });
 });
 

@@ -348,16 +348,15 @@ a:hover {
 .bg_icon,
 .menu,
 .right,
-.left
- {
+.left {
     /*transition: all 0.2s ease-out;*/
 }
 
-.menu ul {
-    min-width: 220px;
-}
+    .menu ul {
+        min-width: 220px;
+    }
 
-.small_menu .menu>ul {
+.small_menu .menu > ul {
     min-width: 40px;
 }
 /*---End small_menu---*/
@@ -390,13 +389,9 @@ a:hover {
     /*margin: 5px;*/
 }
 
-
-
     .book_box .book_Title {
         padding-bottom: 10px;
     }
-
-
 
         .book_box .book_Title .book_control {
             float: left;
@@ -492,6 +487,18 @@ a:hover {
     .table-striped a:hover {
         color: #f00;
     }
+
+.direction {
+    padding: 5px 0px;
+}
+
+    .direction a {
+        color: #000;
+    }
+
+        .direction a:hover {
+            color: #f00;
+        }
 
 @media screen and (max-width: 1200px) {
     .book_box .book_content .book_image {
