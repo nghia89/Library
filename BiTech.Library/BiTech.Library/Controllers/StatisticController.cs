@@ -27,7 +27,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
-
+      
 
 
         public JsonResult BieuDoPhieuMuon(int? month, int? year, BieuDoPhieuMuonViewModel model)
@@ -102,11 +102,11 @@ namespace BiTech.Library.Controllers
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
                 listPhieuMuonTrongNgay = _thongKeLogic.GetPMByNgayMuon(item.NgayMuon);
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
-                soPhieuMuonTrongThang[item.NgayMuon.Day] = listPhieuMuonTrongNgay.Count != 0 ? listPhieuMuonTrongNgay.Count : -1;
-                soNguoiMuonSachTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) : -1;
-                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) : -1;
-                soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) : -1;
-                soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) : -1;
+                soPhieuMuonTrongThang[item.NgayMuon.Day] = listPhieuMuonTrongNgay.Count; //!= 0 ? listPhieuMuonTrongNgay.Count : -1;
+                soNguoiMuonSachTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);// != 0 ? nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) : -1;
+                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay); //!= 0 ? nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) : -1;
+                soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay); //!= 0 ? nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) : -1;
+                soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay); //!= 0 ? nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) : -1;
             }
             foreach (var item in listYearSelected)
             {
