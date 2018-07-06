@@ -1,9 +1,12 @@
-﻿using MongoDB.Bson;
+﻿using Mongo.Migration.Documents;
+using Mongo.Migration.Documents.Attributes;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace BiTech.Library.DTO
 {
+    [CurrentVersion("0.0.1")]
     public class SachTacGia : IModel
     {
         [BsonId]
@@ -15,6 +18,12 @@ namespace BiTech.Library.DTO
         public DateTime CreateDateTime { get; set; }
 
         public string IdSach { get; set; }
+
         public string IdTacGia { get; set; }
+
+        /// <summary>
+        /// Phiên bản hiện tại của đối tượng
+        /// </summary>
+        public DocumentVersion Version { get; set; }
     }
 }

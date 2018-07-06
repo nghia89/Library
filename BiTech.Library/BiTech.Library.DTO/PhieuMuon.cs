@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using Mongo.Migration.Documents;
+using Mongo.Migration.Documents.Attributes;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.DTO
 {
+    [CurrentVersion("0.0.1")]
     public class PhieuMuon : IModel
     {
         [BsonId]
@@ -34,14 +37,28 @@ namespace BiTech.Library.DTO
         public string GiaHan { get; set; }
 
         public string GhiChu { get; set; }
+        
+        /// <summary>
+        /// Phiên bản hiện tại của đối tượng
+        /// </summary>
+        public DocumentVersion Version { get; set; }
 
+        #region Tai - NoDB
 
-        #region Tai
+        [BsonIgnore]
         public  ETinhTrangPhieuMuon TrangThai { get; set; }
+
+        [BsonIgnore]
         public string TenTrangThai { get; set; }
+
+        [BsonIgnore]
         // Số ngày trễ hẹn trả hoặc số ngày gần trả
         public int?SoNgayGiaoDong { get; set; }
+
+        [BsonIgnore]
         public int STT { get; set; }
+
+        [BsonIgnore]
         public string IdGiaHan { get; set; }
 
         #endregion

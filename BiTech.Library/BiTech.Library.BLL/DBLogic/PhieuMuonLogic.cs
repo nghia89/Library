@@ -25,7 +25,7 @@ namespace BiTech.Library.BLL.DBLogic
             _PhieuTraEngine = new PhieuTraEngine(new Database(connectionString, dbName), DBTableNames.PhieuTra_Table);
             _ChiTietPhieuTraEngine = new ChiTietPhieuTraEngine(new Database(connectionString, dbName), DBTableNames.ChiTietPhieuTra_Table);
 
-            _SachEngine = new SachEngine(new Database(connectionString, dbName), DBTableNames.Sach_Table);
+            _SachEngine = new SachEngine(new Database(connectionString), dbName, DBTableNames.Sach_Table);
         }
 
         /// <summary>

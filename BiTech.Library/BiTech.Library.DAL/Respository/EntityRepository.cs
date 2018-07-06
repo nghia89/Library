@@ -17,9 +17,9 @@ namespace BiTech.Library.DAL.Respository
 
         public IMongoDatabase _Database { get; set; }
 
-        public EntityRepository(IDatabase database, string tableName)
+        public EntityRepository(IDatabase database, string databaseName, string tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _TableName = tableName;
             _DatabaseCollection = _Database.GetCollection<T>(_TableName);
         }
