@@ -16,8 +16,8 @@ namespace BiTech.Library.BLL.DBLogic
         private string TableName = "ChiTietNhapSach";
         public ChiTietNhapSachLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _ChiTietNhapSachEngine = new ChiTietNhapSachEngine(database, TableName);
+            Database database = new Database(connectionString);
+            _ChiTietNhapSachEngine = new ChiTietNhapSachEngine(database, databaseName, TableName);
         }
         public List<ChiTietNhapSach> GetAll()
         {

@@ -14,8 +14,8 @@ namespace BiTech.Library.BLL.DBLogic
         LanguageEngine _LanguageEngine;
         public LanguageLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _LanguageEngine = new LanguageEngine(database, DBTableNames.Languages_Table);
+            Database database = new Database(connectionString);
+            _LanguageEngine = new LanguageEngine(database, databaseName, DBTableNames.Languages_Table);
         }
 
         public List<Language> GetAll()

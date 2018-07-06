@@ -1,4 +1,6 @@
-﻿using Aspose.BarCode;
+﻿
+using Aspose.BarCode;
+using Aspose.BarCodeRecognition;
 using OnBarcode.Barcode.BarcodeScanner;
 using System;
 using System.Collections.Generic;
@@ -44,8 +46,8 @@ namespace BiTech.Library.BLL.BarCode_QR
         /// <summary>codePath
         /// Tạo mã QR
         /// </summary>
-        /// <param name="qrCode"> qrCodeString: mã vạch</param>
-        /// <param name="qrCode"> qrCodeSavePath: nơi hình dc lưu</param>
+        /// <param name="qrCodeString"> qrCodeString: mã vạch</param>
+        /// <param name="qrCodeSavePath"> qrCodeSavePath: nơi hình dc lưu</param>
         /// <returns></returns>
         public bool CreateQRCode(string qrCodeString, string qrCodeSavePath)
         {
@@ -72,10 +74,9 @@ namespace BiTech.Library.BLL.BarCode_QR
         {
             //BarCodeReader reader = new BarCodeReader(_filePath, BarCodeReadType.Code39Extended);
             //BarCodeReader reader = new BarCodeReader(@"d:\q.jpeg");
-            //var a = reader;
-
-            String[] barcodes = BarcodeScanner.Scan(_filePath, BarcodeType.ISBN);
-            return barcodes[0];
+            //var a = reader;                    
+            String[] barcodesAll = BarcodeScanner.Scan(_filePath, BarcodeType.All);
+            return barcodesAll[0];
             //return reader.GetCodeText();
         }
         /// <summary>

@@ -51,6 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libs\Aspose.BarCode.dll</HintPath>
     </Reference>
+    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
+      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+    </Reference>
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
       <Private>True</Private>
@@ -70,9 +73,6 @@
     <Reference Include="MongoDB.Driver.Core, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Driver.Core.2.6.1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
-      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -789,6 +789,10 @@
     <ProjectReference Include="..\BiTech.Library.DTO\BiTech.Library.DTO.csproj">
       <Project>{0585cc2f-7e2b-474e-8b5f-f480287225e9}</Project>
       <Name>BiTech.Library.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mongo.Migration\Mongo.Migration.csproj">
+      <Project>{6D7736C2-BF1B-4552-A56C-C225F9F33588}</Project>
+      <Name>Mongo.Migration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

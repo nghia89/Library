@@ -17,9 +17,9 @@ namespace BiTech.Library.DAL.Engines
     /// </summary>
     public class LanguageEngine : EntityRepository<Language>
     {
-        public LanguageEngine(IDatabase database, string tableName) : base(database, tableName)
+        public LanguageEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<Language>(tableName);
         }
 

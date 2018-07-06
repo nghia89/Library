@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class ChiTietPhieuTraEngine : EntityRepository<ChiTietPhieuTra>
     {
-        public ChiTietPhieuTraEngine(IDatabase database, string tableName) : base(database, tableName)
+        public ChiTietPhieuTraEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<ChiTietPhieuTra>(tableName);
         }
         /// <summary>

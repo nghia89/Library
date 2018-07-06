@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class TacGiaEngine : EntityRepository<TacGia>
     {
-        public TacGiaEngine(IDatabase database, string tableName) : base(database, tableName)
+        public TacGiaEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<TacGia>(tableName);
         }
         public List<TacGia> GetAllTacGia()

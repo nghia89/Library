@@ -20,8 +20,8 @@ namespace BiTech.Library.BLL.DBLogic
 
         public NhaXuatBanLogic(string connectionString, string dbName)
         {
-            _Database = new Database(connectionString, dbName);
-            _NhaXuatBanEngine = new NhaXuatBanEngine(new Database(connectionString, dbName), TableName);
+            _Database = new Database(connectionString);
+            _NhaXuatBanEngine = new NhaXuatBanEngine(new Database(connectionString), dbName, TableName);
         }
 
         public List<NhaXuatBan> GetAllNhaXuatBan()

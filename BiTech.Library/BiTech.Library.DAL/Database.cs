@@ -22,6 +22,7 @@ namespace BiTech.Library.DAL
             if (_client == null)
             {
                 _client = new MongoClient(connectionString);
+                Mongo.Migration.Services.Initializers.MongoMigration.Initialize();
             }
             
             //if (_database == null)

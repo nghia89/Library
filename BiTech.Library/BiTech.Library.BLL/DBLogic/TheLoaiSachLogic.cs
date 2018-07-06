@@ -15,8 +15,8 @@ namespace BiTech.Library.BLL.DBLogic
         TheLoaiSachEngine _theloaiSachEngine;
         public TheLoaiSachLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _theloaiSachEngine = new TheLoaiSachEngine(database, "TheLoaiSach");         
+            Database database = new Database(connectionString);
+            _theloaiSachEngine = new TheLoaiSachEngine(database, databaseName,"TheLoaiSach");         
         }
 
         public List<TheLoaiSach> GetAllTheLoaiSach()

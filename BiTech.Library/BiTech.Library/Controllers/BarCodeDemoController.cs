@@ -1,7 +1,7 @@
 ﻿using Aspose.BarCodeRecognition;
 using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.Models;
-using OnBarcode.Barcode.BarcodeScanner;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -59,17 +59,19 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
+
                     //img từ local
                     strImage = "http://localhost:" + Request.Url.Port + "/Upload/" + fileName;
+                    //strImage = HttpContext.Server.MapPath("/Upload/") + fileName;
 
-                    strBarCode = barcode.ReadBarCode(Server.MapPath(localSavePath));
+                    strBarCode = ReadBarcodeFromFile(Server.MapPath(localSavePath));
 
                 }
             }
             else
             {
                 str = "Please upload the bar code Image.";
-            }
+            }   
             ViewBag.ErrorMessage = str;
             ViewBag.BarCode = strBarCode;
             ViewBag.BarImage = strImage;
