@@ -59,17 +59,19 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    //img từ local
-                    strImage = "http://localhost:" + Request.Url.Port + "/Upload/" + fileName;
 
-                    strBarCode = barcode.ReadBarCode(Server.MapPath(localSavePath));
+                    //img từ local
+                     //strImage = "http://localhost:" + Request.Url.Port + "/Upload/" + fileName;
+                    strImage = HttpContext.Server.MapPath("/Upload/") + fileName;
+
+                    strBarCode = ReadBarcodeFromFile(Server.MapPath(localSavePath));
 
                 }
             }
             else
             {
                 str = "Please upload the bar code Image.";
-            }
+            }   
             ViewBag.ErrorMessage = str;
             ViewBag.BarCode = strBarCode;
             ViewBag.BarImage = strImage;
