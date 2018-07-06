@@ -12,7 +12,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.NhaXuatBan_Mirgrations.M000
     public class Init : Migration<NhaXuatBan>
     {
         public Init()
-            : base("0.0.0")
+            : base("0.0.1")
         {
         }
 

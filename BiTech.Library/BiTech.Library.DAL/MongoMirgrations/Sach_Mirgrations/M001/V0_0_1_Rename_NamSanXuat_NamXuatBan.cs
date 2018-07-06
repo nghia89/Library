@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BiTech.Library.DAL.MongoDBMirgrations.Sach_Mirgrations.M001
+namespace BiTech.Library.DAL.MongoMirgrations.Sach_Mirgrations.M001
 {
     /// <summary>
     /// Đổi tên NamSanXuat (version 0.0.0) thành NamXuatBan (version 0.0.1)

@@ -12,7 +12,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.PhieuTra_Mirgrations.M000
     public class Init : Migration<PhieuTra>
     {
         public Init()
-            : base("0.0.0")
+            : base("0.0.1")
         {
         }
 

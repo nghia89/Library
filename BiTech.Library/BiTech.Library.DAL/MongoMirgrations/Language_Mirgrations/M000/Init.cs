@@ -12,7 +12,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.Language_Mirgrations.M000
     public class Init : Migration<Language>
     {
         public Init()
-            : base("0.0.0")
+            : base("0.0.1")
         {
         }
 

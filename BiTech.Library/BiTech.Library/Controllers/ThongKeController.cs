@@ -14,13 +14,10 @@ namespace BiTech.Library.Controllers
 {
     public class ThongKeController : BaseController
     {
-        private ThongKeLogic _thongKeLogic;
-        private ChiTietPhieuMuonLogic _chiTietPhieuMuonLogic;
+      
         NghiepVuThongKeController nghiepVu;
         public ThongKeController()
-        {
-            _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            _chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
+        {           
             nghiepVu = new NghiepVuThongKeController();
         }
         // GET: ThongKe
@@ -38,7 +35,6 @@ namespace BiTech.Library.Controllers
             #endregion
 
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var _chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             int soSachTong = 0;
             int soSachChuaTra = 0;
 
@@ -174,7 +170,6 @@ namespace BiTech.Library.Controllers
                 year = DateTime.Now.Year;
             }
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var _chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             // 1 tháng có 31 ngày
             int[] soNguoiMuonSachTrongThang = new int[32];
             int[] soNguoiTraTreTrongThang = new int[32];
@@ -505,6 +500,14 @@ namespace BiTech.Library.Controllers
         }
         public ActionResult DanhSachTra(int? page, string day, int? month, int? year)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             int soSachDuocMuon = 0;
             var listPhieuMuon = _thongKeLogic.GetAllPhieuMuon();
             List<Sach> listSach = new List<Sach>();
@@ -607,6 +610,14 @@ namespace BiTech.Library.Controllers
 
         public ActionResult LichSuMuonSach(int? page, string id, int? pagePM, string day, int? month, int? year)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             int soSachDuocMuon = 0;
             List<Sach> listSach = new List<Sach>();
             // List<ChiTietPhieuMuon> listCTPM = new List<ChiTietPhieuMuon>();
@@ -700,6 +711,14 @@ namespace BiTech.Library.Controllers
         }
         public ActionResult DanhSachChuaTra(int? page, int? pagePM, string day, int? month, int? year)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             int soSachDuocMuon = 0;
             List<Sach> listSach = new List<Sach>();
             // List<ChiTietPhieuMuon> listCTPM = new List<ChiTietPhieuMuon>();
@@ -808,6 +827,14 @@ namespace BiTech.Library.Controllers
         }
         public ActionResult ThongTinDocGia(string id, int? page, ThongKeViewModel model)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             List<PhieuMuon> listChuaTra = new List<PhieuMuon>();
             List<Sach> listSach = new List<Sach>();
             List<PhieuMuon> listModelPM = new List<PhieuMuon>();

@@ -12,7 +12,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.ThongTinThuVien_Mirgrations.M000
     public class Init : Migration<ThongTinThuVien>
     {
         public Init()
-            : base("0.0.0")
+            : base("0.0.1")
         {
         }
 

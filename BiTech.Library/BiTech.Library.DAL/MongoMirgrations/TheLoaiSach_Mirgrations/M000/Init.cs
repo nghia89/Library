@@ -12,7 +12,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.TheLoaiSach_Mirgrations.M000
     public class Init : Migration<TheLoaiSach>
     {
         public Init()
-            : base("0.0.0")
+            : base("0.0.1")
         {
         }
 

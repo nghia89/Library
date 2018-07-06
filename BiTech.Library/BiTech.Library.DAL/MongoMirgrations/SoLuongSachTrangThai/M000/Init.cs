@@ -12,7 +12,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.SoLuongSachTrangThai_Mirgrations.M
     public class Init : Migration<SoLuongSachTrangThai>
     {
         public Init()
-            : base("0.0.0")
+            : base("0.0.1")
         {
         }
 
