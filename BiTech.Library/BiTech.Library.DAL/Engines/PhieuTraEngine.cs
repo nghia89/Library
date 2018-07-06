@@ -23,7 +23,7 @@ namespace BiTech.Library.DAL.Engines
         public List<PhieuTra> GetAll()
         {
             return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();
-        }
+        }        
 
         #region Tai
         public List<PhieuTra> GetPTByIdPM(string idPhieuMuon)

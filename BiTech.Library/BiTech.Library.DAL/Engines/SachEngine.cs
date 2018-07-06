@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class SachEngine : EntityRepository<Sach>
     {
-        public SachEngine(IDatabase database, string tableName) : base(database, tableName)
+        public SachEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<Sach>(tableName);
         }
 

@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.BarCode">
-      <HintPath>C:\Users\Tai\Desktop\Aspose.BarCode.dll</HintPath>
+      <HintPath>..\..\Libs\Aspose.BarCode.dll</HintPath>
     </Reference>
     <Reference Include="OnBarcode.Barcode.BarcodeScanner">
-      <HintPath>C:\Users\Tai\Desktop\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,9 +55,9 @@
     <Compile Include="DBLogic\ChiTietNhapSachLogic.cs" />
     <Compile Include="DBLogic\ChiTietPhieuTraLogic.cs" />
     <Compile Include="DBLogic\ChiTietXuatSachLogic.cs" />
-    <Compile Include="DBLogic\ExampleLogic.cs" />
     <Compile Include="DBLogic\LyDoXuatLogic.cs" />
     <Compile Include="DBLogic\PhieuNhapSachLogic.cs" />
+    <Compile Include="DBLogic\LanguageLogic.cs" />
     <Compile Include="DBLogic\NhaXuatBanLogic.cs" />
     <Compile Include="DBLogic\SoLuongSachTrangThaiLogic.cs" />
     <Compile Include="DBLogic\ThongKeLogic.cs" />
@@ -73,6 +73,7 @@
     <Compile Include="DBLogic\TacGiaLogic.cs" />
     <Compile Include="DBLogic\TheLoaiSachLogic.cs" />
     <Compile Include="Helper\LicenseHelper.cs" />
+    <Compile Include="DBTableNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

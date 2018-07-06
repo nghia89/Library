@@ -51,6 +51,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libs\Aspose.BarCode.dll</HintPath>
     </Reference>
+    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
+      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LightInject, Version=5.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.5.0.3\lib\net45\LightInject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.6.1\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.6.1\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.6.1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -69,8 +92,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -210,6 +241,7 @@
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
+    <Compile Include="Controllers\NgonNguController.cs" />
     <Compile Include="Controllers\TacGiaController.cs" />
     <Compile Include="Controllers\ThongKeController.cs" />
     <Compile Include="Controllers\PhieuMuonController.cs" />
@@ -235,6 +267,7 @@
     <Compile Include="Models\PhieuXuatSachModels.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SachViewModels.cs" />
+    <Compile Include="Models\Sach\LanguageViewModels.cs" />
     <Compile Include="Models\SSOUserDataModel.cs" />
     <Compile Include="Models\TacGiaViewModel.cs" />
     <Compile Include="Models\ThongKeViewModel.cs" />
@@ -248,7 +281,6 @@
   <ItemGroup>
     <Content Include="app\app.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
-    <Content Include="Assets\Images\Sana Twice 1996.jpg" />
     <Content Include="bower_components\angular-chart.js\angular-chart.js" />
     <Content Include="bower_components\angular-chart.js\dist\angular-chart.css" />
     <Content Include="bower_components\angular-chart.js\dist\angular-chart.js" />
@@ -379,23 +411,17 @@
     <Content Include="bower_components\jquery\.bower.json" />
     <Content Include="bower_components\jquery\AUTHORS.txt" />
     <Content Include="bower_components\jquery\bower.json" />
-    <Content Include="bower_components\jquery\dist\core.js" />
     <Content Include="bower_components\jquery\dist\jquery.js" />
     <Content Include="bower_components\jquery\dist\jquery.min.js" />
     <Content Include="bower_components\jquery\dist\jquery.min.map" />
     <Content Include="bower_components\jquery\dist\jquery.slim.js" />
     <Content Include="bower_components\jquery\dist\jquery.slim.min.js" />
     <Content Include="bower_components\jquery\dist\jquery.slim.min.map" />
-    <Content Include="bower_components\jquery\external\sizzle\dist\sizzle.js" />
-    <Content Include="bower_components\jquery\external\sizzle\dist\sizzle.min.js" />
-    <Content Include="bower_components\jquery\external\sizzle\dist\sizzle.min.map" />
-    <Content Include="bower_components\jquery\external\sizzle\LICENSE.txt" />
     <Content Include="bower_components\jquery\LICENSE.txt" />
     <Content Include="bower_components\jquery\README.md" />
     <Content Include="bower_components\jquery\sizzle\dist\sizzle.js" />
     <Content Include="bower_components\jquery\sizzle\dist\sizzle.min.js" />
     <Content Include="bower_components\jquery\sizzle\LICENSE.txt" />
-    <Content Include="bower_components\jquery\src\.eslintrc.json" />
     <Content Include="bower_components\jquery\src\ajax.js" />
     <Content Include="bower_components\jquery\src\ajax\jsonp.js" />
     <Content Include="bower_components\jquery\src\ajax\load.js" />
@@ -415,17 +441,11 @@
     <Content Include="bower_components\jquery\src\callbacks.js" />
     <Content Include="bower_components\jquery\src\core.js" />
     <Content Include="bower_components\jquery\src\core\access.js" />
-    <Content Include="bower_components\jquery\src\core\camelCase.js" />
     <Content Include="bower_components\jquery\src\core\DOMEval.js" />
     <Content Include="bower_components\jquery\src\core\init.js" />
-    <Content Include="bower_components\jquery\src\core\nodeName.js" />
     <Content Include="bower_components\jquery\src\core\parseHTML.js" />
-    <Content Include="bower_components\jquery\src\core\ready-no-deferred.js" />
     <Content Include="bower_components\jquery\src\core\ready.js" />
-    <Content Include="bower_components\jquery\src\core\readyException.js" />
-    <Content Include="bower_components\jquery\src\core\stripAndCollapse.js" />
     <Content Include="bower_components\jquery\src\core\support.js" />
-    <Content Include="bower_components\jquery\src\core\toType.js" />
     <Content Include="bower_components\jquery\src\core\var\rsingleTag.js" />
     <Content Include="bower_components\jquery\src\css.js" />
     <Content Include="bower_components\jquery\src\css\addGetHookIf.js" />
@@ -438,8 +458,6 @@
     <Content Include="bower_components\jquery\src\css\var\cssExpand.js" />
     <Content Include="bower_components\jquery\src\css\var\getStyles.js" />
     <Content Include="bower_components\jquery\src\css\var\isHidden.js" />
-    <Content Include="bower_components\jquery\src\css\var\isHiddenWithinTree.js" />
-    <Content Include="bower_components\jquery\src\css\var\rboxStyle.js" />
     <Content Include="bower_components\jquery\src\css\var\rmargin.js" />
     <Content Include="bower_components\jquery\src\css\var\rnumnonpx.js" />
     <Content Include="bower_components\jquery\src\css\var\swap.js" />
@@ -501,17 +519,11 @@
     <Content Include="bower_components\jquery\src\var\deletedIds.js" />
     <Content Include="bower_components\jquery\src\var\document.js" />
     <Content Include="bower_components\jquery\src\var\documentElement.js" />
-    <Content Include="bower_components\jquery\src\var\fnToString.js" />
-    <Content Include="bower_components\jquery\src\var\getProto.js" />
     <Content Include="bower_components\jquery\src\var\hasOwn.js" />
     <Content Include="bower_components\jquery\src\var\indexOf.js" />
-    <Content Include="bower_components\jquery\src\var\isFunction.js" />
-    <Content Include="bower_components\jquery\src\var\isWindow.js" />
-    <Content Include="bower_components\jquery\src\var\ObjectFunctionString.js" />
     <Content Include="bower_components\jquery\src\var\pnum.js" />
     <Content Include="bower_components\jquery\src\var\push.js" />
     <Content Include="bower_components\jquery\src\var\rcssNum.js" />
-    <Content Include="bower_components\jquery\src\var\rnothtmlwhite.js" />
     <Content Include="bower_components\jquery\src\var\rnotwhite.js" />
     <Content Include="bower_components\jquery\src\var\slice.js" />
     <Content Include="bower_components\jquery\src\var\support.js" />
@@ -562,6 +574,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\avatar.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\StatisticCss.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -608,7 +621,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Properties\BarcodeScanControl.rd.xml" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
@@ -656,6 +668,7 @@
     <Content Include="bower_components\angular-chart.js\package.json" />
     <Content Include="bower_components\angular-chart.js\PULL_REQUEST_TEMPLATE.md" />
     <Content Include="bower_components\angular-chart.js\README.md" />
+    <None Include="Properties\PublishProfiles\lbm.bitech.com.pubxml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -713,7 +726,7 @@
     <Content Include="Views\TheLoaiSach\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\Them.cshtml" />
     <Content Include="Views\TheLoaiSach\Sua.cshtml" />
-    <Content Include="Views\NhaXuatBan\DanhSachNXB.cshtml" />
+    <Content Include="Views\TheLoaiSach\_NhapLoaiSach.cshtml" />
     <Content Include="Views\NhaXuatBan\Index.cshtml" />
     <Content Include="Views\NhaXuatBan\Them.cshtml" />
     <Content Include="Views\NhaXuatBan\Sua.cshtml" />
@@ -721,9 +734,8 @@
     <Content Include="Views\TrangThaiSach\Them.cshtml" />
     <Content Include="Views\TrangThaiSach\Sua.cshtml" />
     <Content Include="Views\Sach\Index.cshtml" />
-    <Content Include="Views\Sach\Them.cshtml" />
-    <Content Include="Views\Sach\Sua.cshtml" />
-    <Content Include="Views\Sach\Xoa.cshtml" />
+    <Content Include="Views\Sach\Create.cshtml" />
+    <Content Include="Views\Sach\Edit.cshtml" />
     <Content Include="Views\Sach\_NhapLoaiSach.cshtml" />
     <Content Include="Views\Sach\_NhapNhaXuatBan.cshtml" />
     <Content Include="Views\NhapSach\NhapSach.cshtml" />
@@ -752,6 +764,9 @@
     <Content Include="Views\Statistic\Index.cshtml" />
     <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
     <Content Include="Views\BarCodeDemo\BarCodeRead.cshtml" />
+    <Content Include="Views\NgonNgu\Index.cshtml" />
+    <Content Include="Views\NgonNgu\Edit.cshtml" />
+    <Content Include="Views\NgonNgu\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\components\" />
@@ -759,7 +774,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\BarCodes\" />
     <Folder Include="Content\TempFiles\" />
-    <Folder Include="Views\Statictical\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -779,6 +793,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -9,9 +9,10 @@
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <script src="~/bower_components/jquery/dist/jquery.js"></script>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="~/Scripts/angular.min.js"></script>
 <script src="~/Scripts/LibraryAngularJS.js"></script>
+
+<div class="Title">Trả sách</div>
 
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
 <h5 class="text-danger">@ViewBag.SoLuong</h5>
@@ -22,81 +23,129 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary("", new { @class = "text-danger" })
-        @Html.HiddenFor(m => m.IdPM, new { @id = "idPM"})
+        @Html.HiddenFor(m => m.IdPM, new { @id = "idPM" })
+        @Html.HiddenFor(m => m.detail)
+
+        <hr />
+
         <div class="form-group">
             @Html.LabelFor(m => m.IdNguoiMuon, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.TextBoxFor(m => m.IdNguoiMuon, new { @class = "form-control", @readonly = "readonly" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(m => m.NguoiMuon, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.TextBoxFor(m => m.NguoiMuon, new { @class = "form-control", @readonly = "readonly" })
             </div>
-        </div>                
+        </div>
 
-        <div ng-cloak ng-controller="TraSachCtrlr"  ng-init="GetAllData()" class="w3-card-2 w3-margin" style="max-width:400px;">
-            <div class="w3-container w3-light-grey w3-padding-16">
-                <div class="w3-row w3-margin-top">
-                    <div class="w3-col s10">
-                        <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding">
-                    </div>
-                    <div class="w3-col s10">
-                        <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="w3-input w3-border w3-padding">
-                    </div>
-                    <div class="w3-col s10">
-                        @Html.DropDownList("TrangThai", new SelectList(Model.ListTrangThai, "Id", "TenTT", 1), new { ng_model = "idTrangThai", @class = "w3-input w3-border w3-padding" })
-                    </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <input type="submit" class="btn btn-primary" value="Trả sách" />
+            </div>
+        </div>
 
-                    <div class="w3-col s2">
-                        <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
-                    </div>
+        <h3>Sách được mượn</h3>
+        <hr />
 
+        <div class="form-group">
+            <label class="col-md-2 control-label">Scan here:</label>
+            <div class="col-md-6">
+                <input id="ScannerData" type="text" class="form-control" />
+            </div>
+        </div>
+        <div ng-cloak ng-controller="TraSachCtrlr">
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-10">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr class="table-info">
+                                <th>Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Số lượng mượn</th>
+                                <th>Số lượng đã trả</th>
+                                <th>Trả</th>
+                                <th>Trạng thái</th>
+                                <th width="57px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.detail.BookList)
+                            {
+                                <tr>
+                                    <td>@item.IdSach</td>
+                                    <td>@item.TenSach</td>
+                                    <td>@item.SoLuong</td>
+                                    <td>@item.SoLuongSachDaTra</td>
+                                    @if (item.IsPaid)
+                                    {
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <i class="fa fa-check-circle" style="font-size:24px;color:green"></i>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <input id="@Html.Raw("sl" + item.IdSach)" type="number" step="1" min="0"
+                                                   max="@Html.Raw(item.SoLuong - item.SoLuongSachDaTra)" no-float />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("tt" + item.IdSach, new SelectList(Model.ListTrangThai, "Id", "TenTT"), new { ng_model = "idTrangThai", @class = "form - control" })
+                                        </td>
+                                        <td>
+                                            <input type="button" class="btn btn-sm btn-primary" style="width:40px;"
+                                                   ng-click="addItem(@Html.Raw(item.IdSach))" value="Trả" />
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <p class="w3-text-red">{{errortext}}</p>
-            </div>        
+            </div>
 
-            <ul class="w3-ul">
-                <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">{{s.TenSach}} - {{s.SoLuong}} - {{s.TrangThaiSach}}</li>
-            </ul>
+            <h3>Sách trả</h3>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-10">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr class="table-info">
+                                <th>Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Số lượng trả</th>
+                                <th>Trạng thái</th>
+                                <th width="57px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="s in list" id="lstItem">
+                                <td>{{s.IdSach}}</td>
+                                <td>{{s.TenSach}}</td>
+                                <td>{{s.SoLuong}}</td>
+                                <td>{{s.TrangThaiSach}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-danger" style="width:40px;" ng-click="removeItem($index)">
+
+                                        <i class="fa fa-close" style="font-size:16px; color:white"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <div ng-repeat="s in list">
                 <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
             </div>
 
-           
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default" value="Trả sách" />
-                </div>
-            </div>
-            @* Danh sách đã mượn*@
-            <div class="form-group">
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Mã sách</th>
-                            @*<th>Tên sách</th>
-                        <th>Số lượng mượn</th>*@
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td ng-repeat="s in listGet">{{s.MaSach}} - {{s.TenSach}} - {{s.SoLuong}}</td>
-                            @*<td>
-                            <a href="javascript:void(0);" class="anchorDetail" data-id="@item.IdPM" data-content="@item.MaSach">Trả sách</a>
-                        </td>*@
-                        </tr>
-
-                    </tbody>
-                </table>
-                <hr />
-                <br />
-            </div>
-            @**@
         </div>
+
     }
 </div>

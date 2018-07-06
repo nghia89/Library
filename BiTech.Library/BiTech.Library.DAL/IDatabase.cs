@@ -16,8 +16,8 @@ namespace BiTech.Library.DAL
         /// <summary>
         /// Tên Database
         /// </summary>
-        string DatabaseName { get; set; }
+        //string DatabaseName { get; set; }
 
-        object GetConnection();
+        object GetConnection(string databaseName);
     }
 }

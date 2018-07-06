@@ -5,12 +5,14 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>*@
+<script src="~/bower_components/jquery/dist/jquery.js"></script>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-<script src="~/bower_components/jquery/dist/jquery.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<div class="Title">Tạo phiếu mượn sách</div>
 
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
 <h5 class="text-danger">@ViewBag.SoLuong</h5>
@@ -21,41 +23,39 @@
     @using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
-        
-       
+		
         @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control", onchange = "OnChangeEvent();", @id = "idUser" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control", @readonly = "readonly", @id = "idTen" })
             </div>
         </div>
 
         @*<div class="form-group">
-            @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.NgayMuon, "{0:d-MM-yyyy}", new { @class = "form-control datepicker", onchange = "OnChangeDayEvent();", @id = "ngayMuon"})
-            </div>
-        </div>*@
+        @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.NgayMuon, "{0:d-MM-yyyy}", new { @class = "form-control datepicker", onchange = "OnChangeDayEvent();", @id = "ngayMuon"})
+        </div>
+    </div>*@
         <div class="form-group">
             @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(m => m.NgayPhaiTra, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:dd/MM/yyyy}", new { @class = "form-control", @id = "ngayPhaiTra" })
+            <div class="col-md-6">                
+                @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @id = "ngayPhaiTra" })
             </div>
         </div>
 
         @* Nhập nhiều mã sách *@
         <div class="form-group">
             @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <div id="ListTT" ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2 w3-margin" style="max-width:400px;">
+            <div class="col-md-6">
+                <div id="ListTT" ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2" >
                     <div class="w3-container w3-light-grey w3-padding-16">
                         <div class="w3-row w3-margin-top">
                             <div class="w3-col s10">
@@ -73,13 +73,17 @@
                     </header>
 
                     <ul class="w3-ul">
-                        <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">{{s.IdDauSach}} - {{s.TenSach}}<span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span></li>
+                        <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">
+                            <span>{{s.IdDauSach}} - {{s.TenSach}}</span>
+                            <input id="sach{{$index}}" type="number" min="0" step="1" ng-model="sachModel" value="{{s.SoLuongMuon}}" no-float ng-blur="updateNumber($index)"/>
+                            <span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span>
+                        </li>
                     </ul>
 
                     @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
                     @*Hide idBook - post to controller*@
                     <div ng-repeat="s in list">
-                        <input hidden="hidden" ng-cloak class="btn btn-default" name="MaSach" value="{{s.IdDauSach}}" />
+                        <input hidden="hidden" ng-cloak class="btn btn-default" name="MaSach" value="{{s}}" />
                     </div>
                 </div>
             </div>
@@ -96,10 +100,34 @@
 </div>
 
 @section Scripts{
+    @*<script src="~/Scripts/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js"></script>*@
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/LibraryAngularJS.js"></script>
     <script>
+        app.directive('noFloat', function () {
+            return {
+                restrict: 'A',
+                link: function (scope, elm, attrs, ctrl) {
+                    elm.on('keydown', function (event) {
+                        if ([110, 190].indexOf(event.which) > -1) {
+                            // dot and numpad dot
+                            event.preventDefault();
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    });
+                }
+            }
+        });
+
+        function abc(sl) {
+            alert(sl);
+        }
+
         var i = 0;
         function add_list_ajax() {
             var result = "";
@@ -153,7 +181,7 @@
             }
             return true;
         }
-        
+
         //$(function () {
         //    $(".datepicker").datepicker({
         //        showWeek: true,
@@ -185,19 +213,8 @@
 
             });
         }
-        //function OnChangeDayEvent() {
-        //    var ngayPhaiTra = "";
-        //    var ngayMuon = "";
-        //    ngayMuon= $("#ngayMuon").val("dd-MM-yyyy");
-        //    ngayPhaiTra = $("#ngayPhaiTra").val();
-        //    if (ngayPhaiTra <= ngayMuon) {
-        //        alert('Ngày phải trả cần lớn hơn ngày mượn');
-        //        $("#ngayPhaiTra").val("");
-        //        $("#ngayMuon").val("");
-        //    }
-        //}
 
-        $(document).ready(function () {
+        @*$(document).ready(function () {
             $("#ngayPhaiTra").datepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -205,6 +222,19 @@
                 gotoCurrent: true,
                 maxDate: '@Html.Raw(ViewBag.MaxDate)'
             });
+        });*@
+
+
+        $(function () {
+            $("#ngayPhaiTra").datepicker({
+                //showWeek: true,
+                dateFormat: "dd/mm/yy",
+                //monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+                //changeMonth: true,
+                //changeYear: true,
+                //gotoCurrent: true,
+                //minDate: 0,
+            }).datepicker("setDate", new Date()).attr("readonly", "readonly");
         });
 
         $(document).ready(function () {

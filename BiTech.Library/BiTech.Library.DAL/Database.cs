@@ -8,27 +8,26 @@ namespace BiTech.Library.DAL
     public class Database : IDatabase
     {
         public static IMongoClient _client;
-        public static IMongoDatabase _database;
+        //public static IMongoDatabase _database;
         public string ConnectionString { get; set; }
-        public string DatabaseName { get; set; }
+        //public string DatabaseName { get; set; }
 
         public Database()
         {
 
         }
 
-        public Database(string connectionString, string databaseName)
+        public Database(string connectionString)
         {
             if (_client == null)
             {
                 _client = new MongoClient(connectionString);
             }
-
-            if (_database == null)
-            {
-                _database = _client.GetDatabase(databaseName);
-            }
-
+            
+            //if (_database == null)
+            //{
+            //    _database = _client.GetDatabase(databaseName);
+            //}
         }
 
 
@@ -38,9 +37,9 @@ namespace BiTech.Library.DAL
             _client.DropDatabase(databaseName);
         }
 
-        public object GetConnection()
+        public object GetConnection(string databaseName)
         {
-            return _database;
+            return _client.GetDatabase(databaseName);
         }
     }
 }

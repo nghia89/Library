@@ -74,14 +74,14 @@ namespace BiTech.Library.Controllers
                 ctxs.IdLydo = item.IdLyDo;
                 var LyDo = _LyDoXuatLogic.GetById(ctxs.IdLydo);
                 ctxs.lyDo = LyDo.LyDo;
-                ctxs.IdTinhTrang = item.IdTinhtrang;
+                ctxs.IdTinhTrang = item.IdTinhTrang;
                 var TinhTrang = _TrangThaiSachLogic.getById(ctxs.IdTinhTrang);
                 ctxs.tenTinhTrang = TinhTrang.TenTT;
                 ctxs.IdSach = item.IdSach;
                 var TenSach = _SachLogic.GetBookById(ctxs.IdSach);
                 ctxs.ten = TenSach.TenSach;
                 ctxs.IdPhieuXuat = item.IdPhieuXuat;
-                ctxs.soLuong = item.soLuong;
+                ctxs.soLuong = item.SoLuong;
                 lst.Add(ctxs);
                
             }
@@ -157,21 +157,22 @@ namespace BiTech.Library.Controllers
                         {
                             IdPhieuXuat = idPhieuXuat,
                             IdSach = ctModel.IdSach,
-                            IdTinhtrang = ctModel.IdTinhTrang,
+                            IdTinhTrang = ctModel.IdTinhTrang,
                             IdLyDo = ctModel.IdLydo,
-                            soLuong = ctModel.soLuong,
+                            SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now
                         };
 
                         _ChiTietNhapSachLogic.Insert(ctxs);
                         {
                             //update số lượng sách trạng thái
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhtrang);
-                            sltt.SoLuong -= ctxs.soLuong;
+                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhTrang);
+                            sltt.SoLuong -= ctxs.SoLuong;
                             _SoLuongSachTrangThaiLogic.Update(sltt);
                             //update tổng số lượng sách
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
-                            updatesl.SoLuong -= ctxs.soLuong;
+                            updatesl.SoLuongTong -= ctxs.SoLuong;
+                            updatesl.SoLuongConLai -= ctxs.SoLuong;
                             _SachLogic.Update(updatesl);
                            
                         }

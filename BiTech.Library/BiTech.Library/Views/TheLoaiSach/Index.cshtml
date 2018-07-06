@@ -1,46 +1,133 @@
-﻿@model IEnumerable<BiTech.Library.Models.TheLoaiSachViewModels>
+﻿@model PagedList.IPagedList<BiTech.Library.Models.TheLoaiSachViewModels>
+@using PagedList.Mvc;
 @{
-    ViewBag.Title = "DanhSachTheLoaiSach";
+    ViewBag.Title = "IndexFolder";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var listTheLoai = ViewBag.ListTheLoai;
+    var url_modal = "~/TheLoaiSach/RequestThemTheLoaiGui?idParent=" + ViewBag.idParent;
 }
-<div class="Title">Danh Sách Thể Loại Sách</div>
 
-<p>@Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })</p>
+<div class="Title">Danh Sách Thể Loại Sách</div>
+<div class="clearfix">
+    <a class="btn btn-primary" href="@Url.Content(url_modal)" data-ajax="true"
+       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm Mới</a>
+    <a href="#" class="btn btn-success">
+        Dán
+    </a> 
+</div>
+<div class="direction">
+    @Html.Raw(ViewBag.url)
+</div>
 
 <table class="table table-hover table-bordered ">
     <thead>
         <tr class="table-info">
             <th width="20%">Tên Thể Loại</th>
-            <th width="20%">Tên thể loại cha</th>
+            @*<th width="20%">Tên thể loại cha</th>*@
             <th width="50%">Mô Tả</th>
             <th width="10%">Sửa</th>
-            @*<th width="10%">Xoá</th>*@
+            <th width="10%">Cắt</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in listTheLoai)
+        @{
+            if (ViewBag.URLBackParent != null)
+            {
+                <tr>
+                    <td>
+                        <a href="@ViewBag.URLBackParent" title="../ Trở lại thể loại cha">
+                            ../ Trở lại thể loại cha
+                        </a>
+                    </td>
+                    @*<td></td>*@
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+        
+
+        @foreach (var item in Model)
             {
             <tr>
-                <td>@item.TenTheLoai</td>
-                <td>@item.TenTheLoaiParent</td>
+                <td>
+                    <a href="@Url.Action("index", new { idParent = @item.Id })" class="a_full" title="@item.TenTheLoai">
+                        @item.TenTheLoai
+                    </a>
+                </td>
+                @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-
                     <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua", new { id = item.Id })">
                         <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
                     </a>
                 </td>
-
-                @*<td>
-                        <a href="@Url.Action("Xoa", new {id = item.Id })">
-                            <i style="font-size:24px" class="fa">&#xf014;</i> Xóa
-                        </a>
-                    </td>*@
+                <td>
+                    <a class="color-white btn btn-danger" href="@Url.Action("Sua", new { id = item.Id })">
+                        <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
-@Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+@section scripts{
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
+
+    <script>
+        function RequestAltInsertGuiBegin() {
+            $(this).addClass('active');
+        }
+
+        function RequestAltInsertGuiSuccess(data) {
+            $(this).removeClass('active');
+
+            $("#ajax").html(data);
+
+            $("#edit-student-modal-themtheloai").modal();
+
+            var form = $("#edit-student-modal-themtheloai").closest("form");
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+        }
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#FileImageCover").change(function () {
+            readURL(this);
+        });
+
+        //$(document).ready(function () {
+        //    setInterval(function () {
+        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
+        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
+        //    }, 30000);
+        //});
+    </script>
+    <div id="ajax"></div>
+}
+
+
 

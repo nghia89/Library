@@ -1,0 +1,96 @@
+﻿
+input[type="checkbox"] {
+    opacity: 0;
+    display: none;
+}
+
+
+
+.slide-two {
+    position: relative;
+}
+
+    .slide-two label {
+        cursor: pointer;
+    }
+
+        .slide-two label:before {
+            border: 2px solid #0099FF;
+            content: "";
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .slide-two label:after {
+            position: absolute;
+            border-left: 2px solid #0099FF;
+            border-bottom: 2px solid #0099FF;
+            content: "";
+            width: 14px;
+            height: 6px;
+            transform: rotate(-45deg);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            left: 4px;
+            top: 6px;
+            opacity: 0;
+        }
+
+#slide-two:checked ~ label:after {
+    opacity: 1;
+}
+
+
+
+
+
+.slide-two1 {
+    position: relative;
+}
+
+    .slide-two1 label {
+        cursor: pointer;
+    }
+
+        .slide-two1 label:before {
+            border: 2px solid #0099FF;
+            content: "";
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .slide-two1 label:after {
+            position: absolute;
+            border-left: 2px solid #0099FF;
+            border-bottom: 2px solid #0099FF;
+            content: "";
+            width: 14px;
+            height: 6px;
+            transform: rotate(-45deg);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            left: 4px;
+            top: 6px;
+            opacity: 0;
+        }
+
+#slide-two1:checked ~ label:after {
+    opacity: 1;
+}
+
+
+.margin-top {
+    margin-left: 28px;
+}
+.back_groupCheck
+{
+    background: #eaf0f5;
+}
