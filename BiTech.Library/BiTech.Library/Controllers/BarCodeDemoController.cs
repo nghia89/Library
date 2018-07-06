@@ -61,8 +61,8 @@ namespace BiTech.Library.Controllers
                 {
 
                     //img từ local
-                     //strImage = "http://localhost:" + Request.Url.Port + "/Upload/" + fileName;
-                    strImage = HttpContext.Server.MapPath("/Upload/") + fileName;
+                    strImage = "http://localhost:" + Request.Url.Port + "/Upload/" + fileName;
+                    //strImage = HttpContext.Server.MapPath("/Upload/") + fileName;
 
                     strBarCode = ReadBarcodeFromFile(Server.MapPath(localSavePath));
 

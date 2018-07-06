@@ -95,7 +95,28 @@
     <Compile Include="Engines\TacGiaEngine.cs" />
     <Compile Include="Engines\TheLoaiSachEngine.cs" />
     <Compile Include="IDatabase.cs" />
-    <Compile Include="MongoDBMirgrations\Sach_Mirgrations\M000\V0_0_1_Rename_NamSanXuat_NamXuatBan.cs" />
+    <Compile Include="MongoMirgrations\ChiTietNhapSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ChiTietPhieuMuon_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ChiTietPhieuTra_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\PhieuMuon_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\KeSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\Language_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\LyDoXuat_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\GiaHan_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\PhieuTra_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\PhieuNhapSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\NhaXuatBan_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\SoLuongSachTrangThai\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\SachTacGia_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\TacGia_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ThanhVien_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\TheLoaiSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ThongTinThuVien_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\TrangThaiSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\Sach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\Sach_Mirgrations\M001\V0_0_1_Rename_NamSanXuat_NamXuatBan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respository\EntityRepository.cs" />
     <Compile Include="Respository\IEntityRepository.cs" />
@@ -108,8 +129,32 @@
       <Project>{0585cc2f-7e2b-474e-8b5f-f480287225e9}</Project>
       <Name>BiTech.Library.DTO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mongo.Migration\Mongo.Migration.csproj">
+      <Project>{6d7736c2-bf1b-4552-a56c-c225f9f33588}</Project>
+      <Name>Mongo.Migration</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MongoMirgrations\ChiTietPhieuMuon_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\ChiTietPhieuTra_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\GiaHan_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\KeSach_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\Language_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\LyDoXuat_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\NhaXuatBan_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\PhieuMuon_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\PhieuNhapSach_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\PhieuTra_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\SachTacGia_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\SoLuongSachTrangThai\M001\" />
+    <Folder Include="MongoMirgrations\TacGia_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\ThanhVien_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\TheLoaiSach_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\ThongTinThuVien_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\TrangThaiSach_Mirgrations\M001\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -16,7 +16,7 @@ namespace BiTech.Library.BLL.DBLogic
 
         public TrangThaiSachLogic(string connectionString, string dbName)
         {
-            _TrangThaiSachEngine = new TrangThaiSachEngine(new Database(connectionString, dbName), TableName);
+            _TrangThaiSachEngine = new TrangThaiSachEngine(new Database(connectionString), dbName, TableName);
         }
         /// <summary>
         /// Get all TrangThaiSach object 

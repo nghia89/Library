@@ -790,6 +790,10 @@
       <Project>{0585cc2f-7e2b-474e-8b5f-f480287225e9}</Project>
       <Name>BiTech.Library.DTO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mongo.Migration\Mongo.Migration.csproj">
+      <Project>{6D7736C2-BF1B-4552-A56C-C225F9F33588}</Project>
+      <Name>Mongo.Migration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

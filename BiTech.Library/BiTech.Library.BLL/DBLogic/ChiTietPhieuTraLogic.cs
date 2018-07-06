@@ -16,7 +16,7 @@ namespace BiTech.Library.BLL.DBLogic
 
         public ChiTietPhieuTraLogic(string connectionString, string dbName)
         {
-            _ChiTietPhieuTraEngine = new ChiTietPhieuTraEngine(new Database(connectionString, dbName), TableName);
+            _ChiTietPhieuTraEngine = new ChiTietPhieuTraEngine(new Database(connectionString), dbName, TableName);
         }
 
         /// <summary>

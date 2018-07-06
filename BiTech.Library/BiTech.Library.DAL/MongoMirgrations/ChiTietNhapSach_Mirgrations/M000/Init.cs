@@ -12,7 +12,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.ChiTietNhapSach_Mirgrations.M000
     public class Init : Migration<ChiTietNhapSach>
     {
         public Init()
-            : base("0.0.0")
+            : base("0.0.1")
         {
         }
 
