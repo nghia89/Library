@@ -29,7 +29,7 @@
 
 
 @section scripts{
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.min.js"></script>
+    <script src="~/app/AngularChartJs/angular.min.js"></script>
     <script src="~/app/AngularChartJs/Chart.min.js"></script>
     <link href="~/Content/StatisticCss.css" rel="stylesheet" />
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
@@ -54,7 +54,7 @@
             <div ng-controller="MonthCtroller">
                 <div class="col-md-1 text-right"><h5>Tháng</h5></div>
                 <div class="col-md-2" style="padding-bottom: 12px;">
-                   
+
                     <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()" ng-valid-parse>
 
                         @for (int i = 1; i <= 12; i++)
@@ -64,7 +64,7 @@
                     </select>
                 </div>
                 <div class="col-md-2" style="padding-bottom: 12px;">
-               
+
                     <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()" ng-valid-parse>
                         @for (int i = 2017; i <= DateTime.Now.Year; i++)
                         {
@@ -107,10 +107,6 @@
     </div>
     <div class="row">
         <div class="col-md-12 back_groupCheck">
-            @*<div class="slide-two margin-top">
-                    <input type="checkbox" checked id="slide-two1" />
-                    <label for="slide-two1">Thống Kê Theo Tháng</label>
-                </div>*@
             <div class="slide-two margin-top">
                 <input type="checkbox" id="slide-two" />
                 <label for="slide-two">Thống Kê Theo Năm</label>
@@ -147,9 +143,7 @@
                                             chart-series="series" chart-options="options" chart-legend="true"
                                             chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
                                 </div>
-
                             </div>
-
                         </section>
                     </div>
                     <div ng-if="loading" style="margin-left: 375px;">
@@ -162,7 +156,6 @@
                     </div>
                 </section>
             </div>
-
         </div>
     </div>
 

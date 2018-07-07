@@ -1,4 +1,5 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="../app/angularchartjs/angular.min.js" />
 /// <reference path="../app/angularchartjs/angular-chart.min.js" />
 /// <reference path="../app/angularchartjs/chart.bundle.min.js" />
 /// <reference path="../app/angularchartjs/chart.min.js" />

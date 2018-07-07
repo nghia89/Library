@@ -274,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\AngularChartJs\angular-chart.css" />
+    <Content Include="app\AngularChartJs\angular.min.js" />
     <Content Include="app\AngularChartJs\Chart.bundle.min.js" />
     <Content Include="app\AngularChartJs\Chart.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
