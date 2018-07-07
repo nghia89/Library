@@ -83,21 +83,6 @@
       <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.7.0\lib\net45\MongoDB.Bson.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MongoDB.Driver, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.7.0\lib\net45\MongoDB.Driver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.7.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
-      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
-    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
       <Private>True</Private>
@@ -287,11 +272,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\AngularChartJs\angular-chart.css" />
+    <Content Include="app\AngularChartJs\angular-chart.min.js" />
     <Content Include="app\AngularChartJs\angular.min.js" />
     <Content Include="app\AngularChartJs\Chart.bundle.min.js" />
     <Content Include="app\AngularChartJs\Chart.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
+    <Content Include="app\AngularControllers\BookGenresController.js" />
     <Content Include="app\app.js" />
+    <Content Include="app\StatisticTransition.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="bower_components\angular-chart.js\angular-chart.js" />
     <Content Include="bower_components\angular-chart.js\dist\angular-chart.css" />
@@ -634,9 +622,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\angular-mocks.js" />
-    <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\angularjs.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bower_components\sweetalert\.bower.json" />
@@ -664,7 +649,6 @@
     <Content Include="bower_components\jquery-validation-unobtrusive\.bower.json" />
     <Content Include="bower_components\jquery\sizzle\dist\sizzle.min.map" />
     <Content Include="bower_components\jquery\src\.jshintrc" />
-    <Content Include="Scripts\angular.min.js.map" />
     <Content Include="bower_components\Chart.js\.bower.json" />
     <Content Include="bower_components\Chart.js\bower.json" />
     <Content Include="bower_components\angular-chart.js\.bower.json" />
@@ -811,12 +795,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="app\StatisticTransition.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="app\AngularChartJs\angular-chart.min.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
