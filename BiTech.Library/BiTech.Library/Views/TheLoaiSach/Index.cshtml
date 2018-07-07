@@ -5,18 +5,23 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var listTheLoai = ViewBag.ListTheLoai;
     var url_modal = "~/TheLoaiSach/RequestThemTheLoaiGui?idParent=" + ViewBag.idParent;
+    
 }
 
 <div class="Title">Danh Sách Thể Loại Sách</div>
 <div class="clearfix">
     <a class="btn btn-primary" href="@Url.Content(url_modal)" data-ajax="true"
        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm Mới</a>
-    <a href="#" class="btn btn-success">
+    <button class="btn-dan btn btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
         Dán
-    </a> 
+    </button> 
+
 </div>
 <div class="direction">
-    @Html.Raw(ViewBag.url)
+    @if (ViewBag.url != "")
+    {
+        <a href=/TheLoaiSach>/Thể loại sách</a>@Html.Raw(ViewBag.url)
+    }
 </div>
 
 <table class="table table-hover table-bordered ">
@@ -64,9 +69,10 @@
                     </a>
                 </td>
                 <td>
-                    <a class="color-white btn btn-danger" href="@Url.Action("Sua", new { id = item.Id })">
+                    
+                    <button class="btn-cut color-white btn btn-danger" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
                         <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
-                    </a>
+                    </button>
                 </td>
             </tr>
         }
@@ -125,6 +131,72 @@
         //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
         //    }, 30000);
         //});
+
+        //Chọn thể loại cần cắt
+        function Cut_TheLoai(id, obj) {
+            
+            if ($(obj).hasClass("btn-default")) {
+                $(".btn-cut").addClass("btn-danger").removeClass("btn-default");
+                $.session.set("id", null);
+                $(".btn-dan").addClass("btn-default").removeClass("btn-success");
+            } else {
+                $.session.set("id", id);
+                $(".btn-cut").addClass("btn-danger").removeClass("btn-default");
+                $(obj).addClass("btn-default").removeClass("btn-danger");
+                $(".btn-dan").addClass("btn-success").removeClass("btn-default");
+            }
+            //console.log($.session.get("id"));
+        }
+
+        function Dan_TLS(obj, idParent) {
+            //console.log(idParent);
+            if ($(obj).hasClass("btn-success")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/TheLoaiSach/SuaAjax",
+                    data: { "id_TL": $.session.get("id"), "idParent": idParent },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Bạn đã dán thành công!",
+                                text: "",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "Đóng",
+                                closeOnConfirm: false
+                            }, function (isConfirm) {
+                                $.session.set("id", null);
+                                location.reload();
+                            });
+                        } else {
+                            swal({
+                                title: "Bạn không được dán vào đây!",
+                                text: data,
+                                type: "error",
+                                showCancelButton: false,
+                                confirmButtonText: "Đóng",
+                                closeOnConfirm: false
+                            });
+                        }
+                    },
+                    error: function () { alert('False!'); }
+                });
+            }
+        }
+
+        function check_session_cut() {
+            //console.log($.session.get("id"));
+            if ($.session.get("id") != "null") {
+                $(".btn-dan").addClass("btn-success").removeClass("btn-default");
+                $("#" + $.session.get("id")).addClass("btn-default").removeClass("btn-danger");
+            }
+        }
+
+        $(document).ready(function () {
+            check_session_cut();
+        });
+
     </script>
     <div id="ajax"></div>
 }
