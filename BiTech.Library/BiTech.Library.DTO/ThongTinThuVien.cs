@@ -1,10 +1,13 @@
-﻿using MongoDB.Bson;
+﻿using Mongo.Migration.Documents;
+using Mongo.Migration.Documents.Attributes;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 
 namespace BiTech.Library.DTO
 {
+    [CurrentVersion("0.0.1")]
     public class ThongTinThuVien : IModel
     {
         [BsonId]
@@ -29,5 +32,10 @@ namespace BiTech.Library.DTO
         /// Số lần mượn tối đa
         /// </summary>
         public int SoLanMuonMax { get; set; }
+
+        /// <summary>
+        /// Phiên bản hiện tại của đối tượng
+        /// </summary>
+        public DocumentVersion Version { get; set; }
     }
 }

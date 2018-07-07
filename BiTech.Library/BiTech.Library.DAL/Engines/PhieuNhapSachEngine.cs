@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class PhieuNhapSachEngine : EntityRepository<PhieuNhapSach>
     {
-        public PhieuNhapSachEngine(IDatabase database, string tableName) : base(database, tableName)
+        public PhieuNhapSachEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<PhieuNhapSach>(tableName);
         }
 

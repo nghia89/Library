@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Mongo.Migration.Documents;
+using Mongo.Migration.Documents.Attributes;
 
 namespace BiTech.Library.DTO
 {
+    [CurrentVersion("0.0.1")]
     public class PhieuXuatSach : IModel
     {
         [BsonId]
@@ -24,5 +27,10 @@ namespace BiTech.Library.DTO
         public string IdUserAdmin { get; set; }
 
         public string GhiChu { get; set; }
+
+        /// <summary>
+        /// Phiên bản hiện tại của đối tượng
+        /// </summary>
+        public DocumentVersion Version { get; set; }
     }
 }

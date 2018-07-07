@@ -31,13 +31,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LightInject, Version=5.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.5.0.3\lib\net45\LightInject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.6.1\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.6.1\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.6.1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,7 +72,7 @@
   <ItemGroup>
     <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
-    <Compile Include="ChiTietPhieuMuon_FullDetail.cs" />
+    <Compile Include="NoDB\ChiTietPhieuMuon_FullDetail.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
     <Compile Include="ChiTietXuatSach.cs" />
     <Compile Include="Enums.cs" />
@@ -58,7 +82,7 @@
     <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NhaXuatBan.cs" />
-    <Compile Include="PhieuMuonSach_FullDetail.cs" />
+    <Compile Include="NoDB\PhieuMuonSach_FullDetail.cs" />
     <Compile Include="SoLuongSachTrangThai.cs" />
     <Compile Include="PhieuXuatSach.cs" />
     <Compile Include="PhieuMuon.cs" />
@@ -77,6 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mongo.Migration\Mongo.Migration.csproj">
+      <Project>{6D7736C2-BF1B-4552-A56C-C225F9F33588}</Project>
+      <Name>Mongo.Migration</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

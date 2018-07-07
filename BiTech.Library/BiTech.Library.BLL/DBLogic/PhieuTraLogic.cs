@@ -14,9 +14,9 @@ namespace BiTech.Library.BLL.DBLogic
         private string TableName = "PhieuTra";
         public PhieuTraEngine _PhieuTraEngine { get; set; }
 
-        public PhieuTraLogic(string connectionString, string dbName)
+        public PhieuTraLogic(string connectionString,string dbName)
         {
-            _PhieuTraEngine = new PhieuTraEngine(new Database(connectionString, dbName), TableName);
+            _PhieuTraEngine = new PhieuTraEngine(new Database(connectionString),  dbName, TableName);
         }
 
         /// <summary>

@@ -28,7 +28,7 @@
             <label class="col-form-label col-sm-3 form-label" for="ListTT">Thể Loại Sách:</label>
             <div class="col-sm-6">
                 <div id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
+                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
                        new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
                     @*s.Id as s.TenTheLoai for s in list*@
                 </div>

@@ -16,7 +16,7 @@ namespace BiTech.Library.BLL.DBLogic
 
         public ChiTietPhieuMuonLogic(string connectionString, string dbName)
         {
-            _ChiTietPhieuMuonEngine = new ChiTietPhieuMuonEngine(new Database(connectionString, dbName), TableName);
+            _ChiTietPhieuMuonEngine = new ChiTietPhieuMuonEngine(new Database(connectionString), dbName, TableName);
         }
         /// <summary>
         /// Get all ChiTietPhieuMuon object

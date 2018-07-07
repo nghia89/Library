@@ -12,12 +12,7 @@ namespace BiTech.Library.DAL
         /// Chuỗi kế nối database
         /// </summary>
         string ConnectionString { get; set; }
-
-        /// <summary>
-        /// Tên Database
-        /// </summary>
-        string DatabaseName { get; set; }
-
-        object GetConnection();
+        
+        object GetConnection(string databaseName);
     }
 }

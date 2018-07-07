@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class SachTacGiaEngine : EntityRepository<SachTacGia>
     {
-        public SachTacGiaEngine(IDatabase database, string tableName) : base(database, tableName)
+        public SachTacGiaEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<SachTacGia>(tableName);
         }
     }

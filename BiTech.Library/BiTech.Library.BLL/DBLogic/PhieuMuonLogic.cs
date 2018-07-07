@@ -19,13 +19,13 @@ namespace BiTech.Library.BLL.DBLogic
 
         public PhieuMuonLogic(string connectionString, string dbName)
         {
-            _PhieuMuonEngine = new PhieuMuonEngine(new Database(connectionString, dbName), DBTableNames.PhieuMuon_Table);
-            _ChiTietPhieuMuonEngine = new ChiTietPhieuMuonEngine(new Database(connectionString, dbName), DBTableNames.ChiTietPhieuMuon_Table);
+            _PhieuMuonEngine = new PhieuMuonEngine(new Database(connectionString), dbName, DBTableNames.PhieuMuon_Table);
+            _ChiTietPhieuMuonEngine = new ChiTietPhieuMuonEngine(new Database(connectionString), dbName, DBTableNames.ChiTietPhieuMuon_Table);
             
-            _PhieuTraEngine = new PhieuTraEngine(new Database(connectionString, dbName), DBTableNames.PhieuTra_Table);
-            _ChiTietPhieuTraEngine = new ChiTietPhieuTraEngine(new Database(connectionString, dbName), DBTableNames.ChiTietPhieuTra_Table);
+            _PhieuTraEngine = new PhieuTraEngine(new Database(connectionString), dbName, DBTableNames.PhieuTra_Table);
+            _ChiTietPhieuTraEngine = new ChiTietPhieuTraEngine(new Database(connectionString), dbName, DBTableNames.ChiTietPhieuTra_Table);
 
-            _SachEngine = new SachEngine(new Database(connectionString, dbName), DBTableNames.Sach_Table);
+            _SachEngine = new SachEngine(new Database(connectionString), dbName, DBTableNames.Sach_Table);
         }
 
         /// <summary>
