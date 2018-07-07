@@ -38,10 +38,10 @@
     </div>
 </div>
 <hr />
-<h3 class="text-info">Danh sách sách chưa trả</h3>
-<table class="table">
+<h3 class="text-info">Tổng hợp danh sách chưa trả</h3>
+<table class="table table-striped">
     <thead>
-        <tr>
+        <tr class="table-info">
             <th>STT</th>
             <th>Tên sách</th>
             <th>Số lượng</th>
@@ -52,7 +52,7 @@
             <th>Tiền phạt</th>
         </tr>
     </thead>
-    @{ int i = 0; int j = 0; int dem = 1;}
+    @{ int i = 0; int soLuongSach = 0; int dem = 1;}
     @foreach (var item in Model.ListPhieuMuon)
     {
         foreach (var sach in Model.ListChaCuaSach[i])
@@ -61,7 +61,7 @@
                 <tr>
                     <td>@dem.ToString()</td>
                     <td>@sach.TenSach</td>
-                    <td>@Model.ListSoLuong[j] cuốn</td>
+                    <td>@Model.ListSoLuong[soLuongSach] cuốn</td>
                     <td>@item.NgayMuon.ToString("dd-MM-yyyy")</td>
                     <td>@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
 
@@ -91,7 +91,7 @@
                         {
                             if (item.SoNgayGiaoDong == null)
                             {
-                                var ngayTre = DateTime.Now - item.NgayPhaiTra;
+                                var ngayTre = DateTime.Today - item.NgayPhaiTra;
                                 <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                             }
                             else
@@ -105,8 +105,9 @@
                     <td>TienPhat</td>
                 </tr>
             </tbody>
-                                { j++; i++; dem++; }
+                                { soLuongSach++; dem++; }
                             }
+                            { i++; }
                         }
 
 </table>

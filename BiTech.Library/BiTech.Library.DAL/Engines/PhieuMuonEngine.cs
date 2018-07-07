@@ -24,6 +24,7 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted && _.NgayTra == null).ToList();            
         }   
+
         /// <summary>
         /// Get list PhieuMuon chưa trả
         /// </summary>
@@ -36,6 +37,10 @@ namespace BiTech.Library.DAL.Engines
         //public List<PhieuMuon> GetByDate()
 
         #region Tai
+        public List<PhieuMuon> GetPMByIdUser(string idUser)
+        {
+            return _DatabaseCollection.Find(_ => _.IdUser == idUser).ToList();
+        }
         #endregion
     }
 }

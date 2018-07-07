@@ -41,6 +41,10 @@ a:hover {
     display: inline-block;
 }
 
+.layout-content{
+    padding: 15px;
+}
+
 .container-lib {
     padding: 0 15px;
 }
@@ -52,6 +56,11 @@ a:hover {
         .container-lib .form-group:nth-child(2n+1) {
             clear: both;
         }
+
+.form-label {
+    text-align: right;
+    font-weight: 600;
+}
 /*---Menu left---*/
 
 .menu .icon {
@@ -408,6 +417,13 @@ a:hover {
     }
 
         .book_box .book_content .book_image img {
+            width: 100%;
+            max-width: 120px;
+            display: block;
+            max-height: 160px;
+        }
+        
+        .book_box .book_content .book_image object {
             width: 100%;
             max-width: 120px;
             display: block;

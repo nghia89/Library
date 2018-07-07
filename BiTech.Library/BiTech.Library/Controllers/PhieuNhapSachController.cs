@@ -67,12 +67,11 @@ namespace BiTech.Library.Controllers
                     IdKeSach = item.IdKeSach,
                     IdNhaXuatBan = item.IdNhaXuatBan,
                     MaKiemSoat = item.MaKiemSoat,
-                    Hinh = item.Hinh,
-                    NgonNgu = item.NgonNgu,
-                    NamSanXuat = item.NamSanXuat,
+                    NgonNgu = item.IdNgonNgu,
+                    NamSanXuat = item.NamXuatBan,
                     GiaSach = item.GiaSach,
                     LinkBiaSach = item.LinkBiaSach,
-                    SoLuong = item.SoLuong
+                    SoLuong = item.SoLuongTong
                 };
                 ListdsSach.Add(model);
             }
@@ -152,7 +151,7 @@ namespace BiTech.Library.Controllers
                             IdPhieuNhap = idPhieuNhap,
                             IdSach = ctModel.IdSach,
                             IdTinhtrang = ctModel.IdTinhTrang,
-                            soLuong = ctModel.soLuong,
+                            SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now
                         };
 
@@ -161,7 +160,7 @@ namespace BiTech.Library.Controllers
                             var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctns.IdTinhtrang);
                             if (sltt != null)
                             {
-                                sltt.SoLuong += ctns.soLuong;
+                                sltt.SoLuong += ctns.SoLuong;
                                 _SoLuongSachTrangThaiLogic.Update(sltt);
                             }
                             else
@@ -169,12 +168,13 @@ namespace BiTech.Library.Controllers
                                 sltt = new SoLuongSachTrangThai();
                                 sltt.IdSach = ctns.IdSach;
                                 sltt.IdTrangThai = ctns.IdTinhtrang;
-                                sltt.SoLuong = ctns.soLuong;
+                                sltt.SoLuong = ctns.SoLuong;
                                 _SoLuongSachTrangThaiLogic.Insert(sltt);
                             }
 
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
-                            updatesl.SoLuong += ctns.soLuong;
+                            updatesl.SoLuongTong += ctns.SoLuong;
+                            updatesl.SoLuongConLai += ctns.SoLuong;
                             _SachLogic.Update(updatesl);
                            
                         }
@@ -229,7 +229,7 @@ namespace BiTech.Library.Controllers
                 ctns.ten = TenSach.TenSach;
                 ctns.IdDauSach = TenSach.IdDauSach;
                 ctns.IdPhieuNhap = item.IdPhieuNhap;
-                ctns.soLuong = item.soLuong;
+                ctns.soLuong = item.SoLuong;
 
                 lst.Add(ctns);
 

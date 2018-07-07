@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.DTO
 {
-    public class GiaHan:IModel
+    public class GiaHan : IModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

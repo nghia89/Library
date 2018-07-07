@@ -7,32 +7,31 @@
     ViewBag.Title = "DanhSachMuon";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 
-    var isMultiBook = false;
 
     var months = DateTimeFormatInfo
-   .InvariantInfo
-   .MonthNames
-   .TakeWhile(monthName => monthName != String.Empty)
-   .Select((monthName, index) => new SelectListItem
-   {
-       Value = (index + 1).ToString(CultureInfo.InvariantCulture),
-       Text = string.Format("({0}) {1}", index + 1, monthName)
-   });
+    .InvariantInfo
+    .MonthNames
+    .TakeWhile(monthName => monthName != String.Empty)
+    .Select((monthName, index) => new SelectListItem
+    {
+        Value = (index + 1).ToString(CultureInfo.InvariantCulture),
+        Text = string.Format("({0}) {1}", index + 1, monthName)
+    });
 
     var years = Enumerable
-    .Range(2018, 10)
+    .Range(2017, 10)
     .Select(year => new SelectListItem
     {
         Value = year.ToString(CultureInfo.InvariantCulture),
         Text = year.ToString(CultureInfo.InvariantCulture)
     });
 }
+
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/PagedList.css" rel="stylesheet" />
 <h2 class="text-center">Danh sách phiếu mượn</h2>
-<h4 class="text-info">Số phiếu mượn sách: <div class="text-success">@ViewBag.SoSachDangDuocMuon</div></h4>
-<h4 class="text-info">Số phiếu mượn sách trễ hạn chưa trả: <div class="text-danger">@ViewBag.SoSachChuaTra</div></h4>
-<hr />
-<h4 class="text-info">Danh mục mượn sách theo tháng</h4>
+
+<h5 class="text-info">Danh mục mượn sách theo tháng</h5>
 <div class="row">
     <div class="col-md-1 text-right"><h5>Tháng</h5></div>
     <div class="col-md-2">
@@ -43,23 +42,23 @@
         @Html.DropDownList("year", years, new { onchange = @"onYearSelectedChagned();", @class = "form-control" })
     </div>
 </div>
-<h4 class="text-info">Danh mục mượn sách theo ngày</h4>
+<h5 class="text-info">Danh mục mượn sách theo ngày</h5>
 @Html.TextBox("day", "", new { onchange = @"onDaySelectedChagned()", @class = "form-control datepicker" })
 <hr />
 @if (ViewBag.Month != 0 && ViewBag.Year != 0)
 {
-    <h4> Số sách được mượn trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoSachDuocMuon cuốn</h4>
-    <h4> Số người mượn sách trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoLuongThanhVien người</h4>
+    <h6> Tổng số sách được mượn trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoSachDuocMuon cuốn</h6>
+    <h6> Tổng số người mượn sách trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoLuongThanhVien người</h6>
 }
-@if (ViewBag.Day != null&& ViewBag.Day != "0")
+@if (ViewBag.Day != null && ViewBag.Day != "0")
 {
-    <h4> Số sách được mượn trong ngày "@ViewBag.Day" là: @ViewBag.SoSachDuocMuon cuốn</h4>
-    <h4> Số người mượn sách trong ngày "@ViewBag.Day" là: @ViewBag.SoLuongThanhVien người</h4>
+    <h6> Tổng số sách được mượn trong ngày "@ViewBag.Day" là: @ViewBag.SoSachDuocMuon cuốn</h6>
+    <h6> Tổng số người mượn sách trong ngày "@ViewBag.Day" là: @ViewBag.SoLuongThanhVien người</h6>
 }
 <hr />
-<table class="table">
+<table class="table table-striped">
     <thead>
-        <tr class="text-primary h4">
+        <tr class="table-info">
             <th>Stt</th>
             <th>Người mượn</th>
             <th>Tên sách</th>
@@ -81,8 +80,9 @@
                 @{
                     string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;
                 }
-                <td>@Html.ActionLink(TenThanhVien, "LichSuMuonSach", new {page=1, id = @ViewBag.ListThanhVien[i].Id,pagePM= @ViewBag.Page, day= @ViewBag.Day,month= @ViewBag.Month, year= @ViewBag.Year }, null) </td>
+                <td>@Html.ActionLink(TenThanhVien, "LichSuMuonSach", new { page = 1, id = @ViewBag.ListThanhVien[i].MaSoThanhVien, pagePM = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
                 <td>@ViewBag.ListSach[i].TenSach,..</td>
+                
                 <td>tổng @ViewBag.ListSoSachTong[i] cuốn</td>
                 <td class="text-center">@item.NgayMuon.ToString("dd-MM-yyyy")</td>
                 <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
@@ -126,11 +126,11 @@
                 }
                 <td>@item.Id</td>
                 @*<td></td>*@
-                @{isMultiBook = true;}
+
             </tr>
         </tbody>
                         {
-                            i++; dem++; isMultiBook = false;
+                            i++; dem++;
                         }
 
                     }

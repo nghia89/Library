@@ -18,15 +18,12 @@ namespace BiTech.Library.DTO
         public string IdUser { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime NgayMuon { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime NgayPhaiTra { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime? NgayTra { get; set; }
         
         public EPhieuMuon TrangThaiPhieu { get; set; }

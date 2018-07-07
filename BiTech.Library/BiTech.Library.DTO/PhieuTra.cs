@@ -17,7 +17,7 @@ namespace BiTech.Library.DTO
         public string IdPhieuMuon { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime NgayTra { get; set; }
+        public DateTime? NgayTra { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
