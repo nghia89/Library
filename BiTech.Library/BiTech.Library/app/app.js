@@ -3,8 +3,6 @@ var app = angular.module('MyApp', ['chart.js']);
 
 app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
-
-
     $scope.labels = ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', ' Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', ' Tháng 10', 'Tháng 11', 'Tháng 12'];
     $scope.series = ['phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trể'];
     $scope.options = { legend: { display: true } };
