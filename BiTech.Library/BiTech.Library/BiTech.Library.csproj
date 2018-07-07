@@ -83,6 +83,21 @@
       <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.7.0\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.7.0\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.7.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OnBarcode.Barcode.BarcodeScanner">
+      <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
       <Private>True</Private>
@@ -271,6 +286,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\AngularChartJs\angular-chart.css" />
+    <Content Include="app\AngularChartJs\angular.min.js" />
+    <Content Include="app\AngularChartJs\Chart.bundle.min.js" />
+    <Content Include="app\AngularChartJs\Chart.min.js" />
+    <Content Include="app\AngularChartJs\script.js" />
     <Content Include="app\app.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="bower_components\angular-chart.js\angular-chart.js" />
@@ -762,8 +782,6 @@
     <Content Include="Views\NgonNgu\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\components\" />
-    <Folder Include="app\shared\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\BarCodes\" />
     <Folder Include="Content\TempFiles\" />
@@ -793,6 +811,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\StatisticTransition.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\AngularChartJs\angular-chart.min.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
