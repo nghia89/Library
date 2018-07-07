@@ -277,7 +277,6 @@
     <Content Include="app\AngularChartJs\Chart.bundle.min.js" />
     <Content Include="app\AngularChartJs\Chart.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
-    <Content Include="app\AngularControllers\BookGenresController.js" />
     <Content Include="app\app.js" />
     <Content Include="app\StatisticTransition.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
@@ -622,6 +621,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angularjs.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bower_components\sweetalert\.bower.json" />
@@ -649,8 +651,6 @@
     <Content Include="bower_components\jquery-validation-unobtrusive\.bower.json" />
     <Content Include="bower_components\jquery\sizzle\dist\sizzle.min.map" />
     <Content Include="bower_components\jquery\src\.jshintrc" />
-    <Content Include="bower_components\Chart.js\.bower.json" />
-    <Content Include="bower_components\Chart.js\bower.json" />
     <Content Include="bower_components\angular-chart.js\.bower.json" />
     <Content Include="bower_components\angular-chart.js\angular-chart.less" />
     <Content Include="bower_components\angular-chart.js\bower.json" />
@@ -664,7 +664,10 @@
     <Content Include="bower_components\angular-chart.js\package.json" />
     <Content Include="bower_components\angular-chart.js\PULL_REQUEST_TEMPLATE.md" />
     <Content Include="bower_components\angular-chart.js\README.md" />
+    <Content Include="bower_components\Chart.js\.bower.json" />
+    <Content Include="bower_components\Chart.js\bower.json" />
     <None Include="Properties\PublishProfiles\lbm.bitech.com.pubxml" />
+    <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
