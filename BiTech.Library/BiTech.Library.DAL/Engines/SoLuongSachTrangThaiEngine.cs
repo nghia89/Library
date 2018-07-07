@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class SoLuongSachTrangThaiEngine : EntityRepository<SoLuongSachTrangThai>
     {
-        public SoLuongSachTrangThaiEngine(IDatabase database, string tableName) : base(database, tableName)
+        public SoLuongSachTrangThaiEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<SoLuongSachTrangThai>(tableName);
         }
         public List<SoLuongSachTrangThai> GetAll()

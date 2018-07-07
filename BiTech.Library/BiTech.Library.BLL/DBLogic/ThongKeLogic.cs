@@ -36,16 +36,16 @@ namespace BiTech.Library.BLL.DBLogic
      
         public ThongKeLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
+            Database database = new Database(connectionString);
 
-            _thongKeEngine = new ThongKeEngine(database, TableName1);
-            _phieuMuonEngine = new PhieuMuonEngine(database, TableName1);
-            _chiTietPhieuMuon = new ChiTietPhieuMuonEngine(database, TableName2);
-            _sachEngine = new SachEngine(database, TableName3);
-            _thanhVienEngine = new ThanhVienEngine(database, TableName4);
-            _trangThaiSachEngine = new TrangThaiSachEngine(database, TableName5);
-            _phieuTraEngine=new PhieuTraEngine(database, TableName6);
-            _chiTietPhieuTraEngine=new ChiTietPhieuTraEngine(database, TableName7);
+            _thongKeEngine = new ThongKeEngine(database, databaseName, TableName1);
+            _phieuMuonEngine = new PhieuMuonEngine(database, databaseName, TableName1);
+            _chiTietPhieuMuon = new ChiTietPhieuMuonEngine(database, databaseName, TableName2);
+            _sachEngine = new SachEngine(database, databaseName, TableName3);
+            _thanhVienEngine = new ThanhVienEngine(database, databaseName, TableName4);
+            _trangThaiSachEngine = new TrangThaiSachEngine(database, databaseName, TableName5);
+            _phieuTraEngine=new PhieuTraEngine(database, databaseName, TableName6);
+            _chiTietPhieuTraEngine=new ChiTietPhieuTraEngine(database, databaseName, TableName7);
 
             var ngayMuon = DateTime.ParseExact("26-02-2017", "dd-MM-yyyy", null);
             var ngayPhaiTra = DateTime.ParseExact("26-08-2018", "dd-MM-yyyy",null);

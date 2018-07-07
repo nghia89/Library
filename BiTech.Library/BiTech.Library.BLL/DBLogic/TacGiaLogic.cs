@@ -15,8 +15,8 @@ namespace BiTech.Library.BLL.DBLogic
         private string TableName = "TacGia";
         public TacGiaLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _tacGiaEngine = new TacGiaEngine(database, TableName);
+            Database database = new Database(connectionString);
+            _tacGiaEngine = new TacGiaEngine(database, databaseName, TableName);
         }
         public List<TacGia> GetAllTacGia()
         {

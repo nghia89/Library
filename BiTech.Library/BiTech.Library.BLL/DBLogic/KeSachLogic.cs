@@ -14,8 +14,8 @@ namespace BiTech.Library.BLL.DBLogic
         KeSachEngine _keSachEngine;
         public KeSachLogic(string connectionString,string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _keSachEngine = new KeSachEngine(database, "KeSach");
+            Database database = new Database(connectionString);
+            _keSachEngine = new KeSachEngine(database, databaseName, "KeSach");
         }
 
         public List<KeSach> GetAll()

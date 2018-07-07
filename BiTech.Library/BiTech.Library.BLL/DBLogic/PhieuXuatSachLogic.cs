@@ -17,7 +17,7 @@ namespace BiTech.Library.BLL.DBLogic
 
         public PhieuXuatSachLogic(string connectionString, string dbName)
         {
-            _PhieuXuatSachEngine = new PhieuXuatSachEngine(new Database(connectionString, dbName), TableName);
+            _PhieuXuatSachEngine = new PhieuXuatSachEngine(new Database(connectionString), dbName, TableName);
         }
         public string XuatSach(PhieuXuatSach xs)
         {

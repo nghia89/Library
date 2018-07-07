@@ -12,9 +12,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class TheLoaiSachEngine : EntityRepository<TheLoaiSach>
     {
-        public TheLoaiSachEngine(IDatabase database, string tableName) : base(database, tableName)
+        public TheLoaiSachEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<TheLoaiSach>(tableName);
         }
 

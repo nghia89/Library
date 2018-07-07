@@ -1,0 +1,83 @@
+﻿@model BiTech.Library.DTO.Language
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ten, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenNgan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenNgan, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TenNgan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaItem('@Model.Id')" />
+                <input type="button" value="Trở lại" onclick="location.href='/NgonNgu';" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+@section scripts{
+    <script>
+        function XoaItem(id) {
+            swal({
+                title: " Bạn có muốn xóa?",
+                text: "Bạn sẽ không thể khôi phục lại sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/NgonNgu/Delete",
+                        data: { "Id": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function (isConfirm) {
+                                window.location.href = '/NgonNgu/Index';
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

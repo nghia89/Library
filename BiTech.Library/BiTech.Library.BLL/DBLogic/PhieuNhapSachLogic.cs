@@ -14,9 +14,9 @@ namespace BiTech.Library.BLL.DBLogic
         private string TableName = "PhieuNhapSach";
         public PhieuNhapSachEngine _NhapSachEngine { get; set; }
 
-        public PhieuNhapSachLogic(string connectionString, string dbName)
+        public PhieuNhapSachLogic(string connectionString,string dbName)
         {
-            _NhapSachEngine = new PhieuNhapSachEngine(new Database(connectionString, dbName), TableName);
+            _NhapSachEngine = new PhieuNhapSachEngine(new Database(connectionString), dbName, TableName);
         }
 
         public string NhapSach(PhieuNhapSach ns)

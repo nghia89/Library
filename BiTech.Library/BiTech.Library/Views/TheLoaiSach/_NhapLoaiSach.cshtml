@@ -1,0 +1,82 @@
+﻿@model BiTech.Library.Models.TheLoaiSachViewModels
+
+<form data-ajax="true" action="/TheLoaiSach/ThemAjax"
+      id="update-information-form" class="form-horizontal"
+      data-ajax-method="post"
+      data-ajax-begin="updateStudentInfoBegin" data-ajax-success="updateStudentInfoSuccess">
+    <div class="modal fade" tabindex="-1" role="dialog" id="edit-student-modal-themtheloai">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Nhập thể loại</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label" for="TenTheLoai">Tên Thể Loại</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(_ => _.TenTheLoai, new { @class = "form-control" })
+                        </div>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-8 row">
+                            @Html.ValidationMessageFor(_ => _.TenTheLoai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label" for="MoTa">Mô Tả</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(_ => _.MoTa, new { @class = "form-control" })
+                        </div>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-8">
+                            @Html.ValidationMessageFor(_ => _.MoTa, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(m=>m.IdParent, new { id = ViewBag.idParent })
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary has-spinner"
+                            id="update-student-info-save-button">
+                        Lưu<i class="glyphicon glyphicon-refresh"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    function updateStudentInfoBegin() {
+        $("#update-student-info-save-button").addClass("active");
+    }
+
+    function updateStudentInfoSuccess(data) {
+        $("#update-student-info-save-button").removeClass("active");
+
+        if (data == true) {
+            swal({
+                title: "Thành công",
+                text: "Thêm xong",
+                icon: "success",
+                type: "success"
+            }, function () {
+                location.reload();
+            });
+
+            $("#edit-student-modal-themtheloai").modal('hide');
+            /*angular.element(document.getElementById('ListTT')).scope().GetAllData();*/
+
+        }
+        else {
+            swal({
+                title: "Thêm mới thất bại!",
+                text: data,
+                type: "error",
+                showCancelButton: false,
+                confirmButtonText: "Đóng",
+                closeOnConfirm: false
+            });
+        }
+    }
+</script>
+

@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using Mongo.Migration.Documents;
+using Mongo.Migration.Documents.Attributes;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.DTO
 {
+    [CurrentVersion("0.0.1")]
     public class PhieuTra : IModel
     {       
         [BsonId]
@@ -17,9 +20,14 @@ namespace BiTech.Library.DTO
         public string IdPhieuMuon { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime NgayTra { get; set; }
+        public DateTime? NgayTra { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
+
+        /// <summary>
+        /// Phiên bản hiện tại của đối tượng
+        /// </summary>
+        public DocumentVersion Version { get; set; }
     }
 }

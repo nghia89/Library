@@ -14,14 +14,11 @@ namespace BiTech.Library.Controllers
 {
     public class ThongKeController : BaseController
     {
-        private ThongKeLogic _thongKeLogic;
-        private ChiTietPhieuMuonLogic _chiTietPhieuMuonLogic;
-        NghiepVuThongKeController nghiepVu;
+      
+        NghiepVuThongKe nghiepVu;
         public ThongKeController()
-        {
-            _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            _chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            nghiepVu = new NghiepVuThongKeController();
+        {           
+            nghiepVu = new NghiepVuThongKe();
         }
         // GET: ThongKe
         public ActionResult Index()
@@ -38,7 +35,6 @@ namespace BiTech.Library.Controllers
             #endregion
 
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var _chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             int soSachTong = 0;
             int soSachChuaTra = 0;
 
@@ -57,14 +53,14 @@ namespace BiTech.Library.Controllers
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
                 // Ngày phải trả < ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
-                if (item.NgayPhaiTra < DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra < DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.ChuaTra;
                     item.TenTrangThai = "Chưa trả";
                     soSachChuaTra++;
                 }
                 // Ngày phải trả > ngày hiện tại và ngày trả == NULL là GẦN TRẢ                                      
-                if (item.NgayPhaiTra >= DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra >= DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.GanTra;
                     item.TenTrangThai = "Gần trả";
@@ -75,13 +71,13 @@ namespace BiTech.Library.Controllers
                 // Ngày phải trả <= ngày hiện tại và ngày trả <= ngày phải trả là TRẢ ĐÚNG HẸN
                 if (item.NgayPhaiTra <= DateTime.Today)
                 {
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraDungHen;
                         item.TenTrangThai = "Trả đúng hẹn";
                     }
                     // ngày trả > ngày phải trả là TRẢ TRỄ
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraTre;
                         item.TenTrangThai = "Trả trễ";
@@ -118,7 +114,7 @@ namespace BiTech.Library.Controllers
                 }
             }
 
-            // var _listPhieuMuon = listAll.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
+            //List<PhieuMuon> _listPhieuMuon = listAll.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
             List<PhieuMuon> _listPhieuMuon = listMonthSelected.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
             // --------------------THÔNG TIN PHIẾU MƯỢN--------------------           
             foreach (var item in _listPhieuMuon)
@@ -127,8 +123,7 @@ namespace BiTech.Library.Controllers
                 // Lấy danh sách Thành Viên
                 listThanhVien.Add(_thongKeLogic.GetThanhVienById(item.IdUser));
                 // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
-                var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
-                // listSach = new List<Sach>();
+                var listCTPM = _thongKeLogic.GetCTPMById(item.Id);             
                 soSachTong = 0;
                 foreach (var i in listCTPM)
                 {
@@ -143,7 +138,7 @@ namespace BiTech.Library.Controllers
             // Dữ liệu thống kê
             ViewBag.SoPhieuMuonSach = listAll.Count;
             ViewBag.SoSachChuaTra = soSachChuaTra;
-            ViewBag.SoSachDuocMuon = nghiepVu.DemSoSachDuocMuon(_listPhieuMuon);
+            ViewBag.SoSachDuocMuon = nghiepVu.DemSoSachDuocMuon(_listPhieuMuon, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             ViewBag.SoLuongThanhVien = nghiepVu.DemSoNguoiMuonSach(_listPhieuMuon);
             // Thông tin phiếu mượn
             ViewBag.ListSoSachTong = listSoSachTong;
@@ -175,7 +170,6 @@ namespace BiTech.Library.Controllers
                 year = DateTime.Now.Year;
             }
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var _chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             // 1 tháng có 31 ngày
             int[] soNguoiMuonSachTrongThang = new int[32];
             int[] soNguoiTraTreTrongThang = new int[32];
@@ -234,11 +228,11 @@ namespace BiTech.Library.Controllers
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
                 listPhieuMuonTrongNgay = _thongKeLogic.GetPMByNgayMuon(item.NgayMuon);
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
-                soPhieuMuonTrongThang[item.NgayMuon.Day] = listPhieuMuonTrongNgay.Count != 0 ? listPhieuMuonTrongNgay.Count : -1;
-                soNguoiMuonSachTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) : -1;
-                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) : -1;
-                soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) : -1;
-                soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) : -1;
+                soPhieuMuonTrongThang[item.NgayMuon.Day] = listPhieuMuonTrongNgay.Count;
+                soNguoiMuonSachTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);
+                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay);
+                soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay);
 
             }
             foreach (var item in listYearSelected)
@@ -401,7 +395,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongNam[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongNam[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list);
+                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             }
             // truyền dữ liệu thống kê vào từng quý trong năm
             for (int i = 0; i < 4; i++)
@@ -435,15 +429,9 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongQuy[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongQuy[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongQuy[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list);
+                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             }
-            // Khai báo list chứa dữ liệu thống kê của từng ngày trong tháng 
-            List<int> lsoNgayTrongThang = new List<int>();
-            List<int> lsoPMTrongNgay = new List<int>();
-            List<int> lsoNguoiMuonTrongNgay = new List<int>();
-            List<int> lsoSachDuocMuonTrongNgay = new List<int>();
-            List<int> lsoNguoiKhongTraTrongNgay = new List<int>();
-            List<int> lsoNguoiTraTreTrongNgay = new List<int>();
+
             // Chọn số ngày cho từng tháng
             int soNgayTrongThang = 0;
             switch (month)
@@ -512,6 +500,14 @@ namespace BiTech.Library.Controllers
         }
         public ActionResult DanhSachTra(int? page, string day, int? month, int? year)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             int soSachDuocMuon = 0;
             var listPhieuMuon = _thongKeLogic.GetAllPhieuMuon();
             List<Sach> listSach = new List<Sach>();
@@ -529,13 +525,13 @@ namespace BiTech.Library.Controllers
                 // Ngày phải trả <= ngày hiện tại và ngày trả <= ngày phải trả là TRẢ ĐÚNG HẸN
                 if (item.NgayPhaiTra <= DateTime.Today)
                 {
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra <= item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraDungHen;
                         item.TenTrangThai = "Trả đúng hẹn";
                     }
                     // ngày trả > ngày phải trả là TRẢ TRỄ
-                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
+                    if (item.NgayTra != ngayTraNull && item.NgayTra != null && item.NgayTra > item.NgayPhaiTra)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.TraTre;
                         item.TenTrangThai = "Trả trễ";
@@ -614,6 +610,14 @@ namespace BiTech.Library.Controllers
 
         public ActionResult LichSuMuonSach(int? page, string id, int? pagePM, string day, int? month, int? year)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             int soSachDuocMuon = 0;
             List<Sach> listSach = new List<Sach>();
             // List<ChiTietPhieuMuon> listCTPM = new List<ChiTietPhieuMuon>();
@@ -629,13 +633,13 @@ namespace BiTech.Library.Controllers
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
                 // Ngày phải trả <= ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
-                if (item.NgayPhaiTra <= DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra <= DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.ChuaTra;
                     item.TenTrangThai = "Chưa trả";
                 }
                 // Ngày phải trả > ngày hiện tại và ngày trả == NULL là GẦN TRẢ                                      
-                if (item.NgayPhaiTra > DateTime.Today && item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayPhaiTra > DateTime.Today && (item.NgayTra == ngayTraNull || item.NgayTra == null))
                 {
                     item.TrangThai = ETinhTrangPhieuMuon.GanTra;
                     item.TenTrangThai = "Gần trả";
@@ -671,8 +675,8 @@ namespace BiTech.Library.Controllers
                     }
                 }
             }
-            // --------            
-            var _listPhieuMuon = listPhieuMuon.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayMuon);
+            // Sort theo trạng thái và ngày phải trả       
+            var _listPhieuMuon = listPhieuMuon.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
             // Duyệt dữ liệu từ danh sách đã được sắp xếp lại
             foreach (var item in _listPhieuMuon)
             {
@@ -707,6 +711,14 @@ namespace BiTech.Library.Controllers
         }
         public ActionResult DanhSachChuaTra(int? page, int? pagePM, string day, int? month, int? year)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             int soSachDuocMuon = 0;
             List<Sach> listSach = new List<Sach>();
             // List<ChiTietPhieuMuon> listCTPM = new List<ChiTietPhieuMuon>();
@@ -725,7 +737,7 @@ namespace BiTech.Library.Controllers
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
-                if (item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayTra == ngayTraNull || item.NgayTra == null)
                 {
                     // Ngày phải trả <= ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
                     if (item.NgayPhaiTra <= DateTime.Today)
@@ -743,30 +755,31 @@ namespace BiTech.Library.Controllers
                     }
                     listChuaTra.Add(item);
                 }
-                //--- Kiểm tra tên trùng
-                if (listPMChuaTra.Count == 0)
-                {
-                    listPMChuaTra.Add(item);
-                }
-                else
-                {
-                    foreach (var id in listPMChuaTra)
-                    {
-                        if (id.IdUser.Equals(item.IdUser) == true)
-                        {
-                            testName = false;
-                            break;
-                        }
-                        else
-                        {
-                            testName = true;
-                        }
-                    }
-                }
-                if (testName)
-                {
-                    listPMChuaTra.Add(item);
-                }
+                #region Kiểm tra tên trùng
+                //if (listPMChuaTra.Count == 0)
+                //{
+                //    listPMChuaTra.Add(item);
+                //}
+                //else
+                //{
+                //    foreach (var id in listPMChuaTra)
+                //    {
+                //        if (id.IdUser.Equals(item.IdUser) == true)
+                //        {
+                //            testName = false;
+                //            break;
+                //        }
+                //        else
+                //        {
+                //            testName = true;
+                //        }
+                //    }
+                //}
+                //if (testName)
+                //{
+                //    listPMChuaTra.Add(item);
+                //}
+                #endregion
             }
             // Sắp xếp lại phiếu mượn         
             // var _listPhieuMuon = listPMChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
@@ -780,6 +793,7 @@ namespace BiTech.Library.Controllers
                 // Lấy danh sách CTPM
                 var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
                 // listSach = new List<Sach>();
+                soSachDuocMuon = 0;
                 foreach (var ctpm in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
@@ -787,9 +801,9 @@ namespace BiTech.Library.Controllers
                     listSach.Add(sach);
                     // số lượng sách được mượn
                     var soLuong = ctpm.SoLuong != 0 ? ctpm.SoLuong : 1;
-                    soSachDuocMuon += soLuong;
-                    listSoLuongSach.Add(soLuong);
+                    soSachDuocMuon += soLuong;                  
                 }
+                listSoLuongSach.Add(soSachDuocMuon);
                 listChaCuaSach.Add(listSach);
             }
             ViewBag.ListChaCuaSach = listChaCuaSach;
@@ -813,6 +827,14 @@ namespace BiTech.Library.Controllers
         }
         public ActionResult ThongTinDocGia(string id, int? page, ThongKeViewModel model)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             List<PhieuMuon> listChuaTra = new List<PhieuMuon>();
             List<Sach> listSach = new List<Sach>();
             List<PhieuMuon> listModelPM = new List<PhieuMuon>();
@@ -833,15 +855,13 @@ namespace BiTech.Library.Controllers
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
-                if (item.NgayTra == ngayTraNull && item.NgayTra != null)
+                if (item.NgayTra == ngayTraNull || item.NgayTra == null)
                 {
-                    // Ngày phải trả <= ngày hiện tại và ngày trả == NULL là CHƯA TRẢ   
                     if (item.NgayPhaiTra <= DateTime.Today)
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.ChuaTra;
                         item.TenTrangThai = "Chưa trả";
                     }
-                    // Ngày phải trả > ngày hiện tại và ngày trả == NULL là GẦN TRẢ                                      
                     else
                     {
                         item.TrangThai = ETinhTrangPhieuMuon.GanTra;
@@ -853,14 +873,15 @@ namespace BiTech.Library.Controllers
                 }
             }
             // --------                 
-            var _listPhieuMuon = listChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayMuon);
+            var _listPhieuMuon = listChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
             // Duyệt dữ liệu từ danh sách đã được sắp xếp lại
+
             foreach (PhieuMuon item in _listPhieuMuon)
             {
                 listModelPM.Add(item);
                 var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
                 listSach = new List<Sach>();
-
+                soSachDuocMuon = 0;
                 foreach (var ctpm in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn

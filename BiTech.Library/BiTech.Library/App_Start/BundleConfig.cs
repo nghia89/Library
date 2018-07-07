@@ -25,7 +25,8 @@ namespace BiTech.Library
                       "~/Scripts/main.js"
                       ));
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
-                      "~/Scripts/main.js"
+                      "~/Scripts/main.js",
+                      "~/Scripts/jquery.session.js"
                       ));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css"));

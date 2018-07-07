@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class ChiTietPhieuTraEngine : EntityRepository<ChiTietPhieuTra>
     {
-        public ChiTietPhieuTraEngine(IDatabase database, string tableName) : base(database, tableName)
+        public ChiTietPhieuTraEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<ChiTietPhieuTra>(tableName);
         }
         /// <summary>
@@ -43,6 +43,15 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.IdSach == IdBook ).ToList();
         }
-		
+
+        /// <summary>
+        /// Get by ChiTietPhieuTra by IdPhieuTra
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<ChiTietPhieuTra> GetByIdPhieuTra(string id)
+        {
+            return _DatabaseCollection.Find(_ => _.IdPhieuTra == id).ToList();
+        }
     }
 }

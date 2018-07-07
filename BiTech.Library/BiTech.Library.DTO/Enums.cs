@@ -7,12 +7,25 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.DTO
 {
+    public enum EUser
+    {
+        Active,
+        DeActive, //khoa the
+        Deleted,
+    }
+    public enum EPhieuMuon
+    {
+        DaTra,
+        ChuaTra,
+        Deleted,
+    }
+
     public enum ENgonNgu
     {
         VietNamese,
         English
     }
-    #region Tai
+
     public enum ETinhTrangPhieuMuon
     {
         none,
@@ -22,5 +35,5 @@ namespace BiTech.Library.DTO
         TraDungHen
 
     }
-    #endregion
+
 }

@@ -1,46 +1,205 @@
-﻿@model IEnumerable<BiTech.Library.Models.TheLoaiSachViewModels>
+﻿@model PagedList.IPagedList<BiTech.Library.Models.TheLoaiSachViewModels>
+@using PagedList.Mvc;
 @{
-    ViewBag.Title = "DanhSachTheLoaiSach";
+    ViewBag.Title = "IndexFolder";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var listTheLoai = ViewBag.ListTheLoai;
+    var url_modal = "~/TheLoaiSach/RequestThemTheLoaiGui?idParent=" + ViewBag.idParent;
+    
 }
-<div class="Title">Danh Sách Thể Loại Sách</div>
 
-<p>@Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })</p>
+<div class="Title">Danh Sách Thể Loại Sách</div>
+<div class="clearfix">
+    <a class="btn btn-primary" href="@Url.Content(url_modal)" data-ajax="true"
+       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm Mới</a>
+    <button class="btn-dan btn btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
+        Dán
+    </button> 
+
+</div>
+<div class="direction">
+    @if (ViewBag.url != "")
+    {
+        <a href=/TheLoaiSach>/Thể loại sách</a>@Html.Raw(ViewBag.url)
+    }
+</div>
 
 <table class="table table-hover table-bordered ">
     <thead>
         <tr class="table-info">
             <th width="20%">Tên Thể Loại</th>
-            <th width="20%">Tên thể loại cha</th>
+            @*<th width="20%">Tên thể loại cha</th>*@
             <th width="50%">Mô Tả</th>
             <th width="10%">Sửa</th>
-            @*<th width="10%">Xoá</th>*@
+            <th width="10%">Cắt</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in listTheLoai)
+        @{
+            if (ViewBag.URLBackParent != null)
+            {
+                <tr>
+                    <td>
+                        <a href="@ViewBag.URLBackParent" title="../ Trở lại thể loại cha">
+                            ../ Trở lại thể loại cha
+                        </a>
+                    </td>
+                    @*<td></td>*@
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+        
+
+        @foreach (var item in Model)
             {
             <tr>
-                <td>@item.TenTheLoai</td>
-                <td>@item.TenTheLoaiParent</td>
+                <td>
+                    <a href="@Url.Action("index", new { idParent = @item.Id })" class="a_full" title="@item.TenTheLoai">
+                        @item.TenTheLoai
+                    </a>
+                </td>
+                @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-
                     <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua", new { id = item.Id })">
                         <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
                     </a>
                 </td>
-
-                @*<td>
-                        <a href="@Url.Action("Xoa", new {id = item.Id })">
-                            <i style="font-size:24px" class="fa">&#xf014;</i> Xóa
-                        </a>
-                    </td>*@
+                <td>
+                    
+                    <button class="btn-cut color-white btn btn-danger" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
+                        <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
+                    </button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
-@Html.ActionLink("Thêm Mới", "Them", null, new { @class = "btn btn-primary" })
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+@section scripts{
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
+
+    <script>
+        function RequestAltInsertGuiBegin() {
+            $(this).addClass('active');
+        }
+
+        function RequestAltInsertGuiSuccess(data) {
+            $(this).removeClass('active');
+
+            $("#ajax").html(data);
+
+            $("#edit-student-modal-themtheloai").modal();
+
+            var form = $("#edit-student-modal-themtheloai").closest("form");
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+        }
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#FileImageCover").change(function () {
+            readURL(this);
+        });
+
+        //$(document).ready(function () {
+        //    setInterval(function () {
+        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
+        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
+        //    }, 30000);
+        //});
+
+        //Chọn thể loại cần cắt
+        function Cut_TheLoai(id, obj) {
+            
+            if ($(obj).hasClass("btn-default")) {
+                $(".btn-cut").addClass("btn-danger").removeClass("btn-default");
+                $.session.set("id", null);
+                $(".btn-dan").addClass("btn-default").removeClass("btn-success");
+            } else {
+                $.session.set("id", id);
+                $(".btn-cut").addClass("btn-danger").removeClass("btn-default");
+                $(obj).addClass("btn-default").removeClass("btn-danger");
+                $(".btn-dan").addClass("btn-success").removeClass("btn-default");
+            }
+            //console.log($.session.get("id"));
+        }
+
+        function Dan_TLS(obj, idParent) {
+            //console.log(idParent);
+            if ($(obj).hasClass("btn-success")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/TheLoaiSach/SuaAjax",
+                    data: { "id_TL": $.session.get("id"), "idParent": idParent },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Bạn đã dán thành công!",
+                                text: "",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "Đóng",
+                                closeOnConfirm: false
+                            }, function (isConfirm) {
+                                $.session.set("id", null);
+                                location.reload();
+                            });
+                        } else {
+                            swal({
+                                title: "Bạn không được dán vào đây!",
+                                text: data,
+                                type: "error",
+                                showCancelButton: false,
+                                confirmButtonText: "Đóng",
+                                closeOnConfirm: false
+                            });
+                        }
+                    },
+                    error: function () { alert('False!'); }
+                });
+            }
+        }
+
+        function check_session_cut() {
+            //console.log($.session.get("id"));
+            if ($.session.get("id") != "null") {
+                $(".btn-dan").addClass("btn-success").removeClass("btn-default");
+                $("#" + $.session.get("id")).addClass("btn-default").removeClass("btn-danger");
+            }
+        }
+
+        $(document).ready(function () {
+            check_session_cut();
+        });
+
+    </script>
+    <div id="ajax"></div>
+}
+
+
 

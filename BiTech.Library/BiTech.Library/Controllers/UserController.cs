@@ -28,9 +28,10 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+			
             if (String.IsNullOrEmpty(IdUser))
                 IdUser = "";
-            ViewBag.IdUser = IdUser;            
+            ViewBag.IdUser = IdUser;
             return View();
         }
 
@@ -41,6 +42,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return null;
             #endregion
+			
             List<ThanhVien> lstUser = new List<ThanhVien>();
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             if (String.IsNullOrEmpty(IdUser))
@@ -51,7 +53,7 @@ namespace BiTech.Library.Controllers
             {
                 lstUser.Add(_ThanhVienLogic.GetByIdUser(IdUser));
             }
-            return PartialView(lstUser);                     
+            return PartialView(lstUser);
 
             //return new JsonResult(new { tensach = "", cover = "" });
         }
@@ -66,8 +68,10 @@ namespace BiTech.Library.Controllers
 
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSuccess = TempData["UnSuccess"];
+            ViewBag.IdUser = TempData["IdUser"];
             return View();
         }
+
         /// <summary>
         /// Create User
         /// </summary>
@@ -81,6 +85,13 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+
+            if(viewModel.MaSoThanhVien == null || viewModel.Ten == null || viewModel.Password == null)
+            {
+                TempData["IdUser"] = "Dữ liệu không phù hợp";
+                return View();
+            }
+
             BarCodeQRManager barcode = new BarCodeQRManager();
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
@@ -111,10 +122,10 @@ namespace BiTech.Library.Controllers
                 {
                     Directory.CreateDirectory(location);
                 }
-
-                var a = uploadFileName.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                //đường dẫn hoàn chỉnh
+                var path = uploadFileName.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
                 //Tạo mã QR
-                bool bolQR = barcode.CreateQRCode(model.Id, a);
+                bool bolQR = barcode.CreateQRCode(model.Id, path);
             }
             catch (Exception ex)
             {
@@ -156,6 +167,7 @@ namespace BiTech.Library.Controllers
             };
             return View(model);
         }
+
         [HttpPost]
         public ActionResult _Edit(UserViewModel viewModel, string id)
         {

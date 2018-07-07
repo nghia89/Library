@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class ThongKeEngine : EntityRepository<PhieuMuon>
     {
-        public ThongKeEngine(IDatabase database, string tableName) : base(database, tableName)
+        public ThongKeEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<PhieuMuon>(tableName);
         }
 
