@@ -31,12 +31,31 @@ namespace Mongo.Migration.Documents.Locators
 
         public void LoadVersions()
         {
-            var types =
-                from a in AppDomain.CurrentDomain.GetAssemblies()
-                from t in a.GetTypes()
-                let attributes = t.GetCustomAttributes(typeof(CurrentVersion), true)
-                where attributes != null && attributes.Length > 0
-                select new {Type = t, Attributes = attributes.Cast<CurrentVersion>()};
+            List<aa> types = new List<aa>();
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                try
+                {
+                    var typesz = assembly.GetTypes();
+                    foreach (var t in typesz)
+                    {
+                        var attributes = t.GetCustomAttributes(typeof(CurrentVersion), true);
+                        if (attributes != null && attributes.Length > 0)
+                        {
+                            //migrationTypes.Add(type);
+                            types.Add(new Locators.VersionLocator.aa() { Type = t, Attributes = attributes.Cast<CurrentVersion>() });
+                        }
+                    }
+                }
+                catch { }
+            }
+
+            //var types =
+            //    from a in AppDomain.CurrentDomain.GetAssemblies()
+            //    from t in a.GetTypes()
+            //    let attributes = t.GetCustomAttributes(typeof(CurrentVersion), true)
+            //    where attributes != null && attributes.Length > 0
+            //    select new {Type = t, Attributes = attributes.Cast<CurrentVersion>()};
 
             var versions = new Dictionary<Type, DocumentVersion>();
 
@@ -48,5 +67,12 @@ namespace Mongo.Migration.Documents.Locators
 
             _versions = versions;
         }
+
+        private class aa {
+
+            public Type Type { get; set; }
+            public IEnumerable<CurrentVersion> Attributes { get; set; }
+        }
+
     }
 }

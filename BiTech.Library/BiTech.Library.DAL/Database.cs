@@ -8,9 +8,7 @@ namespace BiTech.Library.DAL
     public class Database : IDatabase
     {
         public static IMongoClient _client;
-        //public static IMongoDatabase _database;
         public string ConnectionString { get; set; }
-        //public string DatabaseName { get; set; }
 
         public Database()
         {
@@ -24,11 +22,6 @@ namespace BiTech.Library.DAL
                 _client = new MongoClient(connectionString);
                 Mongo.Migration.Services.Initializers.MongoMigration.Initialize();
             }
-            
-            //if (_database == null)
-            //{
-            //    _database = _client.GetDatabase(databaseName);
-            //}
         }
 
 
