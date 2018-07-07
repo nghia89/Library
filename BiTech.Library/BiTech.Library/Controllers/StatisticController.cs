@@ -15,12 +15,12 @@ namespace BiTech.Library.Controllers
     {
         // GET: Statictical
 
-        NghiepVuThongKeController nghiepVu;
+        NghiepVuThongKe nghiepVu;
         public StatisticController()
         {
             //_thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             //_chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            nghiepVu = new NghiepVuThongKeController();
+            nghiepVu = new NghiepVuThongKe();
         }
         // GET: ThongKe
         public ActionResult Index()
@@ -104,7 +104,7 @@ namespace BiTech.Library.Controllers
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
                 soPhieuMuonTrongThang[item.NgayMuon.Day] = listPhieuMuonTrongNgay.Count; //!= 0 ? listPhieuMuonTrongNgay.Count : -1;
                 soNguoiMuonSachTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);// != 0 ? nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) : -1;
-                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay); //!= 0 ? nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) : -1;
+                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName); //!= 0 ? nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) : -1;
                 soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay); //!= 0 ? nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) : -1;
                 soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay); //!= 0 ? nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) : -1;
             }
@@ -268,7 +268,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongNam[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongNam[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list);
+                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             }
             // truyền dữ liệu thống kê vào từng quý trong năm
             for (int i = 0; i < 4; i++)
@@ -302,7 +302,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongQuy[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongQuy[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongQuy[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list);
+                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             }
             // Khai báo list chứa dữ liệu thống kê của từng ngày trong tháng 
             //List<int> lsoNgayTrongThang = new List<int>();
