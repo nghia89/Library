@@ -52,7 +52,7 @@
 
     function updateStudentInfoSuccess(data) {
         $("#update-student-info-save-button").removeClass("active");
-        
+
         if (data == true) {
             swal({
                 title: "Thành công",
@@ -65,10 +65,17 @@
 
             $("#edit-student-modal-themtheloai").modal('hide');
             /*angular.element(document.getElementById('ListTT')).scope().GetAllData();*/
-            
+
         }
         else {
-            swal("Thành công", "FFF", "error");
+            swal({
+                title: "Thêm mới thất bại!",
+                text: data,
+                type: "error",
+                showCancelButton: false,
+                confirmButtonText: "Đóng",
+                closeOnConfirm: false
+            });
         }
     }
 </script>

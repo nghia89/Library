@@ -7,6 +7,7 @@
 /// <reference path="angular.js" />
 /// <reference path="angular-mocks.js" />
 /// <reference path="bootstrap.js" />
+/// <reference path="jquery.session.js" />
 /// <reference path="jquery.unobtrusive-ajax.min.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
