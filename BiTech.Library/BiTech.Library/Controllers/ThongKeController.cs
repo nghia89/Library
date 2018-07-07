@@ -15,10 +15,10 @@ namespace BiTech.Library.Controllers
     public class ThongKeController : BaseController
     {
       
-        NghiepVuThongKeController nghiepVu;
+        NghiepVuThongKe nghiepVu;
         public ThongKeController()
         {           
-            nghiepVu = new NghiepVuThongKeController();
+            nghiepVu = new NghiepVuThongKe();
         }
         // GET: ThongKe
         public ActionResult Index()
@@ -138,7 +138,7 @@ namespace BiTech.Library.Controllers
             // Dữ liệu thống kê
             ViewBag.SoPhieuMuonSach = listAll.Count;
             ViewBag.SoSachChuaTra = soSachChuaTra;
-            ViewBag.SoSachDuocMuon = nghiepVu.DemSoSachDuocMuon(_listPhieuMuon);
+            ViewBag.SoSachDuocMuon = nghiepVu.DemSoSachDuocMuon(_listPhieuMuon, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             ViewBag.SoLuongThanhVien = nghiepVu.DemSoNguoiMuonSach(_listPhieuMuon);
             // Thông tin phiếu mượn
             ViewBag.ListSoSachTong = listSoSachTong;
@@ -228,11 +228,11 @@ namespace BiTech.Library.Controllers
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
                 listPhieuMuonTrongNgay = _thongKeLogic.GetPMByNgayMuon(item.NgayMuon);
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
-                soPhieuMuonTrongThang[item.NgayMuon.Day] = listPhieuMuonTrongNgay.Count != 0 ? listPhieuMuonTrongNgay.Count : -1;
-                soNguoiMuonSachTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay) : -1;
-                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay) : -1;
-                soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay) : -1;
-                soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) != 0 ? nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay) : -1;
+                soPhieuMuonTrongThang[item.NgayMuon.Day] = listPhieuMuonTrongNgay.Count;
+                soNguoiMuonSachTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);
+                soSachDuocMuonTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soNguoiKhongTraTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay);
+                soNguoiTraTreTrongThang[item.NgayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay);
 
             }
             foreach (var item in listYearSelected)
@@ -395,7 +395,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongNam[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongNam[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list);
+                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             }
             // truyền dữ liệu thống kê vào từng quý trong năm
             for (int i = 0; i < 4; i++)
@@ -429,7 +429,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongQuy[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongQuy[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongQuy[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list);
+                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             }
 
             // Chọn số ngày cho từng tháng

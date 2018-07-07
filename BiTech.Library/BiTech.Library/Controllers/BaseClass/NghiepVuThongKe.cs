@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers.BaseClass
 {
-    public class NghiepVuThongKeController : BaseController
+    public class NghiepVuThongKe
     {
         /// <summary>
         /// Đếm số phiếu mượn
@@ -108,14 +108,9 @@ namespace BiTech.Library.Controllers.BaseClass
         /// </summary>
         /// <param name="listPM"></param>
         /// <returns></returns>
-        public int DemSoSachDuocMuon(List<PhieuMuon> listPM)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return 0;
-            #endregion        
-            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+        public int DemSoSachDuocMuon(List<PhieuMuon> listPM,string connectionString,string databaseName)
+        {           
+            var _thongKeLogic = new ThongKeLogic(connectionString, databaseName);
             int soLuongSach = 0;                       
             foreach (var pm in listPM)
             {

@@ -227,7 +227,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
-    <Compile Include="Controllers\BaseClass\NghiepVuThongKeController.cs" />
+    <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
