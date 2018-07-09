@@ -11,10 +11,10 @@ namespace BiTech.Library.BLL.DBLogic
     public class SachLogic
     {
         SachEngine _sachEngine;
-        public SachLogic(string connectionString,string databaseName)
+        public SachLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _sachEngine = new SachEngine(database, "Sach");
+            Database database = new Database(connectionString);
+            _sachEngine = new SachEngine(database, databaseName, "Sach");
         }
 
         #region Vinh
@@ -43,6 +43,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetByIdBook(idBook);
         }
+
         public Sach GetBookById(string idBook)
         {
             return _sachEngine.GetBookById(idBook);

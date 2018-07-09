@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class PhieuMuonEngine : EntityRepository<PhieuMuon>
     {
-        public PhieuMuonEngine(IDatabase database, string tableName) : base(database, tableName)
+        public PhieuMuonEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<PhieuMuon>(tableName);
         }
         /// <summary>
@@ -24,6 +24,7 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted && _.NgayTra == null).ToList();            
         }   
+
         /// <summary>
         /// Get list PhieuMuon chưa trả
         /// </summary>

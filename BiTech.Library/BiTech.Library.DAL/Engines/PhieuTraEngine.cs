@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class PhieuTraEngine : EntityRepository<PhieuTra>
     {
-        public PhieuTraEngine(IDatabase database, string tableName) : base(database, tableName)
+        public PhieuTraEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<PhieuTra>(tableName);
         }
         /// <summary>
@@ -23,7 +23,7 @@ namespace BiTech.Library.DAL.Engines
         public List<PhieuTra> GetAll()
         {
             return _DatabaseCollection.Find(_ => _.Id != null && _.Id != "").ToList();
-        }
+        }        
 
         #region Tai
         public List<PhieuTra> GetPTByIdPM(string idPhieuMuon)

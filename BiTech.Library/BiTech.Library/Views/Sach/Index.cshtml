@@ -1,4 +1,4 @@
-﻿@model BiTech.Library.Models.ListBooks
+﻿@model BiTech.Library.Models.ListBooksModel
 @{
     ViewBag.Title = "Index";
     var listSach = ViewBag.ListSach;
@@ -9,7 +9,7 @@
 <div class="container clearfix">
     @{int i = 1;}
     
-    <a href="@Url.Action("Them")" class="btn btn-primary">Thêm Mới</a>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
     <div class="book_content clearfix">
         @foreach (var item in Model.Books)
         {
@@ -24,62 +24,64 @@
                     <div class="book_image">
                         <div class="book_image_in">
                             <div class="book_number">@i</div>
-                            <img src='@Html.Raw(item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/Sana Twice 1996.jpg")' />
-                            <a href="@Url.Action("Sua", new { id = item.Id })">Xem</a>
+                            <object data='@Html.Raw(!string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) ? item.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")' type="image/png">
+                                <img src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" />
+                            </object>
+                            <a href="@Url.Action("Edit", new { id = item.SachDTO.Id })">Xem</a>
                         </div>
                     </div>
                     <div class="book_information">
                         <div class="book_cell_information">
                             <div class="book_title_information">Mã đầu sách:</div>
-                            <div class="book_content_information">@item.IdDauSach</div>
+                            <div class="book_content_information">@item.SachDTO.IdDauSach</div>
                         </div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Mã kiểm soát:</div>
-                            <div class="book_content_information">@item.MaKiemSoat</div>
+                            <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
                         </div>
                         <div class="line-gl"></div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Tên:</div>
-                            <div class="book_content_information">@item.TenSach</div>
+                            <div class="book_content_information">@item.SachDTO.TenSach</div>
                         </div>
                         <div class="line-xl"></div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Thể loại:</div>
-                            <div class="book_content_information">@item.TheLoai</div>
+                            <div class="book_content_information">@item.Ten_TheLoai</div>
                         </div>
                         <div class="line-gl"></div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Kệ Sách:</div>
-                            <div class="book_content_information">@item.KeSach</div>
+                            <div class="book_content_information">@item.Ten_KeSach</div>
                         </div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Ngôn Ngữ:</div>
-                            <div class="book_content_information">@item.NgonNgu</div>
+                            <div class="book_content_information">@item.Ten_NgonNgu</div>
                         </div>
                         <div class="line-gl"></div>
                         <div class="line-xl"></div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Nhà Xuất Bản:</div>
-                            <div class="book_content_information">@item.NhaXuatBan</div>
+                            <div class="book_content_information">@item.Ten_NhaXuatBan</div>
                         </div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Năm Xuất Bản:</div>
-                            <div class="book_content_information">@item.NamXuatBan</div>
+                            <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
                         </div>
                         <div class="line-gl"></div>
                         <div class="book_cell_information">
                             <div class="book_title_information">SL Tổng:</div>
-                            <div class="book_content_information">@item.SoLuongTong</div>
+                            <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
                         </div>
                         <div class="line-xl"></div>
                         <div class="book_cell_information">
                             <div class="book_title_information">SL Còn lại:</div>
-                            <div class="book_content_information">@item.SoLuongConLai</div>
+                            <div class="book_content_information">@item.SachDTO.SoLuongConLai</div>
                         </div>
                         <div class="line-gl"></div>
                         <div class="book_cell_information">
                             <div class="book_title_information">Giá Sách:</div>
-                            <div class="book_content_information">@item.GiaSach</div>
+                            <div class="book_content_information">@item.SachDTO.GiaSach</div>
                         </div>
                         <div class="book_cell_information box_temp">
                             <div class="book_title_information"></div>
@@ -89,7 +91,7 @@
                         <div class="line-xl"></div>
                         <div class="book_cell_information tomtac">
                             <div class="book_title_information">Tóm Tắt:</div>
-                            <div class="book_content_information">@item.TomTat</div>
+                            <div class="book_content_information">@item.SachDTO.TomTat</div>
                         </div>
                         <div class="line-xl"></div>
                         <div class="line-gl"></div>
@@ -99,7 +101,7 @@
             { i++; }
         }
     </div>
-    <a href="@Url.Action("Them")" class="btn btn-primary">Thêm Mới</a>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
 </div>
 
 

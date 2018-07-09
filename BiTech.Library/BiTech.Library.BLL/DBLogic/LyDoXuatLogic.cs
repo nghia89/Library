@@ -16,7 +16,7 @@ namespace BiTech.Library.BLL.DBLogic
         
         public LyDoXuatLogic(string connectionString, string dbName)
         {
-            _LyDoXuatEngine = new LyDoXuatEngine(new Database(connectionString, dbName), TableName);    
+            _LyDoXuatEngine = new LyDoXuatEngine(new Database(connectionString), dbName, TableName);    
         }
         public List<LyDoXuat> GetAll()
         {

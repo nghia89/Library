@@ -14,8 +14,8 @@ namespace BiTech.Library.BLL.DBLogic
         SachTacGiaEngine _sachTacGiaEngine;
         public SachTacGiaLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _sachTacGiaEngine = new SachTacGiaEngine(database, "SachTacGia");
+            Database database = new Database(connectionString);
+            _sachTacGiaEngine = new SachTacGiaEngine(database, databaseName, "SachTacGia");
         }
     }
 }

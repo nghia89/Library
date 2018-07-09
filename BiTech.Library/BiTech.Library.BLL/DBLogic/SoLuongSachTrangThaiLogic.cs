@@ -15,8 +15,8 @@ namespace BiTech.Library.BLL.DBLogic
         private string TableName = "SoLuongSachTrangThai";
         public SoLuongSachTrangThaiLogic(string connectionString, string databaseName)
         {
-            Database database = new Database(connectionString, databaseName);
-            _SoLuongSachTrangThaiEngine = new SoLuongSachTrangThaiEngine(database, TableName);
+            Database database = new Database(connectionString);
+            _SoLuongSachTrangThaiEngine = new SoLuongSachTrangThaiEngine(database, databaseName, TableName);
         }
         public bool Update(SoLuongSachTrangThai sls)
         {

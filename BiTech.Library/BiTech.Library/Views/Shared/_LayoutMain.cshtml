@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     @Styles.Render("~/Content/css")
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,7 +16,7 @@
         @Html.Partial("layout/menuleft")
         <div class="right">
             <div class="content">
-                <div class="container-lib clearfix">
+                <div class="clearfix layout-content">
                     @RenderBody()
                 </div>
             </div>
@@ -33,10 +33,10 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    @*<script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angularjs.min.js"></script>
-    <script src="~/Scripts/LibraryAngularJS.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>*@
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
 
 
     @Scripts.Render("~/bundles/main")

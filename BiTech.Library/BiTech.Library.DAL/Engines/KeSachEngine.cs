@@ -11,9 +11,9 @@ namespace BiTech.Library.DAL.Engines
 {
     public class KeSachEngine : EntityRepository<KeSach>
     {
-        public KeSachEngine(IDatabase database, string tableName) : base(database, tableName)
+        public KeSachEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
-            _Database = (IMongoDatabase)database.GetConnection();
+            _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<KeSach>(tableName);
         }
         public List<KeSach> GetAllKeSach()

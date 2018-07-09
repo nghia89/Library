@@ -1,87 +1,179 @@
 ﻿
 var app = angular.module('MyApp', ['chart.js']);
 
+app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
-app.controller('Statistic', function ($scope, $http) {
-    Chart.defaults.global.colours = [
-    { // blue
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,0.8)"
-    },
-    //{ // light grey
-    //    fillColor: "rgba(220,220,220,0.2)",
-    //    strokeColor: "rgba(220,220,220,1)",
-    //    pointColor: "rgba(220,220,220,1)",
-    //    pointStrokeColor: "#fff",
-    //    pointHighlightFill: "#fff",
-    //    pointHighlightStroke: "rgba(220,220,220,0.8)"
-    //},
-    { // red
-        fillColor: "rgba(247,70,74,0.2)",
-        strokeColor: "rgba(247,70,74,1)",
-        pointColor: "rgba(247,70,74,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(247,70,74,0.8)"
-    },
-    //{ // green
-    //    fillColor: "rgba(70,191,189,0.2)",
-    //    strokeColor: "rgba(70,191,189,1)",
-    //    pointColor: "rgba(70,191,189,1)",
-    //    pointStrokeColor: "#fff",
-    //    pointHighlightFill: "#fff",
-    //    pointHighlightStroke: "rgba(70,191,189,0.8)"
-    //},
-    { // yellow
-        fillColor: "rgba(253,180,92,0.2)",
-        strokeColor: "rgba(253,180,92,1)",
-        pointColor: "rgba(253,180,92,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(253,180,92,0.8)"
-    },
-    { // grey
-        fillColor: "rgba(148,159,177,0.2)",
-        strokeColor: "rgba(148,159,177,1)",
-        pointColor: "rgba(148,159,177,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(148,159,177,0.8)"
-    },
-    { // dark grey
-        fillColor: "rgba(77,83,96,0.2)",
-        strokeColor: "rgba(77,83,96,1)",
-        pointColor: "rgba(77,83,96,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(77,83,96,1)"
+
+
+    $scope.labels = ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', ' Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', ' Tháng 10', 'Tháng 11', 'Tháng 12'];
+    $scope.series = ['phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trể'];
+    $scope.options = { legend: { display: true } };
+    $scope.chartdataYear = [];
+
+    $scope.loading = true;
+    $scope.year = function () {
+        langKey = $scope.selected;
+
+        function getStatistic() {
+            var config = {
+                param: {
+                    //mm/dd/yyyy
+                    month: '',
+                    year: langKey
+                }
+            }
+
+            $http({
+                method: "get",
+                url: "/Statistic/BieuDoPhieuMuon?&month=" + config.param.month + "&year=" + config.param.year,
+            }).then(function (response) {
+                if (response.data) {
+
+                    var chartData = [];
+
+                    var lsoPhieuMuonTrongNam = [];
+                    var lsoNguoiMuonSachTrongNam = [];
+                    var lsoNguoiKhongTraTrongNam = [];
+                    var lsoSachDuocMuonTrongNam = [];
+                    var lsoNguoiTraTreTrongNam = [];
+
+                    response.data.lsoPhieuMuonTrongNam.forEach(function (i, index) {
+                        lsoPhieuMuonTrongNam.push(i);
+                    });
+                    response.data.lsoNguoiMuonSachTrongNam.forEach(function (i, index) {
+                        lsoNguoiMuonSachTrongNam.push(i);
+                    });
+                    response.data.lsoNguoiKhongTraTrongNam.forEach(function (i, index) {
+                        lsoNguoiKhongTraTrongNam.push(i);
+                    });
+                    response.data.lsoSachDuocMuonTrongNam.forEach(function (i, index) {
+                        lsoSachDuocMuonTrongNam.push(i);
+                    });
+                    response.data.lsoNguoiTraTreTrongNam.forEach(function (i, index) {
+                        lsoNguoiTraTreTrongNam.push(i);
+                    });
+
+
+                    chartData.push(lsoPhieuMuonTrongNam);
+                    chartData.push(lsoNguoiMuonSachTrongNam);
+                    chartData.push(lsoNguoiKhongTraTrongNam);
+                    chartData.push(lsoSachDuocMuonTrongNam);
+                    chartData.push(lsoNguoiTraTreTrongNam);
+
+                    //chartData.push(benefits);
+                    //chartData.push(benefits);
+
+                    $scope.chartdataYear = chartData;
+                    //$scope.labels = labels;
+                }
+                else {
+                    alert("không thể tải dữ liệu");
+                }
+
+            })
+        }
+
+        getStatistic();
+        $scope.loading = false;
     }
-    ];
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A', 'Series B'];
-    $scope.data = [
-      [65, 59, 80, 81, 56, 55, 40],
-      [28, 48, 40, 19, 86, 27, 90],
-      [28, 48, 40, 19, 86, 27, 20],
-      [28, 48, 70, 89, 86, 87, 90],
-      [28, 48, 90, 5, 86, 27, 20]
-    ];
-    $scope.GetAllData = function () {
+
+});
+
+
+
+app.controller('MonthCtroller', function ($scope, $http, $location) {
+
+    $scope.labels = ['Ngày 01', 'Ngày 02', 'Ngày 03', 'Ngày 04', 'Ngày 05', ' Ngày 06', 'Ngày 07', 'Ngày 08', 'Ngày 09', ' Ngày 10', 'Ngày 11', 'Ngày 12',
+    'Ngày 03', 'Ngày 14', 'Ngày 14', 'Ngày 16', 'Ngày 17', ' Ngày 18', 'Ngày 19', 'Ngày 20', 'Ngày 21', ' Ngày 22', 'Ngày 23', 'Ngày 24',
+    'Ngày 25', 'Ngày 26', 'Ngày 27', 'Ngày 28', 'Ngày 29', ' Ngày 30', 'Ngày 31'];
+    $scope.series = ['phiếu Mượn Trong Ngày', 'Số Người Mượn Trong Ngày', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trể'];
+    //$scope.colors = [{
+      
+    //    fillColor: 'rgba(230, 100, 150, 0.8)',
+    //    strokeColor: 'rgba(47, 132, 71, 0.8)',
+    //    highlightFill: 'rgba(47, 132, 71, 0.8)',
+    //    highlightStroke: 'rgba(47, 132, 71, 0.8)'
+    //}];
+
+    $scope.chartdataMonth = [];
+    $scope.options = { legend: { display: true } };
+    $scope.loading = true;
+    $scope.Keymonth = '';
+    $scope.KeyYear = '';
+
+
+    function getStatisticMonth() {
+
+
+        var config = {
+            param: {
+                //mm/dd/yyyy
+                month: $scope.Keymonth,
+                year: $scope.KeyYear
+
+            }
+        }
         $http({
             method: "get",
-            url: "",
-            params: {
-                idPM: $('#idPM').val(),
-                soLuong: 0
-            }
+            url: "/Statistic/BieuDoPhieuMuon?&month=" + config.param.month + "&year=" + config.param.year,
         }).then(function (response) {
-            $scope.list = response.data;
-        }, function () {
-            alert("Error Occur");
+            if (response.data) {
+
+                var chartData1 = [];
+
+                var lsoPMTrongNgay = [];
+                var lsoNguoiMuonTrongNgay = [];
+                var lsoSachDuocMuonTrongNgay = [];
+                var lsoNguoiKhongTraTrongNgay = [];
+                var lsoNguoiTraTreTrongNgay = [];
+
+                response.data.lsoPMTrongNgay.forEach(function (i, index) {
+                    lsoPMTrongNgay.push(i);
+                });
+                response.data.lsoNguoiMuonTrongNgay.forEach(function (i, index) {
+                    lsoNguoiMuonTrongNgay.push(i);
+                });
+                response.data.lsoNguoiKhongTraTrongNgay.forEach(function (i, index) {
+                    lsoNguoiKhongTraTrongNgay.push(i);
+                });
+                response.data.lsoSachDuocMuonTrongNgay.forEach(function (i, index) {
+                    lsoSachDuocMuonTrongNgay.push(i);
+                });
+                response.data.lsoNguoiTraTreTrongNgay.forEach(function (i, index) {
+                    lsoNguoiTraTreTrongNgay.push(i);
+                });
+
+
+                chartData1.push(lsoPMTrongNgay);
+                chartData1.push(lsoNguoiMuonTrongNgay);
+                chartData1.push(lsoSachDuocMuonTrongNgay);
+                chartData1.push(lsoNguoiKhongTraTrongNgay);
+                chartData1.push(lsoNguoiTraTreTrongNgay);
+
+                //chartData.push(benefits);
+                //chartData.push(benefits);
+
+                $scope.chartdataMonth = chartData1;
+                //$scope.labels = labels;
+            }
+            else {
+                alert("không thể tải dữ liệu");
+            }
+
         })
-    };
+    }
+
+    $scope.GetData = function () {
+
+        langKey1 = $scope.selected1;
+        $scope.Keymonth = langKey1;
+
+        langKey2 = $scope.selected2;
+        $scope.KeyYear = langKey2;
+        getStatisticMonth();
+    }
+    getStatisticMonth();
+    $scope.loading = false;
+
 });
+
