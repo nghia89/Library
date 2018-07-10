@@ -7,6 +7,7 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
     $scope.series = ['phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trể'];
     $scope.options = { legend: { display: true } };
     $scope.chartdataYear = [];
+    $scope.Year = '';
     Chart.defaults.global.colors = [
       {
           backgroundColor: 'rgba(255, 255, 255, 0)',
@@ -45,15 +46,13 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
           pointHoverBorderColor: 'rgba(151,187,205,1)'
       }];
     $scope.loading = true;
-    $scope.year = function () {
-        langKey = $scope.selected;
-
+  
         function getStatistic() {
             var config = {
                 param: {
                     //mm/dd/yyyy
                     month: '',
-                    year: langKey
+                    year: $scope.Year
                 }
             }
 
@@ -105,12 +104,17 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
                 }
 
             })
+            $scope.year = function () {
+                KeyYear = $scope.selectYear;
+                $scope.Year = KeyYear;
+                getStatistic();
+                $scope.loading = false;
+            }
+           
         }
-
+       
         getStatistic();
         $scope.loading = false;
-    }
-
 });
 
 

@@ -41,104 +41,102 @@
 
 <div ng-app="MyApp">
     <h1 class="text-info text-center"> Sơ Đồ Thống kê </h1>
-    <div class="row">
-        <div class="col-md-12 back_groupCheck">
-            <div class="slide-two margin-top">
-                <input type="checkbox" checked id="slide-two1" />
-                <label for="slide-two1">Thống Kê Theo Tháng Của Từng Năm</label>
-            </div>
+
+    <div class="col-md-12 back_groupCheck">
+        <div class="slide-two margin-top">
+            <input type="checkbox" checked id="slide-two1" />
+            <label for="slide-two1">Thống Kê Theo Tháng Của Từng Năm</label>
         </div>
     </div>
-    <div class="row" id="disableMonth" style="display:block">
-        <div class="col-lg-12">
-            <div ng-controller="MonthCtroller">
-                <div class="col-md-1 text-right"><h5>Tháng</h5></div>
-                <div class="col-md-2" style="padding-bottom: 12px;">
 
-                    <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()" ng-valid-parse>
+    <div id="disableMonth" style="display:block">
 
-                        @for (int i = 1; i <= 12; i++)
-                        {
-                            <option value="@i">tháng @i</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-2" style="padding-bottom: 12px;">
-
-                    <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()" ng-valid-parse>
-                        @for (int i = 2017; i <= DateTime.Now.Year; i++)
-                        {
-                            <option value="@i">Năm @i</option>
-                        }
-                    </select>
-                </div>
-
-                <section class="content">
-                    <div class="row">
-                        <!-- Left col -->
-                        <section class="col-lg-7" style="margin:0 auto">
-                            <!-- Custom tabs (Charts with tabs)-->
-                            <div class="nav-tabs-custom">
-                                <!-- Tabs within a box -->
-
-                                <div class="tab-content no-padding">
-
-                                    <canvas id="line" class="chart chart-line "
-                                            chart-data="chartdataMonth" chart-labels="labels" chart-colors="colors"
-                                            chart-series="series" chart-options="options" chart-legend="true"   chart-dataset-override="datasetOverride"></canvas>
-                                </div>
-                            </div>
-                        </section>
+        <div ng-controller="MonthCtroller" class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="col-md-2 col-xs-3">
+                    <div class="col-md-1 text-right"><h5>Tháng</h5></div>
+                    <div style="padding-bottom: 12px;">
+                        <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()" ng-valid-parse>
+                            <option value="">---chon tháng---</option>
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                <option value="@i">tháng @i</option>
+                            }
+                        </select>
                     </div>
-                    <div ng-if="loading" style="margin-left: 375px;">
-                        <div class="col-xs-4"></div>
-                        <div class="col-xs-4">
-                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
-                        </div>
-                        <span style="color: crimson;">bạn vui lòng chọn tháng thống kê để tải dữ liệu.?</span>
-                        <div class="col-xs-4"></div>
+                    <div class="col-md-1 text-right"><h5>Năm</h5></div>
+                    <div style="padding-bottom: 12px;">
+                        <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()" ng-valid-parse>
+                            <option value="">---chon năm---</option>
+                            @for (int i = 2017; i <= DateTime.Now.Year; i++)
+                            {
+                                <option value="@i">Năm @i</option>
+                            }
+                        </select>
                     </div>
-                </section>
+                </div>
             </div>
+
+            <div class="col-md-11" style="margin:auto">
+                <!-- Custom tabs (Charts with tabs)-->
+                <div class="nav-tabs-custom">
+                    <!-- Tabs within a box -->
+
+                    <div class="tab-content no-padding">
+
+                        <canvas id="line" class="chart chart-line "
+                                chart-data="chartdataMonth" chart-labels="labels" chart-colors="colors"
+                                chart-series="series" chart-options="options" chart-legend="true" chart-dataset-override="datasetOverride"></canvas>
+                    </div>
+                </div>
+                <div ng-if="loading" style="margin-left: 375px;">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4">
+                        <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                    </div>
+                    <span style="color: crimson;">bạn vui lòng chọn tháng thống kê để tải dữ liệu.?</span>
+                    <div class="col-xs-4"></div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 back_groupCheck">
-            <div class="slide-two margin-top">
-                <input type="checkbox" id="slide-two" />
-                <label for="slide-two">Thống Kê Theo Năm</label>
-            </div>
+
+    <div class="col-md-12 back_groupCheck">
+        <div class="slide-two margin-top">
+            <input type="checkbox" id="slide-two" />
+            <label for="slide-two">Thống Kê Theo Năm</label>
         </div>
     </div>
+
     <div class="row" id="disableYear" style="display:none">
         <div class="col-lg-12">
-            <div ng-controller="Statistic">
-                <div class="col-md-1 text-right"><h5>Năm</h5></div>
-                <div class="col-md-2" style="padding-bottom: 12px;">
-                    <select class="form-control" data-width="auto" ng-model="selected" ng-click="year()">
-                        @for (int i = 2017; i <= DateTime.Now.Year; i++)
-                        {
-                            <option value="@i">Năm @i</option>
-                        }
-                    </select>
-                </div>
-                <section class="content">
-                    <div class="row">
-                        <!-- Left col -->
-                        <section class="col-lg-7" style="margin:0 auto">
-                            <!-- Custom tabs (Charts with tabs)-->
-                            <div class="nav-tabs-custom">
-                                <!-- Tabs within a box -->
-                                <div class="tab-content no-padding">
-                                    <canvas id="bar " class="chart chart-line"
-                                            chart-data="chartdataYear" chart-labels="labels" chart-colors="colors"
-                                            chart-series="series" chart-options="options" chart-legend="true"
-                                            chart-dataset-override="datasetOverride" chart-click="onClick">
-                                    </canvas>
-                                </div>
-                            </div>
-                        </section>
+
+            <div ng-controller="Statistic" class="row">
+                <div class="col-md-2">
+                    <div class="col-md-1 text-right"><h5>Năm</h5></div>
+                    <div style="padding-bottom: 12px;">
+                        <select class="form-control" data-width="auto" ng-model="selectYear" ng-click="year()">
+                            <option value="">---chon năm---</option>
+                            @for (int i = 2017; i <= DateTime.Now.Year; i++)
+                            {
+                                <option value="@i">Năm @i</option>
+                            }
+                        </select>
                     </div>
+
+                </div>
+
+                <!-- Left col -->
+                <!-- Tabs within a box -->
+                <div class="col-md-10">
+                    <div class="tab-content no-padding">
+                        <canvas id="bar " class="chart chart-line"
+                                chart-data="chartdataYear" chart-labels="labels" chart-colors="colors"
+                                chart-series="series" chart-options="options" chart-legend="true"
+                                chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
+                    </div>
+
                     <div ng-if="loading" style="margin-left: 375px;">
                         <div class="col-xs-4"></div>
                         <div class="col-xs-4">
@@ -147,7 +145,9 @@
                         <span style="color: crimson;">bạn vui lòng chọn năm thống kê để tải dữ liệu.?</span>
                         <div class="col-xs-4"></div>
                     </div>
-                </section>
+                </div>
+
+
             </div>
         </div>
     </div>

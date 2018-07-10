@@ -20,7 +20,7 @@ namespace BiTech.Library.DAL.MongoMirgrations.Sach_Mirgrations.M002
         public override void Up(BsonDocument document)
         {
             document.Remove("IdDauSach");
-            document.Add("CongKhai", "");
+            document.Add("CongKhai", true);
             document.Add("ISBN", "");
         }
 
