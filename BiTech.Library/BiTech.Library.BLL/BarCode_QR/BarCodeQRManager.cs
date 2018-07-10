@@ -29,7 +29,7 @@ namespace BiTech.Library.BLL.BarCode_QR
         /// <returns></returns>
         public string CreateBarCode(string barcodeString, string albumId)
         {
-            //Đường dẫn lưu file ảnh barcode
+            //  Đường dẫn lưu file ảnh barcode
             string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this._barcodePath + albumId.ToString() + ".bmp");
             // ExStart:CreateQRbarcode                
             // The path to the documents directory.
@@ -42,6 +42,8 @@ namespace BiTech.Library.BLL.BarCode_QR
             //barCodeBarCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
 
             return _barcodePath + albumId + ".bmp";
+
+
         }
         /// <summary>codePath
         /// Tạo mã QR
@@ -56,8 +58,50 @@ namespace BiTech.Library.BLL.BarCode_QR
                 //string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this.codePath + qrCodeSavePath.ToString() + ".bmp");
                 string barcodeSavePath = HttpContext.Current.Server.MapPath(qrCodeSavePath.ToString());
                 BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(qrCodeString, Symbology.QR);
+
+                barCodeBuilder_QR.CodeTextFont = new System.Drawing.Font("Times New Roman", 20);
                 barCodeBuilder_QR.CodeLocation = CodeLocation.None; // Ẩn codetext trên QR
+                barCodeBuilder_QR.ImageQuality = ImageQualityMode.AntiAlias;
                 barCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
+            }
+            catch (Exception ex)
+            {
+                string x = ex.ToString();
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Tạo hình chứa mã ISBN và EAN13
+        /// </summary>
+        /// <param name="strEAN13"></param>
+        /// <param name="strISBN"></param>
+        /// <param name="pathEAN13"></param>
+        /// <param name="pathISBN"></param>
+        /// <returns></returns>
+        public bool CreateBarCode(string strEAN13, string strISBN, string pathEAN13, string pathISBN)
+        {
+            try
+            {
+                //string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this.codePath + qrCodeSavePath.ToString() + ".bmp");
+                string barcodeSavePath = HttpContext.Current.Server.MapPath(pathEAN13.ToString());
+                string barcodeSavePath2 = HttpContext.Current.Server.MapPath(pathISBN.ToString());
+                // Tạo mã ISBN
+                BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(strISBN, Symbology.ISBN);
+                barCodeBuilder_QR.ImageQuality = ImageQualityMode.Default;              
+                string s1 = strISBN.Substring(0, 3);
+                string s2 = strISBN.Substring(3, 3);
+                string s3 = strISBN.Substring(6, 2);
+                string s4 = strISBN.Substring(8, 4);
+                string s5 = strISBN.Substring(12,1);
+                Caption caption = new Caption();
+                caption.Text = "ISBN: " + s1 + "-" + s2 + "-" + s3 + "-" + s4 + "-" + s5;
+                barCodeBuilder_QR.CaptionAbove = caption;
+                barCodeBuilder_QR.Save(barcodeSavePath2, BarCodeImageFormat.Bmp);
+                // Tạo mã EAN13
+                BarCodeBuilder barCodeBuilder_QR2 = new BarCodeBuilder(strEAN13, Symbology.EAN13);
+                barCodeBuilder_QR2.ImageQuality = ImageQualityMode.Default;               
+                barCodeBuilder_QR2.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
             }
             catch (Exception ex)
             {
@@ -66,6 +110,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             return true;
         }
         /// <summary>
+        /// 
         /// Đọc mã barcode từ hình
         /// </summary>
         /// <param name="_filePath"></param>

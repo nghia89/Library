@@ -113,19 +113,22 @@ namespace BiTech.Library.Controllers
             {
                 // Lấy đường dẫn lưu QR
                 string physicalWebRootPath = Server.MapPath("~/");
-
                 string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
 
-                var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, id + ".bmp");
-                string location = Path.GetDirectoryName(uploadFileName);
-                if (!Directory.Exists(location))
-                {
-                    Directory.CreateDirectory(location);
-                }
-                //đường dẫn hoàn chỉnh
-                var path = uploadFileName.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                var uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, id + "QR.bmp");
+                var uploadFileNameEAN13 = Path.Combine(physicalWebRootPath, uploadFolder, id + "EAN13.bmp");
+                var uploadFileNameISBN = Path.Combine(physicalWebRootPath, uploadFolder, id + "ISBN.bmp");             
+                // chuyển đường dẫn vật lý thành đường dẫn ảo
+                var pathQR= uploadFileNameEAN13.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                var pathEAN13 = uploadFileNameEAN13.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                var pathISBN = uploadFileNameISBN.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
                 //Tạo mã QR
-                bool bolQR = barcode.CreateQRCode(model.Id, path);
+                string info = model.UserName + " " + model.Ten;
+                bool bolQR = barcode.CreateQRCode("Tạo Mã Vạch trực tuyến, Sau khi đã đăng ký Mã số mã vạch. Chỉ cần nhập ký tự, dãy số vào ô để tạo ra một mã vạch. Ứng dụng tạo mã vạch online này có tới 19 kiểu mã vạch để phù hợp với mọi nhu cầu của bạn. ", pathQR);
+                //  bool bolQR = barcode.CreateQRCode(info, pathQR);
+                //string strISBN = "9786045523032";
+                //string strEAN13 = "8936117740497";
+                //bool bolQR = barcode.CreateBarCode(strEAN13, strISBN, pathEAN13, pathISBN);
             }
             catch (Exception ex)
             {

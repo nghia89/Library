@@ -64,7 +64,7 @@ namespace BiTech.Library.Controllers
                     strImage = "http://localhost:" + Request.Url.Port + "/Upload/" + fileName;
                     //strImage = HttpContext.Server.MapPath("/Upload/") + fileName;
 
-                    strBarCode = ReadBarcodeFromFile(Server.MapPath(localSavePath));
+                    strBarCode = barcode.ReadBarCode(Server.MapPath(localSavePath));
 
                 }
             }
