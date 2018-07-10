@@ -10,37 +10,37 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
     Chart.defaults.global.colors = [
       {
           backgroundColor: 'rgba(255, 255, 255, 0)',
-          pointBackgroundColor: 'rgba(78, 180, 189, 1)',
-          pointHoverBackgroundColor: 'rgba(151,187,205,1)',
+          pointBackgroundColor: 'rgba(0, 199, 0, 0.97)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(0, 8, 245, 1',
           pointBorderColor: '#fff',
           pointHoverBorderColor: 'rgba(151,187,205,1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
-          pointBackgroundColor: 'rgba(229, 229, 229, 1)',
-          pointHoverBackgroundColor: 'rgba(151,187,205,1)',
+          pointBackgroundColor: 'rgba(0, 199, 0, 0.97)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(171, 0, 245, 1',
           pointBorderColor: '#fff',
-          pointHoverBorderColor: 'rgba(151,187,205,1)'
+          pointHoverBorderColor: 'rgba((0, 8, 245, 1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
           pointBackgroundColor: 'rgba(229, 229, 229, 1)',
-          pointHoverBackgroundColor: 'rgba(151,187,205,1)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(0, 199, 0, 0.97',
           pointBorderColor: '#fff',
           pointHoverBorderColor: 'rgba(151,187,205,1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
           pointBackgroundColor: 'rgba(229, 229, 229, 1)',
-          pointHoverBackgroundColor: 'rgba(151,187,205,1)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(245, 0, 41, 1',
           pointBorderColor: '#fff',
           pointHoverBorderColor: 'rgba(151,187,205,1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
           pointBackgroundColor: 'rgba(229, 229, 229, 1)',
-          pointHoverBackgroundColor: 'rgba(151,187,205,1)',
-          borderColor: 'rgba(68, 243, 100, 0.91',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
+          borderColor: 'rgba(0, 0, 0, 0.97',
           pointBorderColor: '#fff',
           pointHoverBorderColor: 'rgba(151,187,205,1)'
       }];
