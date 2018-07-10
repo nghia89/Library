@@ -224,24 +224,31 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            PhieuMuonLogic _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            ViewBag.Success = TempData["Success"];
-            ViewBag.UnSucces = TempData["UnSuccess"];
-            PhieuMuon us = _PhieuMuonLogic.GetById(id);
-
-            var tv = _ThanhVienLogic.GetById(us.IdUser);
-            PhieuMuonModelView model = new PhieuMuonModelView()
+            try
             {
-                IdUser = tv.MaSoThanhVien,
-                // TenNguoiMuon = us.,
-                NgayMuon = us.NgayMuon,//.ToString("dd/MM/yyyy"),
-                NgayPhaiTra = us.NgayPhaiTra,//.ToString("dd/MM/yyyy"),
-                TrangThaiPhieu = us.TrangThaiPhieu,
-            };
-            return View(model);
+                PhieuMuonLogic _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+                ViewBag.Success = TempData["Success"];
+                ViewBag.UnSucces = TempData["UnSuccess"];
+                PhieuMuon us = _PhieuMuonLogic.GetById(id);
+
+                var tv = _ThanhVienLogic.GetById(us.IdUser);
+                PhieuMuonModelView model = new PhieuMuonModelView()
+                {
+                    IdUser = tv.MaSoThanhVien,
+                    // TenNguoiMuon = us.,
+                    NgayMuon = us.NgayMuon,//.ToString("dd/MM/yyyy"),
+                    NgayPhaiTra = us.NgayPhaiTra,//.ToString("dd/MM/yyyy"),
+                    TrangThaiPhieu = us.TrangThaiPhieu,
+                };
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+          
         }
 
         [HttpPost]

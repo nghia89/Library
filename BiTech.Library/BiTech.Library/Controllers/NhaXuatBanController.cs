@@ -95,17 +95,23 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
-            NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
+            try
             {
-                Id = nxb.Id,
-                Ten = nxb.Ten,
-                GhiChu = nxb.GhiChu
-            };
-            return View(VM);
+                NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+                NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
+                NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
+                {
+                    Id = nxb.Id,
+                    Ten = nxb.Ten,
+                    GhiChu = nxb.GhiChu
+                };
+                return View(VM);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }         
         }
 
         [HttpPost]

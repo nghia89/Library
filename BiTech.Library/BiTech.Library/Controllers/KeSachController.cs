@@ -77,11 +77,17 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var dl = _keSachLogic.getById(Id);
-            _keSachLogic.Delete(dl.Id);
-            return RedirectToAction("Index");
+            try
+            {
+                KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                var dl = _keSachLogic.getById(Id);
+                _keSachLogic.Delete(dl.Id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }            
         }
         public ActionResult Edit(string Id)
         {
@@ -90,19 +96,25 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var list = _keSachLogic.getById(Id);
-
-            KesachViewModels ks = new KesachViewModels()
+            try
             {
-                Id = list.Id,
-                TenKe = list.TenKe,
-                ViTri = list.ViTri,
-                GhiChu = list.GhiChu,
-            };
+                KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                var list = _keSachLogic.getById(Id);
 
-            return View(ks);
+                KesachViewModels ks = new KesachViewModels()
+                {
+                    Id = list.Id,
+                    TenKe = list.TenKe,
+                    ViTri = list.ViTri,
+                    GhiChu = list.GhiChu,
+                };
+
+                return View(ks);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }           
         }
 
         [HttpPost]

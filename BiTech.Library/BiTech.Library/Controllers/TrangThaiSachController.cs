@@ -74,17 +74,22 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
-            TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
+            try
             {
-                Id = tts.Id,
-                TenTT = tts.TenTT
-            };
-            return View(VM);
-            
+                TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+                TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
+                TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
+                {
+                    Id = tts.Id,
+                    TenTT = tts.TenTT
+                };
+                return View(VM);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }                       
         }
 
         [HttpPost]
