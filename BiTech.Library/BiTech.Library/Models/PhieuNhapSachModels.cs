@@ -18,7 +18,9 @@ namespace BiTech.Library.Models
         public DateTime NgayNhap { get; set; }
 
         public string IdUserAdmin { get; set; }
+        public string UserName { get; set; }
     }
+
     public class ChiTietNhapSachViewModels
     {
         public string Id { get; set; }
@@ -26,6 +28,8 @@ namespace BiTech.Library.Models
         public string IdPhieuNhap { get; set; }
 
         public string IdSach { get; set; }
+
+        public string MaKiemSoat { get; set; }
 
         public string IdTinhTrang { get; set; }
 
@@ -36,13 +40,5 @@ namespace BiTech.Library.Models
         public int soLuong { get; set; }
 
         public string ten { get; set; }
-
-        public string IdDauSach { get; set; }
-
-     
-
-       
-
     }
-
 }

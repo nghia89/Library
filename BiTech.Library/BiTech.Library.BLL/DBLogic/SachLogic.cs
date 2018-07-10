@@ -39,14 +39,14 @@ namespace BiTech.Library.BLL.DBLogic
         /// </summary>
         /// <param name="idBook"></param>
         /// <returns></returns>
-        public Sach GetByIdBook(string idBook)
-        {
-            return _sachEngine.GetByIdBook(idBook);
-        }
+        //public Sach GetByIdBook(string idBook)
+        //{
+        //    return _sachEngine.GetByIdBook(idBook);
+        //}
 
         public Sach GetBookById(string idBook)
         {
-            return _sachEngine.GetBookById(idBook);
+            return _sachEngine.GetById(idBook);
         }
         #endregion
 
@@ -64,6 +64,11 @@ namespace BiTech.Library.BLL.DBLogic
         public bool XoaSach(string id)
         {
             return _sachEngine.Remove(id);
+        }
+
+        public Sach GetByMaMaKiemSoat(string maKS)
+        {
+            return _sachEngine.GetByMaKiemSoat(maKS);
         }
         #endregion
     }

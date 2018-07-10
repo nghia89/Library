@@ -6,9 +6,9 @@
     @using (Html.BeginForm("TaoMaBarCode_QR", "PhieuMuon", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
-            <label class="col-form-label col-sm-3" for="iddausach">Id Đầu Sách:</label>
+            <label class="col-form-label col-sm-3" for="MaKiemSoat">Id Đầu Sách:</label>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.IdDauSach, new { @class = "form-control", @id = "iddausach" })
+                @Html.TextBoxFor(m => m.MaKiemSoat, new { @class = "form-control", @id = "MaKiemSoat" })
             </div>
         </div>
 

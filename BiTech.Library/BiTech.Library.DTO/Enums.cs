@@ -33,7 +33,5 @@ namespace BiTech.Library.DTO
         GanTra,        
         TraTre,
         TraDungHen
-
-    }
-
+    }    
 }

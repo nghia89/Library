@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.1")]
+    [CurrentVersion("0.0.2")]
     public class ChiTietNhapSach : IModel
     {
         [BsonId]

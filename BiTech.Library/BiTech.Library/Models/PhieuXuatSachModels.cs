@@ -13,10 +13,14 @@ namespace BiTech.Library.Models
         public DateTime NgayXuat { get; set; }
 
         public string IdUserAdmin { get; set; }
+
+        public string UserName { get; set; }
+
         public List<string> listChiTietJsonString { get; set; } = new List<string>();
 
 
     }
+
     public class ChiTietXuatSachViewModels
     {
         public string Id { get; set; }
@@ -37,10 +41,6 @@ namespace BiTech.Library.Models
 
         public string ten { get; set; }
 
-        public string IdDauSach { get; set; }
-
-      
+        public string MaKiemSoat { get; set; }
     }
-
-
 }

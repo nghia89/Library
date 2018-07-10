@@ -25,12 +25,12 @@ namespace BiTech.Library.BLL.BarCode_QR
         /// Tạo mã BarCode
         /// </summary>
         /// <param name="barcodeString"></param>
-        /// <param name="albumId"></param>
+        /// <param name="fileName"></param>
         /// <returns></returns>
-        public string CreateBarCode(string barcodeString, string albumId)
+        public string CreateBarCode(string barcodeString, string fileName)
         {
             //Đường dẫn lưu file ảnh barcode
-            string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this._barcodePath + albumId.ToString() + ".bmp");
+            string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this._barcodePath + fileName.ToString() + ".bmp");
             // ExStart:CreateQRbarcode                
             // The path to the documents directory.
             //string dataDir = "./";
@@ -41,7 +41,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             //BarCodeBuilder barCodeBarCodeBuilder_QR = new BarCodeBuilder("1234567890", Symbology.QR);
             //barCodeBarCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
 
-            return _barcodePath + albumId + ".bmp";
+            return _barcodePath + fileName + ".bmp";
         }
         /// <summary>codePath
         /// Tạo mã QR

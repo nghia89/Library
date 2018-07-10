@@ -19,6 +19,9 @@ namespace BiTech.Library.DTO
 
         public string IdPhieuMuon { get; set; }
 
+        /// <summary>
+        /// Id sách trong DB
+        /// </summary>
         public string IdSach { get; set; }
 
         public int SoLuong { get; set; }
