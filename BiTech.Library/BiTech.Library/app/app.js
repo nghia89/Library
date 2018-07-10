@@ -3,13 +3,47 @@ var app = angular.module('MyApp', ['chart.js']);
 
 app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
-
-
     $scope.labels = ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', ' Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', ' Tháng 10', 'Tháng 11', 'Tháng 12'];
     $scope.series = ['phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trể'];
     $scope.options = { legend: { display: true } };
     $scope.chartdataYear = [];
-
+    Chart.defaults.global.colors = [
+      {
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          pointBackgroundColor: 'rgba(0, 199, 0, 0.97)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
+          borderColor: 'rgba(0, 8, 245, 1',
+          pointBorderColor: '#fff',
+          pointHoverBorderColor: 'rgba(151,187,205,1)'
+      }, {
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          pointBackgroundColor: 'rgba(0, 199, 0, 0.97)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
+          borderColor: 'rgba(171, 0, 245, 1',
+          pointBorderColor: '#fff',
+          pointHoverBorderColor: 'rgba((0, 8, 245, 1)'
+      }, {
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          pointBackgroundColor: 'rgba(229, 229, 229, 1)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
+          borderColor: 'rgba(0, 199, 0, 0.97',
+          pointBorderColor: '#fff',
+          pointHoverBorderColor: 'rgba(151,187,205,1)'
+      }, {
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          pointBackgroundColor: 'rgba(229, 229, 229, 1)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
+          borderColor: 'rgba(245, 0, 41, 1',
+          pointBorderColor: '#fff',
+          pointHoverBorderColor: 'rgba(151,187,205,1)'
+      }, {
+          backgroundColor: 'rgba(255, 255, 255, 0)',
+          pointBackgroundColor: 'rgba(229, 229, 229, 1)',
+          pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
+          borderColor: 'rgba(0, 0, 0, 0.97',
+          pointBorderColor: '#fff',
+          pointHoverBorderColor: 'rgba(151,187,205,1)'
+      }];
     $scope.loading = true;
     $scope.year = function () {
         langKey = $scope.selected;
@@ -88,7 +122,7 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
     'Ngày 25', 'Ngày 26', 'Ngày 27', 'Ngày 28', 'Ngày 29', ' Ngày 30', 'Ngày 31'];
     $scope.series = ['phiếu Mượn Trong Ngày', 'Số Người Mượn Trong Ngày', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trể'];
     //$scope.colors = [{
-      
+
     //    fillColor: 'rgba(230, 100, 150, 0.8)',
     //    strokeColor: 'rgba(47, 132, 71, 0.8)',
     //    highlightFill: 'rgba(47, 132, 71, 0.8)',
