@@ -18,20 +18,9 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
-        /// <summary>
-        /// Tên thư viện
-        /// </summary>
-        public string Ten { get; set; }
+        public string Key { get; set; }
 
-        /// <summary>
-        /// Địa chỉ thư viện
-        /// </summary>
-        public string DiaChi { get; set; }
-
-        /// <summary>
-        /// Số lần mượn tối đa
-        /// </summary>
-        public int SoLanMuonMax { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// Phiên bản hiện tại của đối tượng

@@ -30,14 +30,14 @@
                             <a href="@Url.Action("Edit", new { id = item.SachDTO.Id })">Xem</a>
                         </div>
                     </div>
-                    <div class="book_information">
-                        <div class="book_cell_information">
-                            <div class="book_title_information">Mã đầu sách:</div>
-                            <div class="book_content_information">@item.SachDTO.IdDauSach</div>
-                        </div>
+                    <div class="book_information">                        
                         <div class="book_cell_information">
                             <div class="book_title_information">Mã kiểm soát:</div>
                             <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
+                        </div>
+                        <div class="book_cell_information">
+                            <div class="book_title_information">ISBN:</div>
+                            <div class="book_content_information">@item.SachDTO.ISBN</div>
                         </div>
                         <div class="line-gl"></div>
                         <div class="book_cell_information">
@@ -103,57 +103,6 @@
     </div>
     <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
 </div>
-
-
-@*<div style="display:block">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th width="130">Hình</th>
-                    <th>Mã đầu sách</th>
-                    <th>Mã kiểm soát</th>
-                    <th>Tên</th>
-                    <th>Thể loại</th>
-                    <th>Kệ Sách</th>
-                    <th>Nhà Xuất Bản</th>
-                    <th>Năm Xuất Bản</th>
-                    <th>Giá Sách</th>
-                    <th>Ngôn Ngữ</th>
-                    <th>Tóm Tắt</th>
-                    <th>SL Tổng</th>
-                    <th>SL Còn lại</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{ i = 1;}
-                @foreach (var item in Model.Books)
-                {
-                    <tr>
-                        <td>@i</td>
-                        <td><img src='@Html.Raw( item.LinkBiaSach.Length > 0 ? @item.LinkBiaSach : "../Assets/Images/DefaultBookCover.jpg")' width="120" height="160" /></td>
-                        <td>@item.IdDauSach</td>
-                        <td>@item.MaKiemSoat</td>
-                        <td>@item.TenSach</td>
-                        <td>@item.TheLoai</td>
-                        <td>@item.KeSach</td>
-                        <td>@item.NhaXuatBan</td>
-                        <td>@item.NamXuatBan</td>
-                        <td>@item.GiaSach</td>
-                        <td>@item.NgonNgu</td>
-                        <td>@item.TomTat</td>
-                        <td>@item.SoLuongTong</td>
-                        <td>@item.SoLuongConLai</td>
-                        <td><a href="@Url.Action("Sua", new { id = item.Id })">Sửa</a> | <a href="@Url.Action("Xoa", new { id = item.Id })"> Xóa</a></td>
-                    </tr>
-                    { i++; }
-                }
-
-            </tbody>
-        </table>
-    </div>*@
-
 @*<button value="Xoa" onclick="XoaCauHoi()" />*@
 <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 @section scripts{

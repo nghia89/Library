@@ -17,7 +17,7 @@ namespace BiTech.Library.BLL
         public static string PhieuMuon_Table = "PhieuMuon";
         public static string PhieuTra_Table = "PhieuTra";
         public static string ChiTietPhieuTra_Table = "ChiTietPhieuTra";
-        //public static string _Table = "";
+        public static string ThongTinThuVien_Table = "ThongTinThuVien";
         //public static string _Table = "";
         //public static string _Table = "";
         //public static string _Table = "";

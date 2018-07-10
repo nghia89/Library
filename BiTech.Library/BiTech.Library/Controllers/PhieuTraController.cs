@@ -26,23 +26,7 @@ namespace BiTech.Library.Controllers
             ViewBag.ListTinhTrangSach = _TrangThaiSachLogic.GetAll();
             return View();
         }
-
-        /// <summary>
-        /// Danh sách phiếu mượn của thành viên
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public ActionResult _DanhSachPhieu(PhieuTraViewModel model)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            return RedirectToAction("Index", "PhieuMuon", new { @IdUser = model.IdNguoiMuon });
-        }
-
+        
         /// <summary>
         /// Tạo phiếu trả sách
         /// HttpGet
@@ -180,7 +164,7 @@ namespace BiTech.Library.Controllers
 
         #region Angular
 
-        public JsonResult GetThongTinPhieuTra(string idBook, int soLuong, string idTrangThai, string idPM)
+        public JsonResult GetThongTinPhieuTra(string maKS, int soLuong, string idTrangThai, string idPM)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -194,21 +178,22 @@ namespace BiTech.Library.Controllers
             var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             JsonResult result = new JsonResult();
-            if (!String.IsNullOrWhiteSpace(idBook))
+            if (!String.IsNullOrWhiteSpace(maKS))
             {
-                var sach = _SachLogic.GetByIdBook(idBook);
-                var chiTiet = _ChiTietPhieuTraLogic.GetByIdBook(idBook);
+                var sach = _SachLogic.GetByMaMaKiemSoat(maKS);
+                var chiTiet = _ChiTietPhieuTraLogic.GetByIdBook(sach.Id);
                 var trangThai = _TrangThaiSachLogic.getById(idTrangThai);
-                ChiTietPhieuTraViewModel ctpt = new ChiTietPhieuTraViewModel();
+                ChiTietPhieuTraViewModel ctpt = new ChiTietPhieuTraViewModel()
                 {
-                    ctpt.IdSach = sach.IdDauSach;
-                    ctpt.TenSach = sach.TenSach;
-                    ctpt.SoLuong = soLuong;
-                    ctpt.IdTrangThaiSach = idTrangThai;
-                    ctpt.TrangThaiSach = trangThai.TenTT;
+                    IdSach = sach.Id,
+                    MaKiemSoat = sach.MaKiemSoat,
+                    TenSach = sach.TenSach,
+                    SoLuong = soLuong,
+                    IdTrangThaiSach = idTrangThai,
+                    TrangThaiSach = trangThai.TenTT,
                 };
                 TempData["SoLuong"] = soLuong;
-                var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idBook, idPM).SoLuong;
+                var a = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(sach.Id, idPM).SoLuong;
                 if (soLuong > a)
                 {
                     result.Data = null;

@@ -72,9 +72,9 @@ namespace BiTech.Library.BLL.DBLogic
             return _sachEngine.GetById(idSach);
         }
 
-        public Sach GetSachByIdDauSach(string idDauSach)
+        public Sach GetSachByMaKiemSoat(string maKS)
         {
-            return _sachEngine.GetByIdBook(idDauSach);
+            return _sachEngine.GetByMaKiemSoat(maKS);
         }
 
         public List<ChiTietPhieuMuon> GetCTPMById(string idPhieuMuon)

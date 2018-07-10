@@ -20,6 +20,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+
             PhieuXuatSachLogic _PhieuXuatSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             int PageSize = 10;
             int PageNumber = (page ?? 1);
@@ -32,7 +33,8 @@ namespace BiTech.Library.Controllers
                     IdPhieuXuat=item.Id,
                     IdUserAdmin=item.IdUserAdmin,
                     GhiChu=item.GhiChu,
-                    NgayXuat=item.NgayXuat
+                    NgayXuat=item.NgayXuat,
+                    UserName = item.UserName
 
                 };
                 lstpxs.Add(pxs);
@@ -47,6 +49,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+
             ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             SachLogic _SachLogic =
@@ -57,10 +60,15 @@ namespace BiTech.Library.Controllers
 
             var model = _ChiTietXuatSachLogic.GetAllChiTietById(id);
             var phieuxuat = _PhieuXuatSachLogic.GetById(id);
+
+            if (phieuxuat == null || model == null)
+                return RedirectToAction("NotFound", "Error");
+
             PhieuXuatSachModels pxs = new PhieuXuatSachModels()
             {
 
                 IdUserAdmin = phieuxuat.IdUserAdmin,
+                UserName = phieuxuat.UserName,
                 GhiChu = phieuxuat.GhiChu,
                 NgayXuat = phieuxuat.NgayXuat
 
@@ -192,7 +200,7 @@ namespace BiTech.Library.Controllers
             return View();
         }
         [HttpGet]
-        public JsonResult _GetBookItemById(string idBook, int soLuong, string idtrangthai, string idlydo)
+        public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string idlydo)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -207,21 +215,21 @@ namespace BiTech.Library.Controllers
                new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             JsonResult result = new JsonResult();
-            if (!String.IsNullOrWhiteSpace(idBook))
+            if (!String.IsNullOrWhiteSpace(maKiemSoat))
             {
-                var book = _SachLogic.GetByIdBook(idBook);
+                var book = _SachLogic.GetByMaMaKiemSoat(maKiemSoat);
                 var tt = _TrangThaiSachLogic.getById(idtrangthai);
                 var ld = _LyDoXuat.GetById(idlydo);
-                ChiTietXuatSachViewModels pp = new ChiTietXuatSachViewModels();
+                ChiTietXuatSachViewModels pp = new ChiTietXuatSachViewModels()
                 {
-                    pp.IdSach = book.Id;
-                    pp.IdDauSach = book.IdDauSach;
-                    pp.ten = book.TenSach;
-                    pp.soLuong = soLuong;
-                    pp.IdTinhTrang = idtrangthai;
-                    pp.tenTinhTrang = tt.TenTT;
-                    pp.IdLydo = idlydo;
-                    pp.lyDo = ld.LyDo;
+                    IdSach = book.Id,
+                    ten = book.TenSach,
+                    soLuong = soLuong,
+                    IdTinhTrang = idtrangthai,
+                    tenTinhTrang = tt.TenTT,
+                    IdLydo = idlydo,
+                    lyDo = ld.LyDo,
+                    MaKiemSoat = book.MaKiemSoat
                 };
 
                 result.Data = pp;

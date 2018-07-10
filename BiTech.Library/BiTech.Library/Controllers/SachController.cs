@@ -54,7 +54,6 @@ namespace BiTech.Library.Controllers
             #endregion
 
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
             SachUploadModel model = new SachUploadModel();
             model.Languages = _LanguageLogic.GetAll();
             return View(model);
@@ -72,7 +71,11 @@ namespace BiTech.Library.Controllers
             if (ModelState.IsValid)
             {
                 SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
+                ThongTinThuVienLogic _ThongTinThuVienLogic = new ThongTinThuVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                ulong md = _ThongTinThuVienLogic.GetMaKiemSoatSachCount();
+                md++;
+                model.SachDTO.MaKiemSoat = md.ToString("0000");
+                _ThongTinThuVienLogic.SetMaKiemSoatSachCount(md);
                 string id = _SachLogic.ThemSach(model.SachDTO);
 
                 if (model.FileImageCover != null)

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.1")]
+    [CurrentVersion("0.0.2")]
     public class Sach : IModel
     {
         [BsonId]
@@ -18,10 +18,9 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
-        [Required]
-        public string IdDauSach { get; set; }
-
-        [Required]
+        //[Required]
+        //public string IdDauSach { get; set; }
+        
         /// <summary>
         /// Mã do thư viện qui định
         /// </summary>
@@ -97,6 +96,11 @@ namespace BiTech.Library.DTO
         /// Số lần mà cuốn sách được mượn
         /// </summary>
         public int SoLanDuocMuon { get; set; } = 0;
+
+        [Required]
+        public bool CongKhai { get; set; } = true;
+
+        public string ISBN { get; set; } = "";
 
         [Required]
         /// <summary>

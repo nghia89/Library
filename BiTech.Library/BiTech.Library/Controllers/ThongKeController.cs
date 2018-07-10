@@ -127,7 +127,7 @@ namespace BiTech.Library.Controllers
                 soSachTong = 0;
                 foreach (var i in listCTPM)
                 {
-                    var sach = _thongKeLogic.GetSachByIdDauSach(i.IdSach);
+                    var sach = _thongKeLogic.GetSachById(i.IdSach);
                     listSach.Add(sach);
                     // số lượng sách được mượn
                     var soLuong = i.SoLuong != 0 ? i.SoLuong : 1;
@@ -583,7 +583,7 @@ namespace BiTech.Library.Controllers
                 foreach (var i in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
-                    var sach = _thongKeLogic.GetSachByIdDauSach(i.IdSach);
+                    var sach = _thongKeLogic.GetSachById(i.IdSach);
                     listSach.Add(sach);
                     // Số lượng sách được mượn
                     var soLuong = i.SoLuong != 0 ? i.SoLuong : 1;
@@ -685,7 +685,7 @@ namespace BiTech.Library.Controllers
                 foreach (var ctpm in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
-                    var sach = _thongKeLogic.GetSachByIdDauSach(ctpm.IdSach);
+                    var sach = _thongKeLogic.GetSachById(ctpm.IdSach);
                     listSach.Add(sach);
                     // số lượng sách được mượn
                     var soLuong = ctpm.SoLuong != 0 ? ctpm.SoLuong : 1;
@@ -797,7 +797,7 @@ namespace BiTech.Library.Controllers
                 foreach (var ctpm in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
-                    var sach = _thongKeLogic.GetSachByIdDauSach(ctpm.IdSach);
+                    var sach = _thongKeLogic.GetSachById(ctpm.IdSach);
                     listSach.Add(sach);
                     // số lượng sách được mượn
                     var soLuong = ctpm.SoLuong != 0 ? ctpm.SoLuong : 1;
@@ -885,7 +885,7 @@ namespace BiTech.Library.Controllers
                 foreach (var ctpm in listCTPM)
                 {
                     // Lấy danh sách Sách từ Chi Tiết Phiếu Mượn
-                    var sach = _thongKeLogic.GetSachByIdDauSach(ctpm.IdSach);
+                    var sach = _thongKeLogic.GetSachById(ctpm.IdSach);
                     listSach.Add(sach);
                     // số lượng sách được mượn
                     var soLuong = ctpm.SoLuong != 0 ? ctpm.SoLuong : 1;

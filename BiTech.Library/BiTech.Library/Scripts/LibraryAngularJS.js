@@ -9,7 +9,7 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
     $scope.GetAllData = function () {
         $http({
             method: "get",
-            url: "http://localhost:64002/TheLoaiSach/Get_AllTheLoaiSach"
+            url: "/TheLoaiSach/Get_AllTheLoaiSach"
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
@@ -24,7 +24,7 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
     $scope.GetAllData = function () {
         $http({
             method: "get",
-            url: "http://localhost:64002/NhaXuatBan/Get_AllNhaXuatBan"
+            url: "/NhaXuatBan/Get_AllNhaXuatBan"
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
@@ -41,9 +41,9 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
         $scope.errortext = "";
         $http({
             method: "get",
-            url: "http://localhost:64002/PhieuNhapSach/_GetBookItemById",
+            url: "/PhieuNhapSach/_GetBookItemById",
             params: {
-                idBook: $scope.idBook,
+                maKS: $scope.maKS,
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai
             }
@@ -54,7 +54,7 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
             else {
                 alert("Mã sách không phù hợp");
             }
-        }, function () {
+        }, function (e) {
             alert("Error Occur");
         })
     }
@@ -73,7 +73,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
         $scope.errortext = "";
         $http({
             method: "get",
-            url: "http://localhost:64002/PhieuXuatSach/_GetBookItemById",
+            url: "/PhieuXuatSach/_GetBookItemById",
             params: {
                 idBook: $scope.idBook,
                 soLuong: $scope.soLuong,
@@ -99,13 +99,13 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 });
 
 // Get a book by Id - show bookName 
-app.controller('AddBookCtrlr', function ($scope, $http) {
+app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
     $scope.list = [];
 
     $scope.addListItems = function (lstSach) {
         if (lstSach != null) {
             for (i = 0; i < lstSach.length; i++) {
-                $scope.idBook = JSON.parse(lstSach[i]).IdDauSach;
+                $scope.maKiemSoat = JSON.parse(lstSach[i]).MaKiemSoat;
                 $scope.addItem();
             }
         }
@@ -116,17 +116,17 @@ app.controller('AddBookCtrlr', function ($scope, $http) {
         $scope.soLuongTemp = 1;
         $scope.found = false;
         $scope.list.forEach(function (item, idx) {
-            if (item.IdDauSach == $scope.idBook) {
-                $scope.found = false;
+            if (item.MaKiemSoat == $scope.maKiemSoat) {
+                $scope.found = true;
                 $scope.soLuongTemp = item.SoLuongMuon + 1;
             }
         });
 
         $http({
             method: "get",
-            url: "http://localhost:64002/PhieuMuon/_GetBookItemById",
+            url: "/PhieuMuon/_GetBookItemById",
             params: {
-                idBook: $scope.idBook,
+                MaKiemSoat: $scope.maKiemSoat,
                 soLuong: $scope.soLuongTemp,
             }
         }).then(function (response) {
@@ -134,7 +134,7 @@ app.controller('AddBookCtrlr', function ($scope, $http) {
                 if (response.data.Status) {
                     if ($scope.found == true) {
                         $scope.list.forEach(function (item, idx) {
-                            if (item.IdDauSach == $scope.idBook)
+                            if (item.MaKiemSoat == $scope.maKiemSoat)
                                 item.SoLuongMuon = response.data.SoLuongMuon
                         });
                     } else {
@@ -157,9 +157,9 @@ app.controller('AddBookCtrlr', function ($scope, $http) {
         $scope.errortext = "";
         $http({
             method: "get",
-            url: "http://localhost:64002/PhieuMuon/_GetBookItemById",
+            url: "/PhieuMuon/_GetBookItemById",
             params: {
-                idBook: $scope.list[id].IdDauSach,
+                idBook: $scope.list[id].MaKiemSoat,
                 soLuong: document.getElementById('sach' + id).value,
             }
         }).then(function (response) {
@@ -250,7 +250,7 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
     $scope.GetAllData = function () {
         $http({
             method: "get",
-            url: "http://localhost:64002/PhieuMuon/GetChiTietPhieuJSon",
+            url: "/PhieuMuon/GetChiTietPhieuJSon",
             params: {
                 idPM: $('#idPM').val(),
                 soLuong: 0

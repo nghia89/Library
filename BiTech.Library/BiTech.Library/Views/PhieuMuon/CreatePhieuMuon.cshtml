@@ -55,11 +55,11 @@
         <div class="form-group">
             @Html.LabelFor(m => m.MaSach, new { @class = "col-md-2 control-label" })
             <div class="col-md-6">
-                <div id="ListTT" ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2" >
+                <div id="ListTT" ng-cloak ng-controller="MuonSachChooseBookCtrlr" class="w3-card-2" >
                     <div class="w3-container w3-light-grey w3-padding-16">
                         @*<div class="w3-row w3-margin-top">
                             <div class="w3-col s10">
-                                <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding" style="height: 38px;outline: none;">
+                                <input id="idSach" placeholder="Nhập mã sách" ng-model="maKiemSoat" class="w3-input w3-border w3-padding" style="height: 38px;outline: none;">
                             </div>
                             <div class="w3-col s2">
                                 <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
@@ -82,7 +82,7 @@
 
                     <ul class="w3-ul">
                         <li ng-repeat="s in list" class="w3-padding-16" id="lstItem">
-                            <span>{{s.IdDauSach}} - {{s.TenSach}}</span>
+                            <span>{{s.MaKiemSoat}} - {{s.TenSach}}</span>
                             <input id="sach{{$index}}" type="number" min="0" step="1" ng-model="sachModel" value="{{s.SoLuongMuon}}" no-float ng-blur="updateNumber($index)"/>
                             <span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right">×</span>
                         </li>
@@ -132,74 +132,6 @@
             }
         });
 
-        function abc(sl) {
-            alert(sl);
-        }
-
-        var i = 0;
-        function add_list_ajax() {
-            var result = "";
-            result = $("#maSach").val();
-            console.log(result);
-            $.ajax({
-                type: "GET",
-                url: "@(Url.Action("_GetBookItemById", "PhieuMuon"))",
-                data: "idBook=" + result,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    AddOpt = new Option(data.TenSach, data.IdDauSach);
-                    document.getElementById("lstValue").options[i++] = AddOpt;
-                    $("#lstmaSach").add(data.TenSach)
-
-                    //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
-                    //$("#lstValue").append(kq);
-                },
-                error: function () { alert('False!'); }
-            });
-        }
-
-        function deleteValue() {
-            var s = 1;
-            var Index;
-            if (document.getElementById("lstValue").selectedIndex == -1) {
-                alert("Please select any item from the ListBox");
-                return true;
-            }
-            while (s > 0) {
-                Index = document.getElementById("lstValue").selectedIndex;
-                if (Index >= 0) {
-                    document.getElementById("lstValue").options[Index] = null;
-                    --i;
-                    $.ajax({
-                        type: "GET",
-                        url: "@(Url.Action("_Remove", "PhieuMuon"))",
-                        data: "idBook=" + result,
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            //   var kq = "<div style='color: #f00;'> " + data.IdDauSach + " " + data.TenSach + " </div>";
-                            //$("#lstValue").append(kq);
-                        },
-                        error: function () { alert('False!'); }
-                    });
-                }
-                else
-                    s = 0;
-            }
-            return true;
-        }
-
-        //$(function () {
-        //    $(".datepicker").datepicker({
-        //        showWeek: true,
-        //        dateFormat: "dd-mm-yy",
-        //        changeMonth: true,
-        //        changeYear: true,
-        //        yearRange: "-10:+1"
-        //    }).attr('readonly', 'readonly');
-        //});
-
         function OnChangeEvent() {
             var result = "";
             result = $("#idUser").val();
@@ -222,26 +154,20 @@
             });
         }
 
-        @*$(document).ready(function () {
-            $("#ngayPhaiTra").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: 'dd/mm/yy',
-                gotoCurrent: true,
-                maxDate: '@Html.Raw(ViewBag.MaxDate)'
-            });
-        });*@
 
 
         $(function () {
             $("#ngayPhaiTra").datepicker({
                 //showWeek: true,
                 dateFormat: "dd/mm/yy",
+                monthNames: ['Tháng 1', 'Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 1','Tháng 1','Tháng 1','Tháng 1','Tháng 1','Tháng 12',],
                 //monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 //changeMonth: true,
                 //changeYear: true,
                 //gotoCurrent: true,
-                //minDate: 0,
+                dayNamesMin: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+                minDate: 0,
+                maxDate: @Html.Raw(ViewBag.MaxDate),
             }).datepicker("setDate", new Date()).attr("readonly", "readonly");
         });
 
