@@ -666,8 +666,10 @@
     <Content Include="bower_components\angular-chart.js\README.md" />
     <Content Include="bower_components\Chart.js\.bower.json" />
     <Content Include="bower_components\Chart.js\bower.json" />
+    <None Include="Properties\PublishProfiles\Demo.pubxml" />
     <None Include="Properties\PublishProfiles\lbm.bitech.com.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
+    <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -690,7 +692,9 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\LibraryAngularJS.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
