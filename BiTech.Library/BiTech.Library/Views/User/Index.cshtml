@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-@using (Html.BeginForm("Search", "User", FormMethod.Post, new { role = "form" }))
+@using (Html.BeginForm("Search", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     <div class="form-group row">
         <label class="col-form-label col-sm-3" for="tensach">Mã thành viên</label>
@@ -15,8 +15,8 @@
 
     <div class="form-group row">
         <label class="col-form-label col-sm-3" for=""></label>
-        <div class="col-sm-9">
-            <input type="submit" value="Tạo " class="btn btn-primary" />
+        <div class="col-md-10">
+            <input type="submit" value="Tạo" class="btn btn-primary" />
         </div>
     </div>
 }
