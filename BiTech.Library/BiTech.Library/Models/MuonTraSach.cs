@@ -16,6 +16,9 @@ namespace BiTech.Library.Models
 
         [Required]
         [Display(Name = "Mã người mượn")]
+        /// <summary>
+        /// Ma SO Thanh Vien
+        /// </summary>
         public string IdUser { get; set; }
 
         [Required]

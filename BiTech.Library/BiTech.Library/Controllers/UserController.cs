@@ -51,7 +51,7 @@ namespace BiTech.Library.Controllers
             }
             else
             {
-                lstUser.Add(_ThanhVienLogic.GetByIdUser(IdUser));
+                lstUser.Add(_ThanhVienLogic.GetByMaSoThanhVien(IdUser));
             }
             return PartialView(lstUser);
 

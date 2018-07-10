@@ -766,6 +766,7 @@
     <Content Include="Views\NgonNgu\Index.cshtml" />
     <Content Include="Views\NgonNgu\Edit.cshtml" />
     <Content Include="Views\NgonNgu\Create.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

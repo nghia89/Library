@@ -1,7 +1,7 @@
 ﻿@model BiTech.Library.Models.PhieuMuonModelView
 
 @{
-    ViewBag.Title = "_CreatePhieuMuon";
+    ViewBag.Title = "Mượn Sách";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
@@ -20,7 +20,7 @@
 <hr />
 <div class="Title">Tạo phiếu mượn</div>
 <div ng-app="LibraryApp" class="container">
-    @using (Html.BeginForm("_CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("CreatePhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
 		
@@ -67,7 +67,7 @@
                         </div>*@
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Nhập mã sách" ng-model="idBook">
+                            <input type="text" class="form-control" placeholder="Nhập mã sách" ng-model="maKiemSoat">
                             <div class="input-group-append">
                                 <button class="btn btn-success" type="button" ng-click="addItem()">Thêm</button>
                             </div>

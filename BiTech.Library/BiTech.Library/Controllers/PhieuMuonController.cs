@@ -43,10 +43,11 @@ namespace BiTech.Library.Controllers
 
             foreach (var item in lstPhieuMuon)
             {
+                var tv = _ThanhVienLogic.GetById(item.IdUser);
                 _vmodel = new PhieuMuonModelView();
                 _vmodel.Id = item.Id;
-                _vmodel.IdUser = item.IdUser;
-                _vmodel.TenNguoiMuon = _ThanhVienLogic.GetByIdUser(item.IdUser).Ten;
+                _vmodel.IdUser = tv.MaSoThanhVien;
+                _vmodel.TenNguoiMuon = tv.Ten;
                 _vmodel.NgayMuon = item.NgayMuon;//.ToString("dd/MM/yyyy");
                 _vmodel.NgayPhaiTra = item.NgayPhaiTra;//.ToString("dd/MM/yyyy");
                 _vmodel.NgayTra = item.NgayTra;//?.ToString("dd/MM/yyyy");
@@ -117,6 +118,7 @@ namespace BiTech.Library.Controllers
             var _ChiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _ThongTinThuVienLogic = new ThongTinThuVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ViewBag.MaxDate = _ThongTinThuVienLogic.GetSoNgayMuonMax();
 
@@ -126,9 +128,10 @@ namespace BiTech.Library.Controllers
 
                 if (0 < days && days <= ViewBag.MaxDate) //ngày mượn phải nho hơn hoặc bằng số ngày được phép mượn
                 {
+                    var tv = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.IdUser);
                     PhieuMuon modelPM = new PhieuMuon()
                     {
-                        IdUser = viewModel.IdUser,
+                        IdUser = tv.Id,
                         NgayMuon = DateTime.Today, // luôn luôn đúng là ngày hôm nay. ko tính giờ
                         NgayPhaiTra = viewModel.NgayPhaiTra,
                         NgayTra = null,
@@ -223,14 +226,16 @@ namespace BiTech.Library.Controllers
             #endregion
 
             PhieuMuonLogic _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSucces = TempData["UnSuccess"];
             PhieuMuon us = _PhieuMuonLogic.GetById(id);
 
+            var tv = _ThanhVienLogic.GetById(us.IdUser);
             PhieuMuonModelView model = new PhieuMuonModelView()
             {
-                IdUser = us.IdUser,
+                IdUser = tv.MaSoThanhVien,
                 // TenNguoiMuon = us.,
                 NgayMuon = us.NgayMuon,//.ToString("dd/MM/yyyy"),
                 NgayPhaiTra = us.NgayPhaiTra,//.ToString("dd/MM/yyyy"),
@@ -367,7 +372,7 @@ namespace BiTech.Library.Controllers
             JsonResult result = new JsonResult();
             if (!String.IsNullOrWhiteSpace(idUser))
             {
-                var aaa = _ThanhVienLogic.GetByIdUser(idUser);
+                var aaa = _ThanhVienLogic.GetByMaSoThanhVien(idUser);
                 result.Data = aaa;
                 //lstSach.Add(idBook); // add item to list to get list idSach - inset chitietphieumuon
                 result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;

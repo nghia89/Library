@@ -35,9 +35,9 @@ namespace BiTech.Library.BLL.DBLogic
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ThanhVien GetByIdUser(string idUser)
+        public ThanhVien GetByMaSoThanhVien(string idUser)
         {
-            return _ThanhVienEngine.GetByIdUser(idUser);
+            return _ThanhVienEngine.GetByMaSoThanhVien(idUser);
         }
         /// <summary>
         /// Insert a ThanhVien object
