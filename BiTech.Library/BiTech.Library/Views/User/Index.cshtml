@@ -1,26 +1,21 @@
-@model  BiTech.Library.Models.UserViewModel
+﻿@model  BiTech.Library.Models.UserViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-@using (Html.BeginForm("Search", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    <div class="form-group row">
-        <label class="col-form-label col-sm-3" for="tensach">Mã thành viên</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control", onchange = "OnChangeEvent();"})
+<div class="Title">Thành viên</div>
+<div class="container">
+    @using (Html.BeginForm("Search", "User", FormMethod.Post, new { role = "form" }))
+    {
+        <div class="input-group mb-3">
+            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @class = "form-control", onchange = "OnChangeEvent();" })
+            <div class="input-group-append">
+                <input type="submit" value="Tạo" class="btn btn-primary" />
+            </div>
         </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="col-form-label col-sm-3" for=""></label>
-        <div class="col-md-10">
-            <input type="submit" value="Tạo" class="btn btn-primary" />
-        </div>
-    </div>
-}
-
+    }
+</div>
 @*@using (Html.BeginForm("Search", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
         <div class="row">
@@ -45,39 +40,37 @@
         </div>
     }*@
 
-<header id="topbar">
-    <h5>@Html.ActionLink("Create", "_CreateUser", "User")</h5>
-</header>
+<div id="topbar">
+    <h5>@Html.ActionLink("Thêm thành viên", "_CreateUser", "User", new { @class = "btn btn-primary" })</h5>
+</div>
 <h5 class="text-success">@ViewBag.Success</h5>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
 <div class="m10">
-    <div class="row">
-        @Html.Action("_PartialUser", "User", new { @IdUser = ViewBag.IdUser })
-    </div>
+    @Html.Action("_PartialUser", "User", new { @IdUser = ViewBag.IdUser })
 </div>
 
 @*@section Scripts{
-    <script>
-        function OnChangeEvent() {
-            var result = @Model;
-            console.log(result);
-            $.ajax({
-                type: "GET",
-                url: "@(Url.Action("Search", "User"))",
-                data: "model=" + result,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $("#idTen").val(data.Ten);
-                },
-                error: function () {
-                    alert('Mã thành viên không phù hợp');
-                    $("#idTen").val("");
-                    $("#idUser").val("");
-                }
+        <script>
+            function OnChangeEvent() {
+                var result = @Model;
+                console.log(result);
+                $.ajax({
+                    type: "GET",
+                    url: "@(Url.Action("Search", "User"))",
+                    data: "model=" + result,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#idTen").val(data.Ten);
+                    },
+                    error: function () {
+                        alert('Mã thành viên không phù hợp');
+                        $("#idTen").val("");
+                        $("#idUser").val("");
+                    }
 
-            });
-        }
-    </script>
-}*@
+                });
+            }
+        </script>
+    }*@
 

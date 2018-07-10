@@ -11,7 +11,7 @@
     </div>
     <div class="menu">
         <ul>
-            <li class="clearfix @((@action == "Sach") ? "action" : "") ">
+            <li class="clearfix @((@controller == "User") ? "action" : "") ">
                 <a href="javascript:void(0)" title="Quản lý thành viên">
                     <div class="icon">
                         <i class="fa fa-group"></i>
@@ -21,8 +21,8 @@
                     </div>
                 </a>
                 <ul>
-                    <li class="action">
-                        <a href="#" title="Thành viên">
+                    <li class="@((@action == "Index" ) ? "action" : "")">
+                        <a href="@Url.Action("index","User")" title="Thành viên">
                             Thành viên
                         </a>
                     </li>
