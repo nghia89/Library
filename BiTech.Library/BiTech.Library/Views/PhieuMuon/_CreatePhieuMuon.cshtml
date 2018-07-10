@@ -6,11 +6,11 @@
 }
 
 @*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>*@
-<script src="~/bower_components/jquery/dist/jquery.js"></script>
+@*<script src="~/bower_components/jquery/dist/jquery.js"></script>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">*@
 
 <div class="Title">Tạo phiếu mượn sách</div>
 
@@ -57,14 +57,22 @@
             <div class="col-md-6">
                 <div id="ListTT" ng-cloak ng-controller="AddBookCtrlr" class="w3-card-2" >
                     <div class="w3-container w3-light-grey w3-padding-16">
-                        <div class="w3-row w3-margin-top">
+                        @*<div class="w3-row w3-margin-top">
                             <div class="w3-col s10">
                                 <input id="idSach" placeholder="Nhập mã sách" ng-model="idBook" class="w3-input w3-border w3-padding" style="height: 38px;outline: none;">
                             </div>
                             <div class="w3-col s2">
                                 <a ng-click="addItem()" class="w3-btn w3-padding w3-blue">Thêm </a>
                             </div>
+                        </div>*@
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Nhập mã sách" ng-model="idBook">
+                            <div class="input-group-append">
+                                <button class="btn btn-success" type="button" ng-click="addItem()">Thêm</button>
+                            </div>
                         </div>
+
                         <p class="w3-text-red">{{errortext}}</p>
                     </div>
 
