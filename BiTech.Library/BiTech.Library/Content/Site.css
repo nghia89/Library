@@ -41,7 +41,7 @@ a:hover {
     display: inline-block;
 }
 
-.layout-content{
+.layout-content {
     padding: 15px;
 }
 
@@ -266,6 +266,7 @@ a:hover {
         min-height: 500px;
         margin-bottom: 50px;
         padding-bottom: 10px;
+        overflow: auto;
     }
 /*---End right---*/
 /*menu top*/
@@ -422,7 +423,7 @@ a:hover {
             display: block;
             max-height: 160px;
         }
-        
+
         .book_box .book_content .book_image object {
             width: 100%;
             max-width: 120px;

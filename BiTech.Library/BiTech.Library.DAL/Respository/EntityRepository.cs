@@ -24,14 +24,14 @@ namespace BiTech.Library.DAL.Respository
             _DatabaseCollection = _Database.GetCollection<T>(_TableName);
         }
 
-        public T GetById(string Id)
+        public virtual T GetById(string Id)
         {
             if (Id?.Length != 24)
                 return default(T);
             return _DatabaseCollection.Find(m => m.Id == Id).FirstOrDefault();
         }
 
-        public string Insert(T entity)
+        public virtual string Insert(T entity)
         {
             entity.Id = null;
             entity.CreateDateTime = DateTime.Now;
@@ -40,12 +40,12 @@ namespace BiTech.Library.DAL.Respository
             return entity.Id.ToString();
         }
 
-        public bool Remove(string id)
+        public virtual bool Remove(string id)
         {
             return _DatabaseCollection.DeleteOne(mbox => mbox.Id == id).DeletedCount > 0;
         }
 
-        public bool Update(T entity)
+        public virtual bool Update(T entity)
         {
             var updateResult = _DatabaseCollection.ReplaceOne<T>(m => m.Id == entity.Id, entity);
             return (updateResult.ModifiedCount > 0);

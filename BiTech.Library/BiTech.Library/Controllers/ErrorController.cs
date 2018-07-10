@@ -11,5 +11,13 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
+
+
+        [AllowAnonymous]
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+        
     }
 }

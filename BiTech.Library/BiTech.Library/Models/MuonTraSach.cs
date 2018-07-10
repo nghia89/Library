@@ -90,9 +90,11 @@ namespace BiTech.Library.Models
     public class ChiTietPhieuTraViewModel
     {
         public string IdPT { get; set; }
-
-        [Display(Name = "Mã sách")]
+        
         public string IdSach { get; set; }
+
+        [Display(Name = "Mã kiểm soát")]
+        public string MaKiemSoat { get; set; }
 
         [Display(Name = "Tên sách")]
         public string TenSach { get; set; }
@@ -121,9 +123,7 @@ namespace BiTech.Library.Models
     public class SachPreLoad
     {
         public string Id { get; set; }
-
-        public string IdDauSach { get; set; }
-
+        
         public string MaKiemSoat { get; set; }
 
         public string TenSach { get; set; }

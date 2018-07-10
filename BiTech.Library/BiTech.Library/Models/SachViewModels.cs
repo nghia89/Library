@@ -32,11 +32,7 @@ namespace BiTech.Library.Models
 
         [Required]
         public string TenSach { get; set; }
-
-
-        [Required]
-        public string IdDauSach { get; set; }
-
+        
         [Required]
         public string IdTheLoai { get; set; }
 
@@ -74,7 +70,6 @@ namespace BiTech.Library.Models
 
         [Required]
         public HttpPostedFileBase FileImageCover { get; set; }
-
     }
 
     public class ListBooksModel

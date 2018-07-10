@@ -19,6 +19,7 @@ namespace BiTech.Library.DTO
 
         public string IdPhieuTra { get; set; }
 
+        // IdSach trong DB
         public string IdSach { get; set; }
 
         public int SoLuong { get; set; }

@@ -79,7 +79,7 @@
     </tbody>
 </table>
 
-@Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page , idParent = ViewBag.idParent }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 @section scripts{
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@

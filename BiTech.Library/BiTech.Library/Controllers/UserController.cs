@@ -17,7 +17,7 @@ namespace BiTech.Library.Controllers
     public class UserController : BaseController
     {
         public UserController()
-        {          
+        {
         }
 
         // GET: User
@@ -28,7 +28,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-			
+
             if (String.IsNullOrEmpty(IdUser))
                 IdUser = "";
             ViewBag.IdUser = IdUser;
@@ -42,7 +42,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return null;
             #endregion
-			
+
             List<ThanhVien> lstUser = new List<ThanhVien>();
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             if (String.IsNullOrEmpty(IdUser))
@@ -86,7 +86,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            if(viewModel.MaSoThanhVien == null || viewModel.Ten == null || viewModel.Password == null)
+            if (viewModel.MaSoThanhVien == null || viewModel.Ten == null || viewModel.Password == null)
             {
                 TempData["IdUser"] = "Dữ liệu không phù hợp";
                 return View();
@@ -106,7 +106,7 @@ namespace BiTech.Library.Controllers
                 SDT = viewModel.SDT,
                 TrangThai = EUser.Active, // mac dinh la Active
                 CreateDateTime = DateTime.Now
-            };          
+            };
             //insert
             string id = _ThanhVienLogic.Insert(model);
             try
@@ -132,11 +132,13 @@ namespace BiTech.Library.Controllers
             }
             catch (Exception ex)
             {
-                
+                TempData["UnSuccess"] = "Tạo mã QR thất bại\r\n" + ex.Message;
+                return View();
             }
-            if(id == null || id == "")
+
+            if (id == null || id == "")
             {
-                //Fail              
+                //Fail
                 TempData["UnSuccess"] = "Thêm mới thất bại";
                 return View();
             }
@@ -164,9 +166,9 @@ namespace BiTech.Library.Controllers
                 Ten = us.Ten,
                 MaSoThanhVien = us.MaSoThanhVien,
                 CMND = us.CMND,
-                DiaChi  = us.DiaChi,
+                DiaChi = us.DiaChi,
                 SDT = us.SDT,
-                TrangThai = us.TrangThai,                
+                TrangThai = us.TrangThai,
             };
             return View(model);
         }
@@ -183,22 +185,22 @@ namespace BiTech.Library.Controllers
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             var model = _ThanhVienLogic.GetById(id); //lay 1 tai khoan 
-                model.Ten = viewModel.Ten;
-                model.MaSoThanhVien = viewModel.MaSoThanhVien;
-                model.CMND = viewModel.CMND;
-                model.DiaChi = viewModel.DiaChi;
-                model.SDT = viewModel.SDT;
-                model.TrangThai = viewModel.TrangThai;
+            model.Ten = viewModel.Ten;
+            model.MaSoThanhVien = viewModel.MaSoThanhVien;
+            model.CMND = viewModel.CMND;
+            model.DiaChi = viewModel.DiaChi;
+            model.SDT = viewModel.SDT;
+            model.TrangThai = viewModel.TrangThai;
 
-                //Cap nhat voi tai khoan moi
-                bool result = _ThanhVienLogic.Update(model);
-                if (result == true)
-                {
-                    TempData["Success"] = "Cập nhật thành công";
-                    return RedirectToAction("Index", "User");
-                }
-                else
-                    TempData["UnSuccess"] = "Cập nhật không thành công";    
+            //Cap nhat voi tai khoan moi
+            bool result = _ThanhVienLogic.Update(model);
+            if (result == true)
+            {
+                TempData["Success"] = "Cập nhật thành công";
+                return RedirectToAction("Index", "User");
+            }
+            else
+                TempData["UnSuccess"] = "Cập nhật không thành công";
             return View();
         }
 
@@ -222,7 +224,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("Index", "User");
             }
             else
-                TempData["Success"] = "Xóa thất bại";          
+                TempData["Success"] = "Xóa thất bại";
             return View();
         }
         /// <summary>
@@ -230,9 +232,9 @@ namespace BiTech.Library.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ActionResult Search(UserViewModel model  )
+        public ActionResult Search(UserViewModel model)
         {
             return RedirectToAction("Index", new { @IdUser = model.MaSoThanhVien });
-        }        
+        }
     }
 }

@@ -23,8 +23,9 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime NgayXuat { get; set; }
 
-
         public string IdUserAdmin { get; set; }
+
+        public string UserName { get; set; }
 
         public string GhiChu { get; set; }
 

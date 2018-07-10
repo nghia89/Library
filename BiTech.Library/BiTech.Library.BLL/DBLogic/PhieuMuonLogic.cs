@@ -139,7 +139,7 @@ namespace BiTech.Library.BLL.DBLogic
             // Tính số sách đã được trả
             foreach (var book in detail.BookList)
             {
-                book.TenSach = _SachEngine.GetByIdBook(book.IdSach).TenSach;
+                book.TenSach = _SachEngine.GetById(book.IdSach).TenSach;
 
                 foreach (var ct in allPhieuTra_bookList)
                 {

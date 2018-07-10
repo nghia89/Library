@@ -11,7 +11,7 @@
     </div>
     <div class="menu">
         <ul>
-            <li class="clearfix @((@action == "Sach") ? "action" : "") ">
+            <li class="clearfix @((@controller == "User") ? "action" : "") ">
                 <a href="javascript:void(0)" title="Quản lý thành viên">
                     <div class="icon">
                         <i class="fa fa-group"></i>
@@ -21,8 +21,8 @@
                     </div>
                 </a>
                 <ul>
-                    <li class="action">
-                        <a href="#" title="Thành viên">
+                    <li class="@((@action == "Index" ) ? "action" : "")">
+                        <a href="@Url.Action("index","User")" title="Thành viên">
                             Thành viên
                         </a>
                     </li>
@@ -33,7 +33,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="clearfix @((@controller == "Sach" || @controller == "TheLoaiSach" || @controller == "Kesach" || @controller == "TacGia" || @controller == "NhaXuatBan" || @controller == "TrangThaiSach") ? "action" : "")">
+            <li class="clearfix @((@controller == "Sach" || @controller == "TheLoaiSach" || @controller == "Kesach" || @controller == "TacGia" || @controller == "NhaXuatBan" || @controller == "NgonNgu" || @controller == "TrangThaiSach") ? "action" : "")">
                 <a href="javascript:void(0)" title="Quản lý thông tin sách">
                     <div class="icon">
                         <i class="fa fa-book"></i>
@@ -66,6 +66,11 @@
                     <li class="@(( @controller == "NhaXuatBan") ? "action" : "")">
                         <a href="@Url.Action("Index","NhaXuatBan")" title="Nhà xuất bản">
                             Nhà xuất bản
+                        </a>
+                    </li>
+                    <li class="@((@controller == "NgonNgu" ) ? "action" : "")">
+                        <a href="@Url.Action("Index","NgonNgu")" title="Tác giả">
+                            Ngôn ngữ
                         </a>
                     </li>
                     <li class="@(( @controller == "TrangThaiSach") ? "action" : "")">
@@ -124,7 +129,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="clearfix">
+            <li class="clearfix @((@controller == "Statistic" ||@controller == "DanhSachMuon" || @controller == "DanhSachChuaTra" || @controller == "DanhSachTra"|| @controller == "LichSuMuonSach") ? "action" : "")">
                 <a href="javascript:void(0)" title="Thống kê">
                     <div class="icon">
                         <i class="fa fa-bar-chart-o"></i>
@@ -135,22 +140,27 @@
                 </a>
                 <ul>
                     <li>
-                        <a href="#" title="Danh sách mượn">
+                        <a href="@Url.Action("Index","Statistic")" title="Biểu đồ thống kê">
+                            Biểu đồ thống kê
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("DanhSachMuon","ThongKe")" title="Danh sách mượn">
                             Danh sách mượn
                         </a>
                     </li>
                     <li>
-                        <a href="#" title="Danh sách chưa trả">
+                        <a href="@Url.Action("DanhSachChuaTra","ThongKe")" title="Danh sách chưa trả">
                             Danh sách chưa trả
                         </a>
                     </li>
                     <li>
-                        <a href="#" title="Danh sách trả">
+                        <a href="@Url.Action("DanhSachTra","ThongKe")" title="Danh sách trả">
                             Danh sách trả
                         </a>
                     </li>
                     <li>
-                        <a href="#" title="Lịch sử mượn sách">
+                        <a href="@Url.Action("LichSuMuonSach","ThongKe")" title="Lịch sử mượn sách">
                             Lịch sử mượn sách
                         </a>
                     </li>

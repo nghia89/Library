@@ -714,9 +714,8 @@
     <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\User\_Edit.cshtml" />
     <Content Include="Views\PhieuMuon\Index.cshtml" />
-    <Content Include="Views\PhieuMuon\_PartialPhieuMuon.cshtml" />
-    <Content Include="Views\PhieuMuon\_CreatePhieuMuon.cshtml" />
-    <Content Include="Views\PhieuMuon\_EditPhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\CreatePhieuMuon.cshtml" />
+    <Content Include="Views\PhieuMuon\EditPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\ChiTietPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\GiaHanPhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />

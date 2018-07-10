@@ -72,8 +72,8 @@
 
                     @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
                     @*<div class="form-group">
-                            @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauSach"),
-                                 new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauSach as s.TenSach for s in list" })
+                            @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauxSach"),
+                                 new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauxSach as s.TenSach for s in list" })
                         </div>*@
                 </div>
                 <div ng-cloak ng-controller="ExportBookCtrlr" class="w3-card-2 w3-margin" style="max-width:600px;">
@@ -82,8 +82,8 @@
 
                     @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
                     @*<div class="form-group">
-                            @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauSach"),
-                                 new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauSach as s.TenSach for s in list" })
+                            @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauxSach"),
+                                 new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauxSach as s.TenSach for s in list" })
                         </div>*@
                 </div>
             </div>
@@ -99,33 +99,27 @@
 
 @section scripts{
     <script type="text/javascript" language="javascript">
-                                $(document).ready(function () {
-                                    $("#idSach").autocomplete({
-                                        source: function (request, response) {
-                                            $.ajax({
-                                                url: "/PhieuNhapSach/AutoComplete",
-                                                dataType: "json",
-                                                method: "post",
-                                                data: { a: request.term },
-                                                success: function (data) {
-                                                    response($.map(data, function (item) {
-                                                        return { label: item.IdDauSach, value: item.IdDauSach };
-                                                    }))
+        $(document).ready(function () {
+            $("#idSach").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/PhieuNhapSach/AutoComplete",
+                        dataType: "json",
+                        method: "post",
+                        data: { a: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.MaKiemSoat, value: item.MaKiemSoat };
+                            }))
 
-                                                }
-                                            })
-                                        },
-                                        messages: {
-                                            noResults: "", results: ""
-                                        }
-                                    });
-                                })
-
-                                @*$(document).ready(function () {
-        $('#IdDauSach').autocomplete({
-            source: '@Url.Action("Autocomplete")'
-        });
-    })*@
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        })
     </script>
 }
 
