@@ -23,6 +23,7 @@ namespace BiTech.Library.Controllers
         // GET: User
         public ActionResult Index(string IdUser)
         {
+            ViewBag.SearchFail = TempData["SearchFail"];
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
@@ -51,7 +52,15 @@ namespace BiTech.Library.Controllers
             }
             else
             {
-                lstUser.Add(_ThanhVienLogic.GetByMaSoThanhVien(IdUser));
+                if (_ThanhVienLogic.GetByMaSoThanhVien(IdUser) != null)
+                {
+                    lstUser.Add(_ThanhVienLogic.GetByMaSoThanhVien(IdUser));
+                }
+                else
+                {
+                    ViewBag.SearchFail = TempData["SearchFail"] = "Tìm kiếm thất bại";
+                    lstUser = _ThanhVienLogic.GetAll();
+                }
             }
             return PartialView(lstUser);
 
@@ -109,7 +118,7 @@ namespace BiTech.Library.Controllers
             };
             // Kiem tra trung ma thanh vien
             var idMaThanhVien = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.MaSoThanhVien);
-            if (String.IsNullOrWhiteSpace(idMaThanhVien.MaSoThanhVien))
+            if (idMaThanhVien == null)
             {
                 //insertl
                 string id = _ThanhVienLogic.Insert(model);
@@ -143,15 +152,15 @@ namespace BiTech.Library.Controllers
                 if (id == null || id == "")
                 {
                     //Fail
-                    TempData["UnSuccess"] = "Thêm mới thất bại";
+                    ViewBag.UnSuccess = TempData["UnSuccess"] = "Thêm mới thất bại";
                     return View();
                 }
                 else
-                    TempData["Success"] = "Thêm mới thành công";
+                    ViewBag.Success = "Thêm mới thành công";
             }
             else
             {
-                TempData["Duplicate"] = "Trùng mã";
+                ViewBag.Duplicate = TempData["Duplicate"] = "Trùng mã";
                 return View();
             }
             return RedirectToAction("Index", "User");
