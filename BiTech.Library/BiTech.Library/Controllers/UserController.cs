@@ -165,28 +165,23 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            try
-            {
-                var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-                ViewBag.Success = TempData["Success"];
-                ViewBag.UnSucces = TempData["UnSuccess"];
-                ThanhVien us = _ThanhVienLogic.GetById(id);
-                UserViewModel model = new UserViewModel()
-                {
-                    Ten = us.Ten,
-                    MaSoThanhVien = us.MaSoThanhVien,
-                    CMND = us.CMND,
-                    DiaChi = us.DiaChi,
-                    SDT = us.SDT,
-                    TrangThai = us.TrangThai,
-                };
-                return View(model);
-            }
-            catch (Exception)
-            {
+            ViewBag.Success = TempData["Success"];
+            ViewBag.UnSucces = TempData["UnSuccess"];
+            ThanhVien us = _ThanhVienLogic.GetById(id);
+            if (us == null)
                 return RedirectToAction("NotFound", "Error");
-            }          
+            UserViewModel model = new UserViewModel()
+            {
+                Ten = us.Ten,
+                MaSoThanhVien = us.MaSoThanhVien,
+                CMND = us.CMND,
+                DiaChi = us.DiaChi,
+                SDT = us.SDT,
+                TrangThai = us.TrangThai,
+            };
+            return View(model);
         }
 
         [HttpPost]
