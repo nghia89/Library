@@ -60,13 +60,19 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+            try
+            {
+                LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                var model = _LanguageLogic.GetById(Id);
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var model = _LanguageLogic.GetById(Id);
-
-            if (model == null)
-                return RedirectToAction("Index");
-            return View(model);
+                if (model == null)
+                    return RedirectToAction("Index");
+                return View(model);
+            }
+            catch (System.Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }            
         }
 
         [HttpPost]

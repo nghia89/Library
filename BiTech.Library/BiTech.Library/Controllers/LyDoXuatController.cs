@@ -22,7 +22,7 @@ namespace BiTech.Library.Controllers
             #endregion
 
             LyDoXuatLogic _LyDoLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-           
+
             int PageSize = 10;
             int PageNumber = (page ?? 1);
             var lst = _LyDoLogic.GetAll();
@@ -32,14 +32,14 @@ namespace BiTech.Library.Controllers
                 LyDoXuatViewModel ld = new LyDoXuatViewModel()
                 {
                     Id = item.Id,
-                  LyDo=item.LyDo
+                    LyDo = item.LyDo
 
                 };
                 lstld.Add(ld);
             }
 
             return View(lstld.OrderBy(x => x.LyDo).ToPagedList(PageNumber, PageSize));
-          
+
 
             return View();
         }
@@ -68,15 +68,22 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var lydo = _LyDoXuatLogic.GetById(id);
-            LyDoXuatViewModel ld = new LyDoXuatViewModel()
+            try
             {
-                Id = lydo.Id,
-                LyDo=lydo.LyDo
-            };
-            return View(ld);
+                LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                var lydo = _LyDoXuatLogic.GetById(id);
+                LyDoXuatViewModel ld = new LyDoXuatViewModel()
+                {
+                    Id = lydo.Id,
+                    LyDo = lydo.LyDo
+                };
+                return View(ld);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+
         }
         [HttpPost]
         public ActionResult Edit(LyDoXuat ldx)

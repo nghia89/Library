@@ -30,10 +30,10 @@ namespace BiTech.Library.BLL.DBLogic
 
         private string TableName6 = "PhieuTra";
         PhieuTraEngine _phieuTraEngine;
-         
+
         private string TableName7 = "ChiTietPhieuTra";
-        ChiTietPhieuTraEngine _chiTietPhieuTraEngine;       
-     
+        ChiTietPhieuTraEngine _chiTietPhieuTraEngine;
+
         public ThongKeLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString);
@@ -44,61 +44,63 @@ namespace BiTech.Library.BLL.DBLogic
             _sachEngine = new SachEngine(database, databaseName, TableName3);
             _thanhVienEngine = new ThanhVienEngine(database, databaseName, TableName4);
             _trangThaiSachEngine = new TrangThaiSachEngine(database, databaseName, TableName5);
-            _phieuTraEngine=new PhieuTraEngine(database, databaseName, TableName6);
-            _chiTietPhieuTraEngine=new ChiTietPhieuTraEngine(database, databaseName, TableName7);
+            _phieuTraEngine = new PhieuTraEngine(database, databaseName, TableName6);
+            _chiTietPhieuTraEngine = new ChiTietPhieuTraEngine(database, databaseName, TableName7);
 
             var ngayMuon = DateTime.ParseExact("26-02-2017", "dd-MM-yyyy", null);
-            var ngayPhaiTra = DateTime.ParseExact("26-08-2018", "dd-MM-yyyy",null);
+            var ngayPhaiTra = DateTime.ParseExact("26-08-2018", "dd-MM-yyyy", null);
             var ngayTra = DateTime.ParseExact("25-04-2017", "dd-MM-yyyy", null);
-
-
         }
-
+        // PHIẾU MƯỢN
         public List<PhieuMuon> GetAllPhieuMuon()
         {
             return _thongKeEngine.ListPhieuMuon();
         }
-        public List<PhieuMuon>GetPMByIdThanhVien(string idThanhVien)
+        public List<PhieuMuon> GetPMByIdThanhVien(string maSoThanhVien)
         {
-            return _phieuMuonEngine.GetPMByIdUser(idThanhVien);
+            return _phieuMuonEngine.GetPMByIdUser(maSoThanhVien);
         }
         public List<PhieuMuon> GetPMByNgayMuon(DateTime ngayMuon)
         {
             return _thongKeEngine.GetPMByNgayMuon(ngayMuon);
         }
 
-        public Sach GetSachById(string idSach)
-        {
-            return _sachEngine.GetById(idSach);
-        }
-
-        public Sach GetSachByMaKiemSoat(string maKS)
-        {
-            return _sachEngine.GetByMaKiemSoat(maKS);
-        }
-
+        // CHI TIẾT PHIẾU MƯỢN
         public List<ChiTietPhieuMuon> GetCTPMById(string idPhieuMuon)
         {
             return _chiTietPhieuMuon.GetCTPMbyId(idPhieuMuon);
         }
 
-        public ThanhVien GetThanhVienById(string idThanhVien)
-        {                    
-            return _thanhVienEngine.GetByIdUser(idThanhVien);
+        // SÁCH
+        public Sach GetSachById(string idSach)
+        {
+            return _sachEngine.GetById(idSach);
         }
-       
+        //public Sach GetSachByMaKiemSoat(string maKS)
+        //{
+        //    return _sachEngine.GetByMaKiemSoat(maKS);
+        //}
 
-        // Danh mục trả sách
+        // THÀNH VIÊN 
+        //public ThanhVien GetThanhVienByMSTV(string MaSoThanhVien)
+        //{
+        //    return _thanhVienEngine.GetByMaSoThanhVien(MaSoThanhVien);
+        //}
+        public ThanhVien GetThanhVienById(string idThanhVien)
+        {
+            return _thanhVienEngine.GetById(idThanhVien);
+        }
+
+        // DANH MỤC TRẢ SÁCH
         public List<PhieuTra> GetPTByIdPM(string idPhieuMuon)
         {
             return _phieuTraEngine.GetPTByIdPM(idPhieuMuon);
         }
-
         public List<ChiTietPhieuTra> GetCTPTByIdPT(string idPhieuTra)
         {
             return _chiTietPhieuTraEngine.GetCTPTByIdPT(idPhieuTra);
         }
 
-             
+
     }
 }

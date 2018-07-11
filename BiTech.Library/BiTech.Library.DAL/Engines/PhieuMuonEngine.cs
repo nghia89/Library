@@ -37,9 +37,9 @@ namespace BiTech.Library.DAL.Engines
         //public List<PhieuMuon> GetByDate()
 
         #region Tai
-        public List<PhieuMuon> GetPMByIdUser(string idUser)
+        public List<PhieuMuon> GetPMByIdUser(string maSoThanhVien)
         {
-            return _DatabaseCollection.Find(_ => _.IdUser == idUser).ToList();
+            return _DatabaseCollection.Find(_ => _.IdUser == maSoThanhVien).ToList();
         }
         #endregion
     }

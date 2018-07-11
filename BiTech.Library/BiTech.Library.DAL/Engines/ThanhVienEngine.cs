@@ -29,7 +29,7 @@ namespace BiTech.Library.DAL.Engines
         /// </summary>
         /// <param name="idUser"></param>
         /// <returns></returns>
-        public ThanhVien GetByIdUser(string idUser)
+        public ThanhVien GetByMaSoThanhVien(string idUser)
         {
             return _DatabaseCollection.Find(_ => _.MaSoThanhVien == idUser).FirstOrDefault();
         }
