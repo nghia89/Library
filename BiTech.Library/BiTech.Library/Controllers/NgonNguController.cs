@@ -4,13 +4,15 @@ using BiTech.Library.Models;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web;
+using System.Linq;
+using PagedList;
 using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
     public class NgonNguController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -19,9 +21,13 @@ namespace BiTech.Library.Controllers
             #endregion
 
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+
             List<Language> list = _LanguageLogic.GetAll();
 
-            return View(list);
+            return View(list.OrderBy(m => m.Ten).ToPagedList(PageNumber, PageSize));
         }
 
         public ActionResult Create()
@@ -65,7 +71,7 @@ namespace BiTech.Library.Controllers
             var model = _LanguageLogic.GetById(Id);
 
             if (model == null)
-                return RedirectToAction("Index");
+                return RedirectToAction("NotFound", "Error");
             return View(model);
         }
 

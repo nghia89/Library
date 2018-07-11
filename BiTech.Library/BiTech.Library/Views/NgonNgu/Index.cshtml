@@ -1,34 +1,35 @@
-﻿@model IEnumerable<BiTech.Library.DTO.Language>
+﻿@model PagedList.IPagedList<BiTech.Library.DTO.Language>
+@using PagedList.Mvc
+
 @{
     ViewBag.Title = "Danh Sách Ngôn Ngữ";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <div class="Title">Danh Sách Ngôn Ngữ</div>
-<div class="container clearfix">
 
-    <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
-    <div class="book_content clearfix">
-        <table class="table table-hover table-bordered" border="1">
-            <thead>
-                <tr class="table-info">
-                    <th>Tên</th>
-                    <th>Tên ngắn</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
+<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
+
+<table class="table table-hover table-bordered" border="1">
+    <thead>
+        <tr class="table-info">
+            <th>Tên</th>
+            <th>Tên ngắn</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
             {
-                    <tr>
-                        <td>@item.Ten</td>
-                        <td>@item.TenNgan</td>
-                        <td><a class="color-white btn btn-outline-primary" href="@Url.Action("Edit","NgonNgu", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <a href="@Url.Action("Create")" class="btn btn-primary">Thêm Mới</a>
+            <tr>
+                <td>@item.Ten</td>
+                <td>@item.TenNgan</td>
+                <td><a class="color-white btn btn-outline-primary" href="@Url.Action("Edit","NgonNgu", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
 
 
