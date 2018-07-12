@@ -383,9 +383,7 @@ namespace BiTech.Library.Controllers
                 lsoNguoiKhongTraTrongNgay = soNguoiKhongTraTrongThang,
                 lsoNguoiTraTreTrongNgay = soNguoiTraTreTrongThang
             };
-            // Tháng, năm       
-            ViewBag.Month = month;//!= null ? month : 1;
-            ViewBag.Year = year;// != null ? year : DateTime.Now.Year;
+
             result.Data = model;
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 

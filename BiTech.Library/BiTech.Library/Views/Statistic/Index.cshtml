@@ -6,25 +6,6 @@
 @{
     ViewBag.Title = "BieuDoPhieuMuon";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-
-
-    var months = DateTimeFormatInfo
-    .InvariantInfo
-    .MonthNames
-    .TakeWhile(monthName => monthName != String.Empty)
-    .Select((monthName, index) => new SelectListItem
-    {
-        Value = (index + 1).ToString(CultureInfo.InvariantCulture),
-        Text = string.Format("({0}) {1}", index + 1, monthName)
-    });
-
-    var years = Enumerable
-    .Range(2017, 10)
-    .Select(year => new SelectListItem
-    {
-        Value = year.ToString(CultureInfo.InvariantCulture),
-        Text = year.ToString(CultureInfo.InvariantCulture)
-    });
 }
 
 
@@ -54,8 +35,8 @@
                 <div class="col-md-10 col-xs-3">
                     <div style="padding-bottom: 12px; float:left" class="col-md-3" >
                         <div class="col-md-1 text-right"><h5>Tháng</h5></div>
-                        <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()" ng-valid-parse>
-                            <option value="">---chon tháng---</option>
+                        <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()">
+                            <option value="">---chon tháng ---</option>
                             @for (int i = 1; i <= 12; i++)
                             {
                                 <option value="@i">tháng @i</option>
@@ -65,7 +46,7 @@
                    
                     <div style="padding-bottom: 12px; float:left" class="col-md-3">
                         <div class="col-md-1 text-right"><h5>Năm</h5></div>
-                        <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()" ng-valid-parse>
+                        <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()">
                             <option value="">---chon năm---</option>
                             @for (int i = 2017; i <= DateTime.Now.Year; i++)
                             {
@@ -85,16 +66,17 @@
                         <canvas id="line" class="chart chart-line "
                                 chart-data="chartdataMonth" chart-labels="labels" chart-colors="colors"
                                 chart-series="series" chart-options="options" chart-legend="true" chart-dataset-override="datasetOverride"></canvas>
+                        <div ng-if="loading" >
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4">
+                                <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                            </div>
+                            <span style="color: crimson;">bạn vui lòng chọn tháng thống kê để tải dữ liệu.?</span>
+                            <div class="col-xs-4"></div>
+                        </div>
                     </div>
                 </div>
-                <div ng-if="loading" style="margin-left: 375px;">
-                    <div class="col-xs-4"></div>
-                    <div class="col-xs-4">
-                        <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
-                    </div>
-                    <span style="color: crimson;">bạn vui lòng chọn tháng thống kê để tải dữ liệu.?</span>
-                    <div class="col-xs-4"></div>
-                </div>
+               
             </div>
 
         </div>
@@ -136,16 +118,18 @@
                                 chart-data="chartdataYear" chart-labels="labels" chart-colors="colors"
                                 chart-series="series" chart-options="options" chart-legend="true"
                                 chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
+
+                        <div ng-if="loading">
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4">
+                                <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                            </div>
+                            <span style="color: crimson;">bạn vui lòng chọn năm thống kê để tải dữ liệu.?</span>
+                            <div class="col-xs-4"></div>
+                        </div>
                     </div>
 
-                    <div ng-if="loading" style="margin-left: 375px;">
-                        <div class="col-xs-4"></div>
-                        <div class="col-xs-4">
-                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
-                        </div>
-                        <span style="color: crimson;">bạn vui lòng chọn năm thống kê để tải dữ liệu.?</span>
-                        <div class="col-xs-4"></div>
-                    </div>
+                   
                 </div>
 
 

@@ -11,39 +11,34 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
     Chart.defaults.global.colors = [
       {
           backgroundColor: 'rgba(255, 255, 255, 0)',
-          pointBackgroundColor: 'rgba(0, 199, 0, 0.97)',
           pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(0, 8, 245, 1',
-          pointBorderColor: '#fff',
-          pointHoverBorderColor: 'rgba(151,187,205,1)'
+          pointBorderColor: '#212529',
+          //pointHoverBorderColor: 'rgba(151,187,205,1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
-          pointBackgroundColor: 'rgba(0, 199, 0, 0.97)',
           pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(171, 0, 245, 1',
-          pointBorderColor: '#fff',
-          pointHoverBorderColor: 'rgba((0, 8, 245, 1)'
+          pointBorderColor: '#212529',
+          //pointHoverBorderColor: 'rgba((0, 8, 245, 1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
-          pointBackgroundColor: 'rgba(229, 229, 229, 1)',
           pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(0, 199, 0, 0.97',
-          pointBorderColor: '#fff',
-          pointHoverBorderColor: 'rgba(151,187,205,1)'
+          pointBorderColor: '#212529',
+          //pointHoverBorderColor: 'rgba(151,187,205,1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
-          pointBackgroundColor: 'rgba(229, 229, 229, 1)',
           pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(245, 0, 41, 1',
-          pointBorderColor: '#fff',
-          pointHoverBorderColor: 'rgba(151,187,205,1)'
+          pointBorderColor: '#212529',
+          //pointHoverBorderColor: 'rgba(151,187,205,1)'
       }, {
           backgroundColor: 'rgba(255, 255, 255, 0)',
-          pointBackgroundColor: 'rgba(229, 229, 229, 1)',
           pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
           borderColor: 'rgba(0, 0, 0, 0.97',
-          pointBorderColor: '#fff',
-          pointHoverBorderColor: 'rgba(151,187,205,1)'
+          pointBorderColor: '#212529',
+          //pointHoverBorderColor: 'rgba(151,187,205,1)'
       }];
     $scope.loading = true;
   
@@ -104,11 +99,14 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
                 }
 
             })
+            var date = new Date();
+            var year = date.getFullYear();
+            $scope.selectYear = year.toString();
+
             $scope.year = function () {
                 KeyYear = $scope.selectYear;
                 $scope.Year = KeyYear;
-                getStatistic();
-                $scope.loading = false;
+                getStatistic();           
             }
            
         }
@@ -120,6 +118,7 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
 
 app.controller('MonthCtroller', function ($scope, $http, $location) {
+
 
     $scope.labels = ['Ngày 01', 'Ngày 02', 'Ngày 03', 'Ngày 04', 'Ngày 05', ' Ngày 06', 'Ngày 07', 'Ngày 08', 'Ngày 09', ' Ngày 10', 'Ngày 11', 'Ngày 12',
     'Ngày 03', 'Ngày 14', 'Ngày 14', 'Ngày 16', 'Ngày 17', ' Ngày 18', 'Ngày 19', 'Ngày 20', 'Ngày 21', ' Ngày 22', 'Ngày 23', 'Ngày 24',
@@ -141,8 +140,6 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
 
 
     function getStatisticMonth() {
-
-
         var config = {
             param: {
                 //mm/dd/yyyy
@@ -156,7 +153,6 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
             url: "/Statistic/BieuDoPhieuMuon?&month=" + config.param.month + "&year=" + config.param.year,
         }).then(function (response) {
             if (response.data) {
-
                 var chartData1 = [];
 
                 var lsoPMTrongNgay = [];
@@ -201,8 +197,13 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
         })
     }
 
-    $scope.GetData = function () {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    $scope.selected1 = month.toString();
+    $scope.selected2 = year.toString();
 
+    $scope.GetData = function () {  
         langKey1 = $scope.selected1;
         $scope.Keymonth = langKey1;
 
