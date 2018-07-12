@@ -28,7 +28,7 @@ namespace BiTech.Library.Controllers
             int PageNumber = (page ?? 1);
             var lst = _TacGiaLogic.GetAllTacGia();
             List<TacGiaViewModel> lsttg = new List<TacGiaViewModel>();
-            foreach(var item in lst)
+            foreach (var item in lst)
             {
                 TacGiaViewModel tg = new TacGiaViewModel()
                 {
@@ -39,8 +39,8 @@ namespace BiTech.Library.Controllers
                 };
                 lsttg.Add(tg);
             }
-          
-            return View(lsttg.OrderBy(m=>m.TenTacGia).ToPagedList(PageNumber, PageSize));
+
+            return View(lsttg.OrderBy(m => m.TenTacGia).ToPagedList(PageNumber, PageSize));
         }
         public ActionResult Create()
         {
@@ -67,24 +67,18 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            try
-            {
-                TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                var tacgia = _TacGiaLogic.GetById(id);
-                TacGiaViewModel tg = new TacGiaViewModel()
-                {
-                    TenTacGia = tacgia.TenTacGia,
-                    QuocTich = tacgia.QuocTich,
-                    MoTa = tacgia.MoTa,
-                    Id = tacgia.Id
-                };
-                return View(tg);
-            }
-            catch (Exception)
-            {
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var tacgia = _TacGiaLogic.GetById(id);
+            if (tacgia == null)
                 return RedirectToAction("NotFound", "Error");
-            }
-           
+            TacGiaViewModel tg = new TacGiaViewModel()
+            {
+                TenTacGia = tacgia.TenTacGia,
+                QuocTich = tacgia.QuocTich,
+                MoTa = tacgia.MoTa,
+                Id = tacgia.Id
+            };
+            return View(tg);
         }
         [HttpPost]
         public ActionResult Edit(TacGia tacgia)

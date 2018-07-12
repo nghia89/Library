@@ -17,7 +17,7 @@ namespace BiTech.Library.Controllers
     public class PhieuMuonController : BaseController
     {
         // GET: PhieuMuon
-        public ActionResult Index(string IdUser)
+        public ActionResult Index(PhieuTraViewModel IdUser)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -29,13 +29,13 @@ namespace BiTech.Library.Controllers
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             List<PhieuMuon> lstPhieuMuon = new List<PhieuMuon>();
-            if (string.IsNullOrEmpty(IdUser))
+            if (string.IsNullOrEmpty(IdUser.IdNguoiMuon))
             {
                 lstPhieuMuon = _PhieuMuonLogic.GetAll();
             }
             else
             {
-                lstPhieuMuon = _PhieuMuonLogic.GetByIdUser(IdUser);
+                lstPhieuMuon = _PhieuMuonLogic.GetByIdUser(IdUser.IdNguoiMuon);
             }
 
             PhieuMuonModelView _vmodel;
@@ -43,7 +43,7 @@ namespace BiTech.Library.Controllers
 
             foreach (var item in lstPhieuMuon)
             {
-                var tv = _ThanhVienLogic.GetById(item.IdUser);
+                var tv = _ThanhVienLogic.GetByMaSoThanhVien(item.IdUser);
                 _vmodel = new PhieuMuonModelView();
                 _vmodel.Id = item.Id;
                 _vmodel.IdUser = tv.MaSoThanhVien;
@@ -69,7 +69,7 @@ namespace BiTech.Library.Controllers
             }
             return View(vmodel);
         }
-        
+
         public ActionResult CreatePhieuMuon()
         {
             #region  Lấy thông tin người dùng
@@ -82,9 +82,9 @@ namespace BiTech.Library.Controllers
             ViewBag.UnSuccess = TempData["UnSuccess"] = "";
             ViewBag.SoLuong = TempData["SoLuong"] = "";
             ViewBag.Date = TempData["Date"] = "";
-            
+
             var _ThongTinThuVienLogic = new ThongTinThuVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            
+
             PhieuMuonModelView model = new PhieuMuonModelView()
             {
                 NgayPhaiTra = DateTime.Today.AddDays(1),
@@ -131,7 +131,7 @@ namespace BiTech.Library.Controllers
                     var tv = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.IdUser);
                     PhieuMuon modelPM = new PhieuMuon()
                     {
-                        IdUser = tv.Id,
+                        IdUser = tv.MaSoThanhVien,
                         NgayMuon = DateTime.Today, // luôn luôn đúng là ngày hôm nay. ko tính giờ
                         NgayPhaiTra = viewModel.NgayPhaiTra,
                         NgayTra = null,
@@ -224,31 +224,25 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            try
-            {
-                PhieuMuonLogic _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            PhieuMuonLogic _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-                ViewBag.Success = TempData["Success"];
-                ViewBag.UnSucces = TempData["UnSuccess"];
-                PhieuMuon us = _PhieuMuonLogic.GetById(id);
-
-                var tv = _ThanhVienLogic.GetById(us.IdUser);
-                PhieuMuonModelView model = new PhieuMuonModelView()
-                {
-                    IdUser = tv.MaSoThanhVien,
-                    // TenNguoiMuon = us.,
-                    NgayMuon = us.NgayMuon,//.ToString("dd/MM/yyyy"),
-                    NgayPhaiTra = us.NgayPhaiTra,//.ToString("dd/MM/yyyy"),
-                    TrangThaiPhieu = us.TrangThaiPhieu,
-                };
-                return View(model);
-            }
-            catch (Exception)
-            {
+            ViewBag.Success = TempData["Success"];
+            ViewBag.UnSucces = TempData["UnSuccess"];
+            PhieuMuon us = _PhieuMuonLogic.GetById(id);
+            if (us == null)
                 return RedirectToAction("NotFound", "Error");
-            }
-          
+            var tv = _ThanhVienLogic.GetByMaSoThanhVien(us.IdUser);
+            PhieuMuonModelView model = new PhieuMuonModelView()
+            {
+                Id = id,
+                IdUser = tv.MaSoThanhVien,
+                TenNguoiMuon = tv.Ten,
+                NgayMuon = us.NgayMuon,//.ToString("dd/MM/yyyy"),
+                NgayPhaiTra = us.NgayPhaiTra,//.ToString("dd/MM/yyyy"),
+                TrangThaiPhieu = us.TrangThaiPhieu,
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -265,7 +259,7 @@ namespace BiTech.Library.Controllers
             var model = _PhieuMuonLogic.GetById(id); //lay 1 tai khoan 
 
             model.NgayPhaiTra = viewModel.NgayPhaiTra; // DateTime.ParseExact(viewModel.NgayPhaiTra, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            // model.TrangThaiPhieu = viewModel.TrangThaiPhieu;
+                                                       // model.TrangThaiPhieu = viewModel.TrangThaiPhieu;
 
             //Cap nhat voi tai khoan moi
             bool result = _PhieuMuonLogic.Update(model);

@@ -22,8 +22,8 @@ namespace BiTech.Library.DAL.Engines
         /// <returns></returns>
         public List<PhieuMuon> GetAll()
         {
-            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted && _.NgayTra == null).ToList();            
-        }   
+            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted && _.NgayTra == null).ToList();
+        }
 
         /// <summary>
         /// Get list PhieuMuon chưa trả

@@ -5,13 +5,14 @@
 }
 
 <div class="Title">Thành viên</div>
+<div class="text-success">@ViewBag.Success</div>
 <div class="container">
     @using (Html.BeginForm("Search", "User", FormMethod.Post, new { role = "form" }))
     {
         <div class="input-group mb-3">
             @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @class = "form-control", onchange = "OnChangeEvent();" })
             <div class="input-group-append">
-                <input type="submit" value="Tạo" class="btn btn-primary" />
+                <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
             </div>
         </div>
     }

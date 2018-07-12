@@ -6,7 +6,7 @@
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <div class="Title">Xem lịch sử người mượn</div>
 <div class="container">
-    @using (Html.BeginForm("_DanhSachPhieu", "PhieuTra", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("Index", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
        
