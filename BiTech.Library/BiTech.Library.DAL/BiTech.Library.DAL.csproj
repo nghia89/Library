@@ -77,6 +77,7 @@
     <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
     <Compile Include="Engines\ChiTietPhieuTraEngine.cs" />
     <Compile Include="Engines\ChiTietXuatSachEngine.cs" />
+    <Compile Include="Engines\ChucVuEngine.cs" />
     <Compile Include="Engines\LyDoXuatEngine.cs" />
     <Compile Include="Engines\PhieuNhapSachEngine.cs" />
     <Compile Include="Engines\LanguageEngine.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="MongoMirgrations\ChiTietPhieuMuon_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietPhieuTra_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ChucVu_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuMuon_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\KeSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\Language_Mirgrations\M000\Init.cs" />

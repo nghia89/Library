@@ -3,6 +3,7 @@
     ViewBag.Title = "Sửa sách";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Sửa Sách</div>
 <div ng-app="LibraryApp" class="clearfix">
     @using (Html.BeginForm("Sua", "Sach", FormMethod.Post, new { role = "form" }))
@@ -30,16 +31,18 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="TenTheLoai">Thể Loại Sách:</label>
-            <div class="col-sm-6" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
-                @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
-                    new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
-                @*s.Id as s.TenTheLoai for s in list*@
-            </div>
-            <div class="col-sm-2">
-                <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary"
-                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                    <i class="fa fa-plus"></i>
-                </a>
+            <div class="col-sm-6">
+                <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData('@ViewBag.TLS')">
+                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
+                    new { @class = "form-control", @ng_model = "IdTLS", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+                    @*s.Id as s.TenTheLoai for s in list*@
+                    <div class="input-group-append">
+                        <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary"
+                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -52,15 +55,17 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="IdNhaXuatBan">Nhà Xuất Bản:</label>
-            <div class="col-sm-6" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
-                @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
-                    new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
-            </div>
-            <div class="col-sm-2">
-                <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary"
-                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                    <i class="fa fa-plus"></i>
-                </a>
+            <div class="col-sm-6">
+                <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData('@ViewBag.NXB')">
+                    @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
+                    new { @class = "form-control", @ng_model = "IdNXB", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                    <div class="input-group-append">
+                        <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary"
+                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 

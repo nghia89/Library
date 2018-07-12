@@ -228,6 +228,7 @@
     <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
+    <Compile Include="Controllers\ChucVuController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\LicenseHelper.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Models\ChucVuModels.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
     <Compile Include="Models\MuonTraSach.cs" />
@@ -770,6 +772,10 @@
     <Content Include="Views\NgonNgu\Edit.cshtml" />
     <Content Include="Views\NgonNgu\Create.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\ChucVu\Index.cshtml" />
+    <Content Include="Views\ChucVu\Create.cshtml" />
+    <Content Include="Views\ChucVu\Edit.cshtml" />
+    <Content Include="Views\User\_NhapChucVu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

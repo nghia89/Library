@@ -138,7 +138,8 @@ namespace BiTech.Library.Controllers
             }
             SachUploadModel model = new SachUploadModel(sachDTO);
             model.Languages = _LanguageLogic.GetAll();
-
+            ViewBag.TLS = model.SachDTO.IdTheLoai;
+            ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
             return View(model);
         }
 
@@ -161,7 +162,8 @@ namespace BiTech.Library.Controllers
 
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             model.Languages = _LanguageLogic.GetAll();
-
+            ViewBag.TLS = model.SachDTO.IdTheLoai;
+            ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
             return View(model);
         }
 
