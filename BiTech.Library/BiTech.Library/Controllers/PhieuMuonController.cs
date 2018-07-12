@@ -36,8 +36,8 @@ namespace BiTech.Library.Controllers
                 lstPhieuMuon = _PhieuMuonLogic.GetAll();
             }
             else
-            {
-                lstPhieuMuon = _PhieuMuonLogic.GetByIdUser(IdUser.IdNguoiMuon);
+            {                
+                lstPhieuMuon = _PhieuMuonLogic.GetByIdUser(_ThanhVienLogic.GetByMaSoThanhVien(IdUser.IdNguoiMuon).Id);
             }
 
             PhieuMuonModelView _vmodel;

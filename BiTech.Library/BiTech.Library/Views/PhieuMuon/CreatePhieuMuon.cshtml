@@ -159,7 +159,7 @@
             $("#ngayPhaiTra").datepicker({
                 //showWeek: true,
                 dateFormat: "dd/mm/yy",
-                monthNames: ['Tháng 1', 'Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 1','Tháng 1','Tháng 1','Tháng 1','Tháng 1','Tháng 12',],
+                monthNames: ['Tháng 1', 'Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10',,'Tháng 1','Tháng 12',],
                 //monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 //changeMonth: true,
                 //changeYear: true,
@@ -167,7 +167,7 @@
                 dayNamesMin: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
                 minDate: 0,
                 maxDate: @Html.Raw(ViewBag.MaxDate),
-            }).datepicker("setDate", new Date()).attr("readonly", "readonly");
+            }).datepicker("setDate", new Date() + 1).attr("readonly", "readonly");
         });
 
         $(document).ready(function () {

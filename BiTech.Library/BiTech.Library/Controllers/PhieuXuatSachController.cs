@@ -151,7 +151,7 @@ namespace BiTech.Library.Controllers
                     NgayXuat = DateTime.Today,
                     GhiChu = model.GhiChu,
                     IdUserAdmin = userdata.Id,
-
+                    UserName = userdata.UserName
                 };
                 string idPhieuXuat = _PhieuNhapSachLogic.XuatSach(pxs);
 
