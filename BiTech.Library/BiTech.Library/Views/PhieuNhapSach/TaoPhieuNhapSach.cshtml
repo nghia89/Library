@@ -10,7 +10,7 @@
     {
         <div class="form-group col-md-12">
             <div class="col-md-10">
-                <div ng-cloak ng-controller="ImportBookCtrlr" class="container" style="max-width:700px;">
+                <div ng-cloak ng-controller="ImportBookCtrlr" class="container" style="max-width:1000px;">
                     <div class="container">
                         @*<div class="form-group">
                             @Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })
@@ -18,30 +18,30 @@
 
                         </div>*@
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             @Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <input id="idSach" name="idSach" placeholder="Nhập mã sách" ng-model="maKS" class="form-control">
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-6">
-                                <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control">
+                            <div class="col-md-10">
+                                <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control" type="number">
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             @Html.Label("Trạng thái", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn Tình Trạng--", new { ng_model = "idTrangThai", @class = "form-control" })
                             </div>
                         </div>

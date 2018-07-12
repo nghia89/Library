@@ -33,16 +33,14 @@
     <div class="form-group">
         @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayMuon, new { Value = Model.NgayMuon.ToString("dd/MM/yyyy"), @class = "form-control", @readonly = "readonly" } )
+            @Html.TextBoxFor(m => m.NgayMuon, "{0:dd/MM/yyyy}", new { @class = "form-control", @readonly = "readonly" } )
         </div>
-        @Html.ValidationMessageFor(m => m.NgayMuon)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NgayPhaiTra, new { Value = Model.NgayPhaiTra.ToString("dd/MM/yyyy"), @class = "form-control datepicker" })
+            @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker" })
         </div>
-        @Html.ValidationMessageFor(m => m.NgayPhaiTra)
     </div>
 
     <div class="form-group">
@@ -77,12 +75,16 @@
     <script>
         $(function () {
             $(".datepicker").datepicker({
-                showWeek: true,
-                dateFormat: "dd/MM/yyyy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-10:+1"
-            }).attr('readonly', 'readonly');
+                //showWeek: true,
+                dateFormat: "dd/mm/yy",
+                monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                //changeMonth: true,
+                //changeYear: true,
+                dayNamesMin: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+                minDate: 0,
+                maxDate: 15,
+                //yearRange: "-10:+1",                
+            }).datepicker("setDate", new Date()).attr('readonly', 'readonly');
         });
 
         function XoaItem(id) {

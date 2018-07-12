@@ -148,9 +148,9 @@ namespace BiTech.Library.Controllers
             {
                 PhieuXuatSach pxs = new PhieuXuatSach()
                 {
-                    NgayXuat = DateTime.Now,
+                    NgayXuat = DateTime.Today,
                     GhiChu = model.GhiChu,
-                    IdUserAdmin = "",
+                    IdUserAdmin = userdata.Id,
 
                 };
                 string idPhieuXuat = _PhieuNhapSachLogic.XuatSach(pxs);
@@ -175,8 +175,19 @@ namespace BiTech.Library.Controllers
                         {
                             //update số lượng sách trạng thái
                             var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhTrang);
-                            sltt.SoLuong -= ctxs.SoLuong;
-                            _SoLuongSachTrangThaiLogic.Update(sltt);
+                            if(sltt != null)
+                            {
+                                sltt.SoLuong -= ctxs.SoLuong;
+                                _SoLuongSachTrangThaiLogic.Update(sltt);
+                            }
+                            else
+                            {
+                                sltt = new SoLuongSachTrangThai();
+                                sltt.IdSach = ctxs.IdSach;
+                                sltt.IdTrangThai = ctxs.IdTinhTrang;
+                                sltt.SoLuong = ctxs.SoLuong;
+                                _SoLuongSachTrangThaiLogic.Insert(sltt);
+                            }
                             //update tổng số lượng sách
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuongTong -= ctxs.SoLuong;
