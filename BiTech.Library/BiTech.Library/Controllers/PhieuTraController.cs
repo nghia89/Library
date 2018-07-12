@@ -59,7 +59,7 @@ namespace BiTech.Library.Controllers
             if(detail == null)
                 return RedirectToAction("Index");
             
-            var thanhVien = _ThanhVienLogic.GetByIdUser(detail.IdUser); //ten ngupoi muon
+            var thanhVien = _ThanhVienLogic.GetByMaSoThanhVien(detail.IdUser); //ten ngupoi muon
 
             PhieuTraViewModel model = new PhieuTraViewModel()
             {

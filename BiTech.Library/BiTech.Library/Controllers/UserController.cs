@@ -51,13 +51,12 @@ namespace BiTech.Library.Controllers
             }
             else
             {
-                lstUser.Add(_ThanhVienLogic.GetByIdUser(IdUser));
+                lstUser.Add(_ThanhVienLogic.GetByMaSoThanhVien(IdUser));
             }
             return PartialView(lstUser);
 
             //return new JsonResult(new { tensach = "", cover = "" });
         }
-
         public ActionResult _CreateUser()
         {
             #region  Lấy thông tin người dùng
@@ -69,6 +68,7 @@ namespace BiTech.Library.Controllers
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSuccess = TempData["UnSuccess"];
             ViewBag.IdUser = TempData["IdUser"];
+            ViewBag.Duplicate = TempData["Duplicate"];
             return View();
         }
 
@@ -107,43 +107,53 @@ namespace BiTech.Library.Controllers
                 TrangThai = EUser.Active, // mac dinh la Active
                 CreateDateTime = DateTime.Now
             };
-            //insert
-            string id = _ThanhVienLogic.Insert(model);
-            try
+            // Kiem tra trung ma thanh vien
+            var idMaThanhVien = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.MaSoThanhVien);
+            if (String.IsNullOrWhiteSpace(idMaThanhVien.MaSoThanhVien))
             {
-                // Lấy đường dẫn lưu QR
-                string physicalWebRootPath = Server.MapPath("~/");
-                string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+                //insertl
+                string id = _ThanhVienLogic.Insert(model);
+                try
+                {
+                    // Lấy đường dẫn lưu QR
+                    string physicalWebRootPath = Server.MapPath("~/");
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
 
-                var uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, id + "QR.bmp");
-                var uploadFileNameEAN13 = Path.Combine(physicalWebRootPath, uploadFolder, id + "EAN13.bmp");
-                var uploadFileNameISBN = Path.Combine(physicalWebRootPath, uploadFolder, id + "ISBN.bmp");             
-                // chuyển đường dẫn vật lý thành đường dẫn ảo
-                var pathQR= uploadFileNameEAN13.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
-                var pathEAN13 = uploadFileNameEAN13.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
-                var pathISBN = uploadFileNameISBN.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
-                //Tạo mã QR
-                string info = model.UserName + " " + model.Ten;
-                bool bolQR = barcode.CreateQRCode("Tạo Mã Vạch trực tuyến, Sau khi đã đăng ký Mã số mã vạch. Chỉ cần nhập ký tự, dãy số vào ô để tạo ra một mã vạch. Ứng dụng tạo mã vạch online này có tới 19 kiểu mã vạch để phù hợp với mọi nhu cầu của bạn. ", pathQR);
-                //  bool bolQR = barcode.CreateQRCode(info, pathQR);
-                //string strISBN = "9786045523032";
-                //string strEAN13 = "8936117740497";
-                //bool bolQR = barcode.CreateBarCode(strEAN13, strISBN, pathEAN13, pathISBN);
-            }
-            catch (Exception ex)
-            {
-                TempData["UnSuccess"] = "Tạo mã QR thất bại\r\n" + ex.Message;
-                return View();
-            }
+                    var uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, model.MaSoThanhVien + "-" + model.Ten + ".bmp");
+                    var uploadFileNameEAN13 = Path.Combine(physicalWebRootPath, uploadFolder, id + "EAN13.bmp");
+                    var uploadFileNameISBN = Path.Combine(physicalWebRootPath, uploadFolder, id + "ISBN.bmp");
+                    // chuyển đường dẫn vật lý thành đường dẫn ảo
+                    var pathQR = uploadFileNameQR.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    var pathEAN13 = uploadFileNameEAN13.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    var pathISBN = uploadFileNameISBN.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    //Tạo mã QR
+                    string info = model.UserName + " " + model.Ten;
 
-            if (id == null || id == "")
-            {
-                //Fail
-                TempData["UnSuccess"] = "Thêm mới thất bại";
-                return View();
+                    bool bolQR = barcode.CreateQRCode(info, pathQR);
+                    //string strISBN = "9786045523032";
+                    //string strEAN13 = "8936117740497";
+                    //bool bolQR = barcode.CreateBarCode(strEAN13, strISBN, pathEAN13, pathISBN);
+                }
+                catch (Exception ex)
+                {
+                    TempData["UnSuccess"] = "Tạo mã QR thất bại\r\n" + ex.Message;
+                    return View();
+                }
+
+                if (id == null || id == "")
+                {
+                    //Fail
+                    TempData["UnSuccess"] = "Thêm mới thất bại";
+                    return View();
+                }
+                else
+                    TempData["Success"] = "Thêm mới thành công";
             }
             else
-                TempData["Success"] = "Thêm mới thành công";
+            {
+                TempData["Duplicate"] = "Trùng mã";
+                return View();
+            }
             return RedirectToAction("Index", "User");
         }
 
@@ -155,22 +165,28 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            ViewBag.Success = TempData["Success"];
-            ViewBag.UnSucces = TempData["UnSuccess"];
-            ThanhVien us = _ThanhVienLogic.GetById(id);
-            UserViewModel model = new UserViewModel()
+            try
             {
-                Ten = us.Ten,
-                MaSoThanhVien = us.MaSoThanhVien,
-                CMND = us.CMND,
-                DiaChi = us.DiaChi,
-                SDT = us.SDT,
-                TrangThai = us.TrangThai,
-            };
-            return View(model);
+                var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+                ViewBag.Success = TempData["Success"];
+                ViewBag.UnSucces = TempData["UnSuccess"];
+                ThanhVien us = _ThanhVienLogic.GetById(id);
+                UserViewModel model = new UserViewModel()
+                {
+                    Ten = us.Ten,
+                    MaSoThanhVien = us.MaSoThanhVien,
+                    CMND = us.CMND,
+                    DiaChi = us.DiaChi,
+                    SDT = us.SDT,
+                    TrangThai = us.TrangThai,
+                };
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }          
         }
 
         [HttpPost]

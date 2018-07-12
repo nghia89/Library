@@ -18,6 +18,9 @@ namespace BiTech.Library.DTO
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+        /// <summary>
+        /// ID User DB
+        /// </summary>
         public string IdUser { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]

@@ -5,7 +5,7 @@
 }
 <div class="Title">Danh Sách</div>
 <header id="topbar">
-    <h5>@Html.ActionLink("Thêm mới", "_CreatePhieuMuon", "PhieuMuon", new { @class = "btn btn-primary" })</h5>
+    <h5>@Html.ActionLink("Thêm mới", "CreatePhieuMuon", "PhieuMuon", new { @class = "btn btn-primary" })</h5>
 </header>
 <h5 class="text-success">@ViewBag.Success</h5>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
@@ -50,7 +50,7 @@
                 @*<a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a> |
                     <a href="@Url.Action("ChiTietPhieuMuon",new { id = item.Id})"> Chi tiết</a>*@
                 <td>
-                    <a href="@Url.Action("_EditPhieuMuon",new { @id = item.Id})">Sửa</a>
+                    <a href="@Url.Action("EditPhieuMuon",new { @id = item.Id})">Sửa</a>
                     | <a href="@Url.Action("TaoPhieuTra", "PhieuTra", new { idPM = item.Id})"> Trả sách</a>
                 </td>
             </tr>

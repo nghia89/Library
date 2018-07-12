@@ -21,14 +21,14 @@ namespace BiTech.Library.DAL.MongoMirgrations.Sach_Mirgrations.M001
 
         public override void Up(BsonDocument document)
         {
-            var doors = document["NamSanXuat"].ToInt32();
+            var doors = document["NamSanXuat"].ToString();
             document.Add("NamXuatBan", doors);
             document.Remove("NamSanXuat");
         }
 
         public override void Down(BsonDocument document)
         {
-            var doors = document["NamXuatBan"].ToInt32();
+            var doors = document["NamXuatBan"].ToString();
             document.Add("NamSanXuat", doors);
             document.Remove("NamXuatBan");
         }

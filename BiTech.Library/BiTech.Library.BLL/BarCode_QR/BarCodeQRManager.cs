@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.Text;
 namespace BiTech.Library.BLL.BarCode_QR
 {
     public class BarCodeQRManager : baseBarCodeLic
@@ -58,6 +58,7 @@ namespace BiTech.Library.BLL.BarCode_QR
                 BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(qrCodeString, Symbology.QR);
 
                 barCodeBuilder_QR.CodeTextFont = new System.Drawing.Font("Times New Roman", 20);
+                barCodeBuilder_QR.CodeTextEncoding = Encoding.UTF8;
                 barCodeBuilder_QR.CodeLocation = CodeLocation.None; // Ẩn codetext trên QR
                 barCodeBuilder_QR.ImageQuality = ImageQualityMode.AntiAlias;
                 barCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Bmp);

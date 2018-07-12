@@ -67,17 +67,24 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            var tacgia = _TacGiaLogic.GetById(id);
-            TacGiaViewModel tg = new TacGiaViewModel()
+            try
             {
-                TenTacGia= tacgia.TenTacGia,
-                QuocTich = tacgia.QuocTich,
-                MoTa = tacgia.MoTa,
-                Id = tacgia.Id
-            };
-            return View(tg);
+                TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                var tacgia = _TacGiaLogic.GetById(id);
+                TacGiaViewModel tg = new TacGiaViewModel()
+                {
+                    TenTacGia = tacgia.TenTacGia,
+                    QuocTich = tacgia.QuocTich,
+                    MoTa = tacgia.MoTa,
+                    Id = tacgia.Id
+                };
+                return View(tg);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+           
         }
         [HttpPost]
         public ActionResult Edit(TacGia tacgia)
