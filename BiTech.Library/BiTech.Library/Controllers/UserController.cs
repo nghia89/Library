@@ -104,6 +104,7 @@ namespace BiTech.Library.Controllers
                 CMND = viewModel.CMND,
                 DiaChi = viewModel.DiaChi,
                 SDT = viewModel.SDT,
+                IdChucVu = viewModel.IdChucVu,
                 TrangThai = EUser.Active, // mac dinh la Active
                 CreateDateTime = DateTime.Now
             };
@@ -168,8 +169,10 @@ namespace BiTech.Library.Controllers
                 CMND = us.CMND,
                 DiaChi = us.DiaChi,
                 SDT = us.SDT,
+                IdChucVu = us.IdChucVu,
                 TrangThai = us.TrangThai,
             };
+            ViewBag.IdChucVu = us.IdChucVu;
             return View(model);
         }
 
@@ -190,8 +193,10 @@ namespace BiTech.Library.Controllers
             model.CMND = viewModel.CMND;
             model.DiaChi = viewModel.DiaChi;
             model.SDT = viewModel.SDT;
+            model.IdChucVu = viewModel.IdChucVu;
             model.TrangThai = viewModel.TrangThai;
 
+            ViewBag.IdChucVu = model.IdChucVu;
             //Cap nhat voi tai khoan moi
             bool result = _ThanhVienLogic.Update(model);
             if (result == true)
@@ -236,5 +241,15 @@ namespace BiTech.Library.Controllers
         {
             return RedirectToAction("Index", new { @IdUser = model.MaSoThanhVien });
         }
+
+        /// <summary>
+        /// Giao diện thêm thể loại
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RequestChucVuGui()
+        {
+            return PartialView("_NhapChucVu");
+        }
+
     }
 }

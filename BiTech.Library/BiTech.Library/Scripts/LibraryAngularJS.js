@@ -6,12 +6,17 @@ var app = angular.module('LibraryApp', []);
 // Define the `BookGenresCtrlr` controller on the `LibraryApp` module
 app.controller('BookGenresCtrlr', function ($scope, $http) {
 
-    $scope.GetAllData = function () {
+    $scope.GetAllData = function (id) {
         $http({
             method: "get",
             url: "/TheLoaiSach/Get_AllTheLoaiSach"
         }).then(function (response) {
             $scope.list = response.data;
+            for (i = 0; i < response.data.length ; i++) {
+                if (response.data[i].Id == id) {
+                    $scope.IdTLS = response.data[i];
+                }
+            }
         }, function () {
             alert("Error Occur");
         })
@@ -21,12 +26,17 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
 // Define the `PublishersCtrlr` controller on the `LibraryApp` module
 app.controller('PublishersCtrlr', function ($scope, $http) {
 
-    $scope.GetAllData = function () {
+    $scope.GetAllData = function (id) {
         $http({
             method: "get",
             url: "/NhaXuatBan/Get_AllNhaXuatBan"
         }).then(function (response) {
             $scope.list = response.data;
+            for (i = 0; i < response.data.length ; i++) {
+                if (response.data[i].Id == id) {
+                    $scope.IdNXB = response.data[i];
+                }
+            }
         }, function () {
             alert("Error Occur");
         })
@@ -259,6 +269,41 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
             $scope.list = response.data;
         }, function () {
             alert("Error Occur");
+        })
+    };
+});
+
+// Define the `UserChucVuCtrlr` controller on the `LibraryApp` module
+app.controller('UserChucVuCtrlr', function ($scope, $http) {
+
+    $scope.GetAllData = function (id) {
+
+        $http({
+            method: "get",
+            url: "/ChucVu/Get_AllChucVu"
+        }).then(function (response) {
+            $scope.list = response.data;
+            for (i = 0; i < response.data.length ; i++) {
+                if (response.data[i].Id == id) {
+                    $scope.IdChucVu = response.data[i];
+                }
+            }
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+
+    $scope.GetNameChucVu = function (id) {
+        $http({
+            method: "POST",
+            url: "/ChucVu/Get_Name",
+            data: { id: id }
+        }).then(function (response) {
+            $scope.list = response.data;
+            console.log($scope.list.TenChucVu)
+            $scope.ChucVu = $scope.list.TenChucVu;
+        }, function () {
+            //alert("Error Occur");
         })
     };
 });

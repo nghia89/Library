@@ -152,6 +152,8 @@ namespace BiTech.Library.Controllers
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             TheLoaiSach TLS = _TheLoaiSachLogic.getById(id);
+            if (TLS == null)
+                return RedirectToAction("Index", "Error");
             TheLoaiSachViewModels VM = new TheLoaiSachViewModels()
             {
                 Id = TLS.Id,
@@ -175,6 +177,7 @@ namespace BiTech.Library.Controllers
 
             ViewBag.ListTheLoai = ListTheLoai;
             return View(VM);
+
         }
 
         public List<TheLoaiSach> ListTheLoaiChildren(TheLoaiSach _TheLoaiSach, TheLoaiSachLogic _TheLoaiSachLogic)
@@ -196,6 +199,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Sua(TheLoaiSachViewModels model)
         {
+
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
@@ -205,6 +209,8 @@ namespace BiTech.Library.Controllers
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             TheLoaiSach TLS = _TheLoaiSachLogic.getById(model.Id);
+            if (TLS == null)
+                return RedirectToAction("Index", "Error");
             int so = (TLS.TenTheLoai == model.TenTheLoai) ? 1 : 0;
             TLS.IdParent = model.IdParent;
             TLS.TenTheLoai = model.TenTheLoai;
@@ -227,7 +233,6 @@ namespace BiTech.Library.Controllers
             ViewBag.error_title = "Tên thể loại được sửa đã tồn tại";
             return View(VM);
             //return RedirectToAction("Index");
-
         }
 
         [HttpPost]
@@ -341,7 +346,7 @@ namespace BiTech.Library.Controllers
         /// <param name="id_TL"></param>
         /// <param name="idParent_TL"></param>
         /// <returns></returns>
-        private bool CheckUpdate_parent(string id_TL, string idParent_TL,ref string tb)
+        private bool CheckUpdate_parent(string id_TL, string idParent_TL, ref string tb)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -365,7 +370,7 @@ namespace BiTech.Library.Controllers
                     tb = "Không thể dán vào thể loại con của thể loại đang cắt";
                     return false;
                 }
-                    
+
             }
             #endregion
 

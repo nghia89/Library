@@ -43,6 +43,9 @@ namespace BiTech.Library.Models
 
         [Display(Name = "Trạng thái")]
         public EUser TrangThai{ get; set; }
+
+        [Display(Name = "Chức vụ")]
+        public string IdChucVu { get; set; }
     }
 
     public class ChangePasswordViewModel

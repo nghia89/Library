@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
+    <Compile Include="ChucVu.cs" />
     <Compile Include="NoDB\ChiTietPhieuMuon_FullDetail.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
     <Compile Include="ChiTietXuatSach.cs" />
