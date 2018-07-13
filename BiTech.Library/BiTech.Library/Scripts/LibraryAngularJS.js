@@ -169,7 +169,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuMuon/_GetBookItemById",
             params: {
-                idBook: $scope.list[id].MaKiemSoat,
+                MaKiemSoat: $scope.list[id].MaKiemSoat,
                 soLuong: document.getElementById('sach' + id).value,
             }
         }).then(function (response) {
@@ -198,8 +198,9 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
 // Get a book by Id - TraSachCtrlr  
 app.controller('TraSachCtrlr', function ($scope, $http) {
     $scope.list = [];
-
+   
     $scope.addItem = function (id) {
+        //var id = document.getElementById('idSach').innerHTML; //id ma sach (id mongo)
         var sltra = document.getElementById('sl' + id).value;
         var trangthai = document.getElementById('tt' + id).value;
         var idPM = document.getElementById('idPM').value;
@@ -208,7 +209,7 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuTra/GetThongTinPhieuTra",
             params: {
-                idBook: id,
+                id: id,
                 soLuong: sltra,
                 idTrangThai: trangthai,
                 idPM: idPM
