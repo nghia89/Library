@@ -5,13 +5,14 @@
 }
 
 <div class="Title">Thành viên</div>
+<div class="text-success">@ViewBag.Success</div>
 <div class="container">
     @using (Html.BeginForm("Search", "User", FormMethod.Post, new { role = "form" }))
     {
         <div class="input-group mb-3">
             @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @class = "form-control", onchange = "OnChangeEvent();" })
             <div class="input-group-append">
-                <input type="submit" value="Tạo" class="btn btn-primary" />
+                <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
             </div>
         </div>
     }
@@ -48,7 +49,55 @@
 <div class="m10">
     @Html.Action("_PartialUser", "User", new { @IdUser = ViewBag.IdUser })
 </div>
+@section scripts{
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
 
+    <script>
+        function RequestAltInsertGuiBegin() {
+            $(this).addClass('active');
+        }
+
+        function RequestAltInsertGuiSuccess(data) {
+            $(this).removeClass('active');
+
+            $("#ajax").html(data);
+
+            $("#edit-student-modal").modal();
+
+            var form = $("#edit-student-modal").closest("form");
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#FileImageCover").change(function () {
+            readURL(this);
+        });
+
+        //$(document).ready(function () {
+        //    setInterval(function () {
+        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
+        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
+        //    }, 30000);
+        //});
+    </script>
+}
 @*@section Scripts{
         <script>
             function OnChangeEvent() {

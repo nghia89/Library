@@ -13,7 +13,7 @@ using PagedList.Mvc;
 namespace BiTech.Library.Controllers
 {
     public class NhaXuatBanController : BaseController
-    {    
+    {
         // GET: NhaXuatBan
         public ActionResult Index(int? page)
         {
@@ -29,7 +29,7 @@ namespace BiTech.Library.Controllers
             int PageSize = 10;
             int PageNumber = (page ?? 1);
             List<NhaXuatBanViewModels> lst = new List<NhaXuatBanViewModels>();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 NhaXuatBanViewModels nxb = new NhaXuatBanViewModels()
                 {
@@ -95,23 +95,18 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            try
-            {
-                NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-                NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
-                NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
-                {
-                    Id = nxb.Id,
-                    Ten = nxb.Ten,
-                    GhiChu = nxb.GhiChu
-                };
-                return View(VM);
-            }
-            catch (Exception)
-            {
+            NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
+            if (nxb == null)
                 return RedirectToAction("NotFound", "Error");
-            }         
+            NhaXuatBanViewModels VM = new NhaXuatBanViewModels()
+            {
+                Id = nxb.Id,
+                Ten = nxb.Ten,
+                GhiChu = nxb.GhiChu
+            };
+            return View(VM);
         }
 
         [HttpPost]
@@ -132,7 +127,7 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
-       
+
         [HttpPost]
         public ActionResult Xoa(string Id)
         {

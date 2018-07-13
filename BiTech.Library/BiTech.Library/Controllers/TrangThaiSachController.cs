@@ -24,7 +24,7 @@ namespace BiTech.Library.Controllers
 
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-           
+
             int PageSize = 10;
             int PageNumber = (page ?? 1);
             var lst = _TrangThaiSachLogic.GetAll();
@@ -35,12 +35,12 @@ namespace BiTech.Library.Controllers
                 {
                     Id = item.Id,
                     TenTT = item.TenTT
-                   
+
                 };
                 lsttt.Add(tt);
             }
-           
-            return View(lsttt.OrderBy(x=>x.TenTT).ToPagedList(PageNumber,PageSize));
+
+            return View(lsttt.OrderBy(x => x.TenTT).ToPagedList(PageNumber, PageSize));
         }
 
         public ActionResult Them()
@@ -74,22 +74,17 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            try
-            {
-                TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-                TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
-                TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
-                {
-                    Id = tts.Id,
-                    TenTT = tts.TenTT
-                };
-                return View(VM);
-            }
-            catch (Exception)
-            {
+            TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
+            if (tts == null)
                 return RedirectToAction("NotFound", "Error");
-            }                       
+            TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
+            {
+                Id = tts.Id,
+                TenTT = tts.TenTT
+            };
+            return View(VM);
         }
 
         [HttpPost]
@@ -109,7 +104,7 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
-       
+
 
         [HttpPost]
         public ActionResult Xoa(string Id)

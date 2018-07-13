@@ -68,22 +68,16 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            try
-            {
-                LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                var lydo = _LyDoXuatLogic.GetById(id);
-                LyDoXuatViewModel ld = new LyDoXuatViewModel()
-                {
-                    Id = lydo.Id,
-                    LyDo = lydo.LyDo
-                };
-                return View(ld);
-            }
-            catch (Exception)
-            {
+            LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var lydo = _LyDoXuatLogic.GetById(id);
+            if (lydo == null)
                 return RedirectToAction("NotFound", "Error");
-            }
-
+            LyDoXuatViewModel ld = new LyDoXuatViewModel()
+            {
+                Id = lydo.Id,
+                LyDo = lydo.LyDo
+            };
+            return View(ld);
         }
         [HttpPost]
         public ActionResult Edit(LyDoXuat ldx)

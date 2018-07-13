@@ -13,7 +13,7 @@ namespace BiTech.Library.Controllers
 {
     public class KeSachController : BaseController
     {
-  
+
         // GET: KeSach
         public ActionResult Index(int? page)
         {
@@ -87,7 +87,7 @@ namespace BiTech.Library.Controllers
             catch (Exception)
             {
                 return RedirectToAction("NotFound", "Error");
-            }            
+            }
         }
         public ActionResult Edit(string Id)
         {
@@ -96,25 +96,19 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            try
-            {
-                KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                var list = _keSachLogic.getById(Id);
-
-                KesachViewModels ks = new KesachViewModels()
-                {
-                    Id = list.Id,
-                    TenKe = list.TenKe,
-                    ViTri = list.ViTri,
-                    GhiChu = list.GhiChu,
-                };
-
-                return View(ks);
-            }
-            catch (Exception)
-            {
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var kesach = _keSachLogic.getById(Id);
+            if (kesach == null)
                 return RedirectToAction("NotFound", "Error");
-            }           
+            KesachViewModels ks = new KesachViewModels()
+            {
+                Id = kesach.Id,
+                TenKe = kesach.TenKe,
+                ViTri = kesach.ViTri,
+                GhiChu = kesach.GhiChu,
+            };
+
+            return View(ks);
         }
 
         [HttpPost]
