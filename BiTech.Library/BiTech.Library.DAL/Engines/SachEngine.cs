@@ -22,12 +22,7 @@ namespace BiTech.Library.DAL.Engines
         {
             entity.Id = null;
             entity.CreateDateTime = DateTime.Now;
-
-            var list = _DatabaseCollection.Find(m => m.MaKiemSoat == entity.MaKiemSoat).ToList();
-
-            if(list != null && list.Count > 0)
-                return "";
-
+            
             _DatabaseCollection.InsertOne(entity);
             return entity.Id.ToString();
         }

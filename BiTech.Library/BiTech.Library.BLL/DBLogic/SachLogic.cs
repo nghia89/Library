@@ -11,10 +11,12 @@ namespace BiTech.Library.BLL.DBLogic
     public class SachLogic
     {
         SachEngine _sachEngine;
+        ThongTinThuVienEngine _ThongTinThuVienEngine;
         public SachLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString);
-            _sachEngine = new SachEngine(database, databaseName, "Sach");
+            _sachEngine = new SachEngine(database, databaseName, DBTableNames.Sach_Table);
+            _ThongTinThuVienEngine = new ThongTinThuVienEngine(database, databaseName, DBTableNames.ThongTinThuVien_Table);
         }
 
         #region Vinh
@@ -23,7 +25,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetById(id);
         }
-		
+
         /// <summary>
         /// update - delete( update status)
         /// </summary>
@@ -33,7 +35,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.Update(model);
         }
-		
+
         /// <summary>
         /// Get book by idBook
         /// </summary>
@@ -58,6 +60,28 @@ namespace BiTech.Library.BLL.DBLogic
 
         public string ThemSach(Sach s)
         {
+            var setting = _ThongTinThuVienEngine.GetMaKiemSoatSachCount();
+            ulong max = 0;
+            if (!ulong.TryParse(setting, out max))
+            {
+                _ThongTinThuVienEngine.SetMaKiemSoatSachCount("0");
+                max = 1;
+            }
+
+            max++;
+            do
+            {
+                var ss = _sachEngine.GetByMaKiemSoat(max.ToString("0000"));
+                if (ss != null)
+                    max++;
+                else
+                    break;
+            } while (true);
+            
+
+            s.MaKiemSoat = max.ToString("0000");
+            _ThongTinThuVienEngine.SetMaKiemSoatSachCount(max.ToString());
+
             return _sachEngine.Insert(s);
         }
 

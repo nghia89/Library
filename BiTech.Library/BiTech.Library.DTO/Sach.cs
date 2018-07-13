@@ -11,6 +11,7 @@ namespace BiTech.Library.DTO
     [CurrentVersion("0.0.2")]
     public class Sach : IModel
     {
+        
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }

@@ -28,7 +28,7 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ListBooksModel model = new ListBooksModel();
-            
+
             var list = _SachLogic.getAllSach();
             foreach (var item in list)
             {
@@ -38,7 +38,7 @@ namespace BiTech.Library.Controllers
                 book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
                 book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
                 book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
-                
+
                 model.Books.Add(book);
             }
 
@@ -54,13 +54,17 @@ namespace BiTech.Library.Controllers
             #endregion
 
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var idTG = _TacGiaLogic.GetAllTacGia();
+            ViewBag.IdTacGia = idTG;
             SachUploadModel model = new SachUploadModel();
             model.Languages = _LanguageLogic.GetAll();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(SachUploadModel model)
+        public ActionResult Create(SachUploadModel model, List<string> IDTacGia)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -68,15 +72,24 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
+
             if (ModelState.IsValid)
             {
                 SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                ThongTinThuVienLogic _ThongTinThuVienLogic = new ThongTinThuVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                ulong md = _ThongTinThuVienLogic.GetMaKiemSoatSachCount();
-                md++;
-                model.SachDTO.MaKiemSoat = md.ToString("0000");
-                _ThongTinThuVienLogic.SetMaKiemSoatSachCount(md);
+                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                
+
                 string id = _SachLogic.ThemSach(model.SachDTO);
+
+                if (id.Length > 0)
+                    foreach (var tg in IDTacGia)
+                    {
+                        _SachTacGiaLogic.ThemSachTacGia(new SachTacGia()
+                        {
+                            IdSach = id,
+                            IdTacGia = tg
+                        });
+                    }
 
                 if (model.FileImageCover != null)
                 {
@@ -108,6 +121,7 @@ namespace BiTech.Library.Controllers
 
                 return RedirectToAction("Index");
             }
+
 
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             model.Languages = _LanguageLogic.GetAll();
@@ -211,6 +225,16 @@ namespace BiTech.Library.Controllers
             return PartialView("_NhapLoaiSach");
         }
 
+        public ActionResult RequestThemTheKeSach()
+        {
+            return PartialView("_NhapkeSach");
+        }
+
+        public ActionResult RequestLanguage()
+        {
+            return PartialView("_Language");
+        }
+
         /// <summary>
         /// Giao diện thêm nhà xuất bản
         /// </summary>
@@ -218,6 +242,10 @@ namespace BiTech.Library.Controllers
         public ActionResult RequestThemNhaXuatBan()
         {
             return PartialView("_NhapNhaXuatBan");
+        }
+        public ActionResult RQTacGiasach()
+        {
+            return PartialView("_RQTacGiasach");
         }
     }
 }

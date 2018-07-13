@@ -12,6 +12,15 @@ namespace BiTech.Library.Models
     {
         public Language TheL { get; set; }
     }
+    public class BaseLanguageModel
+    {     
+        public string Id { get; set; }
+
+        public string Ten { get; set; }
+
+        public string TenNgan { get; set; }
+
+    }
 
     //public class BaseLanguageModel
     //{

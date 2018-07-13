@@ -252,6 +252,7 @@
     <Compile Include="Helpers\LicenseHelper.cs" />
     <Compile Include="Helpers\Tool.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
+    <Compile Include="Models\LanguageViewModel.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
     <Compile Include="Models\MuonTraSach.cs" />
     <Compile Include="Models\NhaXuatBanViewModels.cs" />
@@ -276,6 +277,7 @@
     <Content Include="app\AngularChartJs\angular.min.js" />
     <Content Include="app\AngularChartJs\Chart.bundle.min.js" />
     <Content Include="app\AngularChartJs\Chart.min.js" />
+    <Content Include="app\AngularChartJs\jquery.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
     <Content Include="app\app.js" />
     <Content Include="app\StatisticTransition.js" />
@@ -569,9 +571,11 @@
     <Content Include="bower_components\sweetalert\themes\facebook\facebook.css" />
     <Content Include="bower_components\sweetalert\themes\google\google.css" />
     <Content Include="bower_components\sweetalert\themes\twitter\twitter.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\avatar.png" />
+    <Content Include="Content\css\fSelect.css" />
+    <Content Include="Content\css\fSelect.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\StatisticCss.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -624,6 +628,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angularjs.min.js" />
+    <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bower_components\sweetalert\.bower.json" />
@@ -691,7 +696,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\LibraryAngularJS.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -770,10 +774,12 @@
     <Content Include="Views\NgonNgu\Edit.cshtml" />
     <Content Include="Views\NgonNgu\Create.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Sach\_NhapkeSach.cshtml" />
+    <Content Include="Views\Sach\_Language.cshtml" />
+    <Content Include="Views\Sach\_RQTacGiasach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\BarCodes\" />
     <Folder Include="Content\TempFiles\" />
   </ItemGroup>
   <ItemGroup>
@@ -801,6 +807,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\LoadTacGia.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

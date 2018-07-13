@@ -15,6 +15,8 @@ namespace BiTech.Library.Models
         
         public List<Language> Languages { get; set; }
 
+        //public List<string> ListIdTacGia { get; set; }
+
         public SachUploadModel()
         {
 

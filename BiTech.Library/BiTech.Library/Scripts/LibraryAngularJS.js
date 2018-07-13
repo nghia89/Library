@@ -263,3 +263,29 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
     };
 });
 
+app.controller('KeSach', function ($scope, $http) {
+
+    $scope.GetAllData = function () {
+        $http({
+            method: "get",
+            url: "/KeSach/GetAll"
+        }).then(function (response) {
+            $scope.list = response.data;
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+});
+app.controller('NgonNgu', function ($scope, $http) {
+
+    $scope.GetAllData = function () {
+        $http({
+            method: "get",
+            url: "/NgonNgu/GetAll"
+        }).then(function (response) {
+            $scope.list = response.data;
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+});

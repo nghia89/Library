@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Thêm sách";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var IdTacGia =(List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
 }
+<link href="~/Content/css/fSelect.css" rel="stylesheet" />
 
 <div class="Title">Thêm Sách</div>
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
@@ -11,11 +13,11 @@
     @using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
     {
         @*<div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="idmakiemsoat">Mã Kiểm Soát:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat", @readonly = "readonly" })
-            </div>
-        </div>*@
+                <label class="col-form-label col-sm-3 form-label" for="idmakiemsoat">Mã Kiểm Soát:</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.SachDTO.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat", @readonly = "readonly" })
+                </div>
+            </div>*@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="tensach">Tên Sách:</label>
@@ -50,8 +52,17 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ Sách:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.IdKeSach, new { @class = "form-control", @id = "idkesach" })
+            <div class="col-sm-6" >
+                <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
+                    @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
+                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+                    <div class="input-group-append">
+                        <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary"
+                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -68,7 +79,7 @@
                         </a>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
@@ -82,7 +93,16 @@
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn Ngữ:</label>
             <div class="col-sm-6">
-                @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(Model.Languages, "Id", "Ten"), new { @class = "form-control", @id = "NgonNgu" })
+                <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
+                    @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
+                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                    <div class="input-group-append">
+                        <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary"
+                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -92,8 +112,29 @@
                 @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control", @id = "NamSanXuat" })
             </div>
         </div>
-
         <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label " for="idkesach">Tác giả</label>
+            <div class="col-sm-6">
+                <div class="input-group mb-3" id="IDTacGia">
+                    <select class="form-control form-control-lg"  name="IDTacGia" id="LoadTG" >  
+                        <option value="">aa</option>             
+                        @*@foreach (var i in IdTacGia)
+                        {
+                            <option value="@i.Id">@i.TenTacGia</option>
+                        }*@   
+                    </select>
+                   
+                </div>
+                <div class="input-group-append" style="float: right;padding-left: 2px;margin: -54px 6px;">
+                    <a href="@Url.Content("~/Sach/RQTacGiasach")" class="btn btn-primary"
+                       data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                        <i class="fa fa-plus" style="line-height: 24px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row" >
             <label class="col-form-label col-sm-3 form-label" for="GiaSach">Giá Sách:</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control", @id = "GiaSach" })
@@ -137,6 +178,11 @@
 
 <div id="ajax"></div>
 @section scripts{
+<script src="~/Scripts/LoadTacGia.js"></script>
+<script src="~/Content/css/fSelect.js"></script>
+<script>
+$('.demo').fSelect();
+</script>
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
     <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
@@ -183,5 +229,153 @@
         //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
         //    }, 30000);
         //});
+
+
+
+        $(function () {
+            var multiSelect = $('[data-multiple]');
+
+            multiSelect.each(function () {
+                var $this = $(this),
+                    numberOfOptions = $this.children('option'),
+                    listOption = $(),
+                    previewOption = $(),
+                    previewCloseButton = $();
+
+
+                if (!$this.find('option:selected').length)
+                    $this.addClass('empty');
+
+                // Initially append class to select so it can be hidden
+                $this.addClass('select-hidden');
+                // Create wrappers and initial placeholders
+                $this.wrap('<div class="multi-select"></div>');
+                $this.after('<div class="multi-select-preview"></div>');
+                var selectedOptions = $this.next('div.multi-select-preview');
+                var selectOptionsListWrapper = $('<div />', {
+                    'class': 'multi-select-options-wrapper'
+                }).insertAfter(selectedOptions);
+
+                var selectOptionsList = $('<ul />', {
+                    'class': 'multi-select-options-list'
+                }).appendTo(selectOptionsListWrapper);
+
+                // Loop through all options and create list items that can be easily styled
+                numberOfOptions.each(function (index, item) {
+                    var $item = $(item);
+                    listOption = listOption.add($('<li />', {
+                        text: $item.text(),
+                        rel: $item.val(),
+                        'class': $item.attr('selected') ? 'selected' : ''
+                    })).appendTo(selectOptionsList);
+
+                    previewOption = previewOption.add($('<div />', {
+                        'class': $item.attr('selected') ? 'selected-value active' : 'selected-value'
+                    })).appendTo(selectedOptions);
+
+                    $('<span />', {
+                        text: '×',
+                        'class': 'selected-value-icon',
+                        'aria-hidden': true
+                    }).appendTo(previewOption.eq(index));
+
+                    $('<span />', {
+                        text: $item.text(),
+                        'class': 'selected-value-label',
+                        'aria-selected': $item.attr('selected') ? true : false
+                    }).appendTo(previewOption.eq(index));
+                });
+
+                var buttonClearAll = $('<span />', {
+                    'class': true && $this.find('option:selected').length ? 'multi-select-clear' : 'multi-select-clear hidden',
+                    text: '×'
+                }).appendTo(selectedOptions);
+
+                var buttonArrow = $('<span />', {
+                    'class': 'multi-select-arrow'
+                }).appendTo(selectedOptions);
+
+                // Functionality on preview click
+                selectedOptions.on('click', function (e) {
+                    e.stopPropagation();
+                    var $self = $(this);
+
+                    $('div.multi-select-preview.active').not(this).each(function () {
+                        $(this).removeClass('active').next('.multi-select-options-wrapper').hide();
+                    });
+
+                    $self.toggleClass('active').next('.multi-select-options-wrapper').toggle();
+                });
+                // Put close icon buttons in variable after initialization
+                previewCloseButton = selectedOptions.find('.selected-value-icon');
+
+                // Hide everything opened on document click
+                $(document).on('click', function () {
+                    selectedOptions.removeClass('active');
+                    selectOptionsListWrapper.hide();
+                });
+
+                // On escape key close selecte
+                $(document).keyup(function (e) {
+                    if (selectOptionsListWrapper.is(':visible') && e.keyCode == 27) {
+                        selectedOptions.removeClass('active');
+                        selectOptionsListWrapper.hide();
+                    }
+                });
+
+                // Functionality on picked option
+                listOption.on('click', function (e) {
+                    e.stopPropagation();
+                    var $self = $(this);
+
+                    var index = $self.index();
+                    if ($self.hasClass('selected')) {
+                        $self.removeClass('selected');
+                        previewOption.eq(index).removeClass('active');
+                        $this.find('option').eq(index).prop('selected', false);
+
+                        triggerChange();
+                    } else {
+                        $self.addClass('selected');
+                        previewOption.eq(index).addClass('active');
+                        $this.find('option').eq(index).prop('selected', true);
+
+                        triggerChange();
+                    }
+                });
+
+                previewCloseButton.on('click', function (e) {
+                    e.stopPropagation();
+                    var currentPreviewOption = $(this).closest('.selected-value');
+                    var index = currentPreviewOption.index();
+
+                    currentPreviewOption.removeClass('active');
+                    listOption.eq(index).removeClass('selected');
+                    $this.find('option').eq(index).prop('selected', false);
+
+                    triggerChange();
+                });
+
+                buttonClearAll.on('click', function (e) {
+                    e.stopPropagation();
+                    listOption.removeClass('selected');
+                    previewOption.removeClass('active');
+                    $this.find('option:selected').prop('selected', false);
+
+                    triggerChange();
+                });
+
+                // Returns number of selected items
+                var triggerChange = function () {
+                    $this.change();
+                    if ($this.find('option:selected').length > 0)
+                        selectedOptions.removeClass('empty');
+                    else
+                        selectedOptions.addClass('empty');
+
+                    console.log($this.val());
+                };
+            });
+        }());
     </script>
 }

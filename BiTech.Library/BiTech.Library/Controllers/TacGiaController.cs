@@ -87,6 +87,20 @@ namespace BiTech.Library.Controllers
            
         }
         [HttpPost]
+        public JsonResult GetAll()
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _TacGiaLogic.GetAllTacGia();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpPost]
         public ActionResult Edit(TacGia tacgia)
         {
             #region  Lấy thông tin người dùng
@@ -113,6 +127,27 @@ namespace BiTech.Library.Controllers
             var tacgia = _TacGiaLogic.GetById(Id);
             _TacGiaLogic.Delete(tacgia.Id);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ThemAjax(TacGiaViewModel model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            TacGia TG = new TacGia()
+            {
+                TenTacGia = model.TenTacGia,
+                MoTa = model.MoTa,
+                QuocTich = model.QuocTich
+            };
+            _TacGiaLogic.Insert(TG);
+            return Json(true);
         }
     }
 }

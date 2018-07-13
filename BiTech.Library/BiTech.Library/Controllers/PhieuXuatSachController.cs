@@ -112,10 +112,10 @@ namespace BiTech.Library.Controllers
 
          
 
-
+ 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
 
-           
+
             ViewBag.listld = _LyDoXuatLogic.GetAll();
 
           
