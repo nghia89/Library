@@ -121,7 +121,7 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
 
 
     $scope.labels = ['Ngày 01', 'Ngày 02', 'Ngày 03', 'Ngày 04', 'Ngày 05', ' Ngày 06', 'Ngày 07', 'Ngày 08', 'Ngày 09', ' Ngày 10', 'Ngày 11', 'Ngày 12',
-    'Ngày 03', 'Ngày 14', 'Ngày 14', 'Ngày 16', 'Ngày 17', ' Ngày 18', 'Ngày 19', 'Ngày 20', 'Ngày 21', ' Ngày 22', 'Ngày 23', 'Ngày 24',
+    'Ngày 13', 'Ngày 14', 'Ngày 15', 'Ngày 16', 'Ngày 17', ' Ngày 18', 'Ngày 19', 'Ngày 20', 'Ngày 21', ' Ngày 22', 'Ngày 23', 'Ngày 24',
     'Ngày 25', 'Ngày 26', 'Ngày 27', 'Ngày 28', 'Ngày 29', ' Ngày 30', 'Ngày 31'];
     $scope.series = ['phiếu Mượn Trong Ngày', 'Số Người Mượn Trong Ngày', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả trễ'];
     //$scope.colors = [{
@@ -167,12 +167,13 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                 response.data.lsoNguoiMuonTrongNgay.forEach(function (i, index) {
                     lsoNguoiMuonTrongNgay.push(i);
                 });
-                response.data.lsoNguoiKhongTraTrongNgay.forEach(function (i, index) {
-                    lsoNguoiKhongTraTrongNgay.push(i);
-                });
                 response.data.lsoSachDuocMuonTrongNgay.forEach(function (i, index) {
                     lsoSachDuocMuonTrongNgay.push(i);
                 });
+                response.data.lsoNguoiKhongTraTrongNgay.forEach(function (i, index) {
+                    lsoNguoiKhongTraTrongNgay.push(i);
+                });
+               
                 response.data.lsoNguoiTraTreTrongNgay.forEach(function (i, index) {
                     lsoNguoiTraTreTrongNgay.push(i);
                 });
