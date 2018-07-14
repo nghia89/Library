@@ -6,7 +6,7 @@
 
 <div class="Title">Thành viên</div>
 <div class="text-success">@ViewBag.Success</div>
-<div class="container">
+<div class="container row clearfix">
     @using (Html.BeginForm("Search", "User", FormMethod.Post, new { role = "form" }))
     {
         <div class="input-group mb-3">
@@ -17,6 +17,7 @@
         </div>
     }
 </div>
+<br/>
 @*@using (Html.BeginForm("Search", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
         <div class="row">

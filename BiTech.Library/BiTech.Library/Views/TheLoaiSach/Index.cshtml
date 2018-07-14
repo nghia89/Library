@@ -20,7 +20,7 @@
 <div class="direction">
     @if (ViewBag.url != "")
     {
-        <a href=/TheLoaiSach>/Thể loại sách</a>@Html.Raw(ViewBag.url)
+        <a href=/TheLoaiSach>Thể loại sách</a>@Html.Raw(ViewBag.url)
     }
 </div>
 
@@ -64,13 +64,13 @@
                 @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-                    <a class="color-white btn btn-outline-primary" href="@Url.Action("Sua", new { id = item.Id })">
+                    <a class="color-white btn btn-outline-primary btn-sm" href="@Url.Action("Sua", new { id = item.Id })">
                         <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
                     </a>
                 </td>
                 <td>
                     
-                    <button class="btn-cut color-white btn btn-danger" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
+                    <button class="btn-cut color-white btn btn-danger btn-sm" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
                         <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
                     </button>
                 </td>
