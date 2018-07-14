@@ -5,7 +5,18 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
     $scope.labels = ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', ' Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', ' Tháng 10', 'Tháng 11', 'Tháng 12'];
     $scope.series = ['phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả trễ'];
-    $scope.options = { legend: { display: true } };
+    $scope.options = {
+        legend: { display: true },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ]
+        }
+    };
     $scope.chartdataYear = [];
     $scope.Year = '';
     Chart.defaults.global.colors = [
@@ -133,7 +144,18 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
     //}];
 
     $scope.chartdataMonth = [];
-    $scope.options = { legend: { display: true } };
+    $scope.options = {
+        legend: { display: true },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ]
+        }
+    };
     $scope.loading = true;
     $scope.Keymonth = '';
     $scope.KeyYear = '';
