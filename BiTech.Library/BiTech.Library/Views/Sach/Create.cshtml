@@ -116,16 +116,15 @@
             <label class="col-form-label col-sm-3 form-label " for="idkesach">Tác giả</label>
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="IDTacGia">
-                    <select class="form-control form-control-lg"  name="IDTacGia" id="LoadTG" >  
-                        <option value="">aa</option>             
-                        @*@foreach (var i in IdTacGia)
+                    <select class="demo" multiple="multiple"  name="IDTacGia" id="LoadTG" >         
+                        @foreach (var i in IdTacGia)
                         {
                             <option value="@i.Id">@i.TenTacGia</option>
-                        }*@   
+                        }   
                     </select>
                    
                 </div>
-                <div class="input-group-append" style="float: right;padding-left: 2px;margin: -54px 6px;">
+                <div class="input-group-append" style="float: right;padding-left: 2px;margin: -38px 0px;">
                     <a href="@Url.Content("~/Sach/RQTacGiasach")" class="btn btn-primary"
                        data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
                         <i class="fa fa-plus" style="line-height: 24px;"></i>
