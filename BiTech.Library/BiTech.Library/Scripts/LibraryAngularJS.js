@@ -75,7 +75,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuXuatSach/_GetBookItemById",
             params: {
-                idBook: $scope.idBook,
+                maKiemSoat: $scope.maKS,
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
                 idLyDo: $scope.idLyDo
