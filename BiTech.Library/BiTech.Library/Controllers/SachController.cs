@@ -144,12 +144,14 @@ namespace BiTech.Library.Controllers
 
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             Sach sachDTO = _SachLogic.GetById(id);
             if (sachDTO == null)
             {
                 return RedirectToAction("Index");
             }
+            var idTG = _TacGiaLogic.GetAllTacGia();
+            ViewBag.IdTacGia = idTG;
             SachUploadModel model = new SachUploadModel(sachDTO);
             model.Languages = _LanguageLogic.GetAll();
             ViewBag.TLS = model.SachDTO.IdTheLoai;
