@@ -280,6 +280,7 @@
     <Content Include="app\AngularChartJs\jquery.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
     <Content Include="app\app.js" />
+    <Content Include="app\ngTagInputAngular.js" />
     <Content Include="app\StatisticTransition.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="bower_components\angular-chart.js\angular-chart.js" />
@@ -576,6 +577,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\fSelect.css" />
     <Content Include="Content\css\fSelect.js" />
+    <Content Include="Content\tagsinput\ng-tags-input-style.css" />
+    <Content Include="Content\tagsinput\ng-tags-input.bootstrap.css" />
+    <Content Include="Content\tagsinput\ng-tags-input.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\StatisticCss.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -671,6 +675,7 @@
     <Content Include="bower_components\angular-chart.js\README.md" />
     <Content Include="bower_components\Chart.js\.bower.json" />
     <Content Include="bower_components\Chart.js\bower.json" />
+    <Content Include="Content\tagsinput\ng-tags-input.min.css" />
     <None Include="Properties\PublishProfiles\Demo.pubxml" />
     <None Include="Properties\PublishProfiles\lbm.bitech.com.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -693,6 +698,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ng-tags-input.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\LibraryAngularJS.js" />
@@ -776,7 +782,8 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Sach\_NhapkeSach.cshtml" />
     <Content Include="Views\Sach\_Language.cshtml" />
-    <Content Include="Views\Sach\_RQTacGiasach.cshtml" />
+    <Content Include="Views\Sach\_ThemTacGia.cshtml" />
+    <Content Include="Views\Sach\CreateSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

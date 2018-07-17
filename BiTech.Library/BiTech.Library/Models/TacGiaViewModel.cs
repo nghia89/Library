@@ -18,6 +18,14 @@ namespace BiTech.Library.Models
         [Display(Name = "Quốc Tịch")]
         [Required(ErrorMessage="Vui lòng nhập quốc tịch")]
         public string QuocTich { get; set; }
-       
+
+    }
+
+    public class TacGiaShortViewModel
+    {
+        public string Id { get; set; }
+
+        public string TenTacGia { get; set; }
+
     }
 }

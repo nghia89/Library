@@ -1,13 +1,22 @@
 ﻿@model  BiTech.Library.Models.SachUploadModel
 @{
     ViewBag.Title = "Thêm sách";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var IdTacGia =(List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
+    //var IdTacGia =(List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
 }
-<link href="~/Content/css/fSelect.css" rel="stylesheet" />
+@*<link href="~/Content/css/fSelect.css" rel="stylesheet" />*@
 
 <div class="Title">Thêm Sách</div>
+
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/tagsinput/ng-tags-input.css" rel="stylesheet" />
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/ng-tags-input.js"></script>
+<script src="~/app/ngTagInputAngular.js"></script>
+
+@*<link rel="stylesheet" href="http://mbenford.github.io/ngTagsInput/css/ng-tags-input.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+<script src="http://mbenford.github.io/ngTagsInput/js/ng-tags-input.min.js"></script>*@
+
 @*<script src="~/bower_components/jquery/dist/jquery.js"></script>*@
 <div ng-app="LibraryApp" class="clearfix">
     @using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
@@ -51,16 +60,25 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ Sách:</label>
-            <div class="col-sm-6" >
-                <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
-                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+            <label class="col-form-label col-sm-3 form-label" for="ListTacGiaJson">Tác giả:</label>
+            <div class="col-sm-6">
+                <div class="input-group mb-3" id="ListTacGia" ng-controller="TacGiaFinder">
+                    <tags-input ng-model="listtg"
+                                replace-spaces-with-dashes="false"
+                                display-property="TenTacGia"
+                                class="form-control">
+                        <auto-complete source="loadData($query)"></auto-complete>
+                    </tags-input>
                     <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary"
+                        <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
                             <i class="fa fa-plus" style="line-height: 24px;"></i>
                         </a>
+                    </div>
+
+                    <p>Model: {{listtg}}</p>
+                    <div ng-repeat="s in listtg">
+                        <input hidden="hidden" ng-cloak class="btn btn-default" name="ListTacGiaJson" value="{{s}}" />
                     </div>
                 </div>
             </div>
@@ -79,7 +97,22 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ Sách:</label>
+            <div class="col-sm-6">
+                <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
+                    @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
+                       new { @class = "form-control", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+                    <div class="input-group-append">
+                        <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary"
+                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -112,27 +145,7 @@
                 @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control", @id = "NamSanXuat" })
             </div>
         </div>
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label " for="idkesach">Tác giả</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="IDTacGia">
-                    <select class="demo" multiple="multiple"  name="IDTacGia" id="LoadTG" >         
-                        @foreach (var i in IdTacGia)
-                        {
-                            <option value="@i.Id">@i.TenTacGia</option>
-                        }   
-                    </select>
-                   
-                </div>
-                <div class="input-group-append" style="float: right;padding-left: 2px;margin: -38px 0px;">
-                    <a href="@Url.Content("~/Sach/RQTacGiasach")" class="btn btn-primary"
-                       data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                        <i class="fa fa-plus" style="line-height: 24px;"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="form-group row" >
             <label class="col-form-label col-sm-3 form-label" for="GiaSach">Giá Sách:</label>
             <div class="col-sm-6">
@@ -180,15 +193,13 @@
 <script src="~/Scripts/LoadTacGia.js"></script>
 <script src="~/Content/css/fSelect.js"></script>
 <script>
-$('.demo').fSelect();
+//$('.demo').fSelect();
 </script>
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
     <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/LibraryAngularJS.js"></script>
 
     <script>
         function RequestAltInsertGuiBegin() {
@@ -228,8 +239,6 @@ $('.demo').fSelect();
         //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
         //    }, 30000);
         //});
-
-
 
         $(function () {
             var multiSelect = $('[data-multiple]');

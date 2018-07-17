@@ -188,7 +188,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
 // Get a book by Id - TraSachCtrlr  
 app.controller('TraSachCtrlr', function ($scope, $http) {
     $scope.list = [];
-   
+
     $scope.addItem = function (id) {
         //var id = document.getElementById('idSach').innerHTML; //id ma sach (id mongo)
         var sltra = document.getElementById('sl' + id).value;
@@ -277,12 +277,27 @@ app.controller('KeSach', function ($scope, $http) {
         })
     };
 });
+
 app.controller('NgonNgu', function ($scope, $http) {
 
     $scope.GetAllData = function () {
         $http({
             method: "get",
             url: "/NgonNgu/GetAll"
+        }).then(function (response) {
+            $scope.list = response.data;
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+});
+
+app.controller('TacGiaSelectorCtrlr', function ($scope, $http) {
+
+    $scope.GetAllData = function () {
+        $http({
+            method: "get",
+            url: "/TacGia/GetAll"
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
