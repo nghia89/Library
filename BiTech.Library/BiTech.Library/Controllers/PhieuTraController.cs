@@ -124,32 +124,33 @@ namespace BiTech.Library.Controllers
                             //Insert chitiet phieutra
                             string idCtpt = _ChiTietPhieuTraLogic.Insert(ctpt);
 
+                            #region Kiểm tra trả đủ
                             // update ngày trả PhieuMuon nếu như trả hết
                             int slSachPM = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(ctpt.IdSach, _PhieuTraLogic.GetById(ctpt.IdPhieuTra).IdPhieuMuon).SoLuong;
-                            var lstSachPT = _ChiTietPhieuTraLogic.GetByIdBook(ctpt.IdSach);
+                            var lstIdPT = _PhieuTraLogic.GetByIdPM(model.IdPM); //list phieu tra theo phieu muon
                             int slSachTra = 0; //so luong sach da tra
-                            foreach(var item in lstSachPT)
+                            foreach (var item in lstIdPT)
                             {
-                                slSachTra += item.SoLuong;
+                                slSachTra += _ChiTietPhieuTraLogic.GetByIdBook_IdPT(ctpt.IdSach, item.Id).SoLuong; //lấy số lượng của PT theo IdPM
                             }
                             //trả hết thì cập nhật lại ngày trả của phiếu muợn
                             if (slSachTra == slSachPM && traHet == true)
                                 traHet = true; //trả hết
                             else
                                 traHet = false; //trả chưa hết
-                            --i;
+                            --i;                           
                             if (traHet && i==0)
                             {
                                 try
                                 {
                                     //lấy số lượng sách trong PhieuMuon
-                                    if (Validate(ctModel.SoLuong, ctModel.IdSach, model.IdPM, userdata)) //true - cập nhật ngày trả trong phiếu mượn
-                                    {
+                                    //if (Validate(ctModel.SoLuong, ctModel.IdSach, model.IdPM, userdata)) //true - cập nhật ngày trả trong phiếu mượn
+                                    //{
                                         var phieuMuon = _PhieuMuonLogic.GetById(model.IdPM);
                                         phieuMuon.NgayTra = DateTime.Now;
                                         phieuMuon.TrangThaiPhieu = EPhieuMuon.DaTra;
                                         _PhieuMuonLogic.Update(phieuMuon);
-                                    }
+                                    //}
                                 }
                                 catch (Exception ex)
                                 {
@@ -159,6 +160,8 @@ namespace BiTech.Library.Controllers
                                     throw ex;
                                 }                                
                             }
+                            #endregion
+
                             //update so lượng bảng Sach
                             var sach = _SachLogic.GetById(ctpt.IdSach); //id mongo
                             sach.SoLuongConLai += ctpt.SoLuong;
@@ -261,6 +264,7 @@ namespace BiTech.Library.Controllers
         private bool Validate(int soLuong, string idSach, string idPM, SSOUserDataModel userdata)
         {
             var _ChiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             int soLuongMuon = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idSach, idPM).SoLuong;
             return soLuong == soLuongMuon ? true : false;
