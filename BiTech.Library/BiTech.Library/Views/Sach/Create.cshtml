@@ -2,12 +2,13 @@
 @{
     ViewBag.Title = "Thêm sách";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var IdTacGia =(List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
+    var IdTacGia = (List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
 }
 <link href="~/Content/css/fSelect.css" rel="stylesheet" />
 
 <div class="Title">Thêm Sách</div>
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+
 @*<script src="~/bower_components/jquery/dist/jquery.js"></script>*@
 <div ng-app="LibraryApp" class="clearfix">
     @using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
@@ -52,7 +53,7 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ Sách:</label>
-            <div class="col-sm-6" >
+            <div class="col-sm-6">
                 <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
                        new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
@@ -95,7 +96,7 @@
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
-                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                       new { @class = "form-control ", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                     <div class="input-group-append">
                         <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
@@ -115,14 +116,13 @@
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label " for="idkesach">Tác giả</label>
             <div class="col-sm-6">
-                <div class="input-group mb-3" id="IDTacGia">
-                    <select class="demo" multiple="multiple"  name="IDTacGia" id="LoadTG" >         
+                <div class="input-group mb-3" >
+                    <select class="demo" multiple="multiple" name="IDTacGia" id="LoadTG">
                         @foreach (var i in IdTacGia)
                         {
                             <option value="@i.Id">@i.TenTacGia</option>
-                        }   
+                        }
                     </select>
-                   
                 </div>
                 <div class="input-group-append" style="float: right;padding-left: 2px;margin: -38px 0px;">
                     <a href="@Url.Content("~/Sach/RQTacGiasach")" class="btn btn-primary"
@@ -133,7 +133,7 @@
             </div>
         </div>
 
-        <div class="form-group row" >
+        <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="GiaSach">Giá Sách:</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control", @id = "GiaSach" })
@@ -177,11 +177,13 @@
 
 <div id="ajax"></div>
 @section scripts{
-<script src="~/Scripts/LoadTacGia.js"></script>
-<script src="~/Content/css/fSelect.js"></script>
-<script>
-$('.demo').fSelect();
-</script>
+    <script src="~/Scripts/LoadTacGia.js"></script>
+    <script src="~/Content/css/fSelect.js"></script>
+   
+    <script>
+        $('.demo').fSelect();
+    </script>
+
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
     <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
