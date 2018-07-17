@@ -14,8 +14,8 @@ namespace BiTech.Library.Models
         public HttpPostedFileBase FileImageCover { get; set; }
         
         public List<Language> Languages { get; set; }
-
-        //public List<string> ListIdTacGia { get; set; }
+        
+        public List<string> ListTacGiaJson { get; set; }
 
         public SachUploadModel()
         {

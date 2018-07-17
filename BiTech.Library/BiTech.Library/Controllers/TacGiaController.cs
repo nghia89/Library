@@ -9,6 +9,7 @@ using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using PagedList;
 using PagedList.Mvc;
+using Newtonsoft.Json;
 
 namespace BiTech.Library.Controllers
 {
@@ -42,10 +43,12 @@ namespace BiTech.Library.Controllers
 
             return View(lsttg.OrderBy(m => m.TenTacGia).ToPagedList(PageNumber, PageSize));
         }
+
         public ActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Create(TacGia tacgia)
         {
@@ -60,6 +63,7 @@ namespace BiTech.Library.Controllers
 
             return RedirectToAction("Index");
         }
+
         public ActionResult Edit(string id)
         {
             #region  Lấy thông tin người dùng
@@ -80,6 +84,7 @@ namespace BiTech.Library.Controllers
             };
             return View(tg);
         }
+
         [HttpPost]
         public JsonResult GetAll()
         {
@@ -94,6 +99,29 @@ namespace BiTech.Library.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
+
+        public JsonResult FindTacGia(string query)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _TacGiaLogic.FindTacGia(query);
+
+            List<TacGiaShortViewModel> tgs = new List<TacGiaShortViewModel>();
+            foreach(var item in list)
+            {
+                tgs.Add(new TacGiaShortViewModel() { Id = item.Id, TenTacGia = item.TenTacGia });
+            }
+            
+            return Json(JsonConvert.SerializeObject(tgs), JsonRequestBehavior.AllowGet);
+
+        }
+        
         [HttpPost]
         public ActionResult Edit(TacGia tacgia)
         {
@@ -108,6 +136,7 @@ namespace BiTech.Library.Controllers
 
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public ActionResult Delete(string Id)
         {

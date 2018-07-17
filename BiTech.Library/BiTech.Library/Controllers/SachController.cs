@@ -2,6 +2,7 @@
 using BiTech.Library.Common;
 using BiTech.Library.DTO;
 using BiTech.Library.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,15 +63,18 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var idTG = _TacGiaLogic.GetAllTacGia();
-            ViewBag.IdTacGia = idTG;
+            //var idTG = _TacGiaLogic.GetAllTacGia();
+            //ViewBag.IdTacGia = idTG;
+
             SachUploadModel model = new SachUploadModel();
             model.Languages = _LanguageLogic.GetAll();
+
+            ViewBag.Message = TempData["ThemSachMsg"] = "";
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(SachUploadModel model, List<string> IDTacGia)
+        public ActionResult Create(SachUploadModel model)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -78,54 +82,84 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
+            ViewBag.Message = TempData["ThemSachMsg"] = "";
 
             if (ModelState.IsValid)
             {
                 SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
                 SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                
+                TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
                 string id = _SachLogic.ThemSach(model.SachDTO);
 
                 if (id.Length > 0)
-                    foreach (var tg in IDTacGia)
-                    {
-                        _SachTacGiaLogic.ThemSachTacGia(new SachTacGia()
-                        {
-                            IdSach = id,
-                            IdTacGia = tg
-                        });
-                    }
-
-                if (model.FileImageCover != null)
                 {
-                    try
+                    string failTG = "";
+                    foreach (var tg in model.ListTacGiaJson)
                     {
-                        string physicalWebRootPath = Server.MapPath("~/");
-                        string uploadFolder = GetUploadFolder(Helpers.UploadFolder.BookCovers) + id;
+                        var item = JsonConvert.DeserializeObject<TacGiaViewModel>(tg);
+                        string tgId = "";
 
-                        var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, Guid.NewGuid()
-                            + Path.GetExtension(model.FileImageCover.FileName));
-                        string location = Path.GetDirectoryName(uploadFileName);
-
-                        if (!Directory.Exists(location))
+                        if (string.IsNullOrEmpty(item.Id))
                         {
-                            Directory.CreateDirectory(location);
+                            tgId = _TacGiaLogic.Insert(new TacGia() { TenTacGia = item.TenTacGia, MoTa = "", QuocTich = "" });
+                        }
+                        else
+                        {
+                            tgId = _TacGiaLogic.GetById(item.Id)?.Id ?? "";
                         }
 
-                        using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                        if (!string.IsNullOrEmpty(tgId))
                         {
-                            model.FileImageCover.InputStream.CopyTo(fileStream);
-
-                            var book = _SachLogic.GetById(id);
-                            book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                            _SachLogic.Update(book);
+                            _SachTacGiaLogic.ThemSachTacGia(new SachTacGia()
+                            {
+                                IdSach = id,
+                                IdTacGia = tgId
+                            });
+                        }
+                        else
+                        {
+                            failTG += item.TenTacGia + ", ";
                         }
                     }
-                    catch { }
-                }
 
-                return RedirectToAction("Index");
+                    if (model.FileImageCover != null)
+                    {
+                        try
+                        {
+                            string physicalWebRootPath = Server.MapPath("~/");
+                            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.BookCovers) + id;
+
+                            var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, Guid.NewGuid()
+                                + Path.GetExtension(model.FileImageCover.FileName));
+                            string location = Path.GetDirectoryName(uploadFileName);
+
+                            if (!Directory.Exists(location))
+                            {
+                                Directory.CreateDirectory(location);
+                            }
+
+                            using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                            {
+                                model.FileImageCover.InputStream.CopyTo(fileStream);
+
+                                var book = _SachLogic.GetById(id);
+                                book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                                _SachLogic.Update(book);
+                            }
+                        }
+                        catch { }
+                    }
+
+                    if (failTG.Length > 0)
+                    {
+                        failTG = failTG.Substring(0, failTG.Length - 2);
+                        TempData["ThemSachMsg"] = string.Format("Chú ý: Chọn tác giả {0} thất bại, vui lòng cập nhật sau.", failTG);
+                    }
+
+                    return RedirectToAction("Index");
+                }
+                TempData["ThemSachMsg"] = "Thêm sách thất bại";
             }
 
 
@@ -133,6 +167,13 @@ namespace BiTech.Library.Controllers
             model.Languages = _LanguageLogic.GetAll();
 
             return View(model);
+        }
+
+        public ActionResult CreateSuccess()
+        {
+            ViewBag.Message = TempData["ThemSachMsg"];
+
+            return View();
         }
 
         public ActionResult Edit(string id)
@@ -253,9 +294,10 @@ namespace BiTech.Library.Controllers
         {
             return PartialView("_NhapNhaXuatBan");
         }
-        public ActionResult RQTacGiasach()
+
+        public ActionResult ThemTacGia()
         {
-            return PartialView("_RQTacGiasach");
+            return PartialView("_ThemTacGia");
         }
     }
 }
