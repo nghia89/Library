@@ -261,7 +261,7 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SachViewModels.cs" />
     <Compile Include="Models\Sach\LanguageViewModels.cs" />
-    <Compile Include="Models\SSOUserDataModel.cs" />
+    <Compile Include="Models\SSOModel.cs" />
     <Compile Include="Models\TacGiaViewModel.cs" />
     <Compile Include="Models\ThongKeViewModel.cs" />
     <Compile Include="Models\TrangThaiSachViewModel.cs" />
@@ -776,7 +776,6 @@
     <Content Include="Views\PhieuNhapSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Index.cshtml" />
     <Content Include="Views\Statistic\Index.cshtml" />
-    <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
     <Content Include="Views\BarCodeDemo\BarCodeRead.cshtml" />
     <Content Include="Views\NgonNgu\Index.cshtml" />
     <Content Include="Views\NgonNgu\Edit.cshtml" />
@@ -820,9 +819,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\LoadTacGia.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
