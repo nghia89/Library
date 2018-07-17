@@ -4,57 +4,56 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var i = 0;
-
 }
 
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Danh Sách Kệ Sách</div>
-    
-      <p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
+
+<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
 
 
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr class="table-info">
-                    <th scope="col">#</th>
-                    <th scope="col">Tên kệ</th>
-                    <th scope="col">Vị trí</th>
-                    <th scope="col">Ghi chú</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr class="table-info">
+            <th scope="col">#</th>
+            <th scope="col">Tên kệ</th>
+            <th scope="col">Vị trí</th>
+            <th scope="col">Ghi chú</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
 
-                @foreach (var item in Model)
-            {
-                i++;
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.TenKe</td>
-                        <td>@item.ViTri</td>
-                        <td>@item.GhiChu </td>
-                      
-                        <td>
+        @foreach (var item in Model)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@item.TenKe</td>
+                <td>@item.ViTri</td>
+                <td>@item.GhiChu </td>
 
-                            <a class="color-white btn btn-outline-primary" href="@Url.Action("Edit", new { id = item.Id })">
-                                Sửa
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </a>
+                <td>
 
-
-                          
-
-                        </td>
-
-                    </tr>
-
-                }
-
-            </tbody>
+                    <a class="color-white btn btn-outline-primary" href="@Url.Action("Edit", new { id = item.Id })">
+                        Sửa
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
 
 
-        </table>
-    
+
+
+                </td>
+
+            </tr>
+
+        }
+
+    </tbody>
+
+
+</table>
+
 <div>
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>

@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Common;
 using BiTech.Library.DTO;
 using BiTech.Library.Models;
 using System;
@@ -13,23 +14,28 @@ namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
     {
-        public ActionResult Index()
-        {
+        public ActionResult Index(KeySearchViewModel KeySearch)
+        { 
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            #endregion
+            #endregion                   
 
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             KeSachLogic _KeSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ListBooksModel model = new ListBooksModel();
 
-            var list = _SachLogic.getAllSach();
+            ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();
+            ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
+            ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
+
+            var list = _SachLogic.getPageSach(KeySearch);
             foreach (var item in list)
             {
                 BookView book = new BookView(item);

@@ -21,6 +21,7 @@ namespace BiTech.Library.BLL.DBLogic
 
         public List<TheLoaiSach> GetAllTheLoaiSach()
         {
+
             return _theloaiSachEngine.GetAllTheLoaiSach();
         }
 
