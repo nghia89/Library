@@ -333,7 +333,7 @@ namespace BiTech.Library.Controllers
                 return kq;
             else
             {
-                kq = kq + "<a href=/TheLoaiSach?idParent=" + TLS.Id + ">/" + TLS.TenTheLoai + "</a>";
+                kq = kq + "<i class=\"arrow right_icon\"></i><a href=/TheLoaiSach?idParent=" + TLS.Id + ">" + TLS.TenTheLoai + "</a>";
                 TheLoaiSach TLSParent = _TheLoaiSachLogic.getById(TLS.IdParent);
                 kq = GetViewLinkURL(TLSParent) + kq;
             }

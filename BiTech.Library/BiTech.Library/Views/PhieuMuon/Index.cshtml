@@ -3,6 +3,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
+
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Danh Sách</div>
 <header id="topbar">
     <h5>@Html.ActionLink("Thêm mới", "CreatePhieuMuon", "PhieuMuon", new { @class = "btn btn-primary" })</h5>
@@ -20,7 +22,7 @@
             <th>Ngày mượn</th>
             <th>Ngày phải trả</th>
             <th>Trạng thái</th>
-            <th>Gia hạn</th>
+            <th>Số ngày gia hạn</th>
             <th>Ghi chú</th>
             <th>Hành động</th>
         </tr>
@@ -45,15 +47,60 @@
                 }
                 </td>*@
                 <td>@item.TrangThai</td>
-                <td>@item.GiaHan</td>
+                <td align="center">@item.GiaHan</td>
                 <td>@item.GhiChu</td>
                 @*<a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a> |
                     <a href="@Url.Action("ChiTietPhieuMuon",new { id = item.Id})"> Chi tiết</a>*@
-                <td>
-                    <a href="@Url.Action("EditPhieuMuon",new { @id = item.Id})">Sửa</a>
-                    | <a href="@Url.Action("TaoPhieuTra", "PhieuTra", new { idPM = item.Id})"> Trả sách</a>
+                <td>                   
+                    <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaItem('@item.Id')" />                  
+                    <a class="btn btn-success" href="@Url.Action("TaoPhieuTra", "PhieuTra", new { idPM = item.Id})"> Trả sách</a>
+                    @if ((item.TrangThai == ViewBag.ChuaTra && item.GiaHan != ViewBag.NgayTraToiDa.ToString()))
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("GiaHanPhieuMuon",new { @id = item.Id})">Gia hạn</a>
+                    }
+
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts{
+<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function XoaItem(id) {
+            swal({
+                title: " Bạn có muốn xóa?",
+                text: "Bạn sẽ không thể khôi phục lại sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/PhieuMuon/Delete",
+                        data: { "id": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function (isConfirm) {
+                                window.location.href = '/PhieuMuon';
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

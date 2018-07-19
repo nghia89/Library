@@ -75,7 +75,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuXuatSach/_GetBookItemById",
             params: {
-                idBook: $scope.idBook,
+                maKiemSoat: $scope.maKS,
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
                 idLyDo: $scope.idLyDo
@@ -159,7 +159,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuMuon/_GetBookItemById",
             params: {
-                idBook: $scope.list[id].MaKiemSoat,
+                MaKiemSoat: $scope.list[id].MaKiemSoat,
                 soLuong: document.getElementById('sach' + id).value,
             }
         }).then(function (response) {
@@ -190,6 +190,7 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
     $scope.list = [];
 
     $scope.addItem = function (id) {
+        //var id = document.getElementById('idSach').innerHTML; //id ma sach (id mongo)
         var sltra = document.getElementById('sl' + id).value;
         var trangthai = document.getElementById('tt' + id).value;
         var idPM = document.getElementById('idPM').value;
@@ -198,7 +199,7 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuTra/GetThongTinPhieuTra",
             params: {
-                idBook: id,
+                id: id,
                 soLuong: sltra,
                 idTrangThai: trangthai,
                 idPM: idPM
@@ -276,12 +277,27 @@ app.controller('KeSach', function ($scope, $http) {
         })
     };
 });
+
 app.controller('NgonNgu', function ($scope, $http) {
 
     $scope.GetAllData = function () {
         $http({
             method: "get",
             url: "/NgonNgu/GetAll"
+        }).then(function (response) {
+            $scope.list = response.data;
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+});
+
+app.controller('TacGiaSelectorCtrlr', function ($scope, $http) {
+
+    $scope.GetAllData = function () {
+        $http({
+            method: "get",
+            url: "/TacGia/GetAll"
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {

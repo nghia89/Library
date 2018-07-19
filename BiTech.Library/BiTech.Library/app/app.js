@@ -5,7 +5,18 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
     $scope.labels = ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', ' Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', ' Tháng 10', 'Tháng 11', 'Tháng 12'];
     $scope.series = ['Phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả Sách', 'Số Sách Được Mượn', 'Số Người Trả Trễ'];
-    $scope.options = { legend: { display: true } };
+    $scope.options = {
+        legend: { display: true },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ]
+        }
+    };
     $scope.chartdataYear = [];
     $scope.Year = '';
     Chart.defaults.global.colors = [
@@ -120,8 +131,9 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 app.controller('MonthCtroller', function ($scope, $http, $location) {
 
 
+ $scope.labels = ['01', '02', '03', '04', '05', ' 06', '07', '08', '09', '10', '11', '12','03', '14', '14', '16', '17', '18', '19', '20', '21', ' 22', '23', '24','25', ' 26', ' 27', ' 28', ' 29', '  30', ' 31'];
     $scope.labels = ['01', '02', '03', '04', '05', ' 06', '07', '08', '09', '10', '11', '12',
-    '03', '14', '14', '16', '17', '18', '19', '20', '21', ' 22', '23', '24','25', ' 26', ' 27', ' 28', ' 29', '  30', ' 31'];
+        '03', '14', '14', '16', '17', '18', '19', '20', '21', ' 22', '23', '24', '25', ' 26', ' 27', ' 28', ' 29', '  30', ' 31'];
     $scope.series = ['Phiếu Mượn Trong Ngày', 'Số Người Mượn Trong Ngày', 'Số Người Không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trễ'];
     //$scope.colors = [{
 
@@ -132,7 +144,18 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
     //}];
 
     $scope.chartdataMonth = [];
-    $scope.options = { legend: { display: true } };
+    $scope.options = {
+        legend: { display: true },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ]
+        }
+    };
     $scope.loading = true;
     $scope.Keymonth = '';
     $scope.KeyYear = '';
@@ -166,12 +189,13 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                 response.data.lsoNguoiMuonTrongNgay.forEach(function (i, index) {
                     lsoNguoiMuonTrongNgay.push(i);
                 });
-                response.data.lsoNguoiKhongTraTrongNgay.forEach(function (i, index) {
-                    lsoNguoiKhongTraTrongNgay.push(i);
-                });
                 response.data.lsoSachDuocMuonTrongNgay.forEach(function (i, index) {
                     lsoSachDuocMuonTrongNgay.push(i);
                 });
+                response.data.lsoNguoiKhongTraTrongNgay.forEach(function (i, index) {
+                    lsoNguoiKhongTraTrongNgay.push(i);
+                });
+               
                 response.data.lsoNguoiTraTreTrongNgay.forEach(function (i, index) {
                     lsoNguoiTraTreTrongNgay.push(i);
                 });

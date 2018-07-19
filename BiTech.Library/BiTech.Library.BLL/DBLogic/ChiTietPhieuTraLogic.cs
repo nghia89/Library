@@ -76,5 +76,9 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietPhieuTraEngine.Remove(id);
         }
+        public ChiTietPhieuTra GetByIdBook_IdPT(string idSach, string idPT)
+        {
+            return _ChiTietPhieuTraEngine.GetByIdBook_IdPT(idSach, idPT);
+        }
     }
 }

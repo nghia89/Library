@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.js"></script>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
@@ -76,7 +76,7 @@
                             @foreach (var item in Model.detail.BookList)
                             {
                                 <tr>
-                                    <td>@item.IdSach</td>
+                                    <td id="idSach">@item.IdSach</td>
                                     <td>@item.TenSach</td>
                                     <td>@item.SoLuong</td>
                                     <td>@item.SoLuongSachDaTra</td>
@@ -98,8 +98,9 @@
                                             @Html.DropDownList("tt" + item.IdSach, new SelectList(Model.ListTrangThai, "Id", "TenTT"), new { ng_model = "idTrangThai", @class = "form - control" })
                                         </td>
                                         <td>
+                                            @*<button class="btn btn-success" type="button" ng-click="addItem(123)">Thêm</button>*@
                                             <input type="button" class="btn btn-sm btn-primary" style="width:40px;"
-                                                   ng-click="addItem(@Html.Raw(item.IdSach))" value="Trả" />
+                                                   ng-click="addItem('@Html.Raw(item.IdSach)')" value="Trả" />
                                         </td>
                                     }
                                 </tr>

@@ -22,7 +22,7 @@ namespace BiTech.Library.DAL.Engines
         /// <returns></returns>
         public List<PhieuMuon> GetAll()
         {
-            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted && _.NgayTra == null).ToList();
+            return _DatabaseCollection.Find(_ => _.TrangThaiPhieu != EPhieuMuon.Deleted ).ToList();
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace BiTech.Library.DAL.Engines
         /// <returns></returns>
         public List<PhieuMuon> GetByIdUser(string idUser)
         {
-            return _DatabaseCollection.Find(_ => _.IdUser == idUser && _.NgayTra == null).ToList();
+            return _DatabaseCollection.Find(_ => _.IdUser == idUser && _.TrangThaiPhieu != EPhieuMuon.Deleted).ToList();
         }
         //public List<PhieuMuon> GetByDate()
 

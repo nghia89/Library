@@ -46,11 +46,30 @@ namespace BiTech.Library.Models
         [Display(Name = "Trạng thái")]
         public string TrangThai{ get; set; }
 
-        [Display(Name = "Gia hạn")]
+        [Display(Name = "Số ngày gia hạn")]
         public string GiaHan{ get; set; }
 
         [Display(Name = "Ghi chú")]
         public string GhiChu{ get; set; }
+    }
+    public class PhieuMuonGiaHanModelView
+    {
+        public string IdPM { get; set; }
+
+        [Display(Name = "Người mượn")]
+        public string TenNguoiMuon { get; set; }
+
+        [Display(Name = "Ngày mượn")]
+        [DataType(DataType.Date)]
+        public DateTime NgayMuon { get; set; }
+
+        [Display(Name = "Ngày phải trả")]
+        [DataType(DataType.Date)]
+        public DateTime NgayPhaiTra { get; set; }
+
+        [Display(Name = "Gia hạn")]
+        public string GiaHan { get; set; }
+        
     }
 
     public class ChiTietPMViewModel
