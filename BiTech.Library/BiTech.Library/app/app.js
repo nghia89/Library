@@ -120,9 +120,8 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 app.controller('MonthCtroller', function ($scope, $http, $location) {
 
 
-    $scope.labels = ['Ngày 01', 'Ngày 02', 'Ngày 03', 'Ngày 04', 'Ngày 05', ' Ngày 06', 'Ngày 07', 'Ngày 08', 'Ngày 09', ' Ngày 10', 'Ngày 11', 'Ngày 12',
-    'Ngày 03', 'Ngày 14', 'Ngày 14', 'Ngày 16', 'Ngày 17', ' Ngày 18', 'Ngày 19', 'Ngày 20', 'Ngày 21', ' Ngày 22', 'Ngày 23', 'Ngày 24',
-    'Ngày 25', 'Ngày 26', 'Ngày 27', 'Ngày 28', 'Ngày 29', ' Ngày 30', 'Ngày 31'];
+    $scope.labels = ['01', '02', '03', '04', '05', ' 06', '07', '08', '09', '10', '11', '12',
+    '03', '14', '14', '16', '17', '18', '19', '20', '21', ' 22', '23', '24','25', ' 26', ' 27', ' 28', ' 29', '  30', ' 31'];
     $scope.series = ['Phiếu Mượn Trong Ngày', 'Số Người Mượn Trong Ngày', 'Số Người Không Trả sách', 'Số Sách Được Mượn', 'Số Người Trả Trễ'];
     //$scope.colors = [{
 
