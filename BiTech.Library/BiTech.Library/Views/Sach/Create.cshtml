@@ -27,14 +27,14 @@
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="tensach">Tên Sách:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control", @id = "tensach" })
+                @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control", @id = "ISBN" })
+                @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN" })
             </div>
         </div>
 
@@ -43,12 +43,12 @@
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
-                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+                       new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
                     @*s.Id as s.TenTheLoai for s in list*@
                     <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary"
+                        <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                            <i class="fa fa-plus" style="line-height: 20px;"></i>
                         </a>
                     </div>
                 </div>
@@ -62,18 +62,19 @@
                     <tags-input ng-model="listtg"
                                 replace-spaces-with-dashes="false"
                                 display-property="TenTacGia"
-                                class="form-control">
+                                class="form-control form-control-sm">
                         <auto-complete source="loadData($query)"></auto-complete>
+                        <div ng-repeat="s in listtg">
+                            <input hidden="hidden" ng-cloak class="btn btn-default" name="ListTacGiaJson" value="{{s}}" />
+                        </div>
                     </tags-input>
                     <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary"
+                        <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary btn-sm"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                            <i class="fa fa-plus" style="line-height: 20px;"></i>
                         </a>
                     </div>
-                    <div ng-repeat="s in listtg">
-                        <input hidden="hidden" ng-cloak class="btn btn-default" name="ListTacGiaJson" value="{{s}}" />
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -83,11 +84,11 @@
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
-                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                       new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                     <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary"
+                        <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                            <i class="fa fa-plus" style="line-height: 20px;"></i>
                         </a>
                     </div>
                 </div>
@@ -99,9 +100,9 @@
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
-                       new { @class = "form-control", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+                       new { @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
                     <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary"
+                        <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
                             <i class="fa fa-plus" style="line-height: 24px;"></i>
                         </a>
@@ -113,7 +114,7 @@
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="sotrang">Số Trang:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control", @id = "sotrang" })
+                @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
             </div>
         </div>
 
@@ -122,11 +123,11 @@
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
                     @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
-                       new { @class = "form-control ", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                       new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                     <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary"
+                        <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
+                            <i class="fa fa-plus" style="line-height: 20px;"></i>
                         </a>
                     </div>
                 </div>
@@ -136,28 +137,28 @@
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm Xuất Bản:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control", @id = "NamSanXuat" })
+                @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
             </div>
         </div>
         
         <div class="form-group row" >
             <label class="col-form-label col-sm-3 form-label" for="GiaSach">Giá Sách:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control", @id = "GiaSach" })
+                @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control form-control-sm", @id = "GiaSach" })
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control", @id = "PhiMuonSach" })
+                @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm Tắt:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.TomTat, new { @class = "form-control", @id = "TomTat" })
+                @Html.TextBoxFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
                 @Html.ValidationMessageFor(m => m.SachDTO.TomTat)
             </div>
         </div>
@@ -174,8 +175,8 @@
         <div class="form-group row box_temp_lg">
             <label class="col-form-label col-sm-3 form-label"></label>
             <div class="col-sm-6">
-                <input type="submit" class="btn btn-primary" name="btnThemSach" value="Thêm Mới" />
-                <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default" />
+                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm Mới" />
+                <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default btn-sm" />
             </div>
         </div>
 
