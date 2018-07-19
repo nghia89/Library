@@ -75,11 +75,14 @@ namespace BiTech.Library.DAL.Engines
             {
                 //string[] Id = KeySearch.ListSachIds.Split(',');
 
-                FilterDefinition<Sach> filterDefinition2 = new BsonDocument();
+                FilterDefinition<Sach> filterDefinition2 = builder.Where(x=>false);
 
+                foreach (var item in KeySearch.ListSachIds)
+                {
+                    filterDefinition2 = filterDefinition2 | builder.Where(x => x.Id.Equals(item));
+                }
 
-
-                filterDefinition = filterDefinition & filterDefinition2;
+                filterDefinition = filterDefinition & (filterDefinition2);
             }
             //if (!string.IsNullOrEmpty(KeySearch.ListSachIds))
             //{
