@@ -898,8 +898,7 @@ namespace BiTech.Library.Controllers
             model = new ThongKeViewModel
             {
                 HinhChanDung = thanhVien.HinhChanDung,
-                TenDocGia = thanhVien.Ten,
-                CMND = thanhVien.CMND,
+                TenDocGia = thanhVien.Ten,          
                 DiaChi = thanhVien.DiaChi,
                 SDT = thanhVien.SDT,
                 TrangThaiUser = thanhVien.TrangThai,

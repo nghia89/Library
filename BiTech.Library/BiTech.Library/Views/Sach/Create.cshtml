@@ -167,7 +167,7 @@
             <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa Sách:</label>
             <div class="col-sm-6">
                 <img id="blah" src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
-                @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
+                @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })        
                 @Html.ValidationMessageFor(m => m.FileImageCover)
             </div>
         </div>

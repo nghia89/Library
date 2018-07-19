@@ -5,7 +5,8 @@ namespace BiTech.Library.Helpers
     public enum UploadFolder
     {
         BookCovers,
-        QRCodeUser
+        QRCodeUser,
+        AvatarUser
     }
 
     public static class Tool
@@ -24,6 +25,8 @@ namespace BiTech.Library.Helpers
                     return mainUpload + @"BookCovers\";
                 case UploadFolder.QRCodeUser:
                     return mainUpload + @"QRCodeUser\";
+                case UploadFolder.AvatarUser:
+                    return mainUpload + @"AvatarUser\";
                 default:
                     return null;
             }
