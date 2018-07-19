@@ -1,4 +1,4 @@
-﻿using BiTech.Library.BLL.BarCode_QR;
+﻿ using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
@@ -14,9 +14,9 @@ using static BiTech.Library.Helpers.Tool;
 namespace BiTech.Library.Controllers
 {
     //[Authorize]
-    public class UserController : BaseController
+    public class ThanhVienController : BaseController
     {
-        public UserController()
+        public ThanhVienController()
         {
         }
 
@@ -62,6 +62,7 @@ namespace BiTech.Library.Controllers
                     lstUser = _ThanhVienLogic.GetAll();
                 }
             }
+            ViewBag.stt = lstUser.Count;
             return PartialView(lstUser);
 
             //return new JsonResult(new { tensach = "", cover = "" });
@@ -78,6 +79,8 @@ namespace BiTech.Library.Controllers
             ViewBag.UnSuccess = TempData["UnSuccess"];
             ViewBag.IdUser = TempData["IdUser"];
             ViewBag.Duplicate = TempData["Duplicate"];
+
+
             return View();
         }
 
@@ -94,26 +97,27 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            BarCodeQRManager barcode = new BarCodeQRManager();
 
             if (viewModel.MaSoThanhVien == null || viewModel.Ten == null || viewModel.Password == null)
             {
                 TempData["IdUser"] = "Dữ liệu không phù hợp";
                 return View();
             }
-
-            BarCodeQRManager barcode = new BarCodeQRManager();
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            ThanhVien model = new ThanhVien()
+            ThanhVien thanhVien = new ThanhVien()
             {
                 UserName = viewModel.UserName,
                 Password = viewModel.Password,
                 Ten = viewModel.Ten,
                 MaSoThanhVien = viewModel.MaSoThanhVien,
-                CMND = viewModel.CMND,
+                NgaySinh = viewModel.NgaySinh,
+                GioiTinh = viewModel.GioiTinh,
+                LopHoc = viewModel.LopHoc,
                 DiaChi = viewModel.DiaChi,
                 SDT = viewModel.SDT,
-                IdChucVu = viewModel.IdChucVu,
+                ChucVu = viewModel.ChucVu,
+                //IdChucVu = viewModel.IdChucVu,
                 TrangThai = EUser.Active, // mac dinh la Active
                 CreateDateTime = DateTime.Now
             };
@@ -122,14 +126,43 @@ namespace BiTech.Library.Controllers
             if (idMaThanhVien == null)
             {
                 //insertl
-                string id = _ThanhVienLogic.Insert(model);
+                string id = _ThanhVienLogic.Insert(thanhVien);
+                // Lưu hình ảnh     
+
+                if (viewModel.HinhChanDung != null)
+                {
+                    try
+                    {
+                        string physicalWebRootPath = Server.MapPath("~/");
+                        string uploadFolder = GetUploadFolder(Helpers.UploadFolder.AvatarUser);
+                        //var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, Guid.NewGuid()
+                        //    + Path.GetExtension(viewModel.HinhChanDung.FileName));
+                        var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien + "-" + viewModel.HinhChanDung.FileName);
+
+                        //string location = Path.GetDirectoryName(uploadFileName);
+                        //if (!Directory.Exists(location))
+                        //{
+                        //    Directory.CreateDirectory(location);
+                        //}
+                        using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                        {
+                            viewModel.HinhChanDung.InputStream.CopyTo(fileStream);
+                            var tv = _ThanhVienLogic.GetById(id);
+                            tv.HinhChanDung = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                            _ThanhVienLogic.Update(tv);
+                        }
+                    }
+                    catch { }
+                }
+
+                // Lưu mã vạch
                 try
                 {
                     // Lấy đường dẫn lưu QR
                     string physicalWebRootPath = Server.MapPath("~/");
                     string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
 
-                    var uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, model.MaSoThanhVien + "-" + model.Ten + ".bmp");
+                    var uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien + "-" + thanhVien.Ten + ".bmp");
                     var uploadFileNameEAN13 = Path.Combine(physicalWebRootPath, uploadFolder, id + "EAN13.bmp");
                     var uploadFileNameISBN = Path.Combine(physicalWebRootPath, uploadFolder, id + "ISBN.bmp");
                     // chuyển đường dẫn vật lý thành đường dẫn ảo
@@ -137,7 +170,7 @@ namespace BiTech.Library.Controllers
                     var pathEAN13 = uploadFileNameEAN13.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
                     var pathISBN = uploadFileNameISBN.Replace(physicalWebRootPath, "~/").Replace(@"\", @"/").Replace(@"//", @"/");
                     //Tạo mã QR
-                    string info = model.UserName + " " + model.Ten;
+                    string info = thanhVien.UserName + " " + thanhVien.Ten;
 
                     bool bolQR = barcode.CreateQRCode(info, pathQR);
                     //string strISBN = "9786045523032";
@@ -149,7 +182,6 @@ namespace BiTech.Library.Controllers
                     TempData["UnSuccess"] = "Tạo mã QR thất bại\r\n" + ex.Message;
                     return View();
                 }
-
                 if (id == null || id == "")
                 {
                     //Fail
@@ -164,7 +196,7 @@ namespace BiTech.Library.Controllers
                 ViewBag.Duplicate = TempData["Duplicate"] = "Trùng mã";
                 return View();
             }
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("Index", "ThanhVien");
         }
 
         //Get
@@ -179,26 +211,36 @@ namespace BiTech.Library.Controllers
 
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSucces = TempData["UnSuccess"];
-            ThanhVien us = _ThanhVienLogic.GetById(id);
-            if (us == null)
+            ThanhVien tv = _ThanhVienLogic.GetById(id);
+            if (tv == null)
                 return RedirectToAction("NotFound", "Error");
+            tv.NgaySinh.ToString("dd-mm-yyyy");
 
-            UserViewModel model = new UserViewModel()
+            EditUserViewModel model = new EditUserViewModel()
             {
-                Ten = us.Ten,
-                MaSoThanhVien = us.MaSoThanhVien,
-                CMND = us.CMND,
-                DiaChi = us.DiaChi,
-                SDT = us.SDT,
-                TrangThai = us.TrangThai,
+                // thông tin cho phép cập nhật
+                Ten = tv.Ten,
+                DiaChi = tv.DiaChi,
+                SDT = tv.SDT,
+                GioiTinh = tv.GioiTinh,
+                NgaySinh = tv.NgaySinh,
+                LopHoc = tv.LopHoc
+
+                // thông tin không được thay đổi 
+
+                /* UserName = tv.UserName,
+                Password = tv.Password,
+                MaSoThanhVien = tv.MaSoThanhVien,
+                ChucVu = tv.ChucVu,
+                TrangThai = tv.TrangThai, */
             };
-            ViewBag.IdChucVu = us.IdChucVu;
+            ViewBag.HinhChanDung = tv.HinhChanDung;
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult _Edit(UserViewModel viewModel, string id)
+        public ActionResult _Edit(EditUserViewModel viewModel, string id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -208,22 +250,51 @@ namespace BiTech.Library.Controllers
 
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var model = _ThanhVienLogic.GetById(id); //lay 1 tai khoan 
-            model.Ten = viewModel.Ten;
-            model.MaSoThanhVien = viewModel.MaSoThanhVien;
-            model.CMND = viewModel.CMND;
-            model.DiaChi = viewModel.DiaChi;
-            model.SDT = viewModel.SDT;
-            model.IdChucVu = viewModel.IdChucVu;
-            model.TrangThai = viewModel.TrangThai;
+            var thanhVien = _ThanhVienLogic.GetById(id); //lay 1 tai khoan 
+            // thông tin cho phép cập nhật            
+            thanhVien.LopHoc = viewModel.LopHoc;
+            thanhVien.Ten = viewModel.Ten;
+            thanhVien.DiaChi = viewModel.DiaChi;
+            thanhVien.GioiTinh = viewModel.GioiTinh;
+            thanhVien.NgaySinh = viewModel.NgaySinh;
+            thanhVien.SDT = viewModel.SDT;
+            // Cập nhật thông tin tài khoản
+            bool resultInfo = _ThanhVienLogic.Update(thanhVien);
+            bool resultImage = false;
+            if (viewModel.HinhChanDung != null)
+            {
+                try
+                {
+                    string physicalWebRootPath = Server.MapPath("~/");
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.AvatarUser);
+                    var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien + "-" + viewModel.HinhChanDung.FileName);
+                    //var oldFileName = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.HinhChanDung);
+                    //System.IO.File.Delete(oldFileName);
+                    string location = Path.GetDirectoryName(uploadFileName);
+                    if (!Directory.Exists(location))
+                    {
+                        Directory.CreateDirectory(location);
+                    }
 
-            ViewBag.IdChucVu = model.IdChucVu;
-            //Cap nhat voi tai khoan moi
-            bool result = _ThanhVienLogic.Update(model);
-            if (result == true)
+                    using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                    {
+                        viewModel.HinhChanDung.InputStream.CopyTo(fileStream);
+                        var tv = _ThanhVienLogic.GetById(id);
+                        tv.HinhChanDung = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                        resultImage = _ThanhVienLogic.Update(tv);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorImage = ex.ToString();
+                    throw ex;
+                }
+            }
+            if (resultInfo == true || resultImage == true)
             {
                 TempData["Success"] = "Cập nhật thành công";
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Index", "ThanhVien");
             }
             else
                 TempData["UnSuccess"] = "Cập nhật không thành công";
@@ -247,7 +318,7 @@ namespace BiTech.Library.Controllers
             if (result == true)
             {
                 TempData["Success"] = "Xóa thành công";
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Index", "ThanhVien");
             }
             else
                 TempData["Success"] = "Xóa thất bại";
@@ -263,7 +334,7 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", new { @IdUser = model.MaSoThanhVien });
         }
 
-        /// <summary>
+        /// <summary>F
         /// Giao diện thêm thể loại
         /// </summary>
         /// <returns></returns>

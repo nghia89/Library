@@ -243,7 +243,7 @@
     <Compile Include="Controllers\PhieuNhapSachController.cs" />
     <Compile Include="Controllers\NhaXuatBanController.cs" />
     <Compile Include="Controllers\TrangThaiSachController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\ThanhVienController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
     <Compile Include="Global.asax.cs">
@@ -268,7 +268,7 @@
     <Compile Include="Models\TrangThaiSachViewModel.cs" />
     <Compile Include="Models\TheLoaiSachViewModels.cs" />
     <Compile Include="Models\TrangThaiSachViewModels.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\ThanhVienModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -574,6 +574,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\avatar.png" />
+    <Content Include="Content\Images\nancyy.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\StatisticCss.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -712,12 +713,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\_PartialUser.cshtml" />
+    <Content Include="Views\ThanhVien\Index.cshtml" />
+    <Content Include="Views\ThanhVien\_PartialUser.cshtml" />
     <Content Include="Views\ThongKe\DanhSachMuon.cshtml" />
     <Content Include="Views\ThongKe\DanhSachTra.cshtml" />
-    <Content Include="Views\User\_CreateUser.cshtml" />
-    <Content Include="Views\User\_Edit.cshtml" />
+    <Content Include="Views\ThanhVien\_CreateUser.cshtml" />
+    <Content Include="Views\ThanhVien\_Edit.cshtml" />
     <Content Include="Views\PhieuMuon\Index.cshtml" />
     <Content Include="Views\PhieuMuon\CreatePhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\EditPhieuMuon.cshtml" />
@@ -775,7 +776,7 @@
     <Content Include="Views\ChucVu\Index.cshtml" />
     <Content Include="Views\ChucVu\Create.cshtml" />
     <Content Include="Views\ChucVu\Edit.cshtml" />
-    <Content Include="Views\User\_NhapChucVu.cshtml" />
+    <Content Include="Views\ThanhVien\_NhapChucVu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

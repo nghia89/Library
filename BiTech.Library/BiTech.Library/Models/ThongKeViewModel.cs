@@ -44,16 +44,13 @@ namespace BiTech.Library.Models
 
         [Display(Name = "Tên đọc giả")]
         public string TenDocGia { get; set; }
-        [Display(Name = "CMND")]
-        public string CMND { get; set; }
+      
         [Display(Name = "Địa chỉ")]
         public string DiaChi { get; set; }
         [Display(Name = "Số điện thoại")]
         public string SDT { get; set; }
         [Display(Name = "Hình")]
-        public string HinhChanDung { get; set; }
-        [Display(Name = "Chức vụ")]
-        public string IdChucVu { get; set; }
+        public string HinhChanDung { get; set; }       
         [Display(Name = "Trạng thái")]
         public EUser TrangThaiUser { get; set; }
     }
