@@ -21,7 +21,16 @@ namespace BiTech.Library.DAL.Engines
 
         public void SetTenThuVien(string value)
         {
-            _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "TenThuVien", Value = value, CreateDateTime = DateTime.Now });
+            var setting = _DatabaseCollection.Find(_ => _.Key == "TenThuVien").FirstOrDefault();
+            if (setting == null)
+            {
+                _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "TenThuVien", Value = value, CreateDateTime = DateTime.Now });
+            }
+            else
+            {
+                setting.Value = value;
+                _DatabaseCollection.ReplaceOne(m => m.Id == setting.Id, setting);
+            }
         }
 
         public string GetTenThuVien()
@@ -38,7 +47,16 @@ namespace BiTech.Library.DAL.Engines
 
         public void SetDiaChi(string value)
         {
-            _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "DiaChi", Value = value, CreateDateTime = DateTime.Now });
+            var setting = _DatabaseCollection.Find(_ => _.Key == "DiaChi").FirstOrDefault();
+            if (setting == null)
+            {
+                _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "DiaChi", Value = value, CreateDateTime = DateTime.Now });
+            }
+            else
+            {
+                setting.Value = value;
+                _DatabaseCollection.ReplaceOne(m => m.Id == setting.Id, setting);
+            }
         }
 
         public string GetDiaChi()
@@ -55,7 +73,16 @@ namespace BiTech.Library.DAL.Engines
 
         public void SetSoNgayMuonMax(string value)
         {
-            _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "SoNgayMuonMax", Value = value, CreateDateTime = DateTime.Now });
+            var setting = _DatabaseCollection.Find(_ => _.Key == "SoNgayMuonMax").FirstOrDefault();
+            if (setting == null)
+            {
+                _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "SoNgayMuonMax", Value = value, CreateDateTime = DateTime.Now });
+            }
+            else
+            {
+                setting.Value = value;
+                _DatabaseCollection.ReplaceOne(m => m.Id == setting.Id, setting);
+            }
         }
 
         public string GetSoNgayMuonMax()
@@ -72,7 +99,16 @@ namespace BiTech.Library.DAL.Engines
 
         public void SetMaKiemSoatSachCount(string value)
         {
-            _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "MaKiemSoatSachCount", Value = value, CreateDateTime = DateTime.Now });
+            var setting = _DatabaseCollection.Find(_ => _.Key == "MaKiemSoatSachCount").FirstOrDefault();
+            if (setting == null)
+            {
+                _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "MaKiemSoatSachCount", Value = value, CreateDateTime = DateTime.Now });
+            }
+            else
+            {
+                setting.Value = value;
+                _DatabaseCollection.ReplaceOne(m => m.Id == setting.Id, setting);
+            }
         }
 
         public string GetMaKiemSoatSachCount()
@@ -85,11 +121,28 @@ namespace BiTech.Library.DAL.Engines
 
         #endregion
 
-
+        #region Custom setting
+        
         public ThongTinThuVien GetByKey(string key)
         {
             return _DatabaseCollection.Find(_ => _.Key == key).FirstOrDefault();
         }
+
+        public void SetValueByKey(string key, string value)
+        {
+            var setting = _DatabaseCollection.Find(_ => _.Key == key).FirstOrDefault();
+            if (setting == null)
+            {
+                _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = key, Value = value, CreateDateTime = DateTime.Now });
+            }
+            else
+            {
+                setting.Value = value;
+                _DatabaseCollection.ReplaceOne(m => m.Id == setting.Id, setting);
+            }
+        }
+
+        #endregion
     }
 
 

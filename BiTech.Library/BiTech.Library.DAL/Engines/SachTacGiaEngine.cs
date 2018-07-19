@@ -16,5 +16,10 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<SachTacGia>(tableName);
         }
+
+        public List<SachTacGia> GetAllBookIdByAthurId(string id)
+        {
+            return _DatabaseCollection.Find(m => m.IdTacGia == id).ToList();
+        }
     }
 }

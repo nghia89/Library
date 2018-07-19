@@ -132,5 +132,40 @@ namespace BiTech.Library.Controllers
             _keSachLogic.Update(keSach);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult ThemAjax(KesachViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            KeSach keSach = new KeSach()
+            {
+                TenKe = model.TenKe,
+                ViTri = model.ViTri,
+                GhiChu = model.GhiChu
+            };
+            _keSachLogic.Add(keSach);
+            return Json(true);
+        }
+        public JsonResult GetAll() 
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            KeSachLogic _keSachLogic =new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var list = _keSachLogic.GetAll();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

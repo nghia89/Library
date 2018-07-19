@@ -84,11 +84,14 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
+            var _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _PhieuTraLogic = new PhieuTraLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ChiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
+            bool result = true;
+            bool traHet = true; //xét trả hết hay chưa
             model.detail = _PhieuMuonLogic.GetReturnBooksTicket(model.IdPM); 
             
             if (model.listChiTietJsonString.Count > 0)
@@ -105,6 +108,7 @@ namespace BiTech.Library.Controllers
                 {
                     try
                     {
+                        int i = model.listChiTietJsonString.Count();//số item trong listJson
                         foreach (var json in model.listChiTietJsonString)
                         {
                             var ctModel = Newtonsoft.Json.JsonConvert.DeserializeObject<ChiTietPhieuTraViewModel>(json);
@@ -120,31 +124,60 @@ namespace BiTech.Library.Controllers
                             //Insert chitiet phieutra
                             string idCtpt = _ChiTietPhieuTraLogic.Insert(ctpt);
 
+                            #region Kiểm tra trả đủ
                             // update ngày trả PhieuMuon nếu như trả hết
-
-                            try
+                            int slSachPM = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(ctpt.IdSach, _PhieuTraLogic.GetById(ctpt.IdPhieuTra).IdPhieuMuon).SoLuong;
+                            var lstIdPT = _PhieuTraLogic.GetByIdPM(model.IdPM); //list phieu tra theo phieu muon
+                            int slSachTra = 0; //so luong sach da tra
+                            foreach (var item in lstIdPT)
                             {
-                                //lấy số lượng sách trong PhieuMuon
-                                if (Validate(ctModel.SoLuong, ctModel.IdSach, model.IdPM, userdata)) //true - cập nhật ngày trả trong phiếu mượn
+                                slSachTra += _ChiTietPhieuTraLogic.GetByIdBook_IdPT(ctpt.IdSach, item.Id).SoLuong; //lấy số lượng của PT theo IdPM
+                            }
+                            //trả hết thì cập nhật lại ngày trả của phiếu muợn
+                            if (slSachTra == slSachPM && traHet == true)
+                                traHet = true; //trả hết
+                            else
+                                traHet = false; //trả chưa hết
+                            --i;                           
+                            if (traHet && i==0)
+                            {
+                                try
                                 {
-                                    var phieuMuon = _PhieuMuonLogic.GetById(model.IdPM);
-                                    phieuMuon.NgayTra = DateTime.Now;
-                                    _PhieuMuonLogic.Update(phieuMuon);
+                                    //lấy số lượng sách trong PhieuMuon
+                                    //if (Validate(ctModel.SoLuong, ctModel.IdSach, model.IdPM, userdata)) //true - cập nhật ngày trả trong phiếu mượn
+                                    //{
+                                        var phieuMuon = _PhieuMuonLogic.GetById(model.IdPM);
+                                        phieuMuon.NgayTra = DateTime.Now;
+                                        phieuMuon.TrangThaiPhieu = EPhieuMuon.DaTra;
+                                        _PhieuMuonLogic.Update(phieuMuon);
+                                    //}
                                 }
+                                catch (Exception ex)
+                                {
+                                    //nếu update không thành công thì undo
+                                    _PhieuTraLogic.Remove(idPhieuTra);
+                                    _ChiTietPhieuTraLogic.Remove(idCtpt);
+                                    throw ex;
+                                }                                
                             }
-                            catch (Exception ex)
-                            {
-                                //nếu update không thành công thì undo
-                                _PhieuTraLogic.Remove(idPhieuTra);
-                                _ChiTietPhieuTraLogic.Remove(idCtpt);
-                                throw ex;
-                            }
-                            string idUser = _PhieuMuonLogic.GetById(model.IdPM).IdUser;
-                            if (!string.IsNullOrEmpty(idCtpt)) //true
-                            {
-                                TempData["Success"] = "Tạo phiếu mượn thành công";
-                                return RedirectToAction("Index", "PhieuMuon", new { @IdUser = idUser });
-                            }
+                            #endregion
+
+                            //update so lượng bảng Sach
+                            var sach = _SachLogic.GetById(ctpt.IdSach); //id mongo
+                            sach.SoLuongConLai += ctpt.SoLuong;
+                            _SachLogic.Update(sach); //update 
+
+                            //string idUser = _PhieuMuonLogic.GetById(model.IdPM).IdUser;
+                            result = true;                   
+                        }
+                        if(result)
+                        {
+                            TempData["Success"] = "Tạo phiếu trả thành công";
+                            return RedirectToAction("Index", "PhieuMuon");
+                        }
+                         else
+                        {
+                            TempData["UnSuccess"] = "Tạo phiếu trả thất bại";
                         }
                     }
                     catch (Exception ex)
@@ -163,8 +196,16 @@ namespace BiTech.Library.Controllers
         }
 
         #region Angular
-
-        public JsonResult GetThongTinPhieuTra(string maKS, int soLuong, string idTrangThai, string idPM)
+        /// <summary>
+        /// Hàm lấy thông tin phiếu tra
+        /// id : id sách (mongo id)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="soLuong"></param>
+        /// <param name="idTrangThai"></param>
+        /// <param name="idPM"></param>
+        /// <returns></returns>
+        public JsonResult GetThongTinPhieuTra(string id, int soLuong, string idTrangThai, string idPM)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -178,9 +219,9 @@ namespace BiTech.Library.Controllers
             var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             JsonResult result = new JsonResult();
-            if (!String.IsNullOrWhiteSpace(maKS))
+            if (!String.IsNullOrWhiteSpace(id))
             {
-                var sach = _SachLogic.GetByMaMaKiemSoat(maKS);
+                var sach = _SachLogic.GetById(id);
                 var chiTiet = _ChiTietPhieuTraLogic.GetByIdBook(sach.Id);
                 var trangThai = _TrangThaiSachLogic.getById(idTrangThai);
                 ChiTietPhieuTraViewModel ctpt = new ChiTietPhieuTraViewModel()
@@ -223,6 +264,7 @@ namespace BiTech.Library.Controllers
         private bool Validate(int soLuong, string idSach, string idPM, SSOUserDataModel userdata)
         {
             var _ChiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ChiTietPhieuTraLogic = new ChiTietPhieuTraLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             int soLuongMuon = _ChiTietPhieuMuonLogic.GetByIdBook_IdPM(idSach, idPM).SoLuong;
             return soLuong == soLuongMuon ? true : false;

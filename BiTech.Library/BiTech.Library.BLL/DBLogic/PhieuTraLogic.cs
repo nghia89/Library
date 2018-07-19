@@ -57,5 +57,9 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuTraEngine.Remove(id);
         }
+        public List<PhieuTra> GetByIdPM(string idPM)
+        {
+            return _PhieuTraEngine.GetByIdPM(idPM);
+        }
     }
 }

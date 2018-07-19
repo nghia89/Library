@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+a:hover{
+    color: #f00;
+}
+
 .contain .menu .fa,
 .bt_menu .fa {
     color: #fff;
@@ -30,15 +34,17 @@ a:hover {
     padding: 8px;
     display: inline-block;
     font-size: 25px;
+    line-height: 25px;
 }
 
 .content .Title {
-    font-size: 30px;
-    margin: 0 17px 20px;
+    font-size: 25px;
+    margin: 0 0px 20px;
     border-bottom: 2px solid;
     position: relative;
     color: #2E5894;
     display: inline-block;
+    text-transform: uppercase;
 }
 
 .layout-content {
@@ -69,7 +75,8 @@ a:hover {
     position: relative;
     float: left;
     font-size: 20px;
-    background: #2A5598;
+    /*background: #2A5598;*/
+    background: linear-gradient(to right,#1e3c72,#2a5298 );
 }
 
     .menu .icon .fa {
@@ -80,7 +87,7 @@ a:hover {
         bottom: 0;
         text-align: center;
         line-height: 40px;
-        font-size: 17px;
+        font-size: 15px;
     }
 
 .menu .name {
@@ -113,12 +120,12 @@ a:hover {
         content: " ";
         width: 0;
         height: 0;
-        border-top: 8px solid transparent;
-        border-bottom: 8px solid transparent;
-        border-right: 8px solid #fff !important;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-right: 7px solid #fff !important;
         position: absolute;
         right: 0;
-        top: 13px;
+        top: 15px;
     }
 
     .menu .action:hover .name {
@@ -136,12 +143,12 @@ a:hover {
     content: " ";
     width: 0;
     height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 8px solid #52565A;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 7px solid #52565A;
     position: absolute;
     right: 0;
-    top: 13px;
+    top: 15px;
 }
 
 .contain .left .menu ul li ul {
@@ -158,7 +165,7 @@ a:hover {
 .contain .left .menu ul li ul li {
     background: #52565A;
     padding-left: 20px;
-    line-height: 40px;
+    line-height: 35px;
     border-bottom: 1px solid #666;
 }
 
@@ -201,10 +208,11 @@ a:hover {
 
 
 .contain .top {
-    background: #343a40;
+    /*background: #343a40;*/
     height: 40px;
     position: relative;
     z-index: 3;
+    background: linear-gradient(#000,#29323c );
 }
 
 .contain .left {
@@ -216,25 +224,27 @@ a:hover {
 
 
     .contain .left .bg {
-        background: #282C31;
+        /*background: #282C31;*/
         height: 100%;
         width: 220px;
         display: inline-block;
         left: 0;
         position: fixed;
         top: 0;
+        background: linear-gradient(#000,#29323c );
     }
 
 
 
     .contain .left .bg_icon {
-        background: #2A5598;
+        /*background: #2A5598;*/
         height: 100%;
         width: 40px;
         display: inline-block;
         left: 0;
         position: fixed;
         top: 0;
+        background: linear-gradient(to right,#1e3c72,#2a5298 );
     }
 
     .contain .left .menu {
@@ -493,8 +503,11 @@ a:hover {
     }
 
 .table tr.table-info > th {
-    background: #2F81B5;
+    /*background: #2F81B5 !important;*/
     color: #fff;
+    padding: 5px 10px;
+    font-weight: normal;
+    background: linear-gradient(#1e3c72,#2a5298 );
 }
 
 .table-striped a {
@@ -506,19 +519,55 @@ a:hover {
     }
 
 .direction {
-    padding: 5px 0px;
+    padding: 20px 0px;
+    margin-left: -6px;
 }
 
     .direction a {
         color: #000;
+        padding: 5px 10px;
+        margin: 5px;
+        background: #eee;
+        border-radius: 5px;
+        display: inline-block;
     }
 
         .direction a:hover {
-            color: #f00;
+            color: #fff;
+            background: #6c757d;
         }
+
 .mb-3, .my-3 {
     margin-bottom: 0 !important;
 }
+
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.right_icon {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left_icon {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.up_icon {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down_icon {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
 @media screen and (max-width: 1200px) {
     .book_box .book_content .book_image {
         width: 20%;
@@ -543,7 +592,7 @@ a:hover {
     }
 
     .content .Title {
-        margin: 0 17px 20px;
+        
     }
 
     .book_box .book_content .book_image {

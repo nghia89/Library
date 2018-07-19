@@ -22,6 +22,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _tacGiaEngine.GetAllTacGia();
         }
+
+        public List<TacGia> FindTacGia(string q)
+        {
+            return _tacGiaEngine.FindTacGia(q);
+        }
+
         public string Insert(TacGia tacgia)
         {
             return _tacGiaEngine.Insert(tacgia);

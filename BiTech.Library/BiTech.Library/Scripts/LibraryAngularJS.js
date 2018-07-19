@@ -6,17 +6,12 @@ var app = angular.module('LibraryApp', []);
 // Define the `BookGenresCtrlr` controller on the `LibraryApp` module
 app.controller('BookGenresCtrlr', function ($scope, $http) {
 
-    $scope.GetAllData = function (id) {
+    $scope.GetAllData = function () {
         $http({
             method: "get",
             url: "/TheLoaiSach/Get_AllTheLoaiSach"
         }).then(function (response) {
             $scope.list = response.data;
-            for (i = 0; i < response.data.length ; i++) {
-                if (response.data[i].Id == id) {
-                    $scope.IdTLS = response.data[i];
-                }
-            }
         }, function () {
             alert("Error Occur");
         })
@@ -26,17 +21,12 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
 // Define the `PublishersCtrlr` controller on the `LibraryApp` module
 app.controller('PublishersCtrlr', function ($scope, $http) {
 
-    $scope.GetAllData = function (id) {
+    $scope.GetAllData = function () {
         $http({
             method: "get",
             url: "/NhaXuatBan/Get_AllNhaXuatBan"
         }).then(function (response) {
             $scope.list = response.data;
-            for (i = 0; i < response.data.length ; i++) {
-                if (response.data[i].Id == id) {
-                    $scope.IdNXB = response.data[i];
-                }
-            }
         }, function () {
             alert("Error Occur");
         })
@@ -169,7 +159,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuMuon/_GetBookItemById",
             params: {
-                idBook: $scope.list[id].MaKiemSoat,
+                MaKiemSoat: $scope.list[id].MaKiemSoat,
                 soLuong: document.getElementById('sach' + id).value,
             }
         }).then(function (response) {
@@ -200,6 +190,7 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
     $scope.list = [];
 
     $scope.addItem = function (id) {
+        //var id = document.getElementById('idSach').innerHTML; //id ma sach (id mongo)
         var sltra = document.getElementById('sl' + id).value;
         var trangthai = document.getElementById('tt' + id).value;
         var idPM = document.getElementById('idPM').value;
@@ -208,7 +199,7 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuTra/GetThongTinPhieuTra",
             params: {
-                idBook: id,
+                id: id,
                 soLuong: sltra,
                 idTrangThai: trangthai,
                 idPM: idPM
@@ -273,38 +264,44 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
     };
 });
 
-// Define the `UserChucVuCtrlr` controller on the `LibraryApp` module
-app.controller('UserChucVuCtrlr', function ($scope, $http) {
+app.controller('KeSach', function ($scope, $http) {
 
-    $scope.GetAllData = function (id) {
-
+    $scope.GetAllData = function () {
         $http({
             method: "get",
-            url: "/ChucVu/Get_AllChucVu"
+            url: "/KeSach/GetAll"
         }).then(function (response) {
             $scope.list = response.data;
-            for (i = 0; i < response.data.length ; i++) {
-                if (response.data[i].Id == id) {
-                    $scope.IdChucVu = response.data[i];
-                }
-            }
         }, function () {
             alert("Error Occur");
         })
     };
+});
 
-    $scope.GetNameChucVu = function (id) {
+app.controller('NgonNgu', function ($scope, $http) {
+
+    $scope.GetAllData = function () {
         $http({
-            method: "POST",
-            url: "/ChucVu/Get_Name",
-            data: { id: id }
+            method: "get",
+            url: "/NgonNgu/GetAll"
         }).then(function (response) {
             $scope.list = response.data;
-            console.log($scope.list.TenChucVu)
-            $scope.ChucVu = $scope.list.TenChucVu;
         }, function () {
-            //alert("Error Occur");
+            alert("Error Occur");
         })
     };
 });
 
+app.controller('TacGiaSelectorCtrlr', function ($scope, $http) {
+
+    $scope.GetAllData = function () {
+        $http({
+            method: "get",
+            url: "/TacGia/GetAll"
+        }).then(function (response) {
+            $scope.list = response.data;
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+});

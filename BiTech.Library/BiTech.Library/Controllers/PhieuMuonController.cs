@@ -16,9 +16,13 @@ namespace BiTech.Library.Controllers
     //[Authorize]
     public class PhieuMuonController : BaseController
     {
+        private int NgayGiaHanToiDa = 15;
         // GET: PhieuMuon
         public ActionResult Index(PhieuTraViewModel IdUser)
         {
+            ViewBag.DaTra = "Đã trả";
+            ViewBag.ChuaTra = "Chưa trả";
+            ViewBag.NgayTraToiDa = NgayGiaHanToiDa;
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
@@ -57,13 +61,13 @@ namespace BiTech.Library.Controllers
                 _vmodel.GhiChu = item.GhiChu;
                 if (item.TrangThaiPhieu == EPhieuMuon.DaTra)
                 {
-                    _vmodel.TrangThai = "Đã trả";
+                    _vmodel.TrangThai = ViewBag.DaTra;
                 }
                 else
                 {
                     if (item.TrangThaiPhieu == EPhieuMuon.ChuaTra)
                     {
-                        _vmodel.TrangThai = "Chưa trả";
+                        _vmodel.TrangThai = ViewBag.ChuaTra;
                     }
                 }
                 //Add vào list 
@@ -195,6 +199,11 @@ namespace BiTech.Library.Controllers
                                 isOK = false;
                                 break;
                             }
+                            //cập nhật lại bảng Sách
+                            var sachModel = _SachLogic.GetById(modelCTPM.IdSach); //id mongo
+                            sachModel.SoLanDuocMuon += modelCTPM.SoLuong; //số lần mượn += số lượng lượng 
+                            sachModel.SoLuongConLai = sachModel.SoLuongConLai - modelCTPM.SoLuong;
+                            _SachLogic.Update(sachModel); //update bảng sách
                         }
 
                         if (isOK)
@@ -480,8 +489,67 @@ namespace BiTech.Library.Controllers
             return View(modelChiTietPM);
         }
 
-        public ActionResult GiaHanPhieuMuon(string idPM)
+        public ActionResult GiaHanPhieuMuon(string id)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            PhieuMuonLogic _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var pm = _PhieuMuonLogic.GetById(id);
+            var tv = _ThanhVienLogic.GetById(pm.IdUser); //id user
+            PhieuMuonGiaHanModelView model = new PhieuMuonGiaHanModelView()
+            {
+                IdPM = id,
+                TenNguoiMuon = tv.Ten,
+                NgayMuon = pm.NgayMuon,
+                NgayPhaiTra = pm.NgayPhaiTra
+            };
+            ViewBag.SoNgay = NgayGiaHanToiDa.ToString();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult GiaHanPhieuMuon(PhieuMuonGiaHanModelView modelPM)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            PhieuMuonLogic _PhieuMuonLogic = new PhieuMuonLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var pm = _PhieuMuonLogic.GetById(modelPM.IdPM);
+            if(pm.GiaHan == null)
+            {
+                pm.GiaHan = modelPM.GiaHan;
+            }
+            else
+            {
+                int songay = (int.Parse(pm.GiaHan) + int.Parse(modelPM.GiaHan));
+                if(songay <= NgayGiaHanToiDa)
+                {
+                    pm.GiaHan = songay.ToString();
+                }
+                else
+                {
+                    ViewBag.NgayGiaHan = "Tổng số ngày gia hạn không phù hợp (<15)";
+                    return View();
+                }
+            }            
+            pm.NgayPhaiTra = pm.NgayPhaiTra.AddDays(double.Parse( modelPM.GiaHan));
+            if(_PhieuMuonLogic.Update(pm))
+            {               
+                ViewBag.Success = TempData["Success"] = "Gia hạn thành công";
+                return RedirectToAction("Index", "PhieuMuon");
+            }
+            else
+            {
+                ViewBag.UnSuccess = "Gia hạn thất bại";
+            }            
             return View();
         }
 

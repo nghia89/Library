@@ -27,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -228,7 +229,6 @@
     <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
-    <Compile Include="Controllers\ChucVuController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
@@ -252,8 +252,8 @@
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\LicenseHelper.cs" />
     <Compile Include="Helpers\Tool.cs" />
-    <Compile Include="Models\ChucVuModels.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
+    <Compile Include="Models\LanguageViewModel.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
     <Compile Include="Models\MuonTraSach.cs" />
     <Compile Include="Models\NhaXuatBanViewModels.cs" />
@@ -262,7 +262,7 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SachViewModels.cs" />
     <Compile Include="Models\Sach\LanguageViewModels.cs" />
-    <Compile Include="Models\SSOUserDataModel.cs" />
+    <Compile Include="Models\SSOModel.cs" />
     <Compile Include="Models\TacGiaViewModel.cs" />
     <Compile Include="Models\ThongKeViewModel.cs" />
     <Compile Include="Models\TrangThaiSachViewModel.cs" />
@@ -278,8 +278,10 @@
     <Content Include="app\AngularChartJs\angular.min.js" />
     <Content Include="app\AngularChartJs\Chart.bundle.min.js" />
     <Content Include="app\AngularChartJs\Chart.min.js" />
+    <Content Include="app\AngularChartJs\jquery.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
     <Content Include="app\app.js" />
+    <Content Include="app\ngTagInputAngular.js" />
     <Content Include="app\StatisticTransition.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="bower_components\angular-chart.js\angular-chart.js" />
@@ -571,8 +573,14 @@
     <Content Include="bower_components\sweetalert\themes\facebook\facebook.css" />
     <Content Include="bower_components\sweetalert\themes\google\google.css" />
     <Content Include="bower_components\sweetalert\themes\twitter\twitter.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\fSelect.css" />
+    <Content Include="Content\css\fSelect.js" />
+    <Content Include="Content\tagsinput\ng-tags-input-style.css" />
+    <Content Include="Content\tagsinput\ng-tags-input.bootstrap.css" />
+    <Content Include="Content\tagsinput\ng-tags-input.css" />
     <Content Include="Content\Images\avatar.png" />
     <Content Include="Content\Images\nancyy.jpg" />
     <Content Include="Content\PagedList.css" />
@@ -627,6 +635,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angularjs.min.js" />
+    <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bower_components\sweetalert\.bower.json" />
@@ -669,17 +678,20 @@
     <Content Include="bower_components\angular-chart.js\README.md" />
     <Content Include="bower_components\Chart.js\.bower.json" />
     <Content Include="bower_components\Chart.js\bower.json" />
-    <None Include="Properties\PublishProfiles\Demo.pubxml" />
-    <None Include="Properties\PublishProfiles\lbm.bitech.com.pubxml" />
+    <Content Include="Content\tagsinput\ng-tags-input.min.css" />
     <Content Include="Scripts\angular.min.js.map" />
-    <None Include="Properties\PublishProfiles\Publish.pubxml" />
-    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\.bower.json" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\bower.json" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Properties\PublishProfiles\Publish.pubxml" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <None Include="Properties\PublishProfiles\BiTechDemo.pubxml" />
+    <None Include="Properties\PublishProfiles\Demo.pubxml" />
+    <None Include="Properties\PublishProfiles\DemoWeb.pubxml" />
+    <None Include="Properties\PublishProfiles\lbm.bitech.com.pubxml" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.session.js" />
@@ -691,10 +703,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ng-tags-input.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\LibraryAngularJS.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -767,12 +779,15 @@
     <Content Include="Views\PhieuNhapSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Index.cshtml" />
     <Content Include="Views\Statistic\Index.cshtml" />
-    <Content Include="Views\PhieuMuon\TaoMaBarCode_QR.cshtml" />
     <Content Include="Views\BarCodeDemo\BarCodeRead.cshtml" />
     <Content Include="Views\NgonNgu\Index.cshtml" />
     <Content Include="Views\NgonNgu\Edit.cshtml" />
     <Content Include="Views\NgonNgu\Create.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Sach\_NhapkeSach.cshtml" />
+    <Content Include="Views\Sach\_Language.cshtml" />
+    <Content Include="Views\Sach\_ThemTacGia.cshtml" />
+    <Content Include="Views\Sach\CreateSuccess.cshtml" />
     <Content Include="Views\ChucVu\Index.cshtml" />
     <Content Include="Views\ChucVu\Create.cshtml" />
     <Content Include="Views\ChucVu\Edit.cshtml" />
@@ -780,7 +795,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\BarCodes\" />
     <Folder Include="Content\TempFiles\" />
   </ItemGroup>
   <ItemGroup>
@@ -793,6 +807,10 @@
     <ProjectReference Include="..\BiTech.Library.BLL\BiTech.Library.BLL.csproj">
       <Project>{9ccde0bb-9361-4e82-bd13-728913346db7}</Project>
       <Name>BiTech.Library.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BiTech.Library.DAL\BiTech.Library.DAL.csproj">
+      <Project>{84B2F5E7-9457-49C4-824B-87DD63E3B2D8}</Project>
+      <Name>BiTech.Library.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\BiTech.Library.DTO\BiTech.Library.DTO.csproj">
       <Project>{0585cc2f-7e2b-474e-8b5f-f480287225e9}</Project>

@@ -59,6 +59,20 @@ namespace BiTech.Library.Controllers
             }
             return View(model);
         }
+        public JsonResult GetAll()
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var list = _LanguageLogic.GetAll();
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+
         public ActionResult Edit(string Id)
         {
             #region  Lấy thông tin người dùng
@@ -108,6 +122,26 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             _LanguageLogic.Remove(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ThemAjax(LanguageViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            Language LG = new Language()
+            {
+                Ten=model.Ten,
+                TenNgan=model.TenNgan
+            };
+            _LanguageLogic.InsertNew(LG);
+            return Json(true);
         }
     }
 }

@@ -1,26 +1,52 @@
-﻿@model BiTech.Library.Models.PhieuMuonModelView
+﻿@model BiTech.Library.Models.PhieuMuonGiaHanModelView
 @{
     ViewBag.Title = "GiaHanPhieuMuon";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-
+<h5 class="text-danger">@ViewBag.UnSuccess</h5>
+<h5 class="text-danger">@ViewBag.NgayGiaHan</h5>
 @using (Html.BeginForm("GiaHanPhieuMuon", "PhieuMuon", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    @Html.AntiForgeryToken()
-    <h4>Gia hạn phiếu mượn.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdUser, new { @class = "col-md-2 control-label" })
+    <div class="form-group col-md-12">
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdUser, new { @class = "form-control" })
-        </div>
-        @Html.ValidationMessageFor(m => m.IdUser)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control" })
+            <div class="container">
+                @Html.AntiForgeryToken()
+                <h4>Gia hạn phiếu mượn</h4>
+                <hr />
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.IdPM)
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.TenNguoiMuon, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.TenNguoiMuon, new { @class = "form-control ", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.NgayMuon, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.NgayMuon, "{0:dd/MM/yyyy}", new { @class = "form-control ", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.NgayPhaiTra, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.NgayPhaiTra, "{0:dd/MM/yyyy}", new { @class = "form-control ", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(m => m.GiaHan, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(m => m.GiaHan, new { @class = "form-control ", @type = "number", @step = "1" ,@min = "0",
+                                                   @max = @ViewBag.SoNgay, @placeholder = "Nhập số ngày gia hạn" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-primary" value="Gia hạn" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }

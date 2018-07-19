@@ -53,5 +53,9 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.IdPhieuTra == id).ToList();
         }
+        public ChiTietPhieuTra GetByIdBook_IdPT(string idBook, string idPT)
+        {
+            return _DatabaseCollection.Find(_ => _.IdPhieuTra == idPT && _.IdSach == idBook).FirstOrDefault();
+        }
     }
 }
