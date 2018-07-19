@@ -12,8 +12,8 @@
     <h5 class="text-danger">@ViewBag.UnSuccess</h5>
     <h5 class="text-danger">@ViewBag.Duplicate</h5>
 
-    <button type="button" class="btn btn-primary" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
-        <i class="fa fa-arrow-circle-left" style="padding-right: 5px;font-size: 18px;"></i>Trở lại
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
     </button>
 
     @using (Html.BeginForm("_CreateUser", "ThanhVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
@@ -24,64 +24,64 @@
             <div class="form-group row">
                 @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @maxlength = "40" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @maxlength = "20" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
                 </div>
             </div>
 
             <div class="form-group row">
-                @Html.LabelFor(m=>m.ConfirmPass, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.ConfirmPass, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control", @maxlength = "20" })
+                    @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.MaSoThanhVien, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control", @maxlength = "50" })
+                    @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---//---", new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---//---", new { @class = "form-control form-control-sm" })
                 </div>
             </div>
 
             <div class="form-group row">
                 @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control DatetimePicker", @maxlength = "20" })
+                    @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @maxlength = "20" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control", @maxlength = "40" })
+                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
                 </div>
             </div>
-           
+
             <div class="form-group row">
                 @Html.LabelFor(m => m.LopHoc, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
                 </div>
             </div>
 
@@ -92,25 +92,25 @@
                         @Html.DropDownListFor(m => m.IdChucVu, new SelectList(new List<BiTech.Library.DTO.ChucVu>(), "Id", "TenChucVu"), "--Chọn chức vụ--",
                        new { @class = "form-control", @ng_model = "IdChucVu", @data_ng_disabled = "!list", @ng_options = "s.TenChucVu for s in list track by s.Id" })
                         @*s.Id as s.TenTheLoai for s in list*@
-                        @*<div class="input-group-append">
-                            <a href="@Url.Content("~/ThanhVien/RequestChucVuGui")" class="btn btn-primary"
-                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                <i class="fa fa-plus" style="line-height: 24px;"></i>
-                            </a>
+            @*<div class="input-group-append">
+                                <a href="@Url.Content("~/ThanhVien/RequestChucVuGui")" class="btn btn-primary"
+                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                    <i class="fa fa-plus" style="line-height: 24px;"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
             @*<div class="form-group row">
-                @Html.LabelFor(m => m.ChucVu, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.ChucVu, new SelectList(new List<string>() { "Học sinh", "Giáo viên" }), "---//---", new { @class = "form-control" })
-                </div>
-            </div>*@
+                    @Html.LabelFor(m => m.ChucVu, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ChucVu, new SelectList(new List<string>() { "Học sinh", "Giáo viên" }), "---//---", new { @class = "form-control" })
+                    </div>
+                </div>*@
             <div class="form-group row">
                 <label class="col-form-label col-sm-3 form-label" for="TomTat">Ảnh nhân viên:</label>
                 <div class="col-sm-6">
-                    <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:220px" />                  
+                    <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:220px" />
                     @Html.TextBoxFor(m => m.HinhChanDung, new { type = "file" })
                     @Html.ValidationMessageFor(m => m.HinhChanDung)
                 </div>
@@ -119,8 +119,8 @@
             <div class="form-group row">
                 <div class="col-md-2"></div>
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-primary" value="Tạo mới" />
-                    <input type="button" class="btn btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "ThanhVien")'" />
+                    <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
+                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "ThanhVien")'" />
                 </div>
             </div>
         </div>

@@ -50,10 +50,10 @@
                 <td>@item.TrangThai</td>
                 @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
-                    <a class="color-white btn btn-outline-primary" href="@Url.Action("_Edit",new { @id = item.Id})">
+                    <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("_Edit",new { @id = item.Id})">
                         <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
                     </a>
-                    <a class="color-white btn btn-danger" href="javascript:Delete('@item.Id','@item.Ten')">
+                    <a class="color-white btn btn-sm btn-danger" href="javascript:Delete('@item.Id','@item.Ten')">
                         <i style="font-size:24px" class="fa">&#xf044;</i> Xóa
                     </a>
                 </td>

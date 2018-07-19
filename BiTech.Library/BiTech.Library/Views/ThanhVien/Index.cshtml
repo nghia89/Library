@@ -10,9 +10,9 @@
     @using (Html.BeginForm("Search", "ThanhVien", FormMethod.Post, new { role = "form" }))
     {
         <div class="input-group mb-3">
-            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @class = "form-control", onchange = "OnChangeEvent();" })
+            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @class = "form-control form-control-sm", onchange = "OnChangeEvent();" })
             <div class="input-group-append">
-                <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
+                <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
             </div>
         </div>
     }
@@ -42,7 +42,7 @@
     }*@
 
 <div id="topbar">
-    <h5>@Html.ActionLink("Thêm thành viên", "_CreateUser", "ThanhVien", new { @class = "btn btn-primary" })</h5>
+    <h5>@Html.ActionLink("Thêm thành viên", "_CreateUser", "ThanhVien", new { @class = "btn btn-sm btn-primary" })</h5>
 </div>
 <h5 class="text-success">@ViewBag.Success</h5>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>

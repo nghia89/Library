@@ -10,8 +10,8 @@
 <div ng-app="LibraryApp" class="container">
     <h5 class="text-danger">@ViewBag.UnSuccess</h5>
     <h5 class="text-danger">@ViewBag.Validate</h5>
-    <button type="button" class="btn btn-primary" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
-        <i class="fa fa-arrow-circle-left" style="padding-right: 5px;font-size: 18px;"></i>Trở lại
+    <button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
     </button>
 
     @using (Html.BeginForm("_Edit", "ThanhVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
@@ -74,40 +74,40 @@
         <div class="form-group row">
             @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Ten, new { @class = "form-control", @maxlength = "40" })
+                @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
             </div>
         </div>
 
         <div class="form-group row">
             @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "--//--", new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "--//--", new { @class = "form-control form-control-sm" })
             </div>
         </div>
 
         <div class="form-group row">
             @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control DatetimePicker", @maxlength = "20" })
+                @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @maxlength = "20" })
             </div>
         </div>
 
         <div class="form-group row">
             @Html.LabelFor(m => m.LopHoc, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm"})
             </div>
         </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
                 </div>
             </div>
             @*<div class="form-group row">
@@ -129,8 +129,8 @@
             <div class="form-group row">
                 <div class="col-md-2"></div>
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-primary" value="Lưu" />
-                    <input type="button" class="btn btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "ThanhVien")'" />
+                    <input type="submit" class="btn btn-sm btn-primary" value="Lưu" />
+                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "ThanhVien")'" />
                 </div>
             </div>
     }
