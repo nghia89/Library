@@ -24,17 +24,13 @@ namespace BiTech.Library.DTO
         public string MaSoThanhVien { get; set; }
 
         public string Ten { get; set; }
-
-        public string CMND { get; set; }
-
+      
         public string DiaChi { get; set; }
 
         public string SDT { get; set; }
 
         public string HinhChanDung { get; set; }
-
-        public string IdChucVu { get; set; }
-
+  
         public EUser TrangThai { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
@@ -44,5 +40,13 @@ namespace BiTech.Library.DTO
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
+
+        #region Tai
+        public string GioiTinh { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime NgaySinh { get; set; }
+        public string LopHoc { get; set; }
+        public string ChucVu { get; set; }
+        #endregion
     }
 }

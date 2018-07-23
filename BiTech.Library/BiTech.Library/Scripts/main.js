@@ -14,7 +14,21 @@
             turn_off_menu();
         }
     });
+
+    /*$("#ListTacGia .tags").focus(function () {
+        console.log("abc");
+    });*/
+
+    /*Thêm focus cho ngTagsInput (trong thêm sách)*/
+    $("#ListTacGia").on("focus", ".tags", function () {
+        $(this).parent().parent().addClass("focused");
+    });
+
+    $("#ListTacGia").on("focusout", ".tags", function () {
+        $(this).parent().parent().removeClass("focused");
+    });
 });
+
 
 
 function turn_on_off_menu() {

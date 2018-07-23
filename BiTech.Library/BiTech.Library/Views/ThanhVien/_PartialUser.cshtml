@@ -1,0 +1,66 @@
+﻿@model  List<BiTech.Library.DTO.ThanhVien>
+@{
+    ViewBag.Title = "_PartialUser";
+    int stt = 1;
+}
+<div class="text-danger">@ViewBag.SearchFail</div>
+<table ng-app="LibraryApp" border="1" class="table table-hover table-bordered">
+
+    <thead>
+        <tr class="table-info">
+            <th></th>
+            <th>Tên thành viên</th>
+            <th>Mã số thẻ</th>
+            <th>Giới tính</th>
+            <th>Ngày sinh</th>
+            <th>Lớp học</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Trạng thái</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                @*<td>@stt</td>*@
+                <td class="book_box">
+                    <div class="book_content">
+                        <div class="book_image">
+                            <div class="book_image_in">
+                                <div class="book_number">@stt</div>
+                                <object data='@Html.Raw(!string.IsNullOrEmpty(item.HinhChanDung) ? item.HinhChanDung : "/Content/Images/nancyy.jpg")' type="image/png">
+                                    @*<img src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách"/>*@
+                                </object>
+                                @*<a href="@Url.Action("Edit", new { id = item.Id })">Xem</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td>@item.Ten</td>
+                <td>@item.MaSoThanhVien</td>
+                <td>@item.GioiTinh</td>
+                <td>@item.NgaySinh.ToString("dd-MM-yyyy")</td>
+                <td>@item.LopHoc</td>
+                <td>@item.DiaChi</td>
+                <td>@item.SDT</td>
+                <td>@item.TrangThai</td>
+                @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
+                <td>
+                    <a class="color-white btn btn-outline-primary" href="@Url.Action("_Edit",new { @id = item.Id})">
+                        <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
+                    </a>
+                    <a class="color-white btn btn-danger" href="javascript:Delete('@item.Id','@item.Ten')">
+                        <i style="font-size:24px" class="fa">&#xf044;</i> Xóa
+                    </a>
+                </td>
+                @*<td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>*@
+            </tr>
+            { stt++; }
+        }
+    </tbody>
+</table>
+
