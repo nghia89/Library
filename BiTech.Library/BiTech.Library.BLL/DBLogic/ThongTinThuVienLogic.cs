@@ -17,7 +17,7 @@ namespace BiTech.Library.BLL.DBLogic
             Database database = new Database(connectionString);
             _ThongTinThuVienEngine = new ThongTinThuVienEngine(database, databaseName, DBTableNames.ThongTinThuVien_Table);
         }
-        
+
         #region TenThuVien
 
         public void SetTenThuVien(string value)
@@ -90,7 +90,12 @@ namespace BiTech.Library.BLL.DBLogic
 
         public void SetCustomKey(ThongTinThuVien tt)
         {
-            _ThongTinThuVienEngine.Insert(tt);
+            _ThongTinThuVienEngine.SetValueByKey(tt.Key, tt.Value);
+        }
+
+        public void SetCustomKey(string key, string value)
+        {
+            _ThongTinThuVienEngine.SetValueByKey(key, value);
         }
 
         public ThongTinThuVien GetCustomKey(string key)

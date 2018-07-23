@@ -20,13 +20,15 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
-        public string  IdPhieuNhap { get; set; }
+        public string IdPhieuNhap { get; set; }
 
         public string IdSach { get; set; }
 
         public string IdTinhtrang { get; set; }
 
         public int SoLuong { get; set; }
+        public string tenTinhTrang { get; set; }
+        public string GhiChu { get; set; }
 
         /// <summary>
         /// Phiên bản hiện tại của đối tượng

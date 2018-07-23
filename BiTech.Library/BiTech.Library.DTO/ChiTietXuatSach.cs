@@ -28,10 +28,11 @@ namespace BiTech.Library.DTO
 
         public string IdTinhTrang { get; set; }
 
-        public string IdLyDo { get; set; }
+        public string LyDo { get; set; }
 
         public int SoLuong { get; set; }
 
+        public string  GhiChu { get; set; }
         /// <summary>
         /// Phiên bản hiện tại của đối tượng
         /// </summary>

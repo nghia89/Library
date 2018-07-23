@@ -100,6 +100,7 @@
                             Trả sách
                         </a>
                     </li>
+                  
                 </ul>
             </li>
             <li class="clearfix @((@controller == "PhieuNhapSach" || @controller == "PhieuXuatSach" || @controller == "LyDoXuat") ? "action" : "")">
@@ -122,9 +123,9 @@
                             Xuất sách
                         </a>
                     </li>
-                    <li class="@((@controller == "LyDoXuat") ? "action" : "")">
-                        <a href="@Url.Action("Index","LyDoXuat")" title="Lý do xuất">
-                            Lý do xuất
+                    <li class="@(( @controller == "TrangThaiSach") ? "action" : "")">
+                        <a href="@Url.Action("Index","TrangThaiSach")" title="Lý do xuất">
+                           Trang thái
                         </a>
                     </li>
                 </ul>
@@ -140,8 +141,8 @@
                 </a>
                 <ul>
                     <li class="@((@controller == "Statistic") ? "action" : "")">
-                        <a href="@Url.Action("Index","Statistic")" title="Biểu đồ thống kê">
-                            Biểu đồ thống kê
+                        <a href="@Url.Action("Index","Statistic")" title="Sơ đồ thống kê">
+                            Sơ đồ thống kê
                         </a>
                     </li>
                     <li class="@((@controller == "ThongKe" && @action == "DanhSachMuon") ? "action" : "")">

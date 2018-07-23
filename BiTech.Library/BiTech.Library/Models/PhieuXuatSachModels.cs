@@ -41,6 +41,8 @@ namespace BiTech.Library.Models
 
         public string ten { get; set; }
 
+        public string GhiChu { get; set; }
+
         public string MaKiemSoat { get; set; }
     }
 }

@@ -683,15 +683,13 @@
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\.bower.json" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\bower.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
-    <None Include="Properties\PublishProfiles\BiTechDemo.pubxml" />
-    <None Include="Properties\PublishProfiles\Demo.pubxml" />
-    <None Include="Properties\PublishProfiles\DemoWeb.pubxml" />
     <None Include="Properties\PublishProfiles\lbm.bitech.com.pubxml" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.session.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

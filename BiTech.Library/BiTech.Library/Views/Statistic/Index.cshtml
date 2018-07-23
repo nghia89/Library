@@ -18,6 +18,7 @@
     <script src="~/app/AngularChartJs/angular-chart.min.js"></script>
     <link href="~/app/AngularChartJs/angular-chart.css" rel="stylesheet" />
     <script src="~/app/StatisticTransition.js"></script>
+   
 }
 
 <div ng-app="MyApp">
@@ -31,31 +32,33 @@
     </div>
 
     <div id="disableMonth" style="display:block">
-        <div ng-controller="MonthCtroller" class="row">  
-                <div class="col-md-10 col-xs-3">
-                    <div style="padding-bottom: 12px; float:left" class="col-md-3" >
-                        <div class="col-md-1 text-right"><h5>Tháng</h5></div>
-                        <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()">
-                            <option value="">---chon tháng ---</option>
-                            @for (int i = 1; i <= 12; i++)
-                            {
-                                <option value="@i">tháng @i</option>
-                            }
-                        </select>
-                    </div>
-                   
-                    <div style="padding-bottom: 12px; float:left" class="col-md-3">
-                        <div class="col-md-1 text-right"><h5>Năm</h5></div>
-                        <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()">
-                            <option value="">---chon năm---</option>
-                            @for (int i = 2017; i <= DateTime.Now.Year; i++)
-                            {
-                                <option value="@i">Năm @i</option>
-                            }
-                        </select>
-                    </div>
+        <div ng-controller="MonthCtroller" class="row">
+            <div class="col-md-10 col-xs-3">
+                <div style="padding-bottom: 12px; float:left" class="col-md-3">
+                    <div class="col-md-1 text-right"><h5>Tháng</h5></div>
+                    <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()">
+                        <option value="">---chon tháng ---</option>
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i">tháng @i</option>
+                        }
+                    </select>
                 </div>
-        
+
+                <div style="padding-bottom: 12px; float:left" class="col-md-3">
+                    <div class="col-md-1 text-right"><h5>Năm</h5></div>
+       
+                    <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()">
+                   
+                        <option value="">---chon năm---</option>
+                        @for (int i = Int32.Parse(ViewBag.tt); i <= DateTime.Now.Year; i++)
+                        {
+                            <option value="@i">Năm @i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
             <div class="col-md-9" style="margin:auto">
                 <!-- Custom tabs (Charts with tabs)-->
                 <div class="nav-tabs-custom">
@@ -67,7 +70,7 @@
                                 chart-data="chartdataMonth" chart-labels="labels" chart-colors="colors"
                                 chart-series="series" chart-options="options" chart-legend="true" chart-dataset-override="datasetOverride"></canvas>
                         <p style="    float: right;margin-right: -53px;margin-top: -40px;padding-bottom: 15px;">Ngày</p>
-                        <div ng-if="loading" >
+                        <div ng-if="loading">
                             <div class="col-xs-4"></div>
                             <div class="col-xs-4">
                                 <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
@@ -77,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
 
         </div>
@@ -100,7 +103,7 @@
                         <div style="padding-bottom: 12px;">
                             <select class="form-control" data-width="auto" ng-model="selectYear" ng-click="year()">
                                 <option value="">---chon năm---</option>
-                                @for (int i = 2017; i <= DateTime.Now.Year; i++)
+                                @for (int i = Int32.Parse(ViewBag.tt); i <= DateTime.Now.Year; i++)
                                 {
                                     <option value="@i">Năm @i</option>
                                 }
@@ -108,7 +111,7 @@
                         </div>
 
                     </div>
-                   
+
                 </div>
 
                 <!-- Left col -->
@@ -130,7 +133,7 @@
                         </div>
                     </div>
 
-                   
+
                 </div>
 
 

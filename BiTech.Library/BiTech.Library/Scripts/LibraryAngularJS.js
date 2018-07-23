@@ -45,17 +45,18 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
             params: {
                 maKS: $scope.maKS,
                 soLuong: $scope.soLuong,
-                idTrangThai: $scope.idTrangThai
+                idTrangThai: $scope.idTrangThai,
+                GhiChu: $scope.GhiChu,
             }
         }).then(function (response) {
-            if (response.data != null) {
+            if (response.data !== null) {
                 $scope.list.push(response.data);
             }
             else {
                 alert("Mã sách không phù hợp");
             }
         }, function (e) {
-            alert("Error Occur");
+            alert("bạn vui lòng điền vào ô trống");
         })
     }
     $scope.removeItem = function (x) {
@@ -78,17 +79,18 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
                 maKiemSoat: $scope.maKS,
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
-                idLyDo: $scope.idLyDo
+                LyDo: $scope.LyDo,
+                GhiChu:$scope.GhiChu
             }
         }).then(function (response) {
-            if (response.data != null) {
+            if (response.data !== null) {
                 $scope.list.push(response.data);
             }
             else {
                 alert("Mã sách không phù hợp");
             }
         }, function () {
-            alert("Error Occur");
+            alert("bạn vui lòng điền vào ô trống");
         })
     }
     $scope.removeItem = function (x) {
@@ -103,7 +105,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
     $scope.list = [];
 
     $scope.addListItems = function (lstSach) {
-        if (lstSach != null) {
+        if (lstSach !== null) {
             for (i = 0; i < lstSach.length; i++) {
                 $scope.maKiemSoat = JSON.parse(lstSach[i]).MaKiemSoat;
                 $scope.addItem();
@@ -116,7 +118,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
         $scope.soLuongTemp = 1;
         $scope.found = false;
         $scope.list.forEach(function (item, idx) {
-            if (item.MaKiemSoat == $scope.maKiemSoat) {
+            if (item.MaKiemSoat === $scope.maKiemSoat) {
                 $scope.found = true;
                 $scope.soLuongTemp = item.SoLuongMuon + 1;
             }
@@ -132,9 +134,9 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
         }).then(function (response) {
             if (response.data) {
                 if (response.data.Status) {
-                    if ($scope.found == true) {
+                    if ($scope.found === true) {
                         $scope.list.forEach(function (item, idx) {
-                            if (item.MaKiemSoat == $scope.maKiemSoat)
+                            if (item.MaKiemSoat === $scope.maKiemSoat)
                                 item.SoLuongMuon = response.data.SoLuongMuon
                         });
                     } else {
@@ -149,7 +151,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
                 alert("Mã sách không phù hợp");
             }
         }, function () {
-            alert("Error Occur");
+            alert("bạn vui lòng điền vào ô trống");
         })
     }
 
@@ -165,7 +167,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
         }).then(function (response) {
             if (response.data) {
                 // cap nhat lai so luong
-                if (response.data.Status != true) {
+                if (response.data.Status !== true) {
                     alert("Sách quá số lượng");
                 }
                 $scope.list[id].SoLuongMuon = response.data.SoLuongMuon;
@@ -208,13 +210,13 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
             if (response.data) {
                 var found = false;
                 $scope.list.forEach(function (item, idx) {
-                    if (item.IdSach == id && item.IdTrangThaiSach == response.data.IdTrangThaiSach) {
+                    if (item.IdSach === id && item.IdTrangThaiSach === response.data.IdTrangThaiSach) {
                         item = response.data;
                         found = true;
                     }
                 });
 
-                if (found == false)
+                if (found === false)
                     $scope.list.push(response.data);
             }
             else {
@@ -236,7 +238,7 @@ app.controller('TraSachCtrlr', function ($scope, $http) {
     //        url: "/PhieuMuon/GetChiTietPhieuJSon",
     //        params: {
     //            idPM: $('#idPM').val(),
-    //            soLuong: 0
+    //            soLuong: 0 
     //        }
     //    }).then(function (response) {
     //        $scope.listGet = response.data;

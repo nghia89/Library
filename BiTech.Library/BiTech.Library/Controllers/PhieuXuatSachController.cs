@@ -79,9 +79,9 @@ namespace BiTech.Library.Controllers
                
                 ChiTietXuatSachViewModels ctxs = new ChiTietXuatSachViewModels();
                 ctxs.Id = item.Id;
-                ctxs.IdLydo = item.IdLyDo;
-                var LyDo = _LyDoXuatLogic.GetById(ctxs.IdLydo);
-                ctxs.lyDo = LyDo.LyDo;
+                ctxs.IdLydo = item.LyDo;
+                //var LyDo = _LyDoXuatLogic.GetById(ctxs.IdLydo);
+                ctxs.lyDo = item.LyDo;
                 ctxs.IdTinhTrang = item.IdTinhTrang;
                 var TinhTrang = _TrangThaiSachLogic.getById(ctxs.IdTinhTrang);
                 ctxs.tenTinhTrang = TinhTrang.TenTT;
@@ -166,7 +166,7 @@ namespace BiTech.Library.Controllers
                             IdPhieuXuat = idPhieuXuat,
                             IdSach = ctModel.IdSach,
                             IdTinhTrang = ctModel.IdTinhTrang,
-                            IdLyDo = ctModel.IdLydo,
+                            LyDo = ctModel.lyDo,
                             SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now
                         };
@@ -211,7 +211,7 @@ namespace BiTech.Library.Controllers
             return View();
         }
         [HttpGet]
-        public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string idlydo)
+        public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string LyDo,string GhiChu)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -230,7 +230,7 @@ namespace BiTech.Library.Controllers
             {
                 var book = _SachLogic.GetByMaMaKiemSoat(maKiemSoat);
                 var tt = _TrangThaiSachLogic.getById(idtrangthai);
-                var ld = _LyDoXuat.GetById(idlydo);
+                //var ld = _LyDoXuat.GetById(idlydo);
                 ChiTietXuatSachViewModels pp = new ChiTietXuatSachViewModels()
                 {
                     IdSach = book.Id,
@@ -238,8 +238,9 @@ namespace BiTech.Library.Controllers
                     soLuong = soLuong,
                     IdTinhTrang = idtrangthai,
                     tenTinhTrang = tt.TenTT,
-                    IdLydo = idlydo,
-                    lyDo = ld.LyDo,
+                    //IdLydo = idlydo,
+                    lyDo = LyDo,
+                    GhiChu=GhiChu,
                     MaKiemSoat = book.MaKiemSoat
                 };
 
