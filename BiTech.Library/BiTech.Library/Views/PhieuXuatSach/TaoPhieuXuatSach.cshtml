@@ -50,7 +50,7 @@
                                 <input name="LyDo" placeholder="Lý do xuất" class="form-control" ng-model="LyDo" type="text" />
                             </div>
                         </div>
-              
+
                         <div class="form-group row">
                             @Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })
                             <div class="col-md-10">
@@ -112,6 +112,7 @@
 </div>
 
 @section scripts{
+    
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             $("#idSach").autocomplete({

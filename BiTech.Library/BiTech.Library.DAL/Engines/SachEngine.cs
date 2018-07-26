@@ -45,7 +45,19 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.MaKiemSoat == MaKS).FirstOrDefault();
         }
         #endregion
-
+        public List<Sach> ListName(string keyWord)
+        {
+            FilterDefinition<Sach> filterDefinition = new BsonDocument();
+            var builder = Builders<Sach>.Filter;
+            filterDefinition = builder.Where(x => x.TenSach.ToLower().Contains(keyWord.ToLower()));
+            return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+         
+        //public List<Sach> ListNameTest(string keyWord)
+        //{
+        //    var list = _DatabaseCollection.Find(x => x.TenSach.Contains(keyWord));
+        //    return list.ToList();
+        //}
         public List<Sach> GetAllSach()
         {
             return _DatabaseCollection.Find(x=>x.IsDeleted==false).ToList();

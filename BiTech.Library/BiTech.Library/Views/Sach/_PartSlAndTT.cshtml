@@ -1,0 +1,37 @@
+﻿
+    @{ 
+        var sltts = (List<BiTech.Library.DTO.SoLuongSachTrangThai>)ViewBag.SlTTsach;
+    }
+<style>
+
+    .container {
+        border: 3px solid #f1f1f1;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+</style>
+<div class="container">
+
+    <div class="">
+        <span>Số lượng trạng thái sách</span>
+
+    </div>
+    <hr />
+    <div id="tbl-content">
+       
+    </div>
+</div>
+<script id="table-template" type="x-tmpl-mustache">
+    <div class="form-group row">
+        <label class="control-label col-sm-2" for="IdTrangThai">{{IdTrangThai}}:</label>
+        <div class="col-sm-6">
+            <input type="number" value="{{SoLuong}}" min="0" max="5" class="form-control">
+        </div>
+        <a class="btn btn-danger btn-edit" data-id="{{Id}}">Sữa</a>
+
+    </div>
+</script>

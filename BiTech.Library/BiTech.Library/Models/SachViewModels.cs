@@ -63,12 +63,26 @@ namespace BiTech.Library.Models
         public string NamSanXuat { get; set; }
 
         [Required]
-        public double GiaSach { get; set; }
+        public double GiaBia { get; set; }
 
         public string LinkBiaSach { get; set; }
 
         [Required]
         public string TomTat { get; set; }
+
+        public string DDC { get; set; }
+
+        public string MARC21 { get; set; }
+
+        public string XuatXu { get; set; }
+
+        public string TaiBan { get; set; }
+
+        public string NguoiBienDich { get; set; }
+
+        public string QRlink { get; set; }
+
+        public string QRData { get; set; }
 
         [Required]
         public HttpPostedFileBase FileImageCover { get; set; }

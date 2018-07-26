@@ -70,7 +70,7 @@ namespace BiTech.Library.Controllers
                     MaKiemSoat = item.MaKiemSoat,
                     NgonNgu = item.IdNgonNgu,
                     NamSanXuat = item.NamXuatBan,
-                    GiaSach = item.GiaSach,
+                    GiaBia = item.GiaBia,
                     LinkBiaSach = item.LinkBiaSach,
                     SoLuong = item.SoLuongTong
                 };

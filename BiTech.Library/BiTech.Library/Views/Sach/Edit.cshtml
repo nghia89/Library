@@ -1,247 +1,242 @@
 ﻿@model BiTech.Library.Models.SachUploadModel
 @{
+    /**/
+
     ViewBag.Title = "Sửa sách";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var IdTacGia = (List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
 }
-<link href="~/Content/css/fSelect.css" rel="stylesheet" />
-<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Sửa Sách</div>
-<div ng-app="LibraryApp" class="clearfix">
-    @using (Html.BeginForm("Edit", "Sach", FormMethod.Post, new { role = "form" }))
-    {
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="idmakiemsoat">Mã Kiểm Soát:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat", @readonly = "readonly" })
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="tensach">Tên Sách:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control", @id = "tensach" })
-            </div>
-        </div>
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/tagsinput/ng-tags-input.css" rel="stylesheet" />
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/ng-tags-input.js"></script>
+<script src="~/app/ngTagInputAngular.js"></script>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control", @id = "ISBN" })
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-3">
+        @Html.Partial("_PartSlAndTT")
+    </div>
+    <div class="col-md-9">
+        <div ng-app="LibraryApp" class="clearfix">
+            @using (Html.BeginForm("Edit", "Sach", FormMethod.Post, new { role = "form" }))
+            {
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="TenTheLoai">Thể Loại Sách:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData('@ViewBag.TLS')">
-                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "Ten"), "--Chọn Loại Sách--",
-                    new { @class = "form-control", @ng_model = "IdTLS", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
-                    @*s.Id as s.TenTheLoai for s in list*@
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
-                        </a>
+                <input name="SachDTO.Id" id="Data-IDsach" value="@Model.SachDTO.Id" hidden />
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="idmakiemsoat">Mã Kiểm Soát:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat", @readonly = "readonly" })
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ Sách:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
-                       new { @class = "form-control", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
-                        </a>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Loại sách:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="IdNhaXuatBan">Nhà Xuất Bản:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData('@ViewBag.NXB')">
-                    @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
-                    new { @class = "form-control", @ng_model = "IdNXB", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
-                        </a>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="tensach">Tên Sách:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="SoTrang">Số Trang:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control", @id = "SoTrang" })
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn Ngữ:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
-                       new { @class = "form-control ", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 24px;"></i>
-                        </a>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN" })
                     </div>
                 </div>
-            </div>
-        </div>
 
-
-        @*<div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn Ngữ:</label>
-            <div class="col-sm-6">
-                @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(Model.Languages, "Id", "Ten"), new { @class = "form-control", @id = "NgonNgu" })
-      
-            </div>
-        </div>*@
-
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NamXuatBan">Năm Xuất Bản:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control", @id = "NamSanXuat" })
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label " for="idkesach">Tác giả</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3">
-                    @*<select class="demo" multiple="multiple" name="IDTacGia" id="LoadTG">
-                        @foreach (var i in IdTacGia)
-                        {
-                            if (Model.SachDTO.Id == i.Id)
-                            {
-                                <option selected value="@i.Id">@i.TenTacGia</option>
-                            }
-                            else
-                            {
-                                <option  value="@i.Id">@i.TenTacGia</option>
-                            }
-
-                        }
-                    </select>*@
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="ListTT">Thể Loại Sách:</label>
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
+                            @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
+                               new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+                            @*s.Id as s.TenTheLoai for s in list*@
+                            <div class="input-group-append">
+                                <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
+                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group-append" style="float: right;padding-left: 2px;margin: -38px 0px;">
-                    <a href="@Url.Content("~/Sach/RQTacGiasach")" class="btn btn-primary"
-                       data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                        <i class="fa fa-plus" style="line-height: 24px;"></i>
-                    </a>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="ListTacGiaJson">Tác giả:</label>
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3" id="ListTacGia" ng-controller="TacGiaFinder">
+                            <tags-input ng-model="listtg"
+                                        replace-spaces-with-dashes="false"
+                                        display-property="TenTacGia"
+                                        class="form-control form-control-sm">
+                                <auto-complete source="loadData($query)"></auto-complete>
+                                <div ng-repeat="s in listtg">
+                                    <input hidden="hidden" ng-cloak class="btn btn-default" name="ListTacGiaJson" value="{{s}}" />
+                                </div>
+                            </tags-input>
+                            <div class="input-group-append">
+                                <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary btn-sm"
+                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="GiaSach">Giá Sách:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control", @id = "GiaSach" })
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control", @id = "PhiMuonSach" })
-            </div>
-        </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="ListNXB">Nhà Xuất Bản:</label>
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
+                            @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
+                               new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                            <div class="input-group-append">
+                                <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
+                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm Tắt:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.TomTat, new { @class = "form-control", @id = "TomTat" })
-            </div>
-        </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ Sách:</label>
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
+                            @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
+                               new { @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+                            <div class="input-group-append">
+                                <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
+                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                    <i class="fa fa-plus" style="line-height: 24px;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa Sách:</label>
-            <div class="col-sm-6">
-                <object data='@Html.Raw(!string.IsNullOrEmpty(Model.SachDTO.LinkBiaSach) ? Model.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")'
-                        type="image/png"
-                        style="width:220px">
-                    <img src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
-                </object>
-                @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
-                @Html.ValidationMessageFor(m => m.FileImageCover)
-            </div>
-        </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="sotrang">Số Trang:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
+                    </div>
+                </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for=""></label>
-            <div class="col-sm-6">
-                <input type="submit" value="Cập nhật" class="btn btn-primary" />
-                <input type="button" value="Xóa" class="btn btn-danger" onclick="XoaItem('@Model.SachDTO.Id')" />
-                <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default" />
-            </div>
-        </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn Ngữ:</label>
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
+                            @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
+                               new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                            <div class="input-group-append">
+                                <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
+                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        @Html.HiddenFor(m => m.SachDTO.LinkBiaSach);
-    }
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm Xuất Bản:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá Sách:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Nước xuất xứ:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Người biên dịch:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">lần Xuất Bản:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm Tắt:</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
+                        @Html.ValidationMessageFor(m => m.SachDTO.TomTat)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa Sách:</label>
+                    <div class="col-sm-6">
+                        <img id="blah" src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
+                        @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
+                        @Html.ValidationMessageFor(m => m.FileImageCover)
+                    </div>
+                </div>
+
+                <div class="form-group row box_temp_lg">
+                    <label class="col-form-label col-sm-3 form-label"></label>
+                    <div class="col-sm-6">
+                        <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm Mới" />
+                        <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default btn-sm" />
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
 </div>
+@{
+    Html.RenderPartial("~/Views/Sach/_partEditSoLuong.cshtml");
+}
 
-<div id="ajaxBox"></div>
+
+<div id="ajax"></div>
 @section scripts{
-<script src="~/Content/css/fSelect.js"></script>
 
-<script>
-        $('.demo').fSelect();
-</script>
-
+    <script>
+        //$('.demo').fSelect();
+    </script>
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
     <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/LibraryAngularJS.js"></script>
-    <script>
-        function XoaItem(id) {
-            swal({
-                title: " Bạn có muốn xóa?",
-                text: "Bạn sẽ không thể khôi phục lại sau khi xóa!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Có",
-                cancelButtonText: "Không",
-                closeOnConfirm: false,
-                closeOnCancel: true
-            },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        type: 'POST',
-                        url: "/Sach/Delete",
-                        data: { "Id": id },
-                        success: function (resultData) {
-                            swal({
-                                title: "Bạn đã xóa thành công!",
-                                type: "success",
-                                showCancelButton: false,
-                                confirmButtonText: "OK",
-                                closeOnConfirm: false
-                            },
-                            function (isConfirm) {
-                                window.location.href = '/Sach';
-                            });
-                        }
-                    });
-                } 
-            });
-        }
 
+    <script src="~/Scripts/JsSoluongsach.js"></script>
+    <script>
+        var sltts = new SoLuongTTSach();
+        sltts.initialize();
+    </script>
+    <script>
         function RequestAltInsertGuiBegin() {
             $(this).addClass('active');
         }
@@ -249,7 +244,7 @@
         function RequestAltInsertGuiSuccess(data) {
             $(this).removeClass('active');
 
-            $("#ajaxBox").html(data);
+            $("#ajax").html(data);
 
             $("#edit-student-modal").modal();
 
@@ -259,7 +254,6 @@
             $.validator.unobtrusive.parse(form);
         }
 
-        // upload image
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -273,5 +267,158 @@
         $("#FileImageCover").change(function () {
             readURL(this);
         });
+
+        //$(document).ready(function () {
+        //    setInterval(function () {
+        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
+        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
+        //    }, 30000);
+        //});
+
+        $(function () {
+            var multiSelect = $('[data-multiple]');
+
+            multiSelect.each(function () {
+                var $this = $(this),
+                    numberOfOptions = $this.children('option'),
+                    listOption = $(),
+                    previewOption = $(),
+                    previewCloseButton = $();
+
+
+                if (!$this.find('option:selected').length)
+                    $this.addClass('empty');
+
+                // Initially append class to select so it can be hidden
+                $this.addClass('select-hidden');
+                // Create wrappers and initial placeholders
+                $this.wrap('<div class="multi-select"></div>');
+                $this.after('<div class="multi-select-preview"></div>');
+                var selectedOptions = $this.next('div.multi-select-preview');
+                var selectOptionsListWrapper = $('<div />', {
+                    'class': 'multi-select-options-wrapper'
+                }).insertAfter(selectedOptions);
+
+                var selectOptionsList = $('<ul />', {
+                    'class': 'multi-select-options-list'
+                }).appendTo(selectOptionsListWrapper);
+
+                // Loop through all options and create list items that can be easily styled
+                numberOfOptions.each(function (index, item) {
+                    var $item = $(item);
+                    listOption = listOption.add($('<li />', {
+                        text: $item.text(),
+                        rel: $item.val(),
+                        'class': $item.attr('selected') ? 'selected' : ''
+                    })).appendTo(selectOptionsList);
+
+                    previewOption = previewOption.add($('<div />', {
+                        'class': $item.attr('selected') ? 'selected-value active' : 'selected-value'
+                    })).appendTo(selectedOptions);
+
+                    $('<span />', {
+                        text: '×',
+                        'class': 'selected-value-icon',
+                        'aria-hidden': true
+                    }).appendTo(previewOption.eq(index));
+
+                    $('<span />', {
+                        text: $item.text(),
+                        'class': 'selected-value-label',
+                        'aria-selected': $item.attr('selected') ? true : false
+                    }).appendTo(previewOption.eq(index));
+                });
+
+                var buttonClearAll = $('<span />', {
+                    'class': true && $this.find('option:selected').length ? 'multi-select-clear' : 'multi-select-clear hidden',
+                    text: '×'
+                }).appendTo(selectedOptions);
+
+                var buttonArrow = $('<span />', {
+                    'class': 'multi-select-arrow'
+                }).appendTo(selectedOptions);
+
+                // Functionality on preview click
+                selectedOptions.on('click', function (e) {
+                    e.stopPropagation();
+                    var $self = $(this);
+
+                    $('div.multi-select-preview.active').not(this).each(function () {
+                        $(this).removeClass('active').next('.multi-select-options-wrapper').hide();
+                    });
+
+                    $self.toggleClass('active').next('.multi-select-options-wrapper').toggle();
+                });
+                // Put close icon buttons in variable after initialization
+                previewCloseButton = selectedOptions.find('.selected-value-icon');
+
+                // Hide everything opened on document click
+                $(document).on('click', function () {
+                    selectedOptions.removeClass('active');
+                    selectOptionsListWrapper.hide();
+                });
+
+                // On escape key close selecte
+                $(document).keyup(function (e) {
+                    if (selectOptionsListWrapper.is(':visible') && e.keyCode == 27) {
+                        selectedOptions.removeClass('active');
+                        selectOptionsListWrapper.hide();
+                    }
+                });
+
+                // Functionality on picked option
+                listOption.on('click', function (e) {
+                    e.stopPropagation();
+                    var $self = $(this);
+
+                    var index = $self.index();
+                    if ($self.hasClass('selected')) {
+                        $self.removeClass('selected');
+                        previewOption.eq(index).removeClass('active');
+                        $this.find('option').eq(index).prop('selected', false);
+
+                        triggerChange();
+                    } else {
+                        $self.addClass('selected');
+                        previewOption.eq(index).addClass('active');
+                        $this.find('option').eq(index).prop('selected', true);
+
+                        triggerChange();
+                    }
+                });
+
+                previewCloseButton.on('click', function (e) {
+                    e.stopPropagation();
+                    var currentPreviewOption = $(this).closest('.selected-value');
+                    var index = currentPreviewOption.index();
+
+                    currentPreviewOption.removeClass('active');
+                    listOption.eq(index).removeClass('selected');
+                    $this.find('option').eq(index).prop('selected', false);
+
+                    triggerChange();
+                });
+
+                buttonClearAll.on('click', function (e) {
+                    e.stopPropagation();
+                    listOption.removeClass('selected');
+                    previewOption.removeClass('active');
+                    $this.find('option:selected').prop('selected', false);
+
+                    triggerChange();
+                });
+
+                // Returns number of selected items
+                var triggerChange = function () {
+                    $this.change();
+                    if ($this.find('option:selected').length > 0)
+                        selectedOptions.removeClass('empty');
+                    else
+                        selectedOptions.addClass('empty');
+
+                    console.log($this.val());
+                };
+            });
+        }());
     </script>
 }

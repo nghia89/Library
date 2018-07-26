@@ -7,59 +7,81 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
     $scope.series = ['Phiếu Mượn Trong Năm', 'Số Người Mượn Trong Năm', 'Số Người không Trả Sách', 'Số Sách Được Mượn', 'Số Người Trả Trễ'];
     $scope.options = {
         tooltips: {
-            yAlign: 'bottom',    
-            displayColors: {
-                Boolean: true
-            },
             callbacks: {
-              
+                label: function (tooltipItem, data) {
+                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                    if (label) {
+                        label += ': ';
+                    }
+                    label += Math.round(tooltipItem.yLabel * 100) / 100;
+                    return label;
+                }
             }
         },
-        
         legend: { display: true },
         scales: {
             yAxes: [
                 {
                     ticks: {
-                        beginAtZero: true
-                    }
+                        beginAtZero: true, 
+                        callback: function (value) { if (value % 1 === 0) { return value; } }
+                     
+                    },
+                   
                 }
             ]
         }
     };
+
     $scope.chartdataYear = [];
     $scope.Year = '';
+    //ChartJsProvider.setOptions('bar', {
+    //    colours: [
+    //        {
+    //            fillColor: "rgba(000,111,111,.5)",
+    //            strokeColor: "rgba(111,111,111,.5)"
+    //        },
+    //        {
+    //            fillColor: 'rgba(144, 185, 18, .5)',
+    //            strokeColor: 'rgba(47, 132, 71, .6)'
+    //        }
+    //    ]
+    //});
     Chart.defaults.global.colors = [
+
         {
-            backgroundColor: 'rgba(255, 255, 255, 0)',
+            backgroundColor: 'rgba(247, 231, 248, 0.5)',
+            pointBackgroundColor: 'rgba(148,159,177,1)',
+            pointHoverBackgroundColor: 'rgba(148,159,177,1)',
+            borderColor: 'rgba(172, 63, 191)',
+            pointBorderColor: '#fff',
+            pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+        },
+        { 
+            backgroundColor: 'rgba(231, 247, 231)',
             pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
-            borderColor: 'rgba(0, 8, 245, 1',
+            borderColor: 'rgba(45, 186, 38)',
             pointBorderColor: '#212529',
-            //pointHoverBorderColor: 'rgba(151,187,205,1)'
+            pointHoverBorderColor: 'rgba(151,187,205,1)'
         }, {
-            backgroundColor: 'rgba(255, 255, 255, 0)',
+            backgroundColor: 'rgba(212, 226, 240)',
             pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
-            borderColor: 'rgba(171, 0, 245, 1',
+            borderColor: 'rgba(32, 114, 207)',
             pointBorderColor: '#212529',
-            //pointHoverBorderColor: 'rgba((0, 8, 245, 1)'
+            pointHoverBorderColor: 'rgba(151,187,205,1)'
         }, {
-            backgroundColor: 'rgba(255, 255, 255, 0)',
+            backgroundColor: 'rgba(249, 224, 224, 0.5)',
             pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
-            borderColor: 'rgba(0, 199, 0, 0.97',
+            borderColor: 'rgba(188, 51, 9)',
             pointBorderColor: '#212529',
-            //pointHoverBorderColor: 'rgba(151,187,205,1)'
+            pointHoverBorderColor: 'rgba(151,187,205,1)'
         }, {
-            backgroundColor: 'rgba(255, 255, 255, 0)',
+            backgroundColor: 'rgba(224, 224, 224)',
             pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
-            borderColor: 'rgba(245, 0, 41, 1',
+            borderColor: 'rgba(0, 0, 0)',
             pointBorderColor: '#212529',
-            //pointHoverBorderColor: 'rgba(151,187,205,1)'
-        }, {
-            backgroundColor: 'rgba(255, 255, 255, 0)',
-            pointHoverBackgroundColor: 'rgba(0, 0, 0, 0.97)',
-            borderColor: 'rgba(0, 0, 0, 0.97',
-            pointBorderColor: '#212529',
-            //pointHoverBorderColor: 'rgba(151,187,205,1)'
+            pointHoverBorderColor: 'rgba(151,187,205,1)'
         }];
     $scope.loading = true;
 
@@ -141,8 +163,8 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 app.controller('MonthCtroller', function ($scope, $http, $location) {
 
 
-    $scope.labels = ['01', '02', '03', '04', '05', ' 06', '07', '08', '09', '10', '11', '12',
-        '03', '14', '14', '16', '17', '18', '19', '20', '21', ' 22', '23', '24', '25', ' 26', ' 27', ' 28', ' 29', '  30', ' 31'];
+    $scope.labels = ['0','01', '02', '03', '04', '05', ' 06', '07', '08', '09', '10', '11', '12',
+        '13', '14', '15', '16', '17', '18', '19', '20', '21', ' 22', '23', '24', '25', ' 26', ' 27', ' 28', ' 29', '  30', ' 31'];
     $scope.series = ['Số Người Mượn Trong Ngày', 'Số Sách Được Mượn', 'Số Người Không Trả sách', 'Số Người Trả Trễ'];
     //$scope.colors = [{
 
@@ -151,7 +173,7 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
     //    highlightFill: 'rgba(47, 132, 71, 0.8)',
     //    highlightStroke: 'rgba(47, 132, 71, 0.8)'
     //}];
-
+  
     $scope.chartdataMonth = [];
     $scope.options = {
         legend: { display: true },
@@ -159,7 +181,8 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
             yAxes: [
                 {
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        callback: function (value) { if (value % 1 === 0) { return value; } }
                     }
                 }
             ]

@@ -61,7 +61,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetAllSach();
         }
-
+        public List<Sach> ListName(string keyWord)
+        {
+            return _sachEngine.ListName(keyWord);
+        }
         public List<Sach> getPageSach(KeySearchViewModel KeySearch)
         {
             var listSachTacgia = _SachTacGiaEngine.GetAllBookIdByAthurId(KeySearch.TenTacGia);
