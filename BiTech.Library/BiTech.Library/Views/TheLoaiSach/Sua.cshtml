@@ -15,24 +15,30 @@
             </div>
         </div>*@
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="TenTheLoai">Tên Thể Loại:</label>
+            <label class="col-form-label col-form-label-sm col-sm-2" for="TenTheLoai">Tên Thể Loại:</label>
             <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.TenTheLoai, new { @class = "form-control", @id = "TenTheLoai" })
+                    @Html.TextBoxFor(m => m.TenTheLoai, new { @class = "form-control form-control-sm", @id = "TenTheLoai" })
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="MoTa">Mô Tả:</label>
+            <label class="col-form-label col-form-label-sm col-sm-2" for="MoTa">Mã DDC:</label>
             <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.MoTa, new { @class = "form-control", @id = "MoTa" })
+                @Html.TextBoxFor(m => m.MaDDC, new { @class = "form-control form-control-sm", @id = "MoTa" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-form-label-sm col-sm-2" for="MoTa">Mô Tả:</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.MoTa, new { @class = "form-control form-control-sm", @id = "MoTa" })
             </div>
         </div>
         @Html.HiddenFor(m => m.IdParent)
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for=""></label>
             <div class="col-sm-10">
-                <input type="submit" class="btn btn-primary" value="Cập nhật" />
-                <input type="button" value="Xóa" class="btn btn-danger"  onclick="XoaTLS('@Model.Id','@Model.TenTheLoai')" />
-                <input type="button" value="Trở lại" onclick="location.href = '@ViewBag.URLBackParent';" class="btn btn-default" />
+                <input type="submit" class="btn btn-primary btn-sm" value="Cập nhật" />
+                <input type="button" value="Xóa" class="btn btn-danger btn-sm"  onclick="XoaTLS('@Model.Id','@Model.TenTheLoai')" />
+                <input type="button" value="Trở lại" onclick="location.href = '@ViewBag.URLBackParent';" class="btn btn-default btn-sm" />
             </div>
         </div>
 

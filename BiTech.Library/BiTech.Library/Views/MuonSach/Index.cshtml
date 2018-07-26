@@ -1,0 +1,187 @@
+﻿@model  List<BiTech.Library.Models.MuonTraSachViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="Title">Mượn sách</div>
+
+<div ng-app="LibraryApp" class="container-mt">
+    <div class="search-thanhvien">
+        @if (ViewBag.ThongBao)
+        {
+            <div class="alert p-2 alert-danger alert-dismissible fade show">
+                <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+                <strong>Thông báo!</strong> @ViewBag.ThongBaoString
+            </div>
+        }
+
+        @using (Html.BeginForm("Index", "MuonSach", FormMethod.Get, new { role = "form" }))
+        {
+            <div class="input-group mb-3 p-1">
+                <input class="form-control form-control-sm" name="IdUser" autocomplete="off" placeholder="Nhập mã thành viên ..." />
+                <div class="input-group-append">
+                    <input type="submit" value="Tìm kiếm" class="btn btn-primary btn-sm" />
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (ViewBag.hasUser)
+    {
+        <div class="container-mt-sach clearfix">
+            <div class="box-left clearfix p-1">
+
+                <div class="container-box-window clearfix">
+                    <div class="top">
+                        <span class="">@ViewBag.user.MaSoThanhVien - @ViewBag.user.Ten</span>
+                    </div>
+
+                    <div class="content-box-window">
+                        <div class="form-mt-sach" ng-controller="MuonSachCtrlr">
+
+                            <div class="form-group mb-0">
+                                <label for="email">Mã Sách:</label>
+                                <div class="input-group mb-3 p-1">
+                                    <input class="form-control form-control-sm" autocomplete="off" ng-keypress="myFunct($event)" placeholder="Nhập mã sách ..." />
+                                    <div class="input-group-append">
+                                        <input type="button" value="Tìm sách" ng-click="GetBook()" class="btn btn-primary btn-sm" />
+                                    </div>
+                                </div>
+                                <div ng-if="show_thongbao" class="alert alert-info m-1 p-2 alert-dismissible fade show">
+                                    <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+                                    <div>
+                                        <strong>Mã sách:</strong> Mã sách
+                                    </div>
+                                    <div>
+                                        <strong>Tên sách:</strong> Tên sách
+                                    </div>
+                                    <div>
+                                        <strong>Số lượng:</strong> 10
+                                    </div>
+                                </div>
+                                <div ng-if="0" class="alert m-1 p-2 alert-danger alert-dismissible fade show">
+                                    <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+                                    <strong>Thông báo!</strong> mã sách này không tồn tại
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label for="pwd">Số lượng:</label>
+                                <input type="number" class="form-control form-control-sm" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,'');" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Ngày trả:</label>
+                                <input type="text" class="form-control form-control-sm" id="ngayPhaiTra">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary btn-sm">Thêm Sách</button>
+                                <button type="button" class="btn btn-default btn-sm">Làm mới</button>
+                            </div>
+
+                        </div>
+                        <div class="danhsach-mt-sach-new">
+                            <div class="form-group">
+                                <div class="danhsach-mt-sach-old ">
+                                    <table class="table table-hover table-bordered table-striped mb-0" border="1">
+                                        <thead>
+                                            <tr class="table-info">
+                                                <th width="50" align="right">STT</th>
+                                                <th>Mã kiểm soát</th>
+                                                <th>Tên sách</th>
+                                                <th>Số lượng</th>
+                                                <th>Ngày mượn</th>
+                                                <th>Ngày trả</th>
+                                            </tr>
+                                        </thead>
+                                        @{int j = 1;}
+                                        <tbody>
+
+                                            <tr>
+                                                <td align="center"></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group m-0">
+                                <button type="button" class="btn btn-primary btn-sm">Mượn Sách</button>
+                                <button type="button" class="btn btn-default btn-sm">Xoá danh sách</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="box-right clearfix p-1">
+                <div class="container-box-window clearfix">
+                    <div class="top">
+                        <span class="">Danh sách đang mượn</span>
+                    </div>
+
+                    <div class="content-box-window">
+                        <div class="danhsach-mt-sach-old ">
+                            <table class="table table-hover table-bordered table-striped mb-0" border="1">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th width="50" align="right">STT</th>
+                                        <th>Mã kiểm soát</th>
+                                        <th>Tên sách</th>
+                                        <th>Số lượng</th>
+                                        <th>Ngày mượn</th>
+                                        <th>Ngày trả</th>
+                                    </tr>
+                                </thead>
+                                @{int i = 1;}
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="@((item.TinhTrang)? "table-danger" : "")">
+                                            <td align="center">@(i)</td>
+                                            <td>@item.MaKiemSoat</td>
+                                            <td>@item.TenSach</td>
+                                            <td>@item.SoLuong</td>
+                                            <td>@item.NgayMuon</td>
+                                            <td>@item.NgayTra</td>
+                                        </tr>
+                                        { i++; }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                                    }
+</div>
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
+    <script>
+        $(function () {
+            $("#ngayPhaiTra").datepicker({
+                //showWeek: true,
+                dateFormat: "dd/mm/yy",
+                monthNames: ['Tháng 1', 'Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10',,'Tháng 11','Tháng 12',],
+                //monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+                //changeMonth: true,
+                //changeYear: true,
+                //gotoCurrent: true,
+                dayNamesMin: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+                minDate: 0,
+                maxDate: @Html.Raw(ViewBag.MaxDate),
+            }).datepicker("setDate", new Date() + 1).attr("readonly", "readonly");
+        });
+    </script>
+}

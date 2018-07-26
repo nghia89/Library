@@ -12,5 +12,6 @@ namespace BiTech.Library.Models
         public string TenTheLoaiParent { get; set; }
         public string TenTheLoai { get; set; }
         public string MoTa { get; set; }
+        public string MaDDC { get; set; }
     }
 }

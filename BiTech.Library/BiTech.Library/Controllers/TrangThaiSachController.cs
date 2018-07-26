@@ -25,8 +25,7 @@ namespace BiTech.Library.Controllers
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
 
-            int PageSize = 10;
-            int PageNumber = (page ?? 1);
+            
             var lst = _TrangThaiSachLogic.GetAll();
             List<TrangThaiSachViewModels> lsttt = new List<TrangThaiSachViewModels>();
             foreach (var item in lst)
@@ -34,12 +33,16 @@ namespace BiTech.Library.Controllers
                 TrangThaiSachViewModels tt = new TrangThaiSachViewModels()
                 {
                     Id = item.Id,
-                    TenTT = item.TenTT
-
+                    TenTT = item.TenTT,
+                    TrangThai = item.TrangThai
                 };
                 lsttt.Add(tt);
             }
-
+            // Phân trang
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(lsttt.OrderBy(x => x.TenTT).ToPagedList(PageNumber, PageSize));
         }
 
@@ -61,7 +64,8 @@ namespace BiTech.Library.Controllers
 
             TrangThaiSach tts = new TrangThaiSach()
             {
-                TenTT = model.TenTT
+                TenTT = model.TenTT,
+                TrangThai = model.TrangThai
             };
             _TrangThaiSachLogic.ThemTrangThai(tts);
             return RedirectToAction("Index");
@@ -82,7 +86,8 @@ namespace BiTech.Library.Controllers
             TrangThaiSachViewModels VM = new TrangThaiSachViewModels()
             {
                 Id = tts.Id,
-                TenTT = tts.TenTT
+                TenTT = tts.TenTT,
+                TrangThai = tts.TrangThai
             };
             return View(VM);
         }
@@ -100,6 +105,7 @@ namespace BiTech.Library.Controllers
 
             TrangThaiSach tts = _TrangThaiSachLogic.getById(model.Id);
             tts.TenTT = model.TenTT;
+            tts.TrangThai = model.TrangThai;
             _TrangThaiSachLogic.SuaTrangThai(tts);
             return RedirectToAction("Index");
         }

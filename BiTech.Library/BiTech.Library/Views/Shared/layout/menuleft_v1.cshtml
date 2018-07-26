@@ -1,0 +1,171 @@
+﻿@{ var controller = @ViewContext.RouteData.Values["controller"].ToString();
+    var action = @ViewContext.RouteData.Values["action"].ToString();
+    /*Response.Write(active);*/}
+<div class="left ">
+    <div class="bg">
+
+    </div>
+    <div class="bg_icon">
+
+    </div>
+    <div class="menu">
+        <ul>
+            <li class="clearfix @((@controller == "User" || @controller == "ChucVu") ? "action" : "") ">
+                <a href="javascript:void(0)" title="Quản lý thành viên">
+                    <div class="icon">
+                        <i class="fa fa-group"></i>
+                    </div>
+                    <div class="name">
+                        Quản lý thành viên
+                    </div>
+                </a>
+                <ul>
+                    <li class="@((@controller == "ThanhVien" ) ? "action" : "")">
+                        <a href="@Url.Action("index","ThanhVien")" title="Thành viên">
+                            Thành viên
+                        </a>
+                    </li>
+                    <li class="@((@controller == "ChucVu" ) ? "action" : "")">
+                        <a href="@Url.Action("index","ChucVu")" title="Chức vụ">
+                            Chức vụ
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="clearfix @((@controller == "Sach" || @controller == "TheLoaiSach" || @controller == "Kesach" || @controller == "TacGia" || @controller == "NhaXuatBan" || @controller == "NgonNgu" || @controller == "TrangThaiSach") ? "action" : "")">
+                <a href="javascript:void(0)" title="Quản lý thông tin sách">
+                    <div class="icon">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <div class="name">
+                        Quản lý thông tin sách
+                    </div>
+                </a>
+                <ul>
+                    <li class="@((@controller == "Sach" ) ? "action" : "")">
+                        <a href="@Url.Action("index","Sach")" title="Sách">
+                            Sách
+                        </a>
+                    </li>
+                    <li class="@((@controller == "TheLoaiSach" ) ? "action" : "")">
+                        <a href="@Url.Action("index","TheLoaiSach")" title="Thể loại">
+                            Thể loại
+                        </a>
+                    </li>
+                    <li class="@((@controller == "Kesach" ) ? "action" : "")">
+                        <a href="@Url.Action("index","Kesach")" title="Kệ sách">
+                            Kệ sách
+                        </a>
+                    </li>
+                    <li class="@((@controller == "TacGia" ) ? "action" : "")">
+                        <a href="@Url.Action("Index","TacGia")" title="Tác giả">
+                            Tác giả
+                        </a>
+                    </li>
+                    <li class="@(( @controller == "NhaXuatBan") ? "action" : "")">
+                        <a href="@Url.Action("Index","NhaXuatBan")" title="Nhà xuất bản">
+                            Nhà xuất bản
+                        </a>
+                    </li>
+                    <li class="@((@controller == "NgonNgu" ) ? "action" : "")">
+                        <a href="@Url.Action("Index","NgonNgu")" title="Tác giả">
+                            Ngôn ngữ
+                        </a>
+                    </li>
+                    <li class="@(( @controller == "TrangThaiSach") ? "action" : "")">
+                        <a href="@Url.Action("Index", "TrangThaiSach")" title="Loại tình trạng">
+                            Loại tình trạng
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="clearfix @((@controller == "PhieuMuon" || @controller == "PhieuTra") ? "action" : "")">
+                <a href="javascript:void(0)" title="Mượn trả sách">
+                    <div class="icon">
+                        <i class="fa fa-address-book-o"></i>
+                    </div>
+                    <div class="name">
+                        Mượn trả sách
+                    </div>
+                </a>
+                <ul>
+                    <li class="@(( @controller == "PhieuMuon") ? "action" : "")">
+                        <a href="@Url.Action("Index","PhieuMuon")" title="Mượn sách">
+                            Mượn sách
+                        </a>
+                    </li>
+                    <li class="@(( @controller == "PhieuTra") ? "action" : "")">
+                        <a href="@Url.Action("Index","PhieuTra")" title="Trả sách">
+                            Trả sách
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="clearfix @((@controller == "PhieuNhapSach" || @controller == "PhieuXuatSach" || @controller == "LyDoXuat") ? "action" : "")">
+                <a href="javascript:void(0)" title="Nhập xuất kho">
+                    <div class="icon">
+                        <i class="fa fa-server"></i>
+                    </div>
+                    <div class="name">
+                        Nhập xuất kho
+                    </div>
+                </a>
+                <ul>
+                    <li class="@((@controller == "PhieuNhapSach") ? "action" : "")">
+                        <a href="@Url.Action("Index","PhieuNhapSach")" title="Nhập sách">
+                            Nhập sách
+                        </a>
+                    </li>
+                    <li class="@((@controller == "PhieuXuatSach") ? "action" : "")">
+                        <a href="@Url.Action("Index","PhieuXuatSach")" title="Xuất sách">
+                            Xuất sách
+                        </a>
+                    </li>
+                    <li class="@((@controller == "LyDoXuat") ? "action" : "")">
+                        <a href="@Url.Action("Index","LyDoXuat")" title="Lý do xuất">
+                            Lý do xuất
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="clearfix @((@controller == "Statistic" ||@controller == "DanhSachMuon" || @controller == "DanhSachChuaTra" || @controller == "DanhSachTra"|| @controller == "LichSuMuonSach" || @controller == "ThongKe") ? "action" : "")">
+                <a href="javascript:void(0)" title="Thống kê">
+                    <div class="icon">
+                        <i class="fa fa-bar-chart-o"></i>
+                    </div>
+                    <div class="name">
+                        Thống kê
+                    </div>
+                </a>
+                <ul>
+                    <li class="@((@controller == "Statistic") ? "action" : "")">
+                        <a href="@Url.Action("Index","Statistic")" title="Biểu đồ thống kê">
+                            Biểu đồ thống kê
+                        </a>
+                    </li>
+                    <li class="@((@controller == "ThongKe" && @action == "DanhSachMuon") ? "action" : "")">
+                        <a href="@Url.Action("DanhSachMuon","ThongKe")" title="Danh sách mượn">
+                            Danh sách mượn
+                        </a>
+                    </li>
+                    <li class="@((@controller == "ThongKe" && @action == "DanhSachChuaTra") ? "action" : "")">
+                        <a href="@Url.Action("DanhSachChuaTra","ThongKe")" title="Danh sách chưa trả">
+                            Danh sách chưa trả
+                        </a>
+                    </li>
+                    <li class="@((@controller == "ThongKe" && @action == "DanhSachTra") ? "action" : "")">
+                        <a href="@Url.Action("DanhSachTra","ThongKe")" title="Danh sách trả">
+                            Danh sách trả
+                        </a>
+                    </li>
+                    <li class="@((@controller == "ThongKe" && @action == "LichSuMuonSach") ? "action" : "")">
+                        <a href="@Url.Action("LichSuMuonSach","ThongKe")" title="Lịch sử mượn sách">
+                            Lịch sử mượn sách
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+

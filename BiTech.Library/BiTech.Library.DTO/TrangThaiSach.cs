@@ -21,7 +21,7 @@ namespace BiTech.Library.DTO
         public DateTime CreateDateTime { get; set; }
 
         public string TenTT { get; set; }
-
+        public bool TrangThai { get; set; }
         /// <summary>
         /// Phiên bản hiện tại của đối tượng
         /// </summary>

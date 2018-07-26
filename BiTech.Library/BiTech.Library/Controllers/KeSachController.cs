@@ -25,8 +25,6 @@ namespace BiTech.Library.Controllers
             #endregion
 
             KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            int PageSize = 10;
-            int PageNumber = (page ?? 1);
             var list = _keSachLogic.GetAll();
             List<KesachViewModels> lst = new List<KesachViewModels>();
             foreach (var item in list)
@@ -41,7 +39,10 @@ namespace BiTech.Library.Controllers
                 };
                 lst.Add(ks);
             }
-
+            int PageSize = 10;
+            int PageNumber = (page ?? 1);
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(lst.OrderBy(x => x.TenKe).ToPagedList(PageNumber, PageSize));
         }
 

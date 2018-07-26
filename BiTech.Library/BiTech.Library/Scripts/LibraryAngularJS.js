@@ -305,3 +305,27 @@ app.controller('TacGiaSelectorCtrlr', function ($scope, $http) {
         })
     };
 });
+
+app.controller('MuonSachCtrlr', function ($scope, $http) {
+    $scope.show_thongbao = true;
+    $scope.GetBook = function () {
+        $http({
+            method: "post",
+            url: "/MuonSach/GetBook",
+            params: {
+                maSach: "abc"
+            }
+        }).then(function (response) {
+            $scope.list = response.data;
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+
+    $scope.myFunct = function (keyEvent) {
+        if (keyEvent.keyCode == 13) {
+            $scope.GetBook();
+        }
+    };
+
+});
