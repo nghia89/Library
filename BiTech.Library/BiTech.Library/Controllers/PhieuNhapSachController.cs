@@ -153,12 +153,14 @@ namespace BiTech.Library.Controllers
                             IdSach = ctModel.IdSach,
                             tenTinhTrang = ctModel.tenTinhTrang,
                             SoLuong = ctModel.soLuong,
-                            CreateDateTime = DateTime.Now
+                            CreateDateTime = DateTime.Now,
+                            IdTinhtrang = ctModel.IdTinhTrang,
+                            GhiChu = ctModel.GhiChu
                         };
 
                         _ChiTietNhapSachLogic.Insert(ctns);
                         {
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctns.tenTinhTrang);
+                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctModel.IdTinhTrang);
                             if (sltt != null)
                             {
                                 sltt.SoLuong += ctns.SoLuong;
@@ -168,7 +170,7 @@ namespace BiTech.Library.Controllers
                             {
                                 sltt = new SoLuongSachTrangThai();
                                 sltt.IdSach = ctns.IdSach;
-                                sltt.IdTrangThai = ctns.tenTinhTrang;
+                                sltt.IdTrangThai = ctModel.IdTinhTrang;
                                 sltt.SoLuong = ctns.SoLuong;
                                 _SoLuongSachTrangThaiLogic.Insert(sltt);
                             }

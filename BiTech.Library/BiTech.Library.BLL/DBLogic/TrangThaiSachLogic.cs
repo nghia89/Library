@@ -26,7 +26,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _TrangThaiSachEngine.GetAll();
         }
-		
+        public List<TrangThaiSach> GetAllTT(string id)
+        {
+            return _TrangThaiSachEngine.GetAllTT(id);
+        }
         /// <summary>
         /// Insert a TinhTrangSach object
         /// </summary>

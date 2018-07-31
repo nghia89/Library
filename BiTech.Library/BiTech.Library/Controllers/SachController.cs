@@ -30,6 +30,7 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
+
             ListBooksModel model = new ListBooksModel();
 
             ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();
@@ -56,15 +57,7 @@ namespace BiTech.Library.Controllers
         {
             return PartialView();
         }
-        //public ActionResult _partEditSoLuong(KeySearchViewModel KeySearch)
-        //{
-        //    #region  Lấy thông tin người dùng
-        //    var userdata = GetUserData();
-        //    if (userdata == null)
-        //        return RedirectToAction("LogOff", "Account");
-        //    #endregion                              
-        //    return PartialView();
-        //}
+
         public ActionResult Create()
         {
             #region  Lấy thông tin người dùng
@@ -83,7 +76,7 @@ namespace BiTech.Library.Controllers
             model.Languages = _LanguageLogic.GetAll();
 
             ViewBag.Message = TempData["ThemSachMsg"] = "";
-            return View(model);
+            return View(model.SachDTO);
         }
 
         [HttpPost]
@@ -222,7 +215,7 @@ namespace BiTech.Library.Controllers
             ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
             return View(model);
         }
-        public  JsonResult GetByFindId(string Id)
+        public JsonResult GetByFindId(string Id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -232,7 +225,67 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
             SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             var model = _SlTrangThaisach.GetByFindId(Id);
+            var tt = _TrangThaiSachLogic.GetAll();
+            List<SoLuongTrangThaiSachVM> list = new List<SoLuongTrangThaiSachVM>();
+            foreach (var i in model)
+            {
+                SoLuongTrangThaiSachVM vm = new SoLuongTrangThaiSachVM();
+                foreach (var item in tt)
+                {
+
+                    if (item.Id == i.IdTrangThai)
+                    {
+                        vm.Id = i.Id;
+                        vm.IdSach = i.IdSach;
+                        vm.SoLuong = i.SoLuong;
+                        vm.TrangThai = item.TenTT;
+                        vm.IdTrangThai = i.IdTrangThai;
+                    }
+                }
+                list.Add(vm);
+            }
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EditSaveChange(SoLuongSachTrangThai vm, string txtIdttCategory)
+        {
+            var userdata = GetUserData();
+            //if (userdata == null)
+            //    return RedirectToAction("LogOff", "Account");
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+
+            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var id = _SlTrangThaisach.GetById(vm.Id);
+            int numberSl = id.SoLuong - vm.SoLuong;
+            var IdSlTT = _SlTrangThaisach.GetByIdTT(txtIdttCategory,vm.IdSach);
+            if (IdSlTT != null)
+            {
+                SoLuongSachTrangThai md = new SoLuongSachTrangThai();
+
+                md.Id = IdSlTT.Id;
+                md.IdSach = IdSlTT.IdSach;
+                md.IdTrangThai = IdSlTT.IdTrangThai;
+                md.SoLuong = IdSlTT.SoLuong + vm.SoLuong;
+                _SlTrangThaisach.Update(md);
+            }
+            else
+            {
+                SoLuongSachTrangThai md = new SoLuongSachTrangThai();
+
+                md.Id = vm.Id;
+                md.IdSach = vm.IdSach;
+                md.IdTrangThai = txtIdttCategory;
+                md.SoLuong = vm.SoLuong;
+                _SlTrangThaisach.Insert(md);
+            }
+            vm.SoLuong = numberSl;
+            var model = _SlTrangThaisach.Update(vm);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetById(string Id)
@@ -245,7 +298,40 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
             SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             var model = _SlTrangThaisach.GetById(Id);
+            var tt = _TrangThaiSachLogic.GetAll();
+
+            SoLuongTrangThaiSachVM vm = new SoLuongTrangThaiSachVM();
+            foreach (var item in tt)
+            {
+                if (item.Id == model.IdTrangThai)
+                {
+                    vm.Id = model.Id;
+                    vm.IdSach = model.IdSach;
+                    vm.SoLuong = model.SoLuong;
+                    vm.TrangThai = item.TenTT;
+                    vm.IdTrangThai = model.IdTrangThai;
+                }
+            }
+
+            return Json(vm, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetAllTT(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            //if (userdata == null)
+            //    return RedirectToAction("LogOff", "Account");
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            #endregion
+            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var model = _trangThaiSachLogic.GetAllTT(id);
+
             return Json(model, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -274,8 +360,8 @@ namespace BiTech.Library.Controllers
                     GiaBia = model.SachDTO.GiaBia,
                     LinkBiaSach = model.SachDTO.LinkBiaSach,
                     TenSach = model.SachDTO.TenSach,
-                    TomTat=model.SachDTO.TomTat,
-                    PhiMuonSach=model.SachDTO.PhiMuonSach
+                    TomTat = model.SachDTO.TomTat,
+                    PhiMuonSach = model.SachDTO.PhiMuonSach
                     //LinkBiaSach = model.FileImageCover.ToString()
                 };
 

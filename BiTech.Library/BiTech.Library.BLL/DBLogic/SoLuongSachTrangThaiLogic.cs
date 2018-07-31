@@ -38,8 +38,13 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _SoLuongSachTrangThaiEngine.GetById(id);
         }
+        public SoLuongSachTrangThai GetByIdTT(string id,string IdSach)
+        {
+            return _SoLuongSachTrangThaiEngine.GetByIdTT(id, IdSach);
+        }
         public List<SoLuongSachTrangThai> GetByFindId(string id)
         {
+
             return _SoLuongSachTrangThaiEngine.GetByFindId(id);
         }
     }

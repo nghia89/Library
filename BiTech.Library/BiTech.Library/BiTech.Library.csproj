@@ -262,6 +262,7 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SachViewModels.cs" />
     <Compile Include="Models\Sach\LanguageViewModels.cs" />
+    <Compile Include="Models\SoLuongTrangThaiSachVM.cs" />
     <Compile Include="Models\SSOModel.cs" />
     <Compile Include="Models\TacGiaViewModel.cs" />
     <Compile Include="Models\ThongKeViewModel.cs" />
@@ -1030,6 +1031,7 @@
     <Content Include="Scripts\mustache.js-master\wrappers\qooxdoo\mustache.js.pre" />
     <Content Include="Scripts\mustache.js-master\wrappers\yui3\mustache.js.post" />
     <Content Include="Scripts\mustache.js-master\wrappers\yui3\mustache.js.pre" />
+    <Content Include="Views\Sach\ListBoxTT.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

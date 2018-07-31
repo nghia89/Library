@@ -27,11 +27,12 @@
 </div>
 <script id="table-template" type="x-tmpl-mustache">
     <div class="form-group row">
-        <label class="control-label col-sm-2" for="IdTrangThai">{{IdTrangThai}}:</label>
-        <div class="col-sm-6">
-            <input type="number" value="{{SoLuong}}" min="0" max="5" class="form-control">
+        <label class="control-label col-sm-4" for="IdTrangThai">{{TrangThai}}:</label>
+        <input type="text" id="KeyInput" value="{{IdSach}}" hidden>
+        <div class="col-sm-4">
+            <input type="number" id="KeyInput" value="{{SoLuong}}" min="0" max="{{SoLuong}}" class="form-control">
         </div>
-        <a class="btn btn-danger btn-edit" data-id="{{Id}}">Sữa</a>
-
+        <a class="btn btn-danger btn-edit" data-id="{{Id}}">Sửa</a>
+        <input type="text" class="txtIdTrangThai" value="{{IdTrangThai}}" hidden>
     </div>
 </script>

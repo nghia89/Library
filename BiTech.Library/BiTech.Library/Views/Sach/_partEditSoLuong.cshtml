@@ -1,30 +1,43 @@
-﻿
-<!-- Modal -->
+﻿<!-- Modal -->
 <div class="modal fade" id="modal-add-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Sửa số lượng trang thái sách</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <form class="form-horizontal" role="form" id="frmMaintainance">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sửa số lượng trang thái sách</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body " id="tbl-content-detail">
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 form-label" for="tensach">tình trạng:</label>
+                    <div class="col-sm-6">
+                        <select id="tbl-bill-TTDetail" name="IdTrangThai" class="form-control txtIdttCategory"></select>
+                    </div>
+                </div>
+              
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="txtSave">Save</button>
+                </div>
             </div>
-            <div class="modal-body " id="tbl-content-detail">
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
+        </form>
+
     </div>
 </div>
-<script id="table-template-detail" type="x-tmpl-mustache">
-    <input type="hidden" id="hidId" value="{{Id}}" />
+<script id="template" type="x-tmpl-mustache">
+    <input type="hidden" id="txtId" value="{{Id}}" />
     <div class="form-group row">
-        <label class="control-label col-sm-2" for="txtTrangThai" id="txtTrangThai"> {{IdTrangThai}}:</label>
+        <input type="hidden" id="txtEditIdSach" value="{{IdSach}}" >
+        <input type="hidden" id="txtEditIdtt" value="{{IdTrangThaiSach}}" >
+        <label class="col-form-label col-sm-3 form-label" for="IdTrangThai" id=""> {{TrangThai}}:</label>
         <div class="col-sm-6">
-            <input type="number" name="txtSoLuong" id="txtSoLuong" value="{{SoLuong}}" min="0" max="{{SoLuong}}" class="form-control">
+            <input type="number" name="" id="txtSoLuong" value="" min="0" max="{{SoLuong}}" class="form-control" required="">
         </div>
     </div>
 </script>
+
+
