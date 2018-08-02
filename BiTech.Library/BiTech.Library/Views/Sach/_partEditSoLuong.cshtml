@@ -15,7 +15,7 @@
                 <div class="form-group row">
                     <label class="col-form-label col-sm-3 form-label" for="tensach">tình trạng:</label>
                     <div class="col-sm-6">
-                        <select id="tbl-bill-TTDetail" name="IdTrangThai" class="form-control txtIdttCategory"></select>
+                        <select id="tbl-bill-TTDetail" name="IdTrangThai" class="form-control txtIdttCategory" required></select>
                     </div>
                 </div>
               
@@ -35,7 +35,7 @@
         <input type="hidden" id="txtEditIdtt" value="{{IdTrangThaiSach}}" >
         <label class="col-form-label col-sm-3 form-label" for="IdTrangThai" id=""> {{TrangThai}}:</label>
         <div class="col-sm-6">
-            <input type="number" name="" id="txtSoLuong" value="" min="0" max="{{SoLuong}}" class="form-control" required="">
+            <input type="number" name="" id="txtSoLuong" value="" min="0" max="{{SoLuong}}" class="form-control" required="" placeholder="Nhập số lượng giãm">
         </div>
     </div>
 </script>

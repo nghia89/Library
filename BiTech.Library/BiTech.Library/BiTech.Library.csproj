@@ -232,6 +232,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
+    <Compile Include="Controllers\MarcController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\NgonNguController.cs" />
@@ -1037,6 +1038,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\TempFiles\" />
     <Folder Include="Scripts\mustache.js-master\test\spec\" />
+    <Folder Include="Views\Marc\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

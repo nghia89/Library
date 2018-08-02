@@ -126,7 +126,7 @@ var SoLuongTTSach = function () {
                 var render = "";
                 Mustache.parse(template);
                 $.each(response, function (i, item) {
-                    if (item.SoLuong != 0) {
+                    if (item.SoLuong !== 0) {
                         render += Mustache.render(template, {
                             TrangThai: item.TrangThai,
                             SoLuong: item.SoLuong,
