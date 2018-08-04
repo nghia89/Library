@@ -16,15 +16,28 @@ namespace BiTech.Library.Controllers
         // GET: Statictical
 
         NghiepVuThongKe nghiepVu;
+        ThongTinThuVienLogic _ThongTinThuVien;
         public StatisticController()
         {
-            //_thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
+            _ThongTinThuVien = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             //_chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
             nghiepVu = new NghiepVuThongKe();
         }
         // GET: ThongKe
         public ActionResult Index()
         {
+            string Key = "nambatdau";
+            ThongTinThuVien tt = _ThongTinThuVien.GetCustomKey(Key);
+            if (tt == null)
+            {
+                tt = new ThongTinThuVien()
+                {
+                    Key = Key,
+                    Value = DateTime.Now.Year.ToString()
+                };
+                _ThongTinThuVien.SetCustomKey(tt);
+            }
+            ViewBag.tt = tt.Value;
             return View();
         }
 
@@ -389,5 +402,7 @@ namespace BiTech.Library.Controllers
 
             return result;
         }
+
+
     }
 }

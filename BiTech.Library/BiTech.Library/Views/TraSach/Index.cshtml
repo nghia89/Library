@@ -1,0 +1,202 @@
+﻿@model  List<BiTech.Library.Models.MuonTraSachViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    //ViewBag.ThongBao = true;
+}
+
+<div class="Title">Trả sách</div>
+
+<div ng-app="LibraryApp" class="container-mt">
+    <div class="search-thanhvien">
+        @if (ViewBag.ThongBao)
+        {
+            <div class="alert p-2 alert-danger alert-dismissible fade show">
+                <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+                <strong>Thông báo!</strong> @ViewBag.ThongBaoString
+            </div>
+        }
+
+        @using (Html.BeginForm("Index", "TraSach", FormMethod.Get, new { role = "form" }))
+        {
+            <div class="input-group mb-3 p-1">
+                <input class="form-control form-control-sm" name="IdUser" autocomplete="off" placeholder="Nhập mã thành viên ..." />
+                <div class="input-group-append">
+                    <input type="submit" value="Tìm kiếm" class="btn btn-primary btn-sm" />
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (ViewBag.hasUser)
+    {
+        <div class="container-mt-sach clearfix " ng-controller="TraSachCtrlr" ng-init="GetListBook()">
+            <div class="box-left clearfix p-1">
+
+                <div class="container-box-window clearfix">
+                    <div class="top">
+                        <span class="">@ViewBag.user.MaSoThanhVien - @ViewBag.user.Ten</span>
+                    </div>
+
+                    <div class="content-box-window">
+                        <div class="form-mt-sach" id="form_Sach">
+
+                            <div class="form-group mb-0">
+                                <label for="email">Mã Sách:</label>
+                                <div class="input-group mb-3 p-1">
+                                    <input class="form-control form-control-sm" id="MaSach" ng-model="masach" autocomplete="off" ng-keypress="myFunct_TraSach($event)" placeholder="Nhập mã sách ..." />
+                                    <div class="input-group-append">
+                                        <input type="button" value="Tìm sách" ng-click="GetBook_TraSach_loading()" class="btn btn-primary btn-sm" />
+                                    </div>
+                                </div>
+                                <div class="progress m-1 hidden_lib" style="height: 10px;" ng-class="{hidden_lib: loading_bar==false}">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                </div>
+                                <div class="hidden_lib" id="box_ThongBao" ng-class="{hidden_lib: show_thongbao==false}">
+                                    <div ng-if="show_thongbao_CoSach" class="alert alert-info m-1 p-2 alert-dismissible fade show">
+                                        @*<button type="button" class="close p-1" data-dismiss="alert">&times;</button>*@
+                                        <div>
+                                            <strong>Mã sách:</strong> {{masach}}
+                                        </div>
+                                        <div>
+                                            <strong>Tên sách:</strong> {{TenSach}}
+                                        </div>
+                                        <div>
+                                            <strong>Số lượng:</strong> {{SoLuong}}
+                                        </div>
+                                        <div>
+                                            <strong>Ngày trả:</strong> {{NgayMuon}}
+                                        </div>
+                                        
+                                    </div>
+                                    <div ng-if="!show_thongbao_CoSach" class="alert m-1 p-2 alert-danger alert-dismissible fade show">
+                                        @*<button type="button" class="close p-1" data-dismiss="alert">&times;</button>*@
+                                        <strong>Thông báo!</strong> {{NoiDungThongBao}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Số lượng:</label>
+                                <input type="number" id="SoLuongSach" ng-model="SoluongSachMuon" ng-blur="loadfocus_input_soluongsachmuon()" class="form-control form-control-sm" min="0" max="{{SoLuong}}" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" ng-disabled="disabled_input">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" ng-click="ThemSach_TraSach()" class="btn btn-primary btn-sm">Thêm vào danh sách trả</button>
+                                @*<button type="button" onclick="reset_book()" ng-click="ResetBook()" class="btn btn-default btn-sm">Làm mới</button>*@
+                            </div>
+
+                        </div>
+                        <div class="danhsach-mt-sach-new">
+                            <div class="form-group">
+                                <div class="danhsach-mt-sach-old ">
+                                    <table class="table table-hover table-bordered mb-0" border="1">
+                                        <thead>
+                                            <tr class="table-info">
+                                                <th width="50" align="right">STT</th>
+                                                <th>Mã kiểm soát</th>
+                                                <th>Tên sách</th>
+                                                <th>Số lượng</th>
+                                                <th>Ngày mượn</th>
+                                                <th>Ngày trả</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'">
+                                                <td align="center">{{$index + 1}}</td>
+                                                <td>{{ x.MaKiemSoat }}</td>
+                                                <td>{{ x.TenSach }}</td>
+                                                <td>{{ x.SoLuong }}</td>
+                                                <td>{{ x.NgayMuon | date : "dd/MM/y" }}</td>
+                                                <td>{{ x.NgayTra | date : "dd/MM/y"}}</td>
+                                                <td align="center">
+                                                    <i class="fa fa-remove text-danger" ng-click="removeItem($index)" style="font-size:20px; cursor:pointer;"></i>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group m-0">
+                                <button type="button" ng-click="TraSach()" class="btn btn-primary btn-sm">Trả Sách</button>
+                                <button type="button" ng-click="ResetListBookQueue()" class="btn btn-default btn-sm">Xoá danh sách</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="box-right clearfix p-1 mt-3">
+                <div class="container-box-window clearfix">
+                    <div class="top">
+                        <span class="">Danh sách đang mượn</span>
+                    </div>
+
+                    <div class="content-box-window">
+                        <div class="danhsach-mt-sach-old ">
+                            <table class="table table-hover table-bordered mb-0" border="1">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th width="50" align="right">STT</th>
+                                        <th>Mã kiểm soát</th>
+                                        <th>Tên sách</th>
+                                        <th>Số lượng</th>
+                                        <th>Ngày mượn</th>
+                                        <th>Ngày trả</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''">
+                                        <td align="center">{{$index + 1}}</td>
+                                        <td>{{ x.MaKiemSoat }}</td>
+                                        <td>{{ x.TenSach }}</td>
+                                        <td>{{ x.SoLuong }}</td>
+                                        <td>{{ x.NgayMuon | date : "dd/MM/y" }}</td>
+                                        <td>{{ x.NgayTra }}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
+
+    <script>
+
+        $(function () {
+            //load_datepicker();
+        });
+
+        function reset_book(){
+            //load_datepicker();
+        }
+
+        function load_datepicker(){
+            $("#ngayPhaiTra").datepicker({
+                //showWeek: true,
+                dateFormat: "dd/mm/yy",
+                monthNames: ['Tháng 1', 'Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10',,'Tháng 11','Tháng 12',],
+                //monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+                //changeMonth: true,
+                //changeYear: true,
+                //gotoCurrent: true,
+                dayNamesMin: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+                minDate: 0,
+                maxDate: @Html.Raw(ViewBag.MaxDate),
+            }).datepicker("setDate", new Date() + 1).attr("readonly", "readonly");
+        }
+    </script>
+}

@@ -3,7 +3,7 @@
     ViewBag.Title = "ThemTT";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-<div class="Title">Thêm Trạng Thái</div>
+<div class="Title">Thêm tình trạng sách</div>
 <div class="container clearfix">
 
 
@@ -12,18 +12,33 @@
         {
 
             <div class="form-group row">
-                <label class="col-form-label col-sm-2" for="tensach">Trạng Thái:</label>
+                <label class="col-form-label col-sm-2" for="tensach">Tên tình trạng:</label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.TenTT, new { @class = "form-control", @id = "tentt" })
+                    @Html.TextBoxFor(m => m.TenTT, new { @class = "form-control form-control-sm", @id = "tentt" })
                     @Html.ValidationMessageFor(m => m.TenTT, "", new { @class = "text-danger" })
                 </div>
-
             </div>
+
+            <div class="form-group row tinhtrangsach">
+                <label class="col-form-label col-sm-2" for="tensach">Loại tình trạng:</label>
+                <div class="col-sm-9 mt-2">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(m => m.TrangThai, new { @Class = "custom-control-input", @checked= "checked" })
+                        <label class="custom-control-label" for="TrangThai">Cho phép mượn sách</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                
+            </div>
+
             <div class="form-group row">
                 <label class="col-form-label col-sm-2"></label>
                 <div class="col-sm-9">
-                    <input type="submit" class="btn btn-primary" name="btnThemTrangThai" value="Thêm Mới" />
-                    <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
+                    <input type="submit" class="btn btn-primary btn-sm" name="btnThemTrangThai" value="Thêm Mới" />
+                    <input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />
                 </div>
 
             </div>
@@ -31,4 +46,8 @@
         }
     </div>
 </div>
+
+@section scripts{
+
+}
 

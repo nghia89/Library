@@ -24,5 +24,17 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.IdSach == IdSach && x.IdTrangThai == IdTinhTrang).FirstOrDefault();
         }
+
+
+        public List<SoLuongSachTrangThai> GetByFindId(string id)
+        {
+        return _DatabaseCollection.Find(x => x.IdSach == id).ToList();
+        }
+        public SoLuongSachTrangThai GetByIdTT(string id,string IdSach)
+        {
+            return _DatabaseCollection.Find(x => x.IdTrangThai == id&&x.IdSach== IdSach).FirstOrDefault();
+        }
+
+
     }
 }

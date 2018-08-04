@@ -30,7 +30,12 @@
                 @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
             </div>
         </div>
-
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Loại sách:</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+            </div>
+        </div>
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
             <div class="col-sm-6">
@@ -74,7 +79,7 @@
                             <i class="fa fa-plus" style="line-height: 20px;"></i>
                         </a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -140,11 +145,11 @@
                 @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
             </div>
         </div>
-        
-        <div class="form-group row" >
-            <label class="col-form-label col-sm-3 form-label" for="GiaSach">Giá Sách:</label>
+
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá Sách:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.GiaSach, new { @class = "form-control form-control-sm", @id = "GiaSach" })
+                @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
             </div>
         </div>
 
@@ -154,7 +159,24 @@
                 @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
             </div>
         </div>
-
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Nước xuất xứ:</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Người biên dịch:</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">lần Xuất Bản:</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+            </div>
+        </div>
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm Tắt:</label>
             <div class="col-sm-6">
@@ -167,7 +189,7 @@
             <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa Sách:</label>
             <div class="col-sm-6">
                 <img id="blah" src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
-                @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })        
+                @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
                 @Html.ValidationMessageFor(m => m.FileImageCover)
             </div>
         </div>
@@ -186,14 +208,15 @@
 <div id="ajax"></div>
 @section scripts{
 
-<script>
-//$('.demo').fSelect();
-</script>
+    <script>
+        //$('.demo').fSelect();
+    </script>
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
     <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+   
 
     <script>
         function RequestAltInsertGuiBegin() {

@@ -11,17 +11,17 @@ namespace BiTech.Library.DTO
     [CurrentVersion("0.0.2")]
     public class Sach : IModel
     {
-        
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        
+
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
         //[Required]
         //public string IdDauSach { get; set; }
-        
+
         /// <summary>
         /// Mã do thư viện qui định
         /// </summary>
@@ -38,7 +38,7 @@ namespace BiTech.Library.DTO
         /// Mã thể loại sách
         /// </summary>
         public string IdTheLoai { get; set; }
-        
+
         [Required]
         /// <summary>
         /// Vị trí sách ở kệ nào
@@ -50,7 +50,7 @@ namespace BiTech.Library.DTO
         /// Mã nhà xuất bản
         /// </summary>
         public string IdNhaXuatBan { get; set; }
-        
+
         /// <summary>
         /// Link ảnh bìa
         /// </summary>
@@ -76,7 +76,7 @@ namespace BiTech.Library.DTO
         /// <summary>
         /// Giá tiền của sách
         /// </summary>
-        public double GiaSach { get; set; } = 0;
+        public double GiaBia { get; set; } = 0;
 
         /// <summary>
         /// Phí mượn sách nếu có
@@ -112,7 +112,20 @@ namespace BiTech.Library.DTO
         /// <summary>
         /// Đã được xóa chưa
         /// </summary>
-        public bool IsDeleted { get; set; } = false;
+        public string DDC { get; set; }
+
+        public string MARC21 { get; set; }
+
+        public string XuatXu { get; set; }
+
+        public string TaiBan { get; set; }
+
+        public string NguoiBienDich { get; set; }
+
+        public string QRlink { get; set; }
+
+        public string QRData { get; set; }
+        public bool IsDeleted { get; set; } = true;
 
         /// <summary>
         /// Phiên bản hiện tại của đối tượng

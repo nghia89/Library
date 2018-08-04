@@ -54,9 +54,9 @@ namespace BiTech.Library.Controllers
                 _vmodel.Id = item.Id;
                 _vmodel.IdUser = tv.MaSoThanhVien;
                 _vmodel.TenNguoiMuon = tv.Ten;
-                _vmodel.NgayMuon = item.NgayMuon;//.ToString("dd/MM/yyyy");
-                _vmodel.NgayPhaiTra = item.NgayPhaiTra;//.ToString("dd/MM/yyyy");
-                _vmodel.NgayTra = item.NgayTra;//?.ToString("dd/MM/yyyy");
+                _vmodel.NgayMuon = item.NgayMuon;//.ToString("dd-MM-yyyy");
+                _vmodel.NgayPhaiTra = item.NgayPhaiTra;//.ToString("dd-MM-yyyy");
+                _vmodel.NgayTra = item.NgayTra;//?.ToString("dd-MM-yyyy");
                 _vmodel.GiaHan = item.GiaHan;
                 _vmodel.GhiChu = item.GhiChu;
                 if (item.TrangThaiPhieu == EPhieuMuon.DaTra)
@@ -250,8 +250,8 @@ namespace BiTech.Library.Controllers
                 Id = id,
                 IdUser = tv.MaSoThanhVien,
                 TenNguoiMuon = tv.Ten,
-                NgayMuon = us.NgayMuon,//.ToString("dd/MM/yyyy"),
-                NgayPhaiTra = us.NgayPhaiTra,//.ToString("dd/MM/yyyy"),
+                NgayMuon = us.NgayMuon,//.ToString("dd-MM-yyyy"),
+                NgayPhaiTra = us.NgayPhaiTra,//.ToString("dd-MM-yyyy"),
                 TrangThaiPhieu = us.TrangThaiPhieu,
             };
             return View(model);
@@ -270,7 +270,7 @@ namespace BiTech.Library.Controllers
 
             var model = _PhieuMuonLogic.GetById(id); //lay 1 tai khoan 
 
-            model.NgayPhaiTra = viewModel.NgayPhaiTra; // DateTime.ParseExact(viewModel.NgayPhaiTra, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            model.NgayPhaiTra = viewModel.NgayPhaiTra; // DateTime.ParseExact(viewModel.NgayPhaiTra, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                                                        // model.TrangThaiPhieu = viewModel.TrangThaiPhieu;
 
             //Cap nhat voi tai khoan moi

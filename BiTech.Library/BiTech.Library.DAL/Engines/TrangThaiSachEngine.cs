@@ -24,5 +24,9 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(p => true).ToList();
         }
+        public List<TrangThaiSach> GetAllTT(string id)
+        {
+            return _DatabaseCollection.Find(x=>x.Id !=id).ToList();
+        }
     }
 }

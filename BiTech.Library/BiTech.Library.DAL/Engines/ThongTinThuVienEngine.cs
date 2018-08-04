@@ -122,7 +122,7 @@ namespace BiTech.Library.DAL.Engines
         #endregion
 
         #region Custom setting
-        
+
         public ThongTinThuVien GetByKey(string key)
         {
             return _DatabaseCollection.Find(_ => _.Key == key).FirstOrDefault();

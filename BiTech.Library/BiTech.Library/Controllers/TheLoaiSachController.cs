@@ -42,6 +42,7 @@ namespace BiTech.Library.Controllers
                         Theloai.TenTheLoaiParent = parent.TenTheLoai;
                 }
                 Theloai.MoTa = item.MoTa;
+                Theloai.MaDDC = item.MaDDC;
                 list_viewmode.Add(Theloai);
             }
 
@@ -104,7 +105,8 @@ namespace BiTech.Library.Controllers
             {
                 IdParent = model.IdParent,
                 TenTheLoai = model.TenTheLoai,
-                MoTa = model.MoTa
+                MoTa = model.MoTa,
+                MaDDC = model.MaDDC
             };
 
             _TheLoaiSachLogic.ThemTheLoaiSach(TLS);
@@ -128,7 +130,8 @@ namespace BiTech.Library.Controllers
                 {
                     TenTheLoai = model.TenTheLoai,
                     IdParent = model.IdParent,
-                    MoTa = model.MoTa
+                    MoTa = model.MoTa,
+                    MaDDC = model.MaDDC
                 };
                 if (check_NameChildren(TLS, model.IdParent))
                 {
@@ -162,6 +165,7 @@ namespace BiTech.Library.Controllers
                 IdParent = TLS.IdParent,
                 TenTheLoai = TLS.TenTheLoai,
                 MoTa = TLS.MoTa,
+                MaDDC = TLS.MaDDC,
             };
             var list_root = _TheLoaiSachLogic.GetAllTheLoaiSachRoot();
             List<TheLoaiSach> ListTheLoai = new List<TheLoaiSach>();
@@ -217,6 +221,7 @@ namespace BiTech.Library.Controllers
             TLS.IdParent = model.IdParent;
             TLS.TenTheLoai = model.TenTheLoai;
             TLS.MoTa = model.MoTa;
+            TLS.MaDDC = model.MaDDC;
             if (check_NameChildren(TLS, model.IdParent, so))
             {
                 _TheLoaiSachLogic.SuaTheLoaiSach(TLS);
@@ -229,6 +234,7 @@ namespace BiTech.Library.Controllers
                 IdParent = TLS.IdParent,
                 TenTheLoai = TLS.TenTheLoai,
                 MoTa = TLS.MoTa,
+                MaDDC = TLS.MaDDC,
             };
 
             ViewBag.URLBackParent = (VM.IdParent != null) ? "/TheLoaiSach?idParent=" + VM.IdParent : "/TheLoaiSach";

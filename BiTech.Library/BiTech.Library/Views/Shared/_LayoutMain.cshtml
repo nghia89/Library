@@ -25,10 +25,12 @@
         </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
-   
+
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-    <script src="~/app/AngularChartJs/jquery.min.js"></script>
-    @*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+
+    @*<script src="~/Scripts/jquery-ui.js"></script>*@
+
 
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
@@ -36,13 +38,16 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     @*<script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/angularjs.min.js"></script>
-    <script src="~/Scripts/LibraryAngularJS.js"></script>*@
+        <script src="~/Scripts/angularjs.min.js"></script>
+        <script src="~/Scripts/LibraryAngularJS.js"></script>*@
     <link href="~/Content/PagedList.css" rel="stylesheet" />
 
 
     @Scripts.Render("~/bundles/main")
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/mustache.js-master/mustache.js"></script>
     @RenderSection("scripts", required: false)
-  
+
 </body>
 </html>

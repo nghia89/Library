@@ -70,7 +70,7 @@ namespace BiTech.Library.Controllers
                     MaKiemSoat = item.MaKiemSoat,
                     NgonNgu = item.IdNgonNgu,
                     NamSanXuat = item.NamXuatBan,
-                    GiaSach = item.GiaSach,
+                    GiaBia = item.GiaBia,
                     LinkBiaSach = item.LinkBiaSach,
                     SoLuong = item.SoLuongTong
                 };
@@ -151,14 +151,16 @@ namespace BiTech.Library.Controllers
                         {
                             IdPhieuNhap = idPhieuNhap,
                             IdSach = ctModel.IdSach,
-                            IdTinhtrang = ctModel.IdTinhTrang,
+                            tenTinhTrang = ctModel.tenTinhTrang,
                             SoLuong = ctModel.soLuong,
-                            CreateDateTime = DateTime.Now
+                            CreateDateTime = DateTime.Now,
+                            IdTinhtrang = ctModel.IdTinhTrang,
+                            GhiChu = ctModel.GhiChu
                         };
 
                         _ChiTietNhapSachLogic.Insert(ctns);
                         {
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctns.IdTinhtrang);
+                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctModel.IdTinhTrang);
                             if (sltt != null)
                             {
                                 sltt.SoLuong += ctns.SoLuong;
@@ -168,7 +170,7 @@ namespace BiTech.Library.Controllers
                             {
                                 sltt = new SoLuongSachTrangThai();
                                 sltt.IdSach = ctns.IdSach;
-                                sltt.IdTrangThai = ctns.IdTinhtrang;
+                                sltt.IdTrangThai = ctModel.IdTinhTrang;
                                 sltt.SoLuong = ctns.SoLuong;
                                 _SoLuongSachTrangThaiLogic.Insert(sltt);
                             }
@@ -225,15 +227,15 @@ namespace BiTech.Library.Controllers
 
                 ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
                 ctns.Id = item.Id;
-                ctns.IdTinhTrang = item.IdTinhtrang;
-                var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
-                ctns.tenTinhTrang = TinhTrang.TenTT;
+                ctns.tenTinhTrang = item.tenTinhTrang;
+                //var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
+                //ctns.tenTinhTrang = TinhTrang.TenTT;
                 ctns.IdSach = item.IdSach;
                 var TenSach = _SachLogic.GetBookById(ctns.IdSach);
                 ctns.ten = TenSach.TenSach;
                 ctns.IdPhieuNhap = item.IdPhieuNhap;
                 ctns.soLuong = item.SoLuong;
-
+                ctns.tenTinhTrang = item.tenTinhTrang;
                 lst.Add(ctns);
 
             }
@@ -242,7 +244,7 @@ namespace BiTech.Library.Controllers
             return View(pns);
         }
         [HttpGet]
-        public JsonResult _GetBookItemById(string maKS, int soLuong, string idtrangthai)
+        public JsonResult _GetBookItemById(string maKS, int soLuong, string idtrangthai, string GhiChu)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -266,7 +268,8 @@ namespace BiTech.Library.Controllers
                     soLuong = soLuong,
                     IdTinhTrang = idtrangthai,
                     tenTinhTrang = tt.TenTT,
-                    MaKiemSoat = book.MaKiemSoat
+                    MaKiemSoat = book.MaKiemSoat,
+                    GhiChu = GhiChu
                 };
 
                 result.Data = pp;

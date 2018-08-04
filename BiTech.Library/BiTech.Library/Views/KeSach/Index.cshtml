@@ -9,16 +9,16 @@
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Danh Sách Kệ Sách</div>
 
-<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
+<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary btn-sm" })</p>
 
 
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-bordered table-striped">
     <thead>
         <tr class="table-info">
-            <th scope="col">#</th>
+            <th width="50" align="right">STT</th>
             <th scope="col">Tên kệ</th>
             <th scope="col">Vị trí</th>
-            <th scope="col">Ghi chú</th>
+            <th scope="col">Thông tin</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -28,16 +28,15 @@
         {
             i++;
             <tr>
-                <td>@i</td>
+                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
                 <td>@item.TenKe</td>
                 <td>@item.ViTri</td>
                 <td>@item.GhiChu </td>
 
                 <td>
-                    <a class="color-white btn btn-outline-primary" href="@Url.Action("Edit", new { id = item.Id })">
-                        Sửa
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
+                    <button class="color-white btn btn-outline-primary btn-sm" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">
+                        <i class="fa">&#xf044;</i> Sửa
+                    </button>
                 </td>
 
             </tr>
@@ -50,7 +49,7 @@
 </table>
 
 <div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
 
 
