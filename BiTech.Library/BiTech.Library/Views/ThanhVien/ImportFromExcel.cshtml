@@ -1,0 +1,44 @@
+﻿@model BiTech.Library.Models.UserViewModel
+@{
+    ViewBag.Title = "ImportFromExcel";
+}
+
+<h2>Thêm dữ liệu thành viên từ File Excel</h2>
+@using (Html.BeginForm("ImportFromExcel", "ThanhVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+    </button>
+    @Html.AntiForgeryToken()
+    <div class="form-group row">            
+        <div class="col-sm-6">
+            @*<img id="SaveFile" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:220px" />*@
+            @Html.TextBoxFor(m => m.LinkExcel, new { type = "file",accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })
+            @Html.ValidationMessageFor(m => m.LinkExcel)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-sm btn-primary" value="Chọn file" />          
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        function ReadUrl(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#SaveFile').attr('src', e.target.result);
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+        $("#LinkExcel").change(function () {
+            ReadUrl(this);
+        });
+    </script>
+}

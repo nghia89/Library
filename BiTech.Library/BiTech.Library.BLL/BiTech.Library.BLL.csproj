@@ -31,8 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.BarCode">
+    <Reference Include="Aspose.BarCode, Version=7.6.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libs\Aspose.BarCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\..\Libs\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\..\Libs\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="OnBarcode.Barcode.BarcodeScanner">
       <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
@@ -50,7 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarCode_QR\BarCodeQRManager.cs" />
-    <Compile Include="BarCode_QR\baseBarCodeLic.cs" />
+    <Compile Include="BarCode_QR\baseAsposeLic.cs" />
+    <Compile Include="BarCode_QR\ExcelManager.cs" />
+    <Compile Include="BarCode_QR\ReplaceWithImageEvaluator.cs" />
     <Compile Include="DBLogic\Base\BaseLogic.cs" />
     <Compile Include="DBLogic\ChiTietNhapSachLogic.cs" />
     <Compile Include="DBLogic\ChiTietPhieuTraLogic.cs" />

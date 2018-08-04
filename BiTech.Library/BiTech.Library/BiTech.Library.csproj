@@ -229,6 +229,7 @@
     <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
+    <Compile Include="Controllers\BaseClass\ThanhVienCommon.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
@@ -573,16 +574,17 @@
     <Content Include="bower_components\sweetalert\themes\facebook\facebook.css" />
     <Content Include="bower_components\sweetalert\themes\google\google.css" />
     <Content Include="bower_components\sweetalert\themes\twitter\twitter.css" />
+    <Content Include="Content\AutoComplete.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\fSelect.css" />
     <Content Include="Content\css\fSelect.js" />
+    <Content Include="Content\Images\nancyy.jpg" />
     <Content Include="Content\tagsinput\ng-tags-input-style.css" />
     <Content Include="Content\tagsinput\ng-tags-input.bootstrap.css" />
     <Content Include="Content\tagsinput\ng-tags-input.css" />
     <Content Include="Content\Images\avatar.png" />
-    <Content Include="Content\Images\nancyy.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\StatisticCss.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -792,6 +794,10 @@
     <Content Include="Views\ChucVu\Create.cshtml" />
     <Content Include="Views\ChucVu\Edit.cshtml" />
     <Content Include="Views\ThanhVien\_NhapChucVu.cshtml" />
+    <Content Include="Views\ThanhVien\Details.cshtml" />
+    <Content Include="Views\ThanhVien\ChangePassword.cshtml" />
+    <Content Include="Views\ThanhVien\ImportFromExcel.cshtml" />
+    <Content Include="Views\ThanhVien\ExportWord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

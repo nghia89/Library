@@ -8,68 +8,16 @@
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <div class="Title">Cập nhật</div>
 <div ng-app="LibraryApp" class="container">
-    <h5 class="text-danger">@ViewBag.UnSuccess</h5>
-    <h5 class="text-danger">@ViewBag.Validate</h5>
-    <button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
+    @*<h5 class="text-danger">@ViewBag.UnSuccess</h5>*@   
+    <button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Details", "ThanhVien",new { idUser = Model.Id })'">
         <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
     </button>
-
+   
     @using (Html.BeginForm("_Edit", "ThanhVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-    {
+    {      
         @Html.AntiForgeryToken()
-
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-
-        @*<div class="form-group row">
-                @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control" })
-                </div>
-                @Html.ValidationMessageFor(m => m.Ten)
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.MaSoThanhVien, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control" })
-                </div>
-                @Html.ValidationMessageFor(m => m.MaSoThanhVien)
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control" })
-                </div>
-            </div>*@
-
-        @*<div class="form-group row">
-            <label class="col-sm-2 control-label" for="IdChucVu">Chức vụ</label>
-            <div class="col-sm-10">
-                <div class="input-group mb-3" id="ListChucVu" ng-controller="UserChucVuCtrlr" ng-init="GetAllData('@ViewBag.IdChucVu')">
-                    @Html.DropDownListFor(m => m.IdChucVu, new SelectList(new List<BiTech.Library.DTO.ChucVu>(), "Id", "TenChucVu"), "--Chọn chức vụ--",
-                       new { @class = "form-control", @ng_model = "IdChucVu", @data_ng_disabled = "!list", @ng_options = "s.TenChucVu for s in list track by s.Id" })
-                    @*s.Id as s.TenTheLoai for s in list*@
-        @*<div class="input-group-append">
-                            <a href="@Url.Content("~/ThanhVien/RequestChucVuGui")" class="btn btn-primary"
-                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                <i class="fa fa-plus" style="line-height: 24px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-
-        @*<div class="form-group row">
-                @Html.LabelFor(m => m.TrangThai, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.EnumDropDownListFor(m => m.TrangThai, new { @class = "form-control" })
-                </div>
-            </div>*@
+        @Html.HiddenFor(m=>m.Id)
+        @Html.ValidationSummary("", new { @class = "text-danger" })       
 
         <div class="form-group row">
             @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
@@ -88,51 +36,55 @@
         <div class="form-group row">
             @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @maxlength = "20" })
+                @Html.TextBoxFor(m => m.NgaySinh, "{0:dd/MM/yyyy}", new { @class = "form-control form-control-sm DatetimePicker", @maxlength = "20" })
             </div>
         </div>
 
         <div class="form-group row">
             @Html.LabelFor(m => m.LopHoc, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm"})
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm" })
+            </div>
+            @Html.LabelFor(m => m.NienKhoa, new { @class = "text-right col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(m => m.NienKhoa, new SelectList(Model.ListNienKhoa), "---Chọn niên khóa---", new { @class = "form-control form-control-sm" })
             </div>
         </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+        <div class="form-group row">
+            @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
+            </div>
+        </div>
+        <div class="form-group row">    
+            @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
+            </div>
+        </div>
+        @*<div class="form-group row">
+                @Html.LabelFor(m => m.ChucVu, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
+                    @Html.DropDownListFor(m => m.ChucVu, new SelectList(new List<string>() { "Học sinh", "Giáo viên" }), "--//--",
+                   new { @class = "form-control",onclick = @"ChangePosition()" })
                 </div>
+            </div>*@
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 control-label" for="TomTat">Ảnh thành viên:</label>
+            <div class="col-sm-6">
+                <img id="SaveImage" src="@Model.LinkAvatar" alt="Ảnh nhân viên" style="width:220px" />
+                @Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
+                @Html.ValidationMessageFor(m => m.HinhChanDung)
             </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
-                </div>
-            </div>
-            @*<div class="form-group row">
-                    @Html.LabelFor(m => m.ChucVu, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(m => m.ChucVu, new SelectList(new List<string>() { "Học sinh", "Giáo viên" }), "--//--",
-                       new { @class = "form-control",onclick = @"ChangePosition()" })
-                    </div>
-                </div>*@
-            <div class="form-group row">
-                <label class="col-form-label col-sm-3 form-label" for="TomTat">Ảnh nhân viên:</label>
-                <div class="col-sm-6">
-                    <img id="SaveImage" src="@ViewBag.HinhChanDung" alt="Ảnh nhân viên" style="width:220px" />
-                    @Html.TextBoxFor(m => m.HinhChanDung, new { type = "file" })
-                    @Html.ValidationMessageFor(m => m.HinhChanDung)
-                </div>
-            </div>
+        </div>
 
-            <div class="form-group row">
-                <div class="col-md-2"></div>
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-sm btn-primary" value="Lưu" />
-                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "ThanhVien")'" />
-                </div>
-            </div>
+                    <div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-sm btn-primary" value="Lưu"/>
+                            <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Details", "ThanhVien",new { idUser=Model.Id})'" />
+                        </div>
+                    </div>
     }
 </div>
 
@@ -148,17 +100,18 @@
     <script src="~/Scripts/LibraryAngularJS.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script>
-        // Ngày sinh nhân viên
-        $(function () {
+        jQuery.validator.methods["date"] = function (value, element) { return true; }
+        // Ngày sinh thành viên
+        $(function () {            
             $(".DatetimePicker").datepicker({
-                dateFormat: 'dd-mm-yy',
+                dateFormat: 'dd/mm/yy',
                 monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "-50:-10"
+                yearRange: "1970:-4"
             }).attr("readonly", "readonly");
         });
-        // Ảnh nhân viên
+        // Ảnh thành viên
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -170,7 +123,7 @@
         }
         $("#HinhChanDung").change(function () {
             readURL(this);
-        });       
+        });
 
         function RequestAltInsertGuiBegin() {
             $(this).addClass('active');

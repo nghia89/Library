@@ -1,0 +1,71 @@
+﻿@model BiTech.Library.Models.UserViewModel
+@{
+    ViewBag.Title = "ExportWord";
+}
+
+<h2>Xuất mẫu thẻ thành viên</h2>
+<button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
+    <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+</button>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-2 control-label" for="TomTat">Mẫu thẻ 1:</label>
+    <div class="col-sm-2">
+        <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:300px;height:170px" />
+        @*@Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
+            @Html.ValidationMessageFor(m => m.HinhChanDung)*@
+    </div>
+</div>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-2 control-label" for="TomTat">Mẫu thẻ 2:</label>
+    <div class="col-sm-6">
+
+        <a href="@Url.Action("MauThe","ThanhVien",new { @mauThe = "mau2" })">
+            <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:300px;height:170px" />
+        </a>
+        @*@Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
+            @Html.ValidationMessageFor(m => m.HinhChanDung)*@
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm("ExportWord", "ThanhVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+   
+    @Html.AntiForgeryToken()    
+    <div class="form-group row">
+        <div class="col-sm-6">
+            @*<img id="SaveFile" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:220px" />*@
+            @Html.TextBoxFor(m => m.LinkWord, new { type = "file", accept = ".docx,.doc" })
+            @Html.ValidationMessageFor(m => m.LinkWord)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-sm btn-primary" value="Chọn" />
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        function ReadUrl(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#SaveFile').attr('src', e.target.result);
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+        $("#LinkWord").change(function () {
+            ReadUrl(this);
+        });
+    </script>
+}
+
+

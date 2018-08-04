@@ -22,7 +22,8 @@ namespace BiTech.Library.DAL.Engines
         /// <returns></returns>
         public List<ThanhVien> GetAll()
         {
-            return _DatabaseCollection.Find(_ => _.TrangThai != EUser.Deleted).ToList();
+            //return _DatabaseCollection.Find(_ => _.TrangThai != EUser.Deleted).ToList();
+            return _DatabaseCollection.Find(_ =>true).ToList();
         }
         /// <summary>
         /// Lấy 1 thành viên thông qua mã thành viên 
@@ -32,6 +33,11 @@ namespace BiTech.Library.DAL.Engines
         public ThanhVien GetByMaSoThanhVien(string idUser)
         {
             return _DatabaseCollection.Find(_ => _.MaSoThanhVien == idUser).FirstOrDefault();
+        }
+
+        public List<ThanhVien> GetByName(string ten)
+        {
+            return _DatabaseCollection.Find(_ => _.Ten == ten).ToList();
         }
     }
 }
