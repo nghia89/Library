@@ -57,5 +57,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.Update(model);
         }
+
+        public List<ThanhVien> GetByName(string ten)
+        {
+            return _ThanhVienEngine.GetByName(ten);
+        }
     }
 }

@@ -1,0 +1,102 @@
+﻿@model BiTech.Library.Models.UserViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Thông tin thành viên: @Model.Ten</h2>
+<button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
+    <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+</button>
+
+<div class="form-group row">
+    <div class="col-sm-6">
+        @Html.LabelFor(m => m.QRLink, new { @class = "col-md-2 control-label" })
+        <img src="@Model.QRLink" alt="Mã QR" style="width:auto" />
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <img src="@Model.LinkAvatar" alt="Ảnh nhân viên" style="width:220px" />
+        </div>
+        <div class="col-sm">
+            <div class="row">
+                Tên User:
+                @Model.UserName              
+            </div>
+            <div class="row">
+                Mã số thành viên:
+                @Model.MaSoThanhVien
+            </div>
+            <div class="row">
+                Họ và tên:
+                @Model.Ten
+            </div>
+            <div class="row">
+                Giới tính:
+                @Model.GioiTinh
+            </div>
+            <div class="row">
+                Ngày sinh:
+                @Model.NgaySinh.ToString("dd/MM/yyyy")
+            </div>
+            <div class="row">
+                Lớp học:
+                @Model.LopHoc
+            </div>
+            <div class="row">
+                Niêm khóa:
+                @Model.NienKhoa
+            </div>
+            <div class="row">
+                Địa chỉ:
+                @Model.DiaChi
+            </div>
+            <div class="row">
+                Số điện thoại:
+                @Model.SDT
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr class="table-info">
+            <th>User Name</th>
+            <th>Mã thành viên</th>
+            <th>Họ tên</th>
+            <th>Giới tính</th>
+            <th>Ngày sinh</th>
+            <th>Lớp học</th>
+            <th>Niêm khóa</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.UserName</td>
+            <td>@Model.MaSoThanhVien</td>
+            <td>@Model.Ten</td>
+            <td>@Model.GioiTinh</td>
+            <td>@Model.NgaySinh.ToString("dd/MM/yyyy")</td>
+            <td>@Model.LopHoc</td>
+            <td>@Model.NienKhoa</td>
+            <td>@Model.DiaChi</td>
+            <td>@Model.SDT</td>
+            <td>
+                <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("_Edit", new { @id = @Model.Id })">
+                    <i style="font-size:20px" class="fa">&#xf044;</i> Sửa
+                </a>
+                <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("ChangePassword", new { @idUser = @Model.Id })">
+                    <i style="font-size:20px" class="fa">&#xf044;</i> Đổi mật khẩu
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -6,7 +6,9 @@ namespace BiTech.Library.Helpers
     {
         BookCovers,
         QRCodeUser,
-        AvatarUser
+        AvatarUser,
+        FileExcel,
+        FileWord
     }
 
     public static class Tool
@@ -27,6 +29,10 @@ namespace BiTech.Library.Helpers
                     return mainUpload + @"QRCodeUser\";
                 case UploadFolder.AvatarUser:
                     return mainUpload + @"AvatarUser\";
+                case UploadFolder.FileExcel:
+                    return mainUpload + @"FileExcel\";
+                case UploadFolder.FileWord:
+                    return mainUpload + @"FileWord\";
                 default:
                     return null;
             }

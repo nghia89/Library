@@ -2,53 +2,53 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var x = ViewBag.arr;
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/AutoComplete.css" rel="stylesheet" />
 <div class="Title">Danh sách thành viên</div>
 <div class="text-success">@ViewBag.Success</div>
+<h5 class="text-danger">@ViewBag.SearchFail</h5>
 <div class="container">
-    @using (Html.BeginForm("Search", "ThanhVien", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("Index", "ThanhVien", FormMethod.Post, new { role = "form" }))
     {
-        <div class="input-group mb-3">
-            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @class = "form-control", onchange = "OnChangeEvent();" })
-            <div class="input-group-append">
-                <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
+        <div class="container" id="tv_tk">
+            <div class="col-lg-6">
+                <div class="input-group form-group">
+                    <select id="choice" class="selectpicker form-control form-control-sm" data-live-search="true">
+                        <option value="matv">Tìm theo mã thành viên</option>
+                        <option value="tentv">Tìm theo tên thành viên</option>
+                    </select>
+                    <!--<input type="text" class="form-control form-control-sm" name="snpid" placeholder="Tìm kiếm ...">-->
+                    <div value="temp" id="noidung_ajax">
+                        @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })
+                    </div>
+                    <div class="input-group-append">
+                        <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+                    </div>
+                </div>
+                <!-- /input-group -->
             </div>
         </div>
     }
 </div>
-<br/>
-@*@using (Html.BeginForm("Search", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-    {
-        <div class="row">
-
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-                <div align="center">
-                    <br />
-                    <input type="file" name="barCodeUpload" Class="form-control" ID="barCodeUpload" /><br />
-                    <br />
-                    <input type="submit" Class="btn btn-primary" ID="UploadButton" value="Upload">
-                    <br />
-                    <br />
-                    <span Class="btn alert-danger">@ViewBag.ErrorMessage</span>
-                    <br />
-                    <input type="text" Class="form-control col-md-8" value="@ViewBag.BarCode" /><br />
-                    <br />
-                    <img type="image" src="@ViewBag.BarImage" />
-                </div>
-
-            </div>
-        </div>
-    }*@
+<br />
 
 <div id="topbar">
-    <h5>@Html.ActionLink("Thêm thành viên", "_CreateUser", "ThanhVien", new { @class = "btn btn-primary" })</h5>
+    <h5>@Html.ActionLink("Thêm thành viên", "_CreateUser", "ThanhVien", new { @class = "btn btn-sm btn-primary" })</h5>
+</div>
+<div id="topbar">
+    <h5>@Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "ThanhVien", new { @class = "btn btn-sm btn-primary" })</h5>
+</div>
+<div id="topbar">
+    <h5>@Html.ActionLink("Xuất mẫu thẻ thành viên", "ExportWord", "ThanhVien", new { @class = "btn btn-sm btn-primary" })</h5>
 </div>
 <h5 class="text-success">@ViewBag.Success</h5>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
+
+
 <div class="m10">
-    @Html.Action("_PartialUser", "ThanhVien", new { @IdUser = ViewBag.IdUser })
+    @Html.Action("_PartialUser", "ThanhVien", new { @IdUser = "", @list = Model.ListThanhVien })
 </div>
 @section scripts{
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
@@ -61,9 +61,8 @@
     <script>
         // Xóa thành viên
         function Delete(Id, Ten) {
-            swal({ 
-                title: " Bạn có muốn xóa thành viên " + Ten + " không?",
-                text: "Bạn sẽ không thể khôi phục lại sau khi xóa!",
+            swal({
+                title: " Bạn có chắc muốn khóa thành viên " + Ten + " không?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -80,7 +79,7 @@
                         data: { "Id": Id },
                         success: function (resultData) {
                             swal({
-                                title: "Bạn xóa thành công!",
+                                title: "Khóa thành công!",
                                 type: "success",
                                 showCancelButton: false,
                                 confirmButtonText: "OK",
@@ -92,12 +91,117 @@
                         }
                     })
                 } else {
-                    swal("Không xóa thì bấm làm gì?",null, "error");
+                    swal("Không khóa thì bấm làm gì?", null, "error");
                 }
             });
         }
+        // Hình nhân viên
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#FileImageCover").change(function () {
+            readURL(this);
+        });
+        // AutoCompelete Search
+        function AutoComplete(inp, arr) {
+            var currentFocus;
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "AutoComplete-list");
+                a.setAttribute("class", "AutoComplete-items");
+                this.parentNode.appendChild(a);
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        b.addEventListener("click", function (e) {
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "AutoComplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("AutoComplete-active");
+            }
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("AutoComplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("AutoComplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+        // Gọi hàm AutoComplete
+        @*AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);*@
+        AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
+        // Choice Search
+       $("#tv_tk").on("change", "#choice", function () {
+            if ($(this).val() == "matv") {
+                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');
+                //$("#noidung_ajax").value = "1";
+                AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
+            }
+            else {
+                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.Ten, new { @placeholder = "Tên thành viên", @id = "searchName", @class = "form-control form-control-sm", autocomplete = "off" })');
+                AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);
+            }
+        });
+        @* $("#lunch").click(function () {
+            if ($(this).val() == "matv") {
+                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');
+                AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
+            }
+            else {
+                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.Ten, new { @placeholder = "Tên thành viên", @id = "searchName", @class = "form-control form-control-sm", autocomplete = "off" })');
+                AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);
+            }
+        });*@
 
-
+       
+        // ------
         function RequestAltInsertGuiBegin() {
             $(this).addClass('active');
         }
@@ -114,51 +218,5 @@
             form.removeData('unobtrusiveValidation');
             $.validator.unobtrusive.parse(form);
         }
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("#FileImageCover").change(function () {
-            readURL(this);
-        });
-
-        //$(document).ready(function () {
-        //    setInterval(function () {
-        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
-        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
-        //    }, 30000);
-        //});
     </script>
 }
-@*@section Scripts{
-        <script>
-            function OnChangeEvent() {
-                var result = @Model;
-                console.log(result);
-                $.ajax({
-                    type: "GET",
-                    url: "@(Url.Action("Search", "User"))",
-                    data: "model=" + result,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        $("#idTen").val(data.Ten);
-                    },
-                    error: function () {
-                        alert('Mã thành viên không phù hợp');
-                        $("#idTen").val("");
-                        $("#idUser").val("");
-                    }
-
-                });
-            }
-        </script>
-    }*@
-

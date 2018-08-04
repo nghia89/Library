@@ -1,4 +1,7 @@
-﻿@model  List<BiTech.Library.DTO.ThanhVien>
+﻿@*@model  List<BiTech.Library.DTO.ThanhVien>*@
+@model PagedList.IPagedList<ThanhVien>
+@using PagedList.Mvc;
+@using BiTech.Library.DTO
 @{
     ViewBag.Title = "_PartialUser";
     int stt = 1;
@@ -8,59 +11,68 @@
 
     <thead>
         <tr class="table-info">
-            <th></th>
+            <th>STT</th>
+            <th>Ảnh thành viên</th>
             <th>Tên thành viên</th>
-            <th>Mã số thẻ</th>
-            <th>Giới tính</th>
-            <th>Ngày sinh</th>
-            <th>Lớp học</th>
-            <th>Địa chỉ</th>
-            <th>Số điện thoại</th>
+            <th>Mã thành viên</th>
             <th>Trạng thái</th>
-
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
-            {
+        {
+
             <tr>
+                <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
                 @*<td>@stt</td>*@
                 <td class="book_box">
                     <div class="book_content">
                         <div class="book_image">
                             <div class="book_image_in">
-                                <div class="book_number">@stt</div>
-                                <object data='@Html.Raw(!string.IsNullOrEmpty(item.HinhChanDung) ? item.HinhChanDung : "/Content/Images/nancyy.jpg")' type="image/png">
-                                    @*<img src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách"/>*@
-                                </object>
-                                @*<a href="@Url.Action("Edit", new { id = item.Id })">Xem</a>*@
+                                @*<div class="book_number">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</div>*@
+                                <object data='@Html.Raw(!string.IsNullOrEmpty(item.HinhChanDung) ? item.HinhChanDung : "/Content/Images/nancyy.jpg")' type="image/png"></object>                                
                             </div>
                         </div>
                     </div>
                 </td>
-
-                <td>@item.Ten</td>
+                <td>@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null) </td>
                 <td>@item.MaSoThanhVien</td>
-                <td>@item.GioiTinh</td>
-                <td>@item.NgaySinh.ToString("dd-MM-yyyy")</td>
-                <td>@item.LopHoc</td>
-                <td>@item.DiaChi</td>
-                <td>@item.SDT</td>
-                <td>@item.TrangThai</td>
+                @{
+                    if (item.TrangThai == EUser.Active)
+                    {
+                        <td>Đang kích hoạt</td>
+                    }
+                    else if (item.TrangThai == EUser.DeActive)
+                    {
+                        <td>Đã bị khóa</td>
+                    }
+                }
                 @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
-                    <a class="color-white btn btn-outline-primary" href="@Url.Action("_Edit",new { @id = item.Id})">
-                        <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
+                    <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("Details", new { @IdUser = @item.Id })">
+                        <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
                     </a>
-                    <a class="color-white btn btn-danger" href="javascript:Delete('@item.Id','@item.Ten')">
-                        <i style="font-size:24px" class="fa">&#xf044;</i> Xóa
-                    </a>
+                    @if (item.TrangThai == EUser.Active)
+                    {
+                        <a class="color-white btn btn-sm btn-danger my-button" href="javascript:Delete('@item.Id','@item.Ten')">
+                            <i style="font-size:20px" class="fa">&#xf044;</i> Khóa
+                        </a>
+                    }
+                    else if (item.TrangThai == EUser.DeActive)
+                    {
+                        <a class="color-white btn btn-sm btn-danger my-button" href="@Url.Action("Delete",new {  @id = item.Id})">
+                            <i style="font-size:20px" class="fa">&#xf044;</i> Kích hoạt
+                        </a>
+                    }
+
                 </td>
                 @*<td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>*@
             </tr>
-            { stt++; }
-        }
+                        { stt++; }
+                    }
     </tbody>
 </table>
-
+<p>
+    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }))
+</p>

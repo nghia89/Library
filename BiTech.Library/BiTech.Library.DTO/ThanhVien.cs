@@ -45,8 +45,14 @@ namespace BiTech.Library.DTO
         public string GioiTinh { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime NgaySinh { get; set; }
-        public string LopHoc { get; set; }
-        public string ChucVu { get; set; }
+        public string LopHoc { get; set; }     
+        public string NienKhoa { get; set; }
+        public string QRLink { get; set; }
+        public string QRData { get; set; }
+        public string MaSoThe { get; set; }
+        public string LoaiTK { get; set; }
+        [BsonIgnore]
+        public string TenTrangThai { get; set; }
         #endregion
     }
 }

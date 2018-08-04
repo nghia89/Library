@@ -9,7 +9,7 @@ using System.Web;
 using System.Text;
 namespace BiTech.Library.BLL.BarCode_QR
 {
-    public class BarCodeQRManager : baseBarCodeLic
+    public class BarCodeQRManager : baseAsposeLic
     {
         public BarCodeQRManager() : base()
         {
