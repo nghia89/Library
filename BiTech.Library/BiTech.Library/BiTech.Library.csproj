@@ -247,6 +247,7 @@
     <Compile Include="Controllers\ThanhVienController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
+    <Compile Include="Controllers\TraSachController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -796,6 +797,7 @@
     <Content Include="Views\ThanhVien\_NhapChucVu.cshtml" />
     <Content Include="Views\Shared\layout\menuleft.cshtml" />
     <Content Include="Views\MuonSach\Index.cshtml" />
+    <Content Include="Views\TraSach\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

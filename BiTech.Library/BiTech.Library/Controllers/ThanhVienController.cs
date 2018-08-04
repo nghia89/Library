@@ -214,7 +214,7 @@ namespace BiTech.Library.Controllers
             ThanhVien tv = _ThanhVienLogic.GetById(id);
             if (tv == null)
                 return RedirectToAction("NotFound", "Error");
-            tv.NgaySinh.ToString("dd-mm-yyyy");
+            tv.NgaySinh.ToString("dd-MM-yyyy");
 
             EditUserViewModel model = new EditUserViewModel()
             {

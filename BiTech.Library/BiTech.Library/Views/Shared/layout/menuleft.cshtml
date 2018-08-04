@@ -23,7 +23,7 @@
 
     string[] List_Controller_TabMuonTra = new string[7];
     List_Controller_TabMuonTra[0] = "MuonSach";
-    List_Controller_TabMuonTra[1] = "PhieuTra";
+    List_Controller_TabMuonTra[1] = "TraSach";
 
     string[] List_Controller_TabNhapXuatKho = new string[7];
     List_Controller_TabNhapXuatKho[0] = "PhieuNhapSach";
@@ -153,8 +153,8 @@
                                     Mượn sách
                                 </a>
                             </li>
-                            <li class="@(( @controller == "PhieuTra") ? "active" : "")">
-                                <a href="@Url.Action("Index","PhieuTra")" title="Trả sách">
+                            <li class="@(( @controller == "TraSach") ? "active" : "")">
+                                <a href="@Url.Action("Index","TraSach")" title="Trả sách">
                                     Trả sách
                                 </a>
                             </li>

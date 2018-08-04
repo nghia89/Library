@@ -743,6 +743,13 @@ a:hover {
     -webkit-transform: rotate(45deg);
 }
 /*Mượn sách*/
+.hidden_lib{
+    display: none;
+    
+}
+.hidden_lib div{
+    transition: all linear 0.5s
+}
 .container-mt-sach {
 }
 

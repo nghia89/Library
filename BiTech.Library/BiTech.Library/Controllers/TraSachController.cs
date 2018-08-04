@@ -13,10 +13,9 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    public class MuonSachController : BaseController
+    public class TraSachController : BaseController
     {
         //todo
-        public List<Sach> list_demo = new List<Sach>();
         static public List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
         public ActionResult Index(string IdUser)
         {
@@ -37,7 +36,7 @@ namespace BiTech.Library.Controllers
             list_book.Clear();
             list_book.Add(new MuonTraSachViewModel()
             {
-                MaKiemSoat = "",
+                MaKiemSoat = "01",
                 IdUser = "123",
                 TenSach = "One Piece tâp 1",
                 SoLuong = "1",
@@ -45,11 +44,11 @@ namespace BiTech.Library.Controllers
                 NgayTra = (new DateTime(2018, 6, 28)).Date.ToString("dd/MM/yyyy"),
                 TinhTrang = ((new DateTime(2018, 6, 28)) - DateTime.Now).TotalDays < 0
             });
-            list_book.Add(new MuonTraSachViewModel() { MaKiemSoat = "", IdUser = "123", TenSach = "One Piece tâp 2", SoLuong = "4", NgayMuon = (new DateTime(2018, 2, 20)).Date.ToString("dd/MM/yyyy"), NgayTra = (new DateTime(2018, 8, 28)).Date.ToString("dd/MM/yyyy") });
-            list_book.Add(new MuonTraSachViewModel() { MaKiemSoat = "", IdUser = "123", TenSach = "One Piece tâp 3", SoLuong = "3", NgayMuon = (new DateTime(2018, 2, 20)).Date.ToString("dd/MM/yyyy"), NgayTra = (new DateTime(2018, 8, 28)).Date.ToString("dd/MM/yyyy") });
+            list_book.Add(new MuonTraSachViewModel() { MaKiemSoat = "02", IdUser = "123", TenSach = "One Piece tâp 2", SoLuong = "4", NgayMuon = (new DateTime(2018, 2, 20)).Date.ToString("dd/MM/yyyy"), NgayTra = (new DateTime(2018, 8, 28)).Date.ToString("dd/MM/yyyy") });
+            list_book.Add(new MuonTraSachViewModel() { MaKiemSoat = "03", IdUser = "123", TenSach = "One Piece tâp 3", SoLuong = "3", NgayMuon = (new DateTime(2018, 2, 20)).Date.ToString("dd/MM/yyyy"), NgayTra = (new DateTime(2018, 8, 28)).Date.ToString("dd/MM/yyyy") });
             list_book.Add(new MuonTraSachViewModel()
             {
-                MaKiemSoat = "",
+                MaKiemSoat = "04",
                 IdUser = "456",
                 TenSach = "One Piece tâp 4",
                 SoLuong = "3",
@@ -59,7 +58,7 @@ namespace BiTech.Library.Controllers
             });
             list_book.Add(new MuonTraSachViewModel()
             {
-                MaKiemSoat = "",
+                MaKiemSoat = "05",
                 IdUser = "456",
                 TenSach = "One Piece tâp 5",
                 SoLuong = "3",
@@ -113,9 +112,9 @@ namespace BiTech.Library.Controllers
 
             return View(list_book);
         }
-        
+
         [HttpPost]
-        public JsonResult GetBook(string maSach)
+        public JsonResult GetBook_TraSach(string maSach, string IdUser)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -126,24 +125,10 @@ namespace BiTech.Library.Controllers
 
             List<Sach> list = _SachLogicLogic.getAllSach();
             list.Clear();
-            //to do
-            list_demo.Add(new Sach() { MaKiemSoat = "01", TenSach = "Chuyện tình Lan và Điệp tập 1", SoLuongConLai = 0 });
-            list_demo.Add(new Sach() { MaKiemSoat = "02", TenSach = "Chuyện tình Lan và Điệp tập 2", SoLuongConLai = 10 });
-            list_demo.Add(new Sach() { MaKiemSoat = "03", TenSach = "Chuyện tình Lan và Điệp tập 3", SoLuongConLai = 10 });
-
-            var list_temp = list_demo.Where(_ => _.MaKiemSoat == maSach).ToList();
-
-            List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-            //convert list<Sach> to list<MuonTraSachViewModel>
-            if(list_temp.Count > 0)
-            {
-                foreach (Sach item in list_temp)
-                {
-                    list_book.Add(new MuonTraSachViewModel() { MaKiemSoat = item.MaKiemSoat, TenSach = item.TenSach, SoLuong = item.SoLuongConLai.ToString() });
-                }
-            }
             
-            return Json(list_book, JsonRequestBehavior.AllowGet);
+            var list_temp = list_book.Where(_ => _.MaKiemSoat == maSach && _.IdUser == IdUser).ToList();
+
+            return Json(list_temp, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -155,16 +140,35 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateListBook(List<MuonTraSachViewModel> item)
+        public JsonResult UpdateListBook(List<MuonTraSachViewModel> List_item)
         {
-            if(item.Count > 0)
+            if (List_item.Count > 0)
             {
-                var list = list_book.Where(_ => _.IdUser == item[0].IdUser).ToList();
-                list.AddRange(item);
-                return Json(list, JsonRequestBehavior.AllowGet);
+
+                foreach (MuonTraSachViewModel item in List_item)
+                {
+                    MuonTraSachViewModel _sachTeam = list_book.Where(_ => _.MaKiemSoat == item.MaKiemSoat).SingleOrDefault();
+                    if(_sachTeam != null)
+                    {
+                        if(_sachTeam.SoLuong == item.SoLuong)
+                        {
+                            //Trả hết
+                            list_book.Remove(_sachTeam);
+                        }
+                        else
+                        {
+                            //Trả theo số lượng cuốn
+                            _sachTeam.SoLuong = (int.Parse(_sachTeam.SoLuong) - int.Parse(item.SoLuong)).ToString();
+                        }
+                    }
+                }
+                var list_temp = list_book.Where(_ => _.IdUser == List_item[0].IdUser).ToList();
+                return Json(list_temp, JsonRequestBehavior.AllowGet);
             }
             return Json(false, JsonRequestBehavior.AllowGet);
         }
+
+
 
     }
 }
