@@ -798,6 +798,7 @@
     <Content Include="Views\ThanhVien\ChangePassword.cshtml" />
     <Content Include="Views\ThanhVien\ImportFromExcel.cshtml" />
     <Content Include="Views\ThanhVien\ExportWord.cshtml" />
+    <Content Include="Views\TheLoaiSach\ImportFromExcel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

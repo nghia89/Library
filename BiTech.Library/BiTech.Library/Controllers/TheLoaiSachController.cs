@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.Models;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
@@ -8,7 +9,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
-
+using System.IO;
+using static BiTech.Library.Helpers.Tool;
 namespace BiTech.Library.Controllers
 {
     public class TheLoaiSachController : BaseController
@@ -292,7 +294,45 @@ namespace BiTech.Library.Controllers
             return PartialView("_NhapLoaiSach");
         }
 
+        public ActionResult ImportFromExcel()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ImportFromExcel(TheLoaiSachViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            #endregion
+            ExcelManager excelManager = new ExcelManager();
+            List<TheLoaiSach> list = new List<TheLoaiSach>();
+            if (model.LinkExcel != null)
+            {
+                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                string physicalWebRootPath = Server.MapPath("/");
 
+                var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
+                string location = Path.GetDirectoryName(sourceFileName);
+                if (!Directory.Exists(location))
+                {
+                    Directory.CreateDirectory(location);
+                }
+                using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
+                {
+                    model.LinkExcel.InputStream.CopyTo(fileStream);
+                    var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    list = excelManager.ImportTheLoaiSach(sourceDir);
+                }
+                foreach (var item in list)
+                {
+                    _TheLoaiSachLogic.ThemTheLoaiSach(item);
+                }
+            }
+            return View();            
+        }
 
         #region AngularJS
 

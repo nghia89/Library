@@ -450,7 +450,7 @@ namespace BiTech.Library.Controllers
                 {
                     model.LinkExcel.InputStream.CopyTo(fileStream);
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                    list = excelManager.ImportExcel(sourceDir);
+                    list = excelManager.ImportThanhVien(sourceDir);
                 }
                 foreach (var item in list)
                 {

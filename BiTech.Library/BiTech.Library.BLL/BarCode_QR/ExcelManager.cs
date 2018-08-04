@@ -32,7 +32,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             workBook.Save(outputSavePath, Aspose.Cells.SaveFormat.Xlsx);
         }
 
-        public List<ThanhVien> ImportExcel(string sourceDir)
+        public List<ThanhVien> ImportThanhVien(string sourceDir)
         {
             List<ThanhVien> list = new List<ThanhVien>();
             string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
@@ -58,6 +58,35 @@ namespace BiTech.Library.BLL.BarCode_QR
                 if ((object)data[i, 5] != null)
                     tv.SDT = (string)data[i, 5].ToString();
                 list.Add(tv);
+            }
+            return list;
+        }
+        public List<TheLoaiSach> ImportTheLoaiSach(string sourceDir)
+        {
+            List<TheLoaiSach> list = new List<TheLoaiSach>();
+            string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
+            Workbook wb = new Workbook(sourceSavePath);
+            Worksheet ws = wb.Worksheets[0];
+            // import data form Excel           
+            int firstRow = ws.Cells.FirstCell.Row + 1;
+            int firstColumn = ws.Cells.FirstCell.Column;
+            int totalRows = ws.Cells.MaxDataRow - ws.Cells.MinDataRow;
+            int totalColumns = (ws.Cells.MaxDataColumn + 1) - ws.Cells.MinDataColumn;
+
+            var data = ws.Cells.ExportArray(firstRow, firstColumn, totalRows, totalColumns);
+
+            for (int i = 0; i < totalRows; i++)
+            {
+                TheLoaiSach theLoai = new TheLoaiSach();
+                theLoai.TenTheLoai = (string)data[i, 0];
+                //tv.GioiTinh = (string)data[i, 1];
+                //if ((object)data[i, 2] != null)
+                //    tv.NgaySinh = (DateTime)data[i, 2];
+                //tv.LopHoc = (string)data[i, 3];
+                //tv.DiaChi = (string)data[i, 4];
+                //if ((object)data[i, 5] != null)
+                //    tv.SDT = (string)data[i, 5].ToString();
+                //list.Add(tv);
             }
             return list;
         }
