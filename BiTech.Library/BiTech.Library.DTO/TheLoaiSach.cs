@@ -23,7 +23,7 @@ namespace BiTech.Library.DTO
         public string IdTheLoaiCha { get; set; }
 
         public string MoTa { get; set; }
-
+        public string MaDDC { get; set; }
         /// <summary>
         /// Phiên bản hiện tại của đối tượng
         /// </summary>

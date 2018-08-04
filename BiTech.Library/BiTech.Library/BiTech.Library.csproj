@@ -247,6 +247,7 @@
     <Compile Include="Controllers\ThanhVienController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
+    <Compile Include="Controllers\TraSachController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -580,6 +581,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\fSelect.css" />
     <Content Include="Content\css\fSelect.js" />
+    <Content Include="Content\Images\logo.png" />
     <Content Include="Content\tagsinput\ng-tags-input-style.css" />
     <Content Include="Content\tagsinput\ng-tags-input.bootstrap.css" />
     <Content Include="Content\tagsinput\ng-tags-input.css" />
@@ -895,7 +897,7 @@
     <Content Include="Views\NhapSach\NhapSach.cshtml" />
     <Content Include="Views\Shared\_LayoutMain.cshtml" />
     <Content Include="Views\Shared\layout\header.cshtml" />
-    <Content Include="Views\Shared\layout\menuleft.cshtml" />
+    <Content Include="Views\Shared\layout\menuleft_v1.cshtml" />
     <Content Include="Views\TacGia\Index.cshtml" />
     <Content Include="Views\TacGia\Create.cshtml" />
     <Content Include="Views\TacGia\Edit.cshtml" />
@@ -1033,6 +1035,9 @@
     <Content Include="Scripts\mustache.js-master\wrappers\yui3\mustache.js.post" />
     <Content Include="Scripts\mustache.js-master\wrappers\yui3\mustache.js.pre" />
     <Content Include="Views\Sach\ListBoxTT.cshtml" />
+    <Content Include="Views\Shared\layout\menuleft.cshtml" />
+    <Content Include="Views\MuonSach\Index.cshtml" />
+    <Content Include="Views\TraSach\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

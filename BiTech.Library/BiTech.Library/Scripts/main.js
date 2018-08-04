@@ -1,6 +1,40 @@
-﻿$(document).ready(function () {
+﻿/*====TÌnh trạng sách====*/
+function laber_check() {
+    $(".tinhtrangsach #TrangThai").next().next().html("Không cho phép mượn sách");
+    $(".tinhtrangsach #TrangThai:checked").next().next().html("Cho phép mượn sách");
+}
+
+$(document).ready(function () {
+    laber_check();
+    $(".tinhtrangsach input[type=checkbox]").on("click", laber_check);
+});
+
+/*====Main====*/
+$(document).ready(function () {
     $(".bt_menu").click(function () {
         turn_on_off_menu();
+    });
+
+    $(document).on("click", "#accordion .card .card-header ", function () {
+        //Trường hợp chọn chức năng nào thì active ngay chức năng đó (khi ở trạng thái small_menu)
+        if ($("#contain").hasClass("small_menu")) {
+            //Nếu menu đang ở trạng thái small_menu
+            if ($(this).hasClass("active")) {
+
+            } else {
+                $("#accordion .card").removeClass("active");
+                $(this).parent().addClass("active");
+            }
+        } else {
+            if ($(this).parent().hasClass("active")) {
+                $("#accordion .card").removeClass("active");
+            } else {
+                $("#accordion .card").removeClass("active");
+                $(this).parent().addClass("active");
+            }
+        }
+        turn_on_menu(this);
+        //removeActiveMenuLeftAccordion(this);
     });
 
     //Nếu width trình duyệt lớn hơn 1200 thì hiện menu left sau khi load
@@ -32,21 +66,46 @@
 
 
 function turn_on_off_menu() {
-    if ($(".contain").hasClass("small_menu") ) {
+    if ($(".contain").hasClass("small_menu")) {
         $(".contain").removeClass("small_menu");
         setCookie("menu", " ", "1");
     } else {
         $(".contain").addClass("small_menu");
         setCookie("menu", "small_menu", "1");
+        small_menu_function_active();
     }
 }
-function turn_off_menu(){
+function turn_off_menu() {
     if ($(".contain").hasClass("small_menu")) {
-        
-    }else{
+
+    } else {
         $(".contain").addClass("small_menu");
         setCookie("menu", "small_menu", "1");
+        small_menu_function_active();
     }
+}
+function turn_on_menu(obj) {
+    if ($(".contain").hasClass("small_menu")) {
+        $(".contain").removeClass("small_menu");
+        setCookie("menu", " ", "1");
+    } else {
+
+    }
+}
+
+function small_menu_function_active() {
+    removeActiveMenuLeftAccordion(".card");
+}
+
+function removeActiveMenuLeftAccordion(obj) {
+    //đống menu left
+    $(obj).children().children().addClass("collapsed");
+    $(obj).children(".collapse").removeClass("show");
+    $(obj).removeClass(".active");
+
+    $(obj + ".function_active").children().children().removeClass("collapsed");
+    $(obj + ".function_active").children(".collapse").addClass("show");
+    $(obj + ".function_active").addClass("active");
 }
 
 function goBack() {

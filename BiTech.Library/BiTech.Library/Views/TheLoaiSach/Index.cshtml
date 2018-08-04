@@ -10,9 +10,9 @@
 
 <div class="Title">Danh Sách Thể Loại Sách</div>
 <div class="clearfix">
-    <a class="btn btn-primary" href="@Url.Content(url_modal)" data-ajax="true"
+    <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm Mới</a>
-    <button class="btn-dan btn btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
+    <button class="btn-dan btn btn-sm btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
         Dán
     </button> 
 
@@ -24,26 +24,31 @@
     }
 </div>
 
-<table class="table table-hover table-bordered ">
+<table class="table table-hover table-bordered table-striped">
     <thead>
         <tr class="table-info">
+            <th width="50" align="right">STT</th>
             <th width="20%">Tên Thể Loại</th>
+            <th width="18%">Mã DDC</th>
             @*<th width="20%">Tên thể loại cha</th>*@
-            <th width="50%">Mô Tả</th>
+            <th width="40%">Mô Tả</th>
             <th width="10%">Sửa</th>
             <th width="10%">Cắt</th>
         </tr>
     </thead>
+    @{int i = 1;}
     <tbody>
         @{
             if (ViewBag.URLBackParent != null)
             {
                 <tr>
+                    <td align="center"></td>
                     <td>
                         <a href="@ViewBag.URLBackParent" title="../ Trở lại thể loại cha">
                             ../ Trở lại thể loại cha
                         </a>
                     </td>
+                    <td></td>
                     @*<td></td>*@
                     <td></td>
                     <td></td>
@@ -56,17 +61,19 @@
         @foreach (var item in Model)
             {
             <tr>
+                <td align="center">@(i + (ViewBag.pages-1) * ViewBag.pageSize)</td>
                 <td>
                     <a href="@Url.Action("index", new { idParent = @item.Id })" class="a_full" title="@item.TenTheLoai">
                         @item.TenTheLoai
                     </a>
                 </td>
+                <td>@item.MaDDC</td>
                 @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-                    <a class="color-white btn btn-outline-primary btn-sm" href="@Url.Action("Sua", new { id = item.Id })">
-                        <i style="font-size:24px" class="fa">&#xf044;</i> Sửa
-                    </a>
+                    <button class="color-white btn btn-outline-primary btn-sm" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
+                        <i class="fa">&#xf044;</i> Sửa
+                    </button>
                 </td>
                 <td>
                     
@@ -75,6 +82,7 @@
                     </button>
                 </td>
             </tr>
+            { i++; }
         }
     </tbody>
 </table>
@@ -186,10 +194,12 @@
         }
 
         function check_session_cut() {
-            //console.log($.session.get("id"));
-            if ($.session.get("id") != "null") {
+            console.log($.session.get("id"));
+            if ($.session.get("id") == 'null' || jQuery.type($.session.get("id")) === "undefined") {
+                console.log($.session.get("id"));
+            } else {
                 $(".btn-dan").addClass("btn-success").removeClass("btn-default");
-                $("#" + $.session.get("id")).addClass("btn-default").removeClass("btn-danger");
+                $("#" + $.session.get("id").toString()).removeClass("btn-danger").addClass("btn-default");
             }
         }
 

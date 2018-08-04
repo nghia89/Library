@@ -52,6 +52,7 @@ namespace BiTech.Library.Models
         [Display(Name = "Ghi chú")]
         public string GhiChu{ get; set; }
     }
+
     public class PhieuMuonGiaHanModelView
     {
         public string IdPM { get; set; }
@@ -154,5 +155,19 @@ namespace BiTech.Library.Models
 
         public bool Status { get; set; }
     }
+
+    #region Phong
+    public class MuonTraSachViewModel
+    {
+        public string Id { get; set; }
+        public string IdUser { get; set; }
+        public string MaKiemSoat { get; set; }
+        public string TenSach { get; set; }
+        public string SoLuong { get; set; }
+        public string NgayMuon { get; set; }
+        public string NgayTra { get; set; }
+        public bool TinhTrang { get; set; }
+    }
+    #endregion
 
 }
