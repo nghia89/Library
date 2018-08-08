@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.Common;
 using BiTech.Library.DTO;
 using BiTech.Library.Models;
@@ -263,7 +264,7 @@ namespace BiTech.Library.Controllers
             SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var id = _SlTrangThaisach.GetById(vm.Id);
             int numberSl = id.SoLuong - vm.SoLuong;
-            var IdSlTT = _SlTrangThaisach.GetByIdTT(txtIdttCategory,vm.IdSach);
+            var IdSlTT = _SlTrangThaisach.GetByIdTT(txtIdttCategory, vm.IdSach);
             if (IdSlTT != null)
             {
                 SoLuongSachTrangThai md = new SoLuongSachTrangThai();
@@ -462,6 +463,146 @@ namespace BiTech.Library.Controllers
         public ActionResult ThemTacGia()
         {
             return PartialView("_ThemTacGia");
+        }
+        public ActionResult ImportFromExcel()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ImportFromExcel(SachViewModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            //if (userdata == null)
+            //    return RedirectToAction("LogOff", "Account");
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            #endregion
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
+            ExcelManager excelManager = new ExcelManager();
+            List<Sach> listExcel = new List<Sach>();
+            if (model.LinkExcel != null)
+            {
+                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                string physicalWebRootPath = Server.MapPath("/");
+
+                var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
+                string location = Path.GetDirectoryName(sourceFileName);
+                if (!Directory.Exists(location))
+                {
+                    Directory.CreateDirectory(location);
+                }
+                using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
+                {
+                    model.LinkExcel.InputStream.CopyTo(fileStream);
+                    var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    listExcel = excelManager.ImportSach(sourceDir);
+                }
+
+                foreach (var item in listExcel)
+                {
+                    #region Linh tinh
+                    // Thể loại sách
+                    string itemTheLoai = item.IdTheLoai.Trim();
+                    var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
+
+                    if (machs.Length > 0)
+                    {
+                        var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
+                        if (theloai != null)
+                        {
+                            item.IdTheLoai = theloai.Id;
+                        }
+                        else
+                        {
+                            // todo - ddc dictionary version 21
+                            var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
+                            {
+                                TenTheLoai = item.IdTheLoai.Trim(),
+                                MaDDC = itemTheLoai.Trim()
+                            });
+                            item.IdTheLoai = id;
+                        }
+                    }
+                    else
+                    {
+                        var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
+                        if (theloai != null)
+                        {
+                            item.IdTheLoai = theloai.Id;
+                        }
+                        else
+                        {
+                            var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = item.IdTheLoai });
+                            item.IdTheLoai = id;
+                        }
+                    }
+
+                    // Kệ sách
+                    var keSach = _keSachLogic.GetByTenKeSach(item.IdKeSach);
+                    if (keSach != null)
+                    {
+                        item.IdKeSach = keSach.Id;
+                    }
+                    else
+                    {
+                        var id = _keSachLogic.Add(new KeSach() { TenKe = item.IdKeSach.Trim() });
+                        item.IdKeSach = id;
+                    }
+
+                    // Nhà xuất bản
+                    var nxb = _NhaXuatBanLogic.GetByTenNXB(item.IdNhaXuatBan);
+                    if (nxb != null)
+                    {
+                        item.IdNhaXuatBan = nxb.Id;
+                    }
+                    else
+                    {
+                        var id = _NhaXuatBanLogic.ThemNXB(new NhaXuatBan() { Ten = item.IdNhaXuatBan.Trim() });
+                        item.IdNhaXuatBan = id;
+                    }
+
+                    // Ngôn ngữ
+                    var ngonNgu = _LanguageLogic.GetByTenNgonNgu(item.IdNgonNgu);
+                    if (ngonNgu != null)
+                    {
+                        item.IdNgonNgu = ngonNgu.Id;
+                    }
+                    else
+                    {
+                        var id = _LanguageLogic.InsertNew(new Language() { Ten = item.IdNgonNgu.Trim() });
+                        item.IdNgonNgu = id;
+                    }
+                    #endregion
+
+                    var idSach = _SachLogic.ThemSach(item);
+                    // Tác giả 
+                    foreach (var tg in item.listTacGia)
+                    {
+                        string idTG = null;
+                        var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
+                        if (tacGia != null)
+                        {
+                            idTG = tacGia.Id;
+                        }
+                        else
+                        {
+                            idTG = _TacGiaLogic.Insert(tg);
+                        }
+                        _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
+                    }
+                }
+            }
+            return RedirectToAction("Index", "Sach");
+           // return View();
         }
     }
 }

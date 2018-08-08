@@ -14,7 +14,10 @@
 
 
     <div class="clearfix pb-2 pl-2">
-        <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm">Thêm Mới</a>
+        <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm">Thêm Mới</a>      
+    </div>
+    <div id="topbar">
+        <h5>@Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary" })</h5>
     </div>
     <form action="/Sach/Index" class="clearfix">
 

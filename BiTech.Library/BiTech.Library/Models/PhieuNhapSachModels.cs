@@ -9,7 +9,7 @@ namespace BiTech.Library.Models
     public class PhieuNhapSachModels
     {
         public string IdPhieuNhap { get; set; }
-        [Display(Name = "Ghi Chú")]
+        [Display(Name = "Ghi chú phiếu nhập sách")]
         [Required(ErrorMessage = "Vui lòng nhập ghi chú")]
         public string GhiChu { get; set; } = "";
 
@@ -19,6 +19,7 @@ namespace BiTech.Library.Models
 
         public string IdUserAdmin { get; set; }
         public string UserName { get; set; }
+        public HttpPostedFileBase LinkExcel { get; set; }
     }
 
     public class ChiTietNhapSachViewModels

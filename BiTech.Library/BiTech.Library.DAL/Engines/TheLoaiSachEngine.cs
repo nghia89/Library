@@ -54,7 +54,7 @@ namespace BiTech.Library.DAL.Engines
 
             FilterDefinition<TheLoaiSach> filter = builder.Empty;
 
-            if(idParent.Length > 0)
+            if (idParent.Length > 0)
             {
                 filter = filter & builder.Eq(m => m.IdParent, idParent);
             }
@@ -68,5 +68,26 @@ namespace BiTech.Library.DAL.Engines
 
             //return _DatabaseCollection.Find(_ => _.IdParent == idParent).ToList();
         }
+
+        public bool ktrTrung(TheLoaiSach tls)
+        {
+            var item = _DatabaseCollection.Find(_ => _.MaDDC == tls.MaDDC).FirstOrDefault();
+            if (item != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        #region Tai
+        public TheLoaiSach GetIdByDDC(string maDDC)
+        {
+            return _DatabaseCollection.Find(_ => _.MaDDC == maDDC).FirstOrDefault();
+        }
+        public TheLoaiSach GetByTenTheLoai(string tenTheLoai)
+        {
+            return _DatabaseCollection.Find(_ => _.TenTheLoai.ToLower() == tenTheLoai.ToLower()).FirstOrDefault();
+        }
+        #endregion
+
     }
 }

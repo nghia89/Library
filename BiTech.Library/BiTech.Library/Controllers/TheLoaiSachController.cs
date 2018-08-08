@@ -226,7 +226,6 @@ namespace BiTech.Library.Controllers
             {
                 _TheLoaiSachLogic.SuaTheLoaiSach(TLS);
                 return RedirectToAction("Index", "TheLoaiSach", new { idParent = TLS.IdParent });
-
             }
             TheLoaiSachViewModels VM = new TheLoaiSachViewModels()
             {
@@ -314,7 +313,7 @@ namespace BiTech.Library.Controllers
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
             ExcelManager excelManager = new ExcelManager();
-            List<TheLoaiSach> list = new List<TheLoaiSach>();
+            List<TheLoaiSach> listExcel = new List<TheLoaiSach>();
             if (model.LinkExcel != null)
             {
                 string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
@@ -330,14 +329,32 @@ namespace BiTech.Library.Controllers
                 {
                     model.LinkExcel.InputStream.CopyTo(fileStream);
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                    list = excelManager.ImportTheLoaiSach(sourceDir);
+                    listExcel = excelManager.ImportTheLoaiSach(sourceDir);
                 }
-                foreach (var item in list)
+                foreach (var item in listExcel)
                 {
-                    _TheLoaiSachLogic.ThemTheLoaiSach(item);
+                    // ktr mã DDC chưa tồn tại thì thêm
+                    if (_TheLoaiSachLogic.ktrTrung(item) == false)
+                    {
+                        _TheLoaiSachLogic.ThemTheLoaiSach(item);
+                    }
+                }
+                var listAll = _TheLoaiSachLogic.GetAllTheLoaiSach();
+
+                foreach (var i in listExcel)
+                {
+                    foreach (var j in listAll)
+                    {
+                        if (i.IdParent == j.MaDDC)
+                        {
+                            i.IdParent = j.Id;
+                            _TheLoaiSachLogic.Update(i);
+                        }
+                    }
                 }
             }
-            return View();            
+            // return View();
+            return RedirectToAction("Index", "TheLoaiSach");
         }
 
         #region AngularJS

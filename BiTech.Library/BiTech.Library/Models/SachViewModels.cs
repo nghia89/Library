@@ -86,6 +86,7 @@ namespace BiTech.Library.Models
 
         [Required]
         public HttpPostedFileBase FileImageCover { get; set; }
+        public HttpPostedFileBase LinkExcel { get; set; }
     }
 
     public class ListBooksModel

@@ -27,5 +27,12 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => true).ToList();
         }
+        #region Tai
+        public Language GetByTenNgonNgu(string tenNgonNgu)
+        {
+            return _DatabaseCollection.Find(_ => _.Ten.ToLower() == tenNgonNgu.ToLower()).FirstOrDefault();
+        }
+        #endregion
+
     }
 }

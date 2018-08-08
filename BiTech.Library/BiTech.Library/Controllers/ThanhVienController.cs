@@ -457,7 +457,8 @@ namespace BiTech.Library.Controllers
                     _ThanhVienLogic.Insert(item);
                 }
             }
-            return View();
+            //return View();
+            return RedirectToAction("Index", "ThanhVien");
         }
 
 
@@ -500,7 +501,8 @@ namespace BiTech.Library.Controllers
                     excelManager.ExportWord(sourceDir, listTV);
                 }
             }
-            return View();
+            // return View();
+            return RedirectToAction("Index", "ThanhVien");
         }
         public ActionResult MauThe(string mauThe)
         {

@@ -50,5 +50,13 @@ namespace BiTech.Library.DAL.Engines
             }
             return str2;
         }
+
+        #region Tai
+        public TacGia GetByTenTacGia(string tenTacGia)
+        {
+            return _DatabaseCollection.Find(_ => _.TenTacGia.ToLower() == tenTacGia.ToLower()).FirstOrDefault();
+        }
+        #endregion
+
     }
 }

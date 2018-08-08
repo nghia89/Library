@@ -47,5 +47,11 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _NhaXuatBanEngine.Remove(id);
         }
+        #region Tai
+        public NhaXuatBan GetByTenNXB(string tenNXB)
+        {
+            return _NhaXuatBanEngine.GetByTenNXB(tenNXB);
+        }
+        #endregion
     }
 }

@@ -22,5 +22,11 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(p => true).ToList(); 
         }
+        #region Tai
+        public NhaXuatBan GetByTenNXB(string tenNXB)
+        {
+            return _DatabaseCollection.Find(_ => _.Ten.ToLower() == tenNXB.ToLower()).FirstOrDefault();
+        }
+        #endregion
     }
 }

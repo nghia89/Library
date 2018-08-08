@@ -54,5 +54,25 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _theloaiSachEngine.Remove(id);
         }
+        #region Tai
+        public TheLoaiSach GetIdByDDC(string maDDC)
+        {
+            return _theloaiSachEngine.GetIdByDDC(maDDC);
+        }
+        public bool Update(TheLoaiSach tls)
+        {
+            return _theloaiSachEngine.Update(tls);
+        }
+        public TheLoaiSach GetByTenTheLoai(string tenTheLoai)
+        {
+            return _theloaiSachEngine.GetByTenTheLoai(tenTheLoai);
+        }
+
+        public bool ktrTrung(TheLoaiSach tls)
+        {
+            return _theloaiSachEngine.ktrTrung(tls);
+        }
+
+        #endregion
     }
 }

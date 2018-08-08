@@ -11,11 +11,13 @@
 <div class="Title">Danh Sách Thể Loại Sách</div>
 <div class="clearfix">
     <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
-       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm Mới</a>
+       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm Mới</a>    
     <button class="btn-dan btn btn-sm btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
         Dán
     </button> 
-
+</div>
+<div id="topbar">
+    <h5>@Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })</h5>
 </div>
 <div class="direction">
     @if (ViewBag.url != "")

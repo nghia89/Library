@@ -40,6 +40,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _keSachEngine.Remove(Id);
         }
+        #region Tai
+        public KeSach GetByTenKeSach(string tenKeSach)
+        {
+            return _keSachEngine.GetByTenKeSach(tenKeSach);
+        }
+        #endregion
 
     }
 }

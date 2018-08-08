@@ -20,7 +20,12 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => true).ToList();
         }
+        #region Tai
+        public KeSach GetByTenKeSach(string tenKeSach)
+        {
+            return _DatabaseCollection.Find(_ => _.TenKe.ToLower() == tenKeSach.ToLower()).FirstOrDefault();
+        }
+        #endregion
 
-      
     }
 }

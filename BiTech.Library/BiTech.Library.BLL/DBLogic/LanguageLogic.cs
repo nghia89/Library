@@ -30,6 +30,7 @@ namespace BiTech.Library.BLL.DBLogic
 
         public string InsertNew(Language dto)
         {
+          
             return _LanguageEngine.Insert(dto);
         }
 
@@ -42,5 +43,11 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _LanguageEngine.Remove(id);
         }
+        #region Tai
+        public Language GetByTenNgonNgu(string tenNgonNgu)
+        {
+           return _LanguageEngine.GetByTenNgonNgu(tenNgonNgu);
+        }
+        #endregion
     }
 }

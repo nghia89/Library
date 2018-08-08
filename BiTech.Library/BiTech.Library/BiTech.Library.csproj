@@ -234,6 +234,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\MarcController.cs" />
+    <Compile Include="Controllers\MuonSachController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\NgonNguController.cs" />
@@ -1045,6 +1046,8 @@
     <Content Include="Views\ThanhVien\ImportFromExcel.cshtml" />
     <Content Include="Views\ThanhVien\ExportWord.cshtml" />
     <Content Include="Views\TheLoaiSach\ImportFromExcel.cshtml" />
+    <Content Include="Views\Sach\ImportFromExcel.cshtml" />
+    <Content Include="Views\PhieuNhapSach\ImportFromExcel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

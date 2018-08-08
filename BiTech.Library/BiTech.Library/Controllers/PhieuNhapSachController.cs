@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.Models;
 using BiTech.Library.DTO;
 using System;
@@ -8,6 +9,9 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
+using BiTech.Library.Controllers.BaseClass;
+using static BiTech.Library.Helpers.Tool;
+using System.IO;
 
 namespace BiTech.Library.Controllers
 {
@@ -298,6 +302,97 @@ namespace BiTech.Library.Controllers
 
             return Json(ListTD, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ImportFromExcel()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ImportFromExcel(PhieuNhapSachModels model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+            PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ExcelManager excelManager = new ExcelManager();
+            List<ChiTietNhapSach> list = new List<ChiTietNhapSach>();
+            if (model.LinkExcel != null)
+            {
+                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                string physicalWebRootPath = Server.MapPath("/");
+
+                var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
+                string location = Path.GetDirectoryName(sourceFileName);
+                if (!Directory.Exists(location))
+                {
+                    Directory.CreateDirectory(location);
+                }
+                using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
+                {
+                    model.LinkExcel.InputStream.CopyTo(fileStream);
+                    var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    list = excelManager.ImportPhieuNhapSach(sourceDir);
+                }
+                PhieuNhapSach pns = new PhieuNhapSach()
+                {
+                    NgayNhap = DateTime.Now,
+                    GhiChu = model.GhiChu,
+                    IdUserAdmin = userdata.Id,
+                    UserName = userdata.UserName
+                };
+                string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);
+                var listAllTTS = _TrangThaiSachLogic.GetAll();
+
+                foreach (var item in list)
+                {
+                    var sach = _SachLogic.GetByMaMaKiemSoat(item.IdSach);
+                    int index = Int32.Parse(item.IdTinhtrang);
+                    TrangThaiSach trangThaiSach = null;
+                    if (index <= listAllTTS.Count())
+                        trangThaiSach = listAllTTS[index - 1];
+                    if (trangThaiSach != null && sach != null)
+                    {
+                        item.IdSach = sach.Id;
+                        item.IdPhieuNhap = idPhieuNhap;
+                        item.IdTinhtrang = trangThaiSach.Id;
+
+                        _ChiTietNhapSachLogic.Insert(item);
+                        //todo
+                        {
+                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(sach.Id, trangThaiSach.Id);
+                            if (sltt != null)
+                            {
+                                sltt.SoLuong += item.SoLuong;
+                                _SoLuongSachTrangThaiLogic.Update(sltt);
+                            }
+                            else
+                            {
+                                sltt = new SoLuongSachTrangThai();
+                                sltt.IdSach = sach.Id;
+                                sltt.IdTrangThai = trangThaiSach.Id;
+                                sltt.SoLuong = item.SoLuong;
+                                _SoLuongSachTrangThaiLogic.Insert(sltt);
+                            }
+
+                            var updateSach = _SachLogic.GetBookById(sltt.IdSach);
+                            updateSach.SoLuongTong += item.SoLuong;
+                            updateSach.SoLuongConLai += item.SoLuong;
+                            _SachLogic.Update(updateSach);
+                        }
+                    }
+                }
+            }
+            //return View();
+            return RedirectToAction("Index", "PhieuNhapSach");
+        }
+
+
     }
 
 }

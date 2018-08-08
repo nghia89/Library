@@ -29,7 +29,7 @@ namespace BiTech.Library.BLL.DBLogic
         }
 
         public string Insert(TacGia tacgia)
-        {
+        {          
             return _tacGiaEngine.Insert(tacgia);
         }
 
@@ -47,5 +47,11 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _tacGiaEngine.Remove(id);
         }
+        #region Tai
+        public TacGia GetByTenTacGia(string tenTacGia)
+        {
+            return _tacGiaEngine.GetByTenTacGia(tenTacGia);
+        }
+        #endregion
     }
 }
