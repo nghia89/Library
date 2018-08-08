@@ -234,6 +234,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\MarcController.cs" />
+    <Compile Include="Controllers\MuonSachController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\NgonNguController.cs" />
