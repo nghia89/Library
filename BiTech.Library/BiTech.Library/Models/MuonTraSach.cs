@@ -164,6 +164,7 @@ namespace BiTech.Library.Models
         public string MaKiemSoat { get; set; }
         public string TenSach { get; set; }
         public string SoLuong { get; set; }
+        public string SoLuongMax { get; set; }
         public string NgayMuon { get; set; }
         public string NgayTra { get; set; }
         public bool TinhTrang { get; set; }

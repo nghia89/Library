@@ -75,6 +75,7 @@
     <Compile Include="DBLogic\PhieuTraLogic.cs" />
     <Compile Include="DBLogic\PhieuMuonLogic.cs" />
     <Compile Include="DBLogic\ChiTietPhieuMuonLogic.cs" />
+    <Compile Include="DBLogic\ThongTinMuonSachLogic.cs" />
     <Compile Include="DBLogic\ThongTinThuVienLogic.cs" />
     <Compile Include="DBLogic\TrangThaiSachLogic.cs" />
     <Compile Include="DBLogic\ThanhVienLogic.cs" />
