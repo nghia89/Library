@@ -123,13 +123,18 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
             SachLogic _SachLogicLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            _ThongTinMuonSachLogic.Insert(new ThongTinMuonSach() { idSach = "abc" });
 
             List<Sach> list = _SachLogicLogic.getAllSach();
             list.Clear();
             //to do
-            list_demo.Add(new Sach() { MaKiemSoat = "01", TenSach = "Chuyện tình Lan và Điệp tập 1", SoLuongConLai = 0 });
+            list_demo.Add(new Sach() { MaKiemSoat = "01", TenSach = "Chuyện tình Lan và Điệp tập 1", SoLuongConLai = 2 });
             list_demo.Add(new Sach() { MaKiemSoat = "02", TenSach = "Chuyện tình Lan và Điệp tập 2", SoLuongConLai = 10 });
             list_demo.Add(new Sach() { MaKiemSoat = "03", TenSach = "Chuyện tình Lan và Điệp tập 3", SoLuongConLai = 10 });
+
+
 
             var list_temp = list_demo.Where(_ => _.MaKiemSoat == maSach).ToList();
 

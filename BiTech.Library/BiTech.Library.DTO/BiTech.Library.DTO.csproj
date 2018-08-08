@@ -89,6 +89,7 @@
     <Compile Include="PhieuMuon.cs" />
     <Compile Include="PhieuTra.cs" />
     <Compile Include="ThanhVien.cs" />
+    <Compile Include="ThongTinMuonSach.cs" />
     <Compile Include="ThongTinThuVien.cs" />
     <Compile Include="TrangThaiSach.cs" />
     <Compile Include="KeSach.cs" />
