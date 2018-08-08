@@ -17,7 +17,6 @@ namespace BiTech.Library.Controllers
         // GET: KeSach
         public ActionResult Index(int? page)
         {
-
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
@@ -43,6 +42,7 @@ namespace BiTech.Library.Controllers
             int PageNumber = (page ?? 1);
             ViewBag.pageSize = PageSize;
             ViewBag.pages = PageNumber;
+            
             return View(lst.OrderBy(x => x.TenKe).ToPagedList(PageNumber, PageSize));
         }
 
