@@ -7,26 +7,27 @@
     int stt = 1;
 }
 <div class="text-danger">@ViewBag.SearchFail</div>
+@*<input class="form-control" id="mySearch" type="text" placeholder="Tìm kiếm..">*@
 <table ng-app="LibraryApp" border="1" class="table table-hover table-bordered">
 
     <thead>
         <tr class="table-info">
-            <th>STT</th>
-            <th>Ảnh thành viên</th>
-            <th>Tên thành viên</th>
-            <th>Mã thành viên</th>
+            <th class="text-center">STT</th>
+            @*<th>Ảnh thành viên</th>*@
+            <th>Tên học sinh</th>
+            <th>Mã học sinh</th>
             <th>Trạng thái</th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="myTable">
         @foreach (var item in Model)
         {
 
             <tr>
-                <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
+                <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
                 @*<td>@stt</td>*@
-                <td class="book_box">
+                <!--<td class="book_box">
                     <div class="book_content">
                         <div class="book_image">
                             <div class="book_image_in">
@@ -35,7 +36,7 @@
                             </div>
                         </div>
                     </div>
-                </td>
+                </td>-->
                 <td>@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null) </td>
                 <td>@item.MaSoThanhVien</td>
                 @{

@@ -235,8 +235,10 @@
     <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
+    <Compile Include="Controllers\BaseClass\SachCommon.cs" />
     <Compile Include="Controllers\BaseClass\ThanhVienCommon.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\MarcController.cs" />
@@ -252,7 +254,7 @@
     <Compile Include="Controllers\PhieuNhapSachController.cs" />
     <Compile Include="Controllers\NhaXuatBanController.cs" />
     <Compile Include="Controllers\TrangThaiSachController.cs" />
-    <Compile Include="Controllers\ThanhVienController.cs" />
+    <Compile Include="Controllers\HocSinhController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
     <Compile Include="Controllers\TraSachController.cs" />
@@ -873,12 +875,10 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
-    <Content Include="Views\ThanhVien\Index.cshtml" />
-    <Content Include="Views\ThanhVien\_PartialUser.cshtml" />
-    <Content Include="Views\ThongKe\DanhSachMuon.cshtml" />
-    <Content Include="Views\ThongKe\DanhSachTra.cshtml" />
-    <Content Include="Views\ThanhVien\_CreateUser.cshtml" />
-    <Content Include="Views\ThanhVien\_Edit.cshtml" />
+    <Content Include="Views\HocSinh\Index.cshtml" />
+    <Content Include="Views\HocSinh\_PartialUser.cshtml" />
+    <Content Include="Views\HocSinh\_CreateUser.cshtml" />
+    <Content Include="Views\HocSinh\_Edit.cshtml" />
     <Content Include="Views\PhieuMuon\Index.cshtml" />
     <Content Include="Views\PhieuMuon\CreatePhieuMuon.cshtml" />
     <Content Include="Views\PhieuMuon\EditPhieuMuon.cshtml" />
@@ -939,7 +939,6 @@
     <Content Include="Views\ChucVu\Index.cshtml" />
     <Content Include="Views\ChucVu\Create.cshtml" />
     <Content Include="Views\ChucVu\Edit.cshtml" />
-    <Content Include="Views\ThanhVien\_NhapChucVu.cshtml" />
     <Content Include="Views\Sach\PartIndexMenber.cshtml" />
     <Content Include="Views\Sach\_PartSlAndTT.cshtml" />
     <Content Include="Views\Sach\_partEditSoLuong.cshtml" />
@@ -1047,13 +1046,22 @@
     <Content Include="Views\Shared\layout\menuleft.cshtml" />
     <Content Include="Views\MuonSach\Index.cshtml" />
     <Content Include="Views\TraSach\Index.cshtml" />
-    <Content Include="Views\ThanhVien\Details.cshtml" />
-    <Content Include="Views\ThanhVien\ChangePassword.cshtml" />
-    <Content Include="Views\ThanhVien\ImportFromExcel.cshtml" />
-    <Content Include="Views\ThanhVien\ExportWord.cshtml" />
+    <Content Include="Views\HocSinh\Details.cshtml" />
+    <Content Include="Views\HocSinh\ChangePassword.cshtml" />
+    <Content Include="Views\HocSinh\ImportFromExcel.cshtml" />
+    <Content Include="Views\HocSinh\ExportWord.cshtml" />
     <Content Include="Views\TheLoaiSach\ImportFromExcel.cshtml" />
     <Content Include="Views\Sach\ImportFromExcel.cshtml" />
     <Content Include="Views\PhieuNhapSach\ImportFromExcel.cshtml" />
+    <Content Include="Views\ThongKe\MuonSach.cshtml" />
+    <Content Include="Views\GiaoVien\Index.cshtml" />
+    <Content Include="Views\GiaoVien\_CreateUser.cshtml" />
+    <Content Include="Views\GiaoVien\_Edit.cshtml" />
+    <Content Include="Views\GiaoVien\Details.cshtml" />
+    <Content Include="Views\GiaoVien\ChangePassword.cshtml" />
+    <Content Include="Views\GiaoVien\ImportFromExcel.cshtml" />
+    <Content Include="Views\GiaoVien\ExportWord.cshtml" />
+    <Content Include="Views\GiaoVien\_PartialUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

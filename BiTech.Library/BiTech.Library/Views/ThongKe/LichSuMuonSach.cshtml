@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<PhieuMuon>
+﻿@model PagedList.IPagedList<ThongTinMuonSach>
 @using System;
 @using System.Globalization;
 @using BiTech.Library.DTO;
@@ -12,10 +12,10 @@
 <h2 class="text-center">Lịch sử mượn sách</h2>
 <h4 class="text-info">Độc giả: @ViewBag.TenThanhVien</h4>
 
-<table class="table">
+<table class="table table-hover">
     <thead>
-        <tr class="table-info">
-            <th>Stt</th>
+        <tr class="table-info text-center">
+            <th>STT</th>
             <th>Tên sách</th>
             <th>Số lượng</th>
             <th>Ngày mượn</th>
@@ -30,23 +30,27 @@
     @{ int i = ViewBag.pageSize * (ViewBag.pages - 1); int j = ViewBag.pageSize * (ViewBag.pages - 1); int dem = 1;}
     @foreach (var item in Model)
     {
-        foreach (var sach in @ViewBag.ListChaCuaSach[i])
-        {
+        //foreach (var sach in @ViewBag.ListSach[i])
+        //{
             <tbody>
                 <tr>
-                    <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
-                    <td>@sach.TenSach</td>
-                    <td>@ViewBag.SoLuongSachMuon[j] cuốn</td>
-                    <td class="text-center">@item.NgayMuon.ToString("dd-MM-yyyy")</td>
-                    <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+                    <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
+                    <td>@ViewBag.ListSach[i].TenSach</td>
+                    <td class="text-center">@item.SoSachTong</td>
+                    @*<td>@ViewBag.SoLuongSachMuon[j] cuốn</td>*@
+                    <td class="text-center">@item.NgayGioMuon</td>
+                    <td class="text-center">@item.NgayPhaiTra</td>
 
                     @{
-                        DateTime? ngayTra = item.NgayTra;
-                        string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
+                        string ngayTraThucTe = item.NgayTraThucTe != null ? item.NgayTraThucTe : "01-01-0001";
+                        //DateTime? ngayTra = item.NgayTra;
+                        //string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
                     }
-                    @if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001") == false)
+                    @*@if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001") == false)*@
+                    @if (item.NgayTraThucTe.Equals("01-01-0001") == false)
                     {
-                        <td>@ngayTraFormat</td>
+                        @*<td>@ngayTraFormat</td>*@
+                        <td>@ngayTraThucTe</td>
                         if (item.SoNgayGiaoDong != null)
                         {
                             <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
@@ -67,7 +71,8 @@
                         {
                             if (item.SoNgayGiaoDong == null)
                             {
-                                var ngayTre = DateTime.Now - item.NgayPhaiTra;
+                                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
+                                var ngayTre = DateTime.Now - ngayPhaiTra;                               
                                 <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                             }
                             else
@@ -81,23 +86,23 @@
                 </tr>
             </tbody>
                                 { dem++; j++; }
-                            }
+                            //}
                             { i++; }
                         }
 
 </table>
 
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("ThongTinDocGia", new { page = Page, id = ViewBag.Id, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    @Html.PagedListPager(Model, Page => Url.Action("ThongTinDocGia", new { page = Page, id = ViewBag.Id, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })@*, PagedListRenderOptions.ClassicPlusFirstAndLast*@)
 </p>
 @if (@ViewBag.Day != null || @ViewBag.Monthyear != null @*|| @ViewBag.Year == null*@)
 {
-    @Html.ActionLink("Trở về danh sách phiếu mượn", "DanhSachMuon",
-                          new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Trở về danh sách phiếu mượn", "MuonSach",
+                          new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-sm btn-primary" })
 }
 else
 {
-  @Html.ActionLink("Trở về thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Trở về thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-sm btn-primary" })
 }
 
 

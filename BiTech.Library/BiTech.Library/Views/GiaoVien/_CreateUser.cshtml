@@ -5,16 +5,18 @@
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 
-<div class="Title">Tạo mới tài khoản thành viên</div>
+<div class="Title">Tạo mới tài khoản giáo viên</div>
 <div ng-app="LibraryApp" class="container">
 
-    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "ThanhVien")'">
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "GiaoVien")'">
         <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
     </button>
     <h5 class="text-danger">@ViewBag.UnSuccess</h5>
     <h5 class="text-danger">@ViewBag.Duplicate</h5>
+    <h5 class="text-danger">@ViewBag.ImageUnsuccess</h5>
+    <h5 class="text-danger">@ViewBag.QRUnsuccess</h5>
 
-    @using (Html.BeginForm("_CreateUser", "ThanhVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("_CreateUser", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -100,7 +102,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
-                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "ThanhVien")'" />
+                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "GiaoVien")'" />
                 </div>
             </div>
         </div>

@@ -9,11 +9,11 @@
 <div class="Title">Cập nhật</div>
 <div ng-app="LibraryApp" class="container">
     @*<h5 class="text-danger">@ViewBag.UnSuccess</h5>*@   
-    <button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Details", "ThanhVien",new { idUser = Model.Id })'">
+    <button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Details", "HocSinh",new { idUser = Model.Id })'">
         <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
     </button>
-   
-    @using (Html.BeginForm("_Edit", "ThanhVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    <div class="text-danger">@ViewBag.UpdateFail</div>
+    @using (Html.BeginForm("_Edit", "HocSinh", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {      
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m=>m.Id)
@@ -70,7 +70,7 @@
                 </div>
             </div>*@
         <div class="form-group row">
-            <label class="col-form-label col-md-2 control-label" for="TomTat">Ảnh thành viên:</label>
+            <label class="col-form-label col-md-2 control-label" for="TomTat">Ảnh học sinh:</label>
             <div class="col-sm-6">
                 <img id="SaveImage" src="@Model.LinkAvatar" alt="Ảnh nhân viên" style="width:220px" />
                 @Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })

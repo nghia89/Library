@@ -11,11 +11,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static BiTech.Library.Helpers.Tool;
+using BiTech.Library.Controllers.BaseClass;
 
 namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
     {
+        SachCommon sachCommon;
+        public SachController()
+        {
+            sachCommon = new SachCommon();
+        }
         public ActionResult Index(KeySearchViewModel KeySearch)
         {
             #region  Lấy thông tin người dùng
@@ -88,7 +94,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-
+            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             ViewBag.Message = TempData["ThemSachMsg"] = "";
 
             if (ModelState.IsValid)
@@ -157,20 +163,29 @@ namespace BiTech.Library.Controllers
                         }
                         catch { }
                     }
-
+                    // Lưu mã QR
+                    try
+                    {
+                        Sach sach = _SachLogic.GetBookById(id);
+                        string physicalWebRootPath = Server.MapPath("/");
+                        Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
+                        if (temp != null)
+                        {
+                            sach.QRlink = temp.QRlink;
+                            sach.QRData = temp.QRData;
+                            _SachLogic.Update(sach);
+                        }
+                    }
+                    catch { }
                     if (failTG.Length > 0)
                     {
                         failTG = failTG.Substring(0, failTG.Length - 2);
                         TempData["ThemSachMsg"] = string.Format("Chú ý: Chọn tác giả {0} thất bại, vui lòng cập nhật sau.", failTG);
                     }
-
                     return RedirectToAction("Index");
                 }
                 TempData["ThemSachMsg"] = "Thêm sách thất bại";
             }
-
-
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             model.Languages = _LanguageLogic.GetAll();
 
             return View(model);
@@ -205,7 +220,7 @@ namespace BiTech.Library.Controllers
             if (sachDTO == null)
             {
                 return RedirectToAction("Index");
-            }
+            }            
             var sltts = _SlTrangThaisach.GetByFindId(id);
             ViewBag.SlTTsach = sltts;
             var idTG = _TacGiaLogic.GetAllTacGia();
@@ -365,11 +380,29 @@ namespace BiTech.Library.Controllers
                     PhiMuonSach = model.SachDTO.PhiMuonSach
                     //LinkBiaSach = model.FileImageCover.ToString()
                 };
-
                 _SachLogic.Update(sach);
+                #region Tai
+                try
+                {
+                    // cập nhật QR
+                    string physicalWebRootPath = Server.MapPath("/");
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+                    string imageName = null;
+                    if (sach.QRlink != null)
+                        imageName = sach.QRlink.Replace(@"/Upload/QRCodeUser/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
+                    Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, imageName);
+                    if (temp != null)
+                    {
+                        sach.QRlink = temp.QRlink;
+                        sach.QRData = temp.QRData;
+                        _SachLogic.Update(sach);
+                    }
+                }
+                catch { }
+                #endregion
                 return RedirectToAction("Index");
             }
-
+           
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             model.Languages = _LanguageLogic.GetAll();
             ViewBag.TLS = model.SachDTO.IdTheLoai;
@@ -584,25 +617,36 @@ namespace BiTech.Library.Controllers
                     #endregion
 
                     var idSach = _SachLogic.ThemSach(item);
-                    // Tác giả 
-                    foreach (var tg in item.listTacGia)
+                    if (idSach.Length > 0)
                     {
-                        string idTG = null;
-                        var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
-                        if (tacGia != null)
+                        // Tác giả 
+                        foreach (var tg in item.listTacGia)
                         {
-                            idTG = tacGia.Id;
+                            string idTG = null;
+                            var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
+                            if (tacGia != null)
+                            {
+                                idTG = tacGia.Id;
+                            }
+                            else
+                            {
+                                idTG = _TacGiaLogic.Insert(tg);
+                            }
+                            _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
                         }
-                        else
+                        Sach sach = _SachLogic.GetBookById(idSach);
+                        Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
+                        if (temp != null)
                         {
-                            idTG = _TacGiaLogic.Insert(tg);
+                            sach.QRlink = temp.QRlink;
+                            sach.QRData = temp.QRData;
+                            _SachLogic.Update(sach);
                         }
-                        _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
                     }
                 }
             }
             return RedirectToAction("Index", "Sach");
-           // return View();
+            // return View();
         }
     }
 }

@@ -52,16 +52,29 @@ namespace BiTech.Library.BLL.BarCode_QR
                 if ((object)data[i, 0] != null)
                     tv.Ten = (string)data[i, 0].ToString().Trim();
                 if ((object)data[i, 1] != null)
-                    tv.GioiTinh = (string)data[i, 1].ToString().Trim();
+                {
+                    tv.MaSoThanhVien = (string)data[i, 1].ToString().Trim();
+                    tv.RowExcel = firstRow + 1;
+                }
                 if ((object)data[i, 2] != null)
-                    tv.NgaySinh = (DateTime)data[i, 2];
+                    tv.LoaiTK = (string)data[i, 2].ToString().Trim();
                 if ((object)data[i, 3] != null)
-                    tv.LopHoc = (string)data[i, 3].ToString().Trim();
+                    tv.GioiTinh = (string)data[i, 3].ToString().Trim();
                 if ((object)data[i, 4] != null)
-                    tv.DiaChi = (string)data[i, 4].ToString().Trim();
+                {
+                    string day = (string)data[i, 4];
+                    DateTime ngaySinh = DateTime.ParseExact(day, "dd-MM-yyyy", null);
+                    tv.NgaySinh = ngaySinh;
+                }
                 if ((object)data[i, 5] != null)
-                    tv.SDT = (string)data[i, 5].ToString();
-
+                    tv.LopHoc = (string)data[i, 5].ToString().Trim();
+                if ((object)data[i, 6] != null)
+                    tv.NienKhoa = (string)data[i, 6].ToString().Trim();
+                if ((object)data[i, 7] != null)
+                    tv.DiaChi = (string)data[i, 7].ToString().Trim();
+                if ((object)data[i, 8] != null)
+                    tv.SDT = (string)data[i, 8].ToString();
+                tv.Password = "1";
                 list.Add(tv);
             }
             return list;
@@ -167,7 +180,7 @@ namespace BiTech.Library.BLL.BarCode_QR
         }
 
         public List<ChiTietNhapSach> ImportPhieuNhapSach(string sourceDir)
-        {         
+        {
             List<ChiTietNhapSach> listCTNS = new List<ChiTietNhapSach>();
             string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
             Workbook wb = new Workbook(sourceSavePath);
@@ -182,8 +195,8 @@ namespace BiTech.Library.BLL.BarCode_QR
 
             for (int i = 0; i < totalRows; i++)
             {
-                ChiTietNhapSach ctns = new ChiTietNhapSach();   
-              
+                ChiTietNhapSach ctns = new ChiTietNhapSach();
+
                 if ((object)data[i, 0] != null)
                     ctns.IdSach = (string)data[i, 0].ToString().Trim();
                 if ((object)data[i, 1] != null)

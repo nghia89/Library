@@ -28,5 +28,17 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.Id != id).ToList();
         }
+        #region Tai
+        public List<ThongTinMuonSach> GetTTMSByIdUser(string idUser)
+        {
+            return _DatabaseCollection.Find(x => x.idUser == idUser).ToList();
+        }
+
+        public List<ThongTinMuonSach> GetTTMSByNgayMuon(string ngayMuon)
+        {
+            return _DatabaseCollection.Find(x => x.NgayGioMuon == ngayMuon).ToList();
+        }
+        #endregion
+
     }
 }

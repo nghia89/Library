@@ -6,6 +6,7 @@ namespace BiTech.Library.Helpers
     {
         BookCovers,
         QRCodeUser,
+        QRCodeBook,
         AvatarUser,
         FileExcel,
         FileWord
@@ -27,6 +28,8 @@ namespace BiTech.Library.Helpers
                     return mainUpload + @"BookCovers\";
                 case UploadFolder.QRCodeUser:
                     return mainUpload + @"QRCodeUser\";
+                case UploadFolder.QRCodeBook:
+                    return mainUpload + @"QRCodeBook\";
                 case UploadFolder.AvatarUser:
                     return mainUpload + @"AvatarUser\";
                 case UploadFolder.FileExcel:

@@ -1,0 +1,185 @@
+﻿@model BiTech.Library.Models.UserViewModel
+@{
+    ViewBag.Title = "_CreateUser";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+
+<div class="Title">Tạo mới tài khoản học sinh</div>
+<div ng-app="LibraryApp" class="container">
+
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "HocSinh")'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+    </button>
+    <h5 class="text-danger">@ViewBag.UnSuccess</h5>
+    <h5 class="text-danger">@ViewBag.Duplicate</h5>
+    <h5 class="text-danger">@ViewBag.ImageUnsuccess</h5>
+    <h5 class="text-danger">@ViewBag.QRUnsuccess</h5>
+    
+    @using (Html.BeginForm("_CreateUser", "HocSinh", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()     
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="modal-body">
+            <div class="form-group row">
+                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(m => m.ConfirmPass, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.MaSoThanhVien, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @maxlength = "20" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(m => m.LopHoc, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm" })
+                </div>
+
+                @Html.LabelFor(m => m.NienKhoa, new { @class = "text-right col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(m => m.NienKhoa, new SelectList(Model.ListNienKhoa), "---Chọn niên khóa---", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-2 control-label" for="TomTat">Ảnh thành viên:</label>
+                <div class="col-sm-6">
+                    <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:220px" />
+                    @Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
+                    @Html.ValidationMessageFor(m => m.HinhChanDung)
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-2"></div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
+                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "HocSinh")'" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="ajax"></div>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section scripts{
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/LibraryAngularJS.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script>
+        // jQuery.validator.methods["date"] = function (value, element) { return true; }
+        // Ảnh thành viên
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#SaveImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#HinhChanDung").change(function () {
+            readURL(this);
+        });
+
+
+
+        // Ngày sinh thành viên
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+        //
+        $(function () {
+            $(".DatetimePicker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1970:-4"
+            }).datepicker("setDate", new Date("01/01/1970")).attr("readonly", "readonly");
+        });
+        //----
+        function RequestAltInsertGuiBegin() {
+            $(this).addClass('active');
+        }
+
+        function RequestAltInsertGuiSuccess(data) {
+            $(this).removeClass('active');
+
+            $("#ajax").html(data);
+
+            $("#edit-student-modal").modal();
+
+            var form = $("#edit-student-modal").closest("form");
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+        }
+    </script>
+}

@@ -32,5 +32,19 @@ namespace BiTech.Library.DTO
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
+
+        #region Tai
+        public string NgayTraThucTe { get; set; }
+        [BsonIgnore]
+        public ETinhTrangPhieuMuon TrangThai { get; set; }
+
+        [BsonIgnore]
+        public string TenTrangThai { get; set; }
+        [BsonIgnore]
+        public int SoSachTong { get; set; } = 1;
+        [BsonIgnore]
+        // Số ngày trễ hẹn trả hoặc số ngày gần trả
+        public int? SoNgayGiaoDong { get; set; }
+        #endregion
     }
 }
