@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -26,11 +27,14 @@ namespace BiTech.Library
         {
             if (Context.Request.IsAuthenticated)
             {
-                FormsIdentity ident = (FormsIdentity)Context.User.Identity;
-                var data = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>(ident.Ticket.UserData);
 
-                string[] arrRoles = data.Role.Split(new[] { '|' });
-                Context.User = new System.Security.Principal.GenericPrincipal(ident, arrRoles);
+                //string roles = (Context.User.Identity as ClaimsIdentity).FindFirst(ClaimTypes.Role).Value;
+
+                //FormsIdentity ident = (FormsIdentity)Context.User.Identity;
+                //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>(ident.Ticket.UserData);
+
+                //string[] arrRoles = data.Role.Split(new[] { '|' });
+                //Context.User = new System.Security.Principal.GenericPrincipal(ident, arrRoles);
             }
         }
     }

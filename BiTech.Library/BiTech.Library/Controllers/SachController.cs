@@ -30,8 +30,7 @@ namespace BiTech.Library.Controllers
             KeSachLogic _KeSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-
+            
             ListBooksModel model = new ListBooksModel();
 
             ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();

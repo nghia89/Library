@@ -10,6 +10,11 @@ namespace System.Web.Mvc
             Roles = string.Join(",", roles);
         }
 
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+        }
+
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             var roles = ((ClaimsIdentity)filterContext.HttpContext.User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);

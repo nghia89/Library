@@ -3,7 +3,6 @@
     Layout = null;
 }
 <div class="top">
-    
     @if (Request.IsAuthenticated)
     {
         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -31,7 +30,7 @@
                             @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                             <a href="@Url.Action("Index", "Manage", new { title = "Manage" })">
                                 <i class="fa fa-fw fa-sign-out"></i>
-                                Hello @User.Identity.GetUserName() "!"
+                                Hello @ViewBag.SSOFullName "!"
                             </a>
                         </div>
                         <div class="dropdown-menu">
