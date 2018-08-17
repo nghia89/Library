@@ -7,116 +7,54 @@
 <button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Index", "GiaoVien")'">
     <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
 </button>
-
-<div class="form-group row">
-    <div class="col-sm-6">
-        <img src="@Model.QRLink" alt="Mã QR" style="width:auto" />
-    </div>
-</div>
-
 <div class="container">
     <div class="row h5">
+        <div>
+            <img class="avatar_detail" src="@Html.Raw(Model.LinkAvatar)" />       
+        </div>       
         <div class="col-md-6">
-            <img class="avatar_detail" src="@Html.Raw(Model.LinkAvatar)" />
-        </div>
-        <div class="col-md-6">
-            <div class="col-lg-10">
-                <div class="row">
-                    <div class="col-sm">
-                        Tên User:
-                    </div>
-                    <div class="col-sm">
-                        @Model.UserName
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Mã số giáo viên:
-                    </div>
-                    <div class="col-sm">
-                       @Model.MaSoThanhVien
-                    </div>
-                   
-                    
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Họ và tên:
-                    </div>
-                    <div class="col-sm-6">
-                        @Model.Ten
-                    </div>
-                 
-                   
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Giới tính:
-                    </div>
-                    <div class="col-sm">
-                        @Model.GioiTinh
-                    </div>
-                   
-                  
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Ngày sinh:
-                    </div>
-                    <div class="col-sm">
-                        @Model.NgaySinh.ToString("dd/MM/yyyy")
-                    </div>
-                  
-                 
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Lớp học:
-                    </div>
-                    <div class="col-sm">
-                        @Model.LopHoc
-                    </div>
-                   
-                   
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Niêm khóa:
-                    </div>
-                    <div class="col-sm">
-                        @Model.NienKhoa
-                    </div>
-                 
-                   
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Địa chỉ:
-                    </div>
-                    <div class="col-sm">
-                        @Model.DiaChi
-                    </div>
-                  
-                   
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Số điện thoại:
-                    </div>
-                    <div class="col-sm">
-                        @Model.SDT
-                    </div>
-                 
-                   
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <td>Tên User:</td>
+                    <td>@Model.UserName</td>                    
+                </tr>
+                <tr>
+                    <td>Mã số giáo viên:</td>
+                    <td> @Model.MaSoThanhVien</td>
+                </tr>
+                <tr>
+                    <td>Họ và tên:</td>
+                    <td>@Model.Ten</td>
+                </tr>
+                <tr>
+                    <td>Giới tính:</td>
+                    <td>@Model.GioiTinh</td>
+                </tr>
+                <tr>
+                    <td>Ngày sinh:</td>
+                    <td>@Model.NgaySinh</td>
+                </tr>
+                <tr>
+                    <td>Lớp học:</td>
+                    <td>@Model.LopHoc</td>
+                </tr>
+                <tr>
+                    <td>Niêm khóa:</td>
+                    <td>@Model.NienKhoa</td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ:</td>
+                    <td>@Model.DiaChi</td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại:</td>
+                    <td>@Model.SDT</td>
+                </tr>             
+            </table>           
         </div>
     </div>
+    <img src="@Model.QRLink" alt="Mã QR" style="width:auto" />
 </div>
-
-
-
-
 <table class="table table-hover table-bordered">
     <thead>
         <tr class="table-info">

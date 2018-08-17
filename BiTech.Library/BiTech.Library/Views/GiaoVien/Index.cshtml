@@ -39,15 +39,16 @@
     }
 </div>
 <br />
+<div class="row">
+    <div class="col-md-12">
 
-<div id="topbar">
-    <h5>@Html.ActionLink("Thêm giáo viên", "_CreateUser", "GiaoVien", new { @class = "btn btn-sm btn-primary" })</h5>
-</div>
-<div id="topbar">
-    <h5>@Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "GiaoVien", new { @class = "btn btn-sm btn-primary" })</h5>
-</div>
-<div id="topbar">
-    <h5>@Html.ActionLink("Xuất mẫu thẻ giáo viên", "ExportWord", "GiaoVien", new { @class = "btn btn-sm btn-primary" })</h5>
+            @Html.ActionLink("Thêm giáo viên", "_CreateUser", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
+
+            @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
+
+            @Html.ActionLink("Xuất mẫu thẻ giáo viên", "ExportWord", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
+
+    </div>
 </div>
 <h5 class="text-success">@ViewBag.Success</h5>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
@@ -184,7 +185,7 @@
         @*AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);*@
         AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
         // Choice Search
-       $("#tv_tk").on("change", "#choice", function () {
+        $("#tv_tk").on("change", "#choice", function () {
             if ($(this).val() == "matv") {
                 $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');
                 //$("#noidung_ajax").value = "1";
