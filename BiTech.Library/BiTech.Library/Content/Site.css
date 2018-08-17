@@ -264,7 +264,7 @@ a:hover {
     width: calc(100% - 250px);
     float: right;
     padding: 0 10px;
-    position: relative;
+    /*position: relative;*/
     z-index: 0;
 }
 
@@ -569,7 +569,7 @@ a:hover {
 }
 
 .book_content {
-    margin-top: 0px;
+    margin: -9px;
     position: relative;
 }
 
@@ -901,4 +901,16 @@ a:hover {
         .book_box_v2 .book_image object {
             height: auto;
         }
+}
+
+/*----------css Autocomplate--------*/
+.ui-autocomplete {
+    max-height: 600px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+* html .ui-autocomplete {
+    height: 100px;
 }

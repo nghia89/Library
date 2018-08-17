@@ -60,7 +60,7 @@ namespace BiTech.Library.DTO
         /// <summary>
         /// Số trang
         /// </summary>
-        public int SoTrang { get; set; }
+        public string SoTrang { get; set; }
 
         [Required]
         /// <summary>
@@ -76,7 +76,7 @@ namespace BiTech.Library.DTO
         /// <summary>
         /// Giá tiền của sách
         /// </summary>
-        public double GiaBia { get; set; } = 0;
+        public string GiaBia { get; set; }
 
         /// <summary>
         /// Phí mượn sách nếu có

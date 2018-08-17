@@ -151,7 +151,7 @@ namespace BiTech.Library.Controllers
                         {
                             IdPhieuNhap = idPhieuNhap,
                             IdSach = ctModel.IdSach,
-                            tenTinhTrang = ctModel.tenTinhTrang,
+                            //tenTinhTrang = ctModel.tenTinhTrang,
                             SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now,
                             IdTinhtrang = ctModel.IdTinhTrang,
@@ -227,15 +227,15 @@ namespace BiTech.Library.Controllers
 
                 ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
                 ctns.Id = item.Id;
-                ctns.tenTinhTrang = item.tenTinhTrang;
-                //var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
-                //ctns.tenTinhTrang = TinhTrang.TenTT;
+                ctns.IdTinhTrang = item.IdTinhtrang;
+                var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
+                ctns.tenTinhTrang = TinhTrang.TenTT;
                 ctns.IdSach = item.IdSach;
                 var TenSach = _SachLogic.GetBookById(ctns.IdSach);
                 ctns.ten = TenSach.TenSach;
-                ctns.IdPhieuNhap = item.IdPhieuNhap;
+                //ctns.tenTinhTrang = item.IdPhieuNhap;
                 ctns.soLuong = item.SoLuong;
-                ctns.tenTinhTrang = item.tenTinhTrang;
+                //ctns.tenTinhTrang = item.tenTinhTrang;
                 lst.Add(ctns);
 
             }
@@ -267,7 +267,7 @@ namespace BiTech.Library.Controllers
                     ten = book.TenSach,
                     soLuong = soLuong,
                     IdTinhTrang = idtrangthai,
-                    tenTinhTrang = tt.TenTT,
+                    //tenTinhTrang = tt.TenTT,
                     MaKiemSoat = book.MaKiemSoat,
                     GhiChu = GhiChu
                 };

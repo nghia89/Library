@@ -8,7 +8,8 @@ namespace BiTech.Library.Helpers
         QRCodeUser,
         AvatarUser,
         FileExcel,
-        FileWord
+        FileWord,
+        FileMrc
     }
 
     public static class Tool
@@ -33,6 +34,8 @@ namespace BiTech.Library.Helpers
                     return mainUpload + @"FileExcel\";
                 case UploadFolder.FileWord:
                     return mainUpload + @"FileWord\";
+                case UploadFolder.FileMrc:
+                    return mainUpload + @"FileMrc\";
                 default:
                     return null;
             }

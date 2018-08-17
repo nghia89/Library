@@ -63,7 +63,7 @@ namespace BiTech.Library.Models
         public string NamSanXuat { get; set; }
 
         [Required]
-        public double GiaBia { get; set; }
+        public string GiaBia { get; set; }
 
         public string LinkBiaSach { get; set; }
 
@@ -83,6 +83,8 @@ namespace BiTech.Library.Models
         public string QRlink { get; set; }
 
         public string QRData { get; set; }
+
+        public string ISBN { get; set; } = "";
 
         [Required]
         public HttpPostedFileBase FileImageCover { get; set; }
@@ -105,6 +107,7 @@ namespace BiTech.Library.Models
         
         public string Ten_NgonNgu { get; set; }
 
+        public string Ten_TacGia { get; set; }
         public BookView()
         {
 
@@ -113,6 +116,11 @@ namespace BiTech.Library.Models
         public BookView(Sach sach)
         {
             SachDTO = sach;
+        }
+
+        internal BookView ToPagedList(int pageSize, int pageNumber)
+        {
+            throw new NotImplementedException();
         }
     }
 }

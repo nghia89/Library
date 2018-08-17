@@ -61,6 +61,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetAllSach();
         }
+        public List<Sach> getAll()
+        {
+            return _sachEngine.GetAll();
+        }
         public List<Sach> ListName(string keyWord)
         {
             return _sachEngine.ListName(keyWord);
@@ -74,35 +78,32 @@ namespace BiTech.Library.BLL.DBLogic
             {
                 KeySearch.ListSachIds.Add(item.IdSach);
             }
-            
+
             return _sachEngine.getPageSach(KeySearch);
         }
 
         public string ThemSach(Sach s)
         {
-            var setting = _ThongTinThuVienEngine.GetMaKiemSoatSachCount();
-            ulong max = 0;
-            if (!ulong.TryParse(setting, out max))
-            {
-                _ThongTinThuVienEngine.SetMaKiemSoatSachCount("0");
-                max = 1;
-            }
+                var setting = _ThongTinThuVienEngine.GetMaKiemSoatSachCount();
+                ulong max = 0;
+                if (!ulong.TryParse(setting, out max))
+                {
+                    _ThongTinThuVienEngine.SetMaKiemSoatSachCount("0");
+                    max = 1;
+                }
 
-            max++;
-            do
-            {
-                var ss = _sachEngine.GetByMaKiemSoat(max.ToString("0000"));
-                if (ss != null)
-                    max++;
-                else
-                    break;
-            } while (true);
-
-
-            s.MaKiemSoat = max.ToString("0000");
-            _ThongTinThuVienEngine.SetMaKiemSoatSachCount(max.ToString());
-
-            return _sachEngine.Insert(s);
+                max++;
+                do
+                {
+                    var ss = _sachEngine.GetByMaKiemSoat(max.ToString("0000"));
+                    if (ss != null)
+                        max++;
+                    else
+                        break;
+                } while (true);
+                s.MaKiemSoat = max.ToString("0000");
+                _ThongTinThuVienEngine.SetMaKiemSoatSachCount(max.ToString());
+                return _sachEngine.Insert(s);        
         }
 
         public bool XoaSach(string id)

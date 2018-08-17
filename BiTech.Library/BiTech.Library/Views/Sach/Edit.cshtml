@@ -20,7 +20,7 @@
     </div>
     <div class="col-md-9">
         <div ng-app="LibraryApp" class="clearfix">
-            @using (Html.BeginForm("Edit", "Sach", FormMethod.Post, new { role = "form" }))
+            @using (Html.BeginForm("Edit", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
             {
 
                 <input name="SachDTO.Id" id="Data-IDsach" value="@Model.SachDTO.Id" hidden />
@@ -117,7 +117,7 @@
                             <div class="input-group-append">
                                 <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
                                    data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                    <i class="fa fa-plus" style="line-height: 24px;"></i>
+                                    <i class="fa fa-plus" ></i>
                                 </a>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá Sách:</label>
+                    <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá Bìa:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
                     </div>
@@ -182,7 +182,7 @@
                 <div class="form-group row">
                     <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">lần Xuất Bản:</label>
                     <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                        @Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
                     </div>
                 </div>
                 <div class="form-group row">
@@ -196,12 +196,22 @@
                 <div class="form-group row">
                     <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa Sách:</label>
                     <div class="col-sm-6">
-                        <img id="blah" src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
+                        <img id="blah" src="@(!string.IsNullOrEmpty(Model.SachDTO.LinkBiaSach) ? Model.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")" alt="Bìa sách" style="width:220px"/>
                         @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
                         @Html.ValidationMessageFor(m => m.FileImageCover)
                     </div>
                 </div>
-
+                if (Model.SachDTO.MARC21 != null)
+                {
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 form-label" for="TomTat">Marc21:</label>
+                        <div class="col-sm-6">
+                            @Html.TextAreaFor(m => m.SachDTO.MARC21, new { @class = "form-control form-control-sm", @id = "TomTat", Style = "height:300px" })
+                            @Html.ValidationMessageFor(m => m.SachDTO.MARC21)
+                        </div>
+                    </div>
+                }
+                else { }
                 <div class="form-group row box_temp_lg">
                     <label class="col-form-label col-sm-3 form-label"></label>
                     <div class="col-sm-6">
@@ -230,7 +240,6 @@
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-
     <script src="~/Scripts/JsSoluongsach.js"></script>
     <script>
         var sltts = new SoLuongTTSach();

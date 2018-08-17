@@ -3,6 +3,7 @@ using BiTech.Library.Common;
 using BiTech.Library.DTO;
 using BiTech.Library.Models;
 using Newtonsoft.Json;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,7 @@ namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
     {
-        public ActionResult Index(KeySearchViewModel KeySearch)
+        public ActionResult Index(KeySearchViewModel KeySearch, int? page)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -33,6 +34,8 @@ namespace BiTech.Library.Controllers
 
             ListBooksModel model = new ListBooksModel();
 
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
             ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
             ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
@@ -50,7 +53,7 @@ namespace BiTech.Library.Controllers
                 model.Books.Add(book);
             }
 
-            return View(model);
+            return View(model.Books.ToPagedList(pageNumber, pageSize));
         }
 
         public PartialViewResult _PartSlAndTT()
@@ -215,6 +218,79 @@ namespace BiTech.Library.Controllers
             ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
             return View(model);
         }
+        [HttpPost]
+        public ActionResult Edit(SachUploadModel model)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            if (ModelState.IsValid)
+            {
+
+                SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                Sach sach = new Sach()
+                {
+                    Id = model.SachDTO.Id,
+                    IdTheLoai = model.SachDTO.IdTheLoai,
+                    IdKeSach = model.SachDTO.IdKeSach,
+                    IdNhaXuatBan = model.SachDTO.IdNhaXuatBan,
+                    MaKiemSoat = model.SachDTO.MaKiemSoat,
+                    SoLuongTong = model.SachDTO.SoLuongTong,
+                    SoTrang = model.SachDTO.SoTrang,
+                    IdNgonNgu = model.SachDTO.IdNgonNgu,
+                    NamXuatBan = model.SachDTO.NamXuatBan,
+                    GiaBia = model.SachDTO.GiaBia,
+                    TaiBan = model.SachDTO.TaiBan,
+                    TenSach = model.SachDTO.TenSach,
+                    TomTat = model.SachDTO.TomTat,
+                    PhiMuonSach = model.SachDTO.PhiMuonSach,
+                    XuatXu = model.SachDTO.XuatXu,
+                    NguoiBienDich = model.SachDTO.NguoiBienDich,
+                    DDC=model.SachDTO.DDC,
+                    ISBN=model.SachDTO.ISBN
+
+                    //LinkBiaSach = model.FileImageCover.ToString()
+                };
+                if (model.FileImageCover != null)
+                {
+                    try
+                    {
+                        string physicalWebRootPath = Server.MapPath("~/");
+                        string uploadFolder = GetUploadFolder(Helpers.UploadFolder.BookCovers) + model.SachDTO.Id;
+
+                        var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, Guid.NewGuid()
+                            + Path.GetExtension(model.FileImageCover.FileName));
+                        string location = Path.GetDirectoryName(uploadFileName);
+
+                        if (!Directory.Exists(location))
+                        {
+                            Directory.CreateDirectory(location);
+                        }
+
+                        using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                        {
+                            model.FileImageCover.InputStream.CopyTo(fileStream);
+
+                            //var book = _SachLogic.GetById(model.SachDTO.Id);
+                            sach.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+
+                        }
+                    }
+                    catch { }
+                }
+                _SachLogic.Update(sach);
+                return RedirectToAction("Index");
+            }
+
+            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            model.Languages = _LanguageLogic.GetAll();
+            ViewBag.TLS = model.SachDTO.IdTheLoai;
+            ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
+            return View(model);
+        }
         public JsonResult GetByFindId(string Id)
         {
             #region  Lấy thông tin người dùng
@@ -263,7 +339,7 @@ namespace BiTech.Library.Controllers
             SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var id = _SlTrangThaisach.GetById(vm.Id);
             int numberSl = id.SoLuong - vm.SoLuong;
-            var IdSlTT = _SlTrangThaisach.GetByIdTT(txtIdttCategory,vm.IdSach);
+            var IdSlTT = _SlTrangThaisach.GetByIdTT(txtIdttCategory, vm.IdSach);
             if (IdSlTT != null)
             {
                 SoLuongSachTrangThai md = new SoLuongSachTrangThai();
@@ -334,47 +410,7 @@ namespace BiTech.Library.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
-        public ActionResult Edit(SachUploadModel model)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
 
-            if (ModelState.IsValid)
-            {
-                SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                Sach sach = new Sach()
-                {
-                    Id = model.SachDTO.Id,
-                    IdTheLoai = model.SachDTO.IdTheLoai,
-                    IdKeSach = model.SachDTO.IdKeSach,
-                    IdNhaXuatBan = model.SachDTO.IdNhaXuatBan,
-                    MaKiemSoat = model.SachDTO.MaKiemSoat,
-                    SoLuongTong = model.SachDTO.SoLuongTong,
-                    SoTrang = model.SachDTO.SoTrang,
-                    IdNgonNgu = model.SachDTO.IdNgonNgu,
-                    NamXuatBan = model.SachDTO.NamXuatBan,
-                    GiaBia = model.SachDTO.GiaBia,
-                    LinkBiaSach = model.SachDTO.LinkBiaSach,
-                    TenSach = model.SachDTO.TenSach,
-                    TomTat = model.SachDTO.TomTat,
-                    PhiMuonSach = model.SachDTO.PhiMuonSach
-                    //LinkBiaSach = model.FileImageCover.ToString()
-                };
-
-                _SachLogic.Update(sach);
-                return RedirectToAction("Index");
-            }
-
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            model.Languages = _LanguageLogic.GetAll();
-            ViewBag.TLS = model.SachDTO.IdTheLoai;
-            ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
-            return View(model);
-        }
 
         [HttpPost]
         public ActionResult Delete(string id)

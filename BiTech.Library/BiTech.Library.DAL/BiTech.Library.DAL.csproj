@@ -104,6 +104,7 @@
     <Compile Include="MongoMirgrations\ChiTietPhieuTra_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChucVu_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\NhaXuatBan_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuMuon_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\KeSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\Language_Mirgrations\M000\Init.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="MongoMirgrations\PhieuTra_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuNhapSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M000\Init.cs" />
-    <Compile Include="MongoMirgrations\NhaXuatBan_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M001\V0_0_2_AddUserName.cs" />
     <Compile Include="MongoMirgrations\Sach_Mirgrations\M002\V0_0_2_thembo_truong.cs" />
     <Compile Include="MongoMirgrations\SoLuongSachTrangThai\M000\Init.cs" />

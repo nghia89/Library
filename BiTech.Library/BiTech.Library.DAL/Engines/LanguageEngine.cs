@@ -27,5 +27,15 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => true).ToList();
         }
+        public List<Language> GetByFindName(string Name)
+        {
+            return _DatabaseCollection.AsQueryable().Where(x => x.Ten == Name).ToList();
+
+        }
+        public Language GetByNameId(string Name)
+        {
+            return _DatabaseCollection.AsQueryable().Where(x => x.Ten == Name).FirstOrDefault();
+
+        }
     }
 }

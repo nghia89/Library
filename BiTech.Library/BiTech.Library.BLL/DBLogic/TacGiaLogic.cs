@@ -12,11 +12,13 @@ namespace BiTech.Library.BLL.DBLogic
     public class TacGiaLogic
     {
         TacGiaEngine _tacGiaEngine;
+        SachTacGiaEngine _sachTacGiaEngine;
         private string TableName = "TacGia";
         public TacGiaLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString);
             _tacGiaEngine = new TacGiaEngine(database, databaseName, TableName);
+            _sachTacGiaEngine = new SachTacGiaEngine(database, databaseName, TableName);
         }
         public List<TacGia> GetAllTacGia()
         {
@@ -27,6 +29,14 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _tacGiaEngine.FindTacGia(q);
         }
+        public List<TacGia> FindNameTacGia(string q)
+        {
+            return _tacGiaEngine.GetByFindName(q);
+        }
+        public TacGia FindNameId(string q)
+        {
+            return _tacGiaEngine.GetByNameId(q);
+        }
 
         public string Insert(TacGia tacgia)
         {
@@ -35,11 +45,16 @@ namespace BiTech.Library.BLL.DBLogic
 
         public TacGia GetById(string id)
         {
+          
             return _tacGiaEngine.GetById(id);
         }
-
-        public bool Update(TacGia tacgia)
+        public TacGia GetByIdTG(string id)
         {
+            //var IdSachTG = _sachTacGiaEngine.GetAllBookIdBySachId(id);
+            return _tacGiaEngine.GetById(id);
+        }
+        public bool Update(TacGia tacgia)
+        {   
             return _tacGiaEngine.Update(tacgia);
         }
 

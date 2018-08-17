@@ -42,5 +42,13 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _LanguageEngine.Remove(id);
         }
+        public List<Language> FindNamelanguge(string q)
+        {
+            return _LanguageEngine.GetByFindName(q);
+        }
+        public Language FindNameId(string q)
+        {
+            return _LanguageEngine.GetByNameId(q);
+        }
     }
 }

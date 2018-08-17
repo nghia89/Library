@@ -23,7 +23,16 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => true).ToList();
         }
+        public List<TacGia> GetByFindName(string Name)
+        {
+            return _DatabaseCollection.AsQueryable().Where(x=>x.TenTacGia==Name).ToList();
 
+        }
+        public TacGia GetByNameId(string Name)
+        {
+            return _DatabaseCollection.AsQueryable().Where(x => x.TenTacGia == Name).FirstOrDefault();
+
+        }
         public List<TacGia> FindTacGia(string q)
         {
             return _DatabaseCollection.AsQueryable().Where(delegate (TacGia c)
