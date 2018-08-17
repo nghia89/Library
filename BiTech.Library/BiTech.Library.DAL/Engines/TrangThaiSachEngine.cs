@@ -29,6 +29,17 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x=>x.Id !=id).ToList();
         }
 
+        #region Phong
+        public List<TrangThaiSach> GetAllTT_True()
+        {
+            return _DatabaseCollection.Find(x => x.TrangThai == true).ToList();
+        }
+        public List<TrangThaiSach> GetAllTT_False()
+        {
+            return _DatabaseCollection.Find(x => x.TrangThai == false).ToList();
+        }
+        #endregion
+
         #region Tai
         public TrangThaiSach GetBySTT(string idTinhtrang)
         {

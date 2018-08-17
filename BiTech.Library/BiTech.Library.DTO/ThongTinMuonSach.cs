@@ -25,6 +25,7 @@ namespace BiTech.Library.DTO
         public string idSach { get; set; }
         public string NgayGioMuon { get; set; }
         public string NgayPhaiTra { get; set; }
+        public string NgayTraThucTe { get; set; }
         public bool DaTra { get; set; }
         public string TrangThaiTra { get; set; }
 

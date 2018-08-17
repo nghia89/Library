@@ -10,27 +10,26 @@
 
 <div class="Title">Danh Sách</div>
 
-<div class="container clearfix">
+<div class="clearfix">
 
 
     <div class="clearfix pb-2 pl-2">
-        <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm">Thêm Mới</a>      
+        <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm">Thêm Mới</a>
+        @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
     </div>
-    <div id="topbar">
-        <h5>@Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary" })</h5>
-    </div>
+
     <form action="/Sach/Index" class="clearfix">
 
-
-
-        <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2">
+        <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
             <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm" placeholder="Search for...">
             <div class="input-group-append">
-                <button class="btn btn-primary btn-sm" id="btnSearch" type="submit">Go!</button>
+                <button class="btn btn-primary btn-sm" id="btnSearch" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
             </div>
         </div>
 
-        <div class="col-md-3 col-sm-12  form-group pull-right px-2">
+        <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
             <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
                 <option value="">--Thể Loại Sách--</option>
                 @foreach (var tls in TLS)
@@ -39,7 +38,7 @@
                 }
             </select>
         </div>
-        <div class="col-md-3 col-sm-12  form-group pull-right px-2">
+        <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
             <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
                 <option value="">--Tác Giả--</option>
                 @foreach (var tg in TG)
@@ -48,7 +47,7 @@
                 }
             </select>
         </div>
-        <div class="col-md-3 col-sm-12  form-group pull-right px-2">
+        <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
             <select class="form-control form-control-sm" name="TenNXB" id="">
                 <option value="">--Nhà Xuất Bản--</option>
                 @foreach (var nxb in NXB)
@@ -63,130 +62,51 @@
     <div class="book_content clearfix">
 
         @foreach (var item in Model.Books)
-            {
-            @*<div class="book_box clearfix">
-                            <div class="book_Title clearfix">
-                                <div class="book_number">@i</div>
-                        <div class="book_control">
-
-                        </div>
+        {
+            <div Class="book_box_v3 clearfix">
+                <div class="container-box-window clearfix">
+                    <div class="top">
+                        <div class="title">@item.SachDTO.TenSach</div>
                     </div>
-                    <div class="book_content">
+
+                    <div class="content-box-window clearfix">
                         <div class="book_image">
-                            <div class="book_image_in">
-                                <div class="book_number">@i</div>
-                                <object data='@Html.Raw(!string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) ? item.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")' type="image/png">
-                                    <img src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" />
-                                </object>
-                                <a href="@Url.Action(" Edit", new { id=item.SachDTO.Id })">Xem</a>
-                            </div>
+                            <img src="@item.SachDTO.LinkBiaSach"
+                                 onerror="this.src = '/Assets/Images/DefaultBookCover.jpg';">
                         </div>
-                        <div class="book_information">
-                            <div class="book_cell_information">
+                        <div class="book_cell_information clearfix width_left">
+                            <div class="book_information clearfix">
                                 <div class="book_title_information">Mã kiểm soát:</div>
                                 <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
                             </div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">ISBN:</div>
-                                <div class="book_content_information">@item.SachDTO.ISBN</div>
+                            <div class="book_information clearfix">
+                                <div class="book_title_information">Tác giả:</div>
+                                <div class="book_content_information">ABC</div>
                             </div>
-                            <div class="line-gl"></div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">Tên:</div>
-                                <div class="book_content_information">@item.SachDTO.TenSach</div>
-                            </div>
-                            <div class="line-xl"></div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">Thể loại:</div>
-                                <div class="book_content_information">@item.Ten_TheLoai</div>
-                            </div>
-                            <div class="line-gl"></div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">Kệ Sách:</div>
-                                <div class="book_content_information">@item.Ten_KeSach</div>
-                            </div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">Ngôn Ngữ:</div>
-                                <div class="book_content_information">@item.Ten_NgonNgu</div>
-                            </div>
-                            <div class="line-gl"></div>
-                            <div class="line-xl"></div>
-                            <div class="book_cell_information">
+                            <div class="book_information clearfix">
                                 <div class="book_title_information">Nhà Xuất Bản:</div>
-                                <div class="book_content_information">@item.Ten_NhaXuatBan</div>
-                            </div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">Năm Xuất Bản:</div>
                                 <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
                             </div>
-                            <div class="line-gl"></div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">SL Tổng:</div>
+                            
+                        </div>
+                        <div class="book_cell_information clearfix width_right">
+                            <div class="book_information clearfix">
+                                <div class="book_title_information">Tổng số sách:</div>
                                 <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
                             </div>
-                            <div class="line-xl"></div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">SL Còn lại:</div>
-                                <div class="book_content_information">@item.SachDTO.SoLuongConLai</div>
+                            <div class="book_information clearfix">
+                                <div class="book_title_information">Còn lại:</div>
+                                <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
                             </div>
-                            <div class="line-gl"></div>
-                            <div class="book_cell_information">
-                                <div class="book_title_information">Giá Sách:</div>
-                                <div class="book_content_information">@item.SachDTO.GiaSach</div>
-                            </div>
-                            <div class="book_cell_information box_temp">
-                                <div class="book_title_information"></div>
-                                <div class="book_content_information"></div>
-                            </div>
-                            <div class="line-gl"></div>
-                            <div class="line-xl"></div>
-                            <div class="book_cell_information tomtac">
-                                <div class="book_title_information">Tóm Tắt:</div>
-                                <div class="book_content_information">@item.SachDTO.TomTat</div>
-                            </div>
-                            <div class="line-xl"></div>
-                            <div class="line-gl"></div>
+                            <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })" 
+                               class="btn btn-primary btn-sm" 
+                               style="width: 100%; margin-top: 30px; font-size: 15px">Xem</a>
                         </div>
-                    </div>
-                </div>*@
-
-            <div Class="book_box_v2 clearfix">
-                <div class="title">@item.SachDTO.TenSach</div>
-                <div class="book_image">
-                    <object data='@Html.Raw(!string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) ? item.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")' type="image/png">
-                        <img src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" />
-                    </object>
-                    <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })">Xem</a>
-                </div>
-                <div class="book_cell_information">
-                    <div class="book_information">
-                        <div class="book_title_information">Mã kiểm soát:</div>
-                        <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Tác giả:</div>
-                        <div class="book_content_information">ABC</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Nhà Xuất Bản:</div>
-                        <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Tổng số sách:</div>
-                        <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Còn lại:</div>
-                        <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
                     </div>
                 </div>
             </div>
-
             { i++; }
         }
-    </div>
-    <div class="clearfix pb-2 pl-2">
-        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">Thêm Mới</a>
     </div>
 
 </div>

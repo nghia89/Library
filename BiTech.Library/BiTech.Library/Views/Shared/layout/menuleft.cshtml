@@ -28,7 +28,6 @@
     string[] List_Controller_TabNhapXuatKho = new string[7];
     List_Controller_TabNhapXuatKho[0] = "PhieuNhapSach";
     List_Controller_TabNhapXuatKho[1] = "PhieuXuatSach";
-    List_Controller_TabNhapXuatKho[2] = "LyDoXuat";
 
     string[] List_Controller_TabThongke = new string[7];
     List_Controller_TabThongke[0] = "Statistic";
@@ -124,7 +123,7 @@
                                 </a>
                             </li>
                             <li class="@((@controller == "NgonNgu" ) ? "active" : "")">
-                                <a href="@Url.Action("Index","NgonNgu")" title="Tác giả">
+                                <a href="@Url.Action("Index","NgonNgu")" title="Ngôn ngữ">
                                     Ngôn ngữ
                                 </a>
                             </li>
@@ -181,11 +180,6 @@
                             <li class="@((@controller == "PhieuXuatSach") ? "active" : "")">
                                 <a href="@Url.Action("Index","PhieuXuatSach")" title="Xuất sách">
                                     Xuất sách
-                                </a>
-                            </li>
-                            <li class="@((@controller == "LyDoXuat") ? "active" : "")">
-                                <a href="@Url.Action("Index","LyDoXuat")" title="Lý do xuất">
-                                    Lý do xuất
                                 </a>
                             </li>
                         </ul>

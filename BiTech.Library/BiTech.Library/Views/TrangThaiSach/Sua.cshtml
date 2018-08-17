@@ -12,7 +12,7 @@
     {
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="tensach">Trạng Thái:</label>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                 @Html.TextBoxFor(m => m.TenTT, new { @class = "form-control form-control-sm", @id = "tentt" })
                 @Html.ValidationMessageFor(m => m.TenTT, "", new { @class = "text-danger" })
             </div>
@@ -20,7 +20,7 @@
 
         <div class="form-group row tinhtrangsach">
             <label class="col-form-label col-sm-2" for="tensach">Loại tình trạng:</label>
-            <div class="col-sm-9 mt-2">
+            <div class="col-sm-10 mt-2">
                 <div class="custom-control custom-checkbox">
                     @Html.CheckBoxFor(m => m.TrangThai, new { @Class = "custom-control-input"})
                     <label class="custom-control-label" for="TrangThai">Cho phép mượn sách</label>
@@ -30,7 +30,7 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2"></label>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                 <input type="submit" class="btn btn-primary btn-sm" name="btnSuaTheLoai" value="Sửa" />
                 <input type="button" value="Xóa" class="btn btn-danger btn-sm" onclick="XoaTTS('@Model.Id','@Model.TenTT')" />
                 <input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />

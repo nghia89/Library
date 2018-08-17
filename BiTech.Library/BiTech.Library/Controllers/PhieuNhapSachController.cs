@@ -44,7 +44,8 @@ namespace BiTech.Library.Controllers
                 lstpns.Add(pns);
             }
 
-
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(lstpns.OrderByDescending(x => x.NgayNhap).ToPagedList(PageNumber, PageSize));
         }
 

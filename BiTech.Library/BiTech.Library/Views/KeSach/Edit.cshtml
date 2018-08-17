@@ -16,7 +16,7 @@
         
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="tensach">Tên Kệ:</label>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                 @Html.TextBoxFor(model => model.TenKe, new { @class = "form-control form-control-sm", @id = "tenke" })
                 @Html.ValidationMessageFor(model => model.TenKe, "", new { @class = "text-danger" })
             </div>
@@ -25,7 +25,7 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="tensach">Vị Trí:</label>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                 @Html.TextBoxFor(model => model.ViTri, new { @class = "form-control form-control-sm", @id = "vitri" })
                 @Html.ValidationMessageFor(model => model.ViTri, "", new { @class = "text-danger" })
             </div>
@@ -33,7 +33,7 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="tensach">Thông tin:</label>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                 @Html.TextBoxFor(model => model.GhiChu, new { @class = "form-control form-control-sm", @id = "ghichu" })
                 @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
             </div>
@@ -41,7 +41,7 @@
 
         <div class="form-group row">
             <label class="col-form-label col-sm-2"></label>
-            <div class="col-sm-9">
+            <div class="col-sm-10">
                 <input type="submit" value="Cập nhật" class="btn btn-primary btn-sm" />
                 <input type="button" class="btn btn-danger btn-sm" value="Xóa" onclick="XoaKS('@Model.Id','@Model.TenKe')" />
                 <input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />

@@ -5,69 +5,107 @@
 }
 
 <div class="Title">Tạo Phiếu Nhập Sách</div>
-<div ng-app="LibraryApp" class="container clearfix">
+<div ng-app="LibraryApp" class="clearfix">
+
     @using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
-        <div class="form-group col-md-12">
-            <div class="col-md-10">
-                <div ng-cloak ng-controller="ImportBookCtrlr" class="container" style="max-width:1000px;">
-                    <div class="container">
+        <div class="form-group">
+            <div class="">
+                <div ng-cloak ng-controller="ImportBookCtrlr" class="">
+                    <div class="">
                         @*<div class="form-group">
                                 @Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })
                                 <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
 
                             </div>*@
 
-
-                        <div class="form-group row">
-                            @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                <input id="idSach" name="idSach" placeholder="Nhập mã sách" ng-model="maKS" class="form-control">
+                        <div class="container-box-window clearfix">
+                            <div class="top">
+                                <span class="">Thông tin phiếu nhập</span>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control" type="number">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            @Html.Label("Trạng thái", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn Tình Trạng--", new { ng_model = "idTrangThai", @class = "form-control" })
-                                @*<input id="tenTinhTrang" placeholder="Tên Tình Trạng" ng-model="tenTinhTrang" class="form-control" type="text">*@
-                            </div>
-                        </div>
-        
-                        <div class="form-group row">
-                            @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
-                            <label class="col-md-2 control-label" >Ghi chú sách</label>
-                            <div class="col-md-10">
-                                <textarea placeholder="Ghi chú" ng-model="GhiChu" class="form-control"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="button" ng-click="addItem()" class="btn btn-sm btn-primary" value="Thêm">
-                        </div>
-                        <hr />
-                        <div class="container">
-                            <div class="Title" style="margin-left:110px">Danh sách sách nhập</div>
-                            <div class="form-group">
-                                <div ng-repeat="s in list" style="margin:20px" id="lstItem">
-                                    {{s.MaKiemSoat}} - {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Ghi Chú:{{s.GhiChu}}
-                                    <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button><hr />
+                            <div class="content-box-window">
+                                <div class="form-group row">
+                                    @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        <input id="idSach" name="idSach"  onkeydown="if (event.keyCode == 13) { return false; }" placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
+                                    </div>
                                 </div>
 
+                                <div class="form-group row">
+                                    @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number">
+                                    </div>
+                                </div>
 
-                                <div ng-repeat="s in list">
-                                    <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
+                                <div class="form-group row">
+                                    @Html.Label("Trạng thái", new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn Tình Trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
+                                        @*<input id="tenTinhTrang" placeholder="Tên Tình Trạng" ng-model="tenTinhTrang" class="form-control" type="text">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
+                                    <label class="col-md-2 control-label">Ghi chú sách</label>
+                                    <div class="col-md-10">
+                                        <textarea placeholder="Ghi chú" ng-model="GhiChu" class="form-control form-control-sm"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-2 control-label"></label>
+                                    <div class="col-md-10">
+                                        <input type="button" ng-click="addItem()" class="btn btn-sm btn-primary" value="Thêm">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <p class="w3-text-red">{{errortext}}</p>
+
+                        <br/>
+
+                        <div class="container-box-window clearfix">
+                            <div class="top">
+                                <span class="">Danh sách sách nhập</span>
+                            </div>
+                            <div class="content-box-window">
+                                <div class="">
+                                    <div class="form-group row">
+                                        <label class="col-md-2 control-label"></label>
+                                        <div class="col-md-10">
+                                            <div ng-repeat="s in list" id="lstItem">
+                                                {{s.MaKiemSoat}} - {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Ghi Chú:{{s.GhiChu}}
+                                                <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button><hr />
+                                            </div>
+
+                                            <div ng-repeat="s in list">
+                                                <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="w3-text-red">{{errortext}}</p>
+
+                                <div class="">
+                                    <div class="form-group row">
+                                        <label class="col-md-2 control-label">Ghi chú phiếu nhập sách</label>
+                                        <div class="col-md-10">
+                                            <textarea name="GhiChu" placeholder="Ghi chú" ng-model="GhiChu" class="form-control form-control-sm"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
+                                        <input type="button" onclick="goBack()" class="btn btn-sm btn-default" value="Trở lại" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
                     @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
@@ -76,23 +114,10 @@
                                  new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauxSach as s.TenSach for s in list" })
                         </div>*@
                 </div>
-                <div class="container">
 
-                    <div class="form-group row">
-                        <label class="col-md-2 control-label">Ghi chú phiếu nhập sách</label>
-                        <div class="col-md-10">
-                            <textarea name="GhiChu" placeholder="Ghi chú" ng-model="GhiChu" class="form-control"></textarea>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="form-group col-md-12">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
-                <input type="button" onclick="goBack()" class="btn btn-sm btn-default" value="Trở lại" />
-            </div>
-        </div>
+
 
     }
 </div>

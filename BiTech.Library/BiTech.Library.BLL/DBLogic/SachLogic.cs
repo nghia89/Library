@@ -21,6 +21,7 @@ namespace BiTech.Library.BLL.DBLogic
             _sachEngine = new SachEngine(database, databaseName, DBTableNames.Sach_Table);
             _ThongTinThuVienEngine = new ThongTinThuVienEngine(database, databaseName, DBTableNames.ThongTinThuVien_Table);
             _SachTacGiaEngine = new SachTacGiaEngine(database, databaseName, DBTableNames.Sach_TacGia_Table);
+
         }
 
         #region Vinh
@@ -115,5 +116,6 @@ namespace BiTech.Library.BLL.DBLogic
             return _sachEngine.GetByMaKiemSoat(maKS);
         }
         #endregion
+
     }
 }

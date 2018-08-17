@@ -12,6 +12,7 @@
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="table-info">
+                    <th width="50" align="right">STT</th>
                     <th>Tên Nhà Xuất Bản</th>
                     <th>Thông tin</th>
                     <th>
@@ -19,10 +20,12 @@
                     </th>
                 </tr>
             </thead>
+            @{int i = 1;}
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
                         <td>@item.Ten</td>
                         <td>@item.GhiChu</td>
                         <td>
@@ -37,6 +40,7 @@
 
                         </td>
                     </tr>
+                    { i++; }
                 }
             </tbody>
         </table>

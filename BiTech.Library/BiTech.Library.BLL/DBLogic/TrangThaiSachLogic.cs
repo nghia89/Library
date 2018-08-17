@@ -30,6 +30,14 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _TrangThaiSachEngine.GetAllTT(id);
         }
+        public List<TrangThaiSach> GetAllTT_True()
+        {
+            return _TrangThaiSachEngine.GetAllTT_True();
+        }
+        public List<TrangThaiSach> GetAllTT_False()
+        {
+            return _TrangThaiSachEngine.GetAllTT_False();
+        }
         /// <summary>
         /// Insert a TinhTrangSach object
         /// </summary>
