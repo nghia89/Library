@@ -1,4 +1,7 @@
-﻿@model BiTech.Library.Models.ListBooksModel
+﻿@model IPagedList<BiTech.Library.Models.BookView>
+    @using PagedList.Mvc;
+    @using PagedList;
+@*@model BiTech.Library.Models.ListBooksModel*@
 @{
     ViewBag.Title = "Index";
     var listSach = ViewBag.ListSach;
@@ -10,12 +13,29 @@
 
 <div class="Title">Danh Sách</div>
 
-<div class="clearfix">
-
-
+<div class="container clearfix">
+    <h4 class="alert-danger">@TempData["alert"]</h4>
+    <div class="clearfix pb-2 pl-2 row">
     <div class="clearfix pb-2 pl-2">
         <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm">Thêm Mới</a>
         @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
+    </div>
+
+        <div class="col-md-1 ">
+            <form action="/Marc/ImportMarc" method="post" role="form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="file" name="file" id="exampleFormControlFile1" onchange="this.form.submit()" style="display: block;opacity: 0;width: 93px;" title="Import Marc21">
+                    <span class="btn btn-primary" style="margin-top: -53px;margin-left: 0px;width: 82px;height: 32px;">
+                        <i class="fa fa-file-excel-o"></i>
+                    </span>
+                </div>
+
+            </form>                     
+               
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-default"  onclick="window.location.href='/ExportMarc/exportMarc'" type="button"><i class="fa fa-forward"></i></button>
+        </div>
     </div>
 
     <form action="/Sach/Index" class="clearfix">
@@ -61,7 +81,7 @@
 
     <div class="book_content clearfix">
 
-        @foreach (var item in Model.Books)
+        @foreach (var item in Model)
         {
             <div Class="book_box_v3 clearfix">
                 <div class="container-box-window clearfix">
@@ -87,7 +107,7 @@
                                 <div class="book_title_information">Nhà Xuất Bản:</div>
                                 <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
                             </div>
-                            
+
                         </div>
                         <div class="book_cell_information clearfix width_right">
                             <div class="book_information clearfix">
@@ -98,8 +118,8 @@
                                 <div class="book_title_information">Còn lại:</div>
                                 <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
                             </div>
-                            <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })" 
-                               class="btn btn-primary btn-sm" 
+                            <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })"
+                               class="btn btn-primary btn-sm"
                                style="width: 100%; margin-top: 30px; font-size: 15px">Xem</a>
                         </div>
                     </div>
@@ -108,11 +128,17 @@
             { i++; }
         }
     </div>
+    <div class="clearfix"></div>
+    <br />
+    Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "customer_area" }))
 
 </div>
 @*<button value="Xoa" onclick="XoaCauHoi()" />*@
 <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+
 @section scripts{
+<script src="~/Scripts/AutocompleteSach.js"></script>
     <script>
         function XoaCauHoi() {
             swal({
@@ -126,13 +152,13 @@
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
-            function (isConfirm) {
-                if (isConfirm) {
-                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
-                } else {
-                    swal("Cancelled", "Your imaginary file is safe :)", "error");
-                }
-            });
+                function (isConfirm) {
+                    if (isConfirm) {
+                        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    } else {
+                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    }
+                });
         }
     </script>
 }

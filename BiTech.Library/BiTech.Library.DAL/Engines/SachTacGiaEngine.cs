@@ -21,5 +21,9 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(m => m.IdTacGia == id).ToList();
         }
+        public SachTacGia GetAllBookIdBySachId(string id)
+        {
+            return _DatabaseCollection.Find(x => x.IdSach == id).FirstOrDefault();
+        }
     }
 }

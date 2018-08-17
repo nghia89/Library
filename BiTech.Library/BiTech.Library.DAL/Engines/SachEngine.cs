@@ -63,6 +63,10 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x=>x.IsDeleted==false).ToList();
         }
+        public List<Sach> GetAll()
+        {
+            return _DatabaseCollection.Find(x =>true).ToList();
+        }
         public List<Sach> getPageSach(KeySearchViewModel KeySearch)
         {
 

@@ -12,7 +12,8 @@ namespace BiTech.Library
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/unobtrusive-ajax.min.js*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -29,7 +30,8 @@ namespace BiTech.Library
                       "~/Scripts/jquery.session.js"
                       ));
             bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/PagedList.css"));
         }
     }
 }

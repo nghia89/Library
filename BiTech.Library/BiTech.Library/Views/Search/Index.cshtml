@@ -1,0 +1,118 @@
+﻿@model PagedList.IPagedList<BiTech.Library.Models.BookView>
+    @using PagedList.Mvc;
+
+@*@model BiTech.Library.Models.ListBooksModel*@
+
+@{
+    ViewBag.Title = "Index";
+    var listSach = ViewBag.ListSach;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
+    var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
+    var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
+}
+
+<div class="Title">Danh Sách</div>
+
+<div class="container clearfix">
+
+    <form action="/Search/Index" class="clearfix">
+
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group" style="padding-bottom:20px">
+                    <input class="form-control border-secondary py-2" type="text" id="txtKeyword" name="Keyword" placeholder="Nhập tên sách bạn muốn tiềm kiếm.!">
+                    <div class="input-group-append">
+                        <button class="btn btn-danger" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="col-md-3 col-sm-12  form-group pull-left px-2" style="margin:-7px;padding-bottom:20px">
+            <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
+                <option value="">--Thể Loại Sách--</option>
+                @foreach (var tls in TLS)
+                {
+                    <option value="@tls.Id">@tls.TenTheLoai</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3 col-sm-12  form-group pull-left px-2" style="margin:-7px;padding-bottom:20px">
+            <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
+                <option value="">--Tác Giả--</option>
+                @foreach (var tg in TG)
+                {
+                    <option value="@tg.Id">@tg.TenTacGia</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3 col-sm-12  form-group pull-left px-2" style="margin:-7px;padding-bottom:20px">
+            <select class="form-control form-control-sm" name="TenNXB" id="">
+                <option value="">--Nhà Xuất Bản--</option>
+                @foreach (var nxb in NXB)
+                {
+                    <option value="@nxb.Id">@nxb.Ten</option>
+                }
+            </select>
+        </div>
+    </form>
+    @{int i = 1;}
+
+    <div class="book_content clearfix">
+
+        @foreach (var item in Model)
+        {
+
+
+            <div Class="book_box_v2 clearfix">
+                <div class="title">@item.SachDTO.TenSach</div>
+                <div class="book_image">
+                    <object data='@Html.Raw(!string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) ? item.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")' type="image/png">
+                        <img src="@item.SachDTO.LinkBiaSach" alt="Bìa sách" />
+                    </object>
+                    <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })">Xem</a>
+                </div>
+                <div class="book_cell_information">
+                    <div class="book_information">
+                        <div class="book_title_information">Mã kiễm soát:</div>
+                        <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
+                    </div>
+                    <div class="book_information">
+                        <div class="book_title_information">Tác giả:</div>
+                        <div class="book_content_information">@item.Ten_TacGia</div>
+                    </div>
+                    <div class="book_information">
+                        <div class="book_title_information">Giá sách:</div>
+                        <div class="book_content_information">@item.SachDTO.GiaBia</div>
+                    </div>
+                    <div class="book_information">
+                        <div class="book_title_information">Năm Xuất Bản:</div>
+                        <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
+                    </div>
+                    <div class="book_information">
+                        <div class="book_title_information"> Số trang:</div>
+                        <div class="book_content_information">@item.SachDTO.SoTrang</div>
+                    </div>
+                    <div class="book_information">
+                        <div class="book_title_information">Phí mượn sách:</div>
+                        <div class="book_content_information">@item.SachDTO.PhiMuonSach</div>
+                    </div>
+                </div>
+            </div>
+
+            { i++; }
+        }
+        <div class="clearfix"></div>
+        <br />
+        Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "customer_area" }))
+    </div>
+
+</div>
+@section Scripts{
+    <script src="~/Scripts/AutocompleteSach.js"></script>
+}
