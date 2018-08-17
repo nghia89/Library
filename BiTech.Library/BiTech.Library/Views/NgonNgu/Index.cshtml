@@ -12,25 +12,29 @@
 <table class="table table-hover table-bordered" border="1">
     <thead>
         <tr class="table-info">
+            <th width="50" align="right">STT</th>
             <th>Tên</th>
             <th>Tên ngắn</th>
             <th></th>
         </tr>
     </thead>
+    @{int i = 1;}
     <tbody>
         @foreach (var item in Model)
-            {
+        {
             <tr>
+                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
                 <td>@item.Ten</td>
                 <td>@item.TenNgan</td>
                 <td><a class="color-white btn btn-outline-primary btn-sm" href="@Url.Action("Edit","NgonNgu", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
             </tr>
+            { i++; }
         }
     </tbody>
 </table>
 
 <div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
 
 

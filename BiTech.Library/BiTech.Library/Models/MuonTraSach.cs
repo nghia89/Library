@@ -10,7 +10,7 @@ namespace BiTech.Library.Models
     public class PhieuMuonModelView
     {
         public string Id { get; set; }
-        
+
         [Display(Name = "Người mượn")]
         public string TenNguoiMuon { get; set; }
 
@@ -26,12 +26,12 @@ namespace BiTech.Library.Models
         public List<string> MaSach { get; set; }
 
         [Display(Name = "Tên sách")]
-        public string TenSach{ get; set; }
-        
+        public string TenSach { get; set; }
+
         [Display(Name = "Ngày mượn")]
         [DataType(DataType.Date)]
         public DateTime NgayMuon { get; set; }
-        
+
         [Display(Name = "Ngày phải trả")]
         [DataType(DataType.Date)]
         public DateTime NgayPhaiTra { get; set; }
@@ -44,13 +44,13 @@ namespace BiTech.Library.Models
         public EPhieuMuon TrangThaiPhieu { get; set; }
 
         [Display(Name = "Trạng thái")]
-        public string TrangThai{ get; set; }
+        public string TrangThai { get; set; }
 
         [Display(Name = "Số ngày gia hạn")]
-        public string GiaHan{ get; set; }
+        public string GiaHan { get; set; }
 
         [Display(Name = "Ghi chú")]
-        public string GhiChu{ get; set; }
+        public string GhiChu { get; set; }
     }
 
     public class PhieuMuonGiaHanModelView
@@ -70,7 +70,7 @@ namespace BiTech.Library.Models
 
         [Display(Name = "Gia hạn")]
         public string GiaHan { get; set; }
-        
+
     }
 
     public class ChiTietPMViewModel
@@ -113,7 +113,7 @@ namespace BiTech.Library.Models
     public class ChiTietPhieuTraViewModel
     {
         public string IdPT { get; set; }
-        
+
         public string IdSach { get; set; }
 
         [Display(Name = "Mã kiểm soát")]
@@ -142,11 +142,11 @@ namespace BiTech.Library.Models
 
         public string TenTT { get; set; }
     }
-    
+
     public class SachPreLoad
     {
         public string Id { get; set; }
-        
+
         public string MaKiemSoat { get; set; }
 
         public string TenSach { get; set; }
@@ -167,7 +167,15 @@ namespace BiTech.Library.Models
         public string SoLuongMax { get; set; }
         public string NgayMuon { get; set; }
         public string NgayTra { get; set; }
+        public string TinhTrangSach { get; set; }
         public bool TinhTrang { get; set; }
+
+    }
+    public class MuonTraSachCheckViewTable
+    {
+        public string MaKiemSoat { get; set; }
+        public string NgayMuon { get; set; }
+        public string NgayTra { get; set; }
     }
     #endregion
 

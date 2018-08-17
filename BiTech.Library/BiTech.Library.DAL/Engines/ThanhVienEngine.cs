@@ -39,5 +39,15 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.Ten == ten).ToList();
         }
+
+        public List<ThanhVien> GetAllHS()
+        {
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs").ToList();
+        }
+
+        public List<ThanhVien> GetAllGV()
+        {
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv").ToList();
+        }
     }
 }

@@ -35,24 +35,34 @@ namespace BiTech.Library.Models
         }
 
 
-        public List<PhieuMuon> ListPhieuMuon { get; set; }
+        public List<ThongTinMuonSach> ListPhieuMuon { get; set; }
         public IEnumerable<ChiTietPhieuMuon> ListCTMP { get; set; }
         public IEnumerable<Sach> ListSach { get; set; }
         public List<List<Sach>> ListChaCuaSach { get; set; }
         public List<int> ListSoLuong { get; set; }
+        public List<Sach> ListSach1 { get; set; }
 
 
         [Display(Name = "Tên đọc giả")]
         public string TenDocGia { get; set; }
-      
+
         [Display(Name = "Địa chỉ")]
         public string DiaChi { get; set; }
         [Display(Name = "Số điện thoại")]
         public string SDT { get; set; }
         [Display(Name = "Hình")]
-        public string HinhChanDung { get; set; }       
+        public string HinhChanDung { get; set; }
+        [Display(Name = "Hình độc giả")]
+        public string LinkAvatar { get; set; }
         [Display(Name = "Trạng thái")]
         public EUser TrangThaiUser { get; set; }
+
+        [Display(Name = "Lớp học")]
+        public string LopHoc { get; set; }
+        [Display(Name = "Niên khóa")]
+        public string NienKhoa { get; set; }
+        [Display(Name = "Mã QR")]
+        public string QRLink { get; set; }
     }
     public class BieuDoPhieuMuonViewModel
     {
@@ -76,6 +86,8 @@ namespace BiTech.Library.Models
         public int[] lsoSachDuocMuonTrongNgay { get; set; }
         public int[] lsoNguoiKhongTraTrongNgay { get; set; }
         public int[] lsoNguoiTraTreTrongNgay { get; set; }
-    }    
+    }
+  
+
 
 }

@@ -26,7 +26,8 @@ namespace BiTech.Library.Controllers
             int PageNumber = (page ?? 1);
 
             List<Language> list = _LanguageLogic.GetAll();
-
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(list.OrderBy(m => m.Ten).ToPagedList(PageNumber, PageSize));
         }
 

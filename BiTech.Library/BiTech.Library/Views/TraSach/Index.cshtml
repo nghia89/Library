@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     //ViewBag.ThongBao = true;
 }
-
+<link href="~/Content/AutoComplete.css" rel="stylesheet" />
 <div class="Title">Trả sách</div>
 
 <div ng-app="LibraryApp" class="container-mt">
@@ -17,10 +17,15 @@
             </div>
         }
 
-        @using (Html.BeginForm("Index", "TraSach", FormMethod.Get, new { role = "form" }))
+        @using (Html.BeginForm("Index", "TraSach", FormMethod.Get, new { role = "form", id= "TraSach" }))
         {
             <div class="input-group mb-3 p-1">
-                <input class="form-control form-control-sm" name="IdUser" autocomplete="off" placeholder="Nhập mã thành viên ..." />
+                <div class="form-control form-control-sm p-0" style="position:relative;">
+                    <input class="form-control form-control-sm border-0"
+                           id="list_maThanhVien" name="IdUser"
+                           autocomplete="off" placeholder="Nhập mã thành viên ..."
+                           onkeydown="if (event.keyCode == 13) { search_user(); }" />
+                </div>
                 <div class="input-group-append">
                     <input type="submit" value="Tìm kiếm" class="btn btn-primary btn-sm" />
                 </div>
@@ -41,46 +46,44 @@
                     <div class="content-box-window">
                         <div class="form-mt-sach" id="form_Sach">
 
-                            <div class="form-group mb-0">
+                            <div class="form-group">
                                 <label for="email">Mã Sách:</label>
-                                <div class="input-group mb-3 p-1">
-                                    <input class="form-control form-control-sm" id="MaSach" ng-model="masach" autocomplete="off" ng-keypress="myFunct_TraSach($event)" placeholder="Nhập mã sách ..." />
+                                <div class="input-group mb-3">
+                                    <div class="form-control form-control-sm p-0" style="position:relative;">
+                                        <input class="form-control form-control-sm border-0" id="MaSach" ng-model="masach"
+                                               autocomplete="off"
+                                               onkeydown="if (event.keyCode == 13) {search_book()}"
+                                               placeholder="Nhập mã sách ..." />
+                                    </div>
+
                                     <div class="input-group-append">
-                                        <input type="button" value="Tìm sách" ng-click="GetBook_TraSach_loading()" class="btn btn-primary btn-sm" />
+                                        <input type="button" id="searchMaSachbtn" value="Thêm danh sách trả" ng-click="GetBook_loading()" class="btn btn-primary btn-sm" />
                                     </div>
                                 </div>
-                                <div class="progress m-1 hidden_lib" style="height: 10px;" ng-class="{hidden_lib: loading_bar==false}">
+                                <div class="progress mt-1 mb-1 hidden_lib" style="height: 10px;" ng-class="{hidden_lib: loading_bar==false}">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
                                 </div>
                                 <div class="hidden_lib" id="box_ThongBao" ng-class="{hidden_lib: show_thongbao==false}">
-                                    <div ng-if="show_thongbao_CoSach" class="alert alert-info m-1 p-2 alert-dismissible fade show">
-                                        @*<button type="button" class="close p-1" data-dismiss="alert">&times;</button>*@
-                                        <div>
-                                            <strong>Mã sách:</strong> {{masach}}
-                                        </div>
-                                        <div>
-                                            <strong>Tên sách:</strong> {{TenSach}}
-                                        </div>
-                                        <div>
-                                            <strong>Số lượng:</strong> {{SoLuong}}
-                                        </div>
-                                        <div>
-                                            <strong>Ngày trả:</strong> {{NgayMuon}}
-                                        </div>
-                                        
-                                    </div>
-                                    <div ng-if="!show_thongbao_CoSach" class="alert m-1 p-2 alert-danger alert-dismissible fade show">
-                                        @*<button type="button" class="close p-1" data-dismiss="alert">&times;</button>*@
+                                    <div ng-if="!show_thongbao_CoSach" class="alert mt-1 mb-1 p-2 alert-danger alert-dismissible fade show">
                                         <strong>Thông báo!</strong> {{NoiDungThongBao}}
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="pwd">Số lượng:</label>
-                                <input type="number" id="SoLuongSach" ng-model="SoluongSachMuon" ng-blur="loadfocus_input_soluongsachmuon()" class="form-control form-control-sm" min="0" max="{{SoLuong}}" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" ng-disabled="disabled_input">
+                            @*<div class="form-group mb-0">
+                                    <label for="pwd">Số lượng:</label>
+                                    <input type="number" id="SoLuongSach" ng-model="SoluongSachMuon" ng-blur="loadfocus_input_soluongsachmuon()" class="form-control form-control-sm" min="0" max="{{SoLuong}}" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" ng-disabled="disabled_input">
+                                </div>*@
+                            <div class="form-group" style="display: none;">
+                                <label for="pwd">Ngày trả:</label>
+                                <input type="text" class="form-control form-control-sm " ng-model="ngaytra" id="ngayPhaiTra">
                             </div>
                             <div class="form-group">
-                                <button type="button" ng-click="ThemSach_TraSach()" class="btn btn-primary btn-sm">Thêm vào danh sách trả</button>
+                                <select class="form-control form-control-sm" ng-init="item.carType='none'" ng-model="modelTT">
+                                    <option ng-repeat="y in list_book_TinhTrang" value="{{y.Id}}">{{y.TenTT}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group clearfix">
+                                @*<button type="button" ng-click="ThemSach()" class="btn btn-primary btn-sm float-right">Thêm Sách</button>*@
                                 @*<button type="button" onclick="reset_book()" ng-click="ResetBook()" class="btn btn-default btn-sm">Làm mới</button>*@
                             </div>
 
@@ -91,37 +94,52 @@
                                     <table class="table table-hover table-bordered mb-0" border="1">
                                         <thead>
                                             <tr class="table-info">
-                                                <th width="50" align="right">STT</th>
+                                                <th width="50">STT</th>
                                                 <th>Mã kiểm soát</th>
                                                 <th>Tên sách</th>
                                                 <th>Số lượng</th>
                                                 <th>Ngày mượn</th>
                                                 <th>Ngày trả</th>
-                                                <th></th>
+                                                <th>Trạng thái sách</th>
+                                                <th width="100" style="text-align: center;">
+                                                    <i class="fa fa-trash-o" title="Xoá tất cả" ng-click="ResetListBookQueue()" style="font-size:20px; cursor:pointer;"></i>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            <tr ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'">
+                                            <tr ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'" my-repeat-directive>
                                                 <td align="center">{{$index + 1}}</td>
                                                 <td>{{ x.MaKiemSoat }}</td>
                                                 <td>{{ x.TenSach }}</td>
-                                                <td>{{ x.SoLuong }}</td>
-                                                <td>{{ x.NgayMuon | date : "dd/MM/y" }}</td>
-                                                <td>{{ x.NgayTra | date : "dd/MM/y"}}</td>
+                                                <td width="100px">
+                                                    <input type="number" ng-value="{{x.SoLuong}}" id="List_{{x.Id}}"
+                                                           class="form-control form-control-sm"
+                                                           ng-blur="loadfocus_input_soluongsachmuon($index, x.SoLuong)"
+                                                           min="0"
+                                                           max="{{x.SoLuongMax}}"
+                                                           required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                                </td>
+                                                <td>
+                                                    {{ x.NgayMuon }}
+                                                </td>
+                                                <td>
+                                                    {{ x.NgayTra }}
+                                                </td>
+                                                <td>
+                                                    {{ x.TinhTrangSachTen }}
+                                                </td>
                                                 <td align="center">
                                                     <i class="fa fa-remove text-danger" ng-click="removeItem($index)" style="font-size:20px; cursor:pointer;"></i>
                                                 </td>
                                             </tr>
 
-
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="form-group m-0">
-                                <button type="button" ng-click="TraSach()" class="btn btn-primary btn-sm">Trả Sách</button>
-                                <button type="button" ng-click="ResetListBookQueue()" class="btn btn-default btn-sm">Xoá danh sách</button>
+                            <div class="form-group m-0 clearfix">
+                                <button type="button" ng-click="TraSach()" class="btn btn-primary btn-sm float-right mr-1">Trả sách</button>
                             </div>
                         </div>
                     </div>
@@ -149,12 +167,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''">
+                                    <tr ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''" ng-click="GetBook_2(x.MaKiemSoat, x.NgayMuon,x.NgayTra)">
                                         <td align="center">{{$index + 1}}</td>
                                         <td>{{ x.MaKiemSoat }}</td>
                                         <td>{{ x.TenSach }}</td>
                                         <td>{{ x.SoLuong }}</td>
-                                        <td>{{ x.NgayMuon | date : "dd/MM/y" }}</td>
+                                        <td>{{ x.NgayMuon }}</td>
                                         <td>{{ x.NgayTra }}</td>
                                     </tr>
 
@@ -177,15 +195,29 @@
     <script>
 
         $(function () {
-            //load_datepicker();
+            load_datepicker("ngayPhaiTra");
+            AutoComplete(document.getElementById("list_maThanhVien"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maThanhVien) + "'")]);
+            AutoComplete(document.getElementById("MaSach"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maSach) + "'")]);
         });
 
         function reset_book(){
             //load_datepicker();
         }
 
-        function load_datepicker(){
-            $("#ngayPhaiTra").datepicker({
+        function search_book(){
+            setTimeout(function () {
+                $("#searchMaSachbtn").click();
+            }, 10);
+        }
+
+        function search_user(){
+            setTimeout(function () {
+                $("#TraSach").submit();
+            }, 10);
+        }
+
+        function load_datepicker(name_id){
+            $("#"+name_id).datepicker({
                 //showWeek: true,
                 dateFormat: "dd/mm/yy",
                 monthNames: ['Tháng 1', 'Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10',,'Tháng 11','Tháng 12',],
@@ -198,5 +230,73 @@
                 maxDate: @Html.Raw(ViewBag.MaxDate),
             }).datepicker("setDate", new Date() + 1).attr("readonly", "readonly");
         }
+
+        // AutoCompelete Search
+        function AutoComplete(inp, arr) {
+            var currentFocus;
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "AutoComplete-list");
+                a.setAttribute("class", "AutoComplete-items");
+                this.parentNode.appendChild(a);
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        b.addEventListener("click", function (e) {
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "AutoComplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("AutoComplete-active");
+            }
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("AutoComplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("AutoComplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+
     </script>
 }

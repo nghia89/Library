@@ -39,7 +39,7 @@ namespace BiTech.Library.Controllers.BaseClass
         public ThanhVien LuuHinhChanDung(string physicalWebRootPath, ThanhVien thanhVien,
               string ImageName, HttpPostedFileBase hinhChanDung)
         {
-            // string physicalWebRootPath = Server.MapPath("/");
+            //  string physicalWebRootPath = Server.MapPath("/");
             string uploadFolder = GetUploadFolder(Helpers.UploadFolder.AvatarUser);
             string uploadFileName = null;
             if (ImageName != null)
@@ -70,6 +70,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             else
             {
+                //   ==> Tên hình QR <==
                 uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien +
                 "-" + thanhVien.Ten + ".bmp");
             }
@@ -80,8 +81,8 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             // chuyển đường dẫn vật lý thành đường dẫn ảo
             var pathQR = uploadFileNameQR.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-            // info
-            string info = thanhVien.Id + "-" + thanhVien.MaSoThanhVien + "-" + thanhVien.Ten;
+            //   ==> Info QRdata <==
+            string info = "BLibUser-" + thanhVien.Id + "-" + thanhVien.MaSoThanhVien + "-" + thanhVien.Ten;
             bool bolQR = barcode.CreateQRCode(info, pathQR);
             if (bolQR == true)
             {
@@ -89,6 +90,39 @@ namespace BiTech.Library.Controllers.BaseClass
                 thanhVien.QRData = info;
             }
             return thanhVien;
-        }      
+        }
+        public string GetInfo(string info)
+        {
+            string[] arrStr = info.Split('-');
+            string id = null;
+            string maSo = null;
+            string ten = null;
+            if (arrStr[0].Equals("BLibUser") == true)
+            {
+                id = arrStr[1];
+                maSo = arrStr[2];
+                ten = arrStr[3];
+            }
+            return maSo;
+        }
+        public List<ThanhVien> ImportFromExcel(string physicalWebRootPath, HttpPostedFileBase linkExcel)
+        {
+            ExcelManager excelManager = new ExcelManager();
+            List<ThanhVien> list = new List<ThanhVien>();
+            string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+            var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, linkExcel.FileName);
+            string location = Path.GetDirectoryName(sourceFileName);
+            if (!Directory.Exists(location))
+            {
+                Directory.CreateDirectory(location);
+            }
+            using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
+            {
+                linkExcel.InputStream.CopyTo(fileStream);
+                var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                list = excelManager.ImportThanhVien(sourceDir);
+            }
+            return list;
+        }
     }
 }

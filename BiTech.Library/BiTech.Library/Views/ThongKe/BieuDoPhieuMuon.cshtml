@@ -48,7 +48,7 @@
 @*Số ngày mượn trong tháng*@
 @for (int i = 1; i <= @Model.SoNgayTrongThang; i++)
 {
-    {        
+    {
         int tre = @Model.lsoNguoiTraTreTrongNgay[i];
         int khongTra = @Model.lsoNguoiKhongTraTrongNgay[i];
         soNguoiTraTreTrongNgay = tre != -1 ? tre : 0;
@@ -62,7 +62,7 @@
     <h6>* số "người trả trễ" là: @soNguoiTraTreTrongNgay người</h6>
     <h6>* số "người không trả" là: @soNguoiKhongTraTrongNgay người</h6>
     <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNgay[i] cuốn</h6>
-  
+
 }
 
 <h4 class="text-info text-center">Thống kê theo quý</h4>
@@ -81,7 +81,7 @@
 {
     <h5 class="text-info">tháng @i :</h5>
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
-        <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
+    <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
         <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
         <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
         <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
@@ -95,7 +95,7 @@
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
     <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
-        <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+    <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
         <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
         <hr />
 }
@@ -107,7 +107,7 @@
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
     <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
-            <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+    <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
             <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
             <hr />
 }
@@ -119,14 +119,14 @@
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
     <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
-            <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+    <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
             <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
             <hr />
 }
 
 @section scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script>   
+    <script>
         function onMonthSelectedChagned() {
             window.location.href = '/ThongKe/BieuDoPhieuMuon?&month=' + $("#month").val() + '&year=' + $("#year").val();
         }

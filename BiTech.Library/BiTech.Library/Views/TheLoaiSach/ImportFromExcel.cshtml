@@ -3,24 +3,31 @@
     ViewBag.Title = "ImportFromExcel";
 }
 
-<h2>Thêm dữ liệu thành viên từ File Excel</h2>
+<div class="Title">Thêm dữ liệu thành viên từ File Excel</div>
 @using (Html.BeginForm("ImportFromExcel", "TheLoaiSach", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
-    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "TheLoaiSach")'">
-        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
-    </button>
+    <div class="form-group row">
+        <div class="col-md-12">
+            <a class="btn btn-primary btn-sm " href="@Url.Action("Index", "TheLoaiSach")">
+                <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+            </a>
+        </div>
+    </div>
+
     @Html.AntiForgeryToken()
     <div class="form-group row">
-        <div class="col-sm-6">           
-            @Html.TextBoxFor(m => m.LinkExcel, new { type = "file", accept = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })
-            @Html.ValidationMessageFor(m => m.LinkExcel)
+        <div class="col-md-12">
+            <div class="custom-file">
+                @Html.TextBoxFor(m => m.LinkExcel, new { @Class = "custom-file-input", type = "file", accept = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })
+                <label class="custom-file-label" for="LinkExcel">Chọn file</label>
+                @Html.ValidationMessageFor(m => m.LinkExcel)
+            </div>
         </div>
     </div>
 
     <div class="form-group row">
-        <div class="col-md-2"></div>
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-sm btn-primary" value="Chọn" />
+        <div class="col-md-12">
+            <input type="submit" class="btn btn-primary btn-sm" value="Chọn" />
         </div>
     </div>
 }

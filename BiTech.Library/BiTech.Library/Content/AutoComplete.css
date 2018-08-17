@@ -27,7 +27,7 @@ input {
     }
 
     input[type=submit] {
-        background-color: dodgerblue;
+        /*background-color: dodgerblue;*/
         color: #fff;
         cursor: pointer;
     }

@@ -44,7 +44,8 @@ namespace BiTech.Library.Controllers
                 lstpns.Add(pns);
             }
 
-
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(lstpns.OrderByDescending(x => x.NgayNhap).ToPagedList(PageNumber, PageSize));
         }
 
@@ -155,7 +156,7 @@ namespace BiTech.Library.Controllers
                         {
                             IdPhieuNhap = idPhieuNhap,
                             IdSach = ctModel.IdSach,
-                            tenTinhTrang = ctModel.tenTinhTrang,
+                            //tenTinhTrang = ctModel.tenTinhTrang,
                             SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now,
                             IdTinhtrang = ctModel.IdTinhTrang,
@@ -181,9 +182,11 @@ namespace BiTech.Library.Controllers
 
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuongTong += ctns.SoLuong;
-                            updatesl.SoLuongConLai += ctns.SoLuong;
+                            // ktr neu cho muon moi cong them
+                            var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
+                            if (tinhTrang.TrangThai == true)
+                                updatesl.SoLuongConLai += ctns.SoLuong;
                             _SachLogic.Update(updatesl);
-
                         }
                     }
                     return RedirectToAction("Index");
@@ -231,15 +234,15 @@ namespace BiTech.Library.Controllers
 
                 ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
                 ctns.Id = item.Id;
-                ctns.tenTinhTrang = item.tenTinhTrang;
-                //var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
-                //ctns.tenTinhTrang = TinhTrang.TenTT;
+                ctns.IdTinhTrang = item.IdTinhtrang;
+                var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
+                ctns.tenTinhTrang = TinhTrang.TenTT;
                 ctns.IdSach = item.IdSach;
                 var TenSach = _SachLogic.GetBookById(ctns.IdSach);
                 ctns.ten = TenSach.TenSach;
-                ctns.IdPhieuNhap = item.IdPhieuNhap;
+                //ctns.tenTinhTrang = item.IdPhieuNhap;
                 ctns.soLuong = item.SoLuong;
-                ctns.tenTinhTrang = item.tenTinhTrang;
+                //ctns.tenTinhTrang = item.tenTinhTrang;
                 lst.Add(ctns);
 
             }
@@ -271,7 +274,7 @@ namespace BiTech.Library.Controllers
                     ten = book.TenSach,
                     soLuong = soLuong,
                     IdTinhTrang = idtrangthai,
-                    tenTinhTrang = tt.TenTT,
+                    //tenTinhTrang = tt.TenTT,
                     MaKiemSoat = book.MaKiemSoat,
                     GhiChu = GhiChu
                 };
@@ -382,7 +385,8 @@ namespace BiTech.Library.Controllers
 
                             var updateSach = _SachLogic.GetBookById(sltt.IdSach);
                             updateSach.SoLuongTong += item.SoLuong;
-                            updateSach.SoLuongConLai += item.SoLuong;
+                            if (trangThaiSach.TrangThai == true)
+                                updateSach.SoLuongConLai += item.SoLuong;
                             _SachLogic.Update(updateSach);
                         }
                     }

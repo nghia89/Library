@@ -3,14 +3,14 @@
     var action = @ViewContext.RouteData.Values["action"].ToString();
 
     bool Bool_TabThanhVien = false;
-    bool Bool_TabSach = false;
+    bool Bool_TabSach = false; 
     bool Bool_TabMuonTra = false;
     bool Bool_TabNhapXuatKho = false;
     bool Bool_TabThongke = false;
 
     string[] List_Controller_TabThanhVien = new string[7];
-    List_Controller_TabThanhVien[0] = "ThanhVien";
-    List_Controller_TabThanhVien[1] = "ChucVu";
+    List_Controller_TabThanhVien[0] = "HocSinh";
+    List_Controller_TabThanhVien[1] = "GiaoVien";
 
     string[] List_Controller_TabSach = new string[7];
     List_Controller_TabSach[0] = "Sach";
@@ -28,7 +28,6 @@
     string[] List_Controller_TabNhapXuatKho = new string[7];
     List_Controller_TabNhapXuatKho[0] = "PhieuNhapSach";
     List_Controller_TabNhapXuatKho[1] = "PhieuXuatSach";
-    List_Controller_TabNhapXuatKho[2] = "LyDoXuat";
 
     string[] List_Controller_TabThongke = new string[7];
     List_Controller_TabThongke[0] = "Statistic";
@@ -70,16 +69,15 @@
                 </div>
                 <div id="collapseOne" class="collapse @((@Bool_TabThanhVien) ? "show" : "")" data-parent="#accordion">
                     <div class="card-body">
-
                         <ul>
-                            <li class="@((@controller == "ThanhVien" ) ? "active" : "")">
-                                <a href="@Url.Action("index","ThanhVien")" title="Thành viên">
-                                    Thành viên
+                            <li class="@((@controller == "HocSinh" ) ? "active" : "")">
+                                <a href="@Url.Action("index","HocSinh")" title="Học sinh">
+                                    Học sinh
                                 </a>
                             </li>
-                            <li class="@((@controller == "ChucVu" ) ? "active" : "")">
-                                <a href="@Url.Action("index","ChucVu")" title="Chức vụ">
-                                    Chức vụ
+                            <li class="@((@controller == "GiaoVien" ) ? "active" : "")">
+                                <a href="@Url.Action("index","GiaoVien")" title="Giáo viên">
+                                    Giáo viên
                                 </a>
                             </li>
                         </ul>
@@ -124,7 +122,7 @@
                                 </a>
                             </li>
                             <li class="@((@controller == "NgonNgu" ) ? "active" : "")">
-                                <a href="@Url.Action("Index","NgonNgu")" title="Tác giả">
+                                <a href="@Url.Action("Index","NgonNgu")" title="Ngôn ngữ">
                                     Ngôn ngữ
                                 </a>
                             </li>
@@ -183,11 +181,6 @@
                                     Xuất sách
                                 </a>
                             </li>
-                            <li class="@((@controller == "LyDoXuat") ? "active" : "")">
-                                <a href="@Url.Action("Index","LyDoXuat")" title="Lý do xuất">
-                                    Lý do xuất
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -209,7 +202,7 @@
                                 </a>
                             </li>
                             <li class="@((@controller == "ThongKe" && @action == "DanhSachMuon") ? "active" : "")">
-                                <a href="@Url.Action("DanhSachMuon","ThongKe")" title="Danh sách mượn">
+                                <a href="@Url.Action("MuonSach","ThongKe")" title="Danh sách mượn">
                                     Danh sách mượn
                                 </a>
                             </li>
@@ -217,17 +210,7 @@
                                 <a href="@Url.Action("DanhSachChuaTra","ThongKe")" title="Danh sách chưa trả">
                                     Danh sách chưa trả
                                 </a>
-                            </li>
-                            <li class="@((@controller == "ThongKe" && @action == "DanhSachTra") ? "active" : "")">
-                                <a href="@Url.Action("DanhSachTra","ThongKe")" title="Danh sách trả">
-                                    Danh sách trả
-                                </a>
-                            </li>
-                            <li class="@((@controller == "ThongKe" && @action == "LichSuMuonSach") ? "active" : "")">
-                                <a href="@Url.Action("LichSuMuonSach","ThongKe")" title="Lịch sử mượn sách">
-                                    Lịch sử mượn sách
-                                </a>
-                            </li>
+                            </li>                                                       
                         </ul>
                     </div>
                 </div>

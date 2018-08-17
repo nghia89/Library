@@ -37,11 +37,9 @@ namespace BiTech.Library.Controllers
                 };
                 lstld.Add(ld);
             }
-
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(lstld.OrderBy(x => x.LyDo).ToPagedList(PageNumber, PageSize));
-
-
-            return View();
         }
         public ActionResult Create()
         {

@@ -81,6 +81,7 @@ namespace BiTech.Library.Models
         [Display(Name ="Đường dẫn file Excel")]
         public HttpPostedFileBase LinkExcel { get; set; }
         public HttpPostedFileBase LinkWord { get; set; }
+        public string LoaiTK { get; set; }
     }
     public class EditUserViewModel
     {
@@ -126,7 +127,8 @@ namespace BiTech.Library.Models
         [Display(Name = "Hình ảnh")]
         public HttpPostedFileBase HinhChanDung { get; set; }
         public List<string> ListNienKhoa { get; set; }
-        public string LinkAvatar { get; set; }      
+        public string LinkAvatar { get; set; }
+        public string LoaiTK { get; set; }
     }
 
     public class ChangePasswordViewModel
@@ -137,16 +139,19 @@ namespace BiTech.Library.Models
         [Display(Name = "Mật khẩu hiện tại")]
         public string OldPassword { get; set; }
 
+
+        // [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [Required]
-       // [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Nhập lại mật khẩu mới")]
         [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Nhập lại mật khẩu không khớp nhau!")]
         public string ConfirmPassword { get; set; }
+        public string LoaiTK { get; set; }
     }
 
 }

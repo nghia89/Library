@@ -4,28 +4,28 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<h2>Thêm Nhà Xuất Bản</h2>
+<div class="Title">Thêm Nhà Xuất Bản</div>
 <div class="container">
     @using (Html.BeginForm("Them", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="tensach">Tên Nhà Xuất Bản:</label>
-            <div class="col-sm-9">
-                @Html.EditorFor(Model => Model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-sm-10">
+                @Html.EditorFor(Model => Model.Ten, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
                
             </div>
         </div>
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="tensach">Ghi Chú:</label>
-            <div class="col-sm-9">
-                <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
+            <div class="col-sm-10">
+                <textarea name="GhiChu" placeholder="Ghi chú" class="form-control form-control-sm"></textarea>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-form-label col-sm-2"></label>
-            <div class="col-sm-9">
-                <input type="submit" name="btnThemTheLoai" class="btn btn-primary" value="Thêm Mới" />
-                <input type="button" onclick="goBack()" class="btn btn-default" value="Trở lại" />
+            <div class="col-sm-10">
+                <input type="submit" name="btnThemTheLoai" class="btn btn-primary btn-sm" value="Thêm Mới" />
+                <input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />
             </div>
         </div>
     }

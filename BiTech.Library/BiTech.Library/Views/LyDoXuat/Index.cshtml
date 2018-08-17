@@ -9,29 +9,31 @@
 <div class="Title">Danh Sách Lý Do</div>
 
 
-<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary" })</p>
+<p>@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-primary btn-sm" })</p>
 <table class="table table-hover table-bordered">
     <thead>
         <tr class="table-info">
-
+            <th width="50" align="right">STT</th>
             <th>Lý Do Xuất</th>
             <th></th>
         </tr>
     </thead>
+    @{int i = 1;}
     <tbody>
         @foreach (var item in Model)
-            {
+        {
             <tr>
-
+                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
                 <td>@item.LyDo</td>
                 <td><a class="color-white btn btn-outline-primary btn-sm" href="@Url.Action("Edit","LyDoXuat", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
             </tr>
+            { i++; }
         }
     </tbody>
 </table>
 
 <div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
 
 

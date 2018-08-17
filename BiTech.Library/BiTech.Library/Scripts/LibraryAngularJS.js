@@ -80,7 +80,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
                 LyDo: $scope.LyDo,
-                GhiChu:$scope.GhiChu
+                GhiChu: $scope.GhiChu
             }
         }).then(function (response) {
             if (response.data !== null) {
@@ -318,7 +318,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
     $scope.SoluongSachMuon = 1;
     $scope.list_book_queue = []; //list sách chuẩn bị cho mượn
     $scope.list_book_dangmuon = []; //list sách dang muon cho mượn
-    
+
     //=====================Mượn Sách========================================================
     //load thông tin sách và ẩn loading bar
     $scope.GetBook_loading = function () {
@@ -341,7 +341,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
             }
         }).then(function (response) {
             $scope.list_book_dangmuon = response.data;
-            
+
         }, function () {
             alert("Error Occur");
         })
@@ -375,6 +375,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
 
     //lấy sách thêm vào list
     $scope.GetBook = function () {
+        $scope.masach = $("#MaSach").val();
         $http({
             method: "post",
             url: "/MuonSach/GetBook",
@@ -398,7 +399,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
                 bool_kq = false;
                 $scope.NoiDungThongBao = ($scope.masach == "") ? "Chưa nhập mã sách" : "Mã sách không tồn tại";
             }
-            
+
             //kết quả
             if (bool_kq) {
                 //Kiểm tra MaKiemSoat có tồn tại trong list chưa
@@ -421,12 +422,12 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
                         TinhTrang: false
                     };
                     $scope.list_book_queue.push($scope.items);
-                    
+
                 }
             } else {
                 $scope.show_thongbao = true;
             }
-            
+
             $scope.masach = "";
         }, function () {
             alert("Error Occur");
@@ -500,24 +501,24 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
 
         return obj;
     };
-    
+
 }).directive('myRepeatDirective', function ($timeout) {
-    return function (scope, element, attrs ) {
-            //Load function sau khi run ng-repeat
-            $timeout(function () {
-                load_datepicker("ngayPhaiTra_" + scope.x['MaKiemSoat']);
+    return function (scope, element, attrs) {
+        //Load function sau khi run ng-repeat
+        $timeout(function () {
+            load_datepicker("ngayPhaiTra_" + scope.x['MaKiemSoat']);
 
-                //update số lượng sách trong list chuẩn bị cho mượn
-                $("#List_" + scope.x['MaKiemSoat']).change(function () {
-                    scope.x['SoLuong'] = $("#List_" + scope.x['MaKiemSoat']).val()
-                });
-
-                //update ngày trả sách trong list chuẩn bị cho mượn
-                $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).change(function () {
-                    scope.x['NgayTra'] = $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).val()
-                });
+            //update số lượng sách trong list chuẩn bị cho mượn
+            $("#List_" + scope.x['MaKiemSoat']).change(function () {
+                scope.x['SoLuong'] = $("#List_" + scope.x['MaKiemSoat']).val()
             });
-        };
+
+            //update ngày trả sách trong list chuẩn bị cho mượn
+            $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).change(function () {
+                scope.x['NgayTra'] = $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).val()
+            });
+        });
+    };
 });
 
 app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
@@ -530,8 +531,20 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
     $scope.SoluongSachMuon = 1;
     $scope.list_book_queue = []; //list sách chuẩn bị cho mượn
     $scope.list_book_dangmuon = []; //list sách dang muon cho mượn
+    $scope.list_book_TinhTrang = [];
+
+
 
     //=====================Trả Sách========================================================
+    //load thông tin sách và ẩn loading bar
+    $scope.GetBook_loading = function () {
+        $scope.loading_bar = true;
+        $scope.show_thongbao = false;
+        setTimeout(function () {
+            $scope.GetBook();
+            $scope.loading_bar = false;
+        }, 500);
+    };
 
     //Load list sách user đang mượn - $http
     $scope.GetListBook = function () {
@@ -550,40 +563,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
         })
     };
 
-    //Lấy thông tin sách qua masach - Trả sách - $http
-    $scope.GetBook_TraSach = function () {
-        $http({
-            method: "post",
-            url: "/TraSach/GetBook_TraSach",
-            params: {
-                maSach: $("#MaSach").val(),
-                IdUser: parseLocation(window.location.search)['IdUser']
-            }
-        }).then(function (response) {
-            $scope.list = response.data;
-            $scope.show_thongbao = true;
-            if ($scope.list.length > 0) {
-                $scope.masach = $scope.list[0].MaKiemSoat;
-                $scope.TenSach = $scope.list[0].TenSach;
-                $scope.SoLuong = (parseInt($scope.list[0].SoLuong) - parseInt($scope.Get_SoluongSachDangMuonTheoMKS($scope.masach))).toString();
-                $scope.NgayMuon = $scope.list[0].NgayMuon;
-                $scope.show_thongbao_CoSach = true;
-                $scope.disabled_input = false;
-                $scope.BoolThemSach = true;
-                $scope.SoluongSachMuon = 1;
-                load_datepicker();
-            } else {
-                $scope.show_thongbao_CoSach = false;
-                $scope.disabled_input = true;
-                $scope.BoolThemSach = false;
-                $scope.NoiDungThongBao = ($scope.masach == "") ? "Chưa nhập mã sách" : "Mã sách hiện không có trong danh sách mượn của bạn"
-            }
-        }, function () {
-            alert("Error Occur");
-        })
-    };
-
-    //Trả sách - $http
+    //Mượn sách - $http
     $scope.TraSach = function () {
         var DTO = JSON.stringify($scope.list_book_queue);
         //todo
@@ -600,70 +580,176 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
         }, function () {
             alert("Error Occur");
         })
+        $scope.ResetBook();
     }
 
-    //Thêm sách vào danh sách sẽ mượn
-    $scope.ThemSach_TraSach = function () {
-        if ($scope.SoLuong == 0) {
-            $scope.BoolThemSach = false;
+    //Event nhấp enter trên input[type="text"] nhập masach
+    $scope.myFunct = function (keyEvent) {
+        if (keyEvent.keyCode == 13) {
+            $scope.GetBook_loading();
+        }
+    };
+
+    //lấy sách thêm vào list
+    $scope.GetBook = function () {
+        $scope.UpdateListChuanBiTra();
+        $http({
+            method: "post",
+            url: "/TraSach/GetBook",
+            params: {
+                maSach: $("#MaSach").val(),
+                IdUser: parseLocation(window.location.search)['IdUser']
+            }
+
+        }).then(function (response) {
+            $scope.GetBook_Result(response);
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+
+    //lấy sách thêm vào list (2) chọn trên dánhacsh
+    $scope.GetBook_2 = function (MaSach, NgayMuon, NgayTra) {
+        $scope.show_thongbao = false;
+        $scope.UpdateListChuanBiTra();
+        $http({
+            method: "post",
+            url: "/TraSach/GetBook",
+            params: {
+                maSach: MaSach,
+                IdUser: parseLocation(window.location.search)['IdUser'],
+                NgayMuon: NgayMuon,
+                NgayTra: NgayTra
+            }
+
+        }).then(function (response) {
+            $scope.GetBook_Result(response);
+        }, function () {
+            alert("Error Occur");
+        })
+    };
+
+    //$scope.GetBook True
+    $scope.GetBook_Result = function (response) {
+        $scope.list = response.data;
+        var bool_kq = false;
+        //Kiểm tra
+        if ($scope.list.length > 0) {
+            //Số lượng sách còn lại lớn hơn không
+            var a = parseInt($scope.GetTotalSoLuongSach_ViewDangTra($scope.list[0])); /*GET số sách chuẩn bị trả của item*/
+            if ((parseInt($scope.list[0].SoLuong) - a) > 0) {
+                bool_kq = true;
+            } else {
+                //Số lượng trong danh sách đang mượn đã được chọn hết
+                bool_kq = false;
+                $scope.NoiDungThongBao = "Sách trong danh sách đã hết";
+            }
+        } else {
+            //Mã sách không tồn tại trong danh sách đang mượn
+            //or đối tượng được chọn đã tồn tại trên list chuẩn bị trả
+            bool_kq = false;
+            $scope.NoiDungThongBao = "Sách này hiện không thể trả";
         }
 
-        if (!$scope.BoolThemSach) {
-            $scope.ResetBook();
-            $scope.show_thongbao = true;
-            $scope.show_thongbao_CoSach = false;
-            $scope.NoiDungThongBao = ($scope.SoLuong == 0) ? "Số lượng sách đã hết" : ($scope.masach == "") ? "Bạn chưa nhập mã sách" : "lỗi thêm sách";
-        } else {
-
+        //kết quả
+        if (bool_kq) {
             //Kiểm tra MaKiemSoat có tồn tại trong list chưa
-            let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == $scope.masach);
+            let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == $scope.list[0].MaKiemSoat
+                                                            && _.NgayMuon == $scope.list[0].NgayMuon
+                                                            && _.NgayTra == $scope.list[0].NgayTra
+                                                            && _.TinhTrangSach == $scope.modelTT
+                                                            );
             if (index >= 0) {
                 //Đã tồn tại
-                $scope.list_book_queue[index].SoLuong = $scope.list_book_queue[index].SoLuong + $scope.SoluongSachMuon;
+                $scope.list_book_queue[index].SoLuong = (parseInt($scope.list_book_queue[index].SoLuong) + 1).toString();
+                $("#List_" + $scope.list_book_queue[index].Id).val($scope.list_book_queue[index].SoLuong); /*Cập nhật value cho input textbox SoLuong*/
+
             } else {
+
                 //Chưa tồn tại
+                var edit_NgayMuon = $scope.list[0].NgayMuon.split('/').join('-'); //format lại date
+                var edit_Ngaytra = $scope.list[0].NgayTra.split('/').join('-'); //format lại date
+                var index_TT = $scope.list_book_TinhTrang.findIndex(_=>_.Id == $scope.modelTT); //lấy thông tin của tình trạng đang chọn
                 $scope.items = {
-                    Id: "",
+                    Id: $scope.list[0].MaKiemSoat + edit_NgayMuon + edit_Ngaytra + $scope.modelTT,
                     IdUser: parseLocation(window.location.search)['IdUser'],
-                    MaKiemSoat: $scope.masach,
-                    TenSach: $scope.TenSach,
-                    SoLuong: $scope.SoluongSachMuon,
-                    NgayMuon: $scope.NgayMuon,
-                    NgayTra: Date.now().toString(),
+                    MaKiemSoat: $scope.list[0].MaKiemSoat,
+                    TenSach: $scope.list[0].TenSach,
+                    SoLuong: "1",
+                    SoLuongMax: (parseInt($scope.list[0].SoLuong)).toString(),
+                    NgayMuon: $scope.list[0].NgayMuon,
+                    NgayTra: $scope.list[0].NgayTra,
+                    TinhTrangSach: $scope.modelTT,
+                    TinhTrangSachTen: $scope.list_book_TinhTrang[index_TT].TenTT,
                     TinhTrang: false
                 };
                 $scope.list_book_queue.push($scope.items);
+
             }
-            $scope.ResetBook();
+        } else {
+            $scope.show_thongbao = true;
         }
-    };
+        $scope.GetAllTrangThaiSach();
+        $scope.masach = "";
+    }
 
-    //Event nhấp enter trên input[type="text"] nhập masach
-    $scope.myFunct_TraSach = function (keyEvent) {
-        if (keyEvent.keyCode == 13) {
-            $scope.GetBook_TraSach_loading();
-        }
-    };
-
-    //load thông tin sách và ẩn loading bar
-    $scope.GetBook_TraSach_loading = function () {
-        $scope.loading_bar = true;
-        $scope.show_thongbao = false;
-        setTimeout(function () {
-            $scope.GetBook_TraSach();
-            $scope.loading_bar = false;
-        }, 500);
-    };
+    //update list chuẩn bị trả tới controller
+    $scope.UpdateListChuanBiTra = function () {
+        var DTO = JSON.stringify($scope.list_book_queue);
+        $http({
+            method: "post",
+            url: "/TraSach/UpdateList_ChuanBiTra",
+            contentType: 'application/json; charset=utf-8',
+            data: DTO
+        }).then(function (response) {
+            return true;
+        }, function () {
+            alert("Error Occur");
+            return false;
+        })
+    }
 
     //=====================End Trả Sách========================================================
 
+    $scope.GetAllTrangThaiSach = function () {
+        $http({
+            method: "post",
+            url: "/TraSach/GetAllTrangThaiSach",
+        }).then(function (response) {
+            $scope.list_book_TinhTrang = response.data;
+            if ($scope.list_book_TinhTrang.length > 0) {
+                $scope.modelTT = $scope.list_book_TinhTrang[0].Id;
+            }
+
+        }, function () {
+            alert("Error Occur");
+            return false;
+        })
+    }
+
     //load focus input số lượng sách có thể mượn trong giới hạn min max
-    $scope.loadfocus_input_soluongsachmuon = function () {
-        var Soluong = $scope.SoLuong;
-        if ($scope.SoluongSachMuon == null) {
-            $scope.SoluongSachMuon = parseInt(Soluong);
-        } else if ($scope.SoluongSachMuon == 0) {
-            $scope.SoluongSachMuon = 1;
+    $scope.loadfocus_input_soluongsachmuon = function (index, value) {
+        $scope.list_book_queue = $filter('orderBy')($scope.list_book_queue, '-NgayMuon');
+        var max = $scope.list_book_queue[index].SoLuongMax;
+        var Id = $scope.list_book_queue[index].Id;
+        var SlTotal_maSach = parseInt($scope.GetTotalSoLuongSach_ViewDangTra($scope.list_book_queue[index]));
+
+        //value lớn hơn max
+        if (parseInt(value) > parseInt(max)) {
+            $scope.list_book_queue[index].SoLuong = max;
+            $("#List_" + Id).val(max);
+        }
+
+        //SlTotal_maSach lớn hơn max (Tổng số lượng sách trả lớn hơn số lượng sách mượn)
+        if (SlTotal_maSach > parseInt(max)) {
+            $scope.list_book_queue[index].SoLuong = parseInt(max) - (SlTotal_maSach - parseInt(value));
+            $("#List_" + Id).val(parseInt(max) - (SlTotal_maSach - parseInt(value)));
+        }
+
+        //value nhỏ hơn 0
+        if (parseInt(value) <= 0 || value == "") {
+            $scope.list_book_queue[index].SoLuong = "1";
+            $("#List_" + Id).val("1");
         }
     };
 
@@ -678,6 +764,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
         $scope.TenSach = "";
         $scope.SoluongSachMuon = 1;
         load_datepicker();
+        $scope.GetAllTrangThaiSach();
     };
 
     //xoá item khỏi list_book_queue
@@ -693,8 +780,8 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
     };
 
     //Lấy số lượng sách đang mượn
-    $scope.Get_SoluongSachDangMuonTheoMKS = function (mks) {
-        let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == mks);
+    $scope.Get_SoluongSachDangMuonTheoMKS = function (mks, ngaymuon, ngaytra) {
+        let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == mks && _.NgayMuon == ngaymuon && _.NgayTra == ngaytra);
         if (index >= 0) {
             return $scope.list_book_queue[index].SoLuong;
         }
@@ -717,4 +804,47 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
 
         return obj;
     };
+
+    //lấy tổng số lượng sách trên list_book_queue by maSach
+    $scope.GetTotalSoLuongSach_ViewDangTra = function (item) {
+        var list = $scope.list_book_queue.filter(function (element) {
+            return element.MaKiemSoat == item.MaKiemSoat
+                && element.NgayMuon == item.NgayMuon
+                && element.NgayTra == item.NgayTra;
+        });
+        var slSach_bool = true;
+        var Tong_slSach_DangTra = 0;
+        //forEach
+        angular.forEach(list, function (value, key) {
+            Tong_slSach_DangTra = parseInt(Tong_slSach_DangTra) + parseInt(value.SoLuong);
+        });
+        return Tong_slSach_DangTra;
+    }
+
+    //init
+    $scope.GetAllTrangThaiSach();
+
+}).directive('myRepeatDirective', function ($timeout) {
+    return function (scope, element, attrs) {
+        //Load function sau khi run ng-repeat
+        $timeout(function () {
+            load_datepicker("ngayPhaiTra_" + scope.x['MaKiemSoat']);
+
+            //update số lượng sách trong list chuẩn bị cho mượn
+            $("#List_" + scope.x['Id']).change(function () {
+                scope.x['SoLuong'] = $("#List_" + scope.x['Id']).val()
+            });
+
+            //update ngày trả sách trong list chuẩn bị cho mượn
+            $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).change(function () {
+                scope.x['NgayTra'] = $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).val()
+            });
+
+            //update ngày trả sách trong list chuẩn bị cho mượn
+            $("#Select_" + scope.x['Id']).change(function () {
+                scope.x['TinhTrangSach'] = $("#Select_" + scope.x['Id']).val()
+            });
+        });
+    };
 });
+

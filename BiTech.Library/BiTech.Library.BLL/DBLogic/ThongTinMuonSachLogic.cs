@@ -30,6 +30,22 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThongTinMuonSachEngine.GetAllTT(id);
         }
+
+        public List<ThongTinMuonSach> GetAllIdUser(string IdUser)
+        {
+            return _ThongTinMuonSachEngine.GetByidUser(IdUser);
+        }
+
+        public List<ThongTinMuonSach> GetAllIdUser_ChuaTra(string IdUser)
+        {
+            return _ThongTinMuonSachEngine.GetByidUser_ChuaTra(IdUser);
+        }
+
+        public int GetAll_ChuaTra_byIdSach(string idSach)
+        {
+            return _ThongTinMuonSachEngine.GetBy_ChuaTra_byidSach(idSach).Count();
+        }
+
         /// <summary>
         /// Insert a TinhTrangSach object
         /// </summary>
@@ -48,6 +64,14 @@ namespace BiTech.Library.BLL.DBLogic
         public ThongTinMuonSach getById(string id)
         {
             return _ThongTinMuonSachEngine.GetById(id);
+        }
+
+        public ThongTinMuonSach getByThongTinMuonSach(ThongTinMuonSach TT)
+        {
+            List<ThongTinMuonSach> team = _ThongTinMuonSachEngine.GetByThongTinMuonSach(TT);
+            if(team.Count > 0)
+                return team[0];
+            return null;
         }
 
         public bool SuaTrangThai(ThongTinMuonSach TT)
