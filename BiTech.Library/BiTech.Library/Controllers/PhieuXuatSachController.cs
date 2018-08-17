@@ -39,7 +39,8 @@ namespace BiTech.Library.Controllers
                 };
                 lstpxs.Add(pxs);
             }
-            
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(lstpxs.OrderByDescending(x=>x.NgayXuat).ToPagedList(PageNumber,PageSize));
         }
         public ActionResult Details(string id)

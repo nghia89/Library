@@ -28,7 +28,31 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.Id != id).ToList();
         }
+		
+        public List<ThongTinMuonSach> GetByidUser(string idUser)
+        {
+            return _DatabaseCollection.Find(x => x.idUser == idUser).ToList();
+        }
+        public List<ThongTinMuonSach> GetByThongTinMuonSach(ThongTinMuonSach TT)
+        {
+            return _DatabaseCollection.Find(x => x.idUser == TT.idUser
+                && x.idSach == TT.idSach
+                && x.NgayGioMuon == TT.NgayGioMuon
+                && x.NgayPhaiTra == TT.NgayPhaiTra
+                && x.DaTra == false
+            ).ToList();
+        }
+        public List<ThongTinMuonSach> GetByidUser_ChuaTra(string idUser)
+        {
+            return _DatabaseCollection.Find(x => x.idUser == idUser && x.DaTra == false).ToList();
+        }
+        public List<ThongTinMuonSach> GetBy_ChuaTra_byidSach(string idSach)
+        {
+            return _DatabaseCollection.Find(x => x.idSach == idSach && x.DaTra == false).ToList();
+        }
+		
         #region Tai
+		
         public List<ThongTinMuonSach> GetTTMSByIdUser(string idUser)
         {
             return _DatabaseCollection.Find(x => x.idUser == idUser).ToList();
@@ -38,7 +62,8 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.NgayGioMuon == ngayMuon).ToList();
         }
+		
         #endregion
-
+		
     }
 }

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     //ViewBag.ThongBao = true;
 }
-
+<link href="~/Content/AutoComplete.css" rel="stylesheet" />
 <div class="Title">Mượn sách</div>
 
 <div ng-app="LibraryApp" class="container-mt">
@@ -17,10 +17,15 @@
             </div>
         }
 
-        @using (Html.BeginForm("Index", "MuonSach", FormMethod.Get, new { role = "form" }))
+        @using (Html.BeginForm("Index", "MuonSach", FormMethod.Get, new { role = "form", id = "MuonSach" }))
         {
             <div class="input-group mb-3 p-1">
-                <input class="form-control form-control-sm" name="IdUser" autocomplete="off" placeholder="Nhập mã thành viên ..." />
+                <div class="form-control form-control-sm p-0" style="position:relative;">
+                    <input class="form-control form-control-sm border-0"
+                           id="list_maThanhVien" name="IdUser"
+                           autocomplete="off" placeholder="Nhập mã thành viên ..."
+                           onkeydown="if (event.keyCode == 13) { search_user(); }" />
+                </div>
                 <div class="input-group-append">
                     <input type="submit" value="Tìm kiếm" class="btn btn-primary btn-sm" />
                 </div>
@@ -30,7 +35,7 @@
 
     @if (ViewBag.hasUser)
     {
-        <div class="container-mt-sach clearfix " ng-controller="MuonSachCtrlr" ng-init="GetListBook()">
+        <div class="container-mt-sach clearfix " id="box_MuonSachCtrlr" ng-controller="MuonSachCtrlr" ng-init="GetListBook()">
             <div class="box-left clearfix p-1">
 
                 <div class="container-box-window clearfix">
@@ -44,9 +49,14 @@
                             <div class="form-group mb-0">
                                 <label for="email">Mã Sách:</label>
                                 <div class="input-group mb-3 p-0">
-                                    <input class="form-control form-control-sm" id="MaSach" ng-model="masach" autocomplete="off" ng-keypress="myFunct($event)" placeholder="Nhập mã sách ..." />
+                                    <div class="form-control form-control-sm p-0" style="position:relative;">
+                                        <input class="form-control form-control-sm border-0" id="MaSach" ng-model="masach"
+                                               autocomplete="off"
+                                               onkeydown="if (event.keyCode == 13) {search_book()}"
+                                               placeholder="Nhập mã sách ..." />
+                                    </div>
                                     <div class="input-group-append">
-                                        <input type="button" value="Thêm sách" ng-click="GetBook()" class="btn btn-primary btn-sm" />
+                                        <input type="button" id="searchMaSachbtn" value="Thêm sách" ng-click="GetBook_loading()" class="btn btn-primary btn-sm" />
                                     </div>
                                 </div>
                                 <div class="progress mt-1 mb-1 hidden_lib" style="height: 10px;" ng-class="{hidden_lib: loading_bar==false}">
@@ -97,7 +107,7 @@
                                                 <th>Ngày mượn</th>
                                                 <th>Ngày trả</th>
                                                 <th width="100" style="text-align: center;">
-                                                    <button type="button" ng-click="ResetListBookQueue()" class="btn btn-danger btn-sm">Xoá tất cả</button>
+                                                    <i class="fa fa-trash-o" title="Xoá tất cả" ng-click="ResetListBookQueue()" style="font-size:20px; cursor:pointer;"></i>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -166,7 +176,7 @@
                                         <td>{{ x.MaKiemSoat }}</td>
                                         <td>{{ x.TenSach }}</td>
                                         <td>{{ x.SoLuong }}</td>
-                                        <td>{{ x.NgayMuon | date : "dd/MM/y" }}</td>
+                                        <td>{{ x.NgayMuon }}</td>
                                         <td>{{ x.NgayTra }}</td>
                                     </tr>
 
@@ -190,10 +200,25 @@
 
         $(function () {
             load_datepicker("ngayPhaiTra");
+            AutoComplete(document.getElementById("list_maThanhVien"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maThanhVien) + "'")]);
+            AutoComplete(document.getElementById("MaSach"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maSach) + "'")]);
+
         });
 
         function reset_book(){
             //load_datepicker();
+        }
+
+        function search_book(){
+            setTimeout(function () {
+                $("#searchMaSachbtn").click();
+            }, 10);
+        }
+
+        function search_user(){
+            setTimeout(function () {
+                $("#MuonSach").submit();
+            }, 10);
         }
 
         function load_datepicker(name_id){
@@ -210,5 +235,75 @@
                 maxDate: @Html.Raw(ViewBag.MaxDate),
             }).datepicker("setDate", new Date() + 1).attr("readonly", "readonly");
         }
+
+        // AutoCompelete Search
+        function AutoComplete(inp, arr) {
+            var currentFocus;
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "AutoComplete-list");
+                a.setAttribute("class", "AutoComplete-items");
+                this.parentNode.appendChild(a);
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        b.addEventListener("click", function (e) {
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "AutoComplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("AutoComplete-active");
+            }
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("AutoComplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("AutoComplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+
+
+
     </script>
 }

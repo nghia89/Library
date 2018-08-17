@@ -58,6 +58,12 @@
     <Reference Include="Aspose.Words">
       <HintPath>..\..\Libs\Aspose.Words.dll</HintPath>
     </Reference>
+    <Reference Include="CSharp_MARC, Version=0.0.1.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MARC.1.0.0\lib\CSharp_MARC.dll</HintPath>
+    </Reference>
+    <Reference Include="MARC4J.Net, Version=2.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MARC4J.Net.2.5.3\lib\net40\MARC4J.Net.dll</HintPath>
+    </Reference>
     <Reference Include="OnBarcode.Barcode.BarcodeScanner">
       <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
     </Reference>
@@ -239,11 +245,13 @@
     <Compile Include="Controllers\BaseClass\ThanhVienCommon.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
+    <Compile Include="Controllers\ExportMarcController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LyDoXuatController.cs" />
     <Compile Include="Controllers\MarcController.cs" />
     <Compile Include="Controllers\MuonSachController.cs" />
     <Compile Include="Controllers\PhieuXuatSachController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\NgonNguController.cs" />
     <Compile Include="Controllers\TacGiaController.cs" />
@@ -262,8 +270,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
+    <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\LicenseHelper.cs" />
     <Compile Include="Helpers\Tool.cs" />
+    <Compile Include="Models\DataFieldMarcVm.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
     <Compile Include="Models\LanguageViewModel.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
@@ -1067,10 +1077,15 @@
     <Content Include="Views\GiaoVien\ImportFromExcel.cshtml" />
     <Content Include="Views\GiaoVien\ExportWord.cshtml" />
     <Content Include="Views\GiaoVien\_PartialUser.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Search\Edit.cshtml" />
+    <Content Include="Views\ExportMarc\exportMarc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\TempFiles\" />
+    <Folder Include="filemarc\" />
+    <Folder Include="Reports\" />
     <Folder Include="Scripts\mustache.js-master\test\spec\" />
     <Folder Include="Views\Marc\" />
   </ItemGroup>

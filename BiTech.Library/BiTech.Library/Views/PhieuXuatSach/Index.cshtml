@@ -6,41 +6,42 @@
 }
 
 <div class="Title">Danh Sách Phiếu Xuất</div>
-
-
-<p>@Html.ActionLink("Thêm Mới", "TaoPhieuXuatSach", null, new { @class = "btn btn-primary" })</p>
+<p>@Html.ActionLink("Thêm Mới", "TaoPhieuXuatSach", null, new { @class = "btn btn-primary btn-sm" })</p>
 
 <table class="table table-hover table-bordered">
 
     <thead>
         <tr class="table-info">
+            <th width="50" align="right">STT</th>
             <th>IdUserAdmin</th>
             <th>GhiChu</th>
             <th>NgayXuat</th>
             <th></th>
         </tr>
     </thead>
+    @{int i = 1;}
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
                 <td>@item.UserName</td>
                 <td>@item.GhiChu</td>
                 <td>@String.Format("{0:M/d/yyyy}", item.NgayXuat)</td>
                 <td>
                     <a class="color-white btn btn-outline-primary btn-sm" href="@Url.Action("Details",new { id = item.IdPhieuXuat})">
                         Xem chi tiết
-
                     </a>
                 </td>
             </tr>
+            { i++; }
         }
     </tbody>
 
 </table>
 
 <div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
 
 

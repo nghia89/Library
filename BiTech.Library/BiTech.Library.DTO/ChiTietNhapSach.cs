@@ -27,7 +27,7 @@ namespace BiTech.Library.DTO
         public string IdTinhtrang { get; set; }
 
         public int SoLuong { get; set; }
-        public string tenTinhTrang { get; set; }
+        //public string tenTinhTrang { get; set; }
         public string GhiChu { get; set; }
 
         /// <summary>

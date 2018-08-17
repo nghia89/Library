@@ -40,7 +40,8 @@ namespace BiTech.Library.Controllers
                 };
                 lsttg.Add(tg);
             }
-
+            ViewBag.pageSize = PageSize;
+            ViewBag.pages = PageNumber;
             return View(lsttg.OrderBy(m => m.TenTacGia).ToPagedList(PageNumber, PageSize));
         }
 

@@ -23,5 +23,11 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachTacGiaEngine.Insert(s);
         }
+        public SachTacGia getById(string id)
+        {
+            return _sachTacGiaEngine.GetAllBookIdBySachId(id);
+            
+        }
+
     }
 }

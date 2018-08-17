@@ -45,6 +45,7 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.MaKiemSoat == MaKS).FirstOrDefault();
         }
         #endregion
+
         public List<Sach> ListName(string keyWord)
         {
             FilterDefinition<Sach> filterDefinition = new BsonDocument();
@@ -61,6 +62,10 @@ namespace BiTech.Library.DAL.Engines
         public List<Sach> GetAllSach()
         {
             return _DatabaseCollection.Find(x=>x.IsDeleted==false).ToList();
+        }
+        public List<Sach> GetAll()
+        {
+            return _DatabaseCollection.Find(x =>true).ToList();
         }
         public List<Sach> getPageSach(KeySearchViewModel KeySearch)
         {
