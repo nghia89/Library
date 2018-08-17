@@ -39,7 +39,7 @@ namespace BiTech.Library.Controllers.BaseClass
         public ThanhVien LuuHinhChanDung(string physicalWebRootPath, ThanhVien thanhVien,
               string ImageName, HttpPostedFileBase hinhChanDung)
         {
-           //  string physicalWebRootPath = Server.MapPath("/");
+            //  string physicalWebRootPath = Server.MapPath("/");
             string uploadFolder = GetUploadFolder(Helpers.UploadFolder.AvatarUser);
             string uploadFileName = null;
             if (ImageName != null)
@@ -70,7 +70,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             else
             {
-             //   ==> Tên hình QR <==
+                //   ==> Tên hình QR <==
                 uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien +
                 "-" + thanhVien.Ten + ".bmp");
             }
@@ -82,7 +82,7 @@ namespace BiTech.Library.Controllers.BaseClass
             // chuyển đường dẫn vật lý thành đường dẫn ảo
             var pathQR = uploadFileNameQR.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
             //   ==> Info QRdata <==
-            string info = thanhVien.Id + "-" + thanhVien.MaSoThanhVien + "-" + thanhVien.Ten;
+            string info = "BLibUser-" + thanhVien.Id + "-" + thanhVien.MaSoThanhVien + "-" + thanhVien.Ten;
             bool bolQR = barcode.CreateQRCode(info, pathQR);
             if (bolQR == true)
             {
@@ -90,9 +90,22 @@ namespace BiTech.Library.Controllers.BaseClass
                 thanhVien.QRData = info;
             }
             return thanhVien;
-        }      
-
-        public List<ThanhVien>ImportFromExcel(string physicalWebRootPath, HttpPostedFileBase linkExcel)
+        }
+        public string GetInfo(string info)
+        {
+            string[] arrStr = info.Split('-');
+            string id = null;
+            string maSo = null;
+            string ten = null;
+            if (arrStr[0].Equals("BLibUser") == true)
+            {
+                id = arrStr[1];
+                maSo = arrStr[2];
+                ten = arrStr[3];
+            }
+            return maSo;
+        }
+        public List<ThanhVien> ImportFromExcel(string physicalWebRootPath, HttpPostedFileBase linkExcel)
         {
             ExcelManager excelManager = new ExcelManager();
             List<ThanhVien> list = new List<ThanhVien>();
@@ -110,6 +123,6 @@ namespace BiTech.Library.Controllers.BaseClass
                 list = excelManager.ImportThanhVien(sourceDir);
             }
             return list;
-        }      
+        }
     }
 }

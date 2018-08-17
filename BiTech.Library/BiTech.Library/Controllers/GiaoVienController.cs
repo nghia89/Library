@@ -44,6 +44,10 @@ namespace BiTech.Library.Controllers
                 i++;
             }
             model.ListThanhVien = listThanhVien;
+            //  TEST
+            string result = "BlibUser-5b6d4793a9b6e209cccccbda-1-Thành Viên 1";
+            thanhVienCommon.GetInfo(result);
+
             return View(model);
         }
         [HttpPost]
@@ -141,24 +145,32 @@ namespace BiTech.Library.Controllers
                 ThanhVien tv = _ThanhVienLogic.GetById(id);
                 string physicalWebRootPath = Server.MapPath("/");
                 ThanhVien temp = new ThanhVien();
-                try
+
+                // Lưu hình chân dung 
+                //viewModel.LinkAvatar = "";
+                //if (viewModel.HinhChanDung != null && Tool.IsImage(viewModel.HinhChanDung))
+                //{
+                //    viewModel.LinkAvatar = viewModel.HinhChanDung.FileName;
+                //}
+                if (viewModel.HinhChanDung != null)
                 {
-                    // Lưu hình chân dung     
-                    if (viewModel.HinhChanDung != null)
+                    try
                     {
                         temp = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, tv, null, viewModel.HinhChanDung);
+                        // viewModel.LinkAvatar = temp.HinhChanDung;
                         tv.HinhChanDung = temp.HinhChanDung;
                     }
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.ImageUnsuccess = "Lưu hình chân dung thất bại" + ex.Message;
-                    viewModel.ListNienKhoa = thanhVienCommon.TaoNienKhoa();
-                    return View(viewModel);
-                }
+                    catch (Exception ex)
+                    {
+                        ViewBag.ImageUnsuccess = "Lưu hình chân dung thất bại\r\n" + ex.Message;
+                        viewModel.ListNienKhoa = thanhVienCommon.TaoNienKhoa();
+                        return View(viewModel);
+                    }
+                }              
+                // Lưu mã vạch
                 try
                 {
-                    // Lưu mã vạch
+
                     temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null);
                     if (temp != null)
                     {
@@ -229,7 +241,12 @@ namespace BiTech.Library.Controllers
                 ChucVu = tv.ChucVu,
                 TrangThai = tv.TrangThai, */
             };
-            ViewBag.HinhChanDung = tv.HinhChanDung;
+            //model.LinkAvatar = "";
+            //if (model.HinhChanDung != null && Tool.IsImage(model.HinhChanDung))
+            //{
+            //    model.LinkAvatar = model.HinhChanDung.FileName;
+            //}
+            //ViewBag.HinhChanDung = tv.HinhChanDung;
             return View(model);
         }
         [HttpPost]
@@ -250,7 +267,6 @@ namespace BiTech.Library.Controllers
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
             thanhVien.SDT = viewModel.SDT;
-
             bool resultInfo = _ThanhVienLogic.Update(thanhVien);
             bool resultImage = false;
 
@@ -288,10 +304,7 @@ namespace BiTech.Library.Controllers
                     _ThanhVienLogic.Update(thanhVien);
                 }
             }
-            catch (Exception ex)
-            {
-                return View(viewModel);
-            }
+            catch { }
             if (resultInfo == true || resultImage == true)
             {
                 return RedirectToAction("Details", "GiaoVien", new { @idUser = viewModel.Id });
@@ -367,9 +380,12 @@ namespace BiTech.Library.Controllers
                 MaSoThanhVien = thanhVien.MaSoThanhVien,
                 TrangThai = thanhVien.TrangThai,
                 QRLink = thanhVien.QRLink,
-                LinkAvatar = thanhVien.HinhChanDung,
 
             };
+            if (thanhVien.HinhChanDung == null)
+                model.LinkAvatar = @"/Content/Images/Default.jpg";
+            else
+                model.LinkAvatar = thanhVien.HinhChanDung;
             return View(model);
         }
         public ActionResult ChangePassword(string idUser)
@@ -403,8 +419,8 @@ namespace BiTech.Library.Controllers
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(model.Id);
             if (thanhVien.Password.Equals(model.OldPassword) == true)
-            {                
-                if(model.NewPassword.Equals(model.ConfirmPassword)==true)
+            {
+                if (model.NewPassword.Equals(model.ConfirmPassword) == true)
                 {
                     TempData["Sussces"] = "Đổi mật khẩu thành công!";
                     return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
@@ -413,7 +429,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
             }
             TempData["Error"] = "Mật khẩu hiện tại không đúng!";
-            return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });           
+            return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
         }
         public ActionResult ImportFromExcel()
         {
@@ -433,7 +449,7 @@ namespace BiTech.Library.Controllers
             List<ThanhVien> list = new List<ThanhVien>();
             if (model.LinkExcel != null)
             {
-                string physicalWebRootPath = Server.MapPath("/");              
+                string physicalWebRootPath = Server.MapPath("/");
                 list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);
                 int i = 0;
                 foreach (var item in list)
@@ -522,11 +538,11 @@ namespace BiTech.Library.Controllers
             string linkMau = null;
             if (mauThe.Equals("mau1") == true)
             {
-                linkMau = "/Upload/FileWord/mau1.docx";
+                linkMau = "/Upload/FileWord/Mau1.docx";
             }
             else if ((mauThe.Equals("mau2") == true))
             {
-                linkMau = "/Upload/FileWord/mau2.docx";
+                linkMau = "/Upload/FileWord/Mau2.docx";
             }
             excelManager.ExportWord(linkMau, listTV);
             return RedirectToAction("Index", "GiaoVien");

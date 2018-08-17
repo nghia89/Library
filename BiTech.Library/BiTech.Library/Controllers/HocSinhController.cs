@@ -243,8 +243,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            #endregion
-            BarCodeQRManager barcode = new BarCodeQRManager();
+            #endregion          
             var thanhVien = _ThanhVienLogic.GetById(viewModel.Id);
             // thông tin cho phép cập nhật            
             thanhVien.LopHoc = viewModel.LopHoc;
@@ -253,11 +252,14 @@ namespace BiTech.Library.Controllers
             thanhVien.DiaChi = viewModel.DiaChi;
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
-            thanhVien.SDT = viewModel.SDT;
-
+            thanhVien.SDT = viewModel.SDT;        
             bool resultInfo = _ThanhVienLogic.Update(thanhVien);
             bool resultImage = false;
-
+            //viewModel.LinkAvatar = "";
+            //if (viewModel.HinhChanDung != null && Tool.IsImage(viewModel.HinhChanDung))
+            //{
+            //    viewModel.LinkAvatar = viewModel.HinhChanDung.FileName;
+            //}
             if (viewModel.HinhChanDung != null)
             {
                 try
@@ -281,7 +283,7 @@ namespace BiTech.Library.Controllers
             {
                 // cập nhật QR
                 string physicalWebRootPath = Server.MapPath("/");
-                string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+                //string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
                 string imageName = null;
                 if (thanhVien.QRLink != null)
                     imageName = thanhVien.QRLink.Replace(@"/Upload/QRCodeUser/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
@@ -301,6 +303,7 @@ namespace BiTech.Library.Controllers
             else
             {
                 ViewBag.UpdateFail = "Cập nhật không thành công!";
+
                 return View(viewModel);
             }
         }
@@ -368,10 +371,12 @@ namespace BiTech.Library.Controllers
                 Password = thanhVien.Password,
                 MaSoThanhVien = thanhVien.MaSoThanhVien,
                 TrangThai = thanhVien.TrangThai,
-                QRLink = thanhVien.QRLink,
-                LinkAvatar = thanhVien.HinhChanDung,
-
+                QRLink = thanhVien.QRLink,                
             };
+            if (thanhVien.HinhChanDung == null)
+                model.LinkAvatar = @"/Content/Images/Default.jpg";
+            else
+                model.LinkAvatar = thanhVien.HinhChanDung;  
             return View(model);
         }
         public ActionResult ChangePassword(string idUser)
@@ -492,8 +497,9 @@ namespace BiTech.Library.Controllers
 
             if (model.LinkWord != null)
             {
-                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileWord);
                 string physicalWebRootPath = Server.MapPath("/");
+                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileWord);
+              
 
                 var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkWord.FileName);
 

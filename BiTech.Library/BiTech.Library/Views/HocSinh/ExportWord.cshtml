@@ -10,10 +10,10 @@
 
 <div class="form-group row">
     <label class="col-form-label col-md-2 control-label" for="TomTat">Mẫu thẻ 1:</label>
-    <div class="col-sm-2">
-        <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:300px;height:170px" />
-        @*@Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
-            @Html.ValidationMessageFor(m => m.HinhChanDung)*@
+    <div class="col-sm-6">
+        <a href="@Url.Action("MauThe","GiaoVien",new { @mauThe = "mau1" })">
+            <img id="SaveImage" src="~/Content/Images/Mau1.png" alt="Ảnh nhân viên" style="width:800px;height:250px" />
+        </a>
     </div>
 </div>
 
@@ -21,11 +21,9 @@
     <label class="col-form-label col-md-2 control-label" for="TomTat">Mẫu thẻ 2:</label>
     <div class="col-sm-6">
 
-        <a href="@Url.Action("MauThe","HocSinh",new { @mauThe = "mau2" })">
-            <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:300px;height:170px" />
+        <a href="@Url.Action("MauThe","GiaoVien",new { @mauThe = "mau2" })">
+            <img id="SaveImage" src="~/Content/Images/Mau2.png" alt="Ảnh nhân viên" style="width:800px;height:250px" />
         </a>
-        @*@Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
-            @Html.ValidationMessageFor(m => m.HinhChanDung)*@
     </div>
 </div>
 

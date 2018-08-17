@@ -11,7 +11,7 @@
 <div class="form-group row">
     <div class="col-sm-6">
         @Html.LabelFor(m => m.QRLink, new { @class = "col-md-2 control-label" })
-        <img src="@Model.QRLink" alt="Mã QR" style="width:auto" />
+        <img src="@Model.QRLink" alt="Mã QR" style="width:auto" onerror="this.src = '/Content/Images/user5.jpg'" />
     </div>
 </div>
 

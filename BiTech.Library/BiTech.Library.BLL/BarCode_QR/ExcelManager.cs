@@ -162,20 +162,35 @@ namespace BiTech.Library.BLL.BarCode_QR
             foreach (var item in list)
             {
                 Document docx = new Document(sourceSavePath);
-                docx.Range.Replace("_FullName_", item.Ten, true, true);
-                docx.Range.Replace("_GioiTinh_", item.GioiTinh, true, true);
+                if (item.Ten != null)
+                    docx.Range.Replace("_FullName_", item.Ten, true, true);
+                if (item.GioiTinh != null)
+                    docx.Range.Replace("_GioiTinh_", item.GioiTinh, true, true);
+                if (item.NgaySinh != null)
+                    docx.Range.Replace("_NgaySinh_", item.NgaySinh.ToString("dd-MM-yyyy"), true, true);
                 if (item.LopHoc != null)
                     docx.Range.Replace("_LopHoc_", item.LopHoc, true, true);
                 docx.Range.Replace("_NgayTaoThe_", DateTime.Today.ToString("dd-MM-yyyy"), true, true);
+                if (item.NienKhoa != null)
+                    docx.Range.Replace("_NienKhoa_", item.NienKhoa, true, true);
                 if (item.HinhChanDung != null)
                 {
                     string linkImage = HttpContext.Current.Server.MapPath(item.HinhChanDung.ToString());
-                    docx.Range.Replace(new Regex("_image_"), new ReplaceWithImageEvaluator(linkImage), false);
+                    docx.Range.Replace(new Regex("_Image_"), new ReplaceWithImageEvaluator(linkImage), false);
                 }
+                if (item.QRLink != null)
+                {
+                    string linkImage = HttpContext.Current.Server.MapPath(item.QRLink.ToString());
+                    docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR(linkImage), false);
+                }
+                // int month= DateTime.Today.Month;
+                // int year = (DateTime.Today.Year + 1);
+                string thoiHan = DateTime.Today.Month.ToString() + "/" + (DateTime.Today.Year + 1).ToString();
+                docx.Range.Replace("_ThoiHan_",thoiHan, true, true);
                 outputBuilder.MoveToDocumentEnd();
                 outputBuilder.InsertDocument(docx, ImportFormatMode.KeepDifferentStyles);
             }
-            // outputDoc.Save(Path.GetDirectoryName(sourceSavePath) + @"/outt.docx");
+            // outputDoc.Save(Path.GetDirectoryName(sourceSavePath) + @"/DanhSachThanhVien-Export.docx");
             outputDoc.Save(@"D:/DanhSachThanhVien-Export.docx");
         }
 
