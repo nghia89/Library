@@ -1,12 +1,12 @@
-﻿@model PagedList.IPagedList<PhieuMuon>
+﻿
+@model PagedList.IPagedList<ThongTinMuonSach>
 @using System;
 @using System.Globalization;
 @using BiTech.Library.DTO;
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "DanhSachMuon";
+    ViewBag.Title = "MuonSach";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-
 
     var months = DateTimeFormatInfo
     .InvariantInfo
@@ -25,6 +25,7 @@
         Value = year.ToString(CultureInfo.InvariantCulture),
         Text = year.ToString(CultureInfo.InvariantCulture)
     });
+
 }
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
@@ -56,10 +57,10 @@
     <h6> Tổng số người mượn sách trong ngày "@ViewBag.Day" là: @ViewBag.SoLuongThanhVien người</h6>
 }
 <hr />
-<table class="table table-striped">
+<table class="table table-hover table-striped">
     <thead>
-        <tr class="table-info">
-            <th>Stt</th>
+        <tr class="table-info text-center">
+            <th>STT</th>
             <th>Người mượn</th>
             <th>Tên sách</th>
             <th>Số lượng</th>
@@ -76,26 +77,27 @@
     {
         <tbody>
             <tr>
-                <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
+                <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
                 @{
                     string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;
                 }
                 <td>@Html.ActionLink(TenThanhVien, "LichSuMuonSach", new { page = 1, id = @ViewBag.ListThanhVien[i].Id, pagePM = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
-                <td>@ViewBag.ListSach[i].TenSach,..</td>
-                
-                <td>tổng @ViewBag.ListSoSachTong[i] cuốn</td>
-                <td class="text-center">@item.NgayMuon.ToString("dd-MM-yyyy")</td>
-                <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
+                <td>@ViewBag.ListSach[i].TenSach</td>
+                <td class="text-center">@item.SoSachTong.ToString()</td>
+                @*<td>tổng @ViewBag.ListSoSachTong[i] cuốn</td>*@
+                <td class="text-center">@item.NgayGioMuon</td>
+                <td class="text-center">@item.NgayPhaiTra</td>
 
                 @{
-                    DateTime? ngayTra = item.NgayTra;
-                    string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
+                    string x = item.NgayTraThucTe != null ? item.NgayTraThucTe : "01-01-0001";
                 }
 
-                @if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001") == false)
+                @if (item.NgayTraThucTe.Equals("01-01-0001") == false)
                 {
-                    <td>@ngayTraFormat</td>
-                    if (item.SoNgayGiaoDong != null)
+                    @*<td>@ngayTraFormat</td>*@
+                    <td>@x</td>
+
+                    if (@item.SoNgayGiaoDong != null)
                     {
                         <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
                     }
@@ -115,7 +117,8 @@
                     {
                         if (item.SoNgayGiaoDong == null)
                         {
-                            var ngayTre = DateTime.Now - item.NgayPhaiTra;
+                            DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
+                            var ngayTre = DateTime.Now - ngayPhaiTra;
                             <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                         }
                         else
@@ -124,8 +127,7 @@
                         }
                     }
                 }
-                @*<td>@item.Id</td>*@
-                <td></td>
+                <td>GiaHan</td>
 
             </tr>
         </tbody>
@@ -137,7 +139,7 @@
 </table>
 
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("DanhSachMuon", new { page = Page, day = ViewBag.Day, month = ViewBag.Month, year = ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    @Html.PagedListPager(Model, Page => Url.Action("MuonSach", new { page = Page, day = ViewBag.Day, month = ViewBag.Month, year = ViewBag.Year })@*, PagedListRenderOptions.ClassicPlusFirstAndLast*@)
 </p>
 
 <style>
@@ -179,17 +181,19 @@
                     //var thang = a.toString().substring(3, 5);
                     //var nam = a.toString().substring(6);
 
-                    window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + ngay + '&month=' + 0 + '&year=' + 0;
+                    window.location.href = '/ThongKe/MuonSach?page=1&day=' + ngay + '&month=' + 0 + '&year=' + 0;
                 }
             }).attr("readonly", "readonly");
         });
 
         function onMonthSelectedChagned() {
-            window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
+            window.location.href = '/ThongKe/MuonSach?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
+
         }
 
         function onYearSelectedChagned() {
-            window.location.href = '/ThongKe/DanhSachMuon?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
+            window.location.href = '/ThongKe/MuonSach?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
         }
     </script>
 }
+

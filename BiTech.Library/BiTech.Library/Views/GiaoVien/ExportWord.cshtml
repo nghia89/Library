@@ -1,0 +1,69 @@
+﻿@model BiTech.Library.Models.UserViewModel
+@{
+    ViewBag.Title = "ExportWord";
+}
+
+<h2>Xuất mẫu thẻ giáo viên</h2>
+<button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "GiaoVien")'">
+    <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+</button>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-2 control-label" for="TomTat">Mẫu thẻ 1:</label>
+    <div class="col-sm-6">
+        <a href="@Url.Action("MauThe","GiaoVien",new { @mauThe = "mau1" })">
+            <img id="SaveImage" src="~/Content/Images/Mau1.png" alt="Ảnh nhân viên" style="width:800px;height:250px" />
+        </a>     
+    </div>
+</div>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-2 control-label" for="TomTat">Mẫu thẻ 2:</label>
+    <div class="col-sm-6">
+
+        <a href="@Url.Action("MauThe","GiaoVien",new { @mauThe = "mau2" })">
+            <img id="SaveImage" src="~/Content/Images/Mau2.png" alt="Ảnh nhân viên" style="width:800px;height:250px" />
+        </a>       
+    </div>
+</div>
+
+<h2>Chọn mẫu thẻ khác</h2>
+
+@using (Html.BeginForm("ExportWord", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-group row">
+        <div class="col-sm-6">
+            @*<img id="SaveFile" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:220px" />*@
+            @Html.TextBoxFor(m => m.LinkWord, new { type = "file", accept = ".docx,.doc" })
+            @Html.ValidationMessageFor(m => m.LinkWord)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-sm btn-primary" value="Chọn" />
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        function ReadUrl(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#SaveFile').attr('src', e.target.result);
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+        $("#LinkWord").change(function () {
+            ReadUrl(this);
+        });
+    </script>
+}
+
+

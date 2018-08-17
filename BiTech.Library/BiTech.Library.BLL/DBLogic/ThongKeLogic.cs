@@ -34,6 +34,9 @@ namespace BiTech.Library.BLL.DBLogic
         private string TableName7 = "ChiTietPhieuTra";
         ChiTietPhieuTraEngine _chiTietPhieuTraEngine;
 
+        private string TableName8 = "ThongTinMuonSach";
+        ThongTinMuonSachEngine _thongTinMuonSachEngine;
+
         public ThongKeLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString);
@@ -46,11 +49,37 @@ namespace BiTech.Library.BLL.DBLogic
             _trangThaiSachEngine = new TrangThaiSachEngine(database, databaseName, TableName5);
             _phieuTraEngine = new PhieuTraEngine(database, databaseName, TableName6);
             _chiTietPhieuTraEngine = new ChiTietPhieuTraEngine(database, databaseName, TableName7);
+            _thongTinMuonSachEngine = new ThongTinMuonSachEngine(database, databaseName, TableName8);
+
 
             var ngayMuon = DateTime.ParseExact("26-02-2017", "dd-MM-yyyy", null);
             var ngayPhaiTra = DateTime.ParseExact("26-08-2018", "dd-MM-yyyy", null);
             var ngayTra = DateTime.ParseExact("25-04-2017", "dd-MM-yyyy", null);
+
+            //ThongTinMuonSach tt = new ThongTinMuonSach()
+            //{
+            //    idSach = "5b69574fa9b6e238848a521c",
+            //    idUser = "5b6bb015a9b6db05cc289d06",
+            //    NgayGioMuon = "26-02-2017",                
+            //    NgayPhaiTra = "26-04-2017",
+            //};
+            //_thongTinMuonSachEngine.Insert(tt);
         }
+        //  THÔNG TIN MƯỢN SÁCH
+        public List<ThongTinMuonSach> GetAllTTMS()
+        {
+            return _thongTinMuonSachEngine.GetAll();
+        }
+        public List<ThongTinMuonSach> GetTTMSByIdUser(string idUser)
+        {
+            return _thongTinMuonSachEngine.GetTTMSByIdUser(idUser);
+        }
+        public List<ThongTinMuonSach> GetTTMSByNgayMuon(string ngayMuon)
+        {
+            return _thongTinMuonSachEngine.GetTTMSByNgayMuon(ngayMuon);
+        }
+
+
         // PHIẾU MƯỢN
         public List<PhieuMuon> GetAllPhieuMuon()
         {

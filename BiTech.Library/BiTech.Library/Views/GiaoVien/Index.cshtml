@@ -6,11 +6,17 @@
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <link href="~/Content/AutoComplete.css" rel="stylesheet" />
-<div class="Title">Danh sách thành viên</div>
+
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>*@
+
+<div class="Title">Danh sách giáo viên</div>
 <div class="text-success">@ViewBag.Success</div>
 <h5 class="text-danger">@ViewBag.SearchFail</h5>
 <div class="container">
-    @using (Html.BeginForm("Index", "ThanhVien", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("Index", "GiaoVien", FormMethod.Post, new { role = "form" }))
     {
         <div class="container" id="tv_tk">
             <div class="col-lg-6">
@@ -35,20 +41,20 @@
 <br />
 
 <div id="topbar">
-    <h5>@Html.ActionLink("Thêm thành viên", "_CreateUser", "ThanhVien", new { @class = "btn btn-sm btn-primary" })</h5>
+    <h5>@Html.ActionLink("Thêm giáo viên", "_CreateUser", "GiaoVien", new { @class = "btn btn-sm btn-primary" })</h5>
 </div>
 <div id="topbar">
-    <h5>@Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "ThanhVien", new { @class = "btn btn-sm btn-primary" })</h5>
+    <h5>@Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "GiaoVien", new { @class = "btn btn-sm btn-primary" })</h5>
 </div>
 <div id="topbar">
-    <h5>@Html.ActionLink("Xuất mẫu thẻ thành viên", "ExportWord", "ThanhVien", new { @class = "btn btn-sm btn-primary" })</h5>
+    <h5>@Html.ActionLink("Xuất mẫu thẻ giáo viên", "ExportWord", "GiaoVien", new { @class = "btn btn-sm btn-primary" })</h5>
 </div>
 <h5 class="text-success">@ViewBag.Success</h5>
 <h5 class="text-danger">@ViewBag.UnSuccess</h5>
 
 
 <div class="m10">
-    @Html.Action("_PartialUser", "ThanhVien", new { @IdUser = "", @list = Model.ListThanhVien })
+    @Html.Action("_PartialUser", "GiaoVien", new { @IdUser = "", @list = Model.ListThanhVien })
 </div>
 @section scripts{
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
@@ -62,7 +68,7 @@
         // Xóa thành viên
         function Delete(Id, Ten) {
             swal({
-                title: " Bạn có chắc muốn khóa thành viên " + Ten + " không?",
+                title: " Bạn có chắc muốn khóa giáo viên " + Ten + " không?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -75,7 +81,7 @@
                 if (isConfirm) {
                     $.ajax({
                         type: 'POST',
-                        url: '/ThanhVien/Delete',
+                        url: '/GiaoVien/Delete',
                         data: { "Id": Id },
                         success: function (resultData) {
                             swal({
@@ -86,12 +92,12 @@
                                 closeOnConfirm: false
                             },
                             function (isConfirm) {
-                                window.location.href = '/ThanhVien/Index';
+                                window.location.href = '/GiaoVien/Index';
                             });
                         }
                     })
                 } else {
-                    swal("Không khóa thì bấm làm gì?", null, "error");
+                    swal("Cancel!", null, "error");
                 }
             });
         }
@@ -200,7 +206,7 @@
             }
         });*@
 
-       
+
         // ------
         function RequestAltInsertGuiBegin() {
             $(this).addClass('active');
@@ -218,5 +224,14 @@
             form.removeData('unobtrusiveValidation');
             $.validator.unobtrusive.parse(form);
         }
+        // find bootstrap
+        $(document).ready(function () {
+            $("#mySearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
     </script>
 }

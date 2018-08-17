@@ -16,7 +16,7 @@ namespace BiTech.Library.Controllers.BaseClass
         /// </summary>
         /// <param name="listPM"></param>
         /// <returns></returns>
-        public int DemSoPhieuMuon(List<PhieuMuon> listPM)
+        public int DemSoPhieuMuon(List<ThongTinMuonSach> listPM)
         {
             int dem = 0;
             foreach (var pm in listPM)
@@ -30,7 +30,7 @@ namespace BiTech.Library.Controllers.BaseClass
         /// </summary>
         /// <param name="listPM"></param>
         /// <returns></returns>
-        public int DemSoNguoiMuonSach(List<PhieuMuon> listPM)
+        public int DemSoNguoiMuonSach(List<ThongTinMuonSach> listPM)
         {
             bool flat = false;
             List<object> listSoLuongThanhVien = new List<object>();
@@ -39,7 +39,7 @@ namespace BiTech.Library.Controllers.BaseClass
             {
                 // Đếm số người mượn trong ngày (không trùng)
                 flat = false;
-                idThanhVien = pm.IdUser;
+                idThanhVien = pm.idUser;
                 if (listSoLuongThanhVien.Count == 0)
                 {
                     listSoLuongThanhVien.Add(idThanhVien);
@@ -72,13 +72,17 @@ namespace BiTech.Library.Controllers.BaseClass
         /// </summary>
         /// <param name="listPM"></param>
         /// <returns></returns>
-        public int DemSoNguoiTraTre(List<PhieuMuon> listPM)
+        public int DemSoNguoiTraTre(List<ThongTinMuonSach> listPM)
         {
             int soNguoiTraTre = 0;
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
-            foreach (var pm in listPM)
+            foreach (var item in listPM)
             {
-                if (pm.NgayTra != ngayTraNull && pm.NgayTra != null && pm.NgayTra != null && pm.NgayTra > pm.NgayPhaiTra)
+                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
+                if (String.IsNullOrEmpty(item.NgayTraThucTe))
+                    item.NgayTraThucTe = "01-01-0001";
+                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
+                if (ngayTraThucTe != ngayTraNull && ngayTraThucTe != null && ngayTraThucTe > ngayPhaiTra)
                 {
                     soNguoiTraTre++;
                 }
@@ -90,39 +94,76 @@ namespace BiTech.Library.Controllers.BaseClass
         /// </summary>
         /// <param name="listPM"></param>
         /// <returns></returns>
-        public int DemSoNguoiKhongTra(List<PhieuMuon> listPM)
+        public int DemSoNguoiKhongTra(List<ThongTinMuonSach> listPM)
         {
             int soNguoiKhongTra = 0;
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
-            foreach (var pm in listPM)
+            foreach (var item in listPM)
             {
-                if (pm.NgayPhaiTra < DateTime.Today && pm.NgayTra == ngayTraNull && pm.NgayTra != null)
+                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
+                if (String.IsNullOrEmpty(item.NgayTraThucTe))
+                    item.NgayTraThucTe = "01-01-0001";
+                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
+                // DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                if (ngayPhaiTra < DateTime.Today && (ngayTraThucTe == ngayTraNull || ngayTraThucTe == null))
                 {
                     soNguoiKhongTra++;
                 }
             }
             return soNguoiKhongTra;
-        }   
+        }
         /// <summary>
         /// Đếm số sách được mượn trong phiếu mượn
         /// </summary>
         /// <param name="listPM"></param>
         /// <returns></returns>
-        public int DemSoSachDuocMuon(List<PhieuMuon> listPM,string connectionString,string databaseName)
-        {           
+        public int DemSoSachDuocMuon(List<ThongTinMuonSach> listPM, string connectionString, string databaseName)
+        {
             var _thongKeLogic = new ThongKeLogic(connectionString, databaseName);
-            int soLuongSach = 0;                       
+            int soLuongSach = 0;
             foreach (var pm in listPM)
             {
-                var listCTPM = _thongKeLogic.GetCTPMById(pm.Id);               
-                foreach (var i in listCTPM)
-                {
-                    // số lượng sách được mượn
-                    var soLuong = i.SoLuong != 0 ? i.SoLuong : 1;
-                    soLuongSach += soLuong; // tổng số sách được mượn trong danh sách phiếu mượn (tháng/ngày)
-                }
+                //var listCTPM = _thongKeLogic.GetCTPMById(pm.Id);
+                //foreach (var i in listCTPM)
+                //{
+
+
+                //    // số lượng sách được mượn
+                //    var soLuong = i.SoLuong != 0 ? i.SoLuong : 1;
+                //    soLuongSach += soLuong; // tổng số sách được mượn trong danh sách phiếu mượn (tháng/ngày)
+                //}
+
+                soLuongSach++;
+
             }
             return soLuongSach;
+        }
+        public List<ThongTinMuonSach> RutGonDanhSach(List<ThongTinMuonSach> list)
+        {
+            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();
+            foreach (var item in list)
+            {
+                // Gộp sách                
+                if (listRutGon.FindIndex(_ => _.idUser == item.idUser
+                && _.idSach == item.idSach
+                && _.NgayGioMuon == item.NgayGioMuon
+                && _.NgayPhaiTra == item.NgayPhaiTra
+                && _.NgayTraThucTe == item.NgayTraThucTe) > -1)
+                {
+                    // Đã tồn tại
+                    var ttms = listRutGon.Where(_ => _.idUser == item.idUser
+                    && _.idSach == item.idSach
+                    && _.NgayGioMuon == item.NgayGioMuon
+                    && _.NgayPhaiTra == item.NgayPhaiTra
+                    && _.NgayTraThucTe == item.NgayTraThucTe).SingleOrDefault();
+                    ttms.SoSachTong += 1;
+                }
+                else
+                {
+                    listRutGon.Add(item);
+                }
+            }
+            return listRutGon;
         }
 
     }

@@ -182,9 +182,11 @@ namespace BiTech.Library.Controllers
 
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuongTong += ctns.SoLuong;
-                            updatesl.SoLuongConLai += ctns.SoLuong;
+                            // ktr neu cho muon moi cong them
+                            var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
+                            if (tinhTrang.TrangThai == true)
+                                updatesl.SoLuongConLai += ctns.SoLuong;
                             _SachLogic.Update(updatesl);
-
                         }
                     }
                     return RedirectToAction("Index");
@@ -383,7 +385,8 @@ namespace BiTech.Library.Controllers
 
                             var updateSach = _SachLogic.GetBookById(sltt.IdSach);
                             updateSach.SoLuongTong += item.SoLuong;
-                            updateSach.SoLuongConLai += item.SoLuong;
+                            if (trangThaiSach.TrangThai == true)
+                                updateSach.SoLuongConLai += item.SoLuong;
                             _SachLogic.Update(updateSach);
                         }
                     }

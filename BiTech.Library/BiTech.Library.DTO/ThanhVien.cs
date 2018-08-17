@@ -53,6 +53,10 @@ namespace BiTech.Library.DTO
         public string LoaiTK { get; set; }
         [BsonIgnore]
         public string TenTrangThai { get; set; }
+        [BsonIgnore]
+        public int ColumnExcel { get; set; }
+        [BsonIgnore]
+        public int RowExcel { get; set; }
         #endregion
     }
 }

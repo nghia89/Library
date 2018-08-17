@@ -1,0 +1,8 @@
+﻿.avatar_detail {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    border: 6px solid #728C92;
+    object-fit: cover;
+    margin: 0 25px 10px 25px;
+}
