@@ -18,16 +18,13 @@ namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
     {
-//<<<<<<< HEAD
         SachCommon sachCommon;
         public SachController()
         {
             sachCommon = new SachCommon();
         }
-//        public ActionResult Index(KeySearchViewModel KeySearch)
-//=======
+
         public ActionResult Index(KeySearchViewModel KeySearch, int? page)
-//>>>>>>> NghiaNguyen89
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -41,8 +38,7 @@ namespace BiTech.Library.Controllers
             KeSachLogic _KeSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-
+            
             ListBooksModel model = new ListBooksModel();
 
             int pageSize = 10;

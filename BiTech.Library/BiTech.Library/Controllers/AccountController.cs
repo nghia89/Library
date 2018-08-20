@@ -14,8 +14,6 @@ namespace BiTech.Library.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             return Redirect(string.Format("{0}{1}", ConfigurationManager.AppSettings["LogoffUrl"], HttpRuntime.AppDomainAppVirtualPath));

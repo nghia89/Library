@@ -8,6 +8,8 @@ namespace BiTech.Library.Models
 
         public string UserName { get; set; } = "";
 
+        public string FullName { get; set; } = "";
+
         public string Role { get; set; } = "";
 
         public Dictionary<string, SSOUserAppModel> MyApps { get; set; } = new Dictionary<string, SSOUserAppModel>();
@@ -22,5 +24,17 @@ namespace BiTech.Library.Models
         public string ConnectionString { get; set; } = "";
 
         public string DatabaseName { get; set; } = "";
+    }
+
+    public static class SSOUserDataClaimType
+    {
+        public static string Id               = "SSOUserData_Id";
+        public static string UserName         = "SSOUserData_UserName";
+        public static string FullName         = "SSOUserData_FullName";
+        public static string Role             = "SSOUserData_Role";
+        public static string AppName          = "SSOUserData_AppName";
+        public static string Licence          = "SSOUserData_Licence";
+        public static string ConnectionString = "SSOUserData_ConnectionString";
+        public static string DatabaseName     = "SSOUserData_DatabaseName";
     }
 }
