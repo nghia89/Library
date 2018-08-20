@@ -25,6 +25,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return dem;
         }
+
         /// <summary>
         /// Đếm số người mượn sách trong phiếu mượn
         /// </summary>
@@ -67,6 +68,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return listSoLuongThanhVien.Count();
         }
+
         /// <summary>
         /// Đếm số người trả sách trễ trong phiếu mượn
         /// </summary>
@@ -78,10 +80,12 @@ namespace BiTech.Library.Controllers.BaseClass
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var item in listPM)
             {
-                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                if (String.IsNullOrEmpty(item.NgayTraThucTe))
-                    item.NgayTraThucTe = "01-01-0001";
-                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
+                DateTime ngayPhaiTra = item.NgayPhaiTra;
+
+                //if (item.NgayTraThucTe == null)
+                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+
+                DateTime ngayTraThucTe = item.NgayTraThucTe;
                 if (ngayTraThucTe != ngayTraNull && ngayTraThucTe != null && ngayTraThucTe > ngayPhaiTra)
                 {
                     soNguoiTraTre++;
@@ -89,6 +93,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return soNguoiTraTre;
         }
+
         /// <summary>
         /// Đếm số người không trả sách trong phiếu mượn
         /// </summary>
@@ -100,10 +105,13 @@ namespace BiTech.Library.Controllers.BaseClass
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var item in listPM)
             {
-                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                if (String.IsNullOrEmpty(item.NgayTraThucTe))
-                    item.NgayTraThucTe = "01-01-0001";
-                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
+                DateTime ngayPhaiTra = item.NgayPhaiTra;
+
+                //if (item.NgayTraThucTe == null)
+                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+
+                DateTime ngayTraThucTe = item.NgayTraThucTe;
+
                 // DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
                 if (ngayPhaiTra < DateTime.Today && (ngayTraThucTe == ngayTraNull || ngayTraThucTe == null))
                 {
@@ -112,6 +120,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return soNguoiKhongTra;
         }
+
         /// <summary>
         /// Đếm số sách được mượn trong phiếu mượn
         /// </summary>
@@ -138,6 +147,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return soLuongSach;
         }
+
         public List<ThongTinMuonSach> RutGonDanhSach(List<ThongTinMuonSach> list)
         {
             List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();

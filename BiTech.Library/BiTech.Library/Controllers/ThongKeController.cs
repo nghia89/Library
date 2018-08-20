@@ -35,6 +35,7 @@ namespace BiTech.Library.Controllers
 
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
+
             #region Khai báo
             List<ThongTinMuonSach> listAll = _thongKeLogic.GetAllTTMS();
             List<ThongTinMuonSach> listSelect = new List<ThongTinMuonSach>();          
@@ -46,16 +47,20 @@ namespace BiTech.Library.Controllers
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             int soSachChuaTra = 0;
             #endregion
+
             foreach (var item in listAll)
             {
                 #region SẮP XẾP TRẠNG THÁI
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------             
-                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                if (String.IsNullOrEmpty(item.NgayTraThucTe))
-                    item.NgayTraThucTe = "01-01-0001";
-                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayPhaiTra = item.NgayPhaiTra;
+
+                //if (item.NgayTraThucTe == null)
+                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+
+                DateTime ngayTraThucTe = item.NgayTraThucTe;
+                DateTime ngayMuon = item.NgayGioMuon;
+
                 // Ngày phải trả < ngày hiện tại và ngày trả == NULL là CHƯA TRẢ                  
                 if (ngayPhaiTra < DateTime.Today && (ngayTraThucTe == ngayTraNull || ngayTraThucTe == null))
                 {
@@ -126,7 +131,12 @@ namespace BiTech.Library.Controllers
                 .ThenByDescending(x => x.NgayPhaiTra).ToList();
             foreach (var item in listRutGon)
             {
-                listThanhVien.Add(_thongKeLogic.GetThanhVienById(item.idUser));
+                var user = _thongKeLogic.GetThanhVienById(item.idUser);
+
+                if (user != null)
+                {
+                    listThanhVien.Add(_thongKeLogic.GetThanhVienById(item.idUser));
+                }
                 listSach.Add(_thongKeLogic.GetSachById(item.idSach));
             }
             // Dữ liệu thống kê                      
@@ -209,7 +219,7 @@ namespace BiTech.Library.Controllers
             // lấy danh sách phiếu mượn trong năm 
             foreach (var item in listPhieuMuon)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
                 if (ngayMuon.Year == year)
                 {
                     listYearSelected.Add(item);
@@ -221,9 +231,10 @@ namespace BiTech.Library.Controllers
             // -----------------------THÔNG TIN THỐNG KÊ-----------------------  
             foreach (var item in _listPhieuMuon)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
-                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon);
+                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon.ToShortDateString());
+
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
                 soPhieuMuonTrongThang[ngayMuon.Day] = listPhieuMuonTrongNgay.Count;
                 soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);
@@ -234,7 +245,8 @@ namespace BiTech.Library.Controllers
             }
             foreach (var item in listYearSelected)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
+
                 #region --------12 thang
                 // chia danh sách phiếu mượn trong năm thành 12 (ứng với 12 tháng) và 4 Quý
                 switch (ngayMuon.Month)
@@ -318,6 +330,7 @@ namespace BiTech.Library.Controllers
             for (int i = 0; i < 12; i++)
             {
                 List<ThongTinMuonSach> list = new List<ThongTinMuonSach>();
+
                 #region -------- 12 thang
                 switch (i)
                 {
@@ -383,6 +396,7 @@ namespace BiTech.Library.Controllers
                         }
                 }
                 #endregion
+
                 // dữ liệu mỗi tháng ứng mới 1 phần tử trong mảng (mảng có 12 phần tử ứng với 12 tháng)
                 soNguoiMuonSachTrongNam[i] = nghiepVu.DemSoNguoiMuonSach(list);
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);
@@ -497,6 +511,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
+
             // kiem tra null du lieu
             if (id == null || _thongKeLogic.GetThanhVienById(id) == null)
                 return RedirectToAction("NotFound", "Error");           
@@ -514,11 +529,13 @@ namespace BiTech.Library.Controllers
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var item in listPhieuMuon)
             {
-                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                if (String.IsNullOrEmpty(item.NgayTraThucTe))
-                    item.NgayTraThucTe = "01-01-0001";
-                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayPhaiTra = item.NgayPhaiTra;
+
+                //if (item.NgayTraThucTe == null)
+                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+
+                DateTime ngayTraThucTe = item.NgayTraThucTe;
+                DateTime ngayMuon = item.NgayGioMuon;
 
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
@@ -599,6 +616,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion          
+
             List<Sach> listSach = new List<Sach>();
             // List<ChiTietPhieuMuon> listCTPM = new List<ChiTietPhieuMuon>();
             List<object> listChaCuaSach = new List<object>();
@@ -614,11 +632,14 @@ namespace BiTech.Library.Controllers
             foreach (var item in listMuon)
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
-                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                if (String.IsNullOrEmpty(item.NgayTraThucTe))
-                    item.NgayTraThucTe = "01-01-0001";
-                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayPhaiTra = item.NgayPhaiTra;
+
+                //if (item.NgayTraThucTe == null)
+                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+
+                DateTime ngayTraThucTe = item.NgayTraThucTe;
+                DateTime ngayMuon = item.NgayGioMuon;
+
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
                 if (ngayTraThucTe == ngayTraNull || ngayTraThucTe == null)
                 {
@@ -704,6 +725,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
+
             ThanhVien thanhVien = _thongKeLogic.GetThanhVienById(id);
             if (id == null || _thongKeLogic.GetTTMSByIdUser(id) == null || thanhVien == null)
                 return RedirectToAction("NotFound", "Error");
@@ -717,11 +739,14 @@ namespace BiTech.Library.Controllers
             foreach (var item in listMuon)
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
-                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                if (String.IsNullOrEmpty(item.NgayTraThucTe))
-                    item.NgayTraThucTe = "01-01-0001";
-                DateTime ngayTraThucTe = DateTime.ParseExact(item.NgayTraThucTe, "dd-MM-yyyy", null);
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayPhaiTra = item.NgayPhaiTra;
+
+                //if (item.NgayTraThucTe == null)
+                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+
+                DateTime ngayTraThucTe = item.NgayTraThucTe;
+                DateTime ngayMuon = item.NgayGioMuon;
+
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------
                 if (ngayTraThucTe == ngayTraNull || ngayTraThucTe == null)
                 {
@@ -740,17 +765,20 @@ namespace BiTech.Library.Controllers
                     listChuaTra.Add(item);
                 }
             }
+
             // --------                 
             // var _listPhieuMuon = listChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);         
             // Duyệt dữ liệu từ danh sách đã được sắp xếp lại           
             listRutGon = nghiepVu.RutGonDanhSach(listChuaTra)
                 .OrderBy(x => x.TrangThai)
                 .ThenByDescending(x => x.NgayPhaiTra).ToList();
+
             foreach (var item in listRutGon)
             {
                 var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
                 listSach.Add(_thongKeLogic.GetSachById(item.idSach));
             }
+
             model = new ThongKeViewModel
             {
                 HinhChanDung = thanhVien.HinhChanDung,
@@ -764,6 +792,7 @@ namespace BiTech.Library.Controllers
                 NienKhoa = thanhVien.NienKhoa,
                 QRLink = thanhVien.QRLink
             };
+
             ViewBag.Page = page;
             ViewBag.IdThanhVien = id;
             ViewBag.ListSach = listSach;

@@ -37,8 +37,8 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.idUser == TT.idUser
                 && x.idSach == TT.idSach
-                && x.NgayGioMuon == TT.NgayGioMuon
-                && x.NgayPhaiTra == TT.NgayPhaiTra
+                && x.NgayGioMuon.ToShortDateString() == TT.NgayGioMuon.ToShortDateString()
+                && x.NgayPhaiTra.ToShortDateString() == TT.NgayPhaiTra.ToShortDateString()
                 && x.DaTra == false
             ).ToList();
         }
@@ -60,7 +60,7 @@ namespace BiTech.Library.DAL.Engines
 
         public List<ThongTinMuonSach> GetTTMSByNgayMuon(string ngayMuon)
         {
-            return _DatabaseCollection.Find(x => x.NgayGioMuon == ngayMuon).ToList();
+            return _DatabaseCollection.Find(x => x.NgayGioMuon.ToShortDateString() == ngayMuon).ToList();
         }
 		
         #endregion
