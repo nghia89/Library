@@ -18,16 +18,13 @@ namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
     {
-//<<<<<<< HEAD
         SachCommon sachCommon;
         public SachController()
         {
             sachCommon = new SachCommon();
         }
-//        public ActionResult Index(KeySearchViewModel KeySearch)
-//=======
+
         public ActionResult Index(KeySearchViewModel KeySearch, int? page)
-//>>>>>>> NghiaNguyen89
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();

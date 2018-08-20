@@ -3,6 +3,7 @@ using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,10 +16,24 @@ namespace BiTech.Library.Controllers
         protected virtual SSOUserDataModel GetUserData()
         {
             SSOUserDataModel data = null;
+            SSOUserDataModel loadData = null;
             ViewBag.SSOFullName = "";
             try
             {
-                SSOUserDataModel loadData = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>((User.Identity as System.Web.Security.FormsIdentity).Ticket.UserData);
+
+
+                //SSOUserDataModel loadData = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>((User.Identity as System.Web.Security.FormsIdentity).Ticket.UserData);
+
+                var claimSSO = (User.Identity as ClaimsIdentity).Claims.Where(c => c.Type == "SSOUserDataModel").Select(c => c.Value);
+                foreach (var c in claimSSO)
+                {
+                    try
+                    {
+                        loadData = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>(c);
+                        break;
+                    }
+                    catch { }
+                }
 
                 if (loadData != null)
                 {
@@ -35,13 +50,16 @@ namespace BiTech.Library.Controllers
                         //{
                         //    return null;
                         //}
+
+                        ViewBag.SSOFullName = loadData.FullName;
+                        return loadData;
                     }
                 }
             }
             catch { }
 
 #if DEBUG
-            if (data == null)
+            if (data == null && loadData == null)
             {
                 data = new SSOUserDataModel();
                 data.Id = "123";
