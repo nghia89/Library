@@ -51,7 +51,7 @@
                 }
                 @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
-                    <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("Details", new { @IdUser = @item.Id })">
+                    <a class="color-white btn btn-sm btn-primary" href="@Url.Action("Details", new { @IdUser = @item.Id })">
                         <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
                     </a>
                     @if (item.TrangThai == EUser.Active)
@@ -75,5 +75,5 @@
     </tbody>
 </table>
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }))
+    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>

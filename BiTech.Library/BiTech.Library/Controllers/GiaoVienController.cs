@@ -166,7 +166,7 @@ namespace BiTech.Library.Controllers
                         viewModel.ListNienKhoa = thanhVienCommon.TaoNienKhoa();
                         return View(viewModel);
                     }
-                }              
+                }
                 // Lưu mã vạch
                 try
                 {
@@ -414,22 +414,34 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
 
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(model.Id);
-            if (thanhVien.Password.Equals(model.OldPassword) == true)
+            if (thanhVien.Password != null)
             {
-                if (model.NewPassword.Equals(model.ConfirmPassword) == true)
+                if (thanhVien.Password.Equals(model.OldPassword) == true)
                 {
-                    TempData["Sussces"] = "Đổi mật khẩu thành công!";
-                    return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
+                    if (model.NewPassword == null)
+                    {
+                        return View(model);
+                    }
+                    else
+                    {
+                        if (model.NewPassword.Equals(model.ConfirmPassword) == true)
+                        {
+                            TempData["Sussces"] = "Đổi mật khẩu thành công!";
+                            return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
+                        }
+                        TempData["Error"] = "Nhập lại mật khẩu không khớp nhau!";
+                        return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
+                    }
                 }
-                TempData["Error"] = "Nhập lại mật khẩu không khớp nhau!";
+                TempData["Error"] = "Mật khẩu hiện tại không đúng!";
                 return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
             }
-            TempData["Error"] = "Mật khẩu hiện tại không đúng!";
-            return RedirectToAction("ChangePassword", "GiaoVien", new { @idUser = model.Id });
+            //  ViewBag.UnSussces= TempData["UnSussces"] = "Đổi mật khẩu không thành công!";
+            return View(model);
         }
         public ActionResult ImportFromExcel()
         {
@@ -450,6 +462,7 @@ namespace BiTech.Library.Controllers
             if (model.LinkExcel != null)
             {
                 string physicalWebRootPath = Server.MapPath("/");
+                // Todo Excel
                 list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);
                 int i = 0;
                 foreach (var item in list)

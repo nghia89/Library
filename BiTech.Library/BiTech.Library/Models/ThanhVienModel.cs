@@ -21,7 +21,7 @@ namespace BiTech.Library.Models
         }
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Bạn chưa nhập Username!")]
+        [Required(ErrorMessage = "Bạn chưa nhập tên User!")]
         [Display(Name = "User name")]
         [StringLength(40, ErrorMessage = "Tên quá dài")]
         public string UserName { get; set; }
@@ -32,12 +32,12 @@ namespace BiTech.Library.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        // [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage =("Mật khẩu không khớp nhau!"))]
+        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage =("Mật khẩu không khớp nhau!"))]
         [Required(ErrorMessage = "Bạn chưa nhập lại mật khẩu!")]
         [Display(Name = "Nhập lại mật khẩu")]
         public string ConfirmPass { get; set; }
 
-        [Required(ErrorMessage = "Bạn chưa nhập tên thành viên!")]
+        [Required(ErrorMessage = "Bạn chưa nhập tên!")]
         [Display(Name = "Tên thành viên")]
         public string Ten { get; set; }
 
@@ -50,7 +50,7 @@ namespace BiTech.Library.Models
         [DataType(DataType.Date)]
         public DateTime NgaySinh { get; set; }
 
-        [Required(ErrorMessage = "Bạn chưa nhập mã số thành viên!")]
+        [Required(ErrorMessage = "Bạn chưa nhập mã số!")]
         [Display(Name = "Mã số thành viên")]
         public string MaSoThanhVien { get; set; }
 
@@ -134,21 +134,24 @@ namespace BiTech.Library.Models
     public class ChangePasswordViewModel
     {
         public string Id { get; set; }
-        [Required]
+       
         [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu hiện tại!")]
         [Display(Name = "Mật khẩu hiện tại")]
         public string OldPassword { get; set; }
 
 
         // [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Required]
+     
         [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu mới!")]
         [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }
 
-        [Required]
+        
         [DataType(DataType.Password)]
         [Display(Name = "Nhập lại mật khẩu mới")]
+        [Required(ErrorMessage = "Bạn chưa nhập lại mật khẩu!")]
         [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Nhập lại mật khẩu không khớp nhau!")]
         public string ConfirmPassword { get; set; }
         public string LoaiTK { get; set; }

@@ -8,47 +8,47 @@
     <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
 </button>
 <div class="container">
-    <div class="row h5">
+    <div class="row">
         <div>
             <img class="avatar_detail" src="@Html.Raw(Model.LinkAvatar)" />       
         </div>       
         <div class="col-md-6">
             <table>
                 <tr>
-                    <td>Tên User:</td>
-                    <td>@Model.UserName</td>                    
+                    <td class="Title_info">Tên User:</td>
+                    <td class="Detail_info">@Model.UserName</td>                    
                 </tr>
                 <tr>
-                    <td>Mã số giáo viên:</td>
-                    <td> @Model.MaSoThanhVien</td>
+                    <td class="Title_info">Mã số giáo viên:</td>
+                    <td class="Detail_info"> @Model.MaSoThanhVien</td>
                 </tr>
                 <tr>
-                    <td>Họ và tên:</td>
-                    <td>@Model.Ten</td>
+                    <td class="Title_info">Họ và tên:</td>
+                    <td class="Detail_info">@Model.Ten</td>
                 </tr>
                 <tr>
-                    <td>Giới tính:</td>
-                    <td>@Model.GioiTinh</td>
+                    <td class="Title_info">Giới tính:</td>
+                    <td class="Detail_info">@Model.GioiTinh</td>
                 </tr>
                 <tr>
-                    <td>Ngày sinh:</td>
-                    <td>@Model.NgaySinh</td>
+                    <td class="Title_info">Ngày sinh:</td>
+                    <td class="Detail_info">@Model.NgaySinh.ToString("dd-MM-yyyy")</td>
                 </tr>
                 <tr>
-                    <td>Lớp học:</td>
-                    <td>@Model.LopHoc</td>
+                    <td class="Title_info">Lớp học:</td>
+                    <td class="Detail_info">@Model.LopHoc</td>
                 </tr>
                 <tr>
-                    <td>Niêm khóa:</td>
-                    <td>@Model.NienKhoa</td>
+                    <td class="Title_info">Niên khóa:</td>
+                    <td class="Detail_info">@Model.NienKhoa</td>
                 </tr>
                 <tr>
-                    <td>Địa chỉ:</td>
-                    <td>@Model.DiaChi</td>
+                    <td class="Title_info">Địa chỉ:</td>
+                    <td class="Detail_info">@Model.DiaChi</td>
                 </tr>
                 <tr>
-                    <td>Số điện thoại:</td>
-                    <td>@Model.SDT</td>
+                    <td class="Title_info">Số điện thoại:</td>
+                    <td class="Detail_info">@Model.SDT</td>
                 </tr>             
             </table>           
         </div>
@@ -64,10 +64,10 @@
     <tbody>
         <tr>
             <td>
-                <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("_Edit", new { @id = @Model.Id })">
+                <a class="color-white btn btn-sm btn-primary" href="@Url.Action("_Edit", new { @id = @Model.Id })">
                     <i style="font-size:20px" class="fa">&#xf044;</i> Sửa thông tin
                 </a>
-                <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("ChangePassword", new { @idUser = @Model.Id })">
+                <a class="color-white btn btn-sm btn-primary" href="@Url.Action("ChangePassword", new { @idUser = @Model.Id })">
                     <i style="font-size:20px" class="fa">&#xf044;</i> Đổi mật khẩu
                 </a>
             </td>

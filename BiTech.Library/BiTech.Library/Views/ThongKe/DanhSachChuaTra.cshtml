@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-<h2 class="text-center">Danh sách độc giả chưa trả sách</h2>
+<div class="Title">Danh sách độc giả chưa trả sách</div>
 <table class="table table-hover table-striped">
     <thead>
         <tr class="table-info text-center">
@@ -91,7 +91,7 @@
 </table>
 
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("DanhSachChuaTra", new { page = Page, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })@*, PagedListRenderOptions.ClassicPlusFirstAndLast*@)
+    @Html.PagedListPager(Model, Page => Url.Action("DanhSachChuaTra", new { page = Page, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>
 
 <style>

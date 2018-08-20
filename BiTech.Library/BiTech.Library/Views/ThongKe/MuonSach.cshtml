@@ -30,33 +30,51 @@
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-<h2 class="text-center">Danh sách phiếu mượn</h2>
-
-<h5 class="text-info">Danh mục mượn sách theo tháng</h5>
-<div class="row">
-    <div class="col-md-1 text-right"><h5>Tháng</h5></div>
-    <div class="col-md-2">
-        @Html.DropDownList("month", months, new { onchange = @"onMonthSelectedChagned();", @class = "form-control" })
+<div class="Title">Danh mục mượn sách</div>
+<br />
+<div class="container-box-window clearfix">
+    <div class="top">
+        <span style="font-size:22px">Danh sách mượn sách theo tháng</span>
     </div>
-    <div class="col-md-1 text-right"><h5>Năm</h5></div>
-    <div class="col-md-2">
-        @Html.DropDownList("year", years, new { onchange = @"onYearSelectedChagned();", @class = "form-control" })
+    <div class="content-box-window">
+        <div class="row">
+            <div class="col-md-1 text-right" style="font-size:20px">Tháng</div>
+            <div class="col-md-2">
+                @Html.DropDownList("month", months, new { onchange = @"onMonthSelectedChagned();", @class = "form-control" })
+            </div>
+            <div class="col-md-1 text-right" style="font-size:20px">Năm</div>
+            <div class="col-md-2">
+                @Html.DropDownList("year", years, new { onchange = @"onYearSelectedChagned();", @class = "form-control" })
+            </div>
+        </div>
     </div>
 </div>
-<h5 class="text-info">Danh mục mượn sách theo ngày</h5>
-@Html.TextBox("day", "", new { onchange = @"onDaySelectedChagned()", @class = "form-control datepicker" })
-<hr />
-@if (ViewBag.Month != 0 && ViewBag.Year != 0)
+
+<div class="container-box-window clearfix">
+    <div class="top">
+        <span style="font-size:22px">Danh sách mượn sách theo ngày</span>
+    </div>
+    <div class="content-box-window">      
+        @Html.TextBox("day", "", new { onchange = @"onDaySelectedChagned()", @class = "form-control datepicker" })
+    </div>
+</div>
+
+@if (ViewBag.Page != null)
 {
-    <h6> Tổng số sách được mượn trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoSachDuocMuon cuốn</h6>
-    <h6> Tổng số người mượn sách trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoLuongThanhVien người</h6>
+    <hr />
+    if (ViewBag.Month != 0 && ViewBag.Year != 0)
+    {
+        <h6> Tổng số sách được mượn trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoSachDuocMuon cuốn</h6>
+                <h6> Tổng số người mượn sách trong tháng "@ViewBag.Month/@ViewBag.Year" là: @ViewBag.SoLuongThanhVien người</h6>
+    }
+    if (ViewBag.Day != null && ViewBag.Day != "0")
+    {
+        <h6> Tổng số sách được mượn trong ngày "@ViewBag.Day" là: @ViewBag.SoSachDuocMuon cuốn</h6>
+                <h6> Tổng số người mượn sách trong ngày "@ViewBag.Day" là: @ViewBag.SoLuongThanhVien người</h6>
+    }
+    <hr />
 }
-@if (ViewBag.Day != null && ViewBag.Day != "0")
-{
-    <h6> Tổng số sách được mượn trong ngày "@ViewBag.Day" là: @ViewBag.SoSachDuocMuon cuốn</h6>
-    <h6> Tổng số người mượn sách trong ngày "@ViewBag.Day" là: @ViewBag.SoLuongThanhVien người</h6>
-}
-<hr />
+
 <table class="table table-hover table-striped">
     <thead>
         <tr class="table-info text-center">
@@ -74,7 +92,7 @@
     </thead>
     @{ int i = ViewBag.pageSize * (ViewBag.pages - 1); int dem = 1;}
     @foreach (var item in Model)
-    {
+            {
         <tbody>
             <tr>
                 <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
@@ -139,7 +157,7 @@
 </table>
 
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("MuonSach", new { page = Page, day = ViewBag.Day, month = ViewBag.Month, year = ViewBag.Year })@*, PagedListRenderOptions.ClassicPlusFirstAndLast*@)
+    @Html.PagedListPager(Model, Page => Url.Action("MuonSach", new { page = Page, day = ViewBag.Day, month = ViewBag.Month, year = ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>
 
 <style>

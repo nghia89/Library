@@ -63,6 +63,11 @@ namespace BiTech.Library.Models
         public string NienKhoa { get; set; }
         [Display(Name = "Mã QR")]
         public string QRLink { get; set; }
+        [Display(Name = "Ngày sinh")]
+        [DataType(DataType.Date)]
+        public DateTime NgaySinh { get; set; }
+        [Display(Name = "Giới tính")]
+        public string GioiTinh { get; set; }
     }
     public class BieuDoPhieuMuonViewModel
     {

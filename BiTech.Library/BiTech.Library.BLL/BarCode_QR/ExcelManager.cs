@@ -52,28 +52,30 @@ namespace BiTech.Library.BLL.BarCode_QR
                 if ((object)data[i, 0] != null)
                     tv.Ten = (string)data[i, 0].ToString().Trim();
                 if ((object)data[i, 1] != null)
+                    tv.UserName = (string)data[i, 1].ToString().Trim();
+                if ((object)data[i, 2] != null)
                 {
-                    tv.MaSoThanhVien = (string)data[i, 1].ToString().Trim();
+                    tv.MaSoThanhVien = (string)data[i, 2].ToString().Trim();
                     tv.RowExcel = firstRow + 1;
                 }
-                if ((object)data[i, 2] != null)
-                    tv.LoaiTK = (string)data[i, 2].ToString().Trim();
                 if ((object)data[i, 3] != null)
-                    tv.GioiTinh = (string)data[i, 3].ToString().Trim();
+                    tv.LoaiTK = (string)data[i, 3].ToString().Trim();
                 if ((object)data[i, 4] != null)
+                    tv.GioiTinh = (string)data[i, 4].ToString().Trim();
+                if ((object)data[i, 5] != null)
                 {
-                    string day = (string)data[i, 4];
+                    string day = (string)data[i, 5];
                     DateTime ngaySinh = DateTime.ParseExact(day, "dd-MM-yyyy", null);
                     tv.NgaySinh = ngaySinh;
                 }
-                if ((object)data[i, 5] != null)
-                    tv.LopHoc = (string)data[i, 5].ToString().Trim();
                 if ((object)data[i, 6] != null)
-                    tv.NienKhoa = (string)data[i, 6].ToString().Trim();
+                    tv.LopHoc = (string)data[i, 6].ToString().Trim();
                 if ((object)data[i, 7] != null)
-                    tv.DiaChi = (string)data[i, 7].ToString().Trim();
+                    tv.NienKhoa = (string)data[i, 7].ToString().Trim();
                 if ((object)data[i, 8] != null)
-                    tv.SDT = (string)data[i, 8].ToString();
+                    tv.DiaChi = (string)data[i, 8].ToString().Trim();
+                if ((object)data[i, 9] != null)
+                    tv.SDT = (string)data[i, 9].ToString();
                 tv.Password = "1";
                 list.Add(tv);
             }
@@ -140,15 +142,15 @@ namespace BiTech.Library.BLL.BarCode_QR
 
                 sach.IdNhaXuatBan = (string)data[i, 4].ToString().Trim();
                 sach.IdKeSach = (string)data[i, 5].ToString().Trim();
-                sach.SoTrang = (string)data[i, 6];
+                sach.SoTrang = (string)data[i, 6].ToString().Trim(); 
                 sach.IdNgonNgu = (string)data[i, 7].ToString().Trim();
-                sach.NamXuatBan = (string)data[i, 8].ToString();
-                sach.GiaBia = (string)data[i, 9];
+                sach.NamXuatBan = (string)data[i, 8].ToString().Trim();
+                sach.GiaBia = (string)data[i, 9].ToString().Trim();
                 sach.PhiMuonSach = (int)data[i, 10];
-                sach.XuatXu = (string)data[i, 11].ToString();
+                sach.XuatXu = (string)data[i, 11].ToString().Trim();
                 sach.NguoiBienDich = (string)data[i, 12].ToString().Trim();
-                sach.TaiBan = (string)data[i, 13].ToString();
-                sach.TomTat = (string)data[i, 14].ToString();
+                sach.TaiBan = (string)data[i, 13].ToString().Trim();
+                sach.TomTat = (string)data[i, 14].ToString().Trim();
 
                 list.Add(sach);
             }
@@ -213,13 +215,16 @@ namespace BiTech.Library.BLL.BarCode_QR
                 ChiTietNhapSach ctns = new ChiTietNhapSach();
 
                 if ((object)data[i, 0] != null)
+                {
                     ctns.IdSach = (string)data[i, 0].ToString().Trim();
+                    ctns.RowExcel= firstRow + 1;
+                }                   
                 if ((object)data[i, 1] != null)
                     ctns.SoLuong = (int)data[i, 1];
                 if ((object)data[i, 2] != null)
                     ctns.IdTinhtrang = (string)data[i, 2].ToString().Trim();
                 if ((object)data[i, 3] != null)
-                    ctns.GhiChu = (string)data[i, 3].ToString().Trim(); ;
+                    ctns.GhiChu = (string)data[i, 3].ToString().Trim();
 
                 listCTNS.Add(ctns);
             }

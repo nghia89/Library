@@ -34,5 +34,9 @@ namespace BiTech.Library.DTO
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
+        #region Tai
+        [BsonIgnore]
+        public int RowExcel { get; set; }
+        #endregion
     }
 }

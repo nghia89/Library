@@ -5,6 +5,11 @@
 }
 
 <div class="Title">Tạo Phiếu Nhập Sách</div>
+<br/>
+<button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "PhieuNhapSach")'">
+    <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+</button>
+<hr/>
 <div ng-app="LibraryApp" class="clearfix">
 
     @using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -21,7 +26,7 @@
 
                         <div class="container-box-window clearfix">
                             <div class="top">
-                                <span class="">Thông tin phiếu nhập</span>
+                                <span class="" style="font-size:22px">Thông tin phiếu nhập</span>
                             </div>
                             <div class="content-box-window">
                                 <div class="form-group row">
@@ -67,7 +72,7 @@
 
                         <div class="container-box-window clearfix">
                             <div class="top">
-                                <span class="">Danh sách sách nhập</span>
+                                <span class="" style="font-size:22px">Danh sách sách nhập</span>
                             </div>
                             <div class="content-box-window">
                                 <div class="">

@@ -9,9 +9,28 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-<h2 class="text-center">Lịch sử mượn sách</h2>
-<h4 class="text-info">Độc giả: @ViewBag.TenThanhVien</h4>
+<div class="Title">Lịch sử mượn sách</div>
+<br/>
+<h4 @*class="Title"*@>Độc giả: @ViewBag.TenThanhVien</h4>
+<br />
+@if (@ViewBag.Day != null || @ViewBag.Monthyear != null @*|| @ViewBag.Year == null*@)
+{
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("MuonSach", "ThongKe",new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+    </button>
+    @*@Html.ActionLink("Trở lại danh sách phiếu mượn", "MuonSach",
+                          new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-sm btn-primary" })*@
+}
+else
+{
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ThongTinDocGia", "ThongKe",new { id = @ViewBag.Id })'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+    </button>
+    @*@Html.ActionLink("Trở lại thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-sm btn-primary" })*@
+}
 
+
+<hr />
 <table class="table table-hover">
     <thead>
         <tr class="table-info text-center">
@@ -93,18 +112,8 @@
 </table>
 
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("ThongTinDocGia", new { page = Page, id = ViewBag.Id, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })@*, PagedListRenderOptions.ClassicPlusFirstAndLast*@)
+    @Html.PagedListPager(Model, Page => Url.Action("ThongTinDocGia", new { page = Page, id = ViewBag.Id, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>
-@if (@ViewBag.Day != null || @ViewBag.Monthyear != null @*|| @ViewBag.Year == null*@)
-{
-    @Html.ActionLink("Trở về danh sách phiếu mượn", "MuonSach",
-                          new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-sm btn-primary" })
-}
-else
-{
-    @Html.ActionLink("Trở về thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-sm btn-primary" })
-}
-
 
 <style>
     .ChuaTra {

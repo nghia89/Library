@@ -762,7 +762,10 @@ namespace BiTech.Library.Controllers
                 LinkAvatar = thanhVien.HinhChanDung,
                 LopHoc = thanhVien.LopHoc,
                 NienKhoa = thanhVien.NienKhoa,
-                QRLink = thanhVien.QRLink
+                QRLink = thanhVien.QRLink,
+                NgaySinh=thanhVien.NgaySinh,
+                GioiTinh=thanhVien.GioiTinh
+                
             };
             ViewBag.Page = page;
             ViewBag.IdThanhVien = id;
