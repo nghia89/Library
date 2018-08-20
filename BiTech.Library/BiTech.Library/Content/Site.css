@@ -208,6 +208,16 @@ a:hover {
     z-index: 3;
 }
 
+    .contain .top .banner {
+        float:left;
+    }
+    .contain .top .banner h4 {
+        color:white;
+        margin:0px;
+        padding-top:5px;
+        padding-left:15px;
+    }
+
 .contain .left {
     position: relative;
     z-index: 1;
@@ -353,7 +363,7 @@ a:hover {
         }
 
             .menutop li a:hover {
-                color: #f00;
+                color: #e3e3e3;
             }
 
         .menutop li .dropdown-menu a {
@@ -361,7 +371,7 @@ a:hover {
         }
 
             .menutop li .dropdown-menu a:hover {
-                color: #f00;
+                color: #000;
             }
 
 .box-search {

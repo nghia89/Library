@@ -107,7 +107,7 @@
                 <td class="text-center">@item.NgayPhaiTra</td>
 
                 @{
-                    string x = item.NgayTraThucTe != null ? item.NgayTraThucTe : "01-01-0001";
+                    string x = item.NgayTraThucTe.ToString("dd/MM/yyyy");
                 }
 
                 @if (item.NgayTraThucTe.Equals("01-01-0001") == false)
@@ -135,8 +135,7 @@
                     {
                         if (item.SoNgayGiaoDong == null)
                         {
-                            DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                            var ngayTre = DateTime.Now - ngayPhaiTra;
+                            var ngayTre = DateTime.Now - item.NgayPhaiTra;
                             <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                         }
                         else

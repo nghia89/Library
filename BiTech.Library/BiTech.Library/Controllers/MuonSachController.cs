@@ -147,9 +147,10 @@ namespace BiTech.Library.Controllers
                     {
                         idUser = item.IdUser,
                         idSach = _sach.Id,
-                        NgayGioMuon = DateTime.Now.ToString("dd/MM/yyyy"),
-                        NgayPhaiTra =item.NgayTra,
+                        NgayGioMuon = DateTime.Now,
+                        NgayPhaiTra = DateTime.ParseExact(item.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture),//item.NgayTra,
                         DaTra = false,
+                        NgayTraThucTe = DateTime.ParseExact("01/01/0001", "dd/MM/yyyy", null),
                     };
 
                     //mỗi cuốn sách thì thêm vào table ThongTinMuonSach 1 row
@@ -165,6 +166,7 @@ namespace BiTech.Library.Controllers
         }
 
         #region Function
+
         /// <summary>
         /// Convert ThongTinMuonSach to MuonTraSachViewModel
         /// </summary>
@@ -179,8 +181,8 @@ namespace BiTech.Library.Controllers
             kq.MaKiemSoat = _sach.MaKiemSoat;
             kq.TenSach = _sach.TenSach;
             kq.SoLuong = "1";
-            kq.NgayMuon = item.NgayGioMuon;
-            kq.NgayTra = item.NgayPhaiTra;
+            kq.NgayMuon = item.NgayGioMuon.ToString("dd/MM/yyyy");
+            kq.NgayTra = item.NgayPhaiTra.ToString("dd/MM/yyyy");
             long ngaytra = DateTime.ParseExact(kq.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture).Date.Ticks;
             long ngayhientai = DateTime.Now.Ticks;
             kq.TinhTrang = ngaytra - ngayhientai < 0;
@@ -216,8 +218,8 @@ namespace BiTech.Library.Controllers
                 MuonTraSachCheckViewTable _itemcheck = new MuonTraSachCheckViewTable()
                 {
                     MaKiemSoat = _Sach.MaKiemSoat,
-                    NgayMuon = item.NgayGioMuon,
-                    NgayTra = item.NgayPhaiTra,
+                    NgayMuon = item.NgayGioMuon.ToString("dd/MM/yyyy"),
+                    NgayTra = item.NgayPhaiTra.ToString("dd/MM/yyyy"),
                 };
 
                 //kiểm tra đối tượng đã tồn tại trong list_maSach chưa
@@ -251,6 +253,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return "";
             #endregion
+
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
@@ -283,6 +286,7 @@ namespace BiTech.Library.Controllers
             soluongsach = soluongsach_true - _ThongTinMuonSachLogic.GetAll_ChuaTra_byIdSach(_Sach.Id);
             return soluongsach.ToString();
         } 
+
         #endregion
     }
 }

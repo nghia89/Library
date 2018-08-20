@@ -22,11 +22,20 @@ namespace BiTech.Library.DTO
         public DateTime CreateDateTime { get; set; }
 
         public string idUser { get; set; }
+
         public string idSach { get; set; }
-        public string NgayGioMuon { get; set; }
-        public string NgayPhaiTra { get; set; }
-        public string NgayTraThucTe { get; set; }
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime NgayGioMuon { get; set; }
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime NgayPhaiTra { get; set; }
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime NgayTraThucTe { get; set; }
+
         public bool DaTra { get; set; }
+
         public string TrangThaiTra { get; set; }
 
         /// <summary>

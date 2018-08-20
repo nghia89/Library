@@ -7,26 +7,26 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
     public class HomeController : BaseController
     {
         public ActionResult Index()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
+            //#region  Lấy thông tin người dùng
+            //var userdata = GetUserData();
+            //if (userdata == null)
+            //    return RedirectToAction("LogOff", "Account");
+            //#endregion
 
-            //userdata.MyApps[AppCode].ConnectionString
-            //userdata.MyApps[AppCode].DatabaseName
+            ////userdata.MyApps[AppCode].ConnectionString
+            ////userdata.MyApps[AppCode].DatabaseName
 
-            //_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ////_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            // do things here
+            //// do things here
             return View();
         }
 
+        [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
         public ActionResult About()
         {
             #region  Lấy thông tin người dùng
@@ -46,6 +46,7 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
+        [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
         public ActionResult Contact()
         {
             #region  Lấy thông tin người dùng

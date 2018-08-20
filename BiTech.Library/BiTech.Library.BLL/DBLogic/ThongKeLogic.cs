@@ -65,15 +65,18 @@ namespace BiTech.Library.BLL.DBLogic
             //};
             //_thongTinMuonSachEngine.Insert(tt);
         }
+
         //  THÔNG TIN MƯỢN SÁCH
         public List<ThongTinMuonSach> GetAllTTMS()
         {
             return _thongTinMuonSachEngine.GetAll();
         }
+
         public List<ThongTinMuonSach> GetTTMSByIdUser(string idUser)
         {
             return _thongTinMuonSachEngine.GetTTMSByIdUser(idUser);
         }
+
         public List<ThongTinMuonSach> GetTTMSByNgayMuon(string ngayMuon)
         {
             return _thongTinMuonSachEngine.GetTTMSByNgayMuon(ngayMuon);
