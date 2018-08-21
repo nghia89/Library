@@ -23,7 +23,7 @@ namespace BiTech.Library.Controllers
         {
             sachCommon = new SachCommon();
         }
-
+		
         public ActionResult Index(KeySearchViewModel KeySearch, int? page)
         {
             #region  Lấy thông tin người dùng
@@ -226,7 +226,7 @@ namespace BiTech.Library.Controllers
             if (sachDTO == null)
             {
                 return RedirectToAction("Index");
-            }            
+            }
             var sltts = _SlTrangThaisach.GetByFindId(id);
             ViewBag.SlTTsach = sltts;
             var idTG = _TacGiaLogic.GetAllTacGia();
@@ -235,6 +235,8 @@ namespace BiTech.Library.Controllers
             model.Languages = _LanguageLogic.GetAll();
             ViewBag.TLS = model.SachDTO.IdTheLoai;
             ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
+            ViewBag.KeSach = model.SachDTO.IdKeSach;
+            ViewBag.NgonNgu = model.SachDTO.IdNgonNgu;
             return View(model);
         }
 
@@ -250,26 +252,88 @@ namespace BiTech.Library.Controllers
             if (ModelState.IsValid)
             {
                 SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                Sach sach = new Sach()
+                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+                Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
+                if (sach != null)
                 {
-                    Id = model.SachDTO.Id,
-                    IdTheLoai = model.SachDTO.IdTheLoai,
-                    IdKeSach = model.SachDTO.IdKeSach,
-                    IdNhaXuatBan = model.SachDTO.IdNhaXuatBan,
-                    MaKiemSoat = model.SachDTO.MaKiemSoat,
-                    SoLuongTong = model.SachDTO.SoLuongTong,
-                    SoTrang = model.SachDTO.SoTrang,
-                    IdNgonNgu = model.SachDTO.IdNgonNgu,
-                    NamXuatBan = model.SachDTO.NamXuatBan,
-                    GiaBia = model.SachDTO.GiaBia,
-                    TaiBan = model.SachDTO.TaiBan,
-                    TenSach = model.SachDTO.TenSach,
-                    TomTat = model.SachDTO.TomTat,
-                    PhiMuonSach = model.SachDTO.PhiMuonSach,
-                    ISBN=model.SachDTO.ISBN,
-                    XuatXu=model.SachDTO.XuatXu
+//<<<<<<< HEAD
+                    // Id = model.SachDTO.Id,
+                    // IdTheLoai = model.SachDTO.IdTheLoai,
+                    // IdKeSach = model.SachDTO.IdKeSach,
+                    // IdNhaXuatBan = model.SachDTO.IdNhaXuatBan,
+                    // MaKiemSoat = model.SachDTO.MaKiemSoat,
+                    // SoLuongTong = model.SachDTO.SoLuongTong,
+                    // SoTrang = model.SachDTO.SoTrang,
+                    // IdNgonNgu = model.SachDTO.IdNgonNgu,
+                    // NamXuatBan = model.SachDTO.NamXuatBan,
+                    // GiaBia = model.SachDTO.GiaBia,
+                    // TaiBan = model.SachDTO.TaiBan,
+                    // TenSach = model.SachDTO.TenSach,
+                    // TomTat = model.SachDTO.TomTat,
+                    // PhiMuonSach = model.SachDTO.PhiMuonSach,
+                    // ISBN=model.SachDTO.ISBN,
+                    // XuatXu=model.SachDTO.XuatXu
+//=======
+                    sach.Id = model.SachDTO.Id;
+                    //sach.MaKiemSoat = model.SachDTO.MaKiemSoat;
+                    sach.DDC = model.SachDTO.DDC;
+                    sach.TenSach = model.SachDTO.TenSach;
+                    sach.ISBN = model.SachDTO.ISBN;
+                    sach.IdTheLoai = model.SachDTO.IdTheLoai;
+                    sach.IdNhaXuatBan = model.SachDTO.IdNhaXuatBan;
+                    sach.IdKeSach = model.SachDTO.IdKeSach;
+                    sach.SoTrang = model.SachDTO.SoTrang;
+                    sach.IdNgonNgu = model.SachDTO.IdNgonNgu;
+                    sach.NamXuatBan = model.SachDTO.NamXuatBan;
+                    sach.GiaBia = model.SachDTO.GiaBia;
+                    sach.PhiMuonSach = model.SachDTO.PhiMuonSach;
+                    sach.XuatXu = model.SachDTO.XuatXu;
+                    sach.NguoiBienDich = model.SachDTO.NguoiBienDich;
+                    sach.TaiBan = model.SachDTO.TaiBan;
+                    sach.TomTat = model.SachDTO.TomTat;
+                    //sach.SoLuongTong = model.SachDTO.SoLuongTong;
+//>>>>>>> Phongv25
                     //LinkBiaSach = model.FileImageCover.ToString()
-                };
+
+                    string failTG = "";
+                    if (_SachTacGiaLogic.DeleteAllTacGiaByidSach(sach.Id))
+                    {
+                        foreach (var tg in model.ListTacGiaJson)
+                        {
+                            var item = JsonConvert.DeserializeObject<TacGiaViewModel>(tg);
+                            string tgId = "";
+
+                            if (!string.IsNullOrEmpty(item.TenTacGia))
+                            {
+                                TacGia tg_temp = _TacGiaLogic.GetByTenTacGia(item.TenTacGia);
+                                if (tg_temp != null)
+                                {
+                                    tgId = tg_temp.Id;
+                                }
+                                else
+                                {
+
+                                    tgId = _TacGiaLogic.Insert(new TacGia() { TenTacGia = item.TenTacGia, MoTa = "", QuocTich = "" });
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(tgId))
+                            {
+                                _SachTacGiaLogic.ThemSachTacGia(new SachTacGia()
+                                {
+                                    IdSach = sach.Id,
+                                    IdTacGia = tgId
+                                });
+                            }
+                            else
+                            {
+                                failTG += item.TenTacGia + ", ";
+                            }
+                        }
+                    }
+                }
 
                 if (model.FileImageCover != null)
                 {

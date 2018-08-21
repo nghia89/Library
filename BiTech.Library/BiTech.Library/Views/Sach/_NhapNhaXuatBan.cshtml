@@ -12,20 +12,20 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label" for="TenTheLoai">Tên nhà xuất bản</label>
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="TenTheLoai">Nhà xuất bản</label>
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(_ => _.Ten, new { @class = "form-control" })
+                            @Html.TextBoxFor(_ => _.Ten, new { @class = "form-control form-control-sm" })
                         </div>
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             @Html.ValidationMessageFor(_ => _.Ten, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label" for="MoTa">Mô Tả</label>
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="MoTa">Ghi chú</label>
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(_ => _.GhiChu, new { @class = "form-control" })
+                            @Html.TextBoxFor(_ => _.GhiChu, new { @class = "form-control form-control-sm" })
                         </div>
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
@@ -34,8 +34,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary has-spinner"
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary has-spinner btn-sm"
                             id="update-student-info-save-button">
                         Lưu<i class="glyphicon glyphicon-refresh"></i>
                     </button>

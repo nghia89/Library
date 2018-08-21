@@ -3,15 +3,24 @@
     ViewBag.Title = "Thêm sách";
     //var IdTacGia =(List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
 }
-<div class="Title">Thêm Sách</div>
+
 
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-
+<link href="~/Content/Avatar.css" rel="stylesheet" />
 <link href="~/Content/tagsinput/ng-tags-input.css" rel="stylesheet" />
 <script src="~/Scripts/angular.min.js"></script>
 <script src="~/Scripts/ng-tags-input.js"></script>
 <script src="~/app/ngTagInputAngular.js"></script>
 
+<div class="Title">Thêm Sách</div>
+
+<div class="form-group row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/Sach'">
+            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+        </button>
+    </div>
+</div>
 
 @*<script src="~/bower_components/jquery/dist/jquery.js"></script>*@
 <div ng-app="LibraryApp" class="clearfix">
@@ -25,7 +34,33 @@
             </div>*@
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="tensach">Tên Sách:</label>
+            <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa sách:</label>
+            <div class="avatar_container_root avatar_biaSach col-sm-6">
+                @*<img id="blah" src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
+                    @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
+                    @Html.ValidationMessageFor(m => m.FileImageCover)*@
+
+                <div class="avatar_container_HA avatar_clearfix">
+                    <img id="SaveImage" class="avatar_img" src="#" onerror="this.src = '/Content/Images/book.png'" alt="" />
+                    <label class="avatar " for="FileImageCover">
+                        @Html.TextBoxFor(m => m.FileImageCover, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
+                        <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
+                            <path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
+                            <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
+                            <g id="plus">
+                                <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
+                                <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
+                            </g>
+                        </svg>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-label" for="tensach">Tên sách:</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
             </div>
@@ -44,12 +79,11 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="ListTT">Thể Loại Sách:</label>
+            <label class="col-form-label col-sm-3 form-label" for="ListTT">Thể loại sách:</label>
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
+                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn loại sách--",
                        new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
-                    @*s.Id as s.TenTheLoai for s in list*@
                     <div class="input-group-append">
                         <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
                            data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
@@ -67,6 +101,7 @@
                     <tags-input ng-model="listtg"
                                 replace-spaces-with-dashes="false"
                                 display-property="TenTacGia"
+                                placeholder="Nhập tên tác giả ..."
                                 class="form-control form-control-sm">
                         <auto-complete source="loadData($query)"></auto-complete>
                         <div ng-repeat="s in listtg">
@@ -85,10 +120,10 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="ListNXB">Nhà Xuất Bản:</label>
+            <label class="col-form-label col-sm-3 form-label" for="ListNXB">Nhà xuất bản:</label>
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
+                    @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn nhà xuất bản--",
                        new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                     <div class="input-group-append">
                         <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
@@ -101,10 +136,10 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ Sách:</label>
+            <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ sách:</label>
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
+                    @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn kệ sách--",
                        new { @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
                     <div class="input-group-append">
                         <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
@@ -117,17 +152,17 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="sotrang">Số Trang:</label>
+            <label class="col-form-label col-sm-3 form-label" for="sotrang">Số trang:</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn Ngữ:</label>
+            <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn ngữ:</label>
             <div class="col-sm-6">
                 <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
+                    @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn ngôn ngữ--",
                        new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                     <div class="input-group-append">
                         <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
@@ -140,14 +175,14 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm Xuất Bản:</label>
+            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản:</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá Sách:</label>
+            <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá sách:</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
             </div>
@@ -172,33 +207,25 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">lần Xuất Bản:</label>
+            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Lần xuất bản:</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm Tắt:</label>
+            <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm tắt:</label>
             <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
+                @Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
                 @Html.ValidationMessageFor(m => m.SachDTO.TomTat)
             </div>
         </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa Sách:</label>
-            <div class="col-sm-6">
-                <img id="blah" src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
-                @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
-                @Html.ValidationMessageFor(m => m.FileImageCover)
-            </div>
-        </div>
+        
 
-        <div class="form-group row box_temp_lg">
+        <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label"></label>
             <div class="col-sm-6">
-                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm Mới" />
-                <input type="button" value="Trở lại" onclick="location.href='/Sach';" class="btn btn-default btn-sm" />
+                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm mới" />
             </div>
         </div>
 
@@ -219,6 +246,28 @@
    
 
     <script>
+
+        // Ảnh thành viên
+        $("#FileImageCover").change(function () {
+            readURL_avatar(this);
+        });
+        $('.avatar').click(function (event) {
+            event.stopPropagation();
+        });
+        function readURL_avatar(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#SaveImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $(document).ready(function () {
+            readURL_avatar($('#FileImageCover'));
+        });
+        //end  Ảnh thành viên
+
         function RequestAltInsertGuiBegin() {
             $(this).addClass('active');
         }

@@ -3,15 +3,25 @@
     ViewBag.Title = "SuaTT";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Sửa Trạng Thái Sách</div>
+
+<div class="form-group row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
+            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+        </button>
+    </div>
+</div>
 
 <div class="container">
     @using (Html.BeginForm("Sua", "TrangThaiSach", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="tensach">Trạng Thái:</label>
+            <label class="col-form-label col-sm-2" for="tensach">Tên tình trạng:</label>
             <div class="col-sm-10">
                 @Html.TextBoxFor(m => m.TenTT, new { @class = "form-control form-control-sm", @id = "tentt" })
                 @Html.ValidationMessageFor(m => m.TenTT, "", new { @class = "text-danger" })
@@ -33,7 +43,6 @@
             <div class="col-sm-10">
                 <input type="submit" class="btn btn-primary btn-sm" name="btnSuaTheLoai" value="Sửa" />
                 <input type="button" value="Xóa" class="btn btn-danger btn-sm" onclick="XoaTTS('@Model.Id','@Model.TenTT')" />
-                <input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />
             </div>
         </div>
     }

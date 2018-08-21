@@ -8,34 +8,34 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Nhập nhà Kệ sách</h4>
+                    <h4 class="modal-title">Nhập nhà kệ sách</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label" for="TenTheLoai">Tên kệ sách</label>
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="TenTheLoai">Tên kệ sách</label>
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model=>model.TenKe, new { @class = "form-control" })
+                            @Html.TextBoxFor(model=>model.TenKe, new { @class = "form-control form-control-sm" })
                         </div>
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             @Html.ValidationMessageFor(model => model.TenKe, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label" for="MoTa">Mô Tả</label>
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="MoTa">Vị trí</label>
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.ViTri, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.ViTri, new { @class = "form-control form-control-sm" })
                         </div>
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             @Html.ValidationMessageFor(model => model.ViTri, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label" for="GhiChu">Ghi chú</label>
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="GhiChu">Ghi chú</label>
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.GhiChu, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.GhiChu, new { @class = "form-control form-control-sm" })
                         </div>
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
@@ -45,8 +45,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary has-spinner"
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary has-spinner btn-sm"
                             id="update-student-info-save-button">
                         Lưu<i class="glyphicon glyphicon-refresh"></i>
                     </button>
