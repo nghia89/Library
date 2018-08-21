@@ -105,7 +105,7 @@ namespace BiTech.Library.Controllers
             // lấy danh sách phiếu mượn trong năm 
             foreach (var item in listPhieuMuon)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
                 if (ngayMuon.Year == year)
                 {
                     listYearSelected.Add(item);
@@ -117,9 +117,9 @@ namespace BiTech.Library.Controllers
             // -----------------------THÔNG TIN THỐNG KÊ-----------------------  
             foreach (var item in _listPhieuMuon)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
-                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon);
+                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon.ToShortDateString());
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
                 soPhieuMuonTrongThang[ngayMuon.Day] = listPhieuMuonTrongNgay.Count;
                 soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);
@@ -130,7 +130,7 @@ namespace BiTech.Library.Controllers
             }
             foreach (var item in listYearSelected)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
                 #region --------12 thang
                 // chia danh sách phiếu mượn trong năm thành 12 (ứng với 12 tháng) và 4 Quý
                 switch (ngayMuon.Month)
