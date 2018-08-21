@@ -23,7 +23,7 @@
                 <div class="form-control form-control-sm p-0" style="position:relative;">
                     <input class="form-control form-control-sm border-0"
                            id="list_maThanhVien" name="IdUser"
-                           autocomplete="off" placeholder="Nhập mã thành viên ..."
+                           autocomplete="off" placeholder="Nhập mã học sinh hoặc giáo viên ..."
                            onkeydown="if (event.keyCode == 13) { search_user(); }" />
                 </div>
                 <div class="input-group-append">
@@ -99,7 +99,7 @@
                                 <div class="danhsach-mt-sach-old ">
                                     <table class="table table-hover table-bordered mb-0" border="1">
                                         <thead>
-                                            <tr class="table-info">
+                                            <tr class="table-info text-center">
                                                 <th width="50">STT</th>
                                                 <th>Mã kiểm soát</th>
                                                 <th>Tên sách</th>
@@ -113,7 +113,7 @@
                                         </thead>
                                         <tbody>
 
-                                            <tr ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'" my-repeat-directive>
+                                            <tr class="text-center" ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'" my-repeat-directive>
                                                 <td align="center">{{$index + 1}}</td>
                                                 <td>{{ x.MaKiemSoat }}</td>
                                                 <td>{{ x.TenSach }}</td>
@@ -161,7 +161,7 @@
                         <div class="danhsach-mt-sach-old ">
                             <table class="table table-hover table-bordered mb-0" border="1">
                                 <thead>
-                                    <tr class="table-info">
+                                    <tr class="table-info text-center">
                                         <th width="50" align="right">STT</th>
                                         <th>Mã kiểm soát</th>
                                         <th>Tên sách</th>
@@ -171,7 +171,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''">
+                                    <tr class="text-center" ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''">
                                         <td align="center">{{$index + 1}}</td>
                                         <td>{{ x.MaKiemSoat }}</td>
                                         <td>{{ x.TenSach }}</td>
