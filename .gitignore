@@ -327,7 +327,11 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-BiTech.Library/BiTech.Library/Uploads/
+
+# Customer ignore
+
 Libs/
+BiTech.Library/BiTech.Library/Uploads/
 BiTech.Library/BiTech.Library/Upload/
 BiTech.Library/BiTech.Library/Reports/
+BiTech.Library/BiTech.Library/filemarc/

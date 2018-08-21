@@ -188,6 +188,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
 });
 
 // Get a book by Id - TraSachCtrlr  
+/*
 app.controller('TraSachCtrlr', function ($scope, $http) {
     $scope.list = [];
 
@@ -265,6 +266,7 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
         })
     };
 });
+*/
 
 app.controller('KeSach', function ($scope, $http) {
 

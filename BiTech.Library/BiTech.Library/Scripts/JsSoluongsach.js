@@ -73,7 +73,7 @@ var SoLuongTTSach = function () {
                 dataType: "json",
                 success: function (res) {
                     $('#modal-add-edit').modal('hide');
-                    loadData();
+                    //loadData();
                 }
 
             });

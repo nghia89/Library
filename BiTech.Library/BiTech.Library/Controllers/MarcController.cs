@@ -3,6 +3,7 @@ using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using MARC;
+using MARC4J.Net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,9 +23,13 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
-
+        [HttpGet]
+        public ActionResult ImportMarc()
+        {
+            return View();
+        }
         [HttpPost]
-        public ActionResult ImportMarc(DataFieldMarcVm dataField, HttpPostedFileBase file, IEnumerable<HttpPostedFileBase> files)
+        public ActionResult ImportMarc(DataFieldMarcVm dataField)
         {
 
             #region  Lấy thông tin người dùng
@@ -37,8 +42,7 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-
+            var file = dataField.LinFileMarc;
             FileMARC marcRecords = new FileMARC();
             if (file != null)
             {
@@ -51,6 +55,7 @@ namespace BiTech.Library.Controllers
                 if (ext == ".mrc")
                 {
                     marcRecords.ImportMARC(HttpContext.Server.MapPath(imageFolder) + file.FileName);
+
                     foreach (Record record in marcRecords)
                     {
                         var tags = record.Fields;
@@ -69,7 +74,7 @@ namespace BiTech.Library.Controllers
                                 foreach (var subf in eachField.Subfields)
                                 {
                                     dataField.MARC21 += "$" + Convert.ToString(subf.Code);
-                                    dataField.MARC21 += subf.Data + " ";
+                                    dataField.MARC21 += subf.Data.Replace("\u001e\u001d", "") + " ";
                                 }
                                 dataField.MARC21 += "\n";
                             }
@@ -93,50 +98,99 @@ namespace BiTech.Library.Controllers
                             //Unreachable code!
                             Console.WriteLine("Data does not exist");
                         }
-
-                        Field isbn = record["020"];
-                        if (isbn != null)
+                        foreach (var item in tags)
                         {
-                            DataField isbnDataField = (DataField)isbn;
-                            Subfield isbnName = isbnDataField['a'];
-                            dataField.ISBN = isbnName.Data;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data does not exist");
-                        }
+                            if (item.Tag == "020") {
+                                Field eachField1 = item;
+                                if (eachField1.GetType() == typeof(DataField))
+                                {
+                                    //Field eachField1 = (Field)record[item.Tag];
+                                    DataField isbnDataField = (DataField)eachField1;
+                                    Subfield GiaBiaName = isbnDataField['c'];
+                                    //dataField.GiaBia = GiaBiaName.Data;
+                                    if (GiaBiaName != null && isbnDataField['c'] != null)
+                                    {
+                                        //Subfield GiaBiaName = isbnDataField['c'];
+                                       
+                                        dataField.GiaBia = GiaBiaName.Data;
+
+                                    }
+                                    else
+                                    {
+                                        //Unreachable code!
+                                        Console.WriteLine("Data does not exist");
+                                    }
+                                
+                                    Subfield ISBN = isbnDataField['a'];
+                                    if (ISBN != null && isbnDataField['a'] != null)
+                                    {
+                                        dataField.ISBN = ISBN.Data;
+                                    } 
+                                    else
+                                        Console.WriteLine("Data does not exist");
+                                }
+                            }
+                            //DataField datafield = (DataField)record["245"];
+                            //if (datafield != null)
+                            //{
+                            //    dataField.TenSach = datafield['a'].Data;
+                            //}   
+                            //else
+                            //{
+                            //    Console.WriteLine("Data dose not exist");
+                            //}
 
 
-                        Field DisTriBution = record["260"];
-                        if (DisTriBution != null)
-                        {
 
-                            DataField DisTriButionDataField = (DataField)DisTriBution;
-                            Subfield DisTriButionName = DisTriButionDataField['a'];
-                            if (DisTriButionName != null)
+                            Field TitleStatement = record["245"];
+                            if (TitleStatement != null)
                             {
-                                dataField.XuatXu = DisTriButionName.Data.TrimEnd(Character);
+                                DataField TitleStatementDataField = (DataField)TitleStatement;
+                                Subfield TitleStatementName = TitleStatementDataField['a'];
+                                dataField.TenSach = TitleStatementName.Data.Replace("\u001e\u001d", "");
+                                var x = dataField.TenSach;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Data dose not exist");
+                            }
+
+                            Field DisTriBution = record["260"];
+                            if (DisTriBution != null)
+                            {
+
+                                DataField DisTriButionDataField = (DataField)DisTriBution;
+                                Subfield DisTriButionName = DisTriButionDataField['a'];
+                                if (DisTriButionName != null)
+                                {
+                                    dataField.XuatXu = DisTriButionName.Data.TrimEnd(Character);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Data does not exist");
+                                }
+
                             }
                             else
                             {
                                 Console.WriteLine("Data does not exist");
                             }
 
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data does not exist");
-                        }
-
-                        Field Datepublication = record["260"];
-                        if (Datepublication != null)
-                        {
-
-                            DataField DatepublicationDataField = (DataField)Datepublication;
-                            Subfield DatepublicationName = DatepublicationDataField['c'];
-                            if (DatepublicationName != null)
+                            Field Datepublication = record["260"];
+                            if (Datepublication != null)
                             {
-                                dataField.NamXuatBan = DatepublicationName.Data.TrimEnd(Character);
+
+                                DataField DatepublicationDataField = (DataField)Datepublication;
+                                Subfield DatepublicationName = DatepublicationDataField['c'];
+                                if (DatepublicationName != null)
+                                {
+                                    dataField.NamXuatBan = DatepublicationName.Data.TrimEnd(Character);
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Data does not exist");
+                                }
 
                             }
                             else
@@ -144,122 +198,93 @@ namespace BiTech.Library.Controllers
                                 Console.WriteLine("Data does not exist");
                             }
 
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data does not exist");
-                        }
-                        Field price = record["020"];
-                        if (price != null)
-                        {
-                            DataField priceDataField = (DataField)price;
-                            Subfield priceName = priceDataField['c'];
-                            if (priceName != null)
+
+                            Field PhysicalDescription = record["300"];
+                            if (PhysicalDescription != null)
                             {
-                                dataField.GiaBia = priceName.Data;
+                                DataField PhysicalDescriptionDataField = (DataField)PhysicalDescription;
+                                Subfield PhysicalDescriptiondName = PhysicalDescriptionDataField['a'];
+                                if (PhysicalDescriptiondName != null)
+                                {
+
+                                    dataField.SoTrang = PhysicalDescriptiondName.Data.TrimEnd(Character);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Null");
+                                }
+
                             }
                             else
                             {
-                                Console.WriteLine("Null");
+                                Console.WriteLine("Data dose not exist");
                             }
 
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data does not exist");
-                        }
-
-
-                        Field PhysicalDescription = record["300"];
-                        if (PhysicalDescription != null)
-                        {
-                            DataField PhysicalDescriptionDataField = (DataField)PhysicalDescription;
-                            Subfield PhysicalDescriptiondName = PhysicalDescriptionDataField['a'];
-                            if (PhysicalDescriptiondName != null)
+                            Field Summary = record["520"];
+                            if (Summary != null)
                             {
+                                DataField SummaryDataField = (DataField)Summary;
+                                Subfield SummaryName = SummaryDataField['a'];
+                                if (SummaryName != null)
+                                {
+                                    dataField.TomTat = SummaryName.Data;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Data  dose not exist");
+                                }
 
-                                dataField.SoTrang = PhysicalDescriptiondName.Data.TrimEnd(Character);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Null");
-                            }
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data dose not exist");
-                        }
-
-                        Field Summary = record["520"];
-                        if (Summary != null)
-                        {
-                            DataField SummaryDataField = (DataField)Summary;
-                            Subfield SummaryName = SummaryDataField['a'];
-                            if (SummaryName != null)
-                            {
-                                dataField.TomTat = SummaryName.Data;
                             }
                             else
                             {
                                 Console.WriteLine("Data  dose not exist");
                             }
 
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data  dose not exist");
-                        }
 
+                           
 
-                        Field TitleStatement = record["245"];
-                        if (TitleStatement != null)
-                        {
-                            DataField TitleStatementDataField = (DataField)TitleStatement;
-                            Subfield TitleStatementName = TitleStatementDataField['a'];
-                            dataField.TenSach = TitleStatementName.Data.TrimEnd(Character);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data dose not exist");
-                        }
-
-                        Field EdittionStatement = record["250"];
-                        if (EdittionStatement != null)
-                        {
-                            DataField EdittionStatementDataField = (DataField)EdittionStatement;
-                            Subfield EdittionStatementName = EdittionStatementDataField['a'];
-                            dataField.TaiBan = EdittionStatementName.Data;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Data dose not exist");
-                        }
-                        Field languageCode = record["041"];
-                        if (languageCode != null)
-                        {
-
-                            DataField languageCodeDataField = (DataField)languageCode;
-                            Subfield languageCodeName = languageCodeDataField['a'];
-                            var getNamelanguageCode = _LanguageLogic.FindNamelanguge(languageCodeName.Data);
-                            var getById = _LanguageLogic.FindNameId(languageCodeName.Data);
-                            if (getNamelanguageCode.Count <= 0)
+                            Field EdittionStatement = record["250"];
+                            if (EdittionStatement != null)
                             {
-                                _LanguageLogic.InsertNew(new Language()
-                                {
-                                    Ten = languageCodeName.Data
-                                });
+                                DataField EdittionStatementDataField = (DataField)EdittionStatement;
+                                Subfield EdittionStatementName = EdittionStatementDataField['a'];
+                                dataField.TaiBan = EdittionStatementName.Data;
                             }
                             else
                             {
-                                dataField.IdNgonNgu = getById.Id;
+                                Console.WriteLine("Data dose not exist");
+                            }
+                            Field languageCode = record["041"];
+                            if (languageCode != null)
+                            {
+
+                                DataField languageCodeDataField = (DataField)languageCode;
+                                Subfield languageCodeName = languageCodeDataField['a'];
+                                var getNamelanguageCode = _LanguageLogic.FindNamelanguge(languageCodeName.Data);
+                                var getById = _LanguageLogic.FindNameId(languageCodeName.Data);
+                                if (getNamelanguageCode.Count <= 0)
+                                {
+                                    _LanguageLogic.InsertNew(new Language()
+                                    {
+                                        Ten = languageCodeName.Data
+                                    });
+                                }
+                                else
+                                {
+                                    dataField.IdNgonNgu = getById.Id;
+                                }
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("Data Does not exist");
                             }
 
+
                         }
-                        else
-                        {
-                            Console.WriteLine("Data Does not exist");
-                        }
+
+   
+                       
                         Sach ListdataField = new Sach()
                         {
                             MaKiemSoat = dataField.MaKiemSoat,

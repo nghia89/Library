@@ -1,6 +1,7 @@
 ﻿using MARC;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -60,6 +61,9 @@ namespace BiTech.Library.Models
 
         public string QRData { get; set; }
         public bool IsDeleted { get; set; } = true;
+
+        [Required]
+        public HttpPostedFileBase LinFileMarc { get; set; }
 
     }
 }
