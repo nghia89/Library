@@ -167,13 +167,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''" ng-click="GetBook_2(x.MaKiemSoat, x.NgayMuon,x.NgayTra)">
+                                    <tr ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''" ng-click="GetBook_2(x.MaKiemSoat, x.NgayMuon, x.NgayTra)">
                                         <td align="center">{{$index + 1}}</td>
                                         <td>{{ x.MaKiemSoat }}</td>
                                         <td>{{ x.TenSach }}</td>
                                         <td>{{ x.SoLuong }}</td>
-                                        <td>{{ x.NgayMuon }}</td>
-                                        <td>{{ x.NgayTra }}</td>
+                                        <td>{{ x.NgayMuon | date  }}</td>
+                                        <td>{{ x.NgayTra | date  }}</td>
                                     </tr>
 
                                 </tbody>
