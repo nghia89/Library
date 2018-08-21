@@ -18,16 +18,16 @@ namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
     {
-//<<<<<<< HEAD
+
         SachCommon sachCommon;
         public SachController()
         {
             sachCommon = new SachCommon();
         }
-//        public ActionResult Index(KeySearchViewModel KeySearch)
-//=======
+
+
         public ActionResult Index(KeySearchViewModel KeySearch, int? page)
-//>>>>>>> NghiaNguyen89
+
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -41,11 +41,12 @@ namespace BiTech.Library.Controllers
             KeSachLogic _KeSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
 
             ListBooksModel model = new ListBooksModel();
 
-            int pageSize = 10;
+            int pageSize = 30;
             int pageNumber = (page ?? 1);
             ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
@@ -54,12 +55,14 @@ namespace BiTech.Library.Controllers
             var list = _SachLogic.getPageSach(KeySearch);
             foreach (var item in list)
             {
+                var IdSachTG = _SachTacGiaLogic.getById(item.Id);
                 BookView book = new BookView(item);
 
                 book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
                 book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
                 book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
                 book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
+                book.Ten_TacGia = _TacGiaLogic.GetByIdTG(IdSachTG.IdTacGia)?.TenTacGia ?? "--";
 
                 model.Books.Add(book);
             }
@@ -266,7 +269,9 @@ namespace BiTech.Library.Controllers
                     TaiBan = model.SachDTO.TaiBan,
                     TenSach = model.SachDTO.TenSach,
                     TomTat = model.SachDTO.TomTat,
-                    PhiMuonSach = model.SachDTO.PhiMuonSach
+                    PhiMuonSach = model.SachDTO.PhiMuonSach,
+                    ISBN=model.SachDTO.ISBN,
+                    XuatXu=model.SachDTO.XuatXu
                     //LinkBiaSach = model.FileImageCover.ToString()
                 };
 

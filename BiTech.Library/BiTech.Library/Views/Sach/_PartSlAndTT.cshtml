@@ -28,24 +28,14 @@
             </div>
         </div>
         <script id="table-template" type="x-tmpl-mustache">
-            @*<div class="form-group row">
-                    <label class="control-label col-sm-3" for="IdTrangThai">{{TrangThai}}:</label>
-                    <input type="text" id="KeyInput" value="{{IdSach}}" hidden>
-                    <div class="col-sm-3">
-                        <input type="number" id="KeyInput" value="{{SoLuong}}" min="0" max="{{SoLuong}}" class="form-control">
-                    </div>
-                    <a class="btn btn-danger btn-edit" data-id="{{Id}}">Sửa</a>
-                    <input type="text" class="txtIdTrangThai" value="{{IdTrangThai}}" hidden>
-                </div>*@
-
             <div class="form-group row">
                 <label class="control-label form-label col-sm-3" for="IdTrangThai">{{TrangThai}}:</label>
-                <div class="input-group col-sm-6 mb-3">
+                <div class="input-group col-sm-3 mb-3">
                     <input type="number" id="KeyInput" value="{{SoLuong}}" min="0" max="{{SoLuong}}" class="form-control first-child form-control-sm">
                     <input type="text" id="KeyInput" value="{{IdSach}}" hidden>
                     <div class="input-group-append">
+                        <a class="btn btn-danger btn-edit" data-id="{{Id}}">Sửa</a>
                         <input type="text" class="txtIdTrangThai" value="{{IdTrangThai}}" hidden>
-                        <button class="btn btn-primary btn-sm" type="button">Sửa</button>
                     </div>
                 </div>
             </div>

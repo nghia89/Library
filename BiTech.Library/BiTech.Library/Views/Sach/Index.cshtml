@@ -20,11 +20,12 @@
             <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm ml-2">Thêm Mới</a>
             @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
 
-            <form action="/Marc/ImportMarc" method="post" role="form" enctype="multipart/form-data" style="position:relative; display:inline;">
-                <input type="file" name="file" id="exampleFormControlFile1" onchange="this.form.submit()"
-                       style="display:none; opacity: 0;" title="Import Marc21">
-                <label class="btn btn-primary btn-sm  ml-2" for="exampleFormControlFile1" style="margin:0px;">Nhập file Marc</label>
-            </form>
+            @Html.ActionLink("Thêm từ Marc", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-2" })
+            @*<form action="/Marc/ImportMarc" method="post" role="form" enctype="multipart/form-data" style="position:relative; display:inline;">
+            <input type="file" name="file" id="exampleFormControlFile1" onchange="this.form.submit()"
+                   style="display:none; opacity: 0;" title="Import Marc21">
+            <label class="btn btn-primary btn-sm  ml-2" for="exampleFormControlFile1" style="margin:0px;">Nhập file Marc</label>
+        </form>*@
 
             @Html.ActionLink("Xuất Marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
         </div>
@@ -93,7 +94,7 @@
                             </div>
                             <div class="book_information clearfix">
                                 <div class="book_title_information">Tác giả:</div>
-                                <div class="book_content_information">ABC</div>
+                                <div class="book_content_information">@item.Ten_TacGia</div>
                             </div>
                             <div class="book_information clearfix">
                                 <div class="book_title_information">Nhà Xuất Bản:</div>
