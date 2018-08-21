@@ -108,6 +108,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion           
             UserViewModel model = new UserViewModel();
+            model.TemptNgaySinh = "--/--/----";
             return View(model);
         }
         [HttpPost]
@@ -137,6 +138,17 @@ namespace BiTech.Library.Controllers
                 // Loại tài khoản 
                 LoaiTK = "gv"
             };
+            DateTime ngaySinh = new DateTime();
+            if (viewModel.TemptNgaySinh.Equals("--/--/----") == false)
+            {
+                ngaySinh = DateTime.ParseExact(viewModel.TemptNgaySinh,"dd/MM/yyyy",null);
+                thanhVien.NgaySinh = ngaySinh;
+            }     
+            else
+            {
+                ViewBag.NullNgaySinh = "Bạn chưa chọn ngày sinh!";
+                return View(viewModel);
+            }           
             // Kiem tra trung ma thanh vien
             var idMaThanhVien = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.MaSoThanhVien);
             if (idMaThanhVien == null)

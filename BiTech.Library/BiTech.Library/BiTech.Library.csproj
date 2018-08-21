@@ -605,6 +605,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\fSelect.css" />
     <Content Include="Content\css\fSelect.js" />
+    <Content Include="Content\Images\calendar.ico" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\Mau1.png" />
     <Content Include="Content\Images\Mau2.png" />

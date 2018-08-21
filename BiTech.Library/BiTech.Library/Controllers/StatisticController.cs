@@ -105,7 +105,7 @@ namespace BiTech.Library.Controllers
             // l?y danh sách phi?u mu?n trong nam 
             foreach (var item in listPhieuMuon)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
                 if (ngayMuon.Year == year)
                 {
                     listYearSelected.Add(item);
@@ -117,7 +117,7 @@ namespace BiTech.Library.Controllers
             // -----------------------THÔNG TIN TH?NG KÊ-----------------------  
             foreach (var item in _listPhieuMuon)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
                 // danh sách phi?u mu?n trong ngày (ghi t?t DSPMTN)
                 listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon);
                 // t? DSPMTN l?y ra 5 lo?i d? li?u d? th?ng kê
@@ -130,7 +130,8 @@ namespace BiTech.Library.Controllers
             }
             foreach (var item in listYearSelected)
             {
-                DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                DateTime ngayMuon = item.NgayGioMuon;
+
                 #region --------12 thang
                 // chia danh sách phi?u mu?n trong nam thành 12 (?ng v?i 12 tháng) và 4 Quý
                 switch (ngayMuon.Month)
@@ -214,6 +215,7 @@ namespace BiTech.Library.Controllers
             for (int i = 0; i < 12; i++)
             {
                 List<ThongTinMuonSach> list = new List<ThongTinMuonSach>();
+
                 #region -------- 12 thang
                 switch (i)
                 {
@@ -279,6 +281,7 @@ namespace BiTech.Library.Controllers
                         }
                 }
                 #endregion
+
                 // d? li?u m?i tháng ?ng m?i 1 ph?n t? trong m?ng (m?ng có 12 ph?n t? ?ng v?i 12 tháng)
                 soNguoiMuonSachTrongNam[i] = nghiepVu.DemSoNguoiMuonSach(list);
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);

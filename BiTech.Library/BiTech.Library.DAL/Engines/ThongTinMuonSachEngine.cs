@@ -58,9 +58,9 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.idUser == idUser).ToList();
         }
 
-        public List<ThongTinMuonSach> GetTTMSByNgayMuon(string ngayMuon)
+        public List<ThongTinMuonSach> GetTTMSByNgayMuon(DateTime ngayMuon)
         {
-            return _DatabaseCollection.Find(x => x.NgayGioMuon.ToShortDateString() == ngayMuon).ToList();
+            return _DatabaseCollection.Find(x => x.NgayGioMuon == ngayMuon).ToList();
         }
 		
         #endregion

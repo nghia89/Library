@@ -38,16 +38,12 @@
                 <td>@Html.ActionLink(TenThanhVien, "ThongTinDocGia", new { id = @ViewBag.ListThanhVien[i].Id, page = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
                 <td>@ViewBag.ListSach[i].TenSach</td>             
                 <td class="text-center">@item.SoSachTong.ToString()</td>
-                <td class="text-center">@item.NgayGioMuon</td>
-                <td class="text-center">@item.NgayPhaiTra</td>
-                @{
-                    string ngayTraThucTe = item.NgayTraThucTe.ToString("dd-MM-yyyy");
-                    
-                }
+                <td class="text-center">@item.NgayGioMuon.ToString("dd-MM-yyyy")</td>
+                <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
                
-                @if (item.NgayTraThucTe.Equals("01-01-0001") == false)
+               @if (item.NgayTraThucTe.ToShortDateString().Equals("01/01/0001") == false)
                 {
-                    <td>@ngayTraThucTe</td>
+                    <td>@item.NgayTraThucTe.ToString("dd-MM-yyyy")</td>
                     if (item.SoNgayGiaoDong != null)
                     {
                         <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>

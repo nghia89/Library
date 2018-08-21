@@ -21,7 +21,7 @@ namespace BiTech.Library.Models
         }
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Bạn chưa nhập tên User!")]
+        [Required(ErrorMessage = "Bạn chưa nhập tên đăng nhập!")]
         [Display(Name = "User name")]
         [StringLength(40, ErrorMessage = "Tên quá dài")]
         public string UserName { get; set; }
@@ -48,8 +48,10 @@ namespace BiTech.Library.Models
         //[Required(ErrorMessage = "Bạn chưa chọn ngày sinh!")]
         [Display(Name = "Ngày sinh")]
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Bạn chưa chọn ngày sinh!")]
         public DateTime NgaySinh { get; set; }
-
+        [Required(ErrorMessage = "Bạn chưa chọn ngày sinh!")]
+        public string TemptNgaySinh { get; set; }
         [Required(ErrorMessage = "Bạn chưa nhập mã số!")]
         [Display(Name = "Mã số thành viên")]
         public string MaSoThanhVien { get; set; }
