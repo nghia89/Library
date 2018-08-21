@@ -28,42 +28,62 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.Id != id).ToList();
         }
-		
+
         public List<ThongTinMuonSach> GetByidUser(string idUser)
         {
             return _DatabaseCollection.Find(x => x.idUser == idUser).ToList();
         }
+
         public List<ThongTinMuonSach> GetByThongTinMuonSach(ThongTinMuonSach TT)
         {
+            DateTime NgayGioMuon2 = TT.NgayGioMuon.AddDays(1);
+            DateTime NgayPhaiTra2 = TT.NgayPhaiTra.AddDays(1);
+
             return _DatabaseCollection.Find(x => x.idUser == TT.idUser
                 && x.idSach == TT.idSach
-                && x.NgayGioMuon.ToShortDateString() == TT.NgayGioMuon.ToShortDateString()
-                && x.NgayPhaiTra.ToShortDateString() == TT.NgayPhaiTra.ToShortDateString()
+                && x.NgayGioMuon >= TT.NgayGioMuon && x.NgayGioMuon < NgayGioMuon2
+                && x.NgayPhaiTra == TT.NgayPhaiTra && x.NgayPhaiTra < NgayPhaiTra2
                 && x.DaTra == false
             ).ToList();
         }
+
         public List<ThongTinMuonSach> GetByidUser_ChuaTra(string idUser)
         {
+            //var l = _DatabaseCollection.Find(x => x.idUser == idUser && x.DaTra == false).ToList();
+            //string dates = l[0].NgayGioMuon.ToString("dd/MM/yyyy HH:mm:ss");
+            //var tt = new ThongTinMuonSach();
+            //tt.NgayGioMuon = DateTime.ParseExact(dates, "dd/MM/yyyy HH:mm:ss", null);
+
+            //var rs = tt.NgayGioMuon == l[0].NgayGioMuon;
+            //try
+            //{
+            //    var l2 = _DatabaseCollection.Find(x => x.NgayGioMuon.Date == tt.NgayGioMuon.Date).ToList();
+            //}
+            //catch (Exception ex)
+            //{
+            //}
+
             return _DatabaseCollection.Find(x => x.idUser == idUser && x.DaTra == false).ToList();
         }
+
         public List<ThongTinMuonSach> GetBy_ChuaTra_byidSach(string idSach)
         {
             return _DatabaseCollection.Find(x => x.idSach == idSach && x.DaTra == false).ToList();
         }
-		
+
         #region Tai
-		
+
         public List<ThongTinMuonSach> GetTTMSByIdUser(string idUser)
         {
             return _DatabaseCollection.Find(x => x.idUser == idUser).ToList();
         }
 
-        public List<ThongTinMuonSach> GetTTMSByNgayMuon(string ngayMuon)
+        public List<ThongTinMuonSach> GetTTMSByNgayMuon(DateTime ngayMuon)
         {
-            return _DatabaseCollection.Find(x => x.NgayGioMuon.ToShortDateString() == ngayMuon).ToList();
+            return _DatabaseCollection.Find(x => x.NgayGioMuon == ngayMuon).ToList();
         }
-		
+
         #endregion
-		
+
     }
 }

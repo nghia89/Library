@@ -53,6 +53,7 @@ namespace BiTech.Library.Controllers
 
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
+
             #region Khai báo
             if (year == null)
                 year = DateTime.Now.Year;
@@ -102,6 +103,7 @@ namespace BiTech.Library.Controllers
             List<ThongTinMuonSach> listMonth11 = new List<ThongTinMuonSach>();
             List<ThongTinMuonSach> listMonth12 = new List<ThongTinMuonSach>();
             #endregion
+
             // lấy danh sách phiếu mượn trong năm 
             foreach (var item in listPhieuMuon)
             {
@@ -119,7 +121,7 @@ namespace BiTech.Library.Controllers
             {
                 DateTime ngayMuon = item.NgayGioMuon;
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
-                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon.ToShortDateString());
+                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon);
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
                 soPhieuMuonTrongThang[ngayMuon.Day] = listPhieuMuonTrongNgay.Count;
                 soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);
