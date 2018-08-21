@@ -18,13 +18,21 @@
         Text = string.Format("({0}) {1}", index + 1, monthName)
     });
 
+    var month2 = Enumerable
+.Range(1, 12)
+.Select(month => new SelectListItem
+{
+    Value = month.ToString(CultureInfo.InvariantCulture),
+    Text = month.ToString(CultureInfo.InvariantCulture)
+});
+
     var years = Enumerable
-    .Range(2018, (DateTime.Now.Year-2018)+1)
-    .Select(year => new SelectListItem
-    {
-        Value = year.ToString(CultureInfo.InvariantCulture),
-        Text = year.ToString(CultureInfo.InvariantCulture)
-    });
+.Range(2018, (DateTime.Now.Year - 2018) + 1)
+.Select(year => new SelectListItem
+{
+    Value = year.ToString(CultureInfo.InvariantCulture),
+    Text = year.ToString(CultureInfo.InvariantCulture)
+});
 
 }
 
@@ -34,25 +42,37 @@
 <br />
 <div class="container-box-window clearfix">
     <div class="top">
-        <span style="font-size:22px">Danh sách mượn sách theo tháng</span>
+        <span>Danh sách mượn sách theo tháng</span>
     </div>
     <div class="content-box-window">
-        <div class="row">
-            <div class="col-md-1 text-right" style="font-size:20px">Tháng</div>
-            <div class="col-md-2">
-                @Html.DropDownList("month", months, new { onchange = @"onMonthSelectedChagned();", @class = "form-control" })
-            </div>
-            <div class="col-md-1 text-right" style="font-size:20px">Năm</div>
-            <div class="col-md-2">
-                @Html.DropDownList("year", years, new { onchange = @"onYearSelectedChagned();", @class = "form-control" })
-            </div>
-        </div>
+        <table>
+            <tr class="text-left">
+                <td style="font-size:20px;padding:15px">Tháng</td>
+                <td>
+                    @Html.DropDownList("month", month2, new
+               {
+                   onchange = @"onMonthSelectedChagned();",
+                   @class = "form-control",
+                   @style = " width: 90px; "
+               })
+                </td>
+                <td style="font-size:20px;padding:15px">Năm</td>
+                <td>
+                    @Html.DropDownList("year", years, new
+               {
+                   onchange = @"onYearSelectedChagned();",
+                   @class = "form-control",
+                   @style = " width: 90px;"
+                    })
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 
 <div class="container-box-window clearfix">
     <div class="top">
-        <span style="font-size:22px">Danh sách mượn sách theo ngày</span>
+        <span>Danh sách mượn sách theo ngày</span>
     </div>
     <div class="content-box-window">
         @Html.TextBox("day", "", new { onchange = @"onDaySelectedChagned()", @class = "form-control datepicker" })
@@ -94,7 +114,7 @@
     @foreach (var item in Model)
             {
         <tbody>
-            <tr>
+            <tr class="text-center">
                 <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
                 @{
                     string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;

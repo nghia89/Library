@@ -4,14 +4,14 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <div class="Title">Chi tiết phiếu nhập sách</div>
-<br/>
+<br />
 <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "PhieuNhapSach")'">
     <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
 </button>
 <hr />
 <div class="container-box-window clearfix">
     <div class="top">
-        <span class="" style="font-size:22px">Thông tin phiếu nhập</span>
+        <span class="">Thông tin phiếu nhập</span>
     </div>
     <div class="content-box-window">
         <div class="container">
@@ -39,34 +39,36 @@
 <br>
 <div class="container-box-window clearfix">
     <div class="top">
-        <span class="" style="font-size:22px">Danh sách chi tiết phiếu nhập</span>
+        <span class="">Danh sách chi tiết phiếu nhập</span>
     </div>
     <div class="content-box-window">
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="table-info">
+                    <th width="50" align="right">STT</th>
                     <th>Tên sách</th>
                     <th>Số lượng</th>
                     <th>Tình trạng</th>
-
                 </tr>
             </thead>
             <tbody>
+                @{ int i = 1;}
                 @foreach (var item in ViewBag.lstctnhap)
             {
                     <tr>
+                        <td align="center">@i.ToString()</td>
                         <td>@item.ten</td>
                         <td>@item.soLuong</td>
                         <td>@item.tenTinhTrang</td>
-
                     </tr>
+                    i++;
                 }
             </tbody>
 
         </table>
     </div>
 </div>
-@*<br>     
-<input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />*@
+@*<br>
+    <input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />*@
 
 

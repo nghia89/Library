@@ -26,7 +26,7 @@
             <div class="form-group row">
                 <div class="avatar_container_root col-md-offset-2 col-md-6">
                     <div class="avatar_container avatar_clearfix">
-                        <img id="SaveImage" class="avatar_img" src="@Html.Raw(Model.LinkAvatar)" onerror="this.src = '/Content/Images/user5.jpg'" alt="" />                     
+                        <img id="SaveImage" class="avatar_img" src="@Html.Raw(Model.LinkAvatar)" onerror="this.src = '/Content/Images/user5.jpg'" alt="" />
                         <label class="avatar" for="HinhChanDung">
                             @Html.TextBoxFor(m => m.HinhChanDung, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
                             <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -43,91 +43,92 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-5">
-                    <div class="form-group row">
-                        <label class="col-md-2 control-label">Tên đăng nhập</label>
-                        <div class="col-md-10">
+                <div class="col-lg-6">
+                    <div class="form-group col">
+                        <label class="control-label">Tên đăng nhập <span style="color:#dc3545">*</span></label>
+                        <div>
                             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
                             @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
+                    <div class="form-group col">
+                        <label class="control-label">Mật khẩu <span style="color:#dc3545">*</span></label>
+                        <div>
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.ConfirmPass, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
+                    <div class="form-group col">
+                        <label class="control-label">Nhập lại mật khẩu <span style="color:#dc3545">*</span></label>
+                        <div>
                             @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
                             @Html.ValidationMessageFor(m => m.ConfirmPass, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 control-label">Tên giáo viên</label>
-                        <div class="col-md-10">
+                    <div class="form-group col">
+                        <label class="control-label">Tên giáo viên <span style="color:#dc3545">*</span></label>
+                        <div>
                             @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
                             @Html.ValidationMessageFor(m => m.Ten, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 control-label">Mã số giáo viên</label>
-                        <div class="col-md-10">
+                    <div class="form-group col">
+                        <label class="control-label">Mã số giáo viên <span style="color:#dc3545">*</span></label>
+                        <div>
                             @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
                             @Html.ValidationMessageFor(m => m.MaSoThanhVien, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
+                    <div class="form-group col">
+                        <label class="control-label">Giới tính <span style="color:#dc3545">*</span></label>
+                        <div>
                             @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
                             @Html.ValidationMessageFor(m => m.GioiTinh, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-5">
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
+                <div class="col-lg-6">
+                    <div class="form-group col">
+                        @Html.LabelFor(m => m.NgaySinh, new { @class = "control-label" })
+                        <div>
                             @Html.TextBoxFor(m => m.TemptNgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20", @autocomplete = "off" })
                             @*@Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20" })*@
                             @Html.ValidationMessageFor(m => m.NgaySinh, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.LopHoc, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-4">
+                    <div class="form-group col">
+                        @Html.LabelFor(m => m.LopHoc, new { @class = "control-label" })
+                        <div>
                             @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.NienKhoa, new { @class = "text-right col-md-2 control-label" })
-                        <div class="col-md-4">
+                    <div class="form-group col">
+                        @Html.LabelFor(m => m.NienKhoa, new { @class = "control-label" })
+                        <div>
                             @Html.DropDownListFor(m => m.NienKhoa, new SelectList(Model.ListNienKhoa), "---Chọn niên khóa---", new { @class = "form-control form-control-sm" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
+                    <div class="form-group col">
+                        @Html.LabelFor(m => m.DiaChi, new { @class = "control-label" })
+                        <div>
                             @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
+                    <div class="form-group col">
+                        @Html.LabelFor(m => m.SDT, new { @class = "control-label" })
+                        <div>
                             @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
                         </div>
-                    </div>                   
+                    </div>
                 </div>
             </div>
+
             <div class="form-group row">
                 <div class="col-md-2"></div>
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
-                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "GiaoVien")'" />
+                    <input type="button" class="btn btn-sm btn-default" value="Trở lại" onclick="window.location='@Url.Action("Index", "GiaoVien")'" />
                 </div>
             </div>
         </div>

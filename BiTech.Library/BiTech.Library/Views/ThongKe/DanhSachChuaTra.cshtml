@@ -30,8 +30,8 @@
     @foreach (var item in Model)
     {
         <tbody>
-            <tr>
-                <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
+            <tr class="text-center">
+                <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
                 @{
                     string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;
                 }
