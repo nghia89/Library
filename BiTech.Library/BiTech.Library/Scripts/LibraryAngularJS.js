@@ -6,12 +6,18 @@ var app = angular.module('LibraryApp', []);
 // Define the `BookGenresCtrlr` controller on the `LibraryApp` module
 app.controller('BookGenresCtrlr', function ($scope, $http) {
 
-    $scope.GetAllData = function () {
+    $scope.GetAllData = function (id) {
         $http({
             method: "get",
             url: "/TheLoaiSach/Get_AllTheLoaiSach"
         }).then(function (response) {
             $scope.list = response.data;
+            for (i = 0; i < response.data.length; i++) {
+                if(response.data[i].Id == id)
+                {
+                    $scope.IdTheLoai = response.data[i];
+                }
+            }
         }, function () {
             alert("Error Occur");
         })
@@ -21,12 +27,17 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
 // Define the `PublishersCtrlr` controller on the `LibraryApp` module
 app.controller('PublishersCtrlr', function ($scope, $http) {
 
-    $scope.GetAllData = function () {
+    $scope.GetAllData = function (id) {
         $http({
             method: "get",
             url: "/NhaXuatBan/Get_AllNhaXuatBan"
         }).then(function (response) {
             $scope.list = response.data;
+            for (i = 0; i < response.data.length; i++) {
+                if (response.data[i].Id == id) {
+                    $scope.IdNhaXuatBan = response.data[i];
+                }
+            }
         }, function () {
             alert("Error Occur");
         })
@@ -188,7 +199,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
 });
 
 // Get a book by Id - TraSachCtrlr  
-app.controller('TraSachCtrlr', function ($scope, $http) {
+app.controller('TraSachCtrlr_Vinh', function ($scope, $http) {
     $scope.list = [];
 
     $scope.addItem = function (id) {

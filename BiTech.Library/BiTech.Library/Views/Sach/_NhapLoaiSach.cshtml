@@ -12,30 +12,33 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label" for="TenTheLoai">Tên Thể Loại</label>
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="TenTheLoai">Tên Thể Loại</label>
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(_ => _.TenTheLoai, new { @class = "form-control" })
-                        </div>
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-8 row">
+                            @Html.TextBoxFor(_ => _.TenTheLoai, new { @class = "form-control form-control-sm" })
                             @Html.ValidationMessageFor(_ => _.TenTheLoai, "", new { @class = "text-danger" })
+                        </div>                        
+                    </div>
+
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="MaDDC">Mã DDC</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(_ => _.MaDDC, new { @class = "form-control form-control-sm" })
+                            @Html.ValidationMessageFor(_ => _.MaDDC, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label" for="MoTa">Mô Tả</label>
+
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="MoTa">Mô Tả</label>
                         <div class="col-sm-8">
-                            @Html.TextBoxFor(_ => _.MoTa, new { @class = "form-control" })
-                        </div>
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-8">
+                            @Html.TextBoxFor(_ => _.MoTa, new { @class = "form-control form-control-sm" })
                             @Html.ValidationMessageFor(_ => _.MoTa, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary has-spinner"
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary has-spinner btn-sm"
                             id="update-student-info-save-button">
                         Lưu<i class="glyphicon glyphicon-refresh"></i>
                     </button>

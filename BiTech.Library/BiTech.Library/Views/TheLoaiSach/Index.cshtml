@@ -11,9 +11,9 @@
 <div class="Title">Danh Sách Thể Loại Sách</div>
 <div class="clearfix">
     <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
-       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm Mới</a>    
+       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>    
      
-    @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })
+    @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })
 
     <button class="btn-dan btn btn-sm btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
         Dán
@@ -34,10 +34,10 @@
     <thead>
         <tr class="table-info">
             <th width="50" align="right">STT</th>
-            <th width="20%">Tên Thể Loại</th>
+            <th width="20%">Tên thể loại</th>
             <th width="18%">Mã DDC</th>
             @*<th width="20%">Tên thể loại cha</th>*@
-            <th width="40%">Mô Tả</th>
+            <th width="40%">Mô tả</th>
             <th width="10%">Sửa</th>
             <th width="10%">Cắt</th>
         </tr>

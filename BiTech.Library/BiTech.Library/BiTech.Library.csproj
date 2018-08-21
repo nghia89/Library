@@ -314,6 +314,10 @@
     <Content Include="bower_components\angular-chart.js\dist\angular-chart.min.js" />
     <Content Include="bower_components\angular-chart.js\gulpfile.js" />
     <Content Include="bower_components\Chart.js\Chart.js" />
+    <Content Include="bower_components\custom-file-input\css\component.css" />
+    <Content Include="bower_components\custom-file-input\css\demo.css" />
+    <Content Include="bower_components\custom-file-input\css\normalize.css" />
+    <Content Include="bower_components\custom-file-input\custom-file-input.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\gulpfile.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.js" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.min.js" />
@@ -604,6 +608,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\fSelect.css" />
     <Content Include="Content\css\fSelect.js" />
+    <Content Include="Content\Images\book.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\Mau1.png" />
     <Content Include="Content\Images\Mau2.png" />

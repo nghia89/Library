@@ -101,6 +101,31 @@ namespace BiTech.Library.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult GetAllTacGiaByIdSach(string idSach)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            List<SachTacGia> list_IDTacGia = _SachTacGiaLogic.getListById(idSach);
+            List<string> List_TenTacGia = new List<string>();
+            foreach (SachTacGia item in list_IDTacGia)
+            {
+                TacGia tg = _TacGiaLogic.GetById(item.IdTacGia);
+                if (tg != null)
+                    List_TenTacGia.Add(tg.TenTacGia);
+            }
+            
+            var list = _TacGiaLogic.GetAllTacGia();
+            return Json(List_TenTacGia, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult FindTacGia(string query)
         {
             #region  Lấy thông tin người dùng

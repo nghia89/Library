@@ -3,6 +3,7 @@
     background-color: #fff;
 }
 
+
 .avatar {
     float: left;
     display: inline-block;
@@ -45,9 +46,11 @@
         opacity: 0;
     }
 
+
 .avatar_input {
     opacity: 0;
-    position:absolute;
+    position: absolute;
+    width: 50px;
 }
 
 .avatar_img {
@@ -60,6 +63,8 @@
     border: 6px solid #B3C9CB;
     object-fit: cover;
 }
+
+
 
 .avatar_container_root {
     position: relative;
@@ -174,7 +179,7 @@
     display: block;
 }
 
-.right {
+/*.right {
     margin-left: 12.5vw;
     bottom: 0;
     position: absolute;
@@ -195,7 +200,7 @@
             font-size: 0.9vw;
             text-align: right;
             color: rgba(0, 0, 0, 0.5);
-        }
+        }*/
 
 .avatar:hover > #camera > #cameraFrame {
     stroke-dashoffset: 0;
@@ -253,4 +258,54 @@
 
 .avatar.open > #camera {
     visibility: hidden;
+}
+
+/*===================================================*/
+.avatar_biaSach {
+    height: 250px;
+}
+
+    .avatar_biaSach .avatar_container {
+        width: 200px;
+        left: 102px;
+        top: 130px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .avatar_biaSach .avatar_img {
+        border-radius: 0;
+    }
+
+    .avatar_biaSach .avatar {
+        border-radius: 0;
+        width: 100%;
+        height: 250px;
+    }
+
+        .avatar_biaSach .avatar:after {
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+    .avatar_biaSach #camera {
+        margin-top: 35%;
+    }
+
+    .avatar_biaSach .avatar_img {
+        object-fit: inherit;
+    }
+
+.avatar_container_HA {
+    position: relative;
+    width: 200px;
+    float: left;
+    z-index: 10;
+}
+
+.avatar_container_TT {
+    float: left;
+    width: calc(100% - 200px);
+    padding: 0 5px;
 }

@@ -140,10 +140,10 @@ namespace BiTech.Library.BLL.BarCode_QR
 
                 sach.IdNhaXuatBan = (string)data[i, 4].ToString().Trim();
                 sach.IdKeSach = (string)data[i, 5].ToString().Trim();
-                sach.SoTrang = (string)data[i, 6];
+                sach.SoTrang = (string)data[i, 6].ToString().Trim();
                 sach.IdNgonNgu = (string)data[i, 7].ToString().Trim();
-                sach.NamXuatBan = (string)data[i, 8].ToString();
-                sach.GiaBia = (string)data[i, 9];
+                sach.NamXuatBan = (string)data[i, 8].ToString().Trim();
+                sach.GiaBia = (string)data[i, 9].ToString().Trim();
                 sach.PhiMuonSach = (int)data[i, 10];
                 sach.XuatXu = (string)data[i, 11].ToString();
                 sach.NguoiBienDich = (string)data[i, 12].ToString().Trim();

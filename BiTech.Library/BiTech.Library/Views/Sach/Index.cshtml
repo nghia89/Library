@@ -17,23 +17,23 @@
     <h4 class="alert-danger">@TempData["alert"]</h4>
     <div class="clearfix pb-2 pl-2 row">
         <div class="clearfix pb-2 pl-2">
-            <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm ml-2">Thêm Mới</a>
-            @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
+            <a href="@Url.Action("Create")" class="btn btn-primary pull-left btn-sm ml-2">Thêm mới</a>
+            @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
 
             <form action="/Marc/ImportMarc" method="post" role="form" enctype="multipart/form-data" style="position:relative; display:inline;">
                 <input type="file" name="file" id="exampleFormControlFile1" onchange="this.form.submit()"
                        style="display:none; opacity: 0;" title="Import Marc21">
-                <label class="btn btn-primary btn-sm  ml-2" for="exampleFormControlFile1" style="margin:0px;">Nhập file Marc</label>
+                <label class="btn btn-primary btn-sm  ml-2" for="exampleFormControlFile1" style="margin:0px;">Nhập file marc</label>
             </form>
 
-            @Html.ActionLink("Xuất Marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
+            @Html.ActionLink("Xuất marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
         </div>
     </div>
 
     <form action="/Sach/Index" class="clearfix">
 
         <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
-            <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm" placeholder="Search for...">
+            <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm" placeholder="Tên sách...">
             <div class="input-group-append">
                 <button class="btn btn-primary btn-sm" id="btnSearch" type="submit">
                     <i class="fa fa-search"></i>
@@ -43,7 +43,7 @@
 
         <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
             <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
-                <option value="">--Thể Loại Sách--</option>
+                <option value="">--Thể loại sách--</option>
                 @foreach (var tls in TLS)
                 {
                     <option value="@tls.Id">@tls.TenTheLoai</option>
@@ -52,7 +52,7 @@
         </div>
         <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
             <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
-                <option value="">--Tác Giả--</option>
+                <option value="">--Tác giả--</option>
                 @foreach (var tg in TG)
                 {
                     <option value="@tg.Id">@tg.TenTacGia</option>
@@ -61,7 +61,7 @@
         </div>
         <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
             <select class="form-control form-control-sm" name="TenNXB" id="">
-                <option value="">--Nhà Xuất Bản--</option>
+                <option value="">--Nhà xuất bản--</option>
                 @foreach (var nxb in NXB)
                 {
                     <option value="@nxb.Id">@nxb.Ten</option>
@@ -96,7 +96,7 @@
                                 <div class="book_content_information">ABC</div>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Nhà Xuất Bản:</div>
+                                <div class="book_title_information">Nhà xuất bản:</div>
                                 <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
                             </div>
 
@@ -108,7 +108,7 @@
                             </div>
                             <div class="book_information clearfix">
                                 <div class="book_title_information">Còn lại:</div>
-                                <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
+                                <div class="book_content_information">@item.SachDTO.SoLuongConLai</div>
                             </div>
                             <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })"
                                class="btn btn-primary btn-sm"

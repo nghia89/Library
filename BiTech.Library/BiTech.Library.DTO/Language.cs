@@ -24,15 +24,15 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập tên ngôn ngữ")]
         [Display(Name = "Ngôn ngữ")]
         /// <summary>
         /// Tên ngôn ngữ này
         /// </summary>
         public string Ten { get; set; }
 
-        [Required]
-        [Display(Name = "Viêt tắt")]
+        [Required(ErrorMessage = "Vui lòng nhập tên tên ngắn")]
+        [Display(Name = "Tên ngắn")]
         /// <summary>
         /// Tên ngắn VD: VN, EN, ...
         /// </summary>
