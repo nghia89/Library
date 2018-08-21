@@ -11,7 +11,7 @@ namespace BiTech.Library.Controllers.BaseClass
     public class ThanhVienCommon
     {
         /// <summary>
-        /// Tạo niêm khóa cho DropDownList Thành Viên
+        /// Tạo niên khóa cho DropDownList Thành Viên
         /// </summary>
         /// <returns></returns>
         public List<string> TaoNienKhoa()
@@ -120,6 +120,7 @@ namespace BiTech.Library.Controllers.BaseClass
             {
                 linkExcel.InputStream.CopyTo(fileStream);
                 var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                // Todo Excel
                 list = excelManager.ImportThanhVien(sourceDir);
             }
             return list;

@@ -4,6 +4,7 @@
 }
 
 <div class="Title">Thêm dữ liệu từ File Excel</div>
+
 @using (Html.BeginForm("ImportFromExcel", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     <div class="form-group row">
@@ -12,9 +13,8 @@
                 <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
             </button>
         </div>
-
     </div>
-
+    <div class="text-danger"> @ViewBag.NullSach</div>
     @Html.AntiForgeryToken()
     <div class="form-group row">
         @Html.LabelFor(m => m.GhiChu, new { @class = "col-md-12 control-label" })

@@ -11,11 +11,14 @@
 <table ng-app="LibraryApp" border="1" class="table table-hover table-bordered">
 
     <thead>
-        <tr class="table-info">
+        <tr class="table-info text-center">
             <th class="text-center">STT</th>
             @*<th>Ảnh thành viên</th>*@
-            <th>Tên thành viên</th>
-            <th>Mã thành viên</th>
+            <th>Tên giáo viên</th>
+            <th>Mã giáo viên</th>
+            <th>Lớp</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>      
             <th>Trạng thái</th>
             <th></th>
         </tr>
@@ -24,7 +27,7 @@
         @foreach (var item in Model)
         {
 
-            <tr>
+            <tr  class="text-center">
                 <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
                 @*<td>@stt</td>*@
                 <!--<td class="book_box">
@@ -39,6 +42,9 @@
                 </td>-->
                 <td>@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null) </td>
                 <td>@item.MaSoThanhVien</td>
+                <td>@item.LopHoc</td>
+                <td>@item.NgaySinh.ToString("dd-MM-yyyy")</td>
+                <td>@item.GioiTinh</td>
                 @{
                     if (item.TrangThai == EUser.Active)
                     {
@@ -51,7 +57,7 @@
                 }
                 @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
-                    <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("Details", new { @IdUser = @item.Id })">
+                    <a class="color-white btn btn-sm btn-primary" href="@Url.Action("Details", new { @IdUser = @item.Id })">
                         <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
                     </a>
                     @if (item.TrangThai == EUser.Active)
@@ -75,5 +81,5 @@
     </tbody>
 </table>
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }))
+    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>

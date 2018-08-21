@@ -340,6 +340,7 @@ namespace BiTech.Library.Controllers
                 {
                     model.LinkExcel.InputStream.CopyTo(fileStream);
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    // Todo Excel
                     list = excelManager.ImportPhieuNhapSach(sourceDir);
                 }
                 PhieuNhapSach pns = new PhieuNhapSach()
@@ -351,10 +352,16 @@ namespace BiTech.Library.Controllers
                 };
                 string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);
                 var listAllTTS = _TrangThaiSachLogic.GetAll();
-
+                int i = 0;
                 foreach (var item in list)
                 {
                     var sach = _SachLogic.GetByMaMaKiemSoat(item.IdSach);
+                    if (sach == null)
+                    {
+                        ViewBag.NullSach = "Mã sách không tồn tại ở dòng thứ " + (item.RowExcel + i).ToString();
+                        return View();
+                    }
+                    i++;
                     int index = Int32.Parse(item.IdTinhtrang);
                     TrangThaiSach trangThaiSach = null;
                     if (index <= listAllTTS.Count())

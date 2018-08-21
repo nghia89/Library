@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-<h2 class="text-center">Danh sách độc giả chưa trả sách</h2>
+<div class="Title">Danh sách độc giả chưa trả sách</div>
 <table class="table table-hover table-striped">
     <thead>
         <tr class="table-info text-center">
@@ -38,16 +38,12 @@
                 <td>@Html.ActionLink(TenThanhVien, "ThongTinDocGia", new { id = @ViewBag.ListThanhVien[i].Id, page = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
                 <td>@ViewBag.ListSach[i].TenSach</td>             
                 <td class="text-center">@item.SoSachTong.ToString()</td>
-                <td class="text-center">@item.NgayGioMuon</td>
-                <td class="text-center">@item.NgayPhaiTra</td>
-                @{
-                    string ngayTraThucTe = item.NgayTraThucTe.ToString("dd-MM-yyyy");
-                    
-                }
+                <td class="text-center">@item.NgayGioMuon.ToString("dd-MM-yyyy")</td>
+                <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
                
-                @if (item.NgayTraThucTe.Equals("01-01-0001") == false)
+               @if (item.NgayTraThucTe.ToShortDateString().Equals("01/01/0001") == false)
                 {
-                    <td>@ngayTraThucTe</td>
+                    <td>@item.NgayTraThucTe.ToString("dd-MM-yyyy")</td>
                     if (item.SoNgayGiaoDong != null)
                     {
                         <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
@@ -90,7 +86,7 @@
 </table>
 
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("DanhSachChuaTra", new { page = Page, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })@*, PagedListRenderOptions.ClassicPlusFirstAndLast*@)
+    @Html.PagedListPager(Model, Page => Url.Action("DanhSachChuaTra", new { page = Page, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>
 
 <style>

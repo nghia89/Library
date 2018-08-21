@@ -9,9 +9,28 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-<h2 class="text-center">Lịch sử mượn sách</h2>
-<h4 class="text-info">Độc giả: @ViewBag.TenThanhVien</h4>
+<div class="Title">Lịch sử mượn sách</div>
+<br />
+<h4 @*class="Title"*@>Độc giả: @ViewBag.TenThanhVien</h4>
+<br />
+@if (@ViewBag.Day != null || @ViewBag.Monthyear != null @*|| @ViewBag.Year == null*@)
+{
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("MuonSach", "ThongKe",new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+    </button>
+    @*@Html.ActionLink("Trở lại danh sách phiếu mượn", "MuonSach",
+        new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-sm btn-primary" })*@
+}
+else
+{
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ThongTinDocGia", "ThongKe",new { id = @ViewBag.Id })'">
+        <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+    </button>
+    @*@Html.ActionLink("Trở lại thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-sm btn-primary" })*@
+}
 
+
+<hr />
 <table class="table table-hover">
     <thead>
         <tr class="table-info text-center">
@@ -32,79 +51,60 @@
     {
         //foreach (var sach in @ViewBag.ListSach[i])
         //{
-            <tbody>
-                <tr>
-                    <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
-                    <td>@ViewBag.ListSach[i].TenSach</td>
-                    <td class="text-center">@item.SoSachTong</td>
-                    @*<td>@ViewBag.SoLuongSachMuon[j] cuốn</td>*@
-                    <td class="text-center">@item.NgayGioMuon</td>
-                    <td class="text-center">@item.NgayPhaiTra</td>
+        <tbody>
+            <tr>
+                <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
+                <td>@ViewBag.ListSach[i].TenSach</td>
+                <td class="text-center">@item.SoSachTong</td>              
+                <td class="text-center">@item.NgayGioMuon.ToString("dd-MM-yyyy")</td>
+                <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
 
-                    @{
-                        string ngayTraThucTe = item.NgayTraThucTe != null ? item.NgayTraThucTe : "01-01-0001";
-                        //DateTime? ngayTra = item.NgayTra;
-                        //string ngayTraFormat = ngayTra.HasValue ? ngayTra.Value.ToString("dd-MM-yyyy") : "Ngày trả chưa có";
-                    }
-                    @*@if (item.NgayTra != null && ngayTraFormat.Equals("01-01-0001") == false)*@
-                    @if (item.NgayTraThucTe.Equals("01-01-0001") == false)
+              @if (item.NgayTraThucTe.ToShortDateString().Equals("01/01/0001") == false)
+                {
+                    <td>@item.NgayTraThucTe.ToString("dd-MM-yyyy")</td>
+                    if (item.SoNgayGiaoDong != null)
                     {
-                        @*<td>@ngayTraFormat</td>*@
-                        <td>@ngayTraThucTe</td>
-                        if (item.SoNgayGiaoDong != null)
-                        {
-                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
-                        }
-                        else
-                        {
-                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
-                        }
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (@item.SoNgayGiaoDong.ToString() ngày)</td>
                     }
                     else
                     {
-                        <td class="text-center">---//---</td>
-                        if (item.SoNgayGiaoDong != null && item.SoNgayGiaoDong < 30)
-                        {
-                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai</td>
+                    }
+                }
+                else
+                {
+                    <td class="text-center">---//---</td>
+                    if (item.SoNgayGiaoDong != null && item.SoNgayGiaoDong < 30)
+                    {
+                        <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (còn @item.SoNgayGiaoDong.ToString() ngày)</td>
+                    }
+                    else
+                    {
+                        if (item.SoNgayGiaoDong == null)
+                        {                          
+                            var ngayTre = DateTime.Now - @item.NgayPhaiTra;
+                            <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                         }
                         else
                         {
-                            if (item.SoNgayGiaoDong == null)
-                            {
-                                DateTime ngayPhaiTra = DateTime.ParseExact(item.NgayPhaiTra, "dd-MM-yyyy", null);
-                                var ngayTre = DateTime.Now - ngayPhaiTra;                               
-                                <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
-                            }
-                            else
-                            {
-                                <td class="@item.TrangThai.ToString()">Còn @item.SoNgayGiaoDong.ToString() ngày</td>
-                            }
+                            <td class="@item.TrangThai.ToString()">Còn @item.SoNgayGiaoDong.ToString() ngày</td>
                         }
                     }
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-                                { dem++; j++; }
-                            //}
-                            { i++; }
-                        }
+                }
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+        { dem++; j++; }
+        //}
+        { i++; }
+    }
 
 </table>
 
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("ThongTinDocGia", new { page = Page, id = ViewBag.Id, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })@*, PagedListRenderOptions.ClassicPlusFirstAndLast*@)
+    @Html.PagedListPager(Model, Page => Url.Action("ThongTinDocGia", new { page = Page, id = ViewBag.Id, pagePM = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>
-@if (@ViewBag.Day != null || @ViewBag.Monthyear != null @*|| @ViewBag.Year == null*@)
-{
-    @Html.ActionLink("Trở về danh sách phiếu mượn", "MuonSach",
-                          new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-sm btn-primary" })
-}
-else
-{
-    @Html.ActionLink("Trở về thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-sm btn-primary" })
-}
-
 
 <style>
     .ChuaTra {

@@ -11,11 +11,13 @@
 <table ng-app="LibraryApp" border="1" class="table table-hover table-bordered">
 
     <thead>
-        <tr class="table-info">
-            <th class="text-center">STT</th>
-            @*<th>Ảnh thành viên</th>*@
+        <tr class="table-info text-center">
+            <th>STT</th>       
             <th>Tên học sinh</th>
             <th>Mã học sinh</th>
+            <th>Lớp</th>
+            <th>Ngày sinh</th>  
+            <th>Giới tính</th>                   
             <th>Trạng thái</th>
             <th></th>
         </tr>
@@ -24,21 +26,13 @@
         @foreach (var item in Model)
         {
 
-            <tr>
-                <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
-                @*<td>@stt</td>*@
-                <!--<td class="book_box">
-                    <div class="book_content">
-                        <div class="book_image">
-                            <div class="book_image_in">
-                                @*<div class="book_number">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</div>*@
-                                <object data='@Html.Raw(!string.IsNullOrEmpty(item.HinhChanDung) ? item.HinhChanDung : "/Content/Images/nancyy.jpg")' type="image/png"></object>                                
-                            </div>
-                        </div>
-                    </div>
-                </td>-->
+            <tr class="text-center">
+                <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>            
                 <td>@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null) </td>
                 <td>@item.MaSoThanhVien</td>
+                <td>@item.LopHoc</td>
+                <td>@item.NgaySinh.ToString("dd-MM-yyyy")</td>
+                <td>@item.GioiTinh</td>
                 @{
                     if (item.TrangThai == EUser.Active)
                     {
@@ -51,7 +45,7 @@
                 }
                 @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
-                    <a class="color-white btn btn-sm btn-outline-primary" href="@Url.Action("Details", new { @IdUser = @item.Id })">
+                    <a class="color-white btn btn-sm btn-primary" href="@Url.Action("Details", new { @IdUser = @item.Id })">
                         <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
                     </a>
                     @if (item.TrangThai == EUser.Active)
@@ -75,5 +69,5 @@
     </tbody>
 </table>
 <p>
-    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }))
+    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </p>

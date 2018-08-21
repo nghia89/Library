@@ -53,6 +53,7 @@ namespace BiTech.Library.Controllers
 
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
+
             #region Khai báo
             if (year == null)
                 year = DateTime.Now.Year;
@@ -102,6 +103,7 @@ namespace BiTech.Library.Controllers
             List<ThongTinMuonSach> listMonth11 = new List<ThongTinMuonSach>();
             List<ThongTinMuonSach> listMonth12 = new List<ThongTinMuonSach>();
             #endregion
+
             // lấy danh sách phiếu mượn trong năm 
             foreach (var item in listPhieuMuon)
             {
@@ -119,7 +121,7 @@ namespace BiTech.Library.Controllers
             {
                 DateTime ngayMuon = item.NgayGioMuon;
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
-                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon.ToShortDateString());
+                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon);
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
                 soPhieuMuonTrongThang[ngayMuon.Day] = listPhieuMuonTrongNgay.Count;
                 soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);
@@ -131,6 +133,7 @@ namespace BiTech.Library.Controllers
             foreach (var item in listYearSelected)
             {
                 DateTime ngayMuon = item.NgayGioMuon;
+
                 #region --------12 thang
                 // chia danh sách phiếu mượn trong năm thành 12 (ứng với 12 tháng) và 4 Quý
                 switch (ngayMuon.Month)
@@ -214,6 +217,7 @@ namespace BiTech.Library.Controllers
             for (int i = 0; i < 12; i++)
             {
                 List<ThongTinMuonSach> list = new List<ThongTinMuonSach>();
+
                 #region -------- 12 thang
                 switch (i)
                 {
@@ -279,6 +283,7 @@ namespace BiTech.Library.Controllers
                         }
                 }
                 #endregion
+
                 // dữ liệu mỗi tháng ứng mới 1 phần tử trong mảng (mảng có 12 phần tử ứng với 12 tháng)
                 soNguoiMuonSachTrongNam[i] = nghiepVu.DemSoNguoiMuonSach(list);
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);
@@ -388,7 +393,5 @@ namespace BiTech.Library.Controllers
 
             return result;
         }
-
-
     }
 }

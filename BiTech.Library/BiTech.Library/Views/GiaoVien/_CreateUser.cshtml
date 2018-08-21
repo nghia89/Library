@@ -15,17 +15,18 @@
     <h5 class="text-danger">@ViewBag.Duplicate</h5>
     <h5 class="text-danger">@ViewBag.ImageUnsuccess</h5>
     <h5 class="text-danger">@ViewBag.QRUnsuccess</h5>
+    <h5 class="text-danger">@ViewBag.NullNgaySinh</h5>
 
     @using (Html.BeginForm("_CreateUser", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
         <div class="modal-body">
 
             <div class="form-group row">
                 <div class="avatar_container_root col-md-offset-2 col-md-6">
                     <div class="avatar_container avatar_clearfix">
-                        <img id="SaveImage" class="avatar_img" src="@Html.Raw(Model.LinkAvatar)" onerror="this.src = '/Content/Images/user5.jpg'" alt="" />
+                        <img id="SaveImage" class="avatar_img" src="@Html.Raw(Model.LinkAvatar)" onerror="this.src = '/Content/Images/user5.jpg'" alt="" />                     
                         <label class="avatar" for="HinhChanDung">
                             @Html.TextBoxFor(m => m.HinhChanDung, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
                             <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -33,88 +34,95 @@
                             <path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
                             <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
                             <g id="plus">
-                                <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
-                                <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
+                            <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
+                            <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
                             </g>
                         </svg>
                         </label>
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.ConfirmPass, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.MaSoThanhVien, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @maxlength = "20" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.LopHoc, new { @class = "col-md-2 control-label" })
-                <div class="col-md-4">
-                    @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm" })
-                </div>
-
-                @Html.LabelFor(m => m.NienKhoa, new { @class = "text-right col-md-2 control-label" })
-                <div class="col-md-4">
-                    @Html.DropDownListFor(m => m.NienKhoa, new SelectList(Model.ListNienKhoa), "---Chọn niên khóa---", new { @class = "form-control form-control-sm" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
-                </div>
-            </div>
-            @*<div class="form-group row">
-                    <label class="col-form-label col-md-2 control-label" for="TomTat">Ảnh thành viên:</label>
-                    <div class="col-sm-6">
-                        <img id="SaveImage" src="/Content/Images/nancyy.jpg" alt="Ảnh nhân viên" style="width:220px" />
-                        @Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
-                        @Html.ValidationMessageFor(m => m.HinhChanDung)
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="form-group row">
+                        <label class="col-md-2 control-label">Tên đăng nhập</label>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>*@
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.ConfirmPass, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPass, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 control-label">Tên giáo viên</label>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
+                            @Html.ValidationMessageFor(m => m.Ten, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 control-label">Mã số giáo viên</label>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
+                            @Html.ValidationMessageFor(m => m.MaSoThanhVien, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
+                            @Html.ValidationMessageFor(m => m.GioiTinh, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col-lg-5">
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.TemptNgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20", @autocomplete = "off" })
+                            @*@Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20" })*@
+                            @Html.ValidationMessageFor(m => m.NgaySinh, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.LopHoc, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.NienKhoa, new { @class = "text-right col-md-2 control-label" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(m => m.NienKhoa, new SelectList(Model.ListNienKhoa), "---Chọn niên khóa---", new { @class = "form-control form-control-sm" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.SDT, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
+                        </div>
+                    </div>                   
+                </div>
+            </div>
             <div class="form-group row">
                 <div class="col-md-2"></div>
                 <div class="col-md-offset-2 col-md-10">
@@ -137,7 +145,7 @@
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/LibraryAngularJS.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    @*<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
+
 
     <script>
         // Ảnh thành viên
@@ -182,8 +190,10 @@
                 monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "1970:-4"
-            }).datepicker("setDate", new Date("01/01/1970")).attr("readonly", "readonly");
+                yearRange: "1950:-4"
+
+                //}).datepicker("setDate", new Date(null)).attr("readonly", "readonly");
+            }).datepicker.attr("readonly", "readonly");
         });
         //----
         function RequestAltInsertGuiBegin() {

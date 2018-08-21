@@ -174,7 +174,7 @@
     display: block;
 }
 
-.right {
+/*.right {
     margin-left: 12.5vw;
     bottom: 0;
     position: absolute;
@@ -195,7 +195,7 @@
             font-size: 0.9vw;
             text-align: right;
             color: rgba(0, 0, 0, 0.5);
-        }
+        }*/
 
 .avatar:hover > #camera > #cameraFrame {
     stroke-dashoffset: 0;

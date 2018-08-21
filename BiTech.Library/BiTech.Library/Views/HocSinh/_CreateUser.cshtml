@@ -19,7 +19,7 @@
     @using (Html.BeginForm("_CreateUser", "HocSinh", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
         <div class="modal-body">
 
             <div class="form-group row">
@@ -43,47 +43,55 @@
             </div>
 
             <div class="form-group row">
-                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                @*@Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })*@
+                <label class="col-md-2 control-label"> Tên học sinh</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
+                  
+                    @Html.ValidationMessageFor(m => m.Ten, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 control-label">Tên đăng nhập</label>
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group row">
                 @Html.LabelFor(m => m.ConfirmPass, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPass, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group row">
-                @Html.LabelFor(m => m.MaSoThanhVien, new { @class = "col-md-2 control-label" })
+                <label class="col-md-2 control-label"> Mã số học sinh</label>
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
+                    @Html.ValidationMessageFor(m => m.MaSoThanhVien, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group row">
                 @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
+                    @Html.ValidationMessageFor(m => m.GioiTinh, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group row">
                 @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @maxlength = "20" })
-                </div>
-            </div>
-            <div class="form-group row">
-                @Html.LabelFor(m => m.Ten, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
+                    @Html.ValidationMessageFor(m => m.NgaySinh, "", new { @class = "text-danger" })
                 </div>
             </div>
 

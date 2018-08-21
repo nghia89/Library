@@ -53,11 +53,7 @@ namespace BiTech.Library.Controllers
                 #region SẮP XẾP TRẠNG THÁI
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 // ---------------------SẮP XẾP TRẠNG THÁI-------------------------             
-                DateTime ngayPhaiTra = item.NgayPhaiTra;
-
-                //if (item.NgayTraThucTe == null)
-                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
-
+                DateTime ngayPhaiTra = item.NgayPhaiTra;            
                 DateTime ngayTraThucTe = item.NgayTraThucTe;
                 DateTime ngayMuon = item.NgayGioMuon;
 
@@ -106,7 +102,7 @@ namespace BiTech.Library.Controllers
                 // --Sử lý theo Tháng Năm hoặc theo Ngày                                        
                 if (day != null && day != "0")
                 {
-                    if (ngayMuon == DateTime.Parse(day))
+                    if (ngayMuon.ToString("dd/MM/yyyy") == day|| ngayMuon.ToString("dd-MM-yyyy") == day)
                     {
                         listMonthSelected.Add(item);
                     }
@@ -120,23 +116,19 @@ namespace BiTech.Library.Controllers
                             listMonthSelected.Add(item);
                     }
                 }          
-            }
-
-            //List<PhieuMuon> _listPhieuMuon = listAll.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra).ToList();
-            //List<ThongTinMuonSach> _listPhieuMuon = listMonthSelected.OrderBy(x => x.TrangThai)
-            //    .ThenBy(x => x.NgayPhaiTra).ToList();          
+            }         
             // --------------------THÔNG TIN SÁCH,THÀNH VIÊN--------------------                   
             List<ThongTinMuonSach> listRutGon = nghiepVu.RutGonDanhSach(listMonthSelected)
-                .OrderBy(x => x.TrangThai)
-                .ThenByDescending(x => x.NgayPhaiTra).ToList();
+                .OrderBy(x => x.TrangThai).ThenBy(x => x.NgayGioMuon).ToList();
+
             foreach (var item in listRutGon)
             {
-                var user = _thongKeLogic.GetThanhVienById(item.idUser);
-
+                var user = _thongKeLogic.GetThanhVienByMSTV(item.idUser);
                 if (user != null)
                 {
-                    listThanhVien.Add(_thongKeLogic.GetThanhVienById(item.idUser));
+                    listThanhVien.Add(user);                 
                 }
+                //
                 listSach.Add(_thongKeLogic.GetSachById(item.idSach));
             }
             // Dữ liệu thống kê                      
@@ -233,7 +225,7 @@ namespace BiTech.Library.Controllers
             {
                 DateTime ngayMuon = item.NgayGioMuon;
                 // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
-                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon.ToShortDateString());
+                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon);
 
                 // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
                 soPhieuMuonTrongThang[ngayMuon.Day] = listPhieuMuonTrongNgay.Count;
@@ -513,16 +505,13 @@ namespace BiTech.Library.Controllers
             #endregion
 
             // kiem tra null du lieu
-            if (id == null || _thongKeLogic.GetThanhVienById(id) == null)
+            ThanhVien thanhVien = _thongKeLogic.GetThanhVienById(id);
+            if (id == null || thanhVien == null|| _thongKeLogic.GetTTMSByIdUser(thanhVien.MaSoThanhVien)==null)
                 return RedirectToAction("NotFound", "Error");           
-            List<Sach> listSach = new List<Sach>();
-            // List<ChiTietPhieuMuon> listCTPM = new List<ChiTietPhieuMuon>();
-            List<object> listChaCuaSach = new List<object>();
-            List<int> listSoLuongSach = new List<int>();
-            ViewBag.TenThanhVien = _thongKeLogic.GetThanhVienById(id).Ten;
-
-            // var listPhieuMuon = _thongKeLogic.GetPMByIdThanhVien(id);
-            var listPhieuMuon = _thongKeLogic.GetTTMSByIdUser(id);
+            List<Sach> listSach = new List<Sach>();                              
+            ViewBag.TenThanhVien = thanhVien.Ten;
+   
+            var listPhieuMuon = _thongKeLogic.GetTTMSByIdUser(thanhVien.MaSoThanhVien);
             if (listPhieuMuon == null)
                 return RedirectToAction("NotFound", "Error");
             // Danh sách phiếu mượn           
@@ -530,10 +519,6 @@ namespace BiTech.Library.Controllers
             foreach (var item in listPhieuMuon)
             {
                 DateTime ngayPhaiTra = item.NgayPhaiTra;
-
-                //if (item.NgayTraThucTe == null)
-                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
-
                 DateTime ngayTraThucTe = item.NgayTraThucTe;
                 DateTime ngayMuon = item.NgayGioMuon;
 
@@ -581,14 +566,11 @@ namespace BiTech.Library.Controllers
                         item.TenTrangThai = "Trả đúng hẹn";
                     }
                 }
-            }
-            // Sort theo trạng thái và ngày phải trả       
-            //    var _listPhieuMuon = listPhieuMuon.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
-          
+            }           
             // Duyệt dữ liệu từ danh sách đã được sắp xếp lại
             List<ThongTinMuonSach> listRutGon = nghiepVu.RutGonDanhSach(listPhieuMuon)
                 .OrderBy(x => x.TrangThai)
-                .ThenByDescending(x => x.NgayPhaiTra).ToList();
+                .ThenBy(x => x.NgayGioMuon).ToList();
             foreach (var item in listRutGon)
             {               
                 Sach sach = _thongKeLogic.GetSachById(item.idSach);
@@ -633,10 +615,6 @@ namespace BiTech.Library.Controllers
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 DateTime ngayPhaiTra = item.NgayPhaiTra;
-
-                //if (item.NgayTraThucTe == null)
-                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
-
                 DateTime ngayTraThucTe = item.NgayTraThucTe;
                 DateTime ngayMuon = item.NgayGioMuon;
 
@@ -684,18 +662,14 @@ namespace BiTech.Library.Controllers
                 //    listPMChuaTra.Add(item);
                 //}
                 #endregion
-            }
-            // Sắp xếp lại phiếu mượn         
-            // var _listPhieuMuon = listPMChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
-            // var _listPhieuMuon = listChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);
-        
+            }          
             List<ThongTinMuonSach> listRutGon = nghiepVu.RutGonDanhSach(listChuaTra)
                 .OrderBy(x => x.TrangThai)
-                /*.ThenByDescending(x => x.NgayPhaiTra)*/.ToList();
+                .ThenBy(x => x.NgayGioMuon).ToList();
             foreach (var item in listRutGon)
             {
                 // Lấy danh sách Thành Viên
-                listThanhVien.Add(_thongKeLogic.GetThanhVienById(item.idUser));
+                listThanhVien.Add(_thongKeLogic.GetThanhVienByMSTV(item.idUser));
                 listIdThanhVien.Add(item.idUser);
                 listSach.Add(_thongKeLogic.GetSachById(item.idSach));                           
             }          
@@ -727,23 +701,18 @@ namespace BiTech.Library.Controllers
             #endregion
 
             ThanhVien thanhVien = _thongKeLogic.GetThanhVienById(id);
-            if (id == null || _thongKeLogic.GetTTMSByIdUser(id) == null || thanhVien == null)
+            if (id == null || _thongKeLogic.GetTTMSByIdUser(thanhVien.MaSoThanhVien) == null || thanhVien == null)
                 return RedirectToAction("NotFound", "Error");
             List<ThongTinMuonSach> listChuaTra = new List<ThongTinMuonSach>();
             List<Sach> listSach = new List<Sach>();
-            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();        
-            // List<ChiTietPhieuMuon> listCTPM = new List<ChiTietPhieuMuon>();          
-            var listMuon = _thongKeLogic.GetTTMSByIdUser(id);
+            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();                   
+            var listMuon = _thongKeLogic.GetTTMSByIdUser(thanhVien.MaSoThanhVien);
             // Danh sách phiếu mượn           
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var item in listMuon)
             {
                 item.TrangThai = ETinhTrangPhieuMuon.none;
                 DateTime ngayPhaiTra = item.NgayPhaiTra;
-
-                //if (item.NgayTraThucTe == null)
-                //    item.NgayTraThucTe = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
-
                 DateTime ngayTraThucTe = item.NgayTraThucTe;
                 DateTime ngayMuon = item.NgayGioMuon;
 
@@ -765,17 +734,14 @@ namespace BiTech.Library.Controllers
                     listChuaTra.Add(item);
                 }
             }
-
-            // --------                 
-            // var _listPhieuMuon = listChuaTra.OrderBy(x => x.TrangThai).ThenBy(x => x.NgayPhaiTra);         
             // Duyệt dữ liệu từ danh sách đã được sắp xếp lại           
             listRutGon = nghiepVu.RutGonDanhSach(listChuaTra)
                 .OrderBy(x => x.TrangThai)
-                .ThenByDescending(x => x.NgayPhaiTra).ToList();
+                 .ThenBy(x => x.NgayGioMuon).ToList();
 
             foreach (var item in listRutGon)
             {
-                var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
+               // var listCTPM = _thongKeLogic.GetCTPMById(item.Id);
                 listSach.Add(_thongKeLogic.GetSachById(item.idSach));
             }
 
@@ -790,7 +756,10 @@ namespace BiTech.Library.Controllers
                 LinkAvatar = thanhVien.HinhChanDung,
                 LopHoc = thanhVien.LopHoc,
                 NienKhoa = thanhVien.NienKhoa,
-                QRLink = thanhVien.QRLink
+                QRLink = thanhVien.QRLink,
+                NgaySinh=thanhVien.NgaySinh,
+                GioiTinh=thanhVien.GioiTinh
+                
             };
 
             ViewBag.Page = page;

@@ -22,12 +22,12 @@
             <div class="col-lg-6">
                 <div class="input-group form-group">
                     <select id="choice" class="selectpicker form-control form-control-sm" data-live-search="true">
-                        <option value="matv">Tìm theo mã thành viên</option>
-                        <option value="tentv">Tìm theo tên thành viên</option>
+                        <option value="matv">Tìm theo mã giáo viên</option>
+                        <option value="tentv">Tìm theo tên giáo viên</option>
                     </select>
                     <!--<input type="text" class="form-control form-control-sm" name="snpid" placeholder="Tìm kiếm ...">-->
                     <div value="temp" id="noidung_ajax">
-                        @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã giáo viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })
                     </div>
                     <div class="input-group-append">
                         <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
@@ -187,12 +187,12 @@
         // Choice Search
         $("#tv_tk").on("change", "#choice", function () {
             if ($(this).val() == "matv") {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');
+                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã giáo viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');
                 //$("#noidung_ajax").value = "1";
                 AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
             }
             else {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.Ten, new { @placeholder = "Tên thành viên", @id = "searchName", @class = "form-control form-control-sm", autocomplete = "off" })');
+                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.Ten, new { @placeholder = "Tên giáo viên", @id = "searchName", @class = "form-control form-control-sm", autocomplete = "off" })');
                 AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);
             }
         });
