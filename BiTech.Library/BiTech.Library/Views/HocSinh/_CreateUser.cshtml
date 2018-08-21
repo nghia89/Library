@@ -44,42 +44,42 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-group col">
-                        <label class="control-label">Tên đăng nhập</label>
+                        <label class="control-label">Tên đăng nhập <span style="color:#dc3545">*</span></label>
                         <div>
                             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
                             @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col">
-                        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        <label class="control-label">Mật khẩu <span style="color:#dc3545">*</span></label>
                         <div>
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col">
-                        @Html.LabelFor(m => m.ConfirmPass, new { @class = "control-label" })
+                        <label class="control-label">Nhập lại mật khẩu <span style="color:#dc3545">*</span></label>
                         <div>
                             @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
                             @Html.ValidationMessageFor(m => m.ConfirmPass, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col">
-                        <label class="control-label">Tên học sinh</label>
+                        <label class="control-label">Tên học sinh <span style="color:#dc3545">*</span></label>
                         <div>
                             @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
                             @Html.ValidationMessageFor(m => m.Ten, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col">
-                        <label class="control-label">Mã số học sinh</label>
+                        <label class="control-label">Mã số học sinh <span style="color:#dc3545">*</span></label>
                         <div>
                             @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
                             @Html.ValidationMessageFor(m => m.MaSoThanhVien, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col">
-                        @Html.LabelFor(m => m.GioiTinh, new { @class = "control-label" })
+                        <label class="control-label">Giới tính <span style="color:#dc3545">*</span></label>
                         <div>
                             @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
                             @Html.ValidationMessageFor(m => m.GioiTinh, "", new { @class = "text-danger" })
@@ -127,7 +127,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
-                    <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Index", "HocSinh")'" />
+                    <input type="button" class="btn btn-sm btn-default" value="Trở lại" onclick="window.location='@Url.Action("Index", "HocSinh")'" />
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@
                 monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "1970:-4"
+                yearRange: "1950:-4"
                 //}).datepicker("setDate", new Date("01/01/1970")).attr("readonly", "readonly");
             }).datepicker.attr("readonly", "readonly");
         });

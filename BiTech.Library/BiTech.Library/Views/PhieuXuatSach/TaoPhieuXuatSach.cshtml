@@ -29,7 +29,7 @@
 
                         <div class="container-box-window clearfix">
                             <div class="top">
-                                <span class="" style="font-size:22px">Thông tin phiếu nhập</span>
+                                <span class="">Thông tin phiếu nhập</span>
                             </div>
                             <div class="content-box-window">
                                 <div class="form-group row">
@@ -41,13 +41,13 @@
                                 <div class="form-group row">
                                     @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
                                     <div class="col-md-10">
-                                        <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number">
+                                        <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">  
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     @Html.Label("Trạng thái", new { @class = "col-md-2 control-label" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn Tình Trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
+                                        @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
                                     </div>
                                 </div>
 
@@ -71,7 +71,7 @@
 
                         <div class="container-box-window clearfix">
                             <div class="top">
-                                <span class="" style="font-size:22px">Danh sách sách xuất</span>
+                                <span class="">Danh sách sách xuất</span>
                             </div>
                             <div class="content-box-window">
                                 <div class="">

@@ -11,7 +11,7 @@
 <hr />
 <div class="container-box-window clearfix">
     <div class="top">
-        <span class="" style="font-size:22px">Thông tin phiếu xuất</span>
+        <span class="">Thông tin phiếu xuất</span>
     </div>
     <div class="content-box-window">
         <div class="container">
@@ -39,12 +39,13 @@
 <br/>
 <div class="container-box-window clearfix">
     <div class="top">
-        <span class="" style="font-size:22px">Danh sách chi tiết phiếu xuất</span>
+        <span class="">Danh sách chi tiết phiếu xuất</span>
     </div>
     <div class="content-box-window">
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="table-info">
+                    <th width="50" align="right">STT</th>
                     <th>Tên sách</th>
                     <th>Số lượng</th>
                     <th>Lý do</th>
@@ -53,15 +54,17 @@
                 </tr>
             </thead>
             <tbody>
+                @{int i = 1;}
                 @foreach (var item in ViewBag.lstctxuat)
                 {
                     <tr>
+                        <td align="center">@i.ToString()</td>
                         <td>@item.ten</td>
                         <td>@item.soLuong</td>
                         <td>@item.lyDo</td>
                         <td>@item.tenTinhTrang</td>
-
                     </tr>
+                    i++;
                 }
             </tbody>
 
