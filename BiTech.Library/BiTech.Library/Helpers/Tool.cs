@@ -47,6 +47,7 @@ namespace BiTech.Library.Helpers
                     return null;
             }
         }
+
         public static bool IsImage(this HttpPostedFileBase postedFile)
         {
             //-------------------------------------------

@@ -13,19 +13,20 @@ namespace BiTech.Library.Controllers
 {
     public class StatisticController : BaseController
     {
-        // GET: Statictical
-
-        NghiepVuThongKe nghiepVu;
+        NghiepVuThongKe nghiepVu = new NghiepVuThongKe();
         ThongTinThuVienLogic _ThongTinThuVien;
-        public StatisticController()
-        {
-            _ThongTinThuVien = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            //_chiTietPhieuMuonLogic = new ChiTietPhieuMuonLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("DatabaseName"));
-            nghiepVu = new NghiepVuThongKe();
-        }
+
         // GET: ThongKe
         public ActionResult Index()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            _ThongTinThuVien = new ThongTinThuVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             string Key = "nambatdau";
             ThongTinThuVien tt = _ThongTinThuVien.GetCustomKey(Key);
             if (tt == null)
@@ -40,9 +41,7 @@ namespace BiTech.Library.Controllers
             ViewBag.tt = tt.Value;
             return View();
         }
-
-
-
+        
         public JsonResult BieuDoPhieuMuon(int? month, int? year, BieuDoPhieuMuonViewModel model)
         {
             #region  Lấy thông tin người dùng
