@@ -82,7 +82,10 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.NgayGioMuon == ngayMuon).ToList();
         }
-
+        public List<ThongTinMuonSach> GetTTMSByNgayTra(DateTime ngayTra)
+        {
+            return _DatabaseCollection.Find(x => x.NgayTraThucTe == ngayTra).ToList();
+        }
         #endregion
 
     }

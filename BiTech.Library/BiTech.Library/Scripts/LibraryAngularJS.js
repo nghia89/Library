@@ -13,8 +13,7 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
         }).then(function (response) {
             $scope.list = response.data;
             for (i = 0; i < response.data.length; i++) {
-                if(response.data[i].Id == id)
-                {
+                if (response.data[i].Id == id) {
                     $scope.IdTheLoai = response.data[i];
                 }
             }
@@ -866,3 +865,78 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
     };
 });
 
+//======================================Thống Kê=======================================
+app.controller('ThongKeCtrlr', function ($scope, $http) {
+    $scope.KeyMonth = '';
+    $scope.KeyYear = '';
+    function GetMonth() {
+        $http({
+            method: "post",
+            url: "/ThongKe/MuonSachJson",
+            params: {
+                month: $scope.KeyMonth,
+                year: $scope.KeyYear
+            }
+        }).then(function (response) {
+            if (response.data !== null) {
+                $scope.ListMonthMuonSach = response.data;
+                DemSoNguoiMuonSach();
+            }
+        })
+    }
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    $scope.SelectedMonth = month.toString();
+    $scope.SelectedYear = year.toString();
+    $scope.GetDataMonth = function () {
+        key1 = $scope.SelectedMonth;
+        $scope.KeyMonth = key1;
+
+        key2 = $scope.SelectedYear;
+        $scope.KeyYear = key2;
+        GetMonth();
+    }
+    GetMonth();
+    /*===============================*/
+    $scope.Day = '';
+    function GetDay() {
+        $http({
+            method: "post",
+            url: "/ThongKe/MuonSachJson",
+            params: {
+                day: $scope.Day,
+            }
+        }).then(function (response) {
+            if (response != null) {
+                $scope.ListDayMuonSach = response.data;
+                DemSoNguoiMuonSach();
+            }
+        })
+    }
+    $scope.SelectedDay = new Date;
+    $scope.GetDataDay = function () {
+        key = $scope.SelectedDay;
+        $scope.Day = key;
+        GetDay();
+    }
+
+    $scope.GetDayFirst = function () {
+        $scope.Day = $("#day").val();
+        GetDay();
+    }
+    GetDay();
+    //-----
+    function DemSoNguoiMuonSach() {
+        $http({
+            method: "post",
+            url: "/ThongKe/MuonSachJson_ssdm",
+        }).then(function (response) {
+            if (response != null) {
+                $scope.SoSachDuocMuon = response.data[0];
+                $scope.SoNguoiMuonSach = response.data[1];
+            }
+        })
+    }
+})
+//======================================END Thống Kê===================================

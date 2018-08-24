@@ -34,7 +34,6 @@ namespace BiTech.Library.Models
             }
         }
 
-
         public List<ThongTinMuonSach> ListPhieuMuon { get; set; }
         public IEnumerable<ChiTietPhieuMuon> ListCTMP { get; set; }
         public IEnumerable<Sach> ListSach { get; set; }
@@ -68,6 +67,7 @@ namespace BiTech.Library.Models
         public DateTime NgaySinh { get; set; }
         [Display(Name = "Giới tính")]
         public string GioiTinh { get; set; }
+        public string idUser { get; set; }
     }
     public class BieuDoPhieuMuonViewModel
     {
@@ -77,12 +77,16 @@ namespace BiTech.Library.Models
         public int[] lsoSachDuocMuonTrongNam { get; set; }
         public int[] lsoNguoiKhongTraTrongNam { get; set; }
         public int[] lsoNguoiTraTreTrongNam { get; set; }
+        public int[] lsoSachDuocTraTrongNam { get; set; }
+        public int[] lsoSachKhongTraTrongNam { get; set; }
         // List chứa dữ liệu thống kê trong 4 quý
         public int[] lsoPhieuMuonTrongQuy { get; set; }
         public int[] lsoNguoiMuonSachTrongQuy { get; set; }
         public int[] lsoSachDuocMuonTrongQuy { get; set; }
         public int[] lsoNguoiKhongTraTrongQuy { get; set; }
         public int[] lsoNguoiTraTreTrongQuy { get; set; }
+        public int[] lsoSachDuocTraTrongQuy { get; set; }
+        public int[] lsoSachKhongTraTrongQuy { get; set; }
         // List chứa dữ liệu thống kê trong 31 ngày
         public int SoNgayTrongThang { get; set; }
         public int[] lsoNgayTrongThang { get; set; }
@@ -91,6 +95,8 @@ namespace BiTech.Library.Models
         public int[] lsoSachDuocMuonTrongNgay { get; set; }
         public int[] lsoNguoiKhongTraTrongNgay { get; set; }
         public int[] lsoNguoiTraTreTrongNgay { get; set; }
+        public int[] lsoSachDuocTraTrongNgay { get; set; }
+        public int[] lsoSachKhongTraTrongNgay { get; set; }
     }
   
 

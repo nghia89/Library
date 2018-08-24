@@ -14,30 +14,32 @@
 
 <div class="Title">Danh sách học sinh</div>
 <div class="text-success">@ViewBag.Success</div>
-<h5 class="text-danger">@ViewBag.SearchFail</h5>
-<div class="container">
-    @using (Html.BeginForm("Index", "HocSinh", FormMethod.Post, new { role = "form" }))
-    {
-        <div class="container" id="tv_tk">
-            <div class="col-lg-6">
-                <div class="input-group form-group">
-                    <select id="choice" class="selectpicker form-control form-control-sm" data-live-search="true">
-                        <option value="matv">Tìm theo mã học sinh</option>
-                        <option value="tentv">Tìm theo tên học sinh</option>
-                    </select>
-                    <!--<input type="text" class="form-control form-control-sm" name="snpid" placeholder="Tìm kiếm ...">-->
-                    <div value="temp" id="noidung_ajax">
-                        @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã học sinh", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })
-                    </div>
-                    <div class="input-group-append">
-                        <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
-                    </div>
-                </div>
-                <!-- /input-group -->
-            </div>
+@if (ViewBag.ThongBao)
+{
+    <div class="alert p-2 alert-danger alert-dismissible fade show">
+        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+        <strong>Thông báo!</strong> @ViewBag.SearchFail
+    </div>
+}
+@using (Html.BeginForm("Index", "HocSinh", FormMethod.Post, new { role = "form", id = "HSIndex" }))
+{
+        <!-- SEPARATE -->
+    <div class="input-group form-group text-left">
+        <div value="temp" class="form-control form-control-sm p-0" style="position:relative;">
+            @Html.TextBoxFor(m => m.TextForSearch, new
+       {
+           @placeholder = "Nhập mã hoặc tên học sinh ...",
+           @id = "searchName",
+           @class = "form-control form-control-sm border-0",
+           @autocomplete = "off",
+           @onkeydown = "if (event.keyCode == 13) { search_user(); }"
+       })
         </div>
-    }
-</div>
+        <div class="input-group-append">
+            <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+        </div>
+    </div>
+}
 <br />
 <div class="row">
     <div class="col-md-12">
@@ -181,58 +183,14 @@
                 closeAllLists(e.target);
             });
         }
-        // Gọi hàm AutoComplete
-        @*AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);*@
-        AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
-        // Choice Search
-       $("#tv_tk").on("change", "#choice", function () {
-            if ($(this).val() == "matv") {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');
-                //$("#noidung_ajax").value = "1";
-                AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
-            }
-            else {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.Ten, new { @placeholder = "Tên thành viên", @id = "searchName", @class = "form-control form-control-sm", autocomplete = "off" })');
-                AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);
-            }
-        });
-        @* $("#lunch").click(function () {
-            if ($(this).val() == "matv") {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã thành viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');
-                AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
-            }
-            else {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.Ten, new { @placeholder = "Tên thành viên", @id = "searchName", @class = "form-control form-control-sm", autocomplete = "off" })');
-                AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);
-            }
-        });*@
-
-       
-        // ------
-        function RequestAltInsertGuiBegin() {
-            $(this).addClass('active');
+        // Gọi hàm AutoComplete      
+        AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListAll) + "'")]);
+        // Hàm Enter Excute
+        function search_user() {
+            setTimeout(function () {
+                $('#HSIndex').submit();
+            },10);            
         }
-
-        function RequestAltInsertGuiSuccess(data) {
-            $(this).removeClass('active');
-
-            $("#ajax").html(data);
-
-            $("#edit-student-modal").modal();
-
-            var form = $("#edit-student-modal").closest("form");
-            form.removeData('validator');
-            form.removeData('unobtrusiveValidation');
-            $.validator.unobtrusive.parse(form);
-        }
-        // find bootstrap
-        $(document).ready(function () {
-            $("#mySearch").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
+             
     </script>
 }

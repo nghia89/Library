@@ -1,4 +1,4 @@
-﻿    
+﻿
 @using System;
 @using System.Globalization;
 @using BiTech.Library.DTO;
@@ -62,6 +62,8 @@
     <h6>* số "người trả trễ" là: @soNguoiTraTreTrongNgay người</h6>
     <h6>* số "người không trả" là: @soNguoiKhongTraTrongNgay người</h6>
     <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNgay[i] cuốn</h6>
+    <h6>new* số "sách được trả" là:@Model.lsoSachDuocTraTrongNgay[i] cuốn</h6>
+    <h6>new* số "sách không trả" là: @Model.lsoSachKhongTraTrongNgay[i] cuốn</h6>
 
 }
 
@@ -74,6 +76,8 @@
     <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongQuy[i - 1] người</h6>
     <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongQuy[i - 1] người</h6>
     <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongQuy[i - 1] cuốn</h6>
+    <h6>new* số "sách được trả" là:@Model.lsoSachDuocTraTrongQuy[i - 1] cuốn</h6>
+    <h6>new* số "sách không trả" là: @Model.lsoSachKhongTraTrongQuy[i - 1] cuốn</h6>
     <hr />
 }
 <h5 class="text-info">Quý 1 năm @ViewBag.Year có:</h5>
@@ -82,10 +86,12 @@
     <h5 class="text-info">tháng @i :</h5>
     <h6>* số "phiếu mượn" là: @Model.lsoPhieuMuonTrongNam[i - 1] phiếu</h6>
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
-        <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
-        <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
-        <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
-        <hr />
+    <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
+    <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách được trả" là:@Model.lsoSachDuocTraTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách không trả" là: @Model.lsoSachKhongTraTrongNam[i - 1] cuốn</h6>
+    <hr />
 }
 <h5 class="text-info">Quý 2 năm @ViewBag.Year có:</h5>
 @for (int i = 4; i <= 6; i++)
@@ -96,8 +102,10 @@
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
     <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
     <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
-        <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
-        <hr />
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách được trả" là:@Model.lsoSachDuocTraTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách không trả" là: @Model.lsoSachKhongTraTrongNam[i - 1] cuốn</h6>
+    <hr />
 }
 <h5 class="text-info">Quý 3 năm @ViewBag.Year có:</h5>
 @for (int i = 7; i <= 9; i++)
@@ -108,8 +116,10 @@
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
     <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
     <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
-            <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
-            <hr />
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách được trả" là:@Model.lsoSachDuocTraTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách không trả" là: @Model.lsoSachKhongTraTrongNam[i - 1] cuốn</h6>
+    <hr />
 }
 <h5 class="text-info">Quý 4 năm @ViewBag.Year có:</h5>
 @for (int i = 10; i <= 12; i++)
@@ -120,8 +130,10 @@
     <h6>* số "người mượn" là:  @Model.lsoNguoiMuonSachTrongNam[i - 1] người</h6>
     <h6>* số "người trả trễ" là: @Model.lsoNguoiTraTreTrongNam[i - 1] người</h6>
     <h6>* số "người không trả" là: @Model.lsoNguoiKhongTraTrongNam[i - 1] người</h6>
-            <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
-            <hr />
+    <h6>* số "sách được mượn" là: @Model.lsoSachDuocMuonTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách được trả" là:@Model.lsoSachDuocTraTrongNam[i - 1] cuốn</h6>
+    <h6>new* số "sách không trả" là: @Model.lsoSachKhongTraTrongNam[i - 1] cuốn</h6>
+    <hr />
 }
 
 @section scripts{

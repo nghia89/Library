@@ -79,11 +79,13 @@ namespace BiTech.Library.Models
         public string LinkAvatar { get; set; }        
         public string[] ListName { get; set; }
         public string[] ListMaTV { get; set; }
+        public string[] ListAll { get; set; }
         public List<ThanhVien> ListThanhVien { get; set; }
         [Display(Name ="Đường dẫn file Excel")]
         public HttpPostedFileBase LinkExcel { get; set; }
         public HttpPostedFileBase LinkWord { get; set; }
         public string LoaiTK { get; set; }
+        public string TextForSearch { get; set; }
     }
     public class EditUserViewModel
     {

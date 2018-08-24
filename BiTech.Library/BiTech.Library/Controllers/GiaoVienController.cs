@@ -29,25 +29,21 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            #endregion
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            #endregion
 
             UserViewModel model = new UserViewModel();
             List<ThanhVien> listThanhVien = _ThanhVienLogic.GetAllGV();
             int i = 0;
-            model.ListName = new string[listThanhVien.Count];
-            model.ListMaTV = new string[listThanhVien.Count];
+            model.ListAll = new string[listThanhVien.Count * 2];
             foreach (var item in listThanhVien)
             {
-                model.ListName[i] = item.Ten;
-                model.ListMaTV[i] = item.MaSoThanhVien;
-                i++;
+                model.ListAll[i] = item.Ten;
+                model.ListAll[i + 1] = item.MaSoThanhVien;
+                i += 2;
             }
             model.ListThanhVien = listThanhVien;
-            //  TEST
-            string result = "BlibUser-5b6d4793a9b6e209cccccbda-1-Thành Viên 1";
-            thanhVienCommon.GetInfo(result);
-
+            ViewBag.ThongBao = false;
             return View(model);
         }
         [HttpPost]
@@ -58,30 +54,30 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            #endregion
-            List<ThanhVien> listThanhVien = _ThanhVienLogic.GetByName(model.Ten);
-            ThanhVien thanhVien = _ThanhVienLogic.GetByMaSoThanhVien(model.MaSoThanhVien);
+            #endregion           
             List<ThanhVien> listAll = _ThanhVienLogic.GetAllGV();
+            ViewBag.ThongBao = false;
+            model.ListThanhVien = new List<ThanhVien>();
             int i = 0;
-            model.ListName = new string[listAll.Count];
-            model.ListMaTV = new string[listAll.Count];
+            model.ListAll = new string[listAll.Count * 2];
             foreach (var item in listAll)
             {
-                model.ListName[i] = item.Ten;
-                model.ListMaTV[i] = item.MaSoThanhVien;
-                i++;
+                model.ListAll[i] = item.Ten;
+                model.ListAll[i + 1] = item.MaSoThanhVien;
+                i += 2;
             }
-            if (listThanhVien.Count != 0)
-            {
-                model.ListThanhVien = listThanhVien;
-            }
-            else if (thanhVien != null)
-            {
-                model.ListThanhVien = new List<ThanhVien>() { thanhVien };
-            }
+            // Todo
+            string strSearch = model.TextForSearch;
+            var listByName = _ThanhVienLogic.GetByName(strSearch);
+            var listByMSTV = _ThanhVienLogic.GetByMaSoThanhVien(strSearch);
+            if (listByName.Count > 0)
+                model.ListThanhVien = listByName;
+            else if (listByMSTV != null)
+                model.ListThanhVien = new List<ThanhVien>() { listByMSTV };
             else
             {
                 model.ListThanhVien = listAll;
+                ViewBag.ThongBao = true;
                 ViewBag.SearchFail = "Tìm kiếm thất bại!";
             }
             return View(model);
@@ -141,14 +137,14 @@ namespace BiTech.Library.Controllers
             DateTime ngaySinh = new DateTime();
             if (viewModel.TemptNgaySinh.Equals("--/--/----") == false)
             {
-                ngaySinh = DateTime.ParseExact(viewModel.TemptNgaySinh,"dd/MM/yyyy",null);
+                ngaySinh = DateTime.ParseExact(viewModel.TemptNgaySinh, "dd/MM/yyyy", null);
                 thanhVien.NgaySinh = ngaySinh;
-            }     
+            }
             else
             {
                 ViewBag.NullNgaySinh = "Bạn chưa chọn ngày sinh!";
                 return View(viewModel);
-            }           
+            }
             // Kiem tra trung ma thanh vien
             var idMaThanhVien = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.MaSoThanhVien);
             if (idMaThanhVien == null)

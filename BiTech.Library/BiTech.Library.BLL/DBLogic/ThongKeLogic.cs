@@ -42,8 +42,11 @@ namespace BiTech.Library.BLL.DBLogic
         public List<ThongTinMuonSach> GetTTMSByNgayMuon(DateTime ngayMuon)
         {
             return _thongTinMuonSachEngine.GetTTMSByNgayMuon(ngayMuon);
-        }        
-
+        }
+        public List<ThongTinMuonSach> GetTTMSByNgayTra(DateTime ngayTra)
+        {
+            return _thongTinMuonSachEngine.GetTTMSByNgayTra(ngayTra);
+        }
         // SÁCH
         public Sach GetSachById(string idSach)
         {

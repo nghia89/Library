@@ -18,7 +18,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)
-        @Html.HiddenFor(m=>m.LinkAvatar)
+        @Html.HiddenFor(m => m.LinkAvatar)
         @Html.ValidationSummary("", new { @class = "text-danger" })
 
         <div class="form-group row">
@@ -84,27 +84,11 @@
                 @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
             </div>
         </div>
-        @*<div class="form-group row">
-                @Html.LabelFor(m => m.ChucVu, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.ChucVu, new SelectList(new List<string>() { "Học sinh", "Giáo viên" }), "--//--",
-                   new { @class = "form-control",onclick = @"ChangePosition()" })
-                </div>
-            </div>*@
-        @*<div class="form-group row">
-                <label class="col-form-label col-md-2 control-label" for="TomTat">Ảnh thành viên:</label>
-                <div class="col-sm-6">
-                    <img id="SaveImage" src="@Model.LinkAvatar" alt="Ảnh nhân viên" style="width:220px" />
-                    @Html.TextBoxFor(m => m.HinhChanDung, new { type = "file", accept = "image/*" })
-                    @Html.ValidationMessageFor(m => m.HinhChanDung)
-                </div>
-            </div>*@
-
+   
         <div class="form-group row">
             <div class="col-md-2"></div>
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn btn-sm btn-primary" value="Lưu" />
-                <input type="button" class="btn btn-sm btn-default" value="trở lại" onclick="window.location='@Url.Action("Details", "GiaoVien",new { idUser=Model.Id})'" />
             </div>
         </div>
     }
