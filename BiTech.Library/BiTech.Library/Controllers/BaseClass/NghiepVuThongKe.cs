@@ -18,12 +18,30 @@ namespace BiTech.Library.Controllers.BaseClass
         /// <returns></returns>
         public int DemSoPhieuMuon(List<ThongTinMuonSach> listPM)
         {
-            int dem = 0;
-            foreach (var pm in listPM)
+            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();
+            foreach (var item in listPM)
             {
-                dem++;
+                // Gộp sách                
+                if (listRutGon.FindIndex(_ => _.idUser == item.idUser
+                && _.idSach == item.idSach
+                && _.NgayGioMuon.ToShortDateString() == item.NgayGioMuon.ToShortDateString()
+                && _.NgayPhaiTra.ToShortDateString() == item.NgayPhaiTra.ToShortDateString()
+                && _.NgayTraThucTe.ToShortDateString() == item.NgayTraThucTe.ToShortDateString()) > -1)
+                {
+                    // Đã tồn tại
+                    var ttms = listRutGon.Where(_ => _.idUser == item.idUser
+                    && _.idSach == item.idSach
+                    && _.NgayGioMuon.ToShortDateString() == item.NgayGioMuon.ToShortDateString()
+                    && _.NgayPhaiTra.ToShortDateString() == item.NgayPhaiTra.ToShortDateString()
+                    && _.NgayTraThucTe.ToShortDateString() == item.NgayTraThucTe.ToShortDateString()).SingleOrDefault();
+                    ttms.SoSachTong += 1;
+                }
+                else
+                {
+                    listRutGon.Add(item);
+                }
             }
-            return dem;
+            return listRutGon.Count();
         }
 
         /// <summary>
@@ -132,16 +150,6 @@ namespace BiTech.Library.Controllers.BaseClass
             int soLuongSach = 0;
             foreach (var pm in listPM)
             {
-                //var listCTPM = _thongKeLogic.GetCTPMById(pm.Id);
-                //foreach (var i in listCTPM)
-                //{
-
-
-                //    // số lượng sách được mượn
-                //    var soLuong = i.SoLuong != 0 ? i.SoLuong : 1;
-                //    soLuongSach += soLuong; // tổng số sách được mượn trong danh sách phiếu mượn (tháng/ngày)
-                //}
-
                 soLuongSach++;
 
             }
@@ -156,16 +164,16 @@ namespace BiTech.Library.Controllers.BaseClass
                 // Gộp sách                
                 if (listRutGon.FindIndex(_ => _.idUser == item.idUser
                 && _.idSach == item.idSach
-                && _.NgayGioMuon == item.NgayGioMuon
-                && _.NgayPhaiTra == item.NgayPhaiTra
-                && _.NgayTraThucTe == item.NgayTraThucTe) > -1)
+                && _.NgayGioMuon.ToShortDateString() == item.NgayGioMuon.ToShortDateString()
+                && _.NgayPhaiTra.ToShortDateString() == item.NgayPhaiTra.ToShortDateString()
+                && _.NgayTraThucTe.ToShortDateString() == item.NgayTraThucTe.ToShortDateString()) > -1)
                 {
                     // Đã tồn tại
                     var ttms = listRutGon.Where(_ => _.idUser == item.idUser
                     && _.idSach == item.idSach
-                    && _.NgayGioMuon == item.NgayGioMuon
-                    && _.NgayPhaiTra == item.NgayPhaiTra
-                    && _.NgayTraThucTe == item.NgayTraThucTe).SingleOrDefault();
+                    && _.NgayGioMuon.ToShortDateString() == item.NgayGioMuon.ToShortDateString()
+                    && _.NgayPhaiTra.ToShortDateString() == item.NgayPhaiTra.ToShortDateString()
+                    && _.NgayTraThucTe.ToShortDateString() == item.NgayTraThucTe.ToShortDateString()).SingleOrDefault();
                     ttms.SoSachTong += 1;
                 }
                 else
@@ -175,6 +183,40 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return listRutGon;
         }
+        // Đếm số sách trả
+        public int DemSoSachDuocTra(List<ThongTinMuonSach> listPT, DateTime? day, int? month, int? year)
+        {
+            int dem = 0;
+            DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+            foreach (var item in listPT)
+            {
+                if (day != null && item.NgayTraThucTe == day)
+                {
+                    dem++;
+                }
+                if (day == null && item.NgayTraThucTe.Month == month && item.NgayTraThucTe.Year == year)
+                {
+                    dem++;
+                }
+            }
+            return dem;
+        }
+        // Đếm số sách trễ hạn
+        public int DemSoSachKhongTra(List<ThongTinMuonSach> listPM)
+        {
+            int dem = 0;
+            DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+            foreach (var item in listPM)
+            {
+                if (item.NgayPhaiTra < DateTime.Today && (item.NgayTraThucTe == ngayTraNull || item.NgayTraThucTe == null))
+                {
+                    dem++;
+                }
+            }
+            return dem;
+        }
+
+
 
     }
 }

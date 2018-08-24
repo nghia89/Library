@@ -20,10 +20,7 @@
             <th>Ngày mượn</th>
             <th>Hạn phải trả</th>
             <th>Ngày trả</th>
-            <th>Trạng thái</th>
-            <th>Tiền phạt</th>
-            <th>Gia hạn</th>
-            @*<th>Ghi chú</th>*@
+            <th>Trạng thái</th>         
         </tr>
     </thead>
     @{ int i = ViewBag.pageSize * (ViewBag.pages - 1); int j = ViewBag.pageSize * (ViewBag.pages - 1); int dem = 1;}
@@ -35,7 +32,7 @@
                 @{
                     string TenThanhVien = @ViewBag.ListThanhVien[i].Ten;
                 }
-                <td>@Html.ActionLink(TenThanhVien, "ThongTinDocGia", new { id = @ViewBag.ListThanhVien[i].Id, page = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
+                <td>@Html.ActionLink(TenThanhVien, "ThongTinDocGia", new { idUser = @ViewBag.ListThanhVien[i].MaSoThanhVien, page = @ViewBag.Page, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, null) </td>
                 <td>@ViewBag.ListSach[i].TenSach</td>             
                 <td class="text-center">@item.SoSachTong.ToString()</td>
                 <td class="text-center">@item.NgayGioMuon.ToString("dd-MM-yyyy")</td>
@@ -72,9 +69,7 @@
                             <td class="@item.TrangThai.ToString()">Còn @item.SoNgayGiaoDong.ToString() ngày</td>
                         }
                     }
-                }
-                <td></td>
-                <td></td>
+                }             
             </tr>
         </tbody>
 

@@ -11,22 +11,20 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 <div class="Title">Lịch sử mượn sách</div>
 <br />
-<h4 @*class="Title"*@>Độc giả: @ViewBag.TenThanhVien</h4>
+<h4>Độc giả: @ViewBag.TenThanhVien</h4>
 <br />
-@if (@ViewBag.Day != null || @ViewBag.Monthyear != null @*|| @ViewBag.Year == null*@)
+@*@if (@ViewBag.Day != null || @ViewBag.Month != null || @ViewBag.Year != null)*@
+@if (@ViewBag.MuonSach == true)
 {
-    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("MuonSach", "ThongKe",new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year })'">
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("MuonSach", "ThongKe")'">
         <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
     </button>
-    @*@Html.ActionLink("Trở lại danh sách phiếu mượn", "MuonSach",
-        new { page = @ViewBag.pagePM, day = @ViewBag.Day, month = @ViewBag.Month, year = @ViewBag.Year }, new { @class = "btn btn-sm btn-primary" })*@
 }
 else
 {
-    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ThongTinDocGia", "ThongKe",new { id = @ViewBag.Id })'">
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ThongTinDocGia", "ThongKe",new { idUser = @ViewBag.Id })'">
         <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
     </button>
-    @*@Html.ActionLink("Trở lại thông tin độc giả", "ThongTinDocGia", new { id = @ViewBag.Id }, new { @class = "btn btn-sm btn-primary" })*@
 }
 
 
@@ -41,25 +39,20 @@ else
             <th>Hạn phải trả</th>
             <th>Ngày trả</th>
             <th>Trạng thái</th>
-            <th>Tiền phạt</th>
-            <th>Gia hạn</th>
-            @*<th>Ghi chú</th>*@
         </tr>
     </thead>
     @{ int i = ViewBag.pageSize * (ViewBag.pages - 1); int j = ViewBag.pageSize * (ViewBag.pages - 1); int dem = 1;}
     @foreach (var item in Model)
     {
-        //foreach (var sach in @ViewBag.ListSach[i])
-        //{
         <tbody>
             <tr class="text-center">
                 <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + dem)</td>
                 <td>@ViewBag.ListSach[i].TenSach</td>
-                <td class="text-center">@item.SoSachTong</td>              
+                <td class="text-center">@item.SoSachTong</td>
                 <td class="text-center">@item.NgayGioMuon.ToString("dd-MM-yyyy")</td>
                 <td class="text-center">@item.NgayPhaiTra.ToString("dd-MM-yyyy")</td>
 
-              @if (item.NgayTraThucTe.ToShortDateString().Equals("01/01/0001") == false)
+                @if (item.NgayTraThucTe.ToShortDateString().Equals("01/01/0001") == false)
                 {
                     <td>@item.NgayTraThucTe.ToString("dd-MM-yyyy")</td>
                     if (item.SoNgayGiaoDong != null)
@@ -81,7 +74,7 @@ else
                     else
                     {
                         if (item.SoNgayGiaoDong == null)
-                        {                          
+                        {
                             var ngayTre = DateTime.Now - @item.NgayPhaiTra;
                             <td class="@item.TrangThai.ToString()">@item.TenTrangThai - (trễ @ngayTre.Days ngày)</td>
                         }
@@ -91,12 +84,9 @@ else
                         }
                     }
                 }
-                <td></td>
-                <td></td>
             </tr>
         </tbody>
         { dem++; j++; }
-        //}
         { i++; }
     }
 

@@ -17,6 +17,10 @@
                     <td class="Detail_info">@Model.TenDocGia</td>
                 </tr>
                 <tr>
+                    <td class="Title_info">Mã độc giả:</td>
+                    <td class="Detail_info">@Model.idUser</td>
+                </tr>
+                <tr>
                     <td class="Title_info">Giới tính:</td>
                     <td class="Detail_info">@Model.GioiTinh</td>
                 </tr>
@@ -49,7 +53,7 @@
 <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("DanhSachChuaTra", "ThongKe",new { page = @ViewBag.Page })'">
     <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
 </button>
-@Html.ActionLink("Xem lịch sử mượn sách", "LichSuMuonSach", new { page = 1, id = @ViewBag.IdThanhVien }, new { @class = "btn btn-sm btn-primary" })
+@Html.ActionLink("Xem lịch sử mượn sách", "LichSuMuonSach", new { page = 1, idUser = @ViewBag.IdThanhVien, MuonSach = false }, new { @class = "btn btn-sm btn-primary" })
 <hr />
 <div class="container-box-window clearfix">
     <div class="top">
@@ -59,14 +63,12 @@
         <table class="table table-hover table-striped">
             <thead>
                 <tr class="table-info text-center">
-                    <th>STT</th>
+                    <th>STT</th>                  
                     <th>Tên sách</th>
                     <th>Số lượng</th>
                     <th>Ngày mượn</th>
                     <th>Hạn phải trả</th>
                     <th>Trạng thái</th>
-                    <th>Gia hạn</th>
-                    <th>Tiền phạt</th>
                 </tr>
             </thead>
             @{ int i = 0; int soLuongSach = 0; int dem = 1;}
@@ -76,7 +78,7 @@
                 //{
                 <tbody>
                     <tr class="text-center">
-                        <td class="text-center">@dem.ToString()</td>
+                        <td class="text-center">@dem.ToString()</td>                       
                         <td>@ViewBag.ListSach[i].TenSach</td>
                         <td class="text-center">@item.SoSachTong.ToString()</td>
                         <td>@item.NgayGioMuon.ToString("dd-MM-yyyy")</td>
@@ -113,9 +115,6 @@
                                 }
                             }
                         }
-
-                        <td>GiaHan</td>
-                        <td></td>
                     </tr>
                 </tbody>
                 { soLuongSach++; dem++; }

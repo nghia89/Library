@@ -14,73 +14,38 @@
 
 <div class="Title">Danh sách giáo viên</div>
 <div class="text-success">@ViewBag.Success</div>
-<h5 class="text-danger">@ViewBag.SearchFail</h5>
-<div class="container">
-    @using (Html.BeginForm("Index", "GiaoVien", FormMethod.Post, new { role = "form" }))
-    {
-        <div class="container" id="tv_tk">
-            <div class="col-lg-6">
-                <div class="input-group form-group">
-                    <select id="choice" class="selectpicker form-control form-control-sm" data-live-search="true">
-                        <option value="matv">Tìm theo mã giáo viên</option>
-                        <option value="tentv">Tìm theo tên giáo viên</option>
-                    </select>
-                    
-                    <!--<input type="text" class="form-control form-control-sm" name="snpid" placeholder="Tìm kiếm ...">-->
-                    <div value="temp" id="noidung_ajax">
-                        @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã giáo viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })
-                    </div>
-                    <div class="input-group-append">
-                        <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
-                    </div>
-                </div>
-                <!-- SEPARATE -->
-                <!-- 1 -->
-                <div class="input-group form-group">
-                    <label >Tìm theo mã giáo viên</label>
-
-                    <!--<input type="text" class="form-control form-control-sm" name="snpid" placeholder="Tìm kiếm ...">-->
-                    <div value="temp" id="noidung_ajax">
-                        @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã giáo viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })
-                    </div>
-                    <div class="input-group-append">
-                        <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
-                    </div>
-                </div>
-                <!-- SEPARATE -->
-                <!-- 2 -->
-                <div class="input-group form-group">
-                    
-                    <label>Tìm theo tên giáo viên</label>
-                    <!--<input type="text" class="form-control form-control-sm" name="snpid" placeholder="Tìm kiếm ...">-->
-                    <div value="temp" id="noidung_ajax">
-                        @Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã giáo viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })
-                    </div>
-                    <div class="input-group-append">
-                        <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
-                    </div>
-                </div>
-            </div>
+@if (ViewBag.ThongBao)
+{
+    <div class="alert p-2 alert-danger alert-dismissible fade show">
+        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+        <strong>Thông báo!</strong> @ViewBag.SearchFail
+    </div>
+}
+@using (Html.BeginForm("Index", "GiaoVien", FormMethod.Post, new { role = "form", id = "GVIndex" }))
+{
+        <!-- SEPARATE -->
+    <div class="input-group form-group text-left">
+        <div value="temp" class="form-control form-control-sm p-0" style="position:relative;">
+            @Html.TextBoxFor(m => m.TextForSearch, new
+           {
+               @placeholder = "Nhập mã hoặc tên giáo viên ...",
+               @id = "searchName",
+               @class = "form-control form-control-sm border-0",
+               @autocomplete = "off",
+               @onkeydown = "if (event.keyCode == 13) { search_user(); }"
+           })
         </div>
-    }
-</div>
+        <div class="input-group-append">
+            <input type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+        </div>
+    </div>
+}
 <br />
 <div class="row">
     <div class="col-md-12">
-
         @Html.ActionLink("Thêm giáo viên", "_CreateUser", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
-
-        @*
-            @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
-            @Html.ActionLink("Xuất mẫu thẻ giáo viên", "ExportWord", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
-        *@
-        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ImportFromExcel", "GiaoVien")'">
-            <i class="fa fa-file-excel-o" style="padding-right: 4px;font-size: 20px;"></i>Thêm từ File Excel
-        </button>
-
-        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ExportWord", "GiaoVien")'">
-            <i class="fa fa-file-word-o" style="padding-right: 4px;font-size: 20px;"></i>Xuất mẫu thẻ giáo viên
-        </button>
+        @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
+        @Html.ActionLink("Xuất mẫu thẻ giáo viên", "ExportWord", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
     </div>
 </div>
 <h5 class="text-success">@ViewBag.Success</h5>
@@ -89,7 +54,7 @@
 <div class="m10">
     @Html.Action("_PartialUser", "GiaoVien", new { @IdUser = "", @list = Model.ListThanhVien })
 </div>
-@section scripts{  
+@section scripts{
     <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
@@ -181,6 +146,7 @@
                 } else if (e.keyCode == 38) {
                     currentFocus--;
                     addActive(x);
+                    //Enter
                 } else if (e.keyCode == 13) {
                     e.preventDefault();
                     if (currentFocus > -1) {
@@ -212,18 +178,21 @@
                 closeAllLists(e.target);
             });
         }
-        // Gọi hàm AutoComplete       
-        AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
+        // Gọi hàm AutoComplete
+        AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListAll) + "'")]);
+        // Hàm Enter Excute
+        function search_user() {
+            setTimeout(function () {
+                $('#GVIndex').submit();
+            }, 10);
+        }
+
         // Choice Search
-        $("#tv_tk").on("change", "#choice", function () {
+        @*$("#tv_tk").on("change", "#choice", function () {
             if ($(this).val() == "matv") {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.MaSoThanhVien, new { @placeholder = "Mã giáo viên", @id = "searchMaTV", @class = "form-control form-control-sm", autocomplete = "off" })');               
-                AutoComplete(document.getElementById("searchMaTV"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListMaTV) + "'")]);
             }
             else {
-                $("#noidung_ajax").html('@Html.TextBoxFor(m => m.Ten, new { @placeholder = "Tên giáo viên", @id = "searchName", @class = "form-control form-control-sm", autocomplete = "off" })');
-                AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListName) + "'")]);
             }
-        });        
+        });*@
     </script>
 }

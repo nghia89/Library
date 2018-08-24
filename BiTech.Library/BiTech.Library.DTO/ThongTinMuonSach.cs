@@ -43,9 +43,11 @@ namespace BiTech.Library.DTO
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
-        
+
         [BsonIgnore]
         public ETinhTrangPhieuMuon TrangThai { get; set; }
+        [BsonIgnore]
+        public string TrangThaiString { get; set; }
 
         [BsonIgnore]
         public string TenTrangThai { get; set; }
@@ -56,5 +58,25 @@ namespace BiTech.Library.DTO
         [BsonIgnore]
         // Số ngày trễ hẹn trả hoặc số ngày gần trả
         public int? SoNgayGiaoDong { get; set; }
+        [BsonIgnore]
+        public string NgayMuonTemp { get; set; }
+        [BsonIgnore]
+        public string NgayTraTemp { get; set; }
+        [BsonIgnore]
+        public string NgayTraThucTeTemp { get; set; }
+        [BsonIgnore]
+        public List<string> ListSach { get; set; } = new List<string>();
+        [BsonIgnore]
+        public string TenThanhVien { get; set; }     
+        [BsonIgnore]
+        public string TenSach { get; set; }
+        [BsonIgnore]
+        public string STT { get; set; }
+        [BsonIgnore]
+        public string SoSachDuocMuon { get; set; }
+        [BsonIgnore]
+        public string SoNguoiMuonSach { get; set; }
+
+
     }
 }
