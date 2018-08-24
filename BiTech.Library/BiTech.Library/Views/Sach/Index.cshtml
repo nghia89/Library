@@ -9,6 +9,7 @@
     var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
     var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
     var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
+
 }
 
 <div class="Title">Danh Sách</div>
@@ -116,8 +117,14 @@
     </div>
     <div class="clearfix"></div>
     <br />
-    Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "customer_area" }))
+    @if (@ViewBag.number > 30)
+    {
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    }
+    else
+    {
+
+    }
 
 </div>
 @*<button value="Xoa" onclick="XoaCauHoi()" />*@

@@ -29,12 +29,12 @@
         </div>
         <script id="table-template" type="x-tmpl-mustache">
             <div class="form-group row">
-                <label class="control-label form-label col-sm-3" for="IdTrangThai">{{TrangThai}}:</label>
-                <div class="input-group col-sm-3 mb-3">
-                    <input type="number" id="KeyInput" value="{{SoLuong}}" min="0" max="{{SoLuong}}" class="form-control first-child form-control-sm">
+                <label class="control-label form-label col-sm-4" style="font-size:13px" for="IdTrangThai">{{TrangThai}}:</label>
+                <div class="input-group col-sm-6 mb-6">
+                    <span type="text" id="KeyInput"class="form-control first-child form-control-sm">{{SoLuong}}</span>
                     <input type="text" id="KeyInput" value="{{IdSach}}" hidden>
                     <div class="input-group-append">
-                        <a class="btn btn-danger btn-edit" data-id="{{Id}}">Sửa</a>
+                        <a class=" btn btn-danger btn-edit " style="color:white" data-id="{{Id}}">Sửa</a>
                         <input type="text" class="txtIdTrangThai" value="{{IdTrangThai}}" hidden>
                     </div>
                 </div>

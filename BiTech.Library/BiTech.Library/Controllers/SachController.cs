@@ -49,6 +49,7 @@ namespace BiTech.Library.Controllers
             ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
 
             var list = _SachLogic.getPageSach(KeySearch);
+            ViewBag.number = list.Count();
             foreach (var item in list)
             {
                 var IdSachTG = _SachTacGiaLogic.getById(item.Id);

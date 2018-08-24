@@ -15,6 +15,7 @@ namespace BiTech.Library.Models
         
         public List<Language> Languages { get; set; }
         
+        [Required(ErrorMessage ="Vui lòng không để trống")]
         public List<string> ListTacGiaJson { get; set; }
 
         public SachUploadModel()
@@ -119,9 +120,6 @@ namespace BiTech.Library.Models
             SachDTO = sach;
         }
 
-        internal BookView ToPagedList(int pageSize, int pageNumber)
-        {
-            throw new NotImplementedException();
-        }
+    
     }
 }

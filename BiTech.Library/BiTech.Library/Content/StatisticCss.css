@@ -92,10 +92,34 @@ input[type="checkbox"] {
 }
 .back_groupCheck
 {
-    background: #eaf0f5;
+    /*background: #eaf0f5;*/
     margin-bottom: 26px;
 }
 
 
 
+.tablink {
+    background-color: #788282;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+}
+
+    /* Change background color of buttons on hover */
+    .tablink:hover {
+        background-color: rgb(14, 134, 101);
+    }
+
+/* Set default styles for tab content */
+.tabcontent {
+    display: none;
+    width: 85%;
+    margin: 0 auto;
+}
+
+/* Style each tab content individually */
 

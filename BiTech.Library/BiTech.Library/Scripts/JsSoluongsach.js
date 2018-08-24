@@ -73,7 +73,7 @@ var SoLuongTTSach = function () {
                 dataType: "json",
                 success: function (res) {
                     $('#modal-add-edit').modal('hide');
-                    //loadData();
+                    loadData();
                 }
 
             });
@@ -102,7 +102,7 @@ var SoLuongTTSach = function () {
                     });
                 });
                 if (render !== undefined) {
-                    $('#tbl-content-detail').html(render);
+                    $('#tbl-content-detail').html(render);              
                 }
                 else {
                     $('#tbl-content-detail').html('');

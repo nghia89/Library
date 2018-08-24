@@ -27,25 +27,24 @@ namespace BiTech.Library.DTO
         /// </summary>
         public string MaKiemSoat { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Vui lòng không để trống")]
         /// <summary>
         /// Tên của sách
         /// </summary>
         public string TenSach { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Mã thể loại sách
         /// </summary>
         public string IdTheLoai { get; set; }
 
-        [Required]
         /// <summary>
         /// Vị trí sách ở kệ nào
         /// </summary>
         public string IdKeSach { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Mã nhà xuất bản
         /// </summary>
@@ -56,18 +55,19 @@ namespace BiTech.Library.DTO
         /// </summary>
         public string LinkBiaSach { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Số trang
         /// </summary>
         public string SoTrang { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Năm xuất bản
         /// </summary>
         public string NamXuatBan { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Tóm tắt
         /// </summary>
@@ -78,6 +78,7 @@ namespace BiTech.Library.DTO
         /// </summary>
         public string GiaBia { get; set; }
 
+        [Required(ErrorMessage ="Vui lòng không để trống")]
         /// <summary>
         /// Phí mượn sách nếu có
         /// </summary>
@@ -98,12 +99,12 @@ namespace BiTech.Library.DTO
         /// </summary>
         public int SoLanDuocMuon { get; set; } = 0;
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         public bool CongKhai { get; set; } = true;
 
         public string ISBN { get; set; } = "";
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Mã ngôn ngữ
         /// </summary>

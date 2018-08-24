@@ -49,10 +49,14 @@
                                 <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                      viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
                                 <path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
+
                                 <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
+
                                 <g id="plus">
                                 <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
+
                                 <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
+
                                     </g>
                                 </svg>
                             </label>
@@ -73,6 +77,8 @@
                     <label class="col-form-label col-sm-3 form-label" for="tensach">Tên sách:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
+                        @Html.ValidationMessageFor(model => model.SachDTO.TenSach, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -82,7 +88,7 @@
                         @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
                     </div>
                 </div>
-                
+
 
                 <div class="form-group row">
                     <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
@@ -105,6 +111,8 @@
                                 </a>
                             </div>
                         </div>
+                        @Html.ValidationMessageFor(model => model.SachDTO.IdTheLoai, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -120,7 +128,7 @@
                                         class="form-control form-control-sm">
                                 <auto-complete source="loadData($query)"></auto-complete>
                                 <div ng-repeat="s in listtg">
-                                    <input hidden="hidden" ng-cloak class="btn btn-default" name="ListTacGiaJson" value="{{s}}" />
+                                    <input hidden="hidden" ng-cloak class="btn btn-default" required name="ListTacGiaJson" value="{{s}}" />
                                 </div>
                             </tags-input>
                             <div class="input-group-append">
@@ -131,6 +139,8 @@
                             </div>
 
                         </div>
+                        @Html.ValidationMessageFor(model => model.ListTacGiaJson, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -147,6 +157,8 @@
                                 </a>
                             </div>
                         </div>
+                        @Html.ValidationMessageFor(model => model.SachDTO.IdNhaXuatBan, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -170,6 +182,8 @@
                     <label class="col-form-label col-sm-3 form-label" for="sotrang">Số trang:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
+                        @Html.ValidationMessageFor(model => model.SachDTO.SoTrang, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -186,6 +200,8 @@
                                 </a>
                             </div>
                         </div>
+                        @Html.ValidationMessageFor(model => model.SachDTO.IdNgonNgu, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -193,6 +209,8 @@
                     <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                        @Html.ValidationMessageFor(model => model.SachDTO.NamXuatBan, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -207,6 +225,8 @@
                     <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
+                        @Html.ValidationMessageFor(model => model.SachDTO.PhiMuonSach, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
                 <div class="form-group row">
@@ -231,7 +251,8 @@
                     <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm tắt:</label>
                     <div class="col-sm-6">
                         @Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
-                        @Html.ValidationMessageFor(m => m.SachDTO.TomTat)
+                        @Html.ValidationMessageFor(model => model.SachDTO.TomTat, "", new { @class = "text-danger" })
+
                     </div>
                 </div>
 
@@ -243,29 +264,29 @@
                             @Html.ValidationMessageFor(m => m.FileImageCover)
                         </div>
                     </div>*@
-            if (Model.SachDTO.MARC21 != null)
-            {
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="TomTat">Marc21:</label>
+                if (Model.SachDTO.MARC21 != null)
+                {
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 form-label" for="TomTat">Marc21:</label>
+                        <div class="col-sm-6">
+                            @Html.TextAreaFor(m => m.SachDTO.MARC21, new { @class = "form-control form-control-sm", @id = "TomTat", Style = "height:300px" })
+                            @Html.ValidationMessageFor(m => m.SachDTO.MARC21)
+                        </div>
+                    </div>
+                }
+                else { }
+                <div class="form-group row box_temp_lg">
+                    <label class="col-form-label col-sm-3 form-label"></label>
                     <div class="col-sm-6">
-                        @Html.TextAreaFor(m => m.SachDTO.MARC21, new { @class = "form-control form-control-sm", @id = "TomTat", Style = "height:300px" })
-                        @Html.ValidationMessageFor(m => m.SachDTO.MARC21)
+                        <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Cập nhật" />
                     </div>
                 </div>
-            }
-            else { }
-            <div class="form-group row box_temp_lg">
-                <label class="col-form-label col-sm-3 form-label"></label>
-                <div class="col-sm-6">
-                    <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Cập nhật" />
-                </div>
-            </div>
 
             }
         </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-3">
         @Html.Partial("_PartSlAndTT")
     </div>
 
