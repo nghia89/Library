@@ -65,7 +65,7 @@
                                 <p class="mb-1"><span class="form-label">Số lượng sách còn lại:</span> @Model.SachDTO.SoLuongConLai</p>
                             </div>
                         </div>
-
+                        <img src="@Model.SachDTO.QRlink" style="position: absolute; left: 206px; bottom: -3px;" />
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@
                         @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
                     </div>
                 </div>
-                
+
 
                 <div class="form-group row">
                     <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>

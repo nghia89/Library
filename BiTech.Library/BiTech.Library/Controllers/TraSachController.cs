@@ -280,7 +280,7 @@ namespace BiTech.Library.Controllers
             kq.NgayTra = item.NgayPhaiTra.ToString("dd/MM/yyyy");
 
             long ngaytra = item.NgayPhaiTra.Date.Ticks;
-            long ngayhientai = DateTime.Now.Ticks;
+            long ngayhientai = DateTime.Now.Date.Ticks;
             kq.TinhTrang = ngaytra - ngayhientai < 0;
             return kq;
         }

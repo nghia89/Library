@@ -1085,7 +1085,7 @@
     <Content Include="Views\GiaoVien\ExportWord.cshtml" />
     <Content Include="Views\GiaoVien\_PartialUser.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Search\Edit.cshtml" />
+    <Content Include="Views\Search\ThongTinChiTiet.cshtml" />
     <Content Include="Views\ExportMarc\exportMarc.cshtml" />
     <Content Include="Views\Marc\ImportMarc.cshtml" />
   </ItemGroup>
