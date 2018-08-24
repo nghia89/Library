@@ -30,8 +30,10 @@ namespace BiTech.Library
                       "~/Scripts/jquery.session.js"
                       ));
             bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
+                      "~/Content/css/bootstrap.min.css",
                       "~/Content/site.css",
-                      "~/Content/PagedList.css"));
+                      "~/Content/PagedList.css",
+                      "~/Content/css/font-awesome.min.css"));
         }
     }
 }

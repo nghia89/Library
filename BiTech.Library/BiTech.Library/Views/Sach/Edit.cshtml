@@ -7,7 +7,6 @@
     var IdTacGia = (List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
 }
 
-
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <link href="~/Content/tagsinput/ng-tags-input.css" rel="stylesheet" />
 <link href="~/Content/Avatar.css" rel="stylesheet" />
@@ -36,12 +35,8 @@
                 <input name="SachDTO.MaKiemSoat" id="Data-MaKiemSoat" value="@Model.SachDTO.MaKiemSoat" hidden />
 
                 <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa sách:</label>
+                    <label class="col-form-label col-sm-3 form-label">Bìa sách:</label>
                     <div class="avatar_container_root avatar_biaSach col-sm-9">
-                        @*<img id="blah" src="/Assets/Images/DefaultBookCover.jpg" alt="Bìa sách" style="width:220px" />
-                            @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
-                            @Html.ValidationMessageFor(m => m.FileImageCover)*@
-
                         <div class="avatar_container_HA clearfix">
                             <img id="SaveImage" class="avatar_img" src="@((Model.SachDTO.LinkBiaSach != null) ? Model.SachDTO.LinkBiaSach : "")" onerror="this.src = '/Content/Images/book.png'" alt="" />
                             <label class="avatar " for="FileImageCover">
@@ -61,7 +56,6 @@
                                 </svg>
                             </label>
                         </div>
-
                         <div class="avatar_container_TT">
                             <div class="form-group">
                                 <p class="mb-1"><span class="form-label">Mã kiểm soát:</span> @Model.SachDTO.MaKiemSoat</p>
@@ -73,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="tensach">Tên sách:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
@@ -82,27 +76,26 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Loại sách:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
                     </div>
                 </div>
 
-
-                <div class="form-group row">
+                <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN" })
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="ListTT">Thể loại sách:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="IdTheLoai">Thể loại sách:</label>
                     <div class="col-sm-6">
                         <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData('@ViewBag.TLS')">
                             @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
-                               new { @class = "form-control form-control-sm", @ng_model = "IdTheLoai", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+                               new { @id = "IdTheLoai", @class = "form-control form-control-sm", @ng_model = "IdTheLoai", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
                             @*s.Id as s.TenTheLoai for s in list*@
                             <div class="input-group-append">
                                 <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
@@ -116,16 +109,16 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="ListTacGiaJson">Tác giả:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label">Tác giả:</label>
                     <div class="col-sm-6">
-                        <div class="input-group mb-3" id="ListTacGia" ng-controller="TacGiaFinder" ng-init="GetAllTacGiaByIdSach('@Model.SachDTO.Id');">
+                        <div class="input-group" style="margin-bottom:4px"  id="ListTacGia" ng-controller="TacGiaFinder" ng-init="GetAllTacGiaByIdSach('@Model.SachDTO.Id');">
                             <tags-input ng-model="listtg"
                                         replace-spaces-with-dashes="false"
                                         display-property="TenTacGia"
                                         allowDuplicates="true"
                                         placeholder="Nhập tên tác giả ..."
-                                        class="form-control form-control-sm">
+                                        class="form-control form-control-sm form-control-tag">
                                 <auto-complete source="loadData($query)"></auto-complete>
                                 <div ng-repeat="s in listtg">
                                     <input hidden="hidden" ng-cloak class="btn btn-default" required name="ListTacGiaJson" value="{{s}}" />
@@ -134,7 +127,8 @@
                             <div class="input-group-append">
                                 <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary btn-sm"
                                    data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                    <i class="fa fa-plus" style="opacity:0"></i>
+                                    <i class="fa fa-plus" style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></i>
                                 </a>
                             </div>
 
@@ -144,12 +138,12 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="ListNXB">Nhà xuất bản:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="IdNhaXuatBan">Nhà xuất bản:</label>
                     <div class="col-sm-6">
                         <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData('@ViewBag.NXB')">
                             @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
-                               new { @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                               new { @id= "IdNhaXuatBan", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                             <div class="input-group-append">
                                 <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
                                    data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
@@ -162,12 +156,12 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="idkesach">Kệ sách:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="IdKeSach">Kệ sách:</label>
                     <div class="col-sm-6">
                         <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData('@ViewBag.KeSach')">
                             @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
-                               new { @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+                               new { @id= "IdKeSach", @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
                             <div class="input-group-append">
                                 <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
                                    data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
@@ -178,7 +172,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="sotrang">Số trang:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
@@ -187,12 +181,12 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn ngữ:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="IdNgonNgu">Ngôn ngữ:</label>
                     <div class="col-sm-6">
                         <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData('@ViewBag.NgonNgu')">
                             @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
-                               new { @class = "form-control form-control-sm", @ng_model = "IdNgonNgu", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                               new { @id= "IdNgonNgu", @class = "form-control form-control-sm", @ng_model = "IdNgonNgu", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
                             <div class="input-group-append">
                                 <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
                                    data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
@@ -205,7 +199,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
@@ -214,14 +208,14 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá bìa:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá sách:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách:</label>
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
@@ -229,25 +223,25 @@
 
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Nước xuất xứ:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="XuatXu">Nước xuất xứ:</label>
                     <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                        @Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "XuatXu" })
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Người biên dịch:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="NguoiBienDich">Người biên dịch:</label>
                     <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                        @Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NguoiBienDich" })
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Lần xuất bản:</label>
+                <div class="form-group-sm row">
+                    <label class="col-form-label col-sm-3 form-label" for="TaiBan">Lần xuất bản:</label>
                     <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                        @Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "TaiBan" })
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm tắt:</label>
                     <div class="col-sm-6">
                         @Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
@@ -281,7 +275,6 @@
                         <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Cập nhật" />
                     </div>
                 </div>
-
             }
         </div>
     </div>
@@ -294,7 +287,6 @@
 @{
     Html.RenderPartial("~/Views/Sach/_partEditSoLuong.cshtml");
 }
-
 
 <div id="ajax"></div>
 @section scripts{

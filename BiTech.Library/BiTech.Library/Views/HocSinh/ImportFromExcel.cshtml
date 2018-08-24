@@ -1,20 +1,19 @@
 ﻿@model BiTech.Library.Models.UserViewModel
 @{
-    ViewBag.Title = "ImportFromExcel";
+    ViewBag.Title = "Thêm excel học sinh";
 }
-
 <link rel="stylesheet" type="text/css" href="~/bower_components/custom-file-input/css/component.css" />
 
-<div class="Title">Thêm dữ liệu thành viên từ file excel</div>
+<div class="Title">Thêm dữ liệu học sinh từ File Excel</div>
+<div class="form-group row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "HocSinh")'">
+            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+        </button>
+    </div>
+</div>
 @using (Html.BeginForm("ImportFromExcel", "HocSinh", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
-    <div class="form-group row">
-        <div class="col-md-12">
-            <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "HocSinh")'">
-                <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
-            </button>
-        </div>
-    </div>
     @Html.AntiForgeryToken()
 
     <div class="box">
@@ -25,14 +24,13 @@
 
     <div class="text-danger"> @ViewBag.Duplicate</div>
     <div class="form-group row">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-10">
             <input type="submit" class="btn btn-sm btn-primary" value="Chọn" />
         </div>
     </div>
 }
 
 @section scripts{
-
     <script src="~/bower_components/custom-file-input/custom-file-input.js"></script>
     <script>
         function ReadUrl(input) {

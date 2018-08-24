@@ -8,7 +8,7 @@ using BiTech.Library.DAL.Engines;
 using BiTech.Library.DAL;
 
 namespace BiTech.Library.BLL.DBLogic
-{    
+{
     public class TheLoaiSachLogic
     {
 
@@ -16,13 +16,23 @@ namespace BiTech.Library.BLL.DBLogic
         public TheLoaiSachLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString);
-            _theloaiSachEngine = new TheLoaiSachEngine(database, databaseName,"TheLoaiSach");         
+            _theloaiSachEngine = new TheLoaiSachEngine(database, databaseName, "TheLoaiSach");
         }
 
-        public List<TheLoaiSach> GetAllTheLoaiSach()
+        public List<TheLoaiSach> GetAllTheLoaiSach(bool showlevel = false)
         {
+            var listTL = _theloaiSachEngine.GetAllTheLoaiSach();
 
-            return _theloaiSachEngine.GetAllTheLoaiSach();
+            if (showlevel)
+            {
+                foreach (var item in listTL)
+                {
+                    string level = MakeLevel(item);
+                    item.TenTheLoai = level + " " + item.TenTheLoai;
+                }
+            }
+
+            return listTL;
         }
 
         public List<TheLoaiSach> GetAllTheLoaiSachRoot()
@@ -52,8 +62,16 @@ namespace BiTech.Library.BLL.DBLogic
 
         public bool XoaTheLoaiSach(string id)
         {
+            bool rs = true;
+            
+            foreach(var item in _theloaiSachEngine.GetTheCon(id, ""))
+            {
+                rs = rs ? XoaTheLoaiSach(item.Id) : true;
+            }
+
             return _theloaiSachEngine.Remove(id);
         }
+
         #region Tai
         public TheLoaiSach GetIdByDDC(string maDDC)
         {
@@ -74,5 +92,30 @@ namespace BiTech.Library.BLL.DBLogic
         }
 
         #endregion
+
+        /// <summary>
+        /// Tạo '-' trước thể loại con
+        /// VD:
+        /// Khoa học
+        /// -Vật lý
+        /// --Vật chất rắn
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private string MakeLevel(TheLoaiSach item)
+        {
+            string level = "";
+
+            if (!string.IsNullOrEmpty(item.IdParent))
+            {
+                var parent = _theloaiSachEngine.GetById(item.IdParent);
+                if (parent != null)
+                {
+                    level += "-";
+                    level += MakeLevel(parent);
+                }
+            }
+            return level;
+        }
     }
 }

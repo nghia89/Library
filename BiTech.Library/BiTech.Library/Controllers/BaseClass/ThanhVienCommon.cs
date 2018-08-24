@@ -72,7 +72,7 @@ namespace BiTech.Library.Controllers.BaseClass
             {
                 //   ==> Tên hình QR <==
                 uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien +
-                "-" + thanhVien.Ten + ".bmp");
+                "-" + thanhVien.Ten + ".jpg");
             }
             string location = Path.GetDirectoryName(uploadFileNameQR);
             if (!Directory.Exists(location))

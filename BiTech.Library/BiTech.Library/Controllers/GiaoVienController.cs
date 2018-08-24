@@ -46,6 +46,7 @@ namespace BiTech.Library.Controllers
             ViewBag.ThongBao = false;
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Index(UserViewModel model)
         {
@@ -82,6 +83,7 @@ namespace BiTech.Library.Controllers
             }
             return View(model);
         }
+
         public PartialViewResult _PartialUser(int? page, string IdUser, List<ThanhVien> list)
         {
             #region  Lấy thông tin người dùng
@@ -96,6 +98,7 @@ namespace BiTech.Library.Controllers
             ViewBag.pages = pageNumber;
             return PartialView(list.ToPagedList(pageNumber, pageSize));
         }
+
         public ActionResult _CreateUser()
         {
             #region  Lấy thông tin người dùng
@@ -107,6 +110,7 @@ namespace BiTech.Library.Controllers
             model.TemptNgaySinh = "--/--/----";
             return View(model);
         }
+
         [HttpPost]
         public ActionResult _CreateUser(UserViewModel viewModel)
         {
@@ -212,6 +216,7 @@ namespace BiTech.Library.Controllers
             }
             return RedirectToAction("Index", "GiaoVien");
         }
+
         //Get
         public ActionResult _Edit(string id)
         {
@@ -323,6 +328,7 @@ namespace BiTech.Library.Controllers
                 return View(viewModel);
             }
         }
+
         public ActionResult Delete(string id)
         {
             #region  Lấy thông tin người dùng
@@ -358,6 +364,7 @@ namespace BiTech.Library.Controllers
                 TempData["Success"] = "Xóa thất bại";
             return View();
         }
+
         public ActionResult Details(string idUser)
         {
             #region  Lấy thông tin người dùng
@@ -396,6 +403,7 @@ namespace BiTech.Library.Controllers
                 model.LinkAvatar = thanhVien.HinhChanDung;
             return View(model);
         }
+
         public ActionResult ChangePassword(string idUser)
         {
             #region  Lấy thông tin người dùng
@@ -415,6 +423,7 @@ namespace BiTech.Library.Controllers
             ViewBag.Sussces = TempData["Sussces"];
             return View(model);
         }
+
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
@@ -451,10 +460,12 @@ namespace BiTech.Library.Controllers
             //  ViewBag.UnSussces= TempData["UnSussces"] = "Đổi mật khẩu không thành công!";
             return View(model);
         }
+
         public ActionResult ImportFromExcel()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ImportFromExcel(UserViewModel model)
         {
@@ -506,6 +517,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ExportWord(UserViewModel model)
         {
@@ -544,6 +556,7 @@ namespace BiTech.Library.Controllers
             // return View();
             return RedirectToAction("Index", "GiaoVien");
         }
+
         public ActionResult MauThe(string mauThe)
         {
             #region  Lấy thông tin người dùng

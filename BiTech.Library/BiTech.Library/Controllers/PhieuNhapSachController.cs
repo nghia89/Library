@@ -160,7 +160,7 @@ namespace BiTech.Library.Controllers
                             SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now,
                             IdTinhtrang = ctModel.IdTinhTrang,
-                            GhiChu = ctModel.GhiChu
+                            GhiChu = ctModel.GhiChuDon
                         };
 
                         _ChiTietNhapSachLogic.Insert(ctns);
@@ -231,7 +231,6 @@ namespace BiTech.Library.Controllers
             List<ChiTietNhapSachViewModels> lst = new List<ChiTietNhapSachViewModels>();
             foreach (var item in model)
             {
-
                 ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
                 ctns.Id = item.Id;
                 ctns.IdTinhTrang = item.IdTinhtrang;
@@ -242,6 +241,7 @@ namespace BiTech.Library.Controllers
                 ctns.ten = TenSach.TenSach;
                 //ctns.tenTinhTrang = item.IdPhieuNhap;
                 ctns.soLuong = item.SoLuong;
+                ctns.GhiChuDon = item.GhiChu;
                 //ctns.tenTinhTrang = item.tenTinhTrang;
                 lst.Add(ctns);
 
@@ -250,8 +250,9 @@ namespace BiTech.Library.Controllers
 
             return View(pns);
         }
+
         [HttpGet]
-        public JsonResult _GetBookItemById(string maKS, int soLuong, string idtrangthai, string GhiChu)
+        public JsonResult _GetBookItemById(string maKS, int soLuong, string idtrangthai, string GhiChuDon)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -276,7 +277,7 @@ namespace BiTech.Library.Controllers
                     IdTinhTrang = idtrangthai,
                     //tenTinhTrang = tt.TenTT,
                     MaKiemSoat = book.MaKiemSoat,
-                    GhiChu = GhiChu
+                    GhiChuDon = GhiChuDon
                 };
 
                 result.Data = pp;
@@ -285,8 +286,7 @@ namespace BiTech.Library.Controllers
             }
             return result;
         }
-
-        //code	   
+        
         [HttpPost]
         public ActionResult Autocomplete(string a)
         {
@@ -310,6 +310,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ImportFromExcel(PhieuNhapSachModels model)
         {
@@ -402,8 +403,6 @@ namespace BiTech.Library.Controllers
             //return View();
             return RedirectToAction("Index", "PhieuNhapSach");
         }
-
-
     }
 
 }

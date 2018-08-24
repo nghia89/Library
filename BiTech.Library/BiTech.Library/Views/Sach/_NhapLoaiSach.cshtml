@@ -1,5 +1,7 @@
 ﻿@model BiTech.Library.Models.TheLoaiSachViewModels
 
+<script src="~/Scripts/LibraryAngularJS.js"></script>
+
 <form data-ajax="true" action="/TheLoaiSach/ThemAjax"
       id="update-information-form" class="form-horizontal"
       data-ajax-method="post"
@@ -17,7 +19,15 @@
                         <div class="col-sm-8">
                             @Html.TextBoxFor(_ => _.TenTheLoai, new { @class = "form-control form-control-sm" })
                             @Html.ValidationMessageFor(_ => _.TenTheLoai, "", new { @class = "text-danger" })
-                        </div>                        
+                        </div>
+                    </div>
+
+                    <div class="form-group m-0 row">
+                        <label class="col-sm-4 control-label col-form-label-sm" for="IdParent">Thể Loại Cha</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(_ => _.IdParent, new SelectList(ViewBag.ListTheLoai, "Id", "TenTheLoai"), "--Chọn loại sách--",
+                               new { @class = "form-control form-control-sm" })
+                        </div>
                     </div>
 
                     <div class="form-group m-0 row">

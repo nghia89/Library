@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BiTech.Library.BLL.BarCode_QR
+﻿namespace BiTech.Library.BLL.BarCode_QR
 {
     public class baseAsposeLic
     {
