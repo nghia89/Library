@@ -64,7 +64,7 @@ namespace BiTech.Library.Controllers
                 list_viewmode = list_viewmode.Where(_ => _.IdParent == null).ToList();
             }
 
-            var list_viewmode_view = list_viewmode.OrderBy(_ => _.TenTheLoai);
+            var list_viewmode_view = list_viewmode.OrderBy(_ => _.MaDDC);
             ViewBag.idParent = (idParent == null || idParent == "") ? null : idParent;
             ViewBag.url = GetViewLinkURL(folder);
             // Phân trang

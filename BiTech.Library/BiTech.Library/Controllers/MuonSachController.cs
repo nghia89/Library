@@ -184,7 +184,7 @@ namespace BiTech.Library.Controllers
             kq.NgayMuon = item.NgayGioMuon.ToString("dd/MM/yyyy");
             kq.NgayTra = item.NgayPhaiTra.ToString("dd/MM/yyyy");
             long ngaytra = DateTime.ParseExact(kq.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture).Date.Ticks;
-            long ngayhientai = DateTime.Now.Ticks;
+            long ngayhientai = DateTime.Now.Date.Ticks;
             kq.TinhTrang = ngaytra - ngayhientai < 0;
             return kq;
         }

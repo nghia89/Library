@@ -58,7 +58,13 @@ a {
     }
 /*End bootstap edit*/
 
-
+.a_td{
+    cursor: pointer;
+}
+.a_td:hover {
+    color: #fff;
+    background:#627A7F;
+}
 .contain .menu .fa,
 .bt_menu .fa {
     color: #fff;
@@ -278,7 +284,8 @@ a:hover {
     }
 
         #accordion .card-body ul li a {
-            color: #A8BDBC;
+            /*color: #A8BDBC;*/
+            color: #fff;
             display: block;
             padding: 3px 10px 3px 50px;
             border-left: 3px solid transparent;
@@ -946,6 +953,7 @@ a:hover {
         background: #f1f1f1;
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
+        z-index: 0;
     }
 
         .container-box-window .top .dot {

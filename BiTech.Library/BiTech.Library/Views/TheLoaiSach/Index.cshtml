@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var listTheLoai = ViewBag.ListTheLoai;
     var url_modal = "~/TheLoaiSach/RequestThemTheLoaiGui?idParent=" + ViewBag.idParent;
-    
+
 }
 
 <div class="Title">Danh Sách Thể Loại Sách</div>
 <div class="clearfix">
     <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
-       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>    
-     
+       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>
+
     @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })
 
     <button class="btn-dan btn btn-sm btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
@@ -49,10 +49,8 @@
             {
                 <tr>
                     <td align="center"></td>
-                    <td>
-                        <a href="@ViewBag.URLBackParent" title="../ Trở lại thể loại cha">
-                            ../ Trở lại thể loại cha
-                        </a>
+                    <td class="a_td" onclick="window.location='@ViewBag.URLBackParent'" title="../ Trở lại thể loại cha">
+                        ../ Trở lại thể loại cha
                     </td>
                     <td></td>
                     @*<td></td>*@
@@ -62,27 +60,27 @@
                 </tr>
             }
         }
-        
+
 
         @foreach (var item in Model)
             {
             <tr>
-                <td align="center">@(i + (ViewBag.pages-1) * ViewBag.pageSize)</td>
-                <td>
-                    <a href="@Url.Action("index", new { idParent = @item.Id })" class="a_full" title="@item.TenTheLoai">
-                        @item.TenTheLoai
-                    </a>
+                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
+                <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
+                    @item.TenTheLoai
                 </td>
-                <td>@item.MaDDC</td>
+                <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
+                    @item.MaDDC
+                </td>
                 @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-                    <button class="color-white btn btn-outline-primary btn-sm" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
+                    <button class="color-white btn btn-primary btn-sm" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
                         <i class="fa">&#xf044;</i> Sửa
                     </button>
                 </td>
                 <td>
-                    
+
                     <button class="btn-cut color-white btn btn-danger btn-sm" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
                         <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
                     </button>
@@ -93,7 +91,7 @@
     </tbody>
 </table>
 
-@Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page , idParent = ViewBag.idParent }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page, idParent = ViewBag.idParent }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 @section scripts{
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
@@ -148,7 +146,7 @@
 
         //Chọn thể loại cần cắt
         function Cut_TheLoai(id, obj) {
-            
+
             if ($(obj).hasClass("btn-default")) {
                 $(".btn-cut").addClass("btn-danger").removeClass("btn-default");
                 $.session.set("id", null);

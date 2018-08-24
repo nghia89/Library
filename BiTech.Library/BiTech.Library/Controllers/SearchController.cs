@@ -59,7 +59,7 @@ namespace BiTech.Library.Controllers
             
             return View(model.ToPagedList(pageNumber, pageSize));
         }
-        public ActionResult Edit(string id)
+        public ActionResult ThongTinChiTiet(string id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
