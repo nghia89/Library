@@ -8,7 +8,7 @@
     
 }
 
-<div class="Title">Danh Sách Thể Loại Sách</div>
+<div class="Title">Danh Sách Thể Loại Sáchs</div>
 <div class="clearfix">
     <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>    
@@ -200,9 +200,9 @@
         }
 
         function check_session_cut() {
-            console.log($.session.get("id"));
+            //console.log($.session.get("id"));
             if ($.session.get("id") == 'null' || jQuery.type($.session.get("id")) === "undefined") {
-                console.log($.session.get("id"));
+                //console.log($.session.get("id"));
             } else {
                 $(".btn-dan").addClass("btn-success").removeClass("btn-default");
                 $("#" + $.session.get("id").toString()).removeClass("btn-danger").addClass("btn-default");

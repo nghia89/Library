@@ -72,9 +72,8 @@ namespace BiTech.Library.Controllers
             int pageNumber = (page ?? 1);
             ViewBag.pageSize = pageSize;
             ViewBag.pages = pageNumber;
-            return View(list_viewmode_view.ToPagedList(pageNumber, pageSize));
+            return View(list_viewmode_view.OrderBy(c => c.MaDDC).ToPagedList(pageNumber, pageSize));
         }
-
 
         public ActionResult Them()
         {
@@ -369,12 +368,12 @@ namespace BiTech.Library.Controllers
             TheLoaiSachLogic _TheLoaiSachLogic =
                 new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var list = _TheLoaiSachLogic.GetAllTheLoaiSach();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            var list = _TheLoaiSachLogic.GetAllTheLoaiSach(true);
+            return Json(list.OrderBy(c => c.MaDDC), JsonRequestBehavior.AllowGet);
 
         }
-        #endregion
 
+        #endregion
 
         #region Phong function
         /// <summary>

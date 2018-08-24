@@ -1,21 +1,123 @@
-﻿*/*CSS hình chân dung thành viên*/
+﻿/*CSS hình chân dung thành viên*/
+
+.detail-container {
+    margin: 20px 0px;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.detail-group {
+    margin-bottom: 1em;
+    margin-left: 15px;
+    margin-left: 15px;
+}
+
+@media only screen and (max-width: 700px) {
+    .detail-group {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 991px) {
+    .detail-group {
+        width: 100%;
+    }
+}
+
+.detail-control-img {
+    max-width: 170px;
+    display: block;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.detail-tool {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+    .detail-tool a {
+        display: block;
+        margin-bottom: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 150px;
+    }
+
 .avatar_detail {
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
     border-radius: 100%;
-    border: 6px solid #728C92;
+    border: 6px solid #B3C9CB;
     object-fit: cover;
-    margin: 0 25px 10px 25px;
 }
-/*CSS thông tin chi tiết thành viên*/
-.Title_info{
-    font-size: 20px;
-    font-weight: bold;
+
+.detail-label {
+    margin-top: 3px;
+    font-weight: 600;
 }
-.Detail_info{
-    font-size: 20px;    
-    padding-left: 10px;
+
+
+.detail-control {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    display: block;
+    width: 100%;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    margin-bottom: 0px;
+    height: 32px;
 }
+
+@media only screen and (min-width: 576px) {
+    .col-offset-4 {
+        margin-left: 33.333333%;
+    }
+}
+
+.tag {
+    display: inline-block;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
+.tag-sm {
+    display: inline-block;
+    border: 1px solid transparent;
+    padding: .15rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+.tag-warning {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.tag-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.tag-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
 /*.btn-outline-primary{
     /*color: #fff;
     background-color: #728D94;

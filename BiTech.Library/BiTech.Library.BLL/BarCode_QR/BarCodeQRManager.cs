@@ -43,6 +43,7 @@ namespace BiTech.Library.BLL.BarCode_QR
 
             return _barcodePath + fileName + ".bmp";
         }
+
         /// <summary>codePath
         /// Tạo mã QR
         /// </summary>
@@ -53,6 +54,8 @@ namespace BiTech.Library.BLL.BarCode_QR
         {
             try
             {
+                float mr = 5;
+
                 //string barcodeSavePath = HttpContext.Current.Server.MapPath("~" + this.codePath + qrCodeSavePath.ToString() + ".bmp");
                 string barcodeSavePath = HttpContext.Current.Server.MapPath(qrCodeSavePath.ToString());
                 BarCodeBuilder barCodeBuilder_QR = new BarCodeBuilder(qrCodeString, Symbology.QR);
@@ -60,8 +63,19 @@ namespace BiTech.Library.BLL.BarCode_QR
                 barCodeBuilder_QR.CodeTextFont = new System.Drawing.Font("Times New Roman", 20);
                 barCodeBuilder_QR.CodeTextEncoding = Encoding.UTF8;
                 barCodeBuilder_QR.CodeLocation = CodeLocation.None; // Ẩn codetext trên QR
-                barCodeBuilder_QR.ImageQuality = ImageQualityMode.AntiAlias;
-                barCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Bmp);
+                barCodeBuilder_QR.ImageQuality = ImageQualityMode.Default;
+
+                barCodeBuilder_QR.Margins.Bottom = mr;
+                barCodeBuilder_QR.Margins.Right = mr;
+                barCodeBuilder_QR.Margins.Top = mr;
+                barCodeBuilder_QR.Margins.Left = mr;
+                barCodeBuilder_QR.BorderVisible = false;
+                barCodeBuilder_QR.BorderWidth = 0;
+
+                barCodeBuilder_QR.GraphicsUnit = System.Drawing.GraphicsUnit.Pixel;
+                barCodeBuilder_QR.xDimension = 5f;
+
+                barCodeBuilder_QR.Save(barcodeSavePath, BarCodeImageFormat.Jpeg);
             }
             catch (Exception ex)
             {
@@ -70,6 +84,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             }
             return true;
         }
+
         /// <summary>
         /// Tạo hình chứa mã ISBN và EAN13
         /// </summary>

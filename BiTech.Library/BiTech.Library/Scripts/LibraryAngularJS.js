@@ -57,7 +57,7 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
                 maKS: $scope.maKS,
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
-                GhiChu: $scope.GhiChu,
+                GhiChuDon: $scope.GhiChuDon,
             }
         }).then(function (response) {
             if (response.data !== null) {

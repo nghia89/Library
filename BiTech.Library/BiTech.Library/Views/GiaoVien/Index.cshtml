@@ -74,13 +74,13 @@
             @Html.ActionLink("Thêm từ File Excel", "ImportFromExcel", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
             @Html.ActionLink("Xuất mẫu thẻ giáo viên", "ExportWord", "GiaoVien", new { @class = "btn btn-sm btn-primary" })
         *@
-        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ImportFromExcel", "GiaoVien")'">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("ImportFromExcel", "GiaoVien")">
             <i class="fa fa-file-excel-o" style="padding-right: 4px;font-size: 20px;"></i>Thêm từ File Excel
-        </button>
+        </a>
 
-        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("ExportWord", "GiaoVien")'">
+        <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("ExportWord", "GiaoVien")">
             <i class="fa fa-file-word-o" style="padding-right: 4px;font-size: 20px;"></i>Xuất mẫu thẻ giáo viên
-        </button>
+        </a>
     </div>
 </div>
 <h5 class="text-success">@ViewBag.Success</h5>

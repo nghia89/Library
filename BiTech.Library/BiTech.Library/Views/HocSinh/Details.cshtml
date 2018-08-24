@@ -3,74 +3,101 @@
     ViewBag.Title = "Details";
 }
 <link href="~/Content/AvatarDetail.css" rel="stylesheet" />
-<h2>Thông tin học sinh: @Model.Ten</h2>
-<button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Index", "HocSinh")'">
-    <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
-</button>
-<div class="container">
+<div class="Title">Thông tin học sinh: @Model.Ten</div>
+
+<div class="form-group row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-sm btn-primary" onclick="window.location='@Url.Action("Index", "HocSinh")'">
+            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+        </button>
+    </div>
+</div>
+
+<div class="detail-container">
     <div class="row">
-        <div>
-            <img class="avatar_detail" src="@Html.Raw(Model.LinkAvatar)" />
+        <div class="row col-lg-4">
+            <div class="detail-group">
+                <img class="avatar_detail detail-control-img" src="@Html.Raw(Model.LinkAvatar)" onerror="this.src = '/Content/Images/user5.jpg'" />
+            </div>
+            <div class="detail-group">
+                <div class="col detail-tool">
+                    <a class="color-white btn btn-sm btn-primary" href="@Url.Action("_Edit", new { @id = @Model.Id })">
+                        <i style="font-size:20px" class="fa">&#xf044;</i> Sửa thông tin
+                    </a>
+                    <a class="color-white btn btn-sm btn-primary" href="@Url.Action("ChangePassword", new { @idUser = @Model.Id })">
+                        <i style="font-size:20px" class="fa">&#xf044;</i> Đổi mật khẩu
+                    </a>
+                </div>
+            </div>
+            <div class="detail-group">
+                <img class="detail-control-img" src="@Model.QRLink" alt="Mã QR" style="width:auto" />
+            </div>
         </div>
-        <div class="col-md-6">
-            <table>
-                <tr>
-                    <td class="Title_info">Tên đăng nhập:</td>
-                    <td class="Detail_info">@Model.UserName</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Mã số học sinh:</td>
-                    <td class="Detail_info"> @Model.MaSoThanhVien</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Họ và tên:</td>
-                    <td class="Detail_info">@Model.Ten</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Giới tính:</td>
-                    <td class="Detail_info">@Model.GioiTinh</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Ngày sinh:</td>
-                    <td class="Detail_info">@Model.NgaySinh.ToString("dd-MM-yyyy")</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Lớp học:</td>
-                    <td class="Detail_info">@Model.LopHoc</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Niên khóa:</td>
-                    <td class="Detail_info">@Model.NienKhoa</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Địa chỉ:</td>
-                    <td class="Detail_info">@Model.DiaChi</td>
-                </tr>
-                <tr>
-                    <td class="Title_info">Số điện thoại:</td>
-                    <td class="Detail_info">@Model.SDT</td>
-                </tr>
-            </table>
+        <div class="col-lg-8">
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Tên đăng nhập:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.UserName</p>
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <div class="col-offset-4 col-sm-8">
+                    @switch (Model.TrangThai)
+                    {
+                        case BiTech.Library.DTO.EUser.Active:
+                            <span class="color-white tag-sm tag-info">Bình thường</span>
+                            break;
+                        case BiTech.Library.DTO.EUser.DeActive:
+                            <span class="color-white tag-sm tag-warning">Bị khóa</span>
+                            break;
+                        case BiTech.Library.DTO.EUser.Deleted:
+                            <span class="color-white tag-sm tag-danger">Dã xóa tạm</span>
+                            break;
+                    }
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Họ và tên:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.Ten</p>
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Giới tính:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.GioiTinh</p>
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Ngày sinh:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.NgaySinh.ToString("dd-MM-yyyy")</p>
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Lớp học:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.LopHoc</p>
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Niên khóa:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.NienKhoa</p>
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Địa chỉ:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.DiaChi</p>
+                </div>
+            </div>
+            <div class="form-group-sm row">
+                <label class="col-sm-4 detail-label">Số điện thoại:</label>
+                <div class="col-sm-8">
+                    <p class="detail-control">@Model.SDT</p>
+                </div>
+            </div>
         </div>
     </div>
-    <img src="@Model.QRLink" alt="Mã QR" style="width:auto" />
 </div>
-<table class="table table-hover table-bordered">
-    <thead>
-        <tr class="table-info">
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>                            
-                <a class="color-white btn btn-sm btn-primary" href="@Url.Action("_Edit", new { @id = @Model.Id })">
-                    <i style="font-size:20px" class="fa">&#xf044;</i> Sửa thông tin
-                </a>
-                <a class="color-white btn btn-sm btn-primary" href="@Url.Action("ChangePassword", new { @idUser = @Model.Id })">
-                    <i style="font-size:20px" class="fa">&#xf044;</i> Đổi mật khẩu
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>

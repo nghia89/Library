@@ -39,7 +39,7 @@ namespace BiTech.Library.Models
         [Required(ErrorMessage = "Vui lòng nhập số lượng")]
         [Range(0, 999, ErrorMessage = "Số nhập vào phải lớn hơn 0")]
         public int soLuong { get; set; }
-        public string GhiChu { get; set; }
+        public string GhiChuDon { get; set; }
         public string ten { get; set; }
     }
 }

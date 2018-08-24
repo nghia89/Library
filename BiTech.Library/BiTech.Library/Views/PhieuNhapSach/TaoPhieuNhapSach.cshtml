@@ -55,7 +55,7 @@
                                     @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
                                     <label class="col-md-2 control-label">Ghi chú sách</label>
                                     <div class="col-md-10">
-                                        <textarea placeholder="Ghi chú" ng-model="GhiChu" class="form-control form-control-sm"></textarea>
+                                        <textarea placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm"></textarea>
                                     </div>
                                 </div>
 
@@ -80,7 +80,7 @@
                                         <label class="col-md-2 control-label"></label>
                                         <div class="col-md-10">
                                             <div ng-repeat="s in list" id="lstItem">
-                                                {{s.MaKiemSoat}} - {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Ghi Chú:{{s.GhiChu}}
+                                                {{s.MaKiemSoat}} - {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Ghi Chú:{{s.GhiChuDon}}
                                                 <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button><hr />
                                             </div>
 

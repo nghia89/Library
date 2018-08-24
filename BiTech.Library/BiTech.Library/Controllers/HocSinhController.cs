@@ -48,6 +48,7 @@ namespace BiTech.Library.Controllers
             model.ListThanhVien = listThanhVien;
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Index(UserViewModel model)
         {
@@ -84,6 +85,7 @@ namespace BiTech.Library.Controllers
             }
             return View(model);
         }
+
         public PartialViewResult _PartialUser(int? page, string IdUser, List<ThanhVien> list)
         {
             #region  Lấy thông tin người dùng
@@ -98,6 +100,7 @@ namespace BiTech.Library.Controllers
             ViewBag.pages = pageNumber;
             return PartialView(list.ToPagedList(pageNumber, pageSize));
         }
+
         public ActionResult _CreateUser()
         {
             #region  Lấy thông tin người dùng
@@ -109,6 +112,7 @@ namespace BiTech.Library.Controllers
             model.TemptNgaySinh = "--/--/----";
             return View(model);
         }
+
         [HttpPost]
         public ActionResult _CreateUser(UserViewModel viewModel)
         {
@@ -247,6 +251,7 @@ namespace BiTech.Library.Controllers
             ViewBag.HinhChanDung = tv.HinhChanDung;
             return View(model);
         }
+
         [HttpPost]
         public ActionResult _Edit(EditUserViewModel viewModel)
         {
@@ -319,6 +324,7 @@ namespace BiTech.Library.Controllers
                 return View(viewModel);
             }
         }
+
         public ActionResult Delete(string id)
         {
             #region  Lấy thông tin người dùng
@@ -354,6 +360,7 @@ namespace BiTech.Library.Controllers
                 TempData["Success"] = "Xóa thất bại";
             return View();
         }
+
         public ActionResult Details(string idUser)
         {
             #region  Lấy thông tin người dùng
@@ -366,6 +373,7 @@ namespace BiTech.Library.Controllers
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
                 return RedirectToAction("NotFound", "Error");
+
             UserViewModel model = new UserViewModel()
             {
                 // thông tin cho phép cập nhật
@@ -383,14 +391,12 @@ namespace BiTech.Library.Controllers
                 Password = thanhVien.Password,
                 MaSoThanhVien = thanhVien.MaSoThanhVien,
                 TrangThai = thanhVien.TrangThai,
-                QRLink = thanhVien.QRLink,                
+                QRLink = thanhVien.QRLink,
+                LinkAvatar = thanhVien.HinhChanDung
             };
-            if (thanhVien.HinhChanDung == null)
-                model.LinkAvatar = @"/Content/Images/Default.jpg";
-            else
-                model.LinkAvatar = thanhVien.HinhChanDung;  
             return View(model);
         }
+
         public ActionResult ChangePassword(string idUser)
         {
             #region  Lấy thông tin người dùng
@@ -410,6 +416,7 @@ namespace BiTech.Library.Controllers
             ViewBag.Sussces = TempData["Sussces"];
             return View(model);
         }
+
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
@@ -437,10 +444,12 @@ namespace BiTech.Library.Controllers
             }
             return View(model);
         }
+
         public ActionResult ImportFromExcel()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ImportFromExcel(UserViewModel model)
         {
@@ -492,6 +501,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ExportWord(UserViewModel model)
         {
@@ -531,6 +541,7 @@ namespace BiTech.Library.Controllers
             // return View();
             return RedirectToAction("Index", "HocSinh");
         }
+
         public ActionResult MauThe(string mauThe)
         {
             #region  Lấy thông tin người dùng

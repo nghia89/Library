@@ -100,6 +100,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+
             LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             ViewBag.Message = TempData["ThemSachMsg"] = "";
 
@@ -577,6 +578,16 @@ namespace BiTech.Library.Controllers
         /// <returns></returns>
         public ActionResult RequestThemTheLoaiGui()
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            TheLoaiSachLogic _TheLoaiSachLogic =
+                new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            
+            ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach(true);
             return PartialView("_NhapLoaiSach");
         }
 

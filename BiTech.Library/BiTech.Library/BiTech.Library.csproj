@@ -607,6 +607,8 @@
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\fSelect.css" />
     <Content Include="Content\css\fSelect.js" />
     <Content Include="Content\Images\calendar.ico" />
@@ -723,6 +725,9 @@
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\.bower.json" />
     <Content Include="bower_components\jquery-ajax-unobtrusive\bower.json" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
