@@ -63,6 +63,14 @@ a {
         height: calc(calc(2.25rem - 5px) - 1px * 2);
         line-height: 1.1;
     }
+
+.table td, .table th {
+    padding: .55rem;
+}
+.btn-theloai{
+    margin-top: -12px;
+    margin-bottom: -6px;
+}
 /*End bootstap edit*/
 
 .a_td{
@@ -650,7 +658,7 @@ a:hover {
     border-radius: 5px;
     overflow: hidden;
     position: relative;
-    z-index: 1;
+    z-index: 0;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
@@ -1070,6 +1078,9 @@ a:hover {
 
     .contain .left .menu {
         position: absolute;
+    }
+    .contain .left .menu .logo{
+        height: 0;
     }
 }
 

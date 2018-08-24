@@ -1,5 +1,6 @@
 ﻿using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
@@ -53,7 +54,8 @@ namespace BiTech.Library.Controllers
             else
             {
                 #region Thành viên
-                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == IdUser).SingleOrDefault(); //Thành viên
+                
+                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == new ThanhVienCommon().GetInfo(IdUser) ).SingleOrDefault(); //Thành viên
                 if (_thanhvienmodoe != null)
                 {
                     ViewBag.user = _thanhvienmodoe;
@@ -88,7 +90,7 @@ namespace BiTech.Library.Controllers
             #endregion
             SachLogic _SachLogicLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(maSach);
+            Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat( new SachCommon().GetInfo(maSach));
             if(_sach != null)
             {
                 list_book.Add(new MuonTraSachViewModel()
