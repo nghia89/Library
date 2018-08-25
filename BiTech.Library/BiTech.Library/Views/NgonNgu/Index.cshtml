@@ -25,7 +25,7 @@
                 <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
                 <td>@item.Ten</td>
                 <td>@item.TenNgan</td>
-                <td><a class="color-white btn btn-primary btn-sm" href="@Url.Action("Edit","NgonNgu", new { id = item.Id })">Sửa <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                <td><a class="color-white btn btn-primary btn-sm btn-inTable" href="@Url.Action("Edit","NgonNgu", new { id = item.Id })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</a></td>
             </tr>
             { i++; }
         }

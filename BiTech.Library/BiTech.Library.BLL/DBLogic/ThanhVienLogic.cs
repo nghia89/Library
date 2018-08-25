@@ -26,6 +26,22 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetAll();
         }
+        /// <summary>
+        /// Get all ThanhVien object Active
+        /// </summary>
+        /// <returns></returns>
+        public List<ThanhVien> GetAllActive()
+        {
+            return _ThanhVienEngine.GetAllActive();
+        }
+        /// <summary>
+        /// Get ThanhVien object DeActive
+        /// </summary>
+        /// <returns></returns>
+        public ThanhVien GetByMaSoThanhVienDeActive(string idUser)
+        {
+            return _ThanhVienEngine.GetByMaSoThanhVienDeActive(idUser);
+        }
         public ThanhVien GetById(string id)
         {
             return _ThanhVienEngine.GetById(id);

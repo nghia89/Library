@@ -25,7 +25,7 @@
                 <td>@item.TenTT</td>
                 <td>@(item.TrangThai ? "Cho phép mượn sách" : "Không cho phép mượn sách")</td>
                 <td>
-                    <button class="color-white btn btn-primary btn-sm" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
+                    <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
                         <i class="fa">&#xf044;</i> Sửa
                     </button>
                 </td>

@@ -28,7 +28,7 @@ namespace BiTech.Library.Controllers
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             //Danh sách
-            List<ThanhVien> list_user = _ThanhVienLogic.GetAll();//Danh sách thành viên
+            List<ThanhVien> list_user = _ThanhVienLogic.GetAllActive();//Danh sách thành viên Active
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>(); //Danh sách book thành viên đang mượn
 
             //model
@@ -62,8 +62,17 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    ViewBag.ThongBao = true;
-                    ViewBag.ThongBaoString = "Thành viên này không tồn tại";
+                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(IdUser);//thành viên DeActive
+                    if (user_DeActive != null)
+                    {
+                        ViewBag.ThongBao = true;
+                        ViewBag.ThongBaoString = "Thành viên này đang bị khoá thẻ";
+                    }
+                    else
+                    {
+                        ViewBag.ThongBao = true;
+                        ViewBag.ThongBaoString = "Thành viên này không tồn tại";
+                    }
                 }
                 #endregion
             }
