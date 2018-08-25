@@ -19,9 +19,9 @@
     <div class="clearfix pb-2 pl-2 row">
         <div class="clearfix pb-2 pl-2">
             @Html.ActionLink("Thêm mới", "Create", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
-            @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
+            @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
             @Html.ActionLink("Thêm từ Marc", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-2" })
-            @Html.ActionLink("Xuất marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
+            @Html.ActionLink("Xuất Marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
         </div>
     </div>
 
@@ -83,27 +83,48 @@
                         </div>
                         <div class="book_cell_information clearfix width_left">
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Mã kiểm soát:</div>
-                                <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
+                                <span>
+                                    <span class="book_title_information">Mã kiểm soát:</span>
+                                    @item.SachDTO.MaKiemSoat
+                                </span>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Tác giả:</div>
-                                <div class="book_content_information">@item.Ten_TacGia</div>
+                                <span>
+                                    <span class="book_title_information">Tác giả:</span>
+                                    @item.Ten_TacGia
+                                </span>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Năm xuất bản:</div>
-                                <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
+                                <span>
+                                    <span class="book_title_information">ISBN:</span>
+                                    @item.SachDTO.ISBN
+                                </span>
                             </div>
-
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Ngôn ngữ:</span>
+                                    @item.Ten_NgonNgu
+                                </span>
+                            </div>
                         </div>
                         <div class="book_cell_information clearfix width_right">
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Tổng số sách:</div>
-                                <div class="book_content_information">@item.SachDTO.SoLuongTong</div>
+                                <span>
+                                    <span class="book_title_information">Năm xuất bản:</span>
+                                    @item.SachDTO.NamXuatBan
+                                </span>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Còn lại:</div>
-                                <div class="book_content_information">@item.SachDTO.SoLuongConLai</div>
+                                <span>
+                                    <span class="book_title_information">Tổng số sách:</span>
+                                    @item.SachDTO.SoLuongTong
+                                </span>
+                            </div>
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Còn lại:</span>
+                                    @item.SachDTO.SoLuongConLai
+                                </span>
                             </div>
                             <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })"
                                class="btn btn-primary btn-sm"
@@ -120,10 +141,6 @@
     @if (@ViewBag.number > 30)
     {
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
-    }
-    else
-    {
-
     }
 
 </div>

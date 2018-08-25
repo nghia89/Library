@@ -110,6 +110,7 @@ namespace BiTech.Library.Models
         public string Ten_NgonNgu { get; set; }
 
         public string Ten_TacGia { get; set; }
+
         public BookView()
         {
 

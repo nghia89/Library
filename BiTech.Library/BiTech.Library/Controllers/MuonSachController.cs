@@ -70,7 +70,6 @@ namespace BiTech.Library.Controllers
             ViewBag.list_maSach = list_Sach.Select(_ => _.MaKiemSoat).Take(20).ToList();
             return View(list_book);
         }
-
         /// <summary>
         /// Lấy thông tin sách và cập nhật số lượng sách có thể cho mượn
         /// </summary>
@@ -102,7 +101,6 @@ namespace BiTech.Library.Controllers
             return Json(list_book, JsonRequestBehavior.AllowGet);
 
         }
-
         /// <summary>
         /// Lấy danh sách những cuốn sách đang mượn theo IdUser
         /// </summary>
