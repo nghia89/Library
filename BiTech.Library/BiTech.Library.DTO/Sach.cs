@@ -82,7 +82,7 @@ namespace BiTech.Library.DTO
         /// <summary>
         /// Phí mượn sách nếu có
         /// </summary>
-        public double PhiMuonSach { get; set; } = 0;
+        public string PhiMuonSach { get; set; }
 
         /// <summary>
         /// Số lượng tổng toàn bộ

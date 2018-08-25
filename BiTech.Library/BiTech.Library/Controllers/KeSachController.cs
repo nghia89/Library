@@ -50,6 +50,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Create(KesachViewModels model)
         {
@@ -70,6 +71,7 @@ namespace BiTech.Library.Controllers
             _keSachLogic.Add(keSach);
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public ActionResult Delete(string Id)
         {
@@ -90,6 +92,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("NotFound", "Error");
             }
         }
+
         public ActionResult Edit(string Id)
         {
             #region  Lấy thông tin người dùng

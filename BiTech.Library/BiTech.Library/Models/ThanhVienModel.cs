@@ -105,7 +105,7 @@ namespace BiTech.Library.Models
         }
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="nhập tên người dùng")]
         [Display(Name = "Tên người dùng")]
         public string Ten { get; set; }
 
