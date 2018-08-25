@@ -81,7 +81,7 @@ namespace BiTech.Library.Controllers
             else
             {
                 model.ListThanhVien = listAll;
-                ViewBag.SearchFail = "Tìm kiếm thất bại!";
+                ViewBag.SearchFail = "Chưa Tìm Được Kết Quả Phù Hợp!";
                 ViewBag.ThongBao = true;
             }
             return View(model);
@@ -95,7 +95,7 @@ namespace BiTech.Library.Controllers
                 return null;
             #endregion
 
-            int pageSize = 20;
+            int pageSize = 6;
             int pageNumber = (page ?? 1);
             ViewBag.pageSize = pageSize;
             ViewBag.pages = pageNumber;

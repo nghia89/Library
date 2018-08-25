@@ -49,7 +49,7 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
 
     $scope.labels = ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', ' Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', ' Tháng 10', 'Tháng 11', 'Tháng 12'];
-    $scope.series = [ 'Số Người Mượn', 'Số Sách Mượn', 'Số Sach Trả', 'Số Sach Trả Trể Hạn'];
+    $scope.series = [ 'Lượt Mượn','Số Người Mượn', 'Số Sách Mượn', 'Số Sách Trả', 'Số Sách Trả Trể Hạn'];
     $scope.chartdataYear = [];
     $scope.Year = '';
     $scope.loading = true;
@@ -71,15 +71,15 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
                 var chartData = [];
 
-                //var lsoPhieuMuonTrongNam = [];
+                var lsoPhieuMuonTrongNam = [];
                 var lsoNguoiMuonSachTrongNam = [];
                 var lsoSachDuocMuonTrongNam = [];
                 var lsoNguoiKhongTraTrongNam = [];            
                 var lsoNguoiTraTreTrongNam = [];
 
-                //response.data.lsoPhieuMuonTrongNam.forEach(function (i, index) {
-                //    lsoPhieuMuonTrongNam.push(i);
-                //});
+                response.data.lsoPhieuMuonTrongNam.forEach(function (i, index) {
+                    lsoPhieuMuonTrongNam.push(i);
+                });
                 response.data.lsoNguoiMuonSachTrongNam.forEach(function (i, index) {
                     lsoNguoiMuonSachTrongNam.push(i);
                 });
@@ -93,7 +93,7 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
                     lsoNguoiTraTreTrongNam.push(i);
                 });
                 
-                //chartData.push(lsoPhieuMuonTrongNam);
+                chartData.push(lsoPhieuMuonTrongNam);
                 chartData.push(lsoNguoiMuonSachTrongNam);
                 chartData.push(lsoSachDuocMuonTrongNam);
                 chartData.push(lsoNguoiKhongTraTrongNam);           
@@ -105,9 +105,9 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
                 $scope.chartdataYear = chartData;
 
                 var highest = lsoNguoiMuonSachTrongNam[0];
-                //for (var i = 0; i < lsoPhieuMuonTrongNam.length; i++) {
-                //    if (highest < lsoPhieuMuonTrongNam[i]) highest = lsoPhieuMuonTrongNam[i];
-                //}
+                for (var i = 0; i < lsoPhieuMuonTrongNam.length; i++) {
+                    if (highest < lsoPhieuMuonTrongNam[i]) highest = lsoPhieuMuonTrongNam[i];
+                }
                 for (var i = 0; i < lsoNguoiMuonSachTrongNam.length; i++) {
                     if (highest < lsoNguoiMuonSachTrongNam[i]) highest = lsoNguoiMuonSachTrongNam[i];
                 }
@@ -178,7 +178,7 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 app.controller('MonthCtroller', function ($scope, $http, $location) {
 
     $scope.labels = [];
-    $scope.series = ['Lượt mượn', 'Số Người Mượn', 'Số Sách Mượn', 'Số Sach Trả', 'Số Sach Trả Trể Hạn'];
+    $scope.series = ['Lượt mượn', 'Số Người Mượn', 'Số Sách Mượn', 'Số Sách Trả', 'Số Sách Trả Trể Hạn'];
     
     $scope.chartdataMonth = [];
     $scope.Keymonth = '';
@@ -205,7 +205,7 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                 var lsoPMTrongNgay = [];
                 var lsoNguoiMuonTrongNgay = [];
                 var lsoSachDuocMuonTrongNgay = [];   
-                var lsoNguoiKhongTraTrongNgay = [];
+                var lsoSachDuocTraTrongNgay = [];
                 var lsoNguoiTraTreTrongNgay = [];
 
                 
@@ -219,9 +219,9 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                 response.data.lsoNguoiMuonTrongNgay.forEach(function (i, index) {
                     lsoNguoiMuonTrongNgay.push(i);
                 });
-                //response.data.lsoSachDuocMuonTrongNgay.forEach(function (i, index) {
-                //    lsoSachDuocMuonTrongNgay.push(i);
-                //});
+                response.data.lsoSachDuocTraTrongNgay.forEach(function (i, index) {
+                    lsoSachDuocTraTrongNgay.push(i);
+                });
 
                 response.data.lsoNguoiTraTreTrongNgay.forEach(function (i, index) {
                     lsoNguoiTraTreTrongNgay.push(i);
@@ -241,9 +241,9 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                 for (var i = 0; i < lsoSachDuocMuonTrongNgay.length; i++) {
                     if (highest < lsoSachDuocMuonTrongNgay[i]) highest = lsoSachDuocMuonTrongNgay[i];
                 }
-                //for (var i = 0; i < lsoSachDuocMuonTrongNgay.length; i++) {
-                //    if (highest < lsoSachDuocMuonTrongNgay[i]) highest = lsoSachDuocMuonTrongNgay[i];
-                //}
+                for (var i = 0; i < lsoSachDuocTraTrongNgay.length; i++) {
+                    if (highest < lsoSachDuocTraTrongNgay[i]) highest = lsoSachDuocTraTrongNgay[i];
+                }
                 for (var i = 0; i < lsoNguoiTraTreTrongNgay.length; i++) {
                     if (highest < lsoNguoiTraTreTrongNgay[i]) highest = lsoNguoiTraTreTrongNgay[i];
                 }
@@ -252,7 +252,7 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                 chartData1.push(lsoPMTrongNgay);
                 chartData1.push(lsoNguoiMuonTrongNgay);
                 chartData1.push(lsoSachDuocMuonTrongNgay);
-                //chartData1.push(lsoSachDuocMuonTrongNgay);
+                chartData1.push(lsoSachDuocTraTrongNgay);
                 chartData1.push(lsoNguoiTraTreTrongNgay);
 
 

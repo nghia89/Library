@@ -98,6 +98,7 @@ namespace BiTech.Library.Controllers
                             //Unreachable code!
                             Console.WriteLine("Data does not exist");
                         }
+
                         foreach (var item in tags)
                         {
                             if (item.Tag == "020") {

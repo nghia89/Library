@@ -191,7 +191,11 @@ body.stop-scrolling {
     .sweet-alert button:active {
       background-color: #5dc2f1; }
     .sweet-alert button.cancel {
-      background-color: #C1C1C1; }
+      background-color: #C1C1C1;
+      float: right;
+      position: relative;
+      right: 101px;
+    }
       .sweet-alert button.cancel:hover {
         background-color: #b9b9b9; }
       .sweet-alert button.cancel:active {
