@@ -5,100 +5,122 @@
 }
 
 <div class="Title">Tạo Phiếu Nhập Sách</div>
-<br/>
+<br />
 <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "PhieuNhapSach")'">
     <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
 </button>
-<hr/>
+<hr />
 <div ng-app="LibraryApp" class="clearfix">
-
-    @using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-    {
-        <div class="form-group">
-            <div class="">
-                <div ng-cloak ng-controller="ImportBookCtrlr" class="">
-                    <div class="">
-                        @*<div class="form-group">
-                                @Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })
-                                <textarea name="GhiChu" placeholder="Ghi chú" class="form-control"></textarea>
-
-                            </div>*@
-
-                        <div class="container-box-window clearfix">
-                            <div class="top">
-                                <span class="">Thông tin phiếu nhập</span>
+    <div class="form-group">
+        <div class="">
+            <div ng-cloak ng-controller="ImportBookCtrlr" class="">
+                <div class="">
+                    <div class="container-box-window clearfix">
+                        <div class="top">
+                            <span class="">Thông tin phiếu nhập</span>
+                        </div>
+                        <div class="content-box-window">
+                            <div class="form-group row">
+                                @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    <input id="idSach" name="idSach" onkeydown="if (event.keyCode == 13) { return false; }" placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
+                                </div>
                             </div>
-                            <div class="content-box-window">
-                                <div class="form-group row">
-                                    @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
-                                        <input id="idSach" name="idSach"  onkeydown="if (event.keyCode == 13) { return false; }" placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
-                                    </div>
-                                </div>
 
-                                <div class="form-group row">
-                                    @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
-                                        <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
-                                    </div>
+                            <div class="form-group row">
+                                @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
                                 </div>
+                            </div>
 
-                                <div class="form-group row">
-                                    @Html.Label("Trạng thái", new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
-                                        @*<input id="tenTinhTrang" placeholder="Tên Tình Trạng" ng-model="tenTinhTrang" class="form-control" type="text">*@
-                                    </div>
+                            <div class="form-group row">
+                                @Html.Label("Trạng thái", new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
                                 </div>
+                            </div>
 
-                                <div class="form-group row">
-                                    @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
-                                    <label class="col-md-2 control-label">Ghi chú sách</label>
-                                    <div class="col-md-10">
-                                        <textarea placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm"></textarea>
-                                    </div>
+                            <div class="form-group row">
+                                @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
+                                <label class="col-md-2 control-label">Ghi chú sách</label>
+                                <div class="col-md-10">
+                                    <textarea placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm"></textarea>
                                 </div>
+                            </div>
 
-                                <div class="form-group row">
-                                    <label class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <input type="button" ng-click="addItem()" class="btn btn-sm btn-primary" value="Thêm">
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input type="button" ng-click="addItem()" class="btn btn-sm btn-primary" value="Thêm">
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <br/>
+                    <br />
 
-                        <div class="container-box-window clearfix">
-                            <div class="top">
-                                <span class="">Danh sách sách nhập</span>
-                            </div>
-                            <div class="content-box-window">
-                                <div class="">
-                                    <div class="form-group row">
-                                        <label class="col-md-2 control-label"></label>
-                                        <div class="col-md-10">
-                                            <div ng-repeat="s in list" id="lstItem">
-                                                {{s.MaKiemSoat}} - {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Ghi Chú:{{s.GhiChuDon}}
-                                                <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button><hr />
-                                            </div>
+                    <div class="container-box-window clearfix">
+                        <div class="top">
+                            <span class="">Danh sách sách nhập</span>
+                        </div>
+                        <div class="content-box-window">
+                            <div class="form-group row">
+                                <div class="danhsach-mt-sach-old col-md-12">
+                                    <table class="table table-hover table-bordered mb-0" border="1">
+                                        <thead>
+                                            <tr class="table-info text-center">
+                                                <th width="50">STT</th>
+                                                <th width="15%">Mã kiểm soát</th>
+                                                <th width="40%">Tên sách</th>
+                                                <th width="10%">Tình Trạng</th>
+                                                <th width="10%">Số lượng</th>
+                                                <th width="15%">Ghi Chú</th>
+                                                <th width="100" style="text-align: center;">
+                                                    <i class="fa fa-trash-o" title="Xoá tất cả" ng-click="ResetListBookQueue()" style="font-size:20px; cursor:pointer;"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="text-center" ng-repeat="x in list | orderBy : '-MaKiemSoat'" my-repeat-directive>
+                                                <td align="center">{{$index + 1}}</td>
+                                                <td>{{ x.MaKiemSoat }}</td>
+                                                <td>{{ x.ten }}</td>
+                                                <td>{{ x.tenTinhTrang }}</td>
+                                                <td width="100px">{{x.soLuong}}</td>
+                                                <td>{{x.GhiChuDon}}</td>
+                                                <td>
+                                                    <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                                            <div ng-repeat="s in list">
-                                                <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
-                                            </div>
+                                @*<label class="col-md-2 control-label"></label>
+                                    <div class="col-md-10">
+                                        <div ng-repeat="s in list" id="lstItem">
+                                            {{s.MaKiemSoat}} - {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Ghi Chú:{{s.GhiChuDon}}
+                                            <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button><hr />
                                         </div>
+
+                                        <div ng-repeat="s in list">
+                                            <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
+                                        </div>
+                                    </div>*@
+                            </div>
+
+                            @using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                <div class="form-group row">
+                                    <label class="col-md-2 control-label">Ghi chú phiếu nhập sách</label>
+                                    <div class="col-md-10">
+                                        <textarea name="GhiChu" placeholder="Ghi chú" ng-model="GhiChu" class="form-control form-control-sm"></textarea>
                                     </div>
                                 </div>
-                                <p class="w3-text-red">{{errortext}}</p>
 
-                                <div class="">
-                                    <div class="form-group row">
-                                        <label class="col-md-2 control-label">Ghi chú phiếu nhập sách</label>
-                                        <div class="col-md-10">
-                                            <textarea name="GhiChu" placeholder="Ghi chú" ng-model="GhiChu" class="form-control form-control-sm"></textarea>
-                                        </div>
-                                    </div>
+                                <div ng-repeat="s in list">
+                                    <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
                                 </div>
 
                                 <div class="form-group row">
@@ -109,22 +131,23 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            }
                         </div>
                     </div>
 
-                    @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
-                    @*<div class="form-group">
-                            @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauxSach"),
-                                 new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauxSach as s.TenSach for s in list" })
-                        </div>*@
                 </div>
 
+                @* gán dữ liệu cho listbox - truyền dữ liệu xuống DB *@
+                @*<div class="form-group">
+                        @Html.ListBoxFor(m => m.MaSach, new SelectList(new List<String>(), "IdDauxSach"),
+                             new { @class = "form-control", @ng_model = "IdBook", @data_ng_disabled = "!list", @ng_options = "s.IdDauxSach as s.TenSach for s in list" })
+                    </div>*@
             </div>
+
         </div>
+    </div>
 
 
-    }
 </div>
 
 

@@ -18,7 +18,7 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
                 }
             }
         }, function () {
-            alert("Error Occur");
+            console.log("BookGenresCtrlr - GetAllData - load fail.");
         })
     };
 });
@@ -38,7 +38,7 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
                 }
             }
         }, function () {
-            alert("Error Occur");
+            console.log("PublishersCtrlr - GetAllData - load fail.");
         })
     };
 });
@@ -49,6 +49,11 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
     $scope.list = [];
     $scope.addItem = function () {
         $scope.errortext = "";
+
+        if (!$scope.GhiChuDon) {
+            $scope.GhiChuDon = "";
+        }
+
         $http({
             method: "get",
             url: "/PhieuNhapSach/_GetBookItemById",
@@ -61,12 +66,43 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
         }).then(function (response) {
             if (response.data !== null) {
                 $scope.list.push(response.data);
+
+                $scope.maKS = null;
+                $scope.soLuong = null;
+                $scope.GhiChuDon = null;
             }
             else {
-                alert("Mã sách không phù hợp");
+                $scope.errortext = "";
+                if (!$scope.maKS) {
+                    $scope.errortext += "Vui lòng nhập mã sách.\n";
+                }
+                if (!$scope.soLuong) {
+                    $scope.errortext += "Vui lòng nhập số lượng.\n";
+                }
+                if ($scope.idTrangThai == null) {
+                    $scope.errortext += "Vui lòng chọn trạng thái.\n";
+                }
+
+                alert($scope.errortext);
             }
         }, function (e) {
-            alert("bạn vui lòng điền vào ô trống");
+            $scope.errortext = "";
+            if (!$scope.maKS) {
+                $scope.errortext += "Vui lòng nhập mã sách.\n";
+            }
+            if (!$scope.soLuong) {
+                $scope.errortext += "Vui lòng nhập số lượng.\n";
+            }
+            if ($scope.idTrangThai == null) {
+                $scope.errortext += "Vui lòng chọn trạng thái.\n";
+            }
+
+            if ($scope.errortext.length > 0)
+                alert($scope.errortext);
+            else
+                alert(e.status + " - " + e.statusText);
+
+            console.log(e);
         })
     }
     $scope.removeItem = function (x) {
@@ -89,18 +125,54 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
                 maKiemSoat: $scope.maKS,
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
-                LyDo: $scope.LyDo,
-                GhiChu: $scope.GhiChu
+                ghiChuDon: $scope.GhiChuDon
             }
         }).then(function (response) {
             if (response.data !== null) {
                 $scope.list.push(response.data);
+
+                $scope.maKS = null;
+                $scope.soLuong = null;
+                $scope.GhiChuDon = null;
             }
             else {
-                alert("Mã sách không phù hợp");
+                $scope.errortext = "";
+                if (!$scope.maKS) {
+                    $scope.errortext += "Vui lòng nhập mã sách.\n";
+                }
+                if (!$scope.soLuong) {
+                    $scope.errortext += "Vui lòng nhập số lượng.\n";
+                }
+                if ($scope.idTrangThai == null) {
+                    $scope.errortext += "Vui lòng chọn trạng thái.\n";
+                }
+                if (!$scope.GhiChuDon) {
+                    $scope.errortext += "Vui lòng chọn lý do.\n";
+                }
+
+                alert($scope.errortext);
             }
-        }, function () {
-            alert("bạn vui lòng điền vào ô trống");
+        }, function (e) {
+            $scope.errortext = "";
+            if (!$scope.maKS) {
+                $scope.errortext += "Vui lòng nhập mã sách.\n";
+            }
+            if (!$scope.soLuong) {
+                $scope.errortext += "Vui lòng nhập số lượng.\n";
+            }
+            if ($scope.idTrangThai == null) {
+                $scope.errortext += "Vui lòng chọn trạng thái.\n";
+            }
+            if (!$scope.GhiChuDon) {
+                $scope.errortext += "Vui lòng chọn lý do.\n";
+            }
+
+            if ($scope.errortext.length > 0)
+                alert($scope.errortext);
+            else
+                alert(e.status + " - " + e.statusText);
+
+            console.log(e);
         })
     }
     $scope.removeItem = function (x) {
@@ -187,7 +259,7 @@ app.controller('MuonSachChooseBookCtrlr', function ($scope, $http) {
                 alert("Mã sách không phù hợp");
             }
         }, function () {
-            alert("Error Occur");
+            console.log("MuonSachChooseBookCtrlr - updateNumber - update fail.");
         })
     };
 
@@ -239,7 +311,7 @@ app.controller('TraSachCtrlr_Vinh', function ($scope, $http) {
                 alert("Dữ liệu không phù hợp");
             }
         }, function () {
-            alert("Error Occur");
+            console.log("");
         })
     };
 
@@ -259,7 +331,7 @@ app.controller('TraSachCtrlr_Vinh', function ($scope, $http) {
     //    }).then(function (response) {
     //        $scope.listGet = response.data;
     //    }, function () {
-    //        alert("Error Occur");
+    //        console.log("");
     //    })
     //};
 });
@@ -277,7 +349,7 @@ app.controller('SachMuonCtrlr', function ($scope, $http) {
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
-            alert("Error Occur");
+            console.log("");
         })
     };
 });
@@ -292,7 +364,7 @@ app.controller('KeSach', function ($scope, $http) {
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
-            alert("Error Occur");
+            console.log("KeSach - GetAllData - load fail.");
         })
     };
 });
@@ -306,7 +378,7 @@ app.controller('NgonNgu', function ($scope, $http) {
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
-            alert("Error Occur");
+            console.log("NgonNgu - GetAllData - laod fail.");
         })
     };
 });
@@ -320,7 +392,7 @@ app.controller('TacGiaSelectorCtrlr', function ($scope, $http) {
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
-            alert("Error Occur");
+            console.log("TacGiaSelectorCtrlr - GetAllData - load fail.");
         })
     };
 });
@@ -360,7 +432,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
             $scope.list_book_dangmuon = response.data;
 
         }, function () {
-            alert("Error Occur");
+            console.log("MuonSachCtrlr - GetListBook - load fail.");
         })
     };
 
@@ -379,7 +451,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
             $scope.list_book_dangmuon = response.data;
             $scope.ResetListBookQueue();
         }, function () {
-            alert("Error Occur");
+            console.log("MuonSachCtrlr - MuonSach - fail.");
         })
     }
 
@@ -447,7 +519,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
 
             $scope.masach = "";
         }, function () {
-            alert("Error Occur");
+            console.log("MuonSachCtrlr - GetBook - fail.");
         })
     };
 
@@ -523,17 +595,19 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
     return function (scope, element, attrs) {
         //Load function sau khi run ng-repeat
         $timeout(function () {
-            load_datepicker("ngayPhaiTra_" + scope.x['MaKiemSoat']);
+            try {
+                load_datepicker("ngayPhaiTra_" + scope.x['MaKiemSoat']);
 
-            //update số lượng sách trong list chuẩn bị cho mượn
-            $("#List_" + scope.x['MaKiemSoat']).change(function () {
-                scope.x['SoLuong'] = $("#List_" + scope.x['MaKiemSoat']).val()
-            });
+                //update số lượng sách trong list chuẩn bị cho mượn
+                $("#List_" + scope.x['MaKiemSoat']).change(function () {
+                    scope.x['SoLuong'] = $("#List_" + scope.x['MaKiemSoat']).val()
+                });
 
-            //update ngày trả sách trong list chuẩn bị cho mượn
-            $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).change(function () {
-                scope.x['NgayTra'] = $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).val()
-            });
+                //update ngày trả sách trong list chuẩn bị cho mượn
+                $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).change(function () {
+                    scope.x['NgayTra'] = $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).val()
+                });
+            } catch (exp) { }
         });
     };
 });
@@ -576,7 +650,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
             $scope.list_book_dangmuon = response.data;
 
         }, function () {
-            alert("Error Occur");
+            console.log("TraSachCtrlr - GetListBook - fail.");
         })
     };
 
@@ -595,7 +669,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
             $scope.list_book_dangmuon = response.data;
             $scope.ResetListBookQueue();
         }, function () {
-            alert("Error Occur");
+            console.log("TraSachCtrlr - TraSach - fail.");
         })
         $scope.ResetBook();
     }
@@ -621,7 +695,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
         }).then(function (response) {
             $scope.GetBook_Result(response);
         }, function () {
-            alert("Error Occur");
+            console.log("TraSachCtrlr - GetBook - fail.");
         })
     };
 
@@ -642,7 +716,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
         }).then(function (response) {
             $scope.GetBook_Result(response);
         }, function () {
-            alert("Error Occur");
+            console.log("TraSachCtrlr - GetBook_2 - load fail.");
         })
     };
 
@@ -721,7 +795,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
         }).then(function (response) {
             return true;
         }, function () {
-            alert("Error Occur");
+            console.log("TraSachCtrlr - UpdateListChuanBiTra - update fail.");
             return false;
         })
     }
@@ -739,7 +813,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
             }
 
         }, function () {
-            alert("Error Occur");
+            console.log("TraSachCtrlr - GetAllTrangThaiSach - load fail.");
             return false;
         })
     }
@@ -845,22 +919,24 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
     return function (scope, element, attrs) {
         //Load function sau khi run ng-repeat
         $timeout(function () {
-            load_datepicker("ngayPhaiTra_" + scope.x['MaKiemSoat']);
+            try {
+                load_datepicker("ngayPhaiTra_" + scope.x['MaKiemSoat']);
 
-            //update số lượng sách trong list chuẩn bị cho mượn
-            $("#List_" + scope.x['Id']).change(function () {
-                scope.x['SoLuong'] = $("#List_" + scope.x['Id']).val()
-            });
+                //update số lượng sách trong list chuẩn bị cho mượn
+                $("#List_" + scope.x['Id']).change(function () {
+                    scope.x['SoLuong'] = $("#List_" + scope.x['Id']).val()
+                });
 
-            //update ngày trả sách trong list chuẩn bị cho mượn
-            $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).change(function () {
-                scope.x['NgayTra'] = $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).val()
-            });
+                //update ngày trả sách trong list chuẩn bị cho mượn
+                $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).change(function () {
+                    scope.x['NgayTra'] = $("#ngayPhaiTra_" + scope.x['MaKiemSoat']).val()
+                });
 
-            //update ngày trả sách trong list chuẩn bị cho mượn
-            $("#Select_" + scope.x['Id']).change(function () {
-                scope.x['TinhTrangSach'] = $("#Select_" + scope.x['Id']).val()
-            });
+                //update ngày trả sách trong list chuẩn bị cho mượn
+                $("#Select_" + scope.x['Id']).change(function () {
+                    scope.x['TinhTrangSach'] = $("#Select_" + scope.x['Id']).val()
+                });
+            } catch (exp) { }
         });
     };
 });
