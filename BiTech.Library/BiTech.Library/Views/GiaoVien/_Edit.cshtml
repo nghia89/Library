@@ -16,7 +16,7 @@
     </div>
 </div>
 <div ng-app="LibraryApp" class="container">
-    @*<h5 class="text-danger">@ViewBag.UnSuccess</h5>*@
+    <div class="text-danger">@ViewBag.UpdateSuccess</div>
     <div class="text-danger">@ViewBag.UpdateFail</div>
     @using (Html.BeginForm("_Edit", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {

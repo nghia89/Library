@@ -73,7 +73,6 @@
     <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
     <Compile Include="ChucVu.cs" />
-    <Compile Include="NoDB\ChiTietPhieuMuon_FullDetail.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
     <Compile Include="ChiTietXuatSach.cs" />
     <Compile Include="Enums.cs" />
@@ -83,11 +82,8 @@
     <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NhaXuatBan.cs" />
-    <Compile Include="NoDB\PhieuMuonSach_FullDetail.cs" />
     <Compile Include="SoLuongSachTrangThai.cs" />
     <Compile Include="PhieuXuatSach.cs" />
-    <Compile Include="PhieuMuon.cs" />
-    <Compile Include="PhieuTra.cs" />
     <Compile Include="ThanhVien.cs" />
     <Compile Include="ThongTinMuonSach.cs" />
     <Compile Include="ThongTinThuVien.cs" />

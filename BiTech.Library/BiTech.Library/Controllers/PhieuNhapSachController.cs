@@ -37,9 +37,8 @@ namespace BiTech.Library.Controllers
                     IdPhieuNhap = item.Id,
                     IdUserAdmin = item.IdUserAdmin,
                     GhiChu = item.GhiChu,
-                    NgayNhap = item.NgayNhap,
+                    NgayNhap = item.CreateDateTime,
                     UserName = item.UserName
-
                 };
                 lstpns.Add(pns);
             }
@@ -99,7 +98,6 @@ namespace BiTech.Library.Controllers
             PhieuNhapSach NS = new PhieuNhapSach()
             {
                 Id = model.Id,
-
             };
             _NhapSachLogic.NhapSach(NS);
             return View();
@@ -138,7 +136,6 @@ namespace BiTech.Library.Controllers
             {
                 PhieuNhapSach pns = new PhieuNhapSach()
                 {
-                    NgayNhap = DateTime.Now,
                     GhiChu = model.GhiChu,
                     IdUserAdmin = userdata.Id,
                     UserName = userdata.UserName
@@ -225,7 +222,7 @@ namespace BiTech.Library.Controllers
 
                 IdUserAdmin = phieunhap.IdUserAdmin,
                 GhiChu = phieunhap.GhiChu,
-                NgayNhap = phieunhap.NgayNhap
+                NgayNhap = phieunhap.CreateDateTime
 
             };
             List<ChiTietNhapSachViewModels> lst = new List<ChiTietNhapSachViewModels>();
@@ -239,10 +236,8 @@ namespace BiTech.Library.Controllers
                 ctns.IdSach = item.IdSach;
                 var TenSach = _SachLogic.GetBookById(ctns.IdSach);
                 ctns.ten = TenSach.TenSach;
-                //ctns.tenTinhTrang = item.IdPhieuNhap;
                 ctns.soLuong = item.SoLuong;
                 ctns.GhiChuDon = item.GhiChu;
-                //ctns.tenTinhTrang = item.tenTinhTrang;
                 lst.Add(ctns);
 
             }
@@ -259,13 +254,19 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
+
             SachLogic _SachLogic =
                 new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic =
                 new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
+            maKS = maKS.Trim();
+
             JsonResult result = new JsonResult();
-            if (!String.IsNullOrWhiteSpace(maKS))
+            result.Data = null;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            if (!string.IsNullOrEmpty(maKS) && !string.IsNullOrEmpty(idtrangthai) && soLuong > 0)
             {
                 var book = _SachLogic.GetByMaMaKiemSoat(maKS);
                 var tt = _TrangThaiSachLogic.getById(idtrangthai);
@@ -275,14 +276,12 @@ namespace BiTech.Library.Controllers
                     ten = book.TenSach,
                     soLuong = soLuong,
                     IdTinhTrang = idtrangthai,
-                    //tenTinhTrang = tt.TenTT,
+                    tenTinhTrang = tt.TenTT,
                     MaKiemSoat = book.MaKiemSoat,
                     GhiChuDon = GhiChuDon
                 };
 
                 result.Data = pp;
-                //lstSach.Add(idBook); // add item to list to get list idSach - inset chitietphieumuon
-                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             }
             return result;
         }
@@ -295,6 +294,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
+
             SachLogic _SachLogic =
                new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
@@ -346,7 +346,6 @@ namespace BiTech.Library.Controllers
                 }
                 PhieuNhapSach pns = new PhieuNhapSach()
                 {
-                    NgayNhap = DateTime.Now,
                     GhiChu = model.GhiChu,
                     IdUserAdmin = userdata.Id,
                     UserName = userdata.UserName

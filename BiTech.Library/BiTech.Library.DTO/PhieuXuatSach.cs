@@ -10,7 +10,7 @@ using Mongo.Migration.Documents.Attributes;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.1")]
+    [CurrentVersion("0.0.2")]
     public class PhieuXuatSach : IModel
     {
         [BsonId]
@@ -19,9 +19,6 @@ namespace BiTech.Library.DTO
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime NgayXuat { get; set; }
 
         public string IdUserAdmin { get; set; }
 
