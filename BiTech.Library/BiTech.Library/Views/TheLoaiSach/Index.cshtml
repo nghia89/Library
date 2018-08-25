@@ -75,13 +75,13 @@
                 @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-                    <button class="color-white btn btn-primary btn-sm btn-theloai" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
+                    <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
                         <i class="fa">&#xf044;</i> Sửa
                     </button>
                 </td>
                 <td>
 
-                    <button class="btn-cut color-white btn btn-danger btn-sm btn-theloai" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
+                    <button class="btn-cut color-white btn btn-danger btn-sm btn-inTable" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
                         <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
                     </button>
                 </td>

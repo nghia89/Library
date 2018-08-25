@@ -21,7 +21,7 @@
     @using (Html.BeginForm("Sua", "TrangThaiSach", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="tentt">Tên tình trạng:</label>
+            <label class="col-form-label col-sm-2" for="tentt">Tên tình trạng:<span style="color:#dc3545">*</span></label>
             <div class="col-sm-10">
                 @Html.TextBoxFor(m => m.TenTT, new { @class = "form-control form-control-sm", @id = "tentt" })
                 @Html.ValidationMessageFor(m => m.TenTT, "", new { @class = "text-danger" })

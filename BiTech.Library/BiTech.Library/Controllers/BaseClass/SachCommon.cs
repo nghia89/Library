@@ -48,7 +48,7 @@ namespace BiTech.Library.Controllers.BaseClass
             {
                 string[] arrStr = info.Split('-');
                 string id = null;
-                string MaKiemSoat = null;
+                string MaKiemSoat = info;
                 string tenSach = null;
                 if (arrStr[0].Equals("BLibBook") == true)
                 {

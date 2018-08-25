@@ -100,7 +100,7 @@ namespace BiTech.Library.Controllers.BaseClass
             {
                 string[] arrStr = info.Split('-');
                 string id = null;
-                string maSo = null;
+                string maSo = info;
                 string ten = null;
                 if (arrStr[0].Equals("BLibUser") == true)
                 {
