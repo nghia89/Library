@@ -19,6 +19,7 @@ namespace BiTech.Library.Controllers
     public class HocSinhController : BaseController
     {
         ThanhVienCommon thanhVienCommon;
+
         public HocSinhController()
         {
             thanhVienCommon = new ThanhVienCommon();

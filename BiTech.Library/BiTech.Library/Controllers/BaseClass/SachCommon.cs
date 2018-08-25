@@ -22,7 +22,7 @@ namespace BiTech.Library.Controllers.BaseClass
             else
             {
                 //   ==> Tên hình QR <==
-                uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder,sach.MaKiemSoat  +
+                uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, sach.MaKiemSoat +
                 "-" + sach.TenSach + ".jpg");
             }
             string location = Path.GetDirectoryName(uploadFileNameQR);
@@ -44,17 +44,21 @@ namespace BiTech.Library.Controllers.BaseClass
         }
         public string GetInfo(string info)
         {
-            string[] arrStr = info.Split('-');
-            string id = null;
-            string MaKiemSoat = null;
-            string tenSach = null;
-            if (arrStr[0].Equals("BLibBook") == true)
+            try
             {
-                id = arrStr[1];
-                MaKiemSoat = arrStr[2];
-                tenSach = arrStr[3];
+                string[] arrStr = info.Split('-');
+                string id = null;
+                string MaKiemSoat = null;
+                string tenSach = null;
+                if (arrStr[0].Equals("BLibBook") == true)
+                {
+                    id = arrStr[1];
+                    MaKiemSoat = arrStr[2];
+                    tenSach = arrStr[3];
+                }
+                return MaKiemSoat;
             }
-            return MaKiemSoat;
+            catch { return info; }
         }
     }
 }

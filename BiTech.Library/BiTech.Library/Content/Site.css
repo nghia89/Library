@@ -40,10 +40,12 @@ a {
 .form-group-sm {
     margin-bottom: 5px;
 }
-.form-control-tag{
-    padding-top:0px;
-    padding-bottom:0px;
+
+.form-control-tag {
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
+
 .form-control:focus {
     color: #495057;
     background-color: #fff;
@@ -73,13 +75,15 @@ a {
 }
 /*End bootstap edit*/
 
-.a_td{
+.a_td {
     cursor: pointer;
 }
-.a_td:hover {
-    color: #fff;
-    background:#627A7F;
-}
+
+    .a_td:hover {
+        color: #fff;
+        background: #627A7F;
+    }
+
 .contain .menu .fa,
 .bt_menu .fa {
     color: #fff;
@@ -233,7 +237,7 @@ a:hover {
         float: left;
     }
 
-        .contain .top .banner h4 {
+        .contain .top .banner h4, h5 {
             color: white;
             margin: 0px;
             padding-top: 5px;
@@ -699,17 +703,17 @@ a:hover {
         }
 
         .book_box_v3 .container-box-window .book_image {
-            width: 20%;
+            width: 30%;
             max-width: 110px;
             float: left;
             text-align: center;
             position: relative;
+            height: 150px;
         }
 
             .book_box_v3 .container-box-window .book_image img {
                 width: 100%;
                 padding-right: 10px;
-                height: 130px;
             }
 
         .book_box_v3 .container-box-window .book_cell_information {
@@ -986,7 +990,7 @@ a:hover {
     }
 
 /*End Mượn sách*/
-@media screen and (max-width: 1370px) {
+@media screen and (max-width: 1500px) {
     .book_box_v3 {
         width: calc(50% - 20px);
     }
@@ -1010,7 +1014,7 @@ a:hover {
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
     .book_box_v2 {
         width: calc(100% - 20px);
         max-width: 600px;
@@ -1029,9 +1033,10 @@ a:hover {
         }
 }
 
-@media screen and (max-width: 992px) {
-
-    .line-xl {
+@media screen and (max-width: 1150px) {
+    
+    .line-gl,
+    .box_temp {
         display: none;
     }
 
@@ -1049,8 +1054,6 @@ a:hover {
     .book_box .book_content .book_image {
         width: 100%;
     }
-
-
 
     .book_box .book_content .book_information {
         width: 100%;
@@ -1079,6 +1082,7 @@ a:hover {
     .contain .left .menu {
         position: absolute;
     }
+	
     .contain .left .menu .logo{
         height: 0;
     }
@@ -1100,22 +1104,34 @@ a:hover {
         width: 50%;
     }
 
-    .book_box_v3 .container-box-window .book_image {
+    /*.book_box_v3 .container-box-window .book_image {
         width: 50%;
         max-width: 100%;
+    }*/
+    .book_box_v3 {
+        margin: 2px;
     }
 
-        .book_box_v3 .container-box-window .book_image img {
-            height: auto;
+        .book_box_v3 .container-box-window {
+            border: 1px solid #728C92;
         }
 
-    .book_box_v3 .container-box-window .book_cell_information.width_left {
-        width: 50%;
-    }
+            .book_box_v3 .container-box-window .top .title {
+                font-size: 15px;
+                color: #fff;
+            }
 
-    .book_box_v3 .container-box-window .book_cell_information.width_right {
-        width: 50%;
-    }
+            .book_box_v3 .container-box-window .book_image img {
+                height: auto;
+            }
+
+            .book_box_v3 .container-box-window .book_cell_information.width_left {
+                width: calc(100% - 110px);
+            }
+
+            .book_box_v3 .container-box-window .book_cell_information.width_right {
+                width: calc(100% - 110px);
+            }
 }
 
 @media screen and (max-width: 500px) {
@@ -1134,6 +1150,7 @@ a:hover {
     .book_box_v3 .container-box-window .book_image {
         width: 100%;
         max-width: 100%;
+        height:auto;
     }
 
         .book_box_v3 .container-box-window .book_image img {
