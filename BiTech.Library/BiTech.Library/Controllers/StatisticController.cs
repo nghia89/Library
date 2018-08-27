@@ -170,11 +170,7 @@ namespace BiTech.Library.Controllers
             foreach (var item in _listMonthSachTra)
             {
                 DateTime ngayTra = item.NgayTraThucTe;
-                //listSachTraTrongNgay = _thongKeLogic.GetTTMSByNgayTra(item.NgayTraThucTe);
-                // new 2.0       
-                //soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(listSachTraTrongNgay, ngayTra.Day, 0, 0);
-
-                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(arrTTSachTra[ngayTra.Day], ngayTra, 0, 0);
+                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(arrTTSachTra[ngayTra.Day], ngayTra.Day, 0, 0);
             }
 
             #endregion
@@ -647,6 +643,39 @@ namespace BiTech.Library.Controllers
             #endregion
 
             // Chuyền dữ liệu vào Model
+            model = new BieuDoPhieuMuonViewModel
+            {
+                // Thống kê trong Năm (chia ra 12 tháng)
+                lsoPhieuMuonTrongNam = soPhieuMuonTrongNam,
+
+                lsoNguoiMuonSachTrongNam = soNguoiMuonSachTrongNam,
+                lsoSachDuocMuonTrongNam = soSachDuocMuonTrongNam,
+                lsoNguoiKhongTraTrongNam = soNguoiKhongTraTrongNam,
+                lsoNguoiTraTreTrongNam = soNguoiTraTreTrongNam,
+                //-- new
+                lsoSachDuocTraTrongNam = soSachDuocTraTrongNam,
+                lsoSachKhongTraTrongNam = soSachKhongTraTrongNam,
+                // Thống kê trong Quý (chia ra 4 Quý)          
+                lsoPhieuMuonTrongQuy = soPhieuMuonTrongQuy,
+                lsoNguoiMuonSachTrongQuy = soNguoiMuonSachTrongQuy,
+                lsoSachDuocMuonTrongQuy = soSachDuocMuonTrongQuy,
+                lsoNguoiKhongTraTrongQuy = soNguoiKhongTraTrongQuy,
+                lsoNguoiTraTreTrongQuy = soNguoiTraTreTrongQuy,
+                //-- new
+                lsoSachDuocTraTrongQuy = soSachDuocTraTrongQuy,
+                lsoSachKhongTraTrongQuy = soSachKhongTraTrongQuy,
+                // Thống kê trong Tháng (chia ra 31 ngày)
+                SoNgayTrongThang = soNgayTrongThang,
+                lsoPMTrongNgay = soPhieuMuonTrongThang,
+                lsoNguoiMuonTrongNgay = soNguoiMuonSachTrongThang,
+                lsoSachDuocMuonTrongNgay = soSachDuocMuonTrongThang,
+                lsoNguoiKhongTraTrongNgay = soNguoiKhongTraTrongThang,
+                lsoNguoiTraTreTrongNgay = soNguoiTraTreTrongThang,
+                //-- new
+                lsoSachDuocTraTrongNgay = soSachDuocTraTrongThang,
+                lsoSachKhongTraTrongNgay = soSachKhongTraTrongThang,
+
+            };
             model = new BieuDoPhieuMuonViewModel
             {
                 // Thống kê trong Năm (chia ra 12 tháng)

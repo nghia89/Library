@@ -179,7 +179,7 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 app.controller('MonthCtroller', function ($scope, $http, $location) {
 
     $scope.labels = [];
-    $scope.series = ['Số mgười mượn', 'Số sách mượn', 'Số sách trả', 'Số sách trả trễ hạn'];
+    $scope.series = ['Số người mượn', 'Số sách mượn', 'Số sách trả', 'Số sách trả trễ hạn'];
     
     $scope.chartdataMonth = [];
     $scope.Keymonth = '';
