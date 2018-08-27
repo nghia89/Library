@@ -2,11 +2,12 @@
 var SoLuongTTSach = function () {
 
     this.initialize = function () {
+       
         loadData();
         registerEvevts();
     }
     function registerEvevts() {
-        var sl="";
+        var sl;
         $("#frmMaintainance").validate({
             rules: {
                 name: {
@@ -19,7 +20,7 @@ var SoLuongTTSach = function () {
             }, messages: {
                 name: {
                     required: "Bạn cần nhập số lượng",
-                    max: "số lượng phải nhỏ hơn số lượng hiện tại"
+                    max: "số lượng nhập phải nhỏ hơn số lượng hiện tại"
                 },
                 IdTrangThai: {
                     required: "Bạn cần chọn trạng thái"
@@ -27,7 +28,8 @@ var SoLuongTTSach = function () {
             }
         });
 
-        $('body').on('click', '.btn-edit', function (e) {
+        $('body').on('click', '.btn-edit', function (e) {   
+       
             e.preventDefault();
             var that = $(this).data('id');
             var idtt = $(this).next().val();
@@ -93,7 +95,7 @@ var SoLuongTTSach = function () {
             data: { id: that },
             dataType: "json",
             success: function (response) {
-                sl: response.SoLuong
+                sl = parseInt(response.SoLuong);     
                 var template = $('#template').html();
                 var render = "";
                 Mustache.parse(template);
