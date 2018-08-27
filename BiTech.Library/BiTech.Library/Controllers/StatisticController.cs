@@ -131,14 +131,14 @@ namespace BiTech.Library.Controllers
             {
                 DateTime ngayMuon = item.NgayGioMuon;
                 DateTime ngayTra = new DateTime();
-                // Ngay muon            
+                // Ngày mượn            
                 if (ngayMuon.Year == year)
                 {
                     listYearSelected.Add(item);
                     if (ngayMuon.Month == month)
                         listMonthSelected.Add(item);
                 }
-                // Ngay tra
+                // Ngày trả
                 if (item.NgayTraThucTe != null)
                 {
                     ngayTra = item.NgayTraThucTe;
@@ -150,18 +150,35 @@ namespace BiTech.Library.Controllers
                     }
                 }
             }
+            // -----------------------THÔNG TIN THỐNG KÊ-----------------------  
             #region Sach Tra           
-            List<ThongTinMuonSach> _listSachTra = listMonthSachTra.ToList();
-            #region Theo ngay trong thang
-            foreach (var item in _listSachTra)
+            #region Theo Ngay trong thang
+            List<ThongTinMuonSach> _listMonthSachTra = listMonthSachTra.ToList();
+            List<ThongTinMuonSach>[] arrTTSachTra = new List<ThongTinMuonSach>[31];
+            for (int i = 1; i <= 31; i++)
+            {
+                List<ThongTinMuonSach> listDay = new List<ThongTinMuonSach>();
+                foreach (var item in _listMonthSachTra)
+                {
+                    if (item.NgayTraThucTe.Day == i)
+                    {
+                        listDay.Add(item);// List dữ liệu có cùng ngày trả
+                        arrTTSachTra[i] = listDay;
+                    }
+                }
+            }
+            foreach (var item in _listMonthSachTra)
             {
                 DateTime ngayTra = item.NgayTraThucTe;
-                listSachTraTrongNgay = _thongKeLogic.GetTTMSByNgayTra(item.NgayTraThucTe);
+                //listSachTraTrongNgay = _thongKeLogic.GetTTMSByNgayTra(item.NgayTraThucTe);
                 // new 2.0       
-                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(listSachTraTrongNgay, ngayTra.Day, 0, 0);
+                //soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(listSachTraTrongNgay, ngayTra.Day, 0, 0);
+
+                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(arrTTSachTra[ngayTra.Day], ngayTra, 0, 0);
             }
+
             #endregion
-            #region Theo thang trong nam
+            #region Theo Thang trong nam
             foreach (var item in listYearSachTra)
             {
                 DateTime ngayTra = item.NgayTraThucTe;
@@ -363,23 +380,36 @@ namespace BiTech.Library.Controllers
             }
             #endregion
             #endregion
-            // -----------------------THÔNG TIN THỐNG KÊ-----------------------  
-            List<ThongTinMuonSach> _listPhieuMuon = listMonthSelected.ToList();
-            foreach (var item in _listPhieuMuon)
+
+            #region Muon Sach
+            #region Theo Ngay trong thang
+            List<ThongTinMuonSach> _listMonthSachMuon = listMonthSelected.ToList();
+            List<ThongTinMuonSach>[] arrTTSachMuon = new List<ThongTinMuonSach>[31];
+            for (int i = 1; i <= 31; i++)
+            {
+                List<ThongTinMuonSach> listDay = new List<ThongTinMuonSach>();
+                foreach (var item in _listMonthSachMuon)
+                {
+                    if (item.NgayGioMuon.Day == i)
+                    {
+                        listDay.Add(item);// List dữ liệu có cùng ngày mượn
+                        arrTTSachMuon[i] = listDay;
+                    }
+                }
+            }
+            foreach (var item in _listMonthSachMuon)
             {
                 DateTime ngayMuon = item.NgayGioMuon;
-                // danh sách phiếu mượn trong ngày (ghi tắt DSPMTN)
-                listPhieuMuonTrongNgay = _thongKeLogic.GetTTMSByNgayMuon(item.NgayGioMuon);
 
-                // từ DSPMTN lấy ra 5 loại dữ liệu để thống kê
-                soPhieuMuonTrongThang[ngayMuon.Day] = listPhieuMuonTrongNgay.Count;
-                soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(listPhieuMuonTrongNgay);
-                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(listPhieuMuonTrongNgay, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-                soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(listPhieuMuonTrongNgay);
-                soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(listPhieuMuonTrongNgay);
-                soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(listPhieuMuonTrongNgay);
-
+                soPhieuMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoPhieuMuon(arrTTSachMuon[ngayMuon.Day]);
+                soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(arrTTSachMuon[ngayMuon.Day]);
+                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(arrTTSachMuon[ngayMuon.Day], userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(arrTTSachMuon[ngayMuon.Day]);
+                soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(arrTTSachMuon[ngayMuon.Day]);
+                soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(arrTTSachMuon[ngayMuon.Day]);
             }
+            #endregion
+            #region Theo Thang trong nam
             foreach (var item in listYearSelected)
             {
                 DateTime ngayMuon = item.NgayGioMuon;
@@ -542,6 +572,9 @@ namespace BiTech.Library.Controllers
                 // new                                 
                 soSachKhongTraTrongNam[i] = nghiepVu.DemSoSachKhongTra(list);
             }
+            #endregion
+            #region Theo Quy trong nam
+
             // truyền dữ liệu thống kê vào từng quý trong năm
             for (int i = 0; i < 4; i++)
             {
@@ -610,9 +643,10 @@ namespace BiTech.Library.Controllers
                         break;
                     }
             }
+            #endregion
+            #endregion
 
             // Chuyền dữ liệu vào Model
-       
             model = new BieuDoPhieuMuonViewModel
             {
                 // Thống kê trong Năm (chia ra 12 tháng)

@@ -30,8 +30,6 @@
             <button class="tablink" onclick="openCity('Year', this, '#1ab188')" style="outline:none">Thống kê theo năm</button>
         </div>
 
-       
-
         @*<div class="col-sm-3 back_groupCheck ">
                 <div class="slide-two margin-top">
                     <input type="checkbox" name="check" checked id="slide-two1" />
@@ -50,7 +48,6 @@
                 <div ng-controller="MonthCtroller" class="row">
                     <div class="col-md-10 col-xs-3">
                         <div style="padding-bottom: 12px; float:left" class="col-md-3">
-                            <div class="col-md-1 text-right"><h5>Tháng</h5></div>
                             <select class="form-control" data-width="auto" ng-model="selected1" ng-click="GetData()">
                                 <option value="">---chọn tháng ---</option>
                                 @for (int i = 1; i <= 12; i++)
@@ -59,10 +56,7 @@
                                 }
                             </select>
                         </div>
-
                         <div style="padding-bottom: 12px; float:left" class="col-md-3">
-                            <div class="col-md-1 text-right"><h5>Năm</h5></div>
-
                             <select class="form-control" data-width="auto" ng-model="selected2" ng-click="GetData()">
 
                                 <option value="">---chọn năm---</option>
@@ -95,9 +89,7 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -144,16 +136,10 @@
                                     <div class="col-xs-4"></div>
                                 </div>
                             </div>
-
-
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>
