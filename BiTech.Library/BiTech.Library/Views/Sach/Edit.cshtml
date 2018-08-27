@@ -86,7 +86,7 @@
                 <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
                     <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN" })
+                        @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN", type = "number" })
                     </div>
                 </div>
 
@@ -202,7 +202,7 @@
                 <div class="form-group-sm row">
                     <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản:</label>
                     <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                        @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat", type = "number" })
                         @Html.ValidationMessageFor(model => model.SachDTO.NamXuatBan, "", new { @class = "text-danger" })
 
                     </div>

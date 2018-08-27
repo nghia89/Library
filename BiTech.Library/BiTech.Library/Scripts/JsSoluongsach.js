@@ -6,21 +6,26 @@ var SoLuongTTSach = function () {
         registerEvevts();
     }
     function registerEvevts() {
-       
-        //$("#txtSoLuong").validate({
-        //    rules: {
-        //        txtSoLuong: {
-        //            required: true,
-        //            max: 14
-        //        }
-        //    }, messages: {
-        //        txtSoLuong: {
-        //            required: "Bạn phải điền tên UserName",
-        //            maxlength: "Tên phải chứa hơn 6 ký tự"
-
-        //        }
-        //    }
-        //});
+        var sl="";
+        $("#frmMaintainance").validate({
+            rules: {
+                name: {
+                    required: true,
+                    max: sl
+                },
+                IdTrangThai: {
+                    required: true
+                }
+            }, messages: {
+                name: {
+                    required: "Bạn cần nhập số lượng",
+                    max: "số lượng phải nhỏ hơn số lượng hiện tại"
+                },
+                IdTrangThai: {
+                    required: "Bạn cần chọn trạng thái"
+                }
+            }
+        });
 
         $('body').on('click', '.btn-edit', function (e) {
             e.preventDefault();
@@ -88,6 +93,7 @@ var SoLuongTTSach = function () {
             data: { id: that },
             dataType: "json",
             success: function (response) {
+                sl: response.SoLuong
                 var template = $('#template').html();
                 var render = "";
                 Mustache.parse(template);
@@ -98,7 +104,6 @@ var SoLuongTTSach = function () {
                         Id: response.Id,
                         IdSach: response.IdSach,
                         IdTrangThaiSach: response.IdTrangThai
-
                     });
                 });
                 if (render !== undefined) {

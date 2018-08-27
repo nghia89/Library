@@ -81,7 +81,7 @@ namespace BiTech.Library.Controllers
             else
             {
                 model.ListThanhVien = listAll;
-                ViewBag.SearchFail = "Tìm kiếm thất bại!";
+                ViewBag.SearchFail = "Chưa Tìm Được Kết Quả Phù Hợp!";
                 ViewBag.ThongBao = true;
             }
             return View(model);
@@ -95,7 +95,7 @@ namespace BiTech.Library.Controllers
                 return null;
             #endregion
 
-            int pageSize = 20;
+            int pageSize = 6;
             int pageNumber = (page ?? 1);
             ViewBag.pageSize = pageSize;
             ViewBag.pages = pageNumber;
@@ -262,6 +262,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion          
+
             var thanhVien = _ThanhVienLogic.GetById(viewModel.Id);
             // thông tin cho phép cập nhật            
             thanhVien.LopHoc = viewModel.LopHoc;
@@ -271,8 +272,7 @@ namespace BiTech.Library.Controllers
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
             thanhVien.SDT = viewModel.SDT;        
-            bool resultInfo = _ThanhVienLogic.Update(thanhVien);
-            bool resultImage = false;
+            
             //viewModel.LinkAvatar = "";
             //if (viewModel.HinhChanDung != null && Tool.IsImage(viewModel.HinhChanDung))
             //{
@@ -291,12 +291,11 @@ namespace BiTech.Library.Controllers
                     if (tempt != null)
                     {
                         thanhVien.HinhChanDung = tempt.HinhChanDung;
-                        _ThanhVienLogic.Update(thanhVien);
-                        resultImage = true;
                     }
                 }
                 catch { }
             }
+
             try
             {
                 // cập nhật QR
@@ -310,20 +309,21 @@ namespace BiTech.Library.Controllers
                 {
                     thanhVien.QRLink = temp.QRLink;
                     thanhVien.QRData = temp.QRData;
-                    _ThanhVienLogic.Update(thanhVien);
                 }
             }
-            catch { }           
-            if (resultInfo == true || resultImage == true)
+            catch { }
+
+            bool resultInfo = _ThanhVienLogic.Update(thanhVien);
+
+            if (resultInfo == true)
             {
-                return RedirectToAction("Details", "HocSinh", new { @idUser = viewModel.Id });
+                ViewBag.UpdateSuccess = "Cập nhật thành công!";
             }
             else
             {
                 ViewBag.UpdateFail = "Cập nhật không thành công!";
-
-                return View(viewModel);
             }
+            return View(viewModel);
         }
 
         public ActionResult Delete(string id)

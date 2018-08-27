@@ -1006,7 +1006,19 @@ a:hover {
         }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1200px) {    
+    .book_box_v3 {
+        margin:3px;
+    }
+
+    .book_box_v3 .container-box-window{
+        border:1px solid #728C92;
+    }
+
+    .book_box_v3 .container-box-window .top .title{
+        font-size:15px;
+    }
+
     .book_box .book_content .book_image {
         width: 20%;
     }

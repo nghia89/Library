@@ -30,19 +30,19 @@ namespace BiTech.Library.Controllers
             {
                 PhieuXuatSachModels pxs = new PhieuXuatSachModels()
                 {
-                    IdPhieuXuat=item.Id,
-                    IdUserAdmin=item.IdUserAdmin,
-                    GhiChu=item.GhiChu,
-                    NgayXuat=item.NgayXuat,
+                    IdPhieuXuat = item.Id,
+                    IdUserAdmin = item.IdUserAdmin,
+                    GhiChu = item.GhiChu,
+                    NgayXuat = item.CreateDateTime,
                     UserName = item.UserName
-
                 };
                 lstpxs.Add(pxs);
             }
             ViewBag.pageSize = PageSize;
             ViewBag.pages = PageNumber;
-            return View(lstpxs.OrderByDescending(x=>x.NgayXuat).ToPagedList(PageNumber,PageSize));
+            return View(lstpxs.OrderByDescending(x => x.NgayXuat).ToPagedList(PageNumber, PageSize));
         }
+
         public ActionResult Details(string id)
         {
             #region  Lấy thông tin người dùng
@@ -58,7 +58,6 @@ namespace BiTech.Library.Controllers
             LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             PhieuXuatSachLogic _PhieuXuatSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-
             var model = _ChiTietXuatSachLogic.GetAllChiTietById(id);
             var phieuxuat = _PhieuXuatSachLogic.GetById(id);
 
@@ -67,22 +66,20 @@ namespace BiTech.Library.Controllers
 
             PhieuXuatSachModels pxs = new PhieuXuatSachModels()
             {
-
                 IdUserAdmin = phieuxuat.IdUserAdmin,
                 UserName = phieuxuat.UserName,
                 GhiChu = phieuxuat.GhiChu,
-                NgayXuat = phieuxuat.NgayXuat
+                NgayXuat = phieuxuat.CreateDateTime
 
             };
+
             List<ChiTietXuatSachViewModels> lst = new List<ChiTietXuatSachViewModels>();
-            foreach(var item in model)
+            foreach (var item in model)
             {
-               
                 ChiTietXuatSachViewModels ctxs = new ChiTietXuatSachViewModels();
                 ctxs.Id = item.Id;
-                ctxs.IdLydo = item.LyDo;
                 //var LyDo = _LyDoXuatLogic.GetById(ctxs.IdLydo);
-                ctxs.lyDo = item.LyDo;
+                ctxs.GhiChuDon = item.GhiChu;
                 ctxs.IdTinhTrang = item.IdTinhTrang;
                 var TinhTrang = _TrangThaiSachLogic.getById(ctxs.IdTinhTrang);
                 ctxs.tenTinhTrang = TinhTrang.TenTT;
@@ -92,13 +89,12 @@ namespace BiTech.Library.Controllers
                 ctxs.IdPhieuXuat = item.IdPhieuXuat;
                 ctxs.soLuong = item.SoLuong;
                 lst.Add(ctxs);
-               
+
             }
             ViewBag.lstctxuat = lst;
-
-
             return View(pxs);
         }
+
         public ActionResult TaoPhieuXuatSach()
         {
             #region  Lấy thông tin người dùng
@@ -108,21 +104,13 @@ namespace BiTech.Library.Controllers
             #endregion
 
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
             LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-         
-
- 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
-
-
             ViewBag.listld = _LyDoXuatLogic.GetAll();
-
-          
-
             return View();
         }
+
         [HttpPost]
         public ActionResult TaoPhieuXuatSach(PhieuXuatSachModels model)
         {
@@ -131,6 +119,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
+
             SachLogic _SachLogic =
                new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             PhieuXuatSachLogic _PhieuNhapSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
@@ -140,16 +129,13 @@ namespace BiTech.Library.Controllers
              new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             LyDoXuatLogic _LyDoXuatLogic =
             new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            PhieuXuatSachLogic _PhieuXuatSachLogic = 
+            PhieuXuatSachLogic _PhieuXuatSachLogic =
                 new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-
 
             if (model.listChiTietJsonString.Count > 0)
             {
                 PhieuXuatSach pxs = new PhieuXuatSach()
                 {
-                    NgayXuat = DateTime.Today,
                     GhiChu = model.GhiChu,
                     IdUserAdmin = userdata.Id,
                     UserName = userdata.UserName
@@ -167,8 +153,8 @@ namespace BiTech.Library.Controllers
                             IdPhieuXuat = idPhieuXuat,
                             IdSach = ctModel.IdSach,
                             IdTinhTrang = ctModel.IdTinhTrang,
-                            LyDo = ctModel.lyDo,
                             SoLuong = ctModel.soLuong,
+                            GhiChu = ctModel.GhiChuDon,
                             CreateDateTime = DateTime.Now
                         };
 
@@ -176,7 +162,7 @@ namespace BiTech.Library.Controllers
                         {
                             //update số lượng sách trạng thái
                             var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhTrang);
-                            if(sltt != null)
+                            if (sltt != null)
                             {
                                 sltt.SoLuong -= ctxs.SoLuong;
                                 _SoLuongSachTrangThaiLogic.Update(sltt);
@@ -194,31 +180,28 @@ namespace BiTech.Library.Controllers
                             updatesl.SoLuongTong -= ctxs.SoLuong;
                             updatesl.SoLuongConLai -= ctxs.SoLuong;
                             _SachLogic.Update(updatesl);
-                           
+
                         }
                     }
                     return RedirectToAction("Index");
                 }
             }
 
-
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
-
-
             ViewBag.listld = _LyDoXuatLogic.GetAll();
-         
             ModelState.Clear();
-
             return View();
         }
+
         [HttpGet]
-        public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string LyDo,string GhiChu)
+        public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string ghiChuDon)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
+
             SachLogic _SachLogic =
                 new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic =
@@ -226,12 +209,19 @@ namespace BiTech.Library.Controllers
             LyDoXuatLogic _LyDoXuat =
                new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
+            maKiemSoat = maKiemSoat.Trim();
+            ghiChuDon = ghiChuDon.Trim();
+
             JsonResult result = new JsonResult();
-            if (!String.IsNullOrWhiteSpace(maKiemSoat))
+            result.Data = null;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            if (!string.IsNullOrEmpty(maKiemSoat) && !string.IsNullOrEmpty(ghiChuDon)
+                && soLuong > 0 && !string.IsNullOrEmpty(idtrangthai))
             {
                 var book = _SachLogic.GetByMaMaKiemSoat(maKiemSoat);
                 var tt = _TrangThaiSachLogic.getById(idtrangthai);
-                //var ld = _LyDoXuat.GetById(idlydo);
+
                 ChiTietXuatSachViewModels pp = new ChiTietXuatSachViewModels()
                 {
                     IdSach = book.Id,
@@ -239,15 +229,11 @@ namespace BiTech.Library.Controllers
                     soLuong = soLuong,
                     IdTinhTrang = idtrangthai,
                     tenTinhTrang = tt.TenTT,
-                    //IdLydo = idlydo,
-                    lyDo = LyDo,
-                    GhiChu=GhiChu,
+                    GhiChuDon = ghiChuDon,
                     MaKiemSoat = book.MaKiemSoat
                 };
 
                 result.Data = pp;
-                //lstSach.Add(idBook); // add item to list to get list idSach - inset chitietphieumuon
-                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             }
             return result;
         }

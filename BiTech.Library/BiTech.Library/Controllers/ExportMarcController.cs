@@ -64,14 +64,15 @@ namespace BiTech.Library.Controllers
                         IRecord record = MarcFactory.Instance.NewRecord();
                         IDataField dataField = null;
 
-                        record.AddVariableField(MarcFactory.Instance.NewControlField("008", i.MaKiemSoat));
+                        record.AddVariableField(MarcFactory.Instance.NewControlField("001", i.MaKiemSoat));
+                        //record.AddVariableField(MarcFactory.Instance.NewControlField("008", i.ISBN));
                         var getIdSachTG = _SachTacGiaLogic.getById(i.Id);
                         var getByIdTG = _TacGiaLogic.GetById(getIdSachTG.IdTacGia);
 
                         if (getByIdTG != null)
                         {
                             dataField = MarcFactory.Instance.NewDataField("100", '1', ' ');
-                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getByIdTG.TenTacGia != null) ? getByIdTG.TenTacGia : " "));
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getByIdTG.TenTacGia != null) ? getByIdTG.TenTacGia : ""));
                             record.AddVariableField(dataField);
                         }
                         else
@@ -80,7 +81,6 @@ namespace BiTech.Library.Controllers
                             dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', " "));
                             record.AddVariableField(dataField);
                         }
-                     
 
                         dataField = MarcFactory.Instance.NewDataField("020", ' ', ' '); 
                         dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.ISBN != null) ? i.ISBN : " "));
@@ -94,7 +94,7 @@ namespace BiTech.Library.Controllers
                         var getById = _LanguageLogic.GetById(i.IdNgonNgu);
                         if (getById != null)
                         {
-                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getById.TenNgan != null) ? getById.TenNgan : null));
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getById.Ten != null) ? getById.Ten : ""));
                             record.AddVariableField(dataField);
                         }
                         else
@@ -108,15 +108,15 @@ namespace BiTech.Library.Controllers
                         record.AddVariableField(dataField);
 
                         dataField = MarcFactory.Instance.NewDataField("300", ' ', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.SoTrang != null) ? i.SoTrang : " "));
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.SoTrang != null) ? i.SoTrang : ""));
                         record.AddVariableField(dataField);
 
                         dataField = MarcFactory.Instance.NewDataField("520", ' ', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TomTat != null) ? i.TomTat : " "));
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TomTat != null) ? i.TomTat : ""));
                         record.AddVariableField(dataField);
 
                         dataField = MarcFactory.Instance.NewDataField("245", '1', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TenSach != null) ? i.TenSach : " "));
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TenSach != null) ? i.TenSach : ""));
                         record.AddVariableField(dataField);
 
 

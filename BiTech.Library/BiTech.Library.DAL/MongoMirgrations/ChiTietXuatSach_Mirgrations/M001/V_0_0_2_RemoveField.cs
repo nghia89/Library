@@ -7,23 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BiTech.Library.DAL.MongoMirgrations.PhieuXuatSach_Mirgrations.M001
+namespace BiTech.Library.DAL.MongoMirgrations.ChiTietXuatSach_Mirgrations.M001
 {
-    public class V0_0_2_AddUserName : Migration<PhieuXuatSach>
+    public class V_0_0_2_RemoveField : Migration<ChiTietXuatSach>
     {
-        public V0_0_2_AddUserName()
+        public V_0_0_2_RemoveField()
             : base("0.0.2")
         {
         }
 
         public override void Up(BsonDocument document)
         {
-            document.Add("UserName", "");
+            document.Remove("LyDo");
         }
 
         public override void Down(BsonDocument document)
         {
-            document.Remove("UserName");
+            document.Add("LyDo", "");
         }
     }
 }
