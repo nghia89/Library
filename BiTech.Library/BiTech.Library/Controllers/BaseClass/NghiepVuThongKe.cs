@@ -184,13 +184,13 @@ namespace BiTech.Library.Controllers.BaseClass
             return listRutGon;
         }
         // Đếm số sách trả
-        public int DemSoSachDuocTra(List<ThongTinMuonSach> listPT, DateTime? day, int? month, int? year)
+        public int DemSoSachDuocTra(List<ThongTinMuonSach> listPT, int? day, int? month, int? year)
         {
             int dem = 0;
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var item in listPT)
             {
-                if (day != null && item.NgayTraThucTe == day)
+                if (day != null && item.NgayTraThucTe.Day == day)
                 {
                     dem++;
                 }
