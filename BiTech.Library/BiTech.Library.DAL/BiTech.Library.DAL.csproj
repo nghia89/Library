@@ -77,7 +77,6 @@
     <Compile Include="Common\KeySearchViewModel.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
-    <Compile Include="Engines\ChiTietPhieuTraEngine.cs" />
     <Compile Include="Engines\ChiTietXuatSachEngine.cs" />
     <Compile Include="Engines\ChucVuEngine.cs" />
     <Compile Include="Engines\LyDoXuatEngine.cs" />
@@ -85,11 +84,7 @@
     <Compile Include="Engines\LanguageEngine.cs" />
     <Compile Include="Engines\NhaXuatBanEngine.cs" />
     <Compile Include="Engines\SoLuongSachTrangThaiEngine.cs" />
-    <Compile Include="Engines\ThongKeEngine.cs" />
     <Compile Include="Engines\PhieuXuatSachEngine.cs" />
-    <Compile Include="Engines\ChiTietPhieuMuonEngine.cs" />
-    <Compile Include="Engines\PhieuTraEngine.cs" />
-    <Compile Include="Engines\PhieuMuonEngine.cs" />
     <Compile Include="Engines\ThongTinMuonSachEngine.cs" />
     <Compile Include="Engines\ThongTinThuVienEngine.cs" />
     <Compile Include="Engines\TrangThaiSachEngine.cs" />
@@ -101,21 +96,19 @@
     <Compile Include="Engines\TheLoaiSachEngine.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="MongoMirgrations\ChiTietNhapSach_Mirgrations\M000\Init.cs" />
-    <Compile Include="MongoMirgrations\ChiTietPhieuMuon_Mirgrations\M000\Init.cs" />
-    <Compile Include="MongoMirgrations\ChiTietPhieuTra_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M001\V_0_0_2_RemoveField.cs" />
     <Compile Include="MongoMirgrations\ChucVu_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\NhaXuatBan_Mirgrations\M000\Init.cs" />
-    <Compile Include="MongoMirgrations\PhieuMuon_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\KeSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\Language_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\LyDoXuat_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\GiaHan_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuNhapSach_Mirgrations\M001\V0_0_2_AddUserName.cs" />
-    <Compile Include="MongoMirgrations\PhieuTra_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuNhapSach_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\PhieuNhapSach_Mirgrations\M002\V0_0_3_RemoveFields.cs" />
     <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M000\Init.cs" />
-    <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M001\V0_0_2_AddUserName.cs" />
+    <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M001\V0_0_2_RemoveFields.cs" />
     <Compile Include="MongoMirgrations\Sach_Mirgrations\M002\V0_0_2_thembo_truong.cs" />
     <Compile Include="MongoMirgrations\SoLuongSachTrangThai\M000\Init.cs" />
     <Compile Include="MongoMirgrations\SachTacGia_Mirgrations\M000\Init.cs" />
@@ -146,15 +139,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MongoMirgrations\ChiTietPhieuTra_Mirgrations\M001\" />
-    <Folder Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\GiaHan_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\KeSach_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\Language_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\LyDoXuat_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\NhaXuatBan_Mirgrations\M001\" />
-    <Folder Include="MongoMirgrations\PhieuMuon_Mirgrations\M001\" />
-    <Folder Include="MongoMirgrations\PhieuTra_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\SachTacGia_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\SoLuongSachTrangThai\M001\" />
     <Folder Include="MongoMirgrations\TacGia_Mirgrations\M001\" />

@@ -45,11 +45,15 @@ namespace BiTech.Library.Controllers
             return View(lsttg.OrderBy(m => m.TenTacGia).ToPagedList(PageNumber, PageSize));
         }
 
+        //
+        // GET: TacGia/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        // POST: TacGia/Create
+        //
         [HttpPost]
         public ActionResult Create(TacGia tacgia)
         {
@@ -65,6 +69,8 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index");
         }
 
+        //
+        // GET: TacGia/Edit
         public ActionResult Edit(string id)
         {
             #region  Lấy thông tin người dùng
@@ -84,6 +90,23 @@ namespace BiTech.Library.Controllers
                 Id = tacgia.Id
             };
             return View(tg);
+        }
+
+        // POST: TacGia/Edit
+        //
+        [HttpPost]
+        public ActionResult Edit(TacGia tacgia)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            #endregion
+
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            _TacGiaLogic.Update(tacgia);
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -148,21 +171,6 @@ namespace BiTech.Library.Controllers
 
         }
         
-        [HttpPost]
-        public ActionResult Edit(TacGia tacgia)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            _TacGiaLogic.Update(tacgia);
-
-            return RedirectToAction("Index");
-        }
-
         [HttpPost]
         public ActionResult Delete(string Id)
         {

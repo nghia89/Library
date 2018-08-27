@@ -8,7 +8,7 @@
 
 }
 
-<div class="Title">Danh Sách Thể Loại Sáchs</div>
+<div class="Title">Danh Sách Thể Loại Sách</div>
 <div class="clearfix">
     <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>
@@ -75,13 +75,13 @@
                 @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-                    <button class="color-white btn btn-primary btn-sm" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
+                    <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
                         <i class="fa">&#xf044;</i> Sửa
                     </button>
                 </td>
                 <td>
 
-                    <button class="btn-cut color-white btn btn-danger btn-sm" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
+                    <button class="btn-cut color-white btn btn-danger btn-sm btn-inTable" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
                         <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
                     </button>
                 </td>

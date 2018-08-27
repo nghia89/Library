@@ -1,5 +1,6 @@
 ﻿using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
@@ -26,7 +27,7 @@ namespace BiTech.Library.Controllers
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             //Danh sách
-            List<ThanhVien> list_user = _ThanhVienLogic.GetAll();//Danh sách thành viên
+            List<ThanhVien> list_user = _ThanhVienLogic.GetAllActive();//Danh sách thành viên Active
             List<Sach> list_Sach = _SachLogic.getPageSach(new Common.KeySearchViewModel()); //Danh sách trong kho
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>(); //Danh sách book thành viên đang mượn
 
@@ -53,7 +54,8 @@ namespace BiTech.Library.Controllers
             else
             {
                 #region Thành viên
-                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == IdUser).SingleOrDefault(); //Thành viên
+
+                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == new ThanhVienCommon().GetInfo(IdUser)).SingleOrDefault(); //Thành viên
                 if (_thanhvienmodoe != null)
                 {
                     ViewBag.user = _thanhvienmodoe;
@@ -61,8 +63,16 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    ViewBag.ThongBao = true;
-                    ViewBag.ThongBaoString = "Thành viên này không tồn tại";
+                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(IdUser);//Thành viên DeActive
+                    if (user_DeActive != null)
+                    {
+                        ViewBag.ThongBao = true;
+                        ViewBag.ThongBaoString = "Thành viên này đang bị khoá thẻ";
+                    }else
+                    {
+                        ViewBag.ThongBao = true;
+                        ViewBag.ThongBaoString = "Thành viên này không tồn tại";
+                    }
                 }
                 #endregion
             }
@@ -70,7 +80,6 @@ namespace BiTech.Library.Controllers
             ViewBag.list_maSach = list_Sach.Select(_ => _.MaKiemSoat).Take(20).ToList();
             return View(list_book);
         }
-
         /// <summary>
         /// Lấy thông tin sách và cập nhật số lượng sách có thể cho mượn
         /// </summary>
@@ -88,8 +97,8 @@ namespace BiTech.Library.Controllers
             #endregion
             SachLogic _SachLogicLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(maSach);
-            if(_sach != null)
+            Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(maSach));
+            if (_sach != null)
             {
                 list_book.Add(new MuonTraSachViewModel()
                 {
@@ -102,7 +111,6 @@ namespace BiTech.Library.Controllers
             return Json(list_book, JsonRequestBehavior.AllowGet);
 
         }
-
         /// <summary>
         /// Lấy danh sách những cuốn sách đang mượn theo IdUser
         /// </summary>
@@ -124,7 +132,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public JsonResult UpdateListBook(List<MuonTraSachViewModel> List_newitem)
         {
-            if(List_newitem == null)
+            if (List_newitem == null)
                 return Json(false, JsonRequestBehavior.AllowGet);
 
             #region  Lấy thông tin người dùng
@@ -143,21 +151,25 @@ namespace BiTech.Library.Controllers
                 {
                     Sach _sach = _SachLogic.GetByMaMaKiemSoat(item.MaKiemSoat); //Lấy thông tin sách
                     //string a = DateTime.ParseExact(item.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture).Date.Ticks.ToString();
-                    ThongTinMuonSach team = new ThongTinMuonSach()
+                    if (_sach != null)
                     {
-                        idUser = item.IdUser,
-                        idSach = _sach.Id,
-                        NgayGioMuon = DateTime.Now,
-                        NgayPhaiTra = DateTime.ParseExact(item.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture),//item.NgayTra,
-                        DaTra = false,
-                        NgayTraThucTe = DateTime.ParseExact("01/01/0001", "dd/MM/yyyy", null),
-                    };
+                        ThongTinMuonSach team = new ThongTinMuonSach()
+                        {
+                            idUser = item.IdUser,
+                            idSach = _sach.Id,
+                            NgayGioMuon = DateTime.Now,
+                            NgayPhaiTra = DateTime.ParseExact(item.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture),//item.NgayTra,
+                            DaTra = false,
+                            NgayTraThucTe = DateTime.ParseExact("01/01/0001", "dd/MM/yyyy", null),
+                        };
 
-                    //mỗi cuốn sách thì thêm vào table ThongTinMuonSach 1 row
-                    for (int i = 0; i< int.Parse(item.SoLuong); i++)
-                    {
-                        _ThongTinMuonSachLogic.Insert(team); //Thêm sách (Insert to database)
+                        //mỗi cuốn sách thì thêm vào table ThongTinMuonSach 1 row
+                        for (int i = 0; i < int.Parse(item.SoLuong); i++)
+                        {
+                            _ThongTinMuonSachLogic.Insert(team); //Thêm sách (Insert to database)
+                        }
                     }
+
                 }
                 list_book = GetByIdUser(List_newitem[0].IdUser);
                 return Json(list_book, JsonRequestBehavior.AllowGet);
@@ -207,7 +219,7 @@ namespace BiTech.Library.Controllers
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            
+
             List<ThongTinMuonSach> list_TTMS = _ThongTinMuonSachLogic.GetAllIdUser_ChuaTra(IdUser); //Thông tin  mượn sách với IdUser (những sách chưa trả)
             List<MuonTraSachCheckViewTable> list_maSach = new List<MuonTraSachCheckViewTable>(); //Danh sách mã sách đã được thêm vào list_book
 
@@ -223,7 +235,7 @@ namespace BiTech.Library.Controllers
                 };
 
                 //kiểm tra đối tượng đã tồn tại trong list_maSach chưa
-                if (list_maSach.FindIndex(_=>_.MaKiemSoat == _itemcheck.MaKiemSoat && _.NgayMuon == _itemcheck.NgayMuon && _.NgayTra == _itemcheck.NgayTra) > -1 )
+                if (list_maSach.FindIndex(_ => _.MaKiemSoat == _itemcheck.MaKiemSoat && _.NgayMuon == _itemcheck.NgayMuon && _.NgayTra == _itemcheck.NgayTra) > -1)
                 {
                     //đã tồn tại update số lượng
                     MuonTraSachViewModel team = list_book.Where(_ => _.MaKiemSoat == _itemcheck.MaKiemSoat && _.NgayMuon == _itemcheck.NgayMuon && _.NgayTra == _itemcheck.NgayTra).SingleOrDefault();
@@ -269,7 +281,7 @@ namespace BiTech.Library.Controllers
             foreach (TrangThaiSach item_trangthai in _ListTrangThai_true)
             {
                 SoLuongSachTrangThai sl_sach = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(_Sach.Id, item_trangthai.Id);
-                if(sl_sach != null)
+                if (sl_sach != null)
                     soluongsach_true = soluongsach_true + sl_sach.SoLuong;
             }
             //Tính tổng trạng thái sách không thể cho mượn
@@ -285,7 +297,7 @@ namespace BiTech.Library.Controllers
             //Số lượng sách còn lại có thể cho mượn thực tế = tổng sách có thế cho mượn - số sách hiện đang cho mượn
             soluongsach = soluongsach_true - _ThongTinMuonSachLogic.GetAll_ChuaTra_byIdSach(_Sach.Id);
             return soluongsach.ToString();
-        } 
+        }
 
         #endregion
     }

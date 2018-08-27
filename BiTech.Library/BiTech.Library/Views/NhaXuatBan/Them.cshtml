@@ -21,7 +21,7 @@
     @using (Html.BeginForm("Them", "NhaXuatBan", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="Ten">Nhà xuất bản:</label>
+            <label class="col-form-label col-sm-2" for="Ten">Nhà xuất bản:<span style="color:#dc3545">*</span></label>
             <div class="col-sm-10">
                 @Html.EditorFor(Model => Model.Ten, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
                 @Html.ValidationMessageFor(m => m.Ten, "", new { @class = "text-danger" })

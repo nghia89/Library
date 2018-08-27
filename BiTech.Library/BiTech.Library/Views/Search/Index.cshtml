@@ -66,50 +66,9 @@
 
     </form>
     @{int i = 1;}
-
     <div class="book_content clearfix">
-
         @foreach (var item in Model)
         {
-
-
-            @*<div Class="book_box_v2 clearfix">
-                <div class="title">@item.SachDTO.TenSach</div>
-                <div class="book_image">
-                    <object data='@Html.Raw(!string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) ? item.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")' type="image/png">
-                        <img src="@item.SachDTO.LinkBiaSach" alt="Bìa sách" />
-                    </object>
-                    <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })">Xem</a>
-                </div>
-                <div class="book_cell_information">
-                    <div class="book_information">
-                        <div class="book_title_information">Mã kiễm soát:</div>
-                        <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Tác giả:</div>
-                        <div class="book_content_information">@item.Ten_TacGia</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Giá sách:</div>
-                        <div class="book_content_information">@item.SachDTO.GiaBia</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Năm Xuất Bản:</div>
-                        <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information"> Số trang:</div>
-                        <div class="book_content_information">@item.SachDTO.SoTrang</div>
-                    </div>
-                    <div class="book_information">
-                        <div class="book_title_information">Phí mượn sách:</div>
-                        <div class="book_content_information">@item.SachDTO.PhiMuonSach</div>
-                    </div>
-                </div>
-            </div>*@
-
-
             <div Class="book_box_v3 clearfix">
                 <div class="container-box-window clearfix">
                     <div class="top">
@@ -123,31 +82,48 @@
                         </div>
                         <div class="book_cell_information clearfix width_left">
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Mã kiểm soát:</div>
-                                <div class="book_content_information">@item.SachDTO.MaKiemSoat</div>
+                                <span>
+                                    <span class="book_title_information">Mã kiểm soát:</span>
+                                    @item.SachDTO.MaKiemSoat
+                                </span>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Tác giả:</div>
-                                <div class="book_content_information">@item.Ten_TacGia</div>
+                                <span>
+                                    <span class="book_title_information">Tác giả:</span>
+                                    @item.Ten_TacGia
+                                </span>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Số trang:</div>
-                                <div class="book_content_information">@item.SachDTO.SoTrang</div>
+                                <span>
+                                    <span class="book_title_information">ISBN:</span>
+                                    @item.SachDTO.ISBN
+                                </span>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Năm xuất bản:</div>
-                                <div class="book_content_information">@item.SachDTO.NamXuatBan</div>
+                                <span>
+                                    <span class="book_title_information">Ngôn ngữ:</span>
+                                    @item.Ten_NgonNgu
+                                </span>
                             </div>
-
                         </div>
                         <div class="book_cell_information clearfix width_right">
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Giá sách:</div>
-                                <div class="book_content_information">@item.SachDTO.GiaBia</div>
+                                <span>
+                                    <span class="book_title_information">Năm xuất bản:</span>
+                                    @item.SachDTO.NamXuatBan
+                                </span>
                             </div>
                             <div class="book_information clearfix">
-                                <div class="book_title_information">Phí mượn sách:</div>
-                                <div class="book_content_information">@item.SachDTO.PhiMuonSach</div>
+                                <span>
+                                    <span class="book_title_information">Tổng số sách:</span>
+                                    @item.SachDTO.SoLuongTong
+                                </span>
+                            </div>
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Còn lại:</span>
+                                    @item.SachDTO.SoLuongConLai
+                                </span>
                             </div>
                             <a href="@Url.Action("ThongTinChiTiet", new { id=item.SachDTO.Id })"
                                class="btn btn-primary btn-sm"
@@ -161,8 +137,10 @@
         }
         <div class="clearfix"></div>
         <br />
-        Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "customer_area" }))
+        @if (@ViewBag.number > 30)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "customer_area" }))
+        }
     </div>
 
 </div>

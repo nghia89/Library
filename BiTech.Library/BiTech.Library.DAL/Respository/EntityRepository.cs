@@ -48,7 +48,7 @@ namespace BiTech.Library.DAL.Respository
         public virtual bool Update(T entity)
         {
             var updateResult = _DatabaseCollection.ReplaceOne<T>(m => m.Id == entity.Id, entity);
-            return (updateResult.ModifiedCount > 0);
+            return updateResult.IsAcknowledged && updateResult.MatchedCount > 0;
         }
   
 

@@ -262,6 +262,7 @@ namespace BiTech.Library.Controllers
             //ViewBag.HinhChanDung = tv.HinhChanDung;
             return View(model);
         }
+
         [HttpPost]
         public ActionResult _Edit(EditUserViewModel viewModel)
         {
@@ -280,8 +281,7 @@ namespace BiTech.Library.Controllers
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
             thanhVien.SDT = viewModel.SDT;
-            bool resultInfo = _ThanhVienLogic.Update(thanhVien);
-            bool resultImage = false;
+
 
             if (viewModel.HinhChanDung != null)
             {
@@ -296,8 +296,6 @@ namespace BiTech.Library.Controllers
                     if (tempt != null)
                     {
                         thanhVien.HinhChanDung = tempt.HinhChanDung;
-                        _ThanhVienLogic.Update(thanhVien);
-                        resultImage = true;
                     }
                 }
                 catch { }
@@ -314,19 +312,21 @@ namespace BiTech.Library.Controllers
                 {
                     thanhVien.QRLink = temp.QRLink;
                     thanhVien.QRData = temp.QRData;
-                    _ThanhVienLogic.Update(thanhVien);
                 }
             }
             catch { }
-            if (resultInfo == true || resultImage == true)
+
+            bool resultInfo = _ThanhVienLogic.Update(thanhVien);
+
+            if (resultInfo == true)
             {
-                return RedirectToAction("Details", "GiaoVien", new { @idUser = viewModel.Id });
+                ViewBag.UpdateSuccess = "Cập nhật thành công!";
             }
             else
             {
                 ViewBag.UpdateFail = "Cập nhật không thành công!";
-                return View(viewModel);
             }
+            return View(viewModel);
         }
 
         public ActionResult Delete(string id)

@@ -171,6 +171,5 @@ namespace BiTech.Library.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
 
         }
-
     }
 }

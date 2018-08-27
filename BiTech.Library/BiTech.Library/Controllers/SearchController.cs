@@ -44,7 +44,15 @@ namespace BiTech.Library.Controllers
             var list = _SachLogic.getPageSach(KeySearch);
             foreach (var item in list)
             {
-                var IdSachTG = _SachTacGiaLogic.getById(item.Id);
+                var listTG = _SachTacGiaLogic.getListById(item.Id);
+
+                string tenTG = "";
+                foreach (var item2 in listTG)
+                {
+                    tenTG += _TacGiaLogic.GetByIdTG(item2.IdTacGia)?.TenTacGia + ", " ?? "";
+                }
+                tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
+
                 BookView book = new BookView(item);
 
                 //book.SachDTO
@@ -52,8 +60,9 @@ namespace BiTech.Library.Controllers
                 book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
                 book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
                 book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
-                book.Ten_TacGia = _TacGiaLogic.GetByIdTG(IdSachTG.IdTacGia)?.TenTacGia ?? "--";
-              
+                book.Ten_TacGia = tenTG;
+
+
                 model.Add(book);
             }
             

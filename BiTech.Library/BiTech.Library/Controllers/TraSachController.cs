@@ -1,5 +1,6 @@
 ﻿using BiTech.Library.BLL.BarCode_QR;
 using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
@@ -27,7 +28,7 @@ namespace BiTech.Library.Controllers
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             //Danh sách
-            List<ThanhVien> list_user = _ThanhVienLogic.GetAll();//Danh sách thành viên
+            List<ThanhVien> list_user = _ThanhVienLogic.GetAllActive();//Danh sách thành viên Active
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>(); //Danh sách book thành viên đang mượn
 
             //model
@@ -53,7 +54,7 @@ namespace BiTech.Library.Controllers
             else
             {
                 #region Thành viên
-                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == IdUser).SingleOrDefault(); //Thành viên
+                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == new ThanhVienCommon().GetInfo(IdUser)).SingleOrDefault(); //Thành viên
                 if (_thanhvienmodoe != null)
                 {
                     ViewBag.user = _thanhvienmodoe;
@@ -61,12 +62,21 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    ViewBag.ThongBao = true;
-                    ViewBag.ThongBaoString = "Thành viên này không tồn tại";
+                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(IdUser);//thành viên DeActive
+                    if (user_DeActive != null)
+                    {
+                        ViewBag.ThongBao = true;
+                        ViewBag.ThongBaoString = "Thành viên này đang bị khoá thẻ";
+                    }
+                    else
+                    {
+                        ViewBag.ThongBao = true;
+                        ViewBag.ThongBaoString = "Thành viên này không tồn tại";
+                    }
                 }
                 #endregion
             }
-            list_book = GetByIdUser(IdUser);
+            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser));
             ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien).Take(20).ToList();
             ViewBag.list_maSach = list_book.Select(_ => _.MaKiemSoat).Take(20).ToList();
             return View(list_book);
@@ -91,7 +101,7 @@ namespace BiTech.Library.Controllers
             SachLogic _SachLogicLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             //Lấy danh sach những đang mượn của user id
-            List<MuonTraSachViewModel> list_book_team = GetByIdUser(IdUser);
+            List<MuonTraSachViewModel> list_book_team = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser));
 
             //Nếu ngày mượn và ngày trả là ""
             if (NgayMuon == "" && NgayTra == "")
@@ -106,7 +116,7 @@ namespace BiTech.Library.Controllers
             
             //Lấy item có ngày trả nhỏ nhất
             //OrderBy list theo NgayTra
-            list_book = list_book_team.Where(_ => _.MaKiemSoat == maSach).OrderBy(_ => _.NgayTra).ToList();
+            list_book = list_book_team.Where(_ => _.MaKiemSoat == new SachCommon().GetInfo(maSach)).OrderBy(_ => _.NgayTra).ToList();
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
 

@@ -28,6 +28,7 @@ namespace BiTech.Library.Controllers.BaseClass
             } while (j != (yearEnd + 1));
             return listNienKhoa;
         }
+
         /// <summary>
         /// Lưu hình chân dung của Thành Viên khi thêm mới
         /// </summary>
@@ -59,6 +60,7 @@ namespace BiTech.Library.Controllers.BaseClass
                 return thanhVien;
             }
         }
+
         public ThanhVien LuuMaVach(string physicalWebRootPath, ThanhVien thanhVien, string imageName)
         {
             BarCodeQRManager barcode = new BarCodeQRManager();
@@ -91,20 +93,26 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return thanhVien;
         }
+
         public string GetInfo(string info)
         {
-            string[] arrStr = info.Split('-');
-            string id = null;
-            string maSo = null;
-            string ten = null;
-            if (arrStr[0].Equals("BLibUser") == true)
+            try
             {
-                id = arrStr[1];
-                maSo = arrStr[2];
-                ten = arrStr[3];
+                string[] arrStr = info.Split('-');
+                string id = null;
+                string maSo = info;
+                string ten = null;
+                if (arrStr[0].Equals("BLibUser") == true)
+                {
+                    id = arrStr[1];
+                    maSo = arrStr[2];
+                    ten = arrStr[3];
+                }
+                return maSo;
             }
-            return maSo;
+            catch { return info; }
         }
+
         public List<ThanhVien> ImportFromExcel(string physicalWebRootPath, HttpPostedFileBase linkExcel)
         {
             ExcelManager excelManager = new ExcelManager();
