@@ -515,8 +515,8 @@ namespace BiTech.Library.Controllers
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllHS();
 
-            string linkMau1 = "/Upload/FileWord/mau2.docx";
-            excelManager.ExportWord(linkMau1, listTV);
+            //string linkMau1 = "/Content/MauWord/mau2.docx";
+            //excelManager.ExportWord(linkMau1, listTV);
 
             if (model.LinkWord != null)
             {
@@ -558,11 +558,11 @@ namespace BiTech.Library.Controllers
             string linkMau = null;
             if (mauThe.Equals("mau1") == true)
             {
-                linkMau = "/Upload/FileWord/mau1.docx";
+                linkMau = "/Content/MauWord/Mau1.docx";
             }
             else if ((mauThe.Equals("mau2") == true))
             {
-                linkMau = "/Upload/FileWord/mau2.docx";
+                linkMau = "/Content/MauWord/Mau2.docx";
             }
             excelManager.ExportWord(linkMau, listTV);
             return RedirectToAction("Index", "HocSinh");

@@ -18,7 +18,7 @@ namespace BiTech.Library.Controllers.BaseClass
         /// <returns></returns>
         public int DemSoPhieuMuon(List<ThongTinMuonSach> listPM)
         {
-            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();
+            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();          
             foreach (var item in listPM)
             {
                 // Gộp sách                

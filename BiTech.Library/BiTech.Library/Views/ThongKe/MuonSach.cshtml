@@ -22,18 +22,18 @@
     <div id="isMonth" class="tabcontent" style="display:block">
         <table>
             <tr>
-                <td style="font-size:20px;padding:15px">Tháng</td>
+                <td style="font-size:18px;padding:15px">Tháng</td>
                 <td>
-                    <select class="form-control" style="width:90px" ng-model="SelectedMonth" ng-change="GetDataMonth()">
+                    <select class="form-control form-control-sm" style="width:90px" ng-model="SelectedMonth" ng-change="GetDataMonth()">
                         @for (int month = 1; month <= 12; month++)
                         {
                             <option value="@month">@month</option>
                         }
                     </select>
                 </td>
-                <td style="font-size:20px;padding:15px">Năm</td>
+                <td style="font-size:18px;padding:15px">Năm</td>
                 <td>
-                    <select class="form-control" style="width:90px" ng-model="SelectedYear" ng-click="GetDataMonth()">
+                    <select class="form-control form-control-sm" style="width:90px" ng-model="SelectedYear" ng-click="GetDataMonth()">
                         @for (int year = 2018; year <= DateTime.Now.Year; year++)
                         {
                             <option value="@year">@year</option>
@@ -80,10 +80,9 @@
             </p>*@
     </div>
     <div id="isDay" class="tabcontent">
-        <div>
-            <input id="day" class="form-control datepicker" ng-model="SelectedDay" ng-change="GetDataDay()" />
-        </div>
-        <hr />
+        <div class="pb-1">
+            <input id="day" class="form-control form-control-sm datepicker" ng-model="SelectedDay" ng-change="GetDataDay()" />
+        </div>     
         <h6> Tổng số sách được mượn là: {{SoSachDuocMuon}} cuốn</h6>
         <h6> Tổng số người mượn sách là: {{SoNguoiMuonSach}} người</h6>
         <table class="table table-hover table-striped">
