@@ -78,7 +78,6 @@
     <Compile Include="Enums.cs" />
     <Compile Include="GiaHan.cs" />
     <Compile Include="IModel.cs" />
-    <Compile Include="LyDoXuat.cs" />
     <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NhaXuatBan.cs" />

@@ -16,7 +16,7 @@ app.controller('BookGenresCtrlr', function ($scope, $http) {
                 }
             }
         }, function () {
-            alert("Error Occur");
+            console.log("BookGenresCtrlr - GetAllData - load fail.");
         })
     };
 });
@@ -36,7 +36,7 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
                 }
             }
         }, function () {
-            alert("Error Occur");
+            console.log("PublishersCtrlr - GetAllData - load fail.");
         })
     };
 });
@@ -55,7 +55,7 @@ app.controller('KeSach', function ($scope, $http) {
                 }
             }
         }, function () {
-            alert("Error Occur");
+            console.log("KeSach - GetAllData - load fail.");
         })
     };
 });
@@ -74,7 +74,7 @@ app.controller('NgonNgu', function ($scope, $http) {
                 }
             }
         }, function () {
-            alert("Error Occur");
+            console.log("NgonNgu - GetAllData - laod fail.");
         })
     };
 });
@@ -88,7 +88,7 @@ app.controller('TacGiaSelectorCtrlr', function ($scope, $http) {
         }).then(function (response) {
             $scope.list = response.data;
         }, function () {
-            alert("Error Occur");
+            console.log("TacGiaSelectorCtrlr - GetAllData - load fail.");
         })
     };
 });
@@ -137,7 +137,7 @@ app.controller('TacGiaFinder', function ($scope, $http) {
         }).then(function (response) {
             return JSON.parse(response.data);
         }, function () {
-            alert("Error Occur");
+            console.log("TacGiaSelectorCtrlr - loadData - load fail.");
         })
     };
 
@@ -149,7 +149,7 @@ app.controller('TacGiaFinder', function ($scope, $http) {
         }).then(function (response) {
             $scope.listtg = response.data;
         }, function () {
-            alert("Error Occur");
+            console.log("TacGiaSelectorCtrlr - GetAllTacGiaByIdSach - load fail.");
         })
     };
 

@@ -122,11 +122,8 @@ namespace BiTech.Library.Controllers
 
         }
 
-        /// <summary>
-        /// Lấy danh sách những cuốn sách đang mượn theo IdUser
-        /// </summary>
-        /// <param name="IdUser"></param>
-        /// <returns></returns>
+        // Lấy danh sách những cuốn sách đang mượn theo IdUser
+        // POST: TraSach/GetListBook_IdUser
         [HttpPost]
         public JsonResult GetListBook_IdUser(string IdUser)
         {
@@ -134,10 +131,9 @@ namespace BiTech.Library.Controllers
             list_book = GetByIdUser(IdUser);
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
-               
-        // 
+
+        // ChuanBiTra
         // POST: /TraSach/UpdateList_ChuanBiTra
-        //
         [HttpPost]
         public JsonResult UpdateList_ChuanBiTra(List<MuonTraSachViewModel> List_newitem)
         {
@@ -145,11 +141,8 @@ namespace BiTech.Library.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Trả Sách - update row table ThongTinMuonSach (dữ liệu lấy từ list sách chuẩn bị trả)
-        /// </summary>
-        /// <param name="List_newitem"></param>
-        /// <returns></returns>
+        // Trả Sách - update row table ThongTinMuonSach (dữ liệu lấy từ list sách chuẩn bị trả)
+        // POST: /TraSach/UpdateListBook
         [HttpPost]
         public JsonResult UpdateListBook(List<MuonTraSachViewModel> List_newitem)
         {
@@ -195,9 +188,9 @@ namespace BiTech.Library.Controllers
                             TrangThaiSach _trangthai = _TrangThaiSachLogic.getById(item_TT.TrangThaiTra);
                             if (_trangthai != null)
                             {
-                                //Trạng thái sách trả không thể cho mượn tiếp(hư hại)
-                                //Thêm số lượng sách hư hại vào SoLuongSachTrangThai
-                                //=>Số lượng sách có thể cho mượn = số lượng sách không hư - số lượng sách hư hại
+                                // Trạng thái sách trả không thể cho mượn tiếp(hư hại)
+                                // Thêm số lượng sách hư hại vào SoLuongSachTrangThai
+                                // => Số lượng sách có thể cho mượn = số lượng sách không hư - số lượng sách hư hại
                                 if (_trangthai.TrangThai == false)
                                 {
                                     SoLuongSachTrangThai sl_sach = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(item_TT.idSach, item_TT.TrangThaiTra);
@@ -240,7 +233,15 @@ namespace BiTech.Library.Controllers
 
                                 }
                             }
-                            _ThongTinMuonSachLogic.SuaTrangThai(item_TT);
+
+                            // cập nhật lại thông tin mượn sách
+                            if (_ThongTinMuonSachLogic.SuaTrangThai(item_TT))
+                            {
+                                // cập nhật thành công thì update lại số lượng còn lại
+                                var updatesl = _SachLogic.GetBookById(team.idSach);
+                                updatesl.SoLuongConLai += 1;
+                                _SachLogic.Update(updatesl);
+                            }
                         }
                     }
                 }
@@ -375,7 +376,7 @@ namespace BiTech.Library.Controllers
                     soluongsach = soluongsach + sl_sach.SoLuong;
             }
             //Số lượng sách còn lại có thể cho mượn = tổng sách có thế cho mượn - số sách hiện đang cho mượn
-            soluongsach = soluongsach - _ThongTinMuonSachLogic.GetAll_ChuaTra_byIdSach(_Sach.Id);
+            soluongsach = soluongsach - _ThongTinMuonSachLogic.Count_ChuaTra_byIdSach(_Sach.Id);
             return soluongsach.ToString();
         }
 

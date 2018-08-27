@@ -23,7 +23,7 @@ namespace BiTech.Library.Controllers
         {
             sachCommon = new SachCommon();
         }
-		
+
         public ActionResult Index(KeySearchViewModel KeySearch, int? page)
         {
             #region  Lấy thông tin người dùng
@@ -50,6 +50,7 @@ namespace BiTech.Library.Controllers
 
             var list = _SachLogic.getPageSach(KeySearch);
             ViewBag.number = list.Count();
+
             foreach (var item in list)
             {
                 var listTG = _SachTacGiaLogic.getListById(item.Id);
@@ -59,7 +60,11 @@ namespace BiTech.Library.Controllers
                 {
                     tenTG += _TacGiaLogic.GetByIdTG(item2.IdTacGia)?.TenTacGia + ", " ?? "";
                 }
-                tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length -2);
+                tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
+
+                // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được         
+                //var numKhongMuonDuoc =  MuonSachController.GetSoLuongSach(item.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                //item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
 
                 BookView book = new BookView(item);
                 book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
@@ -236,10 +241,17 @@ namespace BiTech.Library.Controllers
             {
                 return RedirectToAction("Index");
             }
-            var sltts = _SlTrangThaisach.GetByFindId(id);
+
+            var sltts = _SlTrangThaisach.GetByIdSach(id);
             ViewBag.SlTTsach = sltts;
+
             var idTG = _TacGiaLogic.GetAllTacGia();
             ViewBag.IdTacGia = idTG;
+
+            // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được
+            //var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(sachDTO.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            //sachDTO.SoLuongConLai = sachDTO.SoLuongConLai - numKhongMuonDuoc;
+
             SachUploadModel model = new SachUploadModel(sachDTO);
             model.Languages = _LanguageLogic.GetAll();
             ViewBag.TLS = model.SachDTO.IdTheLoai;
@@ -267,7 +279,7 @@ namespace BiTech.Library.Controllers
                 Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
                 if (sach != null)
                 {
-//<<<<<<< HEAD
+                    //<<<<<<< HEAD
                     // Id = model.SachDTO.Id,
                     // IdTheLoai = model.SachDTO.IdTheLoai,
                     // IdKeSach = model.SachDTO.IdKeSach,
@@ -284,7 +296,7 @@ namespace BiTech.Library.Controllers
                     // PhiMuonSach = model.SachDTO.PhiMuonSach,
                     // ISBN=model.SachDTO.ISBN,
                     // XuatXu=model.SachDTO.XuatXu
-//=======
+                    //=======
                     sach.Id = model.SachDTO.Id;
                     //sach.MaKiemSoat = model.SachDTO.MaKiemSoat;
                     sach.DDC = model.SachDTO.DDC;
@@ -303,7 +315,7 @@ namespace BiTech.Library.Controllers
                     sach.TaiBan = model.SachDTO.TaiBan;
                     sach.TomTat = model.SachDTO.TomTat;
                     //sach.SoLuongTong = model.SachDTO.SoLuongTong;
-//>>>>>>> Phongv25
+                    //>>>>>>> Phongv25
                     //LinkBiaSach = model.FileImageCover.ToString()
 
                     string failTG = "";
@@ -417,7 +429,7 @@ namespace BiTech.Library.Controllers
             SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var model = _SlTrangThaisach.GetByFindId(Id);
+            var model = _SlTrangThaisach.GetByIdSach(Id);
             var tt = _TrangThaiSachLogic.GetAll();
             List<SoLuongTrangThaiSachVM> list = new List<SoLuongTrangThaiSachVM>();
             foreach (var i in model)
@@ -594,7 +606,7 @@ namespace BiTech.Library.Controllers
 
             TheLoaiSachLogic _TheLoaiSachLogic =
                 new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            
+
             ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach(true);
             return PartialView("_NhapLoaiSach");
         }

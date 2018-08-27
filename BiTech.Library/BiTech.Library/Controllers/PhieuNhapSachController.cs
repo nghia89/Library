@@ -48,7 +48,7 @@ namespace BiTech.Library.Controllers
             return View(lstpns.OrderByDescending(x => x.NgayNhap).ToPagedList(PageNumber, PageSize));
         }
 
-        public ActionResult NhapSach()
+        public ActionResult Details(string id)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -56,51 +56,46 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            PhieuNhapSachLogic _NhapSachLogic = new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic =
+              new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            PhieuNhapSachLogic _PhieuNhapSachLogic =
+             new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-            var list = _SachLogic.getAllSach();
+            var model = _ChiTietNhapSachLogic.GetAllChiTietById(id);
+            var phieunhap = _PhieuNhapSachLogic.GetById(id);
 
-            List<SachViewModels> ListdsSach = new List<SachViewModels>();
-            foreach (var item in list)
+            if (phieunhap == null || model == null)
+                return RedirectToAction("NotFound", "Error");
+
+            PhieuNhapSachModels pns = new PhieuNhapSachModels()
             {
-                SachViewModels model = new SachViewModels
-                {
-                    Id = item.Id,
-                    TenSach = item.TenSach,
-                    IdTheLoai = item.IdTheLoai,
-                    IdKeSach = item.IdKeSach,
-                    IdNhaXuatBan = item.IdNhaXuatBan,
-                    MaKiemSoat = item.MaKiemSoat,
-                    NgonNgu = item.IdNgonNgu,
-                    NamSanXuat = item.NamXuatBan,
-                    GiaBia = item.GiaBia,
-                    LinkBiaSach = item.LinkBiaSach,
-                    SoLuong = item.SoLuongTong
-                };
-                ListdsSach.Add(model);
-            }
-            ViewBag.DSSach = ListdsSach;
-            return View();
-        }
 
-        [HttpPost]
-        public ActionResult NhapSach(ChiTietNhapSachViewModels model)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
+                IdUserAdmin = phieunhap.IdUserAdmin,
+                GhiChu = phieunhap.GhiChu,
+                NgayNhap = phieunhap.CreateDateTime
 
-            PhieuNhapSachLogic _NhapSachLogic = new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            PhieuNhapSach NS = new PhieuNhapSach()
-            {
-                Id = model.Id,
             };
-            _NhapSachLogic.NhapSach(NS);
-            return View();
+            List<ChiTietNhapSachViewModels> lst = new List<ChiTietNhapSachViewModels>();
+            foreach (var item in model)
+            {
+                ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
+                ctns.Id = item.Id;
+                ctns.IdTinhTrang = item.IdTinhtrang;
+                var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
+                ctns.tenTinhTrang = TinhTrang.TenTT;
+                ctns.IdSach = item.IdSach;
+                var TenSach = _SachLogic.GetBookById(ctns.IdSach);
+                ctns.ten = TenSach.TenSach;
+                ctns.soLuong = item.SoLuong;
+                ctns.GhiChuDon = item.GhiChu;
+                lst.Add(ctns);
+
+            }
+            ViewBag.lstctnhap = lst;
+
+            return View(pns);
         }
 
         public ActionResult TaoPhieuNhapSach()
@@ -162,6 +157,7 @@ namespace BiTech.Library.Controllers
 
                         _ChiTietNhapSachLogic.Insert(ctns);
                         {
+                            // update số lượng sách trạng thái
                             var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctModel.IdTinhTrang);
                             if (sltt != null)
                             {
@@ -177,12 +173,15 @@ namespace BiTech.Library.Controllers
                                 _SoLuongSachTrangThaiLogic.Insert(sltt);
                             }
 
+                            // update tổng số lượng sách
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuongTong += ctns.SoLuong;
+
                             // ktr neu cho muon moi cong them
-                            var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
-                            if (tinhTrang.TrangThai == true)
-                                updatesl.SoLuongConLai += ctns.SoLuong;
+                            //var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
+                            //if (tinhTrang.TrangThai == true)
+                            updatesl.SoLuongConLai += ctns.SoLuong;
+
                             _SachLogic.Update(updatesl);
                         }
                     }
@@ -194,116 +193,6 @@ namespace BiTech.Library.Controllers
             ModelState.Clear();
 
             return View();
-        }
-
-        public ActionResult Details(string id)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SachLogic _SachLogic =
-              new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            PhieuNhapSachLogic _PhieuNhapSachLogic =
-             new PhieuNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            var model = _ChiTietNhapSachLogic.GetAllChiTietById(id);
-            var phieunhap = _PhieuNhapSachLogic.GetById(id);
-
-            if (phieunhap == null || model == null)
-                return RedirectToAction("NotFound", "Error");
-
-            PhieuNhapSachModels pns = new PhieuNhapSachModels()
-            {
-
-                IdUserAdmin = phieunhap.IdUserAdmin,
-                GhiChu = phieunhap.GhiChu,
-                NgayNhap = phieunhap.CreateDateTime
-
-            };
-            List<ChiTietNhapSachViewModels> lst = new List<ChiTietNhapSachViewModels>();
-            foreach (var item in model)
-            {
-                ChiTietNhapSachViewModels ctns = new ChiTietNhapSachViewModels();
-                ctns.Id = item.Id;
-                ctns.IdTinhTrang = item.IdTinhtrang;
-                var TinhTrang = _TrangThaiSachLogic.getById(ctns.IdTinhTrang);
-                ctns.tenTinhTrang = TinhTrang.TenTT;
-                ctns.IdSach = item.IdSach;
-                var TenSach = _SachLogic.GetBookById(ctns.IdSach);
-                ctns.ten = TenSach.TenSach;
-                ctns.soLuong = item.SoLuong;
-                ctns.GhiChuDon = item.GhiChu;
-                lst.Add(ctns);
-
-            }
-            ViewBag.lstctnhap = lst;
-
-            return View(pns);
-        }
-
-        [HttpGet]
-        public JsonResult _GetBookItemById(string maKS, int soLuong, string idtrangthai, string GhiChuDon)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
-            SachLogic _SachLogic =
-                new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic =
-                new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            maKS = maKS.Trim();
-
-            JsonResult result = new JsonResult();
-            result.Data = null;
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-
-            if (!string.IsNullOrEmpty(maKS) && !string.IsNullOrEmpty(idtrangthai) && soLuong > 0)
-            {
-                var book = _SachLogic.GetByMaMaKiemSoat(maKS);
-                var tt = _TrangThaiSachLogic.getById(idtrangthai);
-                ChiTietNhapSachViewModels pp = new ChiTietNhapSachViewModels()
-                {
-                    IdSach = book.Id,
-                    ten = book.TenSach,
-                    soLuong = soLuong,
-                    IdTinhTrang = idtrangthai,
-                    tenTinhTrang = tt.TenTT,
-                    MaKiemSoat = book.MaKiemSoat,
-                    GhiChuDon = GhiChuDon
-                };
-
-                result.Data = pp;
-            }
-            return result;
-        }
-        
-        [HttpPost]
-        public ActionResult Autocomplete(string a)
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
-            SachLogic _SachLogic =
-               new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            var ListTD = (from N in _SachLogic.getAll()
-                          where N.MaKiemSoat.StartsWith(a)
-                          select new { N.MaKiemSoat });
-
-
-            return Json(ListTD, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ImportFromExcel()
@@ -402,6 +291,66 @@ namespace BiTech.Library.Controllers
             //return View();
             return RedirectToAction("Index", "PhieuNhapSach");
         }
-    }
 
+        // Ajax ---
+
+        [HttpGet]
+        public JsonResult _GetBookItemById(string maKS, int soLuong, string idtrangthai, string GhiChuDon)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            maKS = maKS.Trim();
+            GhiChuDon = GhiChuDon.Trim();
+
+            JsonResult result = new JsonResult();
+            result.Data = null;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            if (!string.IsNullOrEmpty(maKS) && !string.IsNullOrEmpty(idtrangthai) && soLuong > 0)
+            {
+                var book = _SachLogic.GetByMaMaKiemSoat(maKS);
+                var tt = _TrangThaiSachLogic.getById(idtrangthai);
+                ChiTietNhapSachViewModels pp = new ChiTietNhapSachViewModels()
+                {
+                    IdSach = book.Id,
+                    ten = book.TenSach,
+                    soLuong = soLuong,
+                    IdTinhTrang = idtrangthai,
+                    tenTinhTrang = tt.TenTT,
+                    MaKiemSoat = book.MaKiemSoat,
+                    GhiChuDon = GhiChuDon
+                };
+
+                result.Data = pp;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public ActionResult Autocomplete(string a)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogic =
+               new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            var ListTD = (from N in _SachLogic.getAll()
+                          where N.MaKiemSoat.StartsWith(a)
+                          select new { N.MaKiemSoat });
+
+
+            return Json(ListTD, JsonRequestBehavior.AllowGet);
+        }
+    }
 }
