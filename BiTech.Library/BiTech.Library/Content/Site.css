@@ -1016,25 +1016,6 @@ a:hover {
     }
 }
 
-@media screen and (max-width: 768px) {
-    .book_box_v2 {
-        width: calc(100% - 20px);
-        max-width: 600px;
-        margin: 10px auto;
-        float: none;
-    }
-
-    .book_box_v3 {
-        width: calc(100% - 20px);
-        margin: 10px auto;
-        float: none;
-    }
-
-        .book_box_v3 .container-box-window .book_cell_information.width_right {
-            width: calc(25%);
-        }
-}
-
 @media screen and (max-width: 1150px) {
 
     .line-gl,
@@ -1077,9 +1058,7 @@ a:hover {
         width: 100%;
     }
 
-    .contain .right {
-        /*width: calc(100% - 40px);*/
-    }
+    
 
     .contain .left .menu {
         position: absolute;
@@ -1089,6 +1068,31 @@ a:hover {
             height: 0;
         }
 }
+@media screen and (max-width: 992px) {
+    .contain .right {
+        width: calc(100% - 40px);
+    }
+}
+@media screen and (max-width: 768px) {
+    .book_box_v2 {
+        width: calc(100% - 20px);
+        max-width: 600px;
+        margin: 10px auto;
+        float: none;
+    }
+
+    .book_box_v3 {
+        width: calc(100% - 20px);
+        margin: 10px auto;
+        float: none;
+    }
+
+        .book_box_v3 .container-box-window .book_cell_information.width_right {
+            width: calc(25%);
+        }
+}
+
+
 
 @media screen and (max-width: 600px) {
     .line-gl,
