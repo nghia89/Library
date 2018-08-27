@@ -4,7 +4,7 @@
 }
 <div class="top clearfix">
     <div class="banner">
-        <h5>Phần mềm Quản lý Thư viện B.Lib - @ViewBag.SSOSchoolName </h5>
+        <h5>Phần mềm Quản lý Thư viện B.Lib - Trường THPT Gò Vấp @ViewBag.SSOSchoolName </h5>
     </div>
 
     @if (Request.IsAuthenticated)
@@ -19,11 +19,11 @@
                         <div class="dropdown-toggle" data-toggle="dropdown">
 
                             <a href="@Url.Action("Index", "Manage", new { title = "Manage" })">
-                                Hello @ViewBag.SSOFullName "!"
+                                @ViewBag.SSOFullName
                             </a>
                         </div>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="//bitechco.test/Customer/MyProfile">Link 1</a>
+                            <a class="dropdown-item" href="//bitechco.test/Customer/MyProfile">Thông tin cá nhân</a>
                             @Html.ActionLink("Đăng xuất", "logoff", "Account", null, new { @class = "dropdown-item" })
                         </div>
                     </div>

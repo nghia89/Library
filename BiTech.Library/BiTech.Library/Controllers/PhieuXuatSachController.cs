@@ -149,24 +149,17 @@ namespace BiTech.Library.Controllers
                             GhiChu = ctModel.GhiChuDon,
                             CreateDateTime = DateTime.Now
                         };
+                        
+                        // update số lượng sách trạng thái
+                        var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhTrang);
 
-                        _ChiTietNhapSachLogic.Insert(ctxs);
+                        // Nếu có và sl hiện tại lớn hơn hoặc = sl xuất
+                        if (sltt != null && sltt.SoLuong >= ctxs.SoLuong)
                         {
-                            // update số lượng sách trạng thái
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhTrang);
-                            if (sltt != null)
-                            {
-                                sltt.SoLuong -= ctxs.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Update(sltt);
-                            }
-                            else
-                            {
-                                sltt = new SoLuongSachTrangThai();
-                                sltt.IdSach = ctxs.IdSach;
-                                sltt.IdTrangThai = ctxs.IdTinhTrang;
-                                sltt.SoLuong = ctxs.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Insert(sltt);
-                            }
+                            sltt.SoLuong -= ctxs.SoLuong;
+                            _SoLuongSachTrangThaiLogic.Update(sltt);
+
+                            _ChiTietNhapSachLogic.Insert(ctxs);
 
                             // update tổng số lượng sách
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
@@ -178,8 +171,16 @@ namespace BiTech.Library.Controllers
                             updatesl.SoLuongConLai -= ctxs.SoLuong;
 
                             _SachLogic.Update(updatesl);
-
                         }
+
+                        //else
+                        //{
+                        //    sltt = new SoLuongSachTrangThai();
+                        //    sltt.IdSach = ctxs.IdSach;
+                        //    sltt.IdTrangThai = ctxs.IdTinhTrang;
+                        //    sltt.SoLuong = ctxs.SoLuong;
+                        //    _SoLuongSachTrangThaiLogic.Insert(sltt);
+                        //}
                     }
                     return RedirectToAction("Index");
                 }
