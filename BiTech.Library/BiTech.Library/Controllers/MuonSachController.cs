@@ -80,11 +80,9 @@ namespace BiTech.Library.Controllers
             ViewBag.list_maSach = list_Sach.Select(_ => _.MaKiemSoat).Take(20).ToList();
             return View(list_book);
         }
-        /// <summary>
-        /// Lấy thông tin sách và cập nhật số lượng sách có thể cho mượn
-        /// </summary>
-        /// <param name="maSach"></param>
-        /// <returns></returns>
+
+        // Lấy thông tin sách và cập nhật số lượng sách có thể cho mượn
+        // POST: MuonSach/GetBook
         [HttpPost]
         public JsonResult GetBook(string maSach)
         {
@@ -104,31 +102,32 @@ namespace BiTech.Library.Controllers
                 {
                     MaKiemSoat = _sach.MaKiemSoat,
                     TenSach = _sach.TenSach,
-                    SoLuong = GetSoLuongSach(_sach.Id)
+                    SoLuong = GetSoLuongSach(_sach.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName).ToString()
                 });
             }
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
 
         }
-        /// <summary>
-        /// Lấy danh sách những cuốn sách đang mượn theo IdUser
-        /// </summary>
-        /// <param name="IdUser"></param>
-        /// <returns></returns>
+
+        // Lấy danh sách những cuốn sách đang mượn theo IdUser
+        // POST: MuonSach/GetListBook_IdUser
         [HttpPost]
         public JsonResult GetListBook_IdUser(string IdUser)
         {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-            list_book = GetByIdUser(IdUser);
+            list_book = GetByIdUser(IdUser, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
-
-        /// <summary>
-        /// insert row table ThongTinMuonSach (dữ liệu lấy từ list sách chuẩn bị mượn)
-        /// </summary>
-        /// <param name="List_newitem"></param>
-        /// <returns></returns>
+        
+        // insert row table ThongTinMuonSach (dữ liệu lấy từ list sách chuẩn bị mượn)
+        // POST: MuonSach/UpdateListBook
         [HttpPost]
         public JsonResult UpdateListBook(List<MuonTraSachViewModel> List_newitem)
         {
@@ -166,12 +165,21 @@ namespace BiTech.Library.Controllers
                         //mỗi cuốn sách thì thêm vào table ThongTinMuonSach 1 row
                         for (int i = 0; i < int.Parse(item.SoLuong); i++)
                         {
-                            _ThongTinMuonSachLogic.Insert(team); //Thêm sách (Insert to database)
+                            var rs = _ThongTinMuonSachLogic.Insert(team); //Thêm sách (Insert to database)
+
+                            // Cập nhật lại số lượng còn lại
+                            if (!string.IsNullOrEmpty(rs))
+                            {
+                                var updatesl = _SachLogic.GetBookById(team.idSach);
+                                updatesl.SoLuongConLai -= 1;
+                                updatesl.SoLanDuocMuon++;
+
+                                _SachLogic.Update(updatesl);
+                            }
                         }
                     }
-
                 }
-                list_book = GetByIdUser(List_newitem[0].IdUser);
+                list_book = GetByIdUser(List_newitem[0].IdUser, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
                 return Json(list_book, JsonRequestBehavior.AllowGet);
             }
             return Json(false, JsonRequestBehavior.AllowGet);
@@ -185,7 +193,7 @@ namespace BiTech.Library.Controllers
         /// <param name="item"></param>
         /// <param name="_sach"></param>
         /// <returns></returns>
-        public MuonTraSachViewModel toMuonTraSachViewModel(ThongTinMuonSach item, Sach _sach)
+        internal static MuonTraSachViewModel ToMuonTraSachViewModel(ThongTinMuonSach item, Sach _sach)
         {
             MuonTraSachViewModel kq = new MuonTraSachViewModel();
             kq.Id = item.Id;
@@ -206,18 +214,14 @@ namespace BiTech.Library.Controllers
         /// </summary>
         /// <param name="IdUser"></param>
         /// <returns></returns>
-        public List<MuonTraSachViewModel> GetByIdUser(string IdUser)
+        internal static List<MuonTraSachViewModel> GetByIdUser(string IdUser, string connectionString, string databaseName)
         {
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            #endregion
-
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            
+            SachLogic _SachLogic = new SachLogic(connectionString, databaseName);
+            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(connectionString, databaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(connectionString, databaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(connectionString, databaseName);
 
 
             List<ThongTinMuonSach> list_TTMS = _ThongTinMuonSachLogic.GetAllIdUser_ChuaTra(IdUser); //Thông tin  mượn sách với IdUser (những sách chưa trả)
@@ -245,8 +249,8 @@ namespace BiTech.Library.Controllers
                 {
                     //Chưa tồn tại thì thêm vào list
                     list_maSach.Add(_itemcheck);
-                    MuonTraSachViewModel mtsach = toMuonTraSachViewModel(item, _Sach);
-                    mtsach.SoLuongMax = GetSoLuongSach(_Sach.Id);
+                    MuonTraSachViewModel mtsach = ToMuonTraSachViewModel(item, _Sach);
+                    mtsach.SoLuongMax = GetSoLuongSach(_Sach.Id, connectionString, databaseName).ToString();
                     list_book.Add(mtsach);
                 }
             }
@@ -258,18 +262,12 @@ namespace BiTech.Library.Controllers
         /// </summary>
         /// <param name="idSach"></param>
         /// <returns></returns>
-        public string GetSoLuongSach(string idSach)
+        internal static int GetSoLuongSach(string idSach, string connectionString, string databaseName)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return "";
-            #endregion
-
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(connectionString, databaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(connectionString, databaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(connectionString, databaseName);
+            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(connectionString, databaseName);
 
             Sach _Sach = _SachLogic.GetBookById(idSach);
             int soluongsach = 0;
@@ -295,8 +293,8 @@ namespace BiTech.Library.Controllers
             //Số lượng sách còn có thể cho mượn (chưa tính những sách đang cho mượn)
             //soluongsach = soluongsach_true - soluongsach_false;
             //Số lượng sách còn lại có thể cho mượn thực tế = tổng sách có thế cho mượn - số sách hiện đang cho mượn
-            soluongsach = soluongsach_true - _ThongTinMuonSachLogic.GetAll_ChuaTra_byIdSach(_Sach.Id);
-            return soluongsach.ToString();
+            soluongsach = soluongsach_true - _ThongTinMuonSachLogic.Count_ChuaTra_byIdSach(_Sach.Id);
+            return soluongsach;
         }
 
         #endregion

@@ -18,6 +18,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             _ThongTinMuonSachEngine = new ThongTinMuonSachEngine(new Database(connectionString), dbName, TableName);
         }
+
         /// <summary>
         /// Get all TrangThaiSach object 
         /// </summary>
@@ -41,7 +42,7 @@ namespace BiTech.Library.BLL.DBLogic
             return _ThongTinMuonSachEngine.GetByidUser_ChuaTra(IdUser);
         }
 
-        public int GetAll_ChuaTra_byIdSach(string idSach)
+        public int Count_ChuaTra_byIdSach(string idSach)
         {
             return _ThongTinMuonSachEngine.GetBy_ChuaTra_byidSach(idSach).Count();
         }

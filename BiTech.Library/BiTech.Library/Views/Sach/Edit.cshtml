@@ -10,6 +10,7 @@
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <link href="~/Content/tagsinput/ng-tags-input.css" rel="stylesheet" />
 <link href="~/Content/Avatar.css" rel="stylesheet" />
+<link href="~/Content/ThongKe.css" rel="stylesheet" />
 <script src="~/Scripts/angular.min.js"></script>
 <script src="~/Scripts/ng-tags-input.js"></script>
 <script src="~/app/ngTagInputAngular.js"></script>
@@ -30,259 +31,243 @@
         <div ng-app="LibraryApp" class="clearfix">
             @using (Html.BeginForm("Edit", "Sach", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
             {
-
                 <input name="SachDTO.Id" id="Data-IDsach" value="@Model.SachDTO.Id" hidden />
                 <input name="SachDTO.MaKiemSoat" id="Data-MaKiemSoat" value="@Model.SachDTO.MaKiemSoat" hidden />
 
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-3 form-label">Bìa sách:</label>
-                    <div class="avatar_container_root avatar_biaSach col-sm-9">
-                        <div class="avatar_container_HA clearfix">
-                            <img id="SaveImage" class="avatar_img" src="@((Model.SachDTO.LinkBiaSach != null) ? Model.SachDTO.LinkBiaSach : "")" onerror="this.src = '/Content/Images/book.png'" alt="" />
-                            <label class="avatar " for="FileImageCover">
-                                @Html.TextBoxFor(m => m.FileImageCover, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
-                                <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                     viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
-                                <path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
+                <div style="display:flex;">
 
-                                <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
-
-                                <g id="plus">
-                                <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
-
-                                <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
-
+                    <div class="avatar_biaSach" style="width:300px; float:left;">
+                        <div class="col-sm-12">
+                            <div class="avatar_container_HA clearfix"  style="display:block; margin-left:auto;margin-right:auto;">
+                                <img id="SaveImage" class="avatar_img" src="@((Model.SachDTO.LinkBiaSach != null) ? Model.SachDTO.LinkBiaSach : "")" onerror="this.src = '/Content/Images/book.png'" alt="" />
+                                <label class="avatar " for="FileImageCover">
+                                    @Html.TextBoxFor(m => m.FileImageCover, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
+                                    <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                         viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
+                                    <path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
+                                    <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
+                                    <g id="plus">
+                                    <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
+                                    <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
                                     </g>
                                 </svg>
-                            </label>
-                        </div>
-                        <div class="avatar_container_TT">
-                            <div class="form-group">
-                                <p class="mb-1"><span class="form-label">Mã kiểm soát:</span> @Model.SachDTO.MaKiemSoat</p>
-                                <p class="mb-1"><span class="form-label">Tổng số lượng sách:</span> @Model.SachDTO.SoLuongTong</p>
-                                <p class="mb-1"><span class="form-label">Số lượng sách còn lại:</span> @Model.SachDTO.SoLuongConLai</p>
+                                </label>
                             </div>
                         </div>
-                        <img src="@Model.SachDTO.QRlink" style="position: absolute; left: 206px; bottom: -3px;" />
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="tensach">Tên sách:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
-                        @Html.ValidationMessageFor(model => model.SachDTO.TenSach, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Loại sách:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN", type = "number" })
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="IdTheLoai">Thể loại sách:</label>
-                    <div class="col-sm-6">
-                        <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData('@ViewBag.TLS')">
-                            @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
-                               new { @id = "IdTheLoai", @class = "form-control form-control-sm", @ng_model = "IdTheLoai", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
-                            @*s.Id as s.TenTheLoai for s in list*@
-                            <div class="input-group-append">
-                                <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
-                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
-                                </a>
-                            </div>
+                        <img class="col-sm-12" src="@Model.SachDTO.QRlink" style="max-width:220px; display:block; margin-left:auto;margin-right:auto;"/>
+                        <div class="col-sm-12">
+                            <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Cập nhật" style="display:block; margin-left:auto;margin-right:auto;" />
                         </div>
-                        @Html.ValidationMessageFor(model => model.SachDTO.IdTheLoai, "", new { @class = "text-danger" })
-
                     </div>
-                </div>
+                    <div style="width:100%;">
+                        <div class="tab">
+                            <button type="button" class="tablinks active" onclick="openCity(event, 'Info')">Thông tin chung</button>
+                            <button type="button" class="tablinks" onclick="openCity(event, 'Marc21')">Marc21</button>
+                            <button type="button" class="tablinks" onclick="openCity(event, 'Stats')">Thông tin kho</button>
+                        </div>
+                        <div id="Info" class="tabcontent" style="display:block">
 
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label">Tác giả:</label>
-                    <div class="col-sm-6">
-                        <div class="input-group" style="margin-bottom:4px"  id="ListTacGia" ng-controller="TacGiaFinder" ng-init="GetAllTacGiaByIdSach('@Model.SachDTO.Id');">
-                            <tags-input ng-model="listtg"
-                                        replace-spaces-with-dashes="false"
-                                        display-property="TenTacGia"
-                                        allowDuplicates="true"
-                                        placeholder="Nhập tên tác giả ..."
-                                        class="form-control form-control-sm form-control-tag">
-                                <auto-complete source="loadData($query)"></auto-complete>
-                                <div ng-repeat="s in listtg">
-                                    <input hidden="hidden" ng-cloak class="btn btn-default" required name="ListTacGiaJson" value="{{s}}" />
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="tensach">Tên sách:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
+                                    @Html.ValidationMessageFor(model => model.SachDTO.TenSach, "", new { @class = "text-danger" })
+
                                 </div>
-                            </tags-input>
-                            <div class="input-group-append">
-                                <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary btn-sm"
-                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                    <i class="fa fa-plus" style="opacity:0"></i>
-                                    <i class="fa fa-plus" style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></i>
-                                </a>
                             </div>
 
-                        </div>
-                        @Html.ValidationMessageFor(model => model.ListTacGiaJson, "", new { @class = "text-danger" })
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Loại sách:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "NamSanXuat" })
+                                </div>
+                            </div>
 
-                    </div>
-                </div>
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN", type = "number" })
+                                </div>
+                            </div>
 
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="IdNhaXuatBan">Nhà xuất bản:</label>
-                    <div class="col-sm-6">
-                        <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData('@ViewBag.NXB')">
-                            @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
-                               new { @id= "IdNhaXuatBan", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
-                            <div class="input-group-append">
-                                <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
-                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
-                                </a>
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="IdTheLoai">Thể loại sách:</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData('@ViewBag.TLS')">
+                                        @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
+                               new { @id = "IdTheLoai", @class = "form-control form-control-sm", @ng_model = "IdTheLoai", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+                                        @*s.Id as s.TenTheLoai for s in list*@
+                                        <div class="input-group-append">
+                                            <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
+                                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                                <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SachDTO.IdTheLoai, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label">Tác giả:</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group" style="margin-bottom:4px" id="ListTacGia" ng-controller="TacGiaFinder" ng-init="GetAllTacGiaByIdSach('@Model.SachDTO.Id');">
+                                        <tags-input ng-model="listtg"
+                                                    replace-spaces-with-dashes="false"
+                                                    display-property="TenTacGia"
+                                                    allowDuplicates="true"
+                                                    placeholder="Nhập tên tác giả ..."
+                                                    class="form-control form-control-sm form-control-tag">
+                                            <auto-complete source="loadData($query)"></auto-complete>
+                                            <div ng-repeat="s in listtg">
+                                                <input hidden="hidden" ng-cloak class="btn btn-default" required name="ListTacGiaJson" value="{{s}}" />
+                                            </div>
+                                        </tags-input>
+                                        <div class="input-group-append">
+                                            <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary btn-sm"
+                                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                                <i class="fa fa-plus" style="opacity:0"></i>
+                                                <i class="fa fa-plus" style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ListTacGiaJson, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="IdNhaXuatBan">Nhà xuất bản:</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData('@ViewBag.NXB')">
+                                        @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
+                               new { @id = "IdNhaXuatBan", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                                        <div class="input-group-append">
+                                            <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
+                                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                                <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SachDTO.IdNhaXuatBan, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="IdKeSach">Kệ sách:</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData('@ViewBag.KeSach')">
+                                        @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
+                               new { @id = "IdKeSach", @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+                                        <div class="input-group-append">
+                                            <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
+                                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                                <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="sotrang">Số trang:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
+                                    @Html.ValidationMessageFor(model => model.SachDTO.SoTrang, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="IdNgonNgu">Ngôn ngữ:</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData('@ViewBag.NgonNgu')">
+                                        @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
+                               new { @id = "IdNgonNgu", @class = "form-control form-control-sm", @ng_model = "IdNgonNgu", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+                                        <div class="input-group-append">
+                                            <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
+                                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                                <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SachDTO.IdNgonNgu, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat", type = "number" })
+                                    @Html.ValidationMessageFor(model => model.SachDTO.NamXuatBan, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá sách:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
+                                    @Html.ValidationMessageFor(model => model.SachDTO.PhiMuonSach, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="XuatXu">Nước xuất xứ:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "XuatXu" })
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="NguoiBienDich">Người biên dịch:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NguoiBienDich" })
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="TaiBan">Lần xuất bản:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "TaiBan" })
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm tắt:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat", @style = "min-height:150px;" })
+                                    @Html.ValidationMessageFor(model => model.SachDTO.TomTat, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
-                        @Html.ValidationMessageFor(model => model.SachDTO.IdNhaXuatBan, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="IdKeSach">Kệ sách:</label>
-                    <div class="col-sm-6">
-                        <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData('@ViewBag.KeSach')">
-                            @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn Kệ Sách--",
-                               new { @id= "IdKeSach", @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
-                            <div class="input-group-append">
-                                <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
-                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
-                                </a>
-                            </div>
+                        <div id="Marc21" class="tabcontent">
+                            <textarea class="form-control" style="min-height:300px; background-color:white!important;" readonly>@Model.SachDTO.MARC21</textarea>
                         </div>
-                    </div>
-                </div>
+                        <div id="Stats" class="tabcontent">
+                            <p class="mb-1"><span class="form-label">Tổng số lượng sách:</span> @Model.SachDTO.SoLuongTong</p>
+                            <p class="mb-1"><span class="form-label">Số lượng sách còn lại:</span> @Model.SachDTO.SoLuongConLai</p>
+                            <p class="mb-1"><span class="form-label">Tổng số lần được mượn:</span> @Model.SachDTO.SoLanDuocMuon</p>
 
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="sotrang">Số trang:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
-                        @Html.ValidationMessageFor(model => model.SachDTO.SoTrang, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="IdNgonNgu">Ngôn ngữ:</label>
-                    <div class="col-sm-6">
-                        <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData('@ViewBag.NgonNgu')">
-                            @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
-                               new { @id= "IdNgonNgu", @class = "form-control form-control-sm", @ng_model = "IdNgonNgu", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
-                            <div class="input-group-append">
-                                <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
-                                   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                    <i class="fa fa-plus" style="line-height: 20px;"></i>
-                                </a>
-                            </div>
+                            @Html.Partial("_PartSlAndTT")
                         </div>
-                        @Html.ValidationMessageFor(model => model.SachDTO.IdNgonNgu, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat", type = "number" })
-                        @Html.ValidationMessageFor(model => model.SachDTO.NamXuatBan, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá sách:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
-                    </div>
-                </div>
-
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
-                        @Html.ValidationMessageFor(model => model.SachDTO.PhiMuonSach, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="XuatXu">Nước xuất xứ:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "XuatXu" })
-                    </div>
-                </div>
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="NguoiBienDich">Người biên dịch:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NguoiBienDich" })
-                    </div>
-                </div>
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="TaiBan">Lần xuất bản:</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "TaiBan" })
-                    </div>
-                </div>
-                <div class="form-group-sm row">
-                    <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm tắt:</label>
-                    <div class="col-sm-6">
-                        @Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
-                        @Html.ValidationMessageFor(model => model.SachDTO.TomTat, "", new { @class = "text-danger" })
-
-                    </div>
-                </div>
-
-                @*<div class="form-group row">
-                        <label class="col-form-label col-sm-3 form-label" for="TomTat">Bìa Sách:</label>
-                        <div class="col-sm-6">
-                            <img id="blah" src="@(!string.IsNullOrEmpty(Model.SachDTO.LinkBiaSach) ? Model.SachDTO.LinkBiaSach : "/Assets/Images/DefaultBookCover.jpg")" alt="Bìa sách" style="width:220px"/>
-                            @Html.TextBoxFor(m => m.FileImageCover, new { type = "file" })
-                            @Html.ValidationMessageFor(m => m.FileImageCover)
-                        </div>
-                    </div>*@
-                if (Model.SachDTO.MARC21 != null)
-                {
-                    <div class="form-group row">
-                        <label class="col-form-label col-sm-3 form-label" for="TomTat">Marc21:</label>
-                        <div class="col-sm-6">
-                            @Html.TextAreaFor(m => m.SachDTO.MARC21, new { @class = "form-control form-control-sm", @id = "TomTat", Style = "height:300px" })
-                            @Html.ValidationMessageFor(m => m.SachDTO.MARC21)
-                        </div>
-                    </div>
-                }
-                else { }
-                <div class="form-group row box_temp_lg">
-                    <label class="col-form-label col-sm-3 form-label"></label>
-                    <div class="col-sm-6">
-                        <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Cập nhật" />
                     </div>
                 </div>
             }
         </div>
     </div>
-
-    <div class="col-md-3">
-        @Html.Partial("_PartSlAndTT")
-    </div>
-
 </div>
 @{
     Html.RenderPartial("~/Views/Sach/_partEditSoLuong.cshtml");
@@ -513,5 +498,20 @@
                 };
             });
         }());
+
+        // Tabs
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
     </script>
 }

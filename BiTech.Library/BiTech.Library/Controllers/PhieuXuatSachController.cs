@@ -55,7 +55,6 @@ namespace BiTech.Library.Controllers
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             SachLogic _SachLogic =
               new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             PhieuXuatSachLogic _PhieuXuatSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             var model = _ChiTietXuatSachLogic.GetAllChiTietById(id);
@@ -104,10 +103,8 @@ namespace BiTech.Library.Controllers
             #endregion
 
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            LyDoXuatLogic _LyDoXuatLogic = new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
-            ViewBag.listld = _LyDoXuatLogic.GetAll();
             return View();
         }
 
@@ -120,17 +117,12 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            SachLogic _SachLogic =
-               new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            PhieuXuatSachLogic _PhieuNhapSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            ChiTietXuatSachLogic _ChiTietNhapSachLogic = new ChiTietXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic =
-             new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            LyDoXuatLogic _LyDoXuatLogic =
-            new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            PhieuXuatSachLogic _PhieuXuatSachLogic =
-                new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _PhieuNhapSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ChiTietNhapSachLogic = new ChiTietXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _PhieuXuatSachLogic = new PhieuXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             if (model.listChiTietJsonString.Count > 0)
             {
@@ -160,7 +152,7 @@ namespace BiTech.Library.Controllers
 
                         _ChiTietNhapSachLogic.Insert(ctxs);
                         {
-                            //update số lượng sách trạng thái
+                            // update số lượng sách trạng thái
                             var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctxs.IdSach, ctxs.IdTinhTrang);
                             if (sltt != null)
                             {
@@ -175,10 +167,16 @@ namespace BiTech.Library.Controllers
                                 sltt.SoLuong = ctxs.SoLuong;
                                 _SoLuongSachTrangThaiLogic.Insert(sltt);
                             }
-                            //update tổng số lượng sách
+
+                            // update tổng số lượng sách
                             var updatesl = _SachLogic.GetBookById(sltt.IdSach);
                             updatesl.SoLuongTong -= ctxs.SoLuong;
+
+                            // ktr neu cho muon moi cong them
+                            //var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
+                            //if (tinhTrang.TrangThai == true)
                             updatesl.SoLuongConLai -= ctxs.SoLuong;
+
                             _SachLogic.Update(updatesl);
 
                         }
@@ -188,10 +186,11 @@ namespace BiTech.Library.Controllers
             }
 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
-            ViewBag.listld = _LyDoXuatLogic.GetAll();
             ModelState.Clear();
             return View();
         }
+
+        // Ajax ----
 
         [HttpGet]
         public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string ghiChuDon)
@@ -202,12 +201,8 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
 
-            SachLogic _SachLogic =
-                new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic =
-                new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            LyDoXuatLogic _LyDoXuat =
-               new LyDoXuatLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             maKiemSoat = maKiemSoat.Trim();
             ghiChuDon = ghiChuDon.Trim();

@@ -64,7 +64,6 @@
     <Compile Include="DBLogic\ChiTietNhapSachLogic.cs" />
     <Compile Include="DBLogic\ChiTietXuatSachLogic.cs" />
     <Compile Include="DBLogic\ChucVuLogic.cs" />
-    <Compile Include="DBLogic\LyDoXuatLogic.cs" />
     <Compile Include="DBLogic\PhieuNhapSachLogic.cs" />
     <Compile Include="DBLogic\LanguageLogic.cs" />
     <Compile Include="DBLogic\NhaXuatBanLogic.cs" />

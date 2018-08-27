@@ -53,6 +53,10 @@ namespace BiTech.Library.Controllers
                 }
                 tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
 
+                // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được
+                var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(item.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
+
                 BookView book = new BookView(item);
 
                 //book.SachDTO
@@ -61,8 +65,7 @@ namespace BiTech.Library.Controllers
                 book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
                 book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
                 book.Ten_TacGia = tenTG;
-
-
+                
                 model.Add(book);
             }
             
@@ -83,11 +86,18 @@ namespace BiTech.Library.Controllers
             }
 
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
             Sach sachDTO = _SachLogic.GetById(id);
+
             if (sachDTO == null)
             {
                 return RedirectToAction("Index");
             }
+
+            // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được
+            var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(sachDTO.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            sachDTO.SoLuongConLai = sachDTO.SoLuongConLai - numKhongMuonDuoc;
+
             SachUploadModel model = new SachUploadModel(sachDTO);
             return View(model);
         }
