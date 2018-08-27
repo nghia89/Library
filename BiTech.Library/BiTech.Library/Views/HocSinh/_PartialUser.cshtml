@@ -19,7 +19,7 @@
             <th>Ngày sinh</th>  
             <th>Giới tính</th>                   
             <th>Trạng thái</th>
-            <th></th>
+            <th>Khóa</th>
         </tr>
     </thead>
     <tbody id="myTable">
@@ -53,14 +53,14 @@
                     </a>*@
                     @if (item.TrangThai == EUser.Active)
                     {
-                        <a class="color-white btn btn-sm btn-danger my-button btn-inTable" title="Khoá" href="javascript:Delete('@item.Id','@item.Ten')">
-                            <i class="fa fa-unlock-alt" style="font-size:20px"></i>
+                        <a class="color-white btn btn-sm btn-success my-button btn-inTable" title="Khoá" href="javascript:Delete('@item.Id','@item.Ten')">
+                            <i class="fa fa-unlock" style="font-size:20px"></i>
                         </a>
                     }
                     else if (item.TrangThai == EUser.DeActive)
                     {
-                        <a class="color-white btn btn-sm btn-success my-button btn-inTable" title="Kích hoạt" href="@Url.Action("Delete",new {  @id = item.Id})">
-                            <i class="fa fa-unlock" style="font-size:20px"></i>
+                        <a class="color-white btn btn-sm btn-danger my-button btn-inTable" title="Kích hoạt" href="@Url.Action("Delete",new {  @id = item.Id})">
+                            <i class="fa fa-unlock-alt" style="font-size:20px"></i>
                         </a>
                     }
 

@@ -387,7 +387,7 @@ namespace BiTech.Library.Controllers
             foreach (var item in _listMonthSachTra)
             {
                 DateTime ngayTra = item.NgayTraThucTe;
-                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(arrTTSachTra[ngayTra.Day], ngayTra, 0, 0);
+                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(arrTTSachTra[ngayTra.Day], ngayTra.Day, 0, 0);
             }
 
             #endregion

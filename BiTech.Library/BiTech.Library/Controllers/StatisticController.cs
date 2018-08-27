@@ -158,7 +158,7 @@ namespace BiTech.Library.Controllers
                 DateTime ngayTra = item.NgayTraThucTe;
                 listSachTraTrongNgay = _thongKeLogic.GetTTMSByNgayTra(item.NgayTraThucTe);
                 // new 2.0       
-                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(listSachTraTrongNgay, ngayTra, 0, 0);
+                soSachDuocTraTrongThang[ngayTra.Day] = nghiepVu.DemSoSachDuocTra(listSachTraTrongNgay, ngayTra.Day, 0, 0);
             }
             #endregion
             #region Theo thang trong nam

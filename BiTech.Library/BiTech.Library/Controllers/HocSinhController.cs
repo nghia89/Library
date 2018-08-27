@@ -81,7 +81,7 @@ namespace BiTech.Library.Controllers
             else
             {
                 model.ListThanhVien = listAll;
-                ViewBag.SearchFail = "Chưa Tìm Được Kết Quả Phù Hợp!";
+                ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
                 ViewBag.ThongBao = true;
             }
             return View(model);
