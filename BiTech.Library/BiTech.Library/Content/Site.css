@@ -10,6 +10,7 @@ a {
     a:hover {
         color: #f00;
     }
+
 /*bootstap edit*/
 .btn-primary {
     color: #fff;
@@ -1006,18 +1007,18 @@ a:hover {
         }
 }
 
-@media screen and (max-width: 1200px) {    
+@media screen and (max-width: 1200px) {
     .book_box_v3 {
-        margin:3px;
+        margin: 3px;
     }
 
-    .book_box_v3 .container-box-window{
-        border:1px solid #728C92;
-    }
+        .book_box_v3 .container-box-window {
+            border: 1px solid #728C92;
+        }
 
-    .book_box_v3 .container-box-window .top .title{
-        font-size:15px;
-    }
+            .book_box_v3 .container-box-window .top .title {
+                font-size: 15px;
+            }
 
     .book_box .book_content .book_image {
         width: 20%;
@@ -1070,7 +1071,7 @@ a:hover {
         width: 100%;
     }
 
-    
+
 
     .contain .left .menu {
         position: absolute;
@@ -1080,11 +1081,13 @@ a:hover {
             height: 0;
         }
 }
+
 @media screen and (max-width: 992px) {
     .contain .right {
         width: calc(100% - 40px);
     }
 }
+
 @media screen and (max-width: 768px) {
     .book_box_v2 {
         width: calc(100% - 20px);
@@ -1196,3 +1199,178 @@ a:hover {
 * html .ui-autocomplete {
     height: 100px;
 }
+/*----------css Autocomplate END--------*/
+
+
+/*--btntag--------*/
+
+.home-menu {
+    display: flex;
+    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    width: 100%;
+	justify-content: center;
+}
+
+@media (min-width: 900px) {
+    .home-menu {
+        flex: 0 0 95%;
+        max-width: 95%;
+        margin-left:auto;
+        margin-right:auto;
+        padding:0px;
+    }
+}
+
+/*.home-menu .home-inside{
+    margin-left:auto;
+    margin-right:auto;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    background-color:rebeccapurple;
+}*/
+
+/*@media only screen and (max-width: 1250px) {
+    .home-menu-group {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+
+    .home-menu-group {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}*/
+
+.home-menu-group {
+    position: relative;
+    width: auto;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 12px;
+    background-color: #e9ecef;
+}
+
+    .home-menu-group .title {
+        font-size: 23px;
+        margin: 0 0px 12px;
+        border-bottom: 2px solid;
+        position: relative;
+        color: #2E5894;
+    }
+
+.btntag-box {
+    position: relative;
+    display: inline-block;
+}
+
+    .btntag-box .btntag,
+    .btntag-box .btntag-group,
+    .btntag-box .btntag-group-vertical {
+        width: 128px;
+    }
+
+.btntag {
+    background-color: white; /* Green */
+    border: 2px solid #c9c9c9;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: relative;
+    float: left;
+}
+
+.btntag-primary {
+    background-color: white;
+    color: black;
+    border: 2px solid #347ab6;
+}
+
+    .btntag-primary:hover {
+        background-color: #347ab6;
+        color: white;
+    }
+
+.btntag-success {
+    background-color: white;
+    color: black;
+    border: 2px solid #5ab75d;
+}
+
+    .btntag-success:hover {
+        background-color: #5ab75d;
+        color: white;
+    }
+
+.btntag-info {
+    background-color: white;
+    color: black;
+    border: 2px solid #5bbfdd;
+}
+
+    .btntag-info:hover {
+        background-color: #5bbfdd;
+        color: white;
+    }
+
+.btntag-warning {
+    background-color: white;
+    color: black;
+    border: 2px solid #efac50;
+}
+
+    .btntag-warning:hover {
+        background-color: #efac50;
+        color: white;
+    }
+
+.btntag-danger {
+    background-color: white;
+    color: black;
+    border: 2px solid #d8524e;
+}
+
+    .btntag-danger:hover {
+        background-color: #d8524e;
+        color: white;
+    }
+
+.btntag img {
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.btntag-group,
+.btntag-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 2px;
+}
+
+    .btntag-group > .btntag,
+    .btntag-group-vertical > .btntag {
+        width: 100%;
+        font-size: 13px;
+        padding: 13px;
+        margin: 2px;
+    }
+
+/*--btntag END--------*/

@@ -27,8 +27,8 @@
             }
         })
             .autocomplete("instance")._renderItem = function (ul, item) {
-                return $("<li>")
-                    .append("<a style='width:100%;position: absolute'>" + item.TenSach + "</a>")
+                return $("<a>")
+                    .append("<li style='width:100%; border-bottom-style: dashed; border-width: thin; border-color:#d3d3d3;'>" + item.TenSach + "</li>")
                     .appendTo(ul);
             };
     }

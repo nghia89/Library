@@ -34,8 +34,8 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group row">
             <label class="col-form-label col-sm-3 form-label">Bìa sách:</label>
-            <div class="avatar_container_root avatar_biaSach col-sm-6">
-                <div class="avatar_container_HA avatar_clearfix">
+            <div class="avatar_container_root avatar_biaSach col-sm-6" style="height:250px;">
+                <div class="avatar_container_HA avatar_clearfix" >
                     <img id="SaveImage" class="avatar_img" src="#" onerror="this.src = '/Content/Images/book.png'" alt="" />
                     <label class="avatar " for="FileImageCover">
                         @Html.TextBoxFor(m => m.FileImageCover, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
