@@ -3,6 +3,8 @@ using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
+using BiTech.Library.Models.ViewDataIF;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,13 +49,17 @@ namespace BiTech.Library.Controllers
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
-                return Json(null,JsonRequestBehavior.AllowGet);
+                return Json(null, JsonRequestBehavior.AllowGet);
             var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
             #region Khai báo
             if (month == null && year == null)
             {
-                month =DateTime.Now.Month;
+                month = DateTime.Now.Month;
                 year = DateTime.Now.Year;
             }
             // 1 tháng có 31 ngày
@@ -710,9 +716,14 @@ namespace BiTech.Library.Controllers
 
             };
             JsonResult result = new JsonResult();
-            // Tháng, năm       
-            //  ViewBag.Month = month;//!= null ? month : 1;
-            //  ViewBag.Year = year;// != null ? year : DateTime.Now.Year;
+
+            var query = _SachLogic.getAll();
+            int sumSl = 0;
+            foreach (var i in query)
+            {
+                sumSl += i.SoLuongTong;
+            }
+            ViewBag.nam = sumSl;
             ViewBag.Month = month != null ? month : 1;
             ViewBag.Year = year != null ? year : 2017;
             result.Data = model;
@@ -720,5 +731,110 @@ namespace BiTech.Library.Controllers
 
             return result;
         }
+
+        [HttpGet]
+        public JsonResult DataInformation()
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var query = _SachLogic.getAll();
+            DataInformationVM ListSl = new DataInformationVM();
+            foreach (var i in query)
+            {
+                ListSl.SumSoLuong += i.SoLuongTong;
+            }
+            DateTime today = DateTime.Now;
+            //lấy 6 tháng trở lại kể từ tháng hiện tại
+            DateTime sixMonthsBack = today.AddMonths(-6);
+            DateTime sixMonthsBacks = today.AddDays(-6);
+            //string datetime = sixMonthsBack.ToString("yyyy-MM-dd");
+            DateTime firstDayOfMonth = sixMonthsBack;
+            DateTime lastDayOfMonth = today;
+
+            var ListDataDateTime = _SachLogic.GetDatetime(firstDayOfMonth, lastDayOfMonth);
+
+            foreach (var i in ListDataDateTime)
+            {
+                ListSl.sixMonthsBack += i.SoLuongTong;
+            }
+
+            JsonResult result = new JsonResult();
+            result.Data = ListSl;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return result;
+        }
+
+
+        public JsonResult StartDayAndlastDay(DateTime dateTime)
+        {
+            #region lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            SachLogic _sachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            int[] arrDay = new int[7];
+            DateTime thisWeekStart = dateTime.AddDays(-(int)dateTime.DayOfWeek);
+            DateTime thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
+
+            List<DateTime> listDates = new List<DateTime>();
+            for (var i = 0; i < 7; i++)
+            {
+                listDates.Add(thisWeekStart.Date);
+                thisWeekStart = thisWeekStart.AddDays(1);
+            }
+
+            JsonResult result = new JsonResult();
+            //result.Data = ListSl;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return result;
+        }
+
+        public JsonResult TTSach()
+        {
+            #region lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            SachLogic _sachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+
+            TTTSachVM tTTSachVM = new TTTSachVM();
+
+            var getAllTTSach = _trangThaiSachLogic.GetAll();
+            foreach (var item in getAllTTSach)
+            {
+                tTTSachVM.tenTT.Add(item.TenTT);
+            }
+            int sumSl = 0;
+            var getAllSLTTS = _SoLuongSachTrangThaiLogic.GetAll();
+            foreach (var itemSLTTS in getAllSLTTS)
+            {
+                foreach (var itemTTSach in getAllTTSach)
+                {
+                    if (itemSLTTS.IdTrangThai == itemTTSach.Id)
+                    {
+
+                        sumSl += itemSLTTS.SoLuong;
+                    }
+                }
+            }
+
+            JsonResult result = new JsonResult();
+            //result.Data = ListSl;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return result;
+        }
     }
+
 }

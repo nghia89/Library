@@ -21,7 +21,8 @@
             @Html.ActionLink("Thêm mới", "Create", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
             @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
             @Html.ActionLink("Thêm từ Marc21", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-2" })
-            @Html.ActionLink("Xuất Marc21", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
+            @Html.ActionLink("Xuất Marc21", "Index", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
+            <a class="btn btn-sm btn-danger ml-2" href="~/Tempaltes/Sach.xlsx">Mẫu Excel</a>
         </div>
     </div>
 
@@ -148,6 +149,13 @@
 <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 
 @section scripts{
+    <script>
+                    $(document).keypress(function (e) {
+                        if (e.which == 13) {
+                            $("#btnSearch").submit();
+                        }
+                    });
+    </script>
     <script src="~/Scripts/AutocompleteSach.js"></script>
     <script>
         function XoaCauHoi() {

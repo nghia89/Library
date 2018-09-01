@@ -4,9 +4,9 @@ var SoLuongTTSach = function () {
     this.initialize = function () {
        
         loadData();
-        registerEvevts();
+        registerEvents();
     }
-    function registerEvevts() {
+    function registerEvents() {
         var sl;
         $("#frmMaintainance").validate({
             rules: {

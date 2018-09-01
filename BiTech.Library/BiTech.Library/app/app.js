@@ -53,6 +53,8 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
     $scope.chartdataYear = [];
     $scope.Year = '';
     $scope.loading = true;
+    $scope.SumSl = 0;
+    $scope.sumSixMonth = 0;
 
     function getStatistic() {
         var config = {
@@ -172,7 +174,18 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
 
     }
 
+    function GetInformation() {
+        $http({
+            method: "get",
+            url:"/Statistic/DataInformation",
+        }).then(function (response) {
+            $scope.SumSl = response.data.SumSoLuong;
+            $scope.sumSixMonth = response.data.sixMonthsBack;
+        })
+    }
+
     getStatistic();
+    GetInformation();
     $scope.loading = false;
 });
 
@@ -200,7 +213,6 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
         }).then(function (response) {
             if (response.data) {
                 var chartData1 = [];
-                
                 var SoNgayTrongThang = [];
 
                 //var lsoPMTrongNgay = [];
@@ -210,10 +222,6 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                 var lsoNguoiTraTreTrongNgay = [];
 
                 
-
-                //response.data.lsoPMTrongNgay.forEach(function (i, index) {
-                //    lsoPMTrongNgay.push(i);
-                //});
                 response.data.lsoNguoiMuonTrongNgay.forEach(function (i, index) {
                     lsoNguoiMuonTrongNgay.push(i);
                 });
@@ -278,8 +286,6 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
                         ]
                     }
                 };
-
-                //$scope.labels = labels;
             }
             else {
                 alert("không thể tải dữ liệu");
@@ -304,7 +310,89 @@ app.controller('MonthCtroller', function ($scope, $http, $location) {
         getStatisticMonth();
     }
 
+    function GetInformation() {
+        $http({
+            method: "get",
+            url: "/Statistic/DataInformation",
+        }).then(function (response) {
+            $scope.SumSl = response.data.SumSoLuong;
+            $scope.sumSixMonth = response.data.sixMonthsBack;
+        })
+    }
+
     getStatisticMonth();
+    GetInformation() 
     $scope.loading = false;
 
+});
+
+app.controller('startDayAndlastDay', function ($scope, $http, $location) {
+    $scope.labels = [];
+    $scope.series = ['Số người mượn', 'Số sách mượn', 'Số sách trả', 'Số sách trả trễ hạn'];
+
+    $scope.chartdataMonth = [];
+    //$scope.startDayAndlastDay = $scope.Datetime;
+    $scope.loading = true;
+    $scope.Datetime = '';
+    $scope.series = ['Số người mượn', 'Số sách mượn', 'Số sách trả', 'Số sách trả trễ hạn'];
+    $scope.labels = ['0','1','2','3','4','5'];
+    $scope.chartdataDay = ['8','9','20','10','12','13'];
+
+    function Day() {
+        var config={
+            param: {
+                dateTime: $scope.Datetime
+            }
+        }
+        $http({
+            method: 'get',
+            url: '/Statistic/StartDayAndlastDay?&dateTime='+config.param.dateTime,
+        }).then(function (res) {
+            var first = '01/01/2018';
+            var last='0'
+        })
+    }
+    var date = new Date();
+    var curr_date = date.getDate();
+    var curr_month = date.getMonth();
+    curr_month++;
+    var cur_time = date.getHours();
+    var curr_year = date.getFullYear();
+    $scope.Datetime = curr_month + "/" + curr_date + "/" + curr_year;
+
+    $scope.GetDay = function () {
+        $scope.Datetime = $scope.Datetime;
+        Day();
+    }
+
+    Day();
+});
+
+app.controller('TTSach', function ($scope, $http, $location) {
+    $scope.labels = [];
+    $scope.series = ['Số người mượn', 'Số sách mượn', 'Số sách trả', 'Số sách trả trễ hạn'];
+
+    $scope.chartdataMonth = [];
+    //$scope.startDayAndlastDay = $scope.Datetime;
+    $scope.loading = true;
+    $scope.Datetime = '';
+    $scope.series = ['Số người mượn', 'Số sách mượn', 'Số sách trả', 'Số sách trả trễ hạn'];
+    $scope.labels = ['0', '1', '2', '3', '4', '5'];
+    $scope.chartdataDay = ['8', '9', '20', '10', '12', '13'];
+
+    function TKSachTT() {
+        var config = {
+            param: {
+              
+            }
+        }
+        $http({
+            method: 'get',
+            url: '/Statistic/TTSach',
+        }).then(function (res) {
+
+        })
+    }
+   
+    TKSachTT();
 });
