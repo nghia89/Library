@@ -9,7 +9,7 @@ using BiTech.Library.DAL;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class ThongKeLogic
+    public class ThongKeLogic : BaseLogic
     {              
         private string TableName3 = "Sach";
         SachEngine _sachEngine;

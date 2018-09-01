@@ -10,7 +10,7 @@ using BiTech.Library.DTO;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class PhieuXuatSachLogic
+    public class PhieuXuatSachLogic : BaseLogic
     {
         private string TableName = "PhieuXuatSach";
         public PhieuXuatSachEngine _PhieuXuatSachEngine { get; set; }

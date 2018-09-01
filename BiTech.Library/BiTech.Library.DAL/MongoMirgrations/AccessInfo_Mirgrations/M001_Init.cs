@@ -2,12 +2,11 @@
 using Mongo.Migration.Migrations;
 using MongoDB.Bson;
 
-namespace BiTech.Library.DAL.MongoMirgrations.ChiTietNhapSach_Mirgrations.M000
+namespace BiTech.Library.DAL.MongoMirgrations.AccessInfo_Mirgrations
 {
-    public class Init : Migration<ChiTietNhapSach>
+    class M001_Init : Migration<AccessInfo>
     {
-        public Init()
-            : base("0.0.1")
+        public M001_Init() : base("0.0.1")
         {
         }
 

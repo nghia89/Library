@@ -526,11 +526,10 @@ namespace BiTech.Library.Controllers
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
-            //if (userdata == null)
-            //    return RedirectToAction("LogOff", "Account");
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
+
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             var model = _trangThaiSachLogic.GetAllTT(id);
 

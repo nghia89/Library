@@ -281,7 +281,7 @@ namespace BiTech.Library.Controllers
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
             thanhVien.SDT = viewModel.SDT;
-
+            viewModel.LinkAvatar = thanhVien.HinhChanDung;
 
             if (viewModel.HinhChanDung != null)
             {
@@ -295,7 +295,7 @@ namespace BiTech.Library.Controllers
                     ThanhVien tempt = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, thanhVien, imageName, viewModel.HinhChanDung);
                     if (tempt != null)
                     {
-                        thanhVien.HinhChanDung = tempt.HinhChanDung;
+                        viewModel.LinkAvatar = thanhVien.HinhChanDung = tempt.HinhChanDung;
                     }
                 }
                 catch { }

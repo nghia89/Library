@@ -271,8 +271,9 @@ namespace BiTech.Library.Controllers
             thanhVien.DiaChi = viewModel.DiaChi;
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
-            thanhVien.SDT = viewModel.SDT;        
-            
+            thanhVien.SDT = viewModel.SDT;
+            viewModel.LinkAvatar = thanhVien.HinhChanDung;
+
             //viewModel.LinkAvatar = "";
             //if (viewModel.HinhChanDung != null && Tool.IsImage(viewModel.HinhChanDung))
             //{
@@ -287,10 +288,11 @@ namespace BiTech.Library.Controllers
                     string imageName = null;
                     if (thanhVien.HinhChanDung != null)
                         imageName = thanhVien.HinhChanDung.Replace(@"/Upload/AvatarUser/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
+
                     ThanhVien tempt = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, thanhVien, imageName, viewModel.HinhChanDung);
                     if (tempt != null)
                     {
-                        thanhVien.HinhChanDung = tempt.HinhChanDung;
+                        viewModel.LinkAvatar = thanhVien.HinhChanDung = tempt.HinhChanDung;
                     }
                 }
                 catch { }
@@ -335,6 +337,7 @@ namespace BiTech.Library.Controllers
 
             var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             #endregion
+
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
             if (thanhVien == null)
             {
@@ -360,6 +363,112 @@ namespace BiTech.Library.Controllers
             else
                 TempData["Success"] = "Xóa thất bại";
             return View();
+        }
+
+        // Ajax mở khóa tk
+        public JsonResult ActiveMember(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(new
+                {
+                    data = "Unauthorize",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            
+            ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
+            if (thanhVien == null)
+            {
+                return Json(new
+                {
+                    data = "Member is not found",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (thanhVien.TrangThai == EUser.DeActive)
+            {
+                // model.TenTrangThai = "Đã bị khóa";
+                thanhVien.TrangThai = EUser.Active;
+                bool result = _ThanhVienLogic.Update(thanhVien);
+                if (result == true)
+                {
+                    return Json(new
+                    {
+                        data = "Member account is activated",
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new
+                {
+                    data = "Fail to active member account",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new
+            {
+                data = "Member account is activated",
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        // Ajax khóa tk
+        public JsonResult DeactiveMember(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(new
+                {
+                    data = "Unauthorize",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
+            if (thanhVien == null)
+            {
+                return Json(new
+                {
+                    data = "Member is not found",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (thanhVien.TrangThai == EUser.Active)
+            {
+                // model.TenTrangThai = "Đã bị khóa";
+                thanhVien.TrangThai = EUser.DeActive;
+                bool result = _ThanhVienLogic.Update(thanhVien);
+                if (result == true)
+                {
+                    return Json(new
+                    {
+                        data = "Member account is deactivated",
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new
+                {
+                    data = "Fail to deactive member account",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new
+            {
+                data = "Member account is deactivated",
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Details(string idUser)
@@ -466,7 +575,7 @@ namespace BiTech.Library.Controllers
             if (model.LinkExcel != null)
             {
                 string physicalWebRootPath = Server.MapPath("/");
-                list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);             
+                list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);
                 int i = 0;
                 foreach (var item in list)
                 {
@@ -522,7 +631,7 @@ namespace BiTech.Library.Controllers
             {
                 string physicalWebRootPath = Server.MapPath("/");
                 string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileWord);
-              
+
 
                 var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkWord.FileName);
 

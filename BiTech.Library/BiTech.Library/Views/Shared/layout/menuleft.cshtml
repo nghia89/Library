@@ -3,7 +3,7 @@
     var action = @ViewContext.RouteData.Values["action"].ToString();
 
     bool Bool_TabThanhVien = false;
-    bool Bool_TabSach = false; 
+    bool Bool_TabSach = false;
     bool Bool_TabMuonTra = false;
     bool Bool_TabNhapXuatKho = false;
     bool Bool_TabThongke = false;
@@ -64,7 +64,7 @@
                 <div class="card-header ">
                     <a class="card-link @((@Bool_TabThanhVien) ? " " : "collapsed")" data-toggle="collapse" href="#collapseOne">
                         <i class="fa fa-group"></i>
-                        Quản lý thành viên
+                        <span class="card-header-title">Quản lý thành viên</span>
                     </a>
                 </div>
                 <div id="collapseOne" class="collapse @((@Bool_TabThanhVien) ? "show" : "")" data-parent="#accordion">
@@ -90,7 +90,7 @@
                 <div class="card-header">
                     <a class="card-link @((@Bool_TabSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapseTwo">
                         <i class="fa fa-book"></i>
-                        Quản lý thông tin sách
+                        <span class="card-header-title">Quản lý thông tin sách</span>
                     </a>
                 </div>
                 <div id="collapseTwo" class="collapse @((@Bool_TabSach) ? "show" : "")" data-parent="#accordion">
@@ -135,12 +135,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card @((@Bool_TabMuonTra) ? "active function_active" : "")">
                 <div class="card-header">
                     <a class="card-link @((@Bool_TabMuonTra) ? " " : "collapsed")" data-toggle="collapse" href="#collapseMuongTra">
                         <i class="fa fa-address-book-o"></i>
-                        Mượn trả sách
+                        <span class="card-header-title">Mượn trả sách</span>
                     </a>
                 </div>
                 <div id="collapseMuongTra" class="collapse @((@Bool_TabMuonTra) ? "show" : "")" data-parent="#accordion">
@@ -165,7 +165,7 @@
                 <div class="card-header">
                     <a class="card-link @((@Bool_TabNhapXuatKho) ? " " : "collapsed")" data-toggle="collapse" href="#collapseThree">
                         <i class="fa fa-server"></i>
-                        Nhập xuất kho
+                        <span class="card-header-title">Nhập xuất kho</span>
                     </a>
                 </div>
                 <div id="collapseThree" class="collapse @((@Bool_TabNhapXuatKho) ? "show" : "")" data-parent="#accordion">
@@ -190,7 +190,7 @@
                 <div class="card-header">
                     <a class="card-link @((@Bool_TabThongke) ? " " : "collapsed")" data-toggle="collapse" href="#collapse4">
                         <i class="fa fa-bar-chart-o"></i>
-                        Thống kê
+                        <span class="card-header-title">Thống kê</span>
                     </a>
                 </div>
                 <div id="collapse4" class="collapse @((@Bool_TabThongke) ? "show" : "")" data-parent="#accordion">
@@ -210,7 +210,7 @@
                                 <a href="@Url.Action("DanhSachChuaTra","ThongKe")" title="Danh sách chưa trả">
                                     Danh sách chưa trả
                                 </a>
-                            </li>                                                       
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -219,7 +219,8 @@
         </div>
 
         <div class="bt_menu" title="Đóng/Mở trình đơn">
-            <i class="fa fa-chevron-circle-left"></i> <span>Thu gọn trình đơn</span>
+            <i class="fa fa-chevron-circle-left"></i>
+            <span class="card-header-title">Thu gọn trình đơn</span>
         </div>
     </div>
 </div>

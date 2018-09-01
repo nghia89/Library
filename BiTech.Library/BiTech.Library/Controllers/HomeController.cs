@@ -1,4 +1,5 @@
-﻿using BiTech.Library.Models;
+﻿using BiTech.Library.Controllers.BaseClass;
+using BiTech.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,30 @@ namespace BiTech.Library.Controllers
             ////_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
             //// do things here
+
+
             return View();
+        }
+
+        public async System.Threading.Tasks.Task<ActionResult> DemoApi()
+        {
+            //#region  Lấy thông tin người dùng
+            //var userdata = GetUserData();
+            //if (userdata == null)
+            //    return RedirectToAction("LogOff", "Account");
+            //#endregion
+
+            ////userdata.MyApps[AppCode].ConnectionString
+            ////userdata.MyApps[AppCode].DatabaseName
+
+            ////_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            //// do things here
+
+            var rs = await new StoreCom().GetChildWorkPlace("5b88be165a2dd02cd00b4b75", "bitechco.test", "ABCD");
+            if (rs == null)
+                return View();
+            return View(rs);
         }
 
         [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]

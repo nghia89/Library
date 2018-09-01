@@ -109,10 +109,7 @@ namespace BiTech.Library.DTO
         /// Mã ngôn ngữ
         /// </summary>
         public string IdNgonNgu { get; set; }
-
-        /// <summary>
-        /// Đã được xóa chưa
-        /// </summary>
+        
         public string DDC { get; set; }
 
         public string MARC21 { get; set; }
@@ -132,6 +129,7 @@ namespace BiTech.Library.DTO
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
+
         #region Tai
         [BsonIgnore]
         public List<TacGia> listTacGia { get; set; }
