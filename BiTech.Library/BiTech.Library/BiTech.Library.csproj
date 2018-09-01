@@ -304,6 +304,8 @@
     <Content Include="app\app.js" />
     <Content Include="app\ngTagInputAngular.js" />
     <Content Include="app\StatisticTransition.js" />
+    <Content Include="Assets\Images\bg.jpg" />
+    <Content Include="Assets\Images\bg.png" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="bower_components\angular-chart.js\angular-chart.js" />
     <Content Include="bower_components\angular-chart.js\dist\angular-chart.css" />

@@ -18,6 +18,7 @@ namespace BiTech.Library.Models
         public string NgayMuon { get; set; }
         public string NgayTra { get; set; }
         public string TinhTrangSach { get; set; }
+        public string TinhTrangSachTen { get; set; }
         public bool TinhTrang { get; set; }
     }
 
