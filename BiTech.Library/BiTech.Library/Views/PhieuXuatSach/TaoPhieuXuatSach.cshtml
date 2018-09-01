@@ -31,7 +31,10 @@
                             <div class="form-group row">
                                 @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
                                 <div class="col-md-10">
-                                    <input id="idSach" name="idSach" placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm" onkeydown="if (event.keyCode == 13) { return false; }" >
+                                    <input id="idSach" name="idSach"
+                                           onkeydown="if (event.keyCode == 13) { EnterMaSach() }"
+                                           @*onfocusout="EnterMaSach()"*@
+                                           placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -41,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                @Html.Label("Trạng thái", new { @class = "col-md-2 control-label" })
+                                @Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
                                 <div class="col-md-10">
                                     @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
                                 </div>
@@ -51,7 +54,7 @@
                                 @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
                                 @Html.Label("Lý do", new { @class = "col-md-2 control-label" })
                                 <div class="col-md-10">
-                                    <input id="LyDo" name="LyDo"  placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm"/>
+                                    <input id="LyDo" name="LyDo" placeholder="Lý do" ng-model="GhiChuDon" class="form-control form-control-sm" />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -79,7 +82,7 @@
                                                 <th width="50">STT</th>
                                                 <th width="15%">Mã kiểm soát</th>
                                                 <th width="40%">Tên sách</th>
-                                                <th width="10%">Tình Trạng</th>
+                                                <th width="10%">Trạng thái sách</th>
                                                 <th width="10%">Số lượng</th>
                                                 <th width="15%">Lý do</th>
                                                 <th width="100" style="text-align: center;">
@@ -88,17 +91,29 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="text-center" ng-repeat="x in list | orderBy : '-MaKiemSoat'" my-repeat-directive>
-                                                <td align="center">{{$index + 1}}</td>
-                                                <td>{{ x.MaKiemSoat }}</td>
-                                                <td>{{ x.ten }}</td>
-                                                <td>{{ x.tenTinhTrang }}</td>
-                                                <td width="100px">{{x.soLuong}}</td>
-                                                <td>{{x.GhiChuDon}}</td>
-                                                <td>
-                                                    <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button>
-                                                </td>
-                                            </tr>
+											<tr class="text-center" ng-repeat="x in list | orderBy : '-MaKiemSoat'" my-repeat-directive>
+												<td align="center">{{$index + 1}}</td>
+												<td>{{ x.MaKiemSoat }}</td>
+												<td>{{ x.ten }}</td>
+												<td>{{ x.tenTinhTrang }}</td>
+												@*<td width="100px">{{x.soLuong}}</td>*@
+												@*VINH*@
+												<td width="100px">
+													<div style="display: flex;">
+														<div style="width:100%">
+															<input type="number" ng-value="{{x.soLuong}}" id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}"
+																   class="form-control form-control-sm"
+																   min="1"
+																   required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+														</div>
+													</div>
+												</td>
+												@*END VINH*@
+												<td>{{x.GhiChuDon}}</td>
+												<td align="center">
+													<button ng-click="removeItem(x.MaKiemSoat, x.IdTinhTrang)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
+												</td>
+											</tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -128,8 +143,8 @@
                                 <div class="form-group row">
                                     <div class="col-md-2"></div>
                                     <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" class="btn btn-primary btn-sm" value="Tạo mới" />
-                                        <input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />
+                                        <input type="submit" class="btn btn-primary btn-sm" value="Tạo phiếu" />
+                                        @*<input type="button" onclick="goBack()" class="btn btn-default btn-sm" value="Trở lại" />*@
                                     </div>
                                 </div>
 
@@ -183,6 +198,33 @@
                 }
             });
         })
+
+        function EnterMaSach() {
+            var idBook = $("#idSach").val();
+            console.log(idBook);
+			if (idBook == "") {
+				alert('Chưa nhập mã sách');
+				$("#idSach").focusout();	
+			}
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: "@(Url.Action("GetBookByID", "PhieuNhapSach"))",
+                    data: "idSach=" + idBook,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log('Tim thay sach');
+                        $("#idSach").val(data.MaKiemSoat);
+                        $("#SoLuong").focus();
+                    },
+                    error: function () {
+                        alert('Mã sách không tồn tại');
+                        $("#idSach").val("");
+                    }
+                });
+            }
+        }
     </script>
 }
 

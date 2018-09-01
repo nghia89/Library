@@ -785,5 +785,52 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", "Sach");
             // return View();
         }
+
+        #region Vinh - Xuất QR
+
+        public ActionResult XuatQR()
+        {
+            
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return RedirectToAction("LogOff", "Account");
+            var _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            #endregion
+            string fileName = string.Concat("QR_Word" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".docx");
+            var folderReport = "/Reports/WordQR";
+            string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/WordQR/{fileName}";
+            string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            string fullPath = Path.Combine(filePath, fileName);
+
+            var listBook = _SachLogic.getAll();
+            string linkMau = null;
+            linkMau = "/Upload/FileWord/QRBook_Template.docx";
+            if (string.IsNullOrEmpty(linkMau))
+            {
+            }
+            ExcelManager wordExport = new ExcelManager();
+            wordExport.ExportQRToWord(linkMau, listBook, fullPath);
+
+            string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + fileName;
+            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+            string contentType = MimeMapping.GetMimeMapping(filepath);
+
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = fileName,
+                Inline = true,
+            };
+
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+
+            return File(filedata, contentType);
+        }
+
+        #endregion
     }
 }

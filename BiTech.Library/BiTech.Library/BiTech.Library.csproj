@@ -611,8 +611,8 @@
     <Content Include="Content\Images\calendar.ico" />
     <Content Include="Content\Images\book.png" />
     <Content Include="Content\Images\logo.png" />
-    <Content Include="Content\Images\Mau1.png" />
-    <Content Include="Content\Images\Mau2.png" />
+    <Content Include="Content\Images\Mau1.PNG" />
+    <Content Include="Content\Images\Mau2.PNG" />
     <Content Include="Content\Images\nancyy.jpg" />
     <Content Include="Content\Images\user5.jpg" />
     <Content Include="Content\tagsinput\ng-tags-input-style.css" />
@@ -883,6 +883,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\LibraryAngularJS.js" />
+    <Content Include="Upload\BookCovers\5b4458c2af06b93f489798db\6f07dea0-6f27-47d2-96b4-5752decbdb63.jpg" />
+    <Content Include="Upload\BookCovers\5b45adb2af06b908d8e820b0\21fa387e-ba1f-4008-97e6-710b2e7637b2.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1080,6 +1082,7 @@
     <Content Include="Views\Search\ThongTinChiTiet.cshtml" />
     <Content Include="Views\ExportMarc\exportMarc.cshtml" />
     <Content Include="Views\Marc\ImportMarc.cshtml" />
+    <Content Include="Upload\FileWord\QRBook_Template.docx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
