@@ -16,9 +16,9 @@
             @*<th>Ảnh thành viên</th>*@
             <th>Tên giáo viên</th>
             <th>Mã giáo viên</th>
-            <th>Lớp</th>
+            <th>Tổ</th>
             <th>Ngày sinh</th>
-            <th>Giới tính</th>      
+            <th>Giới tính</th>
             <th>Trạng thái</th>
             <th>Khóa</th>
         </tr>
@@ -27,7 +27,7 @@
         @foreach (var item in Model)
         {
 
-            <tr  class="text-center">
+            <tr class="text-center">
                 <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
                 @*<td>@stt</td>*@
                 <!--<td class="book_box">
@@ -40,13 +40,22 @@
                         </div>
                     </div>
                 </td>-->
-                <td class="a_td" onclick="window.location = '/HocSinh/Details?idUser=@item.Id'">
+                <td class="a_td" onclick="window.location = '/GiaoVien/Details?idUser=@item.Id'">
                     @item.Ten
-                    @*@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null)*@ 
+                    @*@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null)*@
                 </td>
                 <td>@item.MaSoThanhVien</td>
                 <td>@item.LopHoc</td>
-                <td>@item.NgaySinh.ToString("dd-MM-yyyy")</td>
+                @{
+                    if (@item.NgaySinh.ToString("dd-MM-yyyy").Equals("01-01-0001") == true)
+                    {
+                        <td>--/--/----</td>
+                    }
+                    else
+                    {
+                        <td>@item.NgaySinh.ToString("dd-MM-yyyy")</td>
+                    }
+                }
                 <td>@item.GioiTinh</td>
                 @{
                     if (item.TrangThai == EUser.Active)
@@ -62,8 +71,8 @@
                 @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
                     @*<a class="color-white btn btn-sm btn-primary btn-inTable" href="@Url.Action("Details", new { @IdUser = @item.Id })">
-                        <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
-                    </a>*@
+                            <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
+                        </a>*@
                     @if (item.TrangThai == EUser.Active)
                     {
                         <a class="color-white btn btn-sm btn-success my-button btn-inTable" title="Khoá" href="javascript:Delete('@item.Id','@item.Ten')">

@@ -1,9 +1,10 @@
 ﻿@model BiTech.Library.Models.UserViewModel
 @{
     ViewBag.Title = "Thêm excel giáo viên";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="~/bower_components/custom-file-input/css/component.css" />
-
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Thêm dữ liệu giáo viên từ File Excel</div>
 <div class="form-group row">
     <div class="col-md-12">
@@ -12,26 +13,91 @@
         </button>
     </div>
 </div>
-@using (Html.BeginForm("ImportFromExcel", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
+@*   @using (Html.BeginForm("ImportFromExcel", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="box">
+            @Html.TextBoxFor(m => m.LinkExcel, new { @Class = "inputfile inputfile-2", type = "file", accept = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })
+            <label for="LinkExcel"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" /></svg> <span>Chọn file</span></label>
+            @Html.ValidationMessageFor(m => m.LinkExcel)
+        </div>
+        <div class="text-danger"> @ViewBag.Duplicate</div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <input type="submit" class="btn btn-sm btn-primary" value="Chọn" />
+            </div>
+        </div>
+    } *@
 
-    <div class="box">
-        @Html.TextBoxFor(m => m.LinkExcel, new { @Class = "inputfile inputfile-2", type = "file", accept = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })
-        <label for="LinkExcel"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" /></svg> <span>Chọn file</span></label>
-        @Html.ValidationMessageFor(m => m.LinkExcel)
-    </div>
+@*<div>
+        <center>
+            <h1><i class="glyphicon glyphicon-cloud-upload text-info"></i></h1>
+        </center>
+    </div>*@
 
-    <div class="text-danger"> @ViewBag.Duplicate</div>
-    <div class="form-group row">
-        <div class="col-md-10">
-            <input type="submit" class="btn btn-sm btn-primary" value="Chọn" />
+
+
+<div class="f1">
+    <div class="f1-steps">
+        <div class="f1-progress">
+            <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" style="width: 22.5%;"></div>
+        </div>
+        <div class="f1-step active">
+            <div class="f1-step-icon"><i class="fa fa-file-excel-o" style="padding-top:13px;padding-left: 16px;font-size: 34px;"></i></div>
+            <p>Chọn tệp</p>
+        </div>
+        <div class="f1-step">
+            <div class="f1-step-icon"><i class="fa fa-search" style="padding-top:13px;padding-left: 15px;font-size: 34px;"></i></div>
+            <p>Phân tích</p>
+        </div>
+        <div class="f1-step">
+            <div class="f1-step-icon"><i class="fa fa-check" style="padding-top:13px;padding-left: 14px;font-size: 34px;"></i></div>
+            <p>Kết quả</p>
         </div>
     </div>
-}
 
-@section scripts{
-    <script src="~/bower_components/custom-file-input/custom-file-input.js"></script>
+    <fieldset>
+        <div class="alert alert-info" role="alert">
+            <center>
+                <a href="#" id="BrowseButton" class="btn btn-primary btn-browse-filedata">
+                    Chọn tệp
+                </a>
+                <div>Bấm vào nút "Chọn tệp" để mở tập tin bạn muốn đọc dữ liệu</div>
+                <input type="file" name="files" id="files" style="display: none;">
+                <div id="progressOuter" class="progress progress-striped active" style="display:none;">
+                    <div id="progressBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                </div>
+            </center>
+        </div>
+        <div class="alert alert-success" style="display: none;" id="upload-complete" role="alert"><center>Đã Upload xong. Đang phân tích tập tin... <i class="fast-right-spinner glyphicon glyphicon-refresh"></i></center></div>
+        <div class="f1-buttons" style="display: none;">
+            <button type="button" class="btn btn-next" id="step-1-success">Next</button>
+        </div>
+    </fieldset>
+
+    <fieldset id="step-2-container">
+        <div id="data-table-container"></div>
+    </fieldset>
+
+    <fieldset id="success-step-container">
+        <div id="message"></div>
+    </fieldset>
+</div>
+
+
+@section scripts{    
+
+
+<link href="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/css/style.css" rel="stylesheet" />
+<script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/jquery.backstretch.js"></script>
+<script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/scripts.js"></script>
+<script src="~/ExcelStep/Simple-Ajax-Uploader/SimpleAjaxUploader.js"></script>
+<link href="~/ExcelStep/Simple-Ajax-Uploader/examples/assets/css/styles.css" rel="stylesheet" />
+<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/bower_components/custom-file-input/custom-file-input.js"></script>
+<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
     <script>
         function ReadUrl(input) {
             if (input.files && input.files[0]) {
@@ -44,6 +110,175 @@
         }
         $("#LinkExcel").change(function () {
             ReadUrl(this);
+        });
+        // ========= Server Online ==========
+        window.onload = function () {
+            var btn = document.getElementById('BrowseButton'),
+              progressBar = document.getElementById('progressBar'),
+              progressOuter = document.getElementById('progressOuter'),
+              msgBox = document.getElementById('UploaderMessageBox');
+
+            var uploader = new ss.SimpleUpload({
+                button: btn,
+                url: '@Url.Content("~/GiaoVien/PreviewImport")',
+                name: 'file',
+                multipart: true,
+                hoverClass: 'hover',
+                focusClass: 'focus',
+                startXHR: function () {
+                    progressOuter.style.display = 'block'; // make progress bar visible
+                    this.setProgressBar(progressBar);
+                },
+                onSubmit: function () {
+                    $("#new-test-information-container").hide();
+                    $("#upload-complete").hide();
+                },
+                onProgress: function (progress) {
+                    if (progress >= 100) {
+                        $("#upload-complete").show();
+                    }
+                    else {
+                        $("#upload-complete").hide();
+                    }
+                },
+                onComplete: function (filename, response) {
+                    $("#upload-complete").hide();
+                    progressOuter.style.display = 'none'; // hide progress bar when upload is completed
+
+                    if (tryParseJSON(response) == false) {
+                        $("#step-2-container #data-table-container").html(response);
+                        $("#step-1-success").click();
+                    } else {
+                        jsonResponse = JSON.parse(response);
+                        if (jsonResponse.message != 'undefined') {
+
+                            swal({
+                                title: "Bị lỗi",
+                                type: "error",
+                                text: jsonResponse.message
+                            }, function myfunction() {
+                                location.reload();
+                            });
+                        }
+                        else {
+
+                            swal({
+                                title: "Bị lỗi",
+                                type: "error",
+                                text: "Có lỗi xãy ra, vui lòng thữ lại !!!"
+                            }, function myfunction() {
+                                location.reload();
+                            });
+                        }
+                    }
+                },
+                onError: function (xhr) {
+                    progressOuter.style.display = 'none';
+
+                    swal({
+                        title: "Có lỗi",
+                        type: "error",
+                        text: "Có lỗi xảy ra, vui lòng thử lại !!! \r\n Kiểm tra định dạng, dung lượng tập tin hoặc trường truyền Internet"
+                    }, function myfunction() {
+                        //   location.reload();
+                    });
+                }
+            });
+        };
+
+        function tryParseJSON(jsonString) {
+            try {
+                var o = JSON.parse(jsonString);
+
+                // Handle non-exception-throwing cases:
+                // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+                // but... JSON.parse(null) returns null, and typeof null === "object",
+                // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+                if (o && typeof o === "object") {
+                    return o;
+                }
+            }
+            catch (e) { }
+
+            return false;
+        };
+
+        function importSaveBegin() {
+            $("#submit-button i:first-of-type").removeClass('glyphicon-ok');
+            $("#submit-button i:first-of-type").addClass('glyphicon-refresh');
+            $("#submit-button i:first-of-type").addClass('fast-right-spinner');
+
+            $("#submit-button").addClass('has-spinner');
+            $("#submit-button").addClass('active');
+        }
+
+        function importSaveSuccess() {
+            $("#submit-button").removeClass('active');
+            $("#go-to-success-step").click();
+        }
+
+        $(document).ready(function () {
+            $("#submit-button").on('click', function () {
+                $("#fill-information-step-container #data").val(JSON.stringify(data));
+
+                swal({
+                    title: "Xác nhận",
+                    text: "Bấm \"Đồng ý\" để chắc chắn bạn muốn tạo tài khoản hàng loạt. !!!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Đồng ý",
+                    cancelButtonText: "Hủy",
+                    closeOnConfirm: true
+                },
+                function () {
+                    $("#save-data-form").submit();
+                });
+            });
+
+            $("#BrowseButton").on('click', function () {
+                $("#files").click();
+            });
+
+            $(document).on('click', '.f1 .btn-next', function () {
+                var parent_fieldset = $(this).parents('fieldset');
+                var next_step = true;
+                // navigation steps / progress steps
+                var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+                var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+
+                if (next_step) {
+                    parent_fieldset.fadeOut(400, function () {
+                        // change icons
+                        current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+                        // progress bar
+                        bar_progress(progress_line, 'right');
+                        // show next step
+                        $(this).next().fadeIn();
+                        // scroll window to beginning of the form
+                        scroll_to_class($('.f1'), 20);
+                    });
+                }
+
+            });
+
+            // previous step
+            $(document).on('click', '.f1 .btn-previous', function () {
+                // navigation steps / progress steps
+                var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+                var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+
+                $(this).parents('fieldset').fadeOut(400, function () {
+                    // change icons
+                    current_active_step.removeClass('active').prev().removeClass('activated').addClass('active');
+                    // progress bar
+                    bar_progress(progress_line, 'left');
+                    // show previous step
+                    $(this).prev().fadeIn();
+                    // scroll window to beginning of the form
+                    scroll_to_class($('.f1'), 20);
+                });
+            });
         });
     </script>
 }
