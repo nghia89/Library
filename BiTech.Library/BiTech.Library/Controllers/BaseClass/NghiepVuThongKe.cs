@@ -18,7 +18,7 @@ namespace BiTech.Library.Controllers.BaseClass
         /// <returns></returns>
         public int DemSoPhieuMuon(List<ThongTinMuonSach> listPM)
         {
-            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();          
+            List<ThongTinMuonSach> listRutGon = new List<ThongTinMuonSach>();
             foreach (var item in listPM)
             {
                 // Gộp sách                
@@ -183,6 +183,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return listRutGon;
         }
+
         // Đếm số sách trả
         public int DemSoSachDuocTra(List<ThongTinMuonSach> listPT, int? day, int? month, int? year)
         {
@@ -190,17 +191,25 @@ namespace BiTech.Library.Controllers.BaseClass
             DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
             foreach (var item in listPT)
             {
+                // Thống kê theo ngày
                 if (day != null && item.NgayTraThucTe.Day == day)
                 {
                     dem++;
                 }
+                // Thống kê theo tháng
                 if (day == null && item.NgayTraThucTe.Month == month && item.NgayTraThucTe.Year == year)
+                {
+                    dem++;
+                }
+                // Thống kê theo tuần 
+                if (day == null && month == null && year == null)
                 {
                     dem++;
                 }
             }
             return dem;
         }
+
         // Đếm số sách trễ hạn
         public int DemSoSachKhongTra(List<ThongTinMuonSach> listPM)
         {
@@ -216,7 +225,39 @@ namespace BiTech.Library.Controllers.BaseClass
             return dem;
         }
 
+        // Thống kê theo tuần
+        public int[] ThongKeTheoTuan(DateTime dayInWeek, string connectionString, string databaseName)
+        {
+            var _thongKeLogic = new ThongKeLogic(connectionString, databaseName);
+            int[] arrInfo = new int[5];
 
+            int day = dayInWeek.Day;
+            int month = dayInWeek.Month;
+            int year = dayInWeek.Year;
 
+            var listMuonSach = _thongKeLogic.GetAllTTMS();
+            List<ThongTinMuonSach> listPM = new List<ThongTinMuonSach>();
+            List<ThongTinMuonSach> listPT = new List<ThongTinMuonSach>();
+            foreach (var item in listMuonSach)
+            {
+                if (item.NgayGioMuon.Day == day && item.NgayGioMuon.Month == month && item.NgayGioMuon.Year == year)
+                {
+                    listPM.Add(item);
+                }
+                if (item.NgayTraThucTe.Day == day && item.NgayTraThucTe.Month == month && item.NgayTraThucTe.Year == year)
+                {
+                    listPT.Add(item);
+                }
+            }
+            int soSachDuocMuon = DemSoSachDuocMuon(listPM, connectionString, databaseName);
+            int soSachTra = DemSoSachDuocTra(listPT,null,null,null);
+            int soSachTraTre = DemSoSachKhongTra(listPM);
+            int soNguoiMuon = DemSoNguoiMuonSach(listPM);
+            arrInfo[0] = soNguoiMuon;
+            arrInfo[1] = soSachDuocMuon;
+            arrInfo[2] = soSachTra;
+            arrInfo[3] = soSachTraTre;  
+            return arrInfo;
+        }
     }
 }

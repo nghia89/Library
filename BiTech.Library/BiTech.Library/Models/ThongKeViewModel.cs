@@ -97,8 +97,14 @@ namespace BiTech.Library.Models
         public int[] lsoNguoiTraTreTrongNgay { get; set; }
         public int[] lsoSachDuocTraTrongNgay { get; set; }
         public int[] lsoSachKhongTraTrongNgay { get; set; }
+        // List thống kê theo tuần   
+        public List<int[]> thongKeTheoTuan { get; set; }
+        public int[] lsoNguoiMuonTrongTuan { get; set; }
+        public int[] lsoSachDuocMuonTrongTuan { get; set; }
+        public int[] lsoSachDuocTraTrongTuan { get; set; }
+        public int[] lsoSachKhongTraTrongTuan { get; set; }
     }
-  
+
 
 
 }

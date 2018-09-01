@@ -514,10 +514,7 @@ namespace BiTech.Library.Controllers
             #endregion
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllHS();
-
-            //string linkMau1 = "/Content/MauWord/mau2.docx";
-            //excelManager.ExportWord(linkMau1, listTV);
-
+            string fileName = "MauTheHS.docx";           
             if (model.LinkWord != null)
             {
                 string physicalWebRootPath = Server.MapPath("/");
@@ -536,7 +533,18 @@ namespace BiTech.Library.Controllers
                     model.LinkWord.InputStream.CopyTo(fileStream);
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                     fileStream.Close();
-                    excelManager.ExportWord(sourceDir, listTV);
+                    excelManager.ExportWord(sourceDir, listTV, fileName);
+                    // To do Download           
+                    string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
+                    byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+                    string contentType = MimeMapping.GetMimeMapping(filepath);
+                    var cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = fileName,
+                        Inline = true,
+                    };
+                    Response.AppendHeader("Content-Disposition", cd.ToString());
+                    return File(filedata, contentType);
                 }
             }
             // return View();
@@ -556,16 +564,29 @@ namespace BiTech.Library.Controllers
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllHS();
             string linkMau = null;
+            string fileName = "MauTheHS.docx";
             if (mauThe.Equals("mau1") == true)
             {
                 linkMau = "/Content/MauWord/Mau1.docx";
+                fileName = "MauTheHS-Mau1.docx";
             }
             else if ((mauThe.Equals("mau2") == true))
             {
                 linkMau = "/Content/MauWord/Mau2.docx";
+                fileName = "MauTheHS-Mau2.docx";
             }
-            excelManager.ExportWord(linkMau, listTV);
-            return RedirectToAction("Index", "HocSinh");
+            excelManager.ExportWord(linkMau, listTV,fileName);
+            // To do Download           
+            string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
+            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+            string contentType = MimeMapping.GetMimeMapping(filepath);
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = fileName,
+                Inline = true,
+            };
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+            return File(filedata, contentType);
         }
     }
 }
