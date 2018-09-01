@@ -66,6 +66,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetAll();
         }
+        public List<Sach> GetDatetime(DateTime firstDayOfMonth, DateTime lastDayOfMonth)
+        {
+            return _sachEngine.GetDatetime(firstDayOfMonth, lastDayOfMonth);
+        }
         public List<Sach> ListName(string keyWord)
         {
             return _sachEngine.ListName(keyWord);

@@ -29,6 +29,7 @@ namespace BiTech.Library.Models
         }
     }
 
+    [Serializable]
     public class SachViewModels
     {
         public string Id { get; set; }
@@ -56,7 +57,7 @@ namespace BiTech.Library.Models
         public int SoLuong { get; set; }
 
         [Required]
-        public int SoTrang { get; set; }
+        public string SoTrang { get; set; }
 
         [Required]
         public string NgonNgu { get; set; }
@@ -86,6 +87,7 @@ namespace BiTech.Library.Models
         public string QRData { get; set; }
 
         public string ISBN { get; set; } = "";
+        public string IdNgonNgu { get; set; }
 
         [Required]
         public HttpPostedFileBase FileImageCover { get; set; }

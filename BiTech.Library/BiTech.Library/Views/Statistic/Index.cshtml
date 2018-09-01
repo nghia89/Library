@@ -18,7 +18,16 @@
     <script src="~/app/AngularChartJs/angular-chart.min.js"></script>
     <link href="~/app/AngularChartJs/angular-chart.css" rel="stylesheet" />
     <script src="~/app/StatisticTransition.js"></script>
-
+    <link href="~/Scripts/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $('#sandbox-container .input-append.date').datepicker({
+        });
+        //$('.datepicker').datepicker({
+        //    format: 'dd/mm/yyyy',
+        //    //startDate: '-7d'
+        //});
+    </script>
 }
 
 
@@ -28,21 +37,11 @@
         <div style="margin-left:134px; padding-bottom:30px">
             <button class="tablink" onclick="openCity('MonthYear', this, '#1ab188')" style="outline:none" id="defaultOpen">Thống kê theo tháng của năm</button>
             <button class="tablink" onclick="openCity('Year', this, '#1ab188')" style="outline:none">Thống kê theo năm</button>
+            <button class="tablink" onclick="openCity('Day', this, '#1ab188')" style="outline:none">Thống kê tuần</button>
+            <button class="tablink" onclick="openCity('TTSach', this, '#1ab188')" style="outline:none">Thống kê trang thai sách</button>
+
         </div>
-
-        @*<div class="col-sm-3 back_groupCheck ">
-                <div class="slide-two margin-top">
-                    <input type="checkbox" name="check" checked id="slide-two1" />
-                    <label for="slide-two1">Thống Kê Theo Tháng Của Từng Năm</label>
-                </div>
-            </div>
-            <div class="col-sm-3 back_groupCheck">
-                <div class="slide-two margin-top">
-                    <input type="checkbox" name="check" id="slide-two" />
-                    <label for="slide-two">Thống Kê Theo Năm</label>
-                </div>
-            </div>*@
-
+        @*thống kê theo tháng*@
         <div id="MonthYear" class="tabcontent">
             <div id="disableMonth">
                 <div ng-controller="MonthCtroller" class="row">
@@ -65,9 +64,31 @@
                                     <option value="@i">Năm @i</option>
                                 }
                             </select>
+
+                        </div>
+                        <div class="col-md-2" style="float:left;border: 1px solid #09084b;border-radius: 7px;margin: 0px 15px;height: 55px;background: #09084b;color: white;max-width: 172px;min-width: 104px;">
+                            <div class="block-wrapper return" style="border:1px solid dashed">
+                                <div class="text-des">
+                                    <span>Tổng Số Sách</span>
+                                    <div class="service-wrapper ">
+                                        <i class="fa fa-book" aria-hidden="true"></i>
+                                        <strong>{{SumSl}}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="float:left;border: 1px solid #7d046e;border-radius: 7px;height: 55px;background: #7d046e;color: white;max-width: 172px;min-width: 104px;">
+                            <div class="block-wrapper return" style="border:1px solid dashed">
+                                <div class="text-des">
+                                    <span>Tổng Sách Mới</span>
+                                    <div class="service-wrapper ">
+                                        <i class="fa fa-book" aria-hidden="true"></i>
+                                        <strong>{{sumSixMonth}}</strong>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                     <div class="col-md-9" style="margin:auto">
                         <!-- Custom tabs (Charts with tabs)-->
                         <div class="nav-tabs-custom">
@@ -76,8 +97,8 @@
                             <div class="tab-content no-padding">
                                 <span style="margin-top: 20px; margin-left:-60px; position: absolute;">Số lượng</span>
                                 <canvas id="line" class="chart chart-line "
-                                chart-data="chartdataMonth" chart-labels="labels" chart-colors="colors"
-                                chart-series="series" chart-options="options" chart-legend="true" chart-dataset-override="datasetOverride"></canvas>
+                                        chart-data="chartdataMonth" chart-labels="labels" chart-colors="colors"
+                                        chart-series="series" chart-options="options" chart-legend="true" chart-dataset-override="datasetOverride"></canvas>
                                 <p style="float: right;margin-right: -53px;margin-top: -40px;padding-bottom: 15px;">Ngày</p>
                                 <div ng-if="loading">
                                     <div class="col-xs-4"></div>
@@ -94,6 +115,7 @@
             </div>
         </div>
 
+        @*thống kê theo năm*@
         <div id="Year" class="tabcontent">
             <div class="row" id="disableYear">
                 <div class="col-lg-12">
@@ -101,8 +123,7 @@
                     <div ng-controller="Statistic" class="row">
                         <div class="col-md-12">
                             <div class="col-md-2">
-                                <div class="col-md-1 text-right"><h5>Năm</h5></div>
-                                <div style="padding-bottom: 12px;">
+                                <div style="padding-bottom: 12px;float:left">
                                     <select class="form-control" data-width="auto" ng-model="selectYear" ng-click="year()">
                                         <option value="">---chọn năm---</option>
                                         @for (int i = Int32.Parse(ViewBag.tt); i <= DateTime.Now.Year; i++)
@@ -113,7 +134,28 @@
                                 </div>
 
                             </div>
-
+                            <div class="col-md-2" style="float:left;border: 1px solid #09084b;border-radius: 7px;margin: 0px 15px;height: 55px;background: #09084b;color: white;max-width: 172px;min-width: 104px;margin-left: 305px;">
+                                <div class="block-wrapper return" style="border:1px solid dashed">
+                                    <div class="text-des">
+                                        <span>Tổng Số Sách</span>
+                                        <div class="service-wrapper ">
+                                            <i class="fa fa-book" aria-hidden="true"></i>
+                                            <strong>{{SumSl}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="float:left;border: 1px solid #7d046e;border-radius: 7px;height: 55px;background: #7d046e;color: white;max-width: 172px;min-width: 104px;">
+                                <div class="block-wrapper return" style="border:1px solid dashed">
+                                    <div class="text-des">
+                                        <span>Tổng Sách Mới</span>
+                                        <div class="service-wrapper ">
+                                            <i class="fa fa-book" aria-hidden="true"></i>
+                                            <strong>{{sumSixMonth}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Left col -->
@@ -125,7 +167,7 @@
                                         chart-data="chartdataYear" chart-labels="labels" chart-colors="colors"
                                         chart-series="series" chart-options="options" chart-legend="true"
                                         chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
-                                
+
 
                                 <div ng-if="loading">
                                     <div class="col-xs-4"></div>
@@ -135,6 +177,57 @@
                                     <span style="color: crimson;">Đang tải dữ liệu.?</span>
                                     <div class="col-xs-4"></div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*thống kê theo ngày*@
+        <div id="Day" class="tabcontent">
+            <div class="row" id="disableYear">
+                <div class="col-lg-12">
+
+                    <div ng-controller="startDayAndlastDay" class="row">
+                        <div class='col-sm-2'>
+                            <div class="form-group">
+                                <div class='input-group date' id='datepicker' data-provide="datepicker">
+                                    <input type='text' class="form-control" value="@DateTime.Now" ng-model="Datetime" ng-change="GetDay()" />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar" aria-hidden="true" style="font-size: 25px;position: absolute;margin-left: -30px;top: 7px;"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Left col -->
+                        <!-- Tabs within a box -->
+                        <div class="col-md-9" style="margin:auto">
+                            <div class="tab-content no-padding">
+                                <span style="margin-top: 20px; margin-left:-60px; position: absolute;">Số lượng</span>
+                                <canvas id="bar " class="chart chart-line"
+                                        chart-data="chartdataDay" chart-labels="labels" chart-colors="colors"
+                                        chart-series="series" chart-options="options" chart-legend="true"
+                                        chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*thống kê theo trang thái sách*@
+        <div id="TTSach" class="tabcontent">
+            <div class="row" id="disableYear">
+                <div class="col-lg-12">
+                    <div ng-controller="TTSach" class="row">
+                        <div class="col-md-9" style="margin:auto">
+                            <div class="tab-content no-padding">
+                                <span style="margin-top: 20px; margin-left:-60px; position: absolute;">Số lượng</span>
+                                <canvas id="bar" class="chart chart-bar"
+                                        chart-data="chartdataDay" chart-labels="labels" chart-colors="colors"
+                                        chart-series="series" chart-options="options" chart-legend="true"
+                                        chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
                             </div>
                         </div>
                     </div>

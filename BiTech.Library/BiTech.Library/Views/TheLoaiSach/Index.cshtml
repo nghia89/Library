@@ -14,6 +14,7 @@
        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>
 
     @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })
+    <a class="btn btn-sm btn-danger" href="~/Tempaltes/DDC.xlsx">Mẫu Excel</a>
 
     <button class="btn-dan btn btn-sm btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
         Dán
@@ -38,8 +39,8 @@
             <th width="18%">Mã DDC</th>
             @*<th width="20%">Tên thể loại cha</th>*@
             <th width="40%">Mô tả</th>
-            <th width="10%">Sửa</th>
-            <th width="10%">Cắt</th>
+            <th width="5%">Sửa</th>
+            <th width="5%">Cắt</th>
         </tr>
     </thead>
     @{int i = 1;}
@@ -75,7 +76,7 @@
                 @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
-                    <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
+                    <button class="color-white btn btndanger btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
                         <i class="fa">&#xf044;</i> Sửa
                     </button>
                 </td>
