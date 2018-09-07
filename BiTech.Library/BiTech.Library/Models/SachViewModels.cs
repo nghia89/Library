@@ -27,6 +27,10 @@ namespace BiTech.Library.Models
         {
             SachDTO = sach;
         }
+
+		//vinh - LIST DANH SACH TRANG THAI
+		public string GhiChuPhieuNhap { get; set; }
+		public List<SoLuongTrangThaiSachVM> ListTTSach { get; set; }
     }
 
     public class SachViewModels
@@ -36,10 +40,13 @@ namespace BiTech.Library.Models
         [Required]
         public string TenSach { get; set; }
         
-        [Required]
-        public string IdTheLoai { get; set; }
+        [Required] 
+		public string IdTheLoai { get; set; }
 
-        [Required]
+		[Required] 
+		public string IdNgonNgu { get; set; }
+
+		[Required]
         public string IdKeSach { get; set; }
 
         [Required]
@@ -90,7 +97,10 @@ namespace BiTech.Library.Models
         [Required]
         public HttpPostedFileBase FileImageCover { get; set; }
         public HttpPostedFileBase LinkExcel { get; set; }
-    }
+
+		[Required(ErrorMessage = "Vui lòng không để trống")]
+		public List<string> ListTacGiaJson { get; set; }
+	}
 
     public class ListBooksModel
     {

@@ -374,5 +374,11 @@ namespace BiTech.Library.Controllers
 
             return Json(_sach, JsonRequestBehavior.AllowGet);
         }
-    }
+
+		public ActionResult PreToInsert(List<SoLuongTrangThaiSachVM> lstModel)
+		{
+			ViewData["LstTTS"] = lstModel;
+			return Json(true);
+		}		
+	}
 }

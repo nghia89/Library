@@ -27,43 +27,55 @@
                         <div class="top">
                             <span class="">Thông tin phiếu nhập</span>
                         </div>
-                        <div class="content-box-window">
-                            <div class="form-group row">
-                                @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
-                                    <input id="idSach" name="idSach"
-                                           onkeydown="if (event.keyCode == 13) { EnterMaSach() }"
-                                           @*onfocusout="EnterMaSach()"*@
-                                           placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
-                                    <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
-                                </div>
-                            </div>
+						<div class="content-box-window">
+							<div class="form-group row">
+								@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
+								<div class="col-md-10">
+									<input id="idSach" name="idSach"
+										   onkeydown="if (event.keyCode == 13) { EnterMaSach() }"
+										   ng-keydown="$event.keyCode === 13 &&  ? updateListTrangThai():return"
+										   ng-blur="updateListTrangThai()"
+										   ng-mouseleave="updateListTrangThai()"
+										   @*onfocusout="EnterMaSach()"*@
+										   placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
+								</div>
+							</div>
+							<div class="form-group row">
+								@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
+								<div class="col-md-10">
+									<input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
+								</div>
+							</div>
+							@*<div class="form-group row">
+								@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
+								<div class="col-md-10">
+									@Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--",
+								   new { ng_model = "idTrangThai", @class = "form-control form-control-sm", @id = "cbTTSach" })
+								</div>
+							</div>*@
 
-                            <div class="form-group row">
-                                @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
-                                @Html.Label("Lý do", new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
-                                    <input id="LyDo" name="LyDo" placeholder="Lý do" ng-model="GhiChuDon" class="form-control form-control-sm" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-10">
-                                    <input type="button" ng-click="addItema()" value="Thêm" class="btn btn-primary btn-sm" />
-                                </div>
-                            </div>
-                        </div>
+							<div class="form-group row">
+								@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
+								<div class="col-md-10">									
+										@Html.DropDownList("TrangThai", new SelectList(new List<BiTech.Library.DTO.Language>(), "IdTrangThai", "TrangThai"), "--Chọn tình trạng--",
+						 new { @id = "idTrangThai", @class = "form-control form-control-sm", @ng_model = "idTrangThai", @data_ng_disabled = "!listTrangThai", @ng_options = "s.TrangThai for s in listTrangThai track by s.IdTrangThai" })									
+								</div>
+							</div>
+
+							<div class="form-group row">
+								@*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
+								@Html.Label("Lý do", new { @class = "col-md-2 control-label" })
+								<div class="col-md-10">
+									<input id="LyDo" name="LyDo" placeholder="Lý do" ng-model="GhiChuDon" class="form-control form-control-sm" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-2"></div>
+								<div class="col-md-10">
+									<input type="button" ng-click="addItema()" value="Thêm" class="btn btn-primary btn-sm" />
+								</div>
+							</div>
+						</div>
                     </div>
 
                     <br />
@@ -215,8 +227,11 @@
                     dataType: "json",
                     success: function (data) {
                         console.log('Tim thay sach');
-                        $("#idSach").val(data.MaKiemSoat);
-                        $("#SoLuong").focus();
+						$("#idSach").val(data.SachDTO.MaKiemSoat);
+						$("#SoLuong").focus();
+						console.log(data.ListTTSach	);
+						var ttSach = $('#cbTTSach');
+						$('#cbTTSach').val(data.ListTTSach);
                     },
                     error: function () {
                         alert('Mã sách không tồn tại');

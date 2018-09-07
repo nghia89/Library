@@ -136,7 +136,8 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
 //xuất sách
 app.controller('ExportBookCtrlr', function ($scope, $http) {
 
-    $scope.list = [];
+	$scope.list = [];
+	$scope.listTrangThai = [];
     $scope.addItema = function () {
         $scope.errortext = "";
         $http({
@@ -210,7 +211,17 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 	$scope.ResetListBookQueue = function () {
 		$scope.list = []
 	};
-
+	//Load danh sach trang thai cua sach da co
+	$scope.updateListTrangThai = function () {
+		$http({
+			method: "get",
+			url: "/PhieuXuatSach/GetStatusByIdBook",
+			params: { idBook: $scope.maKS }
+		}).then(function (response) {
+			$scope.listTrangThai = response.data;
+			console.log(response.data.length);
+		})
+	};
 });
 
 // Get a book by Id - show bookName 

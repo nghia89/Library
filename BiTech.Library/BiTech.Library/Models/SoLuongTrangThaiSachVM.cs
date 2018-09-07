@@ -16,7 +16,9 @@ namespace BiTech.Library.Models
         public string TrangThai { get; set; }
 
         public string IdTrangThai { get; set; }
-        public int SoLuong { get; set; }
 
+		//[RegularExpression("(^[0-9])", ErrorMessage = "Count must be a natural number")]
+		public int SoLuong { get; set; }
+		
     }
 }
