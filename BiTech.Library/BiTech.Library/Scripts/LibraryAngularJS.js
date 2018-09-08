@@ -138,8 +138,20 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 
 	$scope.list = [];
 	$scope.listTrangThai = [];
+	$scope.listIndex = [];
+	$scope.slHienThi = 0;
     $scope.addItema = function () {
-        $scope.errortext = "";
+		$scope.errortext = "";
+		var i = 0;
+		var sl = 0;
+		for (i = 0; i < $scope.list.length; i++) {
+			if ($scope.list[i].MaKiemSoat == $scope.maKS && $scope.list[i].IdTinhTrang == $scope.idTrangThai.IdTrangThai)
+				sl += $scope.list[i].soLuong;
+			//let index = $scope.list.findIndex(_ => _.MaKiemSoat == $scope.maKS
+			//	&& _.IdTinhTrang == $scope.idTrangThai.IdTrangThai);
+		}
+		//if (index != -1)
+		$scope.slHienThi = sl;
         $http({
             method: "get",
             url: "/PhieuXuatSach/_GetBookItemById",
@@ -147,36 +159,56 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
                 maKiemSoat: $scope.maKS,
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
-                ghiChuDon: $scope.GhiChuDon
+				ghiChuDon: $scope.GhiChuDon,
+				soLuongHienThi: $scope.slHienThi
+					//index == -1 ? $scope.list[index].SoLuong : null
             }
-        }).then(function (response) {
-			if (response.data.valueOf() != "") {				       
-				$scope.list.push(response.data);                
+		}).then(function (response) {
+			if (response.data == null || response.data == "") {
+				$scope.errortext += "Số lượng sách không phù hợp.\n";
+				alert($scope.errortext);
+				$("#SoLuong").val("");
+				$("#SoLuong").focus();
+			}
+			else {
+				$scope.masach = $scope.maKS;
+				if (response.data.valueOf() != "") {
+					let index = $scope.list.findIndex(_ => _.MaKiemSoat == $scope.masach
+						&& _.IdTinhTrang == $scope.idTrangThai.IdTrangThai
+						&& _.GhiChuDon == $scope.GhiChuDon);
+					if (index >= 0) {
+						//Đã tồn tại
+						$scope.list[index].soLuong = (parseInt($scope.list[index].soLuong) + parseInt($scope.soLuong)).toString();
+						$("#List_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.list[index].soLuong);
+					}
+					else
+						$scope.list.push(response.data);		
 
-                $scope.maKS = null;
-                $scope.soLuong = null;
-                $scope.GhiChuDon = null;
-            }
-            else {
-                $scope.errortext = "";
-                if (!$scope.maKS) {
-                    $scope.errortext += "Vui lòng nhập mã sách.\n";
-                }
-                if (!$scope.soLuong) {
-                    $scope.errortext += "Vui lòng nhập số lượng.\n";
-                }
-                if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
-                    $scope.errortext += "Vui lòng chọn trạng thái.\n";
-                }
-                if (!$scope.GhiChuDon) {
-                    $scope.errortext += "Vui lòng chọn lý do.\n";
-                }
+					$scope.maKS = null;
+					$scope.soLuong = null;
+					$scope.GhiChuDon = null;
+				}
+				else {
+					$scope.errortext = "";
+					if (!$scope.maKS) {
+						$scope.errortext += "Vui lòng nhập mã sách.\n";
+					}
+					if (!$scope.soLuong) {
+						$scope.errortext += "Vui lòng nhập số lượng.\n";
+					}
+					if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
+						$scope.errortext += "Vui lòng chọn trạng thái.\n";
+					}
+					if (!$scope.GhiChuDon) {
+						$scope.errortext += "Vui lòng chọn lý do.\n";
+					}
 
-				if ($scope.errortext == "")
-					alert('Cần nhập đúng mã sách');
-				else
-					alert($scope.errortext);
-            }
+					if ($scope.errortext == "")
+						alert('Cần nhập đúng mã sách');
+					else
+						alert($scope.errortext);
+				}
+			}
         }, function (e) {
             $scope.errortext = "";
             if (!$scope.maKS) {

@@ -35,7 +35,7 @@
 						<div class="col-sm-10">
 							<div class="input-group mb-3">
 								<input id="idSach" name="idSach"
-									   onkeydown="if (event.keyCode == 13) { EnterMaSach() }"
+									   onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
 									   @*onfocusout="EnterMaSach()"*@
 									   placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
 								<div class="input-group-append">

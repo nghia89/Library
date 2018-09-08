@@ -32,8 +32,8 @@
 								@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
 								<div class="col-md-10">
 									<input id="idSach" name="idSach"
-										   onkeydown="if (event.keyCode == 13) { EnterMaSach() }"
-										   ng-keydown="$event.keyCode === 13 &&  ? updateListTrangThai():return"
+										   onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
+										   ng-keydown="$event.keyCode === 13  ? updateListTrangThai():return"
 										   ng-blur="updateListTrangThai()"
 										   ng-mouseleave="updateListTrangThai()"
 										   @*onfocusout="EnterMaSach()"*@
@@ -108,9 +108,9 @@
 												<td>{{ x.MaKiemSoat }}</td>
 												<td>{{ x.ten }}</td>
 												<td>{{ x.tenTinhTrang }}</td>
-												@*<td width="100px">{{x.soLuong}}</td>*@
+												<td id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}" width="100px">{{x.soLuong}}</td>
 												@*VINH*@
-												<td width="100px">
+												@*<td width="100px">
 													<div style="display: flex;">
 														<div style="width:100%">
 															<input type="number" ng-value="{{x.soLuong}}" id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}"
@@ -119,7 +119,7 @@
 																   required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
 														</div>
 													</div>
-												</td>
+												</td>*@
 												@*END VINH*@
 												<td>{{x.GhiChuDon}}</td>
 												<td align="center">
@@ -216,7 +216,7 @@
             console.log(idBook);
 			if (idBook == "") {
 				alert('Chưa nhập mã sách');
-				$("#idSach").focusout();	
+				$("#idSach").focus();	
 			}
             else {
                 $.ajax({
@@ -227,15 +227,14 @@
                     dataType: "json",
                     success: function (data) {
                         console.log('Tim thay sach');
-						$("#idSach").val(data.SachDTO.MaKiemSoat);
+						$("#idSach").val(data.MaKiemSoat);
 						$("#SoLuong").focus();
 						console.log(data.ListTTSach	);
-						var ttSach = $('#cbTTSach');
-						$('#cbTTSach').val(data.ListTTSach);
                     },
                     error: function () {
                         alert('Mã sách không tồn tại');
-                        $("#idSach").val("");
+						$("#idSach").val("");
+						$("#idSach").focus();	
                     }
                 });
             }

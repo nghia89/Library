@@ -196,7 +196,7 @@ namespace BiTech.Library.Controllers
 		// Ajax ----
 
 		[HttpGet]
-		public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string ghiChuDon)
+		public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string ghiChuDon, int soLuongHienThi)
 		{
 			#region  Lấy thông tin người dùng
 			var userdata = GetUserData();
@@ -206,33 +206,44 @@ namespace BiTech.Library.Controllers
 
 			var _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 			var _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+			var _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
+			//Lấy số lượng tồn theo mã kiểm soát
+			JsonResult result = new JsonResult();
 			maKiemSoat = maKiemSoat.Trim();
 			ghiChuDon = ghiChuDon.Trim();
 
-			JsonResult result = new JsonResult();
 			result.Data = null;
 			result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 			var ttModel = Newtonsoft.Json.JsonConvert.DeserializeObject<SoLuongTrangThaiSachVM>(idtrangthai); //convert idtrangthai json sang model
-			string idTT = ttModel.IdTrangThai;
-			if (!string.IsNullOrEmpty(maKiemSoat) && !string.IsNullOrEmpty(ghiChuDon)
-				&& soLuong > 0 && !string.IsNullOrEmpty(idTT))
+			string idTT = ttModel.IdTrangThai;			
+			//Kiểm tra số lượng tồn có lớn hơn đang có hay không
+			var slSachTon = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(_SachLogic.GetByMaMaKiemSoat(maKiemSoat).Id, idTT).SoLuong;
+			if (soLuong <= (slSachTon - soLuongHienThi))
 			{
-				var book = _SachLogic.GetByMaMaKiemSoat(maKiemSoat);
-				var tt = _TrangThaiSachLogic.getById(idTT);
-
-				ChiTietXuatSachViewModels pp = new ChiTietXuatSachViewModels()
+				if (!string.IsNullOrEmpty(maKiemSoat) && !string.IsNullOrEmpty(ghiChuDon)
+					&& soLuong > 0 && !string.IsNullOrEmpty(idTT))
 				{
-					IdSach = book.Id,
-					ten = book.TenSach,
-					soLuong = soLuong,
-					IdTinhTrang = idTT,
-					tenTinhTrang = tt.TenTT,
-					GhiChuDon = ghiChuDon,
-					MaKiemSoat = book.MaKiemSoat
-				};
+					var book = _SachLogic.GetByMaMaKiemSoat(maKiemSoat);
+					var tt = _TrangThaiSachLogic.getById(idTT);
 
-				result.Data = pp;
+					ChiTietXuatSachViewModels pp = new ChiTietXuatSachViewModels()
+					{
+						IdSach = book.Id,
+						ten = book.TenSach,
+						soLuong = soLuong,
+						IdTinhTrang = idTT,
+						tenTinhTrang = tt.TenTT,
+						GhiChuDon = ghiChuDon,
+						MaKiemSoat = book.MaKiemSoat
+					};
+
+					result.Data = pp;
+				}
+			}
+			else
+			{
+				return null;
 			}
 			return result;
 		}
