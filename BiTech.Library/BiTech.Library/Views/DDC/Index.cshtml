@@ -1,0 +1,53 @@
+﻿@model PagedList.IPagedList<BiTech.Library.DTO.DDC>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var i = 0;
+}
+
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<div class="Title">Danh Sách DDC</div>
+
+<p>@Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary btn-sm" })</p>
+
+
+<table class="table table-hover table-bordered ">
+    <thead>
+        <tr class="table-info">
+            <th width="50" align="right">STT</th>
+            <th scope="col">Mã DDC</th>
+            <th scope="col">Tên DDC</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            i++;
+            <tr>
+                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
+                <td>@item.MaDDC</td>
+                <td>@item.Ten</td>
+
+                <td>
+                    <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">
+                        <i class="fa">&#xf044;</i> Sửa
+                    </button>
+                </td>
+
+            </tr>
+
+        }
+
+    </tbody>
+
+
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+
+

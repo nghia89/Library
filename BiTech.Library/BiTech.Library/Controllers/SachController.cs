@@ -48,6 +48,11 @@ namespace BiTech.Library.Controllers
             ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
             ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
 
+            ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
+            ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
+            ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
+            ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
+
             var list = _SachLogic.getPageSach(KeySearch);
             ViewBag.number = list.Count();
 
@@ -67,6 +72,10 @@ namespace BiTech.Library.Controllers
                 //item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
 
                 BookView book = new BookView(item);
+                book.TenSach = book.SachDTO.TenSach;
+                book.MaKiemSoat = book.SachDTO.MaKiemSoat;
+                book.CreateDateTime = book.SachDTO.CreateDateTime;
+                book.NamXuatBan = book.SachDTO.NamXuatBan;
                 book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
                 book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
                 book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
@@ -76,6 +85,15 @@ namespace BiTech.Library.Controllers
                 model.Books.Add(book);
             }
 
+            //Sắp xếp
+            if (KeySearch.SapXep == "1")
+                model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
+            if (KeySearch.SapXep == "2")
+                model.Books = model.Books.OrderBy(_ => _.MaKiemSoat).ToList();
+            if (KeySearch.SapXep == "3")
+                model.Books = model.Books.OrderBy(_ => _.CreateDateTime).ToList();
+            if (KeySearch.SapXep == "4")
+                model.Books = model.Books.OrderBy(_ => _.NamXuatBan).ToList();
             return View(model.Books.ToPagedList(pageNumber, pageSize));
         }
 

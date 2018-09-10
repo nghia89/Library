@@ -80,6 +80,7 @@
     <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
     <Compile Include="Engines\ChiTietXuatSachEngine.cs" />
     <Compile Include="Engines\ChucVuEngine.cs" />
+    <Compile Include="Engines\DDCEngine.cs" />
     <Compile Include="Engines\PhieuNhapSachEngine.cs" />
     <Compile Include="Engines\LanguageEngine.cs" />
     <Compile Include="Engines\NhaXuatBanEngine.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M001\V_0_0_2_RemoveField.cs" />
     <Compile Include="MongoMirgrations\ChucVu_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\DDC_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\NhaXuatBan_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\KeSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\Language_Mirgrations\M000\Init.cs" />

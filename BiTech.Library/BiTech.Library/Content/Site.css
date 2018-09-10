@@ -3,6 +3,12 @@
     margin: 0;
 }
 
+html {
+    min-height: 100%;
+    /*background-image: url('../Assets/Images/bg.jpg');*/
+    background-attachment: fixed;
+}
+
 a {
     color: #000;
 }
@@ -86,6 +92,14 @@ a {
 .btn-inTable {
     margin-top: -12px;
     margin-bottom: -6px;
+}
+
+.input-group-append .btn, .input-group-prepend .btn {
+    z-index: 0;
+}
+
+.table {
+    background: #fff;
 }
 /*End bootstap edit*/
 
@@ -373,7 +387,7 @@ a:hover {
 
 /*--- right---*/
 .contain .right {
-    background: #fff;
+    /*background: #fff;*/
     min-height: 500px;
     width: calc(100% - 250px);
     float: right;
@@ -942,6 +956,12 @@ a:hover {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+.pagination-container {
+    z-index: 0;
+    position: relative;
+}
+
 /*Mượn sách*/
 .hidden_lib {
     display: none;
@@ -1004,6 +1024,53 @@ a:hover {
         /*overflow-x: auto;*/
     }
 
+
+
+.Thongtinuser {
+    text-align: center;
+}
+
+    .Thongtinuser * {
+        max-width: 100%;
+    }
+
+    .Thongtinuser img {
+        width: 170px;
+        height: 170px;
+        border-radius: 100%;
+        border: 6px solid #B3C9CB;
+        object-fit: cover;
+    }
+
+    .Thongtinuser .ten {
+        font-size: 17px;
+        padding: 5px 0;
+        font-weight: 700;
+        color: #728C92;
+    }
+
+    .Thongtinuser .mks {
+        font-weight: 600;
+        color: #000;
+    }
+
+    .Thongtinuser .list {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+    }
+
+.danhsachmuon {
+    min-height: 100%;
+}
+
+.box-table-min {
+    overflow-x: auto;
+}
+
+.table-min {
+    min-width: 700px;
+}
 /*End Mượn sách*/
 @media screen and (max-width: 1500px) {
     .book_box_v3 {
@@ -1022,6 +1089,7 @@ a:hover {
 @media screen and (max-width: 1200px) {
     .book_box_v3 {
         margin: 3px;
+        width: calc(50% - 6px);
     }
 
         .book_box_v3 .container-box-window {
@@ -1101,6 +1169,10 @@ a:hover {
 }
 
 @media screen and (max-width: 768px) {
+    .box-Thongtinuser {
+        margin-top: 20px;
+    }
+
     .book_box_v2 {
         width: calc(100% - 20px);
         max-width: 600px;
@@ -1122,6 +1194,24 @@ a:hover {
 
 
 @media screen and (max-width: 600px) {
+    .bar_mobile {
+        padding: .5rem 1.5rem !important;
+    }
+
+        .bar_mobile > div {
+            width: 100%;
+        }
+
+        .bar_mobile .btn-primary {
+            width: calc(50% - 3px);
+            margin: 2px 0px;
+        }
+
+    .bar_mobile_tl .btn-sm {
+        width: calc(100% - 3px);
+        margin: 2px 0px;
+    }
+
     .line-gl,
     .box_temp {
         display: none;
@@ -1143,6 +1233,7 @@ a:hover {
     }*/
     .book_box_v3 {
         margin: 2px;
+        width: calc(100% - 4px);
     }
 
         .book_box_v3 .container-box-window {
@@ -1197,6 +1288,11 @@ a:hover {
 
     .book_box_v3 .container-box-window .book_cell_information.width_right {
         width: 100%;
+    }
+
+    .bar_mobile .btn-sm {
+        width: calc(100% - 3px);
+        margin: 2px 0px;
     }
 }
 

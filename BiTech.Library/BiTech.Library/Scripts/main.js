@@ -61,6 +61,38 @@ $(document).ready(function () {
     $("#ListTacGia").on("focusout", ".tags", function () {
         $(this).parent().parent().removeClass("focused");
     });
+
+    /*sticky*/
+    $(document).ready(function () {
+        //$(".left_sticky").stick_in_parent();
+        tinhvitri_in_parent(".left_sticky");
+
+    });
+
+    function tinhvitri_in_parent(div) {
+        var w = $(div).width();
+        $(window).scroll(function () {
+            var h_parent_of_top = $(div).parent().offset().top;
+            var h_parent = $(div).parent().height();
+            var top = $(window).scrollTop();
+            var h_left = $(div).height();
+            var kq = top - h_parent_of_top; //cach top khi scroll
+            var kq_dung = h_parent_of_top + h_parent - h_left;
+
+            if (top > h_parent_of_top) {
+                $(div).stop().css({ "position": "absolute", "top": kq, "bottom": "auto", "width": "100%" });
+            } else {
+                $(div).stop().css({ "position": "relative", "top": 0, "bottom": "auto" });
+            }
+
+            if (top > kq_dung) {
+                $(div).stop().css({ "position": "absolute", "bottom": 0, "top": "auto", "width": "100%" });
+            }
+
+        })
+    }
+    /*End sticky*/
+
 });
 
 

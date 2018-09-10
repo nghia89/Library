@@ -70,7 +70,7 @@
     position: relative;
     float: left;
     width: 9vw;
-    height: 9vw;
+    /*height: 9vw;*/
     min-width: 158px;
     min-height: 158px;
 }
@@ -263,6 +263,7 @@
 /*===================================================*/
 .avatar_biaSach {
     /*height: 250px;*/
+    z-index: 0;
 }
 
     .avatar_biaSach .avatar_container {

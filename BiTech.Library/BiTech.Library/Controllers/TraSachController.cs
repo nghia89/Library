@@ -17,7 +17,7 @@ namespace BiTech.Library.Controllers
     public class TraSachController : BaseController
     {
         static public List<MuonTraSachViewModel> list_ChuanBiTra = new List<MuonTraSachViewModel>();
-        public ActionResult Index(string IdUser)
+        public ActionResult Index(string IdUser, string flagResult)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -39,6 +39,7 @@ namespace BiTech.Library.Controllers
             ViewBag.ThongBao = false; //Có hiện thị thông báo hay không
             ViewBag.ThongBaoString = ""; //Nội dung thông báo
             ViewBag.user = null; // Giữ thông tin user nếu đăng nhập thành công
+            ViewBag.flagResult = (flagResult == "true") ? true : false;
             ViewBag.MaxDate = 10;
 
             if (IdUser == null)
@@ -62,7 +63,7 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(IdUser);//thành viên DeActive
+                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(new ThanhVienCommon().GetInfo(IdUser));//thành viên DeActive
                     if (user_DeActive != null)
                     {
                         ViewBag.ThongBao = true;
@@ -77,8 +78,18 @@ namespace BiTech.Library.Controllers
                 #endregion
             }
             list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser));
-            ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien).Take(20).ToList();
-            ViewBag.list_maSach = list_book.Select(_ => _.MaKiemSoat).Take(20).ToList();
+            ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien).ToList();
+            //ViewBag.list_maSach = list_book.Select(_ => _.MaKiemSoat + "-" + _.TenSach).ToList();
+            //var list = list_book.GroupBy(_ => new { _.MaKiemSoat, _.TenSach } );
+            ViewBag.list_maSach = list_book.GroupBy(_ => new { _.MaKiemSoat, _.TenSach }).Select(group => group.Key).Select(_=>_.MaKiemSoat + "-" + _.TenSach).ToList();
+
+            if (list_ChuanBiTra != null)
+            {
+                list_book = list_ChuanBiTra.OrderBy(_ => _.NgayMuon).ToList();
+            }else
+            {
+                list_book.Clear();
+            }
             return View(list_book);
         }
 
@@ -107,13 +118,14 @@ namespace BiTech.Library.Controllers
             if (NgayMuon == "" && NgayTra == "")
             {
                 //nhập mã sách qua khung search
+                list_book_team = GetDanhSachCoTheTra(list_book_team);
             }
             else
             {
                 //Lấy đối tượng trong danh sách đang chuẩn bị trả theo ngày mượn và ngày trả
                 list_book_team = list_book_team.Where(_ => _.NgayMuon == NgayMuon && _.NgayTra == NgayTra).ToList();
             }
-            
+
             //Lấy item có ngày trả nhỏ nhất
             //OrderBy list theo NgayTra
             list_book = list_book_team.Where(_ => _.MaKiemSoat == new SachCommon().GetInfo(maSach)).OrderBy(_ => _.NgayTra).ToList();
@@ -128,7 +140,7 @@ namespace BiTech.Library.Controllers
         public JsonResult GetListBook_IdUser(string IdUser)
         {
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-            list_book = GetByIdUser(IdUser);
+            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser));
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
 
@@ -215,14 +227,14 @@ namespace BiTech.Library.Controllers
                                     //Update lại số lượng sách có thể mượn
                                     //Lấy danh sách trạng thái true
                                     List<TrangThaiSach> _trangthai_true = _TrangThaiSachLogic.GetAllTT_True();
-                                    foreach(TrangThaiSach _item_TTS_true in _trangthai_true)
+                                    foreach (TrangThaiSach _item_TTS_true in _trangthai_true)
                                     {
                                         //lấy SoLuongSachTrangThai
                                         SoLuongSachTrangThai sl_sach_true = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(item_TT.idSach, _item_TTS_true.Id);
-                                        if(sl_sach_true != null)
+                                        if (sl_sach_true != null)
                                         {
                                             //Số số lượng sách của trạng thái > 0 thì số lượng sách giảm 1
-                                            if(sl_sach_true.SoLuong > 0)
+                                            if (sl_sach_true.SoLuong > 0)
                                             {
                                                 sl_sach_true.SoLuong = sl_sach_true.SoLuong - 1;
                                                 _SoLuongSachTrangThaiLogic.Update(sl_sach_true);
@@ -272,6 +284,39 @@ namespace BiTech.Library.Controllers
         }
 
         #region Function
+
+        /// <summary>
+        /// Danh sách còn sách để trả
+        /// </summary>
+        /// <param name="List_item">list đang mượn</param>
+        /// <returns>List result = list đang mượn - list chuẩn bị trả</returns>
+        private List<MuonTraSachViewModel> GetDanhSachCoTheTra(List<MuonTraSachViewModel> List_item)
+        {
+            if(list_ChuanBiTra == null) {
+                return List_item;
+            }
+
+            List<MuonTraSachViewModel> list_chuanbixoa = new List<MuonTraSachViewModel>(); //Danh sách item thoả điều kiện để xoá khỏi List_item
+            //Kiểm tra item đã chọn hết sách để trả chưa
+            foreach (MuonTraSachViewModel item in List_item)
+            {
+                MuonTraSachViewModel item_chuanbitra = list_ChuanBiTra.Where(_ => _.MaKiemSoat == item.MaKiemSoat
+                                                                               && _.NgayMuon == item.NgayMuon
+                                                                               && _.NgayTra == item.NgayTra).SingleOrDefault();
+                if(item_chuanbitra != null)
+                {
+                    if (item.SoLuong == item_chuanbitra.SoLuong)
+                    {
+                        list_chuanbixoa.Add(item);
+                    }
+                }
+            }
+            foreach (MuonTraSachViewModel item in list_chuanbixoa)
+            {
+                List_item.Remove(item);
+            }
+            return List_item;
+        }
 
         /// <summary>
         /// Convert ThongTinMuonSach to MuonTraSachViewModel

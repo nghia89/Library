@@ -244,6 +244,7 @@
     <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
     <Compile Include="Controllers\BaseClass\SachCommon.cs" />
     <Compile Include="Controllers\BaseClass\ThanhVienCommon.cs" />
+    <Compile Include="Controllers\DDCController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExportreportController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
@@ -312,6 +313,8 @@
     <Content Include="app\app.js" />
     <Content Include="app\ngTagInputAngular.js" />
     <Content Include="app\StatisticTransition.js" />
+    <Content Include="Assets\Images\bg.jpg" />
+    <Content Include="Assets\Images\bg.png" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
     <Content Include="ExcelStep\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.css" />
     <Content Include="ExcelStep\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.min.css" />
@@ -1281,6 +1284,9 @@
     <Content Include="Views\ThongKe\ThongKeTheoTuan.cshtml" />
     <Content Include="Views\ExportMarc\Index.cshtml" />
     <Content Include="Views\exportreport\Index.cshtml" />
+    <Content Include="Views\DDC\Index.cshtml" />
+    <Content Include="Views\DDC\Create.cshtml" />
+    <Content Include="Views\DDC\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

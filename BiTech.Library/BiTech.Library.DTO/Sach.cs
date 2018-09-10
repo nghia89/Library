@@ -111,7 +111,7 @@ namespace BiTech.Library.DTO
         public string IdNgonNgu { get; set; }
 
         /// <summary>
-        /// Đã được xóa chưa
+        /// Mã DDC
         /// </summary>
         public string DDC { get; set; }
 
