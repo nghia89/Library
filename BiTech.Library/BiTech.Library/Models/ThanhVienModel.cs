@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BiTech.Library.Controllers.BaseClass;
+using System.Collections;
+
 namespace BiTech.Library.Models
 {
     /// <summary>
@@ -165,8 +167,18 @@ namespace BiTech.Library.Models
     public class ImportResultViewModel
     {
         public List<string[]> RawDataList { get; set; }
+        public List<ThanhVien> RawListTV { get; set; } = new List<ThanhVien>();
         public int TotalEntry { get; set; }
         public ThanhVien Entry { get; set; }
+        public List<ThanhVien> ListSuccess { get; set; } = new List<ThanhVien>();
+        public List<ThanhVien> ListFail { get; set; } = new List<ThanhVien>();
+        public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
+        public string FileName { get; set; }
+        /// <summary>
+        /// Mảng chứa các dòng bị trùng Mã Thành Viên
+        /// </summary>
+        public bool[] ArrRows { get; set; }
+        public HttpPostedFileBase UploadFile { get; set; }
     }
 
 }

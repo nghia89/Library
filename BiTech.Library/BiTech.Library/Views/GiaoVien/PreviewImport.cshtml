@@ -6,8 +6,8 @@
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <ul class="list-group">
     <li class="list-group-item">
-        <span class="badge">@Model.TotalEntry</span>
-        <b>Tổng số tài khoản đã nhận dạng</b>
+        @*<span class="badge">@Model.TotalEntry</span>*@
+        <b id="CountTotal">Tổng số tài khoản được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
     </li>
 </ul>
 
@@ -15,33 +15,42 @@
 
 <div id="result-table-container">
     <div>
-        <table class="table table-bordered table-striped" id="result-table">
+        <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
             <thead>
-                <tr>
+                <tr class="table-info text-center">
                     @{
-                        var longestRow = Model.RawDataList.OrderByDescending(_ => _.Rank).FirstOrDefault();
+                        var longestRow = Model.RawDataList.FirstOrDefault();
                         if (longestRow != null)
                         {
-                            <th class="order-number-column"></th>
-                            for (int i = 0; i < Model.RawDataList.FirstOrDefault().Length; i++)
-                            {
-                                <th>
-                                    <select class="form-control" onclick="clearSelectBoxDefaultOption(this)" id="select-@i" data-is-selected="false" data-datatype-chooser="true">
-                                        <option>-----------------------------------------------------------------------------</option>
-                                        <option value="FullName">Họ & tên</option>
-                                        <option value="Username">Tên user</option>
-                                        <option value="Password">Mã thành viên</option>
-                                        <option value="Email">Loại tài khoản</option>
-                                        <option value="PhoneNumber">Giới tính</option>
-                                        <option value="GrantedPermissionList">Ngày sinh</option>
-                                        <option value="RoleSystemName">Lớp học</option>
-                                        <option value="GrantedGradeAndSubjectId">Niên khóa</option>
-                                        <option value="Address">Địa chỉ</option>
-                                        <option value="PhoneNumber">SĐT</option>
-                                    </select>
-                                </th>
+                            <th class="order-number-column">STT</th>
+                            @*for (int i = 0; i < longestRow.Length; i++)
+                                {
+                                    <th>
+                                        <select class="form-control" onclick="clearSelectBoxDefaultOption(this)" id="select-@i" data-is-selected="false" data-datatype-chooser="true">
+                                            <option>----------------------</option>
+                                            <option value="FullName">Họ & tên</option>
+                                            <option value="Username">Tên user</option>
+                                            <option value="Password">Mã thành viên</option>
+                                            <option value="Email">Loại tài khoản</option>
+                                            <option value="PhoneNumber">Giới tính</option>
+                                            <option value="GrantedPermissionList">Ngày sinh</option>
+                                            <option value="RoleSystemName">Lớp học</option>
+                                            <option value="GrantedGradeAndSubjectId">Niên khóa</option>
+                                            <option value="Address">Địa chỉ</option>
+                                            <option value="PhoneNumber">SĐT</option>
+                                        </select>
+                                    </th>
 
-                            }
+                                }*@
+                            <th width="70px">Họ và tên</th>
+                            <th>Tên user</th>
+                            <th>Mã giáo viên</th>
+                            <th>Giới tính</th>
+                            <th>Ngày sinh</th>
+                            <th>Lớp học</th>
+                            <th>Niên khóa</th>
+                            <th width="70px">Địa chỉ</th>
+                            <th>SĐT</th>
                         }
                     }
                     <th width="150px"><center>Thao tác</center></th>
@@ -50,24 +59,27 @@
             <tbody>
                 @{
                     var orderNumber = 0;
+                    var stt = 1;
                     var index = 0;
                     foreach (var item in Model.RawDataList)
                     {
                         orderNumber += 1;
                         <tr id="element-@orderNumber">
-                            <td><center>@orderNumber</center></td>
-                            @for (int j = 0; j < item.Length; j++)
+                            @*<td><center>@orderNumber</center></td>*@
+                            <td class="text-center">@stt</td>
+                            @for (int j = 1; j < item.Length; j++)
                             {
                                 <td>@item[j]</td>
                             }
                             <td>
                                 <center>
                                     <a href="#@orderNumber" data-array-index="@index" class="btn btn-primary edit-action">Sửa</a>
-                                    <a href="#@orderNumber" data-array-index="@index" class="btn btn-danger remove-acction">Xóa</a>
+                                    <a href="#@orderNumber" data-array-index="@index" class="btn btn-danger remove-acction">Xóa</a>                                  
                                 </center>
                             </td>
                         </tr>
                         index++;
+                        stt++;
                     }
                 }
             </tbody>
@@ -82,18 +94,20 @@
 </div>
 @{
     // Chuyển danh sách các tài khoản thành chuỗi JSON để chuyển lên Server
-    var jsonData = JsonConvert.SerializeObject(Model.RawDataList);  
+    var jsonData = Html.Raw(JsonConvert.SerializeObject(Model.RawDataList));
 }
 
 <script>
+
     jsonData = @jsonData;
+
     function clearSelectBoxDefaultOption(element) {
         if ($(element).attr('data-is-selected') == 'false') {
             $('#' + $(element).attr('id') + ' :selected').remove();
             $(element).attr('data-is-selected', 'true')
         }
         $('#' + $(element).attr('id')).removeClass('duplicate-select-box-value');
-    }        
+    }
     missingInformation            = false;
     finishCheckMissingInformation = false;
     duplicateInformation          = false;
@@ -123,10 +137,10 @@
 
         $("#element-" + orderNumber + "-" + (length + 1 )).html('<center><a href="#'+orderNumber+'" data-array-index="'+(orderNumber-1)+'" class="btn btn-primary edit-action">Sửa</a> <a href="#'+orderNumber+'" data-array-index="'+index+'" class="btn btn-danger remove-acction">Xóa</a></center>');
     });
+
     // Edit action
     $(document).on('click', '.edit-action', function () {
         var arrayIndex = $(this).attr('data-array-index');
-        //  var data = jsonData[arrayIndex];
         var data = jsonData[arrayIndex];
         var orderNumber = parseInt(arrayIndex) + 1;
 
@@ -137,11 +151,11 @@
             $("#element-" + orderNumber).html(response);
         });
     });
+
     // Remove action
     $(document).on('click','.remove-acction', function () {
         var arrayIndex = $(this).attr('data-array-index');
         jsonData.splice(arrayIndex, 1);
-
         swal({
             title: "Xác nhận",
             text: "Bạn có chắc chắn xóa mục đã chọn không ?",
@@ -156,23 +170,30 @@
            if (isConfirm) {
                $("#element-" + (parseInt(arrayIndex) + 1)).hide();
                console.log( $("#element-" + (parseInt(arrayIndex) + 1)));
+               //So luong row
+               var TSL = $(".CountTotal_SL").data("tongsl");
+               var kq_TSL = parseInt(TSL) - 1;
+               $(".CountTotal_SL").html(kq_TSL);
+               $(".CountTotal_SL").data("tongsl",kq_TSL );
+               //Stt
+               
                swal({
                    title: "Đã xong",
                    type: "success",
                    text: "Đã loại bỏ tài khoản mà bạn vừa chọn !!!"
                }, function () {
-
+                 
+                   // window.location.href = '/GiaoVien/PreviewImport';
                });
            }
        });
     });
 
+    //
     $(document).on('click', '#btn-check-step-2', function (e) {
         e.preventDefault();
         $(this).addClass('active');
-
-        var totalSelectBox = @((longestRow != null) ? longestRow.Length : 0);
-
+        @* var totalSelectBox = @((longestRow != null) ? longestRow.Length : 0);
         // Đánh dấu thiếu thông tin
         for (var i = 0; i < totalSelectBox; i++) {
             var currentElementValue  = $("#select-" + i).val();
@@ -205,44 +226,43 @@
             swal({title:'Thiếu thông tin',text:'Bạn vui lòng chọn Loại thông tin của từng cột.',type:'error'},function () {
                 goToByScroll("result-table");
             });
-        }
+        }*@
 
-        if (duplicateInformation) {
-            swal({title:'Trùng thông tin',text:'Các cột thông tin không được trùng nhau.',type:'error'},function () {
-                goToByScroll("result-table");
-            });
-        }
+        //if (duplicateInformation) {
+        //    swal({title:'Trùng thông tin',text:'Các cột thông tin không được trùng nhau.',type:'error'},function () {
+        //        goToByScroll("result-table");
+        //    });
+        //}
 
         // Nếu check form không có vấn đề gì thì tiến hành validate
-        if (missingInformation == false && duplicateInformation == false) {
+        // if (missingInformation == false ) {//&& duplicateInformation == false) {
 
-            var columnOptions = "";
-            for (var i = 0; i < @longestRow.Length; i++) {
-                columnOptions += "|" + $("#select-" +i).val();
-            }
-            
-            $.post('@Url.Content("~/GiaoVien/ImportSave")',{
-                data : jsonData,
-                columnOptions : columnOptions
-            }).done(function (data) {
+        //   var columnOptions = "";
+        //   for (var i = 0; i < @longestRow.Length; i++) {
+        //      columnOptions += "|" + $("#select-" +i).val();
+        //  }
 
-                $("#success-step-container #message").html(data);
-                $("#step-2-success").click();
+        $.post('@Url.Content("~/GiaoVien/ImportSave")',{
+            data : jsonData
+        }).done(function (data) {
+
+            $("#success-step-container #message").html(data);
+            $("#step-2-success").click();
+            $("#btn-check-step-2").removeClass('active');
+        }).fail(function () {
+            swal({title:'Thông tin không hợp lệ',text:'Kiểm tra lại các cột dữ liệu có phù hợp hay chưa.',type:'error'},function () {
                 $("#btn-check-step-2").removeClass('active');
-            }).fail(function () {
-                swal({title:'Thông tin không hợp lệ',text:'Kiểm tra lại các cột dữ liệu có phù hợp hay chưa.',type:'error'},function () {
-                    $("#btn-check-step-2").removeClass('active');
-                });
             });
-        }
-        else
-        {
-            $(this).removeClass('active');
-        }
+        });
+        //}
+        //else
+        //  {
+        //     $(this).removeClass('active');
+        // }
 
-        finishCheckMissingInformation = true;
-        missingInformation            = false;
-        duplicateInformation          = false;
+        // finishCheckMissingInformation = true;
+        // missingInformation            = false;
+        // duplicateInformation          = false;
     });
 
     function goToByScroll(id){
@@ -257,6 +277,7 @@
     var currentTable = $("#result-table").clone();
     currentTable.find('.danger').remove();
     currentTable.find('.warning').remove();
+
 </script>
 
 

@@ -58,7 +58,7 @@
 
     <fieldset>
         <div class="alert alert-info" role="alert">
-            <center>
+            <center ng-app="LibraryApp" ng-controller="ThongKeCtrlr">
                 <a href="#" id="BrowseButton" class="btn btn-primary btn-browse-filedata">
                     Chọn tệp
                 </a>
@@ -76,7 +76,7 @@
     </fieldset>
 
     <fieldset id="step-2-container">
-        <div id="data-table-container"></div>
+        <div id="data-table-container"></div> @*Hiển thị bảng đã nhân dạng*@
     </fieldset>
 
     <fieldset id="success-step-container">
@@ -85,18 +85,18 @@
 </div>
 
 
-@section scripts{    
+@section scripts{
 
-
-<link href="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/css/style.css" rel="stylesheet" />
-<script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/jquery.backstretch.js"></script>
-<script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/scripts.js"></script>
-<script src="~/ExcelStep/Simple-Ajax-Uploader/SimpleAjaxUploader.js"></script>
-<link href="~/ExcelStep/Simple-Ajax-Uploader/examples/assets/css/styles.css" rel="stylesheet" />
-<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-<script src="~/bower_components/custom-file-input/custom-file-input.js"></script>
-<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+   
+    <link href="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/css/style.css" rel="stylesheet" />
+    <script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/jquery.backstretch.js"></script>
+    <script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/scripts.js"></script>
+    <script src="~/ExcelStep/Simple-Ajax-Uploader/SimpleAjaxUploader.js"></script>
+    <link href="~/ExcelStep/Simple-Ajax-Uploader/examples/assets/css/styles.css" rel="stylesheet" />
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/bower_components/custom-file-input/custom-file-input.js"></script>
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
     <script>
         function ReadUrl(input) {
@@ -121,6 +121,7 @@
             var uploader = new ss.SimpleUpload({
                 button: btn,
                 url: '@Url.Content("~/GiaoVien/PreviewImport")',
+                @*url: '@Url.Content("~/GiaoVien/PreviewImport_Json")',*@
                 name: 'file',
                 multipart: true,
                 hoverClass: 'hover',
@@ -180,7 +181,7 @@
                         type: "error",
                         text: "Có lỗi xảy ra, vui lòng thử lại !!! \r\n Kiểm tra định dạng, dung lượng tập tin hoặc trường truyền Internet"
                     }, function myfunction() {
-                        //   location.reload();
+                      //  location.reload();
                     });
                 }
             });

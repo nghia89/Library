@@ -64,6 +64,9 @@
     <Reference Include="MARC4J.Net, Version=2.5.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MARC4J.Net.2.5.3\lib\net40\MARC4J.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="OnBarcode.Barcode.BarcodeScanner">
       <HintPath>..\..\Libs\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
     </Reference>
@@ -1287,6 +1290,7 @@
     <Content Include="Views\DDC\Index.cshtml" />
     <Content Include="Views\DDC\Create.cshtml" />
     <Content Include="Views\DDC\Edit.cshtml" />
+    <Content Include="Views\GiaoVien\ResultImportExcel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
