@@ -194,15 +194,35 @@ namespace BiTech.Library.BLL.BarCode_QR
                 Document docx = new Document(sourceSavePath);
                 if (item.Ten != null)
                     docx.Range.Replace("_FullName_", item.Ten, true, true);
+                else
+                    docx.Range.Replace("_FullName_", "", true, true);
+
                 if (item.GioiTinh != null)
                     docx.Range.Replace("_GioiTinh_", item.GioiTinh, true, true);
+                else
+                    docx.Range.Replace("_GioiTinh_", "", true, true);
+
                 if (item.NgaySinh != null)
                     docx.Range.Replace("_NgaySinh_", item.NgaySinh.ToString("dd-MM-yyyy"), true, true);
+                else
+                    docx.Range.Replace("_NgaySinh_", "", true, true);
+
+                if (item.MaSoThanhVien != null)
+                    docx.Range.Replace("_MaSoHS_", item.MaSoThanhVien, true, true);
+                else
+                    docx.Range.Replace("_MaSoHS_", "", true, true);
+
                 if (item.LopHoc != null)
                     docx.Range.Replace("_LopHoc_", item.LopHoc, true, true);
+                else
+                    docx.Range.Replace("_LopHoc_", "", true, true);
+
                 docx.Range.Replace("_NgayTaoThe_", DateTime.Today.ToString("dd-MM-yyyy"), true, true);
                 if (item.NienKhoa != null)
                     docx.Range.Replace("_NienKhoa_", item.NienKhoa, true, true);
+                else
+                    docx.Range.Replace("_NienKhoa_", "", true, true);
+
                 if (item.HinhChanDung != null)
                 {
                     string linkImage = HttpContext.Current.Server.MapPath(item.HinhChanDung.ToString());

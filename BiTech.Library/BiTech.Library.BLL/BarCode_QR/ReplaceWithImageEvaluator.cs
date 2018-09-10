@@ -56,7 +56,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             // Replace 'text to replace' text with an image.
             Shape img = builder.InsertImage(ImageLink);
             
-            img.Height = 24;
+            img.Height = 32;
             img.Width = 32;    
             img.WrapType = WrapType.None;
             
