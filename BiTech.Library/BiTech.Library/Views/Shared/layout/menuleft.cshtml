@@ -3,7 +3,7 @@
     var action = @ViewContext.RouteData.Values["action"].ToString();
 
     bool Bool_TabThanhVien = false;
-    bool Bool_TabSach = false; 
+    bool Bool_TabSach = false;
     bool Bool_TabMuonTra = false;
     bool Bool_TabNhapXuatKho = false;
     bool Bool_TabThongke = false;
@@ -32,6 +32,7 @@
     string[] List_Controller_TabThongke = new string[7];
     List_Controller_TabThongke[0] = "Statistic";
     List_Controller_TabThongke[1] = "ThongKe";
+    List_Controller_TabThongke[2] = "exportreport";
 
     if (List_Controller_TabThanhVien.Contains(controller))
         Bool_TabThanhVien = true;
@@ -210,7 +211,12 @@
                                 <a href="@Url.Action("DanhSachChuaTra","ThongKe")" title="Danh sách chưa trả">
                                     Danh sách chưa trả
                                 </a>
-                            </li>                                                       
+                            </li>     
+                            <li class="@((@controller == "Exportreport" && @action == "Index") ? "active" : "")">
+                                <a href="@Url.Action("Index","Exportreport")" title="Thống kê sách">
+                                   Thống kê sách
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

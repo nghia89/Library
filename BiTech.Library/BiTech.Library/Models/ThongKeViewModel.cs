@@ -79,6 +79,7 @@ namespace BiTech.Library.Models
         public int[] lsoNguoiTraTreTrongNam { get; set; }
         public int[] lsoSachDuocTraTrongNam { get; set; }
         public int[] lsoSachKhongTraTrongNam { get; set; }
+        public int[] soNguoiTraSachTrongNam { get; set; }
         // List chứa dữ liệu thống kê trong 4 quý
         public int[] lsoPhieuMuonTrongQuy { get; set; }
         public int[] lsoNguoiMuonSachTrongQuy { get; set; }
@@ -97,8 +98,10 @@ namespace BiTech.Library.Models
         public int[] lsoNguoiTraTreTrongNgay { get; set; }
         public int[] lsoSachDuocTraTrongNgay { get; set; }
         public int[] lsoSachKhongTraTrongNgay { get; set; }
+        public int[] lsoNguoiTraTrongNgay { get; set; }
         // List thống kê theo tuần   
         public List<int[]> thongKeTheoTuan { get; set; }
+        public List<string> ListNgayTrongTuan { get; set; }
         public int[] lsoNguoiMuonTrongTuan { get; set; }
         public int[] lsoSachDuocMuonTrongTuan { get; set; }
         public int[] lsoSachDuocTraTrongTuan { get; set; }

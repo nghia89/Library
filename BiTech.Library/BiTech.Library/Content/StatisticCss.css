@@ -90,8 +90,8 @@ input[type="checkbox"] {
 .margin-top {
     margin-left: 28px;
 }
-.back_groupCheck
-{
+
+.back_groupCheck {
     /*background: #eaf0f5;*/
     margin-bottom: 26px;
 }
@@ -124,3 +124,14 @@ input[type="checkbox"] {
 
 /* Style each tab content individually */
 
+@media screen and (max-width: 1360px) {
+    #responsiveChart {
+        max-width: 85.333333%;
+        flex: none;
+    }
+}
+/*@media (min-width: 768px) .col-md-10 {
+    -ms-flex: 0 0 83.333333%;
+    flex: 0 0 83.333333%;
+    max-width: 83.333333%;
+}*/

@@ -99,11 +99,12 @@ namespace BiTech.Library.Controllers
                 Session[CommonConstants.Session] = new List<SachViewModels>();
 
             var ListSession = (List<SachViewModels>)Session[CommonConstants.Session];
-            
+
             string fileName = string.Concat("FileMarc_" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".mrc");
             var folderReport = "/Reports";
             string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/{fileName}";
             string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+            //kiễm tra nếu chưa có thì tạo mới
             if (!Directory.Exists(filePath))
             {
                 Directory.CreateDirectory(filePath);
@@ -120,10 +121,9 @@ namespace BiTech.Library.Controllers
                         IDataField dataField = null;
 
                         record.AddVariableField(MarcFactory.Instance.NewControlField("001", i.MaKiemSoat));
-        
+
                         var getIdSachTG = _SachTacGiaLogic.getById(i.Id);
                         var getByIdTG = _TacGiaLogic.GetById(getIdSachTG.IdTacGia);
-
                         if (getByIdTG != null)
                         {
                             dataField = MarcFactory.Instance.NewDataField("100", '1', ' ');

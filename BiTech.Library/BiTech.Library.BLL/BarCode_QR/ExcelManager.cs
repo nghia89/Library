@@ -257,5 +257,11 @@ namespace BiTech.Library.BLL.BarCode_QR
             }
             return listCTNS;
         }
+
+        #region Nghia
+
+        // xuat excelSoLuongSach
+
+        #endregion
     }
 }

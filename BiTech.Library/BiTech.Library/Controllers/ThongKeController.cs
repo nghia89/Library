@@ -296,6 +296,7 @@ namespace BiTech.Library.Controllers
             int[] soSachDuocMuonTrongNam = new int[12];
             int[] soSachDuocTraTrongNam = new int[12];
             int[] soSachKhongTraTrongNam = new int[12];
+            int[] soNguoiTraSachTrongNam = new int[12];
 
 
             List<ThongTinMuonSach> listPhieuMuon = _thongKeLogic.GetAllTTMS();
@@ -624,6 +625,7 @@ namespace BiTech.Library.Controllers
                 soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(arrTTSachMuon[ngayMuon.Day]);
                 soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(arrTTSachMuon[ngayMuon.Day]);
+                soNguoiTraSachTrongNam[ngayMuon.Day] = nghiepVu.DemSoNguoiTraSach(arrTTSachMuon[ngayMuon.Day]);
             }
             #endregion
             #region Theo Tuan trong thang        
@@ -653,6 +655,7 @@ namespace BiTech.Library.Controllers
                 soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(arrTTSachMuon[ngayMuon.Day]);
                 soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(arrTTSachMuon[ngayMuon.Day]);
+                soNguoiTraSachTrongNam[ngayMuon.Day] = nghiepVu.DemSoNguoiTraSach(arrTTSachMuon[ngayMuon.Day]);
             }
             #endregion
             #region Theo Thang trong nam
@@ -817,6 +820,7 @@ namespace BiTech.Library.Controllers
                 soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
                 // new                                 
                 soSachKhongTraTrongNam[i] = nghiepVu.DemSoSachKhongTra(list);
+                soNguoiTraSachTrongNam[i] = nghiepVu.DemSoNguoiTraSach(list);
             }
 
             #endregion
@@ -904,7 +908,7 @@ namespace BiTech.Library.Controllers
                 lsoNguoiTraTreTrongNam = soNguoiTraTreTrongNam,
                 //-- new
                 lsoSachDuocTraTrongNam = soSachDuocTraTrongNam,
-                lsoSachKhongTraTrongNam = soSachKhongTraTrongNam,
+                soNguoiTraSachTrongNam = soNguoiTraSachTrongNam,
                 // Thống kê trong Quý (chia ra 4 Quý)          
                 lsoPhieuMuonTrongQuy = soPhieuMuonTrongQuy,
                 lsoNguoiMuonSachTrongQuy = soNguoiMuonSachTrongQuy,

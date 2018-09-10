@@ -245,6 +245,7 @@
     <Compile Include="Controllers\BaseClass\SachCommon.cs" />
     <Compile Include="Controllers\BaseClass\ThanhVienCommon.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExportreportController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\ExportMarcController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -269,7 +270,10 @@
     </Compile>
     <Compile Include="Helpers\AuthorizeRolesAttribute.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
-    <Compile Include="Helpers\LicenseHelper.cs" />
+    <Compile Include="Marc\FileMARC.cs" />
+    <Compile Include="Marc\FileMARCReaders.cs" />
+    <Compile Include="Marc\MARC8.cs" />
+    <Compile Include="Marc\Record.cs" />
     <Compile Include="Helpers\Tool.cs" />
     <Compile Include="Models\DataFieldMarcVm.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
@@ -290,7 +294,9 @@
     <Compile Include="Models\TheLoaiSachViewModels.cs" />
     <Compile Include="Models\TrangThaiSachViewModels.cs" />
     <Compile Include="Models\ThanhVienModel.cs" />
+    <Compile Include="Models\ViewDataIF\ArrayListVM.cs" />
     <Compile Include="Models\ViewDataIF\DataInformationVM.cs" />
+    <Compile Include="Models\ViewDataIF\TongSlSachConMuonVM.cs" />
     <Compile Include="Models\ViewDataIF\TTTSachVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1274,6 +1280,7 @@
     <Content Include="Views\GiaoVien\PreviewImport.cshtml" />
     <Content Include="Views\ThongKe\ThongKeTheoTuan.cshtml" />
     <Content Include="Views\ExportMarc\Index.cshtml" />
+    <Content Include="Views\exportreport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -57,11 +57,11 @@ namespace BiTech.Library.Controllers
 
 
             #region Khai báo
-            if (month == null && year == null)
-            {
+            if (month == null)
                 month = DateTime.Now.Month;
+            if (year == null)
                 year = DateTime.Now.Year;
-            }
+
             // 1 tháng có 31 ngày
             int[] soNguoiMuonSachTrongThang = new int[32];
             int[] soNguoiTraTreTrongThang = new int[32];
@@ -70,6 +70,7 @@ namespace BiTech.Library.Controllers
             int[] soSachDuocMuonTrongThang = new int[32];
             int[] soSachDuocTraTrongThang = new int[32];
             int[] soSachKhongTraTrongThang = new int[32];
+            int[] soNguoiTraSachTrongThang = new int[32];
             // 1 năm có 4 quý
             int[] soNguoiMuonSachTrongQuy = new int[4];
             int[] soNguoiTraTreTrongQuy = new int[4];
@@ -86,6 +87,7 @@ namespace BiTech.Library.Controllers
             int[] soSachDuocMuonTrongNam = new int[12];
             int[] soSachDuocTraTrongNam = new int[12];
             int[] soSachKhongTraTrongNam = new int[12];
+            int[] soNguoiTraSachTrongNam = new int[12];
 
 
             List<ThongTinMuonSach> listPhieuMuon = _thongKeLogic.GetAllTTMS();
@@ -409,6 +411,8 @@ namespace BiTech.Library.Controllers
                 soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(arrTTSachMuon[ngayMuon.Day]);
                 soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(arrTTSachMuon[ngayMuon.Day]);
+                soNguoiTraSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraSach(arrTTSachMuon[ngayMuon.Day]);
+
             }
             #endregion
             #region Theo Thang trong nam
@@ -573,6 +577,7 @@ namespace BiTech.Library.Controllers
                 soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
                 // new                                 
                 soSachKhongTraTrongNam[i] = nghiepVu.DemSoSachKhongTra(list);
+                soNguoiTraSachTrongNam[i] = nghiepVu.DemSoNguoiTraSach(list);
             }
             #endregion
             #region Theo Quy trong nam
@@ -612,6 +617,7 @@ namespace BiTech.Library.Controllers
                 soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
                 // new            
                 soSachKhongTraTrongQuy[i] = nghiepVu.DemSoSachKhongTra(list);
+              
             }
             // Chọn số ngày cho từng tháng
             int soNgayTrongThang = 0;
@@ -661,6 +667,7 @@ namespace BiTech.Library.Controllers
                 //-- new
                 lsoSachDuocTraTrongNam = soSachDuocTraTrongNam,
                 lsoSachKhongTraTrongNam = soSachKhongTraTrongNam,
+                soNguoiTraSachTrongNam = soNguoiTraSachTrongNam,
                 // Thống kê trong Quý (chia ra 4 Quý)          
                 lsoPhieuMuonTrongQuy = soPhieuMuonTrongQuy,
                 lsoNguoiMuonSachTrongQuy = soNguoiMuonSachTrongQuy,
@@ -680,6 +687,7 @@ namespace BiTech.Library.Controllers
                 //-- new
                 lsoSachDuocTraTrongNgay = soSachDuocTraTrongThang,
                 lsoSachKhongTraTrongNgay = soSachKhongTraTrongThang,
+                lsoNguoiTraTrongNgay = soNguoiTraSachTrongThang,
 
             };
             model = new BieuDoPhieuMuonViewModel
@@ -694,6 +702,7 @@ namespace BiTech.Library.Controllers
                 //-- new
                 lsoSachDuocTraTrongNam = soSachDuocTraTrongNam,
                 lsoSachKhongTraTrongNam = soSachKhongTraTrongNam,
+                soNguoiTraSachTrongNam = soNguoiTraSachTrongNam,
                 // Thống kê trong Quý (chia ra 4 Quý)          
                 lsoPhieuMuonTrongQuy = soPhieuMuonTrongQuy,
                 lsoNguoiMuonSachTrongQuy = soNguoiMuonSachTrongQuy,
@@ -713,6 +722,7 @@ namespace BiTech.Library.Controllers
                 //-- new
                 lsoSachDuocTraTrongNgay = soSachDuocTraTrongThang,
                 lsoSachKhongTraTrongNgay = soSachKhongTraTrongThang,
+                lsoNguoiTraTrongNgay = soNguoiTraSachTrongThang,
 
             };
             JsonResult result = new JsonResult();
@@ -769,7 +779,6 @@ namespace BiTech.Library.Controllers
             return result;
         }
 
-
         public JsonResult StartDayAndlastDay(DateTime dateTime)
         {
             #region lấy thông tin người dùng
@@ -782,16 +791,41 @@ namespace BiTech.Library.Controllers
             int[] arrDay = new int[7];
             DateTime thisWeekStart = dateTime.AddDays(-(int)dateTime.DayOfWeek);
             DateTime thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
-
+            BieuDoPhieuMuonViewModel model = new BieuDoPhieuMuonViewModel();
+            model.thongKeTheoTuan = new List<int[]>();
+            model.ListNgayTrongTuan = new List<string>();
             List<DateTime> listDates = new List<DateTime>();
             for (var i = 0; i < 7; i++)
-            {
-                listDates.Add(thisWeekStart.Date);
+            {               
                 thisWeekStart = thisWeekStart.AddDays(1);
+                listDates.Add(thisWeekStart.Date);
+                model.ListNgayTrongTuan.Add(thisWeekStart.ToShortDateString());
             }
 
+            foreach (var item in listDates)
+            {
+                // list chứ thông tin thống kê của 1 ngày
+                model.thongKeTheoTuan.Add(nghiepVu.ThongKeTheoTuan(item, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName));
+            }
+
+            int[] arrSoNguoiMuon = new int[7];
+            int[] arrSachDuocMuon = new int[7];
+            int[] arrSachDuocTra = new int[7];
+            int[] arrSachKhongTra = new int[7];
+            for (int i = 0; i < 7; i++)
+            {
+                arrSoNguoiMuon[i] = model.thongKeTheoTuan[i][0];
+                arrSachDuocMuon[i] = model.thongKeTheoTuan[i][1];
+                arrSachDuocTra[i] = model.thongKeTheoTuan[i][2];
+                arrSachKhongTra[i] = model.thongKeTheoTuan[i][3];
+            }
+            model.lsoNguoiMuonTrongTuan = arrSoNguoiMuon;
+            model.lsoSachDuocMuonTrongTuan = arrSachDuocMuon;
+            model.lsoSachDuocTraTrongTuan = arrSachDuocTra;
+            model.lsoSachKhongTraTrongTuan = arrSachKhongTra;
+
             JsonResult result = new JsonResult();
-            //result.Data = ListSl;
+            result.Data = model;
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return result;
         }
@@ -808,30 +842,31 @@ namespace BiTech.Library.Controllers
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
 
-
-            TTTSachVM tTTSachVM = new TTTSachVM();
-
             var getAllTTSach = _trangThaiSachLogic.GetAll();
-            foreach (var item in getAllTTSach)
-            {
-                tTTSachVM.tenTT.Add(item.TenTT);
-            }
-            int sumSl = 0;
             var getAllSLTTS = _SoLuongSachTrangThaiLogic.GetAll();
-            foreach (var itemSLTTS in getAllSLTTS)
+
+            string[] arrInfo = new string[getAllTTSach.Count * 2];
+            int sumTrangThaiSach = 0;
+            string tenTrangThaiSach = null;
+            int i = 0;
+
+            foreach (var itemTTSach in getAllTTSach)
             {
-                foreach (var itemTTSach in getAllTTSach)
+                sumTrangThaiSach = 0;
+                tenTrangThaiSach = itemTTSach.TenTT;
+                foreach (var itemSLTTS in getAllSLTTS)
                 {
                     if (itemSLTTS.IdTrangThai == itemTTSach.Id)
                     {
-
-                        sumSl += itemSLTTS.SoLuong;
+                        sumTrangThaiSach += itemSLTTS.SoLuong;
                     }
                 }
+                arrInfo[i] = tenTrangThaiSach;
+                arrInfo[i + 1] = sumTrangThaiSach.ToString();
+                i += 2;
             }
-
             JsonResult result = new JsonResult();
-            //result.Data = ListSl;
+            result.Data = arrInfo;
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return result;
         }
