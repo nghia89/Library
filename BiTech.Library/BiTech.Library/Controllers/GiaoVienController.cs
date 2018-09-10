@@ -136,7 +136,7 @@ namespace BiTech.Library.Controllers
                 MaSoThanhVien = viewModel.MaSoThanhVien,
                 NgaySinh = viewModel.NgaySinh,
                 GioiTinh = viewModel.GioiTinh,
-                LopHoc = viewModel.LopHoc,
+				ChucVu = viewModel.ChucVu,
                 DiaChi = viewModel.DiaChi,
                 SDT = viewModel.SDT,
                 NienKhoa = viewModel.NienKhoa,
@@ -250,7 +250,7 @@ namespace BiTech.Library.Controllers
                 SDT = tv.SDT,
                 GioiTinh = tv.GioiTinh,
                 NgaySinh = tv.NgaySinh,
-                LopHoc = tv.LopHoc,
+				ChucVu = tv.ChucVu,
                 NienKhoa = tv.NienKhoa,
                 LinkAvatar = tv.HinhChanDung,
                 Id = tv.Id
@@ -282,7 +282,7 @@ namespace BiTech.Library.Controllers
             #endregion          
             var thanhVien = _ThanhVienLogic.GetById(viewModel.Id);
             // thông tin cho phép cập nhật            
-            thanhVien.LopHoc = viewModel.LopHoc;
+            thanhVien.ChucVu = viewModel.ChucVu;
             thanhVien.NienKhoa = viewModel.NienKhoa;
             thanhVien.Ten = viewModel.Ten;
             thanhVien.DiaChi = viewModel.DiaChi;
@@ -394,7 +394,7 @@ namespace BiTech.Library.Controllers
                 SDT = thanhVien.SDT,
                 GioiTinh = thanhVien.GioiTinh,
                 NgaySinh = thanhVien.NgaySinh,
-                LopHoc = thanhVien.LopHoc,
+                ChucVu = thanhVien.ChucVu,
                 NienKhoa = thanhVien.NienKhoa,
 
                 // thông tin không được thay đổi 

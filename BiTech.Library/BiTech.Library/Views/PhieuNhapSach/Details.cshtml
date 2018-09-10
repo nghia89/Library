@@ -1,9 +1,9 @@
 ﻿@model BiTech.Library.Models.PhieuNhapSachModels
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi tiết phiếu nhập kho";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-<div class="Title">Chi tiết phiếu nhập sách</div>
+<div class="Title">Chi tiết phiếu nhập kho</div>
 <br />
 <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "PhieuNhapSach")'">
     <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
@@ -16,7 +16,7 @@
     <div class="content-box-window">
         <div class="container">
             <div class="form-group row">
-                <label class="col-form-label col-sm-2" for="tensach">IdUserAdmin</label>
+                <label class="col-form-label col-sm-2" for="tensach">Mã thành viên</label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.IdUserAdmin, new { @class = "form-control form-control-sm", @id = "IdUserAdmin", @readonly = true })
                 </div>
@@ -48,7 +48,7 @@
                     <th width="50" align="right">STT</th>
                     <th>Tên sách</th>
                     <th>Số lượng</th>
-                    <th>Tình trạng</th>
+                    <th>Trạng thái sách</th>
                     <th>Ghi chú</th>
                 </tr>
             </thead>

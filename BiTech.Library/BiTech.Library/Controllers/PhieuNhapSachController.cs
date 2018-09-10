@@ -305,32 +305,38 @@ namespace BiTech.Library.Controllers
 
             SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            maKS = maKS.Trim();
-            GhiChuDon = GhiChuDon.Trim();
-
-            JsonResult result = new JsonResult();
-            result.Data = null;
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-
-            if (!string.IsNullOrEmpty(maKS) && !string.IsNullOrEmpty(idtrangthai) && soLuong > 0)
+            if (maKS != null)
             {
-                var book = _SachLogic.GetByMaMaKiemSoat(maKS);
-                var tt = _TrangThaiSachLogic.getById(idtrangthai);
-                ChiTietNhapSachViewModels pp = new ChiTietNhapSachViewModels()
-                {
-                    IdSach = book.Id,
-                    ten = book.TenSach,
-                    soLuong = soLuong,
-                    IdTinhTrang = idtrangthai,
-                    tenTinhTrang = tt.TenTT,
-                    MaKiemSoat = book.MaKiemSoat,
-                    GhiChuDon = GhiChuDon
-                };
+                maKS = maKS.Trim();
+                GhiChuDon = GhiChuDon.Trim();
 
-                result.Data = pp;
+                JsonResult result = new JsonResult();
+                result.Data = null;
+                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+                if (!string.IsNullOrEmpty(maKS) && !string.IsNullOrEmpty(idtrangthai) && soLuong > 0)
+                {
+                    var book = _SachLogic.GetByMaMaKiemSoat(maKS);
+
+                    var tt = _TrangThaiSachLogic.getById(idtrangthai);
+                    if (book != null && tt != null)
+                    {
+                        ChiTietNhapSachViewModels pp = new ChiTietNhapSachViewModels()
+                        {
+                            IdSach = book.Id,
+                            ten = book.TenSach,
+                            soLuong = soLuong,
+                            IdTinhTrang = idtrangthai,
+                            tenTinhTrang = tt.TenTT,
+                            MaKiemSoat = book.MaKiemSoat,
+                            GhiChuDon = GhiChuDon
+                        };
+                        result.Data = pp;
+                    }  
+                }
+                return result;
             }
-            return result;
+            return null;
         }
 
         [HttpPost]
@@ -352,5 +358,27 @@ namespace BiTech.Library.Controllers
 
             return Json(ListTD, JsonRequestBehavior.AllowGet);
         }
-    }
+
+        //VINH
+        public JsonResult GetBookByID(string idSach)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
+            #endregion
+
+            SachLogic _SachLogicLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(idSach));
+
+            return Json(_sach, JsonRequestBehavior.AllowGet);
+        }
+
+		public ActionResult PreToInsert(List<SoLuongTrangThaiSachVM> lstModel)
+		{
+			ViewData["LstTTS"] = lstModel;
+			return Json(true);
+		}		
+	}
 }

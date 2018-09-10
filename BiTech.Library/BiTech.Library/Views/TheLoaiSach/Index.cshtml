@@ -1,7 +1,7 @@
 ﻿@model PagedList.IPagedList<BiTech.Library.Models.TheLoaiSachViewModels>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "IndexFolder";
+    ViewBag.Title = "Danh sách thể loại";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var listTheLoai = ViewBag.ListTheLoai;
     var url_modal = "~/TheLoaiSach/RequestThemTheLoaiGui?idParent=" + ViewBag.idParent;

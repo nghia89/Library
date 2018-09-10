@@ -3,7 +3,7 @@
 @using PagedList;
 @*@model BiTech.Library.Models.ListBooksModel*@
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sách";
     var listSach = ViewBag.ListSach;
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
@@ -22,6 +22,7 @@
             @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Thêm từ Marc21", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Xuất Marc21", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+			@Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-2" })
         </div>
     </div>
 

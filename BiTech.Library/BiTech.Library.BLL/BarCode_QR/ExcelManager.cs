@@ -263,5 +263,57 @@ namespace BiTech.Library.BLL.BarCode_QR
         // xuat excelSoLuongSach
 
         #endregion
+
+        #region Vinh ExportWord_QR
+
+        public void ExportQRToWord(string srcDir, List<Sach> lstBook, string filePath)
+        {
+            string sourceSavePath = HttpContext.Current.Server.MapPath(srcDir.ToString());
+            Document outputDoc = new Document();
+            DocumentBuilder outputBuilder = new DocumentBuilder(outputDoc);
+
+
+            for(int i = 0; i< lstBook.Count; i += 2)
+            {
+                Document docx = new Document(sourceSavePath);
+                //1
+                if (lstBook[i].TenSach != null)
+                    docx.Range.Replace("_TenSach1_", lstBook[i].TenSach, true, true);
+                if (lstBook[i].MaKiemSoat != null)
+                    docx.Range.Replace("_MaKiemSoat1_", lstBook[i].MaKiemSoat, true, true);
+
+                if (lstBook[i].QRlink != null)
+                {
+                    string linkImage = HttpContext.Current.Server.MapPath(lstBook[i].QRlink.ToString());
+                    docx.Range.Replace(new Regex("_ImgQR1_"), new ReplaceWithImageQRBook_Export(linkImage), false);                   
+                }
+
+                //2
+                if ((i+1)< lstBook.Count)
+                {
+                    if (lstBook[i + 1].TenSach != null)
+                        docx.Range.Replace("_TenSach2_", lstBook[i + 1].TenSach, true, true);
+                    if (lstBook[i + 1].MaKiemSoat != null)
+                        docx.Range.Replace("_MaKiemSoat2_", lstBook[i + 1].MaKiemSoat, true, true);
+
+                    if (lstBook[i + 1].QRlink != null)
+                    {
+                        string linkImage = HttpContext.Current.Server.MapPath(lstBook[i + 1].QRlink.ToString());
+                        docx.Range.Replace(new Regex("_ImgQR2_"), new ReplaceWithImageQRBook_Export(linkImage), false);
+                    }
+                }
+				else
+				{
+					docx.Range.Replace("_TenSach2_", "", true, true);
+					docx.Range.Replace("_MaKiemSoat2_", "", true, true);
+					docx.Range.Replace("_ImgQR2_", "", true, true);
+				}
+                outputBuilder.MoveToDocumentEnd();
+                outputBuilder.InsertDocument(docx, ImportFormatMode.KeepDifferentStyles);
+            }
+            outputDoc.Save(filePath);          
+        }
+
+        #endregion
     }
 }
