@@ -1,15 +1,16 @@
-﻿using System;
+﻿using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Controllers.BaseClass;
+using BiTech.Library.DTO;
+using BiTech.Library.Helpers;
+using BiTech.Library.Models;
+using Newtonsoft.Json;
+using PagedList;
+using PagedList.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BiTech.Library.BLL.DBLogic;
-using BiTech.Library.DTO;
-using BiTech.Library.Helpers;
-using BiTech.Library.Models;
-using PagedList;
-using PagedList.Mvc;
-using Newtonsoft.Json;
 
 namespace BiTech.Library.Controllers
 {
@@ -24,7 +25,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             int PageSize = 10;
             int PageNumber = (page ?? 1);
             var lst = _TacGiaLogic.GetAllTacGia();
@@ -63,7 +64,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             _TacGiaLogic.Insert(tacgia);
 
             return RedirectToAction("Index");
@@ -78,7 +79,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             var tacgia = _TacGiaLogic.GetById(id);
             if (tacgia == null)
                 return RedirectToAction("NotFound", "Error");
@@ -103,7 +104,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             _TacGiaLogic.Update(tacgia);
 
             return RedirectToAction("Index");
@@ -117,7 +118,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var list = _TacGiaLogic.GetAllTacGia();
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -132,8 +133,8 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             List<SachTacGia> list_IDTacGia = _SachTacGiaLogic.getListById(idSach);
             List<string> List_TenTacGia = new List<string>();
@@ -157,7 +158,7 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var list = _TacGiaLogic.FindTacGia(query);
 
@@ -180,7 +181,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             var tacgia = _TacGiaLogic.GetById(Id);
             _TacGiaLogic.Delete(tacgia.Id);
             return RedirectToAction("Index");
@@ -195,7 +196,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             TacGia TG = new TacGia()
             {

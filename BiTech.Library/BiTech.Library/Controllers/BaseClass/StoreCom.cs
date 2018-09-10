@@ -11,7 +11,7 @@ namespace BiTech.Library.Controllers.BaseClass
 {
     public class StoreCom
     {
-        internal async Task<dynamic> GetChildWorkPlace(string wpId, string site, string appCode)
+        internal async Task<List<WorkPlaceApiModel>> GetChildWorkPlace(string wpId, string site, string appCode)
         {
             using (var client = new HttpClient())
             {

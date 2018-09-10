@@ -1,9 +1,5 @@
 ﻿using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
@@ -12,82 +8,24 @@ namespace BiTech.Library.Controllers
     {
         public ActionResult Index()
         {
-            //#region  Lấy thông tin người dùng
-            //var userdata = GetUserData();
-            //if (userdata == null)
-            //    return RedirectToAction("LogOff", "Account");
-            //#endregion
-
-            ////userdata.MyApps[AppCode].ConnectionString
-            ////userdata.MyApps[AppCode].DatabaseName
-
-            ////_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            //// do things here
-
-
+            return View();
+        }
+        
+        public ActionResult GioiThieu()
+        {
+            ViewBag.data = @"../upload/thuvien/thuviensohcm/gioithieu.html";
             return View();
         }
 
-        public async System.Threading.Tasks.Task<ActionResult> DemoApi()
+        public ActionResult ChucNangNhiemVu()
         {
-            //#region  Lấy thông tin người dùng
-            //var userdata = GetUserData();
-            //if (userdata == null)
-            //    return RedirectToAction("LogOff", "Account");
-            //#endregion
-
-            ////userdata.MyApps[AppCode].ConnectionString
-            ////userdata.MyApps[AppCode].DatabaseName
-
-            ////_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            //// do things here
-
-            var rs = await new StoreCom().GetChildWorkPlace("5b88be165a2dd02cd00b4b75", "bitechco.test", "ABCD");
-            if (rs == null)
-                return View();
-            return View(rs);
-        }
-
-        [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
-        public ActionResult About()
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            //userdata.MyApps[AppCode].ConnectionString
-            //userdata.MyApps[AppCode].DatabaseName
-
-            //_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            // do things here
-            ViewBag.Message = "Your application description page.";
-
+            ViewBag.data = @"../upload/thuvien/thuviensohcm/gioithieu.html";
             return View();
         }
 
-        [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
-        public ActionResult Contact()
+        public ActionResult CoCauToChuc()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            //userdata.MyApps[AppCode].ConnectionString
-            //userdata.MyApps[AppCode].DatabaseName
-
-            //_HRM_Logic = new HRM_Logic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-
-            // do things here
-
-            ViewBag.Message = "Your contact page.";
-
+            ViewBag.data = @"../upload/thuvien/thuviensohcm/gioithieu.html";
             return View();
         }
     }

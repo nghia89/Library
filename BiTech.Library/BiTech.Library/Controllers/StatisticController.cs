@@ -25,7 +25,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            _ThongTinThuVien = new ThongTinThuVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            _ThongTinThuVien = new ThongTinThuVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             string Key = "nambatdau";
             ThongTinThuVien tt = _ThongTinThuVien.GetCustomKey(Key);
@@ -48,7 +48,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return Json(null,JsonRequestBehavior.AllowGet);
-            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             #region Khai báo
             if (month == null && year == null)
@@ -399,7 +399,7 @@ namespace BiTech.Library.Controllers
 
                 soPhieuMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoPhieuMuon(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(arrTTSachMuon[ngayMuon.Day]);
-                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(arrTTSachMuon[ngayMuon.Day], userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(arrTTSachMuon[ngayMuon.Day], userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(arrTTSachMuon[ngayMuon.Day]);
                 soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(arrTTSachMuon[ngayMuon.Day]);
@@ -564,7 +564,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongNam[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongNam[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 // new                                 
                 soSachKhongTraTrongNam[i] = nghiepVu.DemSoSachKhongTra(list);
             }
@@ -603,7 +603,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongQuy[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongQuy[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongQuy[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 // new            
                 soSachKhongTraTrongQuy[i] = nghiepVu.DemSoSachKhongTra(list);
             }

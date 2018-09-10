@@ -34,6 +34,7 @@ namespace BiTech.Library.Areas.Controllers
                         DataBaseName = info.DataBaseName,
                         EndDate = info.EndDate,
                         IsActivePeriod = info.IsActivePeriod,
+                        WebHeader = info.WebHeader,
                         WebSubDomain = info.WebSubDomain
                     });
 

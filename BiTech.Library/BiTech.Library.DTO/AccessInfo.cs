@@ -24,6 +24,8 @@ namespace BiTech.Library.DTO
 
         public string IdWorkplace { get; set; }
 
+        public string WebHeader { get; set; }
+
         public string WebSubDomain { get; set; }
 
         public string DataBaseName { get; set; }

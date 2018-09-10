@@ -8,6 +8,8 @@ namespace BiTech.Library.Helpers
 {
     public enum UploadFolder
     {
+        Upload,
+        CustomerBackup,
         BookCovers,
         QRCodeUser,
         QRCodeBook,
@@ -24,11 +26,16 @@ namespace BiTech.Library.Helpers
             return ConfigurationManager.AppSettings[key]?.ToString();
         }
 
-        public static string GetUploadFolder(UploadFolder type)
+        public static string GetUploadFolder(UploadFolder type, string subdomain = "")
         {
             string mainUpload = @"Upload\";
+
             switch (type)
             {
+                case UploadFolder.Upload:
+                    return mainUpload + subdomain;
+                case UploadFolder.CustomerBackup:
+                    return @"CustomerBackup\" + subdomain;
                 case UploadFolder.BookCovers:
                     return mainUpload + @"BookCovers\";
                 case UploadFolder.QRCodeUser:

@@ -1,6 +1,8 @@
 ﻿using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.Common;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
+using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using PagedList;
 using System;
@@ -16,19 +18,13 @@ namespace BiTech.Library.Controllers
         // GET: Search
         public ActionResult Index(KeySearchViewModel KeySearch,int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            KeSachLogic _KeSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            KeSachLogic _KeSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -54,7 +50,7 @@ namespace BiTech.Library.Controllers
                 tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
 
                 // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được
-                var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(item.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(item.Id, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
 
                 BookView book = new BookView(item);
@@ -74,18 +70,12 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ThongTinChiTiet(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             if (string.IsNullOrEmpty(id))
             {
                 return RedirectToAction("Index");
             }
 
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Sach sachDTO = _SachLogic.GetById(id);
 
@@ -95,11 +85,16 @@ namespace BiTech.Library.Controllers
             }
 
             // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được
-            var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(sachDTO.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(sachDTO.Id, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             sachDTO.SoLuongConLai = sachDTO.SoLuongConLai - numKhongMuonDuoc;
 
             SachUploadModel model = new SachUploadModel(sachDTO);
             return View(model);
+        }
+
+        public ActionResult NewBook()
+        {
+            return View();
         }
     }
 }

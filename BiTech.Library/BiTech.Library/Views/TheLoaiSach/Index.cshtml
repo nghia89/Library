@@ -34,10 +34,9 @@
     <thead>
         <tr class="table-info">
             <th width="50" align="right">STT</th>
-            <th width="20%">Tên thể loại</th>
-            <th width="18%">Mã DDC</th>
-            @*<th width="20%">Tên thể loại cha</th>*@
-            <th width="40%">Mô tả</th>
+            <th width="40%">Tên thể loại</th>
+            <th width="10%">Mã DDC</th>
+            <th width="23%">Mô tả</th>
             <th width="10%">Sửa</th>
             <th width="10%">Cắt</th>
         </tr>
@@ -53,14 +52,12 @@
                         ../ Trở lại thể loại cha
                     </td>
                     <td></td>
-                    @*<td></td>*@
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
             }
         }
-
 
         @foreach (var item in Model)
             {
@@ -69,7 +66,7 @@
                 <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
                     @item.TenTheLoai
                 </td>
-                <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
+                <td class="a_td" align="center" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
                     @item.MaDDC
                 </td>
                 @*<td>@item.TenTheLoaiParent</td>*@
