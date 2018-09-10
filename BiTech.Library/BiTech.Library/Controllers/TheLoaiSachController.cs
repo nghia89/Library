@@ -132,6 +132,12 @@ namespace BiTech.Library.Controllers
                     MoTa = model.MoTa,
                     MaDDC = model.MaDDC
                 };
+
+                //todo bàn lại sau
+                //Kiểm tra ddc level mấy
+                //Kiểm tra ddc levet tra đã tồn tại chưa
+                //Nếu không có ddc thì theo idparent
+
                 if (check_NameChildren(TLS, model.IdParent))
                 {
                     _TheLoaiSachLogic.ThemTheLoaiSach(TLS);
@@ -304,7 +310,7 @@ namespace BiTech.Library.Controllers
         }
         [HttpPost]
         public ActionResult ImportFromExcel(TheLoaiSachViewModels model)
-        {
+          {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
@@ -498,6 +504,20 @@ namespace BiTech.Library.Controllers
             return list_id;
         }
 
+        /// <summary>
+        /// Kiểm tra ddc level mấy 
+        /// </summary>
+        /// <param name="maDDC"></param>
+        /// <returns>
+        ///=>-1 không phải mã đc
+        ///=>1(vd: 000,100, 200 , ... 900)
+        ///=>2(vd: 010, 110, 210, ..., 910)
+        ///=>3(vd: 011, 111, 211, ..., 911)
+        /// </returns>
+        private int CheckDDC(string maDDC)
+        {
+            return -1;
+        }
         #endregion
     }
 }

@@ -244,6 +244,7 @@
     <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
     <Compile Include="Controllers\BaseClass\SachCommon.cs" />
     <Compile Include="Controllers\BaseClass\ThanhVienCommon.cs" />
+    <Compile Include="Controllers\DDCController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\ExportMarcController.cs" />
@@ -1086,6 +1087,9 @@
     <Content Include="Views\Search\ThongTinChiTiet.cshtml" />
     <Content Include="Views\ExportMarc\exportMarc.cshtml" />
     <Content Include="Views\Marc\ImportMarc.cshtml" />
+    <Content Include="Views\DDC\Index.cshtml" />
+    <Content Include="Views\DDC\Create.cshtml" />
+    <Content Include="Views\DDC\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

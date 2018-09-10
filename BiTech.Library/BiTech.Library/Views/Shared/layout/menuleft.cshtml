@@ -3,7 +3,7 @@
     var action = @ViewContext.RouteData.Values["action"].ToString();
 
     bool Bool_TabThanhVien = false;
-    bool Bool_TabSach = false; 
+    bool Bool_TabSach = false;
     bool Bool_TabMuonTra = false;
     bool Bool_TabNhapXuatKho = false;
     bool Bool_TabThongke = false;
@@ -12,7 +12,7 @@
     List_Controller_TabThanhVien[0] = "HocSinh";
     List_Controller_TabThanhVien[1] = "GiaoVien";
 
-    string[] List_Controller_TabSach = new string[7];
+    string[] List_Controller_TabSach = new string[8];
     List_Controller_TabSach[0] = "Sach";
     List_Controller_TabSach[1] = "TheLoaiSach";
     List_Controller_TabSach[2] = "Kesach";
@@ -20,6 +20,7 @@
     List_Controller_TabSach[4] = "NhaXuatBan";
     List_Controller_TabSach[5] = "NgonNgu";
     List_Controller_TabSach[6] = "TrangThaiSach";
+    List_Controller_TabSach[7] = "DDC";
 
     string[] List_Controller_TabMuonTra = new string[7];
     List_Controller_TabMuonTra[0] = "MuonSach";
@@ -129,6 +130,11 @@
                             <li class="@(( @controller == "TrangThaiSach") ? "active" : "")">
                                 <a href="@Url.Action("Index", "TrangThaiSach")" title="Trạng thái sách">
                                     Trạng thái sách
+                                </a>
+                            </li>
+                            <li class="@(( @controller == "DDC") ? "active" : "")">
+                                <a href="@Url.Action("Index", "DDC")" title="DDC">
+                                    DDC
                                 </a>
                             </li>
                         </ul>

@@ -16,54 +16,78 @@
 
 <div class="clearfix">
     <h4 class="alert-danger">@TempData["alert"]</h4>
-    <div class="clearfix pb-2 pl-2 row">
-        <div class="clearfix pb-2 pl-2">
-            @Html.ActionLink("Thêm mới", "Create", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
-            @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-2" })
-            @Html.ActionLink("Thêm từ Marc", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-2" })
-            @Html.ActionLink("Xuất Marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-2" })
+    <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
+        <div class="clearfix pb-sm-2 pl-sm-2">
+            @Html.ActionLink("Thêm mới", "Create", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @Html.ActionLink("Thêm từ Marc", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @Html.ActionLink("Xuất Marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
         </div>
     </div>
 
-    <form action="/Sach/Index" class="clearfix">
+    <form action="/Sach/Index" class="clearfix" id="search_short">
+        <div class="col-sm-12 font-weight-bold">Tìm kiếm: </div>
+        <div class="clearfix m-0">
+            
+            <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
+                <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm" placeholder="Tên sách...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary btn-sm" id="btnSearch" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
 
-        <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
-            <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm" placeholder="Tên sách...">
-            <div class="input-group-append">
-                <button class="btn btn-primary btn-sm" id="btnSearch" type="submit">
-                    <i class="fa fa-search"></i>
-                </button>
+            <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
+                <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
+                    <option value="">--Thể loại sách--</option>
+                    @foreach (var tls in TLS)
+                    {
+                        <option value="@tls.Id" @((@tls.Id == @ViewBag.theLoaiSach_selected) ? "selected" : " ")>@tls.TenTheLoai</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
+                <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
+                    <option value="">--Tác giả--</option>
+                    @foreach (var tg in TG)
+                    {
+                        <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ")>@tg.TenTacGia</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
+                <select class="form-control form-control-sm" name="TenNXB" id="">
+                    <option value="">--Nhà xuất bản--</option>
+                    @foreach (var nxb in NXB)
+                    {
+                        <option value="@nxb.Id" @((@nxb.Id == @ViewBag.NXB_selected) ? "selected" : " ")>@nxb.Ten</option>
+                    }
+                </select>
             </div>
         </div>
-
-        <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
-            <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
-                <option value="">--Thể loại sách--</option>
-                @foreach (var tls in TLS)
-                {
-                    <option value="@tls.Id">@tls.TenTheLoai</option>
+        <div class="row m-0 mb-2">
+            <div class="col-sm-12 font-weight-bold">Sắp xếp: </div>
+            <div class="col-md-3 col-sm-12  form-group px-2 mt-1 mb-1">
+                @{
+                    Dictionary<string, string> arry_short = new Dictionary<string, string>();
+                    arry_short.Add("1", "Thứ tự Alphabet");
+                    arry_short.Add("2", "Mã sách");
+                    arry_short.Add("3", "Thời gian nhập sách");
+                    arry_short.Add("4", "Năm xuất bản");
                 }
-            </select>
+                <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short').submit() ">
+                    <option value="">--Sắp xếp--</option>
+                    @foreach (var item_sx in arry_short)
+                    {
+                        <option value="@item_sx.Key" @((@item_sx.Key == @ViewBag.SapXep_selected) ? "selected" : " ")>@item_sx.Value</option>
+                    }
+                </select>
+            </div>
         </div>
-        <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
-            <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
-                <option value="">--Tác giả--</option>
-                @foreach (var tg in TG)
-                {
-                    <option value="@tg.Id">@tg.TenTacGia</option>
-                }
-            </select>
-        </div>
-        <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
-            <select class="form-control form-control-sm" name="TenNXB" id="">
-                <option value="">--Nhà xuất bản--</option>
-                @foreach (var nxb in NXB)
-                {
-                    <option value="@nxb.Id">@nxb.Ten</option>
-                }
-            </select>
-        </div>
-    </form>
+</form>
     @{int i = 1;}
 
     <div class="book_content clearfix">

@@ -9,7 +9,7 @@
 }
 
 <div class="Title">Danh Sách Thể Loại Sách</div>
-<div class="clearfix">
+<div class="clearfix bar_mobile_tl">
     <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
        data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>
 
@@ -34,9 +34,7 @@
     <thead>
         <tr class="table-info">
             <th width="50" align="right">STT</th>
-            <th width="20%">Tên thể loại</th>
-            <th width="18%">Mã DDC</th>
-            @*<th width="20%">Tên thể loại cha</th>*@
+            <th width="40%">Tên thể loại</th>
             <th width="40%">Mô tả</th>
             <th width="10%">Sửa</th>
             <th width="10%">Cắt</th>
@@ -53,8 +51,6 @@
                         ../ Trở lại thể loại cha
                     </td>
                     <td></td>
-                    @*<td></td>*@
-                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -69,10 +65,6 @@
                 <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
                     @item.TenTheLoai
                 </td>
-                <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
-                    @item.MaDDC
-                </td>
-                @*<td>@item.TenTheLoaiParent</td>*@
                 <td>@item.MoTa</td>
                 <td>
                     <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">

@@ -2,7 +2,8 @@
     padding: 0;
     margin: 0;
 }
-html{
+
+html {
     min-height: 100%;
     /*background-image: url('../Assets/Images/bg.jpg');*/
     background-attachment: fixed;
@@ -83,7 +84,8 @@ a {
 .input-group-append .btn, .input-group-prepend .btn {
     z-index: 0;
 }
-.table{
+
+.table {
     background: #fff;
 }
 /*End bootstap edit*/
@@ -379,7 +381,6 @@ a:hover {
     padding: 0 10px;
     /*position: relative;*/
     z-index: 0;
-   
 }
 
     .contain .right .content {
@@ -942,6 +943,12 @@ a:hover {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+.pagination-container {
+    z-index: 0;
+    position: relative;
+}
+
 /*Mượn sách*/
 .hidden_lib {
     display: none;
@@ -1051,7 +1058,6 @@ a:hover {
 .table-min {
     min-width: 700px;
 }
-
 /*End Mượn sách*/
 @media screen and (max-width: 1500px) {
     .book_box_v3 {
@@ -1070,6 +1076,7 @@ a:hover {
 @media screen and (max-width: 1200px) {
     .book_box_v3 {
         margin: 3px;
+        width: calc(50% - 6px);
     }
 
         .book_box_v3 .container-box-window {
@@ -1174,6 +1181,24 @@ a:hover {
 
 
 @media screen and (max-width: 600px) {
+    .bar_mobile {
+        padding: .5rem 1.5rem !important;
+    }
+
+        .bar_mobile > div {
+            width: 100%;
+        }
+
+        .bar_mobile .btn-primary {
+            width: calc(50% - 3px);
+            margin: 2px 0px;
+        }
+
+    .bar_mobile_tl .btn-sm {
+        width: calc(100% - 3px);
+        margin: 2px 0px;
+    }
+
     .line-gl,
     .box_temp {
         display: none;
@@ -1195,6 +1220,7 @@ a:hover {
     }*/
     .book_box_v3 {
         margin: 2px;
+        width: calc(100% - 4px);
     }
 
         .book_box_v3 .container-box-window {
@@ -1249,6 +1275,11 @@ a:hover {
 
     .book_box_v3 .container-box-window .book_cell_information.width_right {
         width: 100%;
+    }
+
+    .bar_mobile .btn-sm {
+        width: calc(100% - 3px);
+        margin: 2px 0px;
     }
 }
 

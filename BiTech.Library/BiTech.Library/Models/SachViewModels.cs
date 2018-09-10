@@ -101,6 +101,14 @@ namespace BiTech.Library.Models
     {
         public Sach SachDTO { get; set; }
 
+        public string TenSach { get; set; }
+
+        public string MaKiemSoat { get; set; }
+
+        public DateTime CreateDateTime { get; set; }
+
+        public string NamXuatBan { get; set; }
+
         public string Ten_KeSach { get; set; }
         
         public string Ten_TheLoai { get; set; }

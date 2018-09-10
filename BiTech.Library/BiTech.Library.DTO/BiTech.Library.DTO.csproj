@@ -75,6 +75,7 @@
     <Compile Include="ChucVu.cs" />
     <Compile Include="ChiTietPhieuTra.cs" />
     <Compile Include="ChiTietXuatSach.cs" />
+    <Compile Include="DDC.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="GiaHan.cs" />
     <Compile Include="IModel.cs" />
