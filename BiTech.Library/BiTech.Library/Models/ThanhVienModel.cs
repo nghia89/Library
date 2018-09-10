@@ -86,7 +86,9 @@ namespace BiTech.Library.Models
         public HttpPostedFileBase LinkWord { get; set; }
         public string LoaiTK { get; set; }
         public string TextForSearch { get; set; }
-    }
+		[Display(Name = "Chức vụ")]
+		public string ChucVu { get; set; } //Sài cho giáo viên
+	}
     public class EditUserViewModel
     {
         public EditUserViewModel()
@@ -133,6 +135,8 @@ namespace BiTech.Library.Models
         public List<string> ListNienKhoa { get; set; }
         public string LinkAvatar { get; set; }
         public string LoaiTK { get; set; }
+		[Display(Name = "Chức vụ")]
+		public string ChucVu { get; set; } //sài cho giáo viên
     }
 
     public class ChangePasswordViewModel

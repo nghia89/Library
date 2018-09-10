@@ -1,9 +1,9 @@
 ﻿@model BiTech.Library.Models.PhieuNhapSachModels
 @{
-    ViewBag.Title = "ImportFromExcel";
+    ViewBag.Title = "Thêm từ file Excel";
 }
 <link rel="stylesheet" type="text/css" href="~/bower_components/custom-file-input/css/component.css" />
-<div class="Title">Thêm dữ liệu từ File Excel</div>
+<div class="Title">Nhập kho từ File Excel</div>
 
 @using (Html.BeginForm("ImportFromExcel", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
@@ -17,7 +17,7 @@
     <div class="text-danger"> @ViewBag.NullSach</div>
     @Html.AntiForgeryToken()
     <div class="form-group row">
-        @Html.LabelFor(m => m.GhiChu, new { @class = "col-md-12 control-label" })
+        @Html.Label("Ghi chú phiếu nhập kho", new { @class = "col-md-12 control-label" })
         <div class="col-md-12">
             @Html.TextBoxFor(m => m.GhiChu, new { @class = "form-control form-control-sm", @maxlength = "20", @placeholder = "Nhập ghi chú" })
         </div>
@@ -33,7 +33,7 @@
 
     <div class="form-group row">
         <div class="col-md-offset-2 col-md-12">
-            <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
+            <input type="submit" class="btn btn-sm btn-primary" value="Tạo phiếu nhập" />
         </div>
     </div>
 

@@ -1,6 +1,6 @@
 ﻿@model BiTech.Library.Models.PhieuXuatSachModels
 @{
-    ViewBag.Title = "TaoPhieuXuatSach";
+    ViewBag.Title = "Tạo phiếu xuất kho";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
@@ -9,7 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
 
-<div class="Title">Tạo Phiếu Xuất Sách</div>
+<div class="Title">Tạo Phiếu Xuất Kho</div>
 <br />
 <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "PhieuXuatSach")'">
     <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
@@ -25,7 +25,7 @@
 
                     <div class="container-box-window clearfix">
                         <div class="top">
-                            <span class="">Thông tin phiếu nhập</span>
+                            <span class="">Thông tin phiếu xuất</span>
                         </div>
 						<div class="content-box-window">
 							<div class="form-group row">
@@ -57,7 +57,7 @@
 							<div class="form-group row">
 								@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
 								<div class="col-md-10">									
-										@Html.DropDownList("TrangThai", new SelectList(new List<BiTech.Library.DTO.Language>(), "IdTrangThai", "TrangThai"), "--Chọn tình trạng--",
+										@Html.DropDownList("TrangThai", new SelectList(new List<BiTech.Library.DTO.TrangThaiSach>(), "IdTrangThai", "TrangThai"), "--Chọn tình trạng--",
 						 new { @id = "idTrangThai", @class = "form-control form-control-sm", @ng_model = "idTrangThai", @data_ng_disabled = "!listTrangThai", @ng_options = "s.TrangThai for s in listTrangThai track by s.IdTrangThai" })									
 								</div>
 							</div>
@@ -142,7 +142,7 @@
                             @using (Html.BeginForm("TaoPhieuXuatSach", "PhieuXuatSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
                                 <div class="form-group row">
-                                    <label class="col-md-2 control-label">Ghi chú phiếu nhập sách</label>
+                                    <label class="col-md-2 control-label">Ghi chú phiếu xuất sách</label>
                                     <div class="col-md-10">
                                         <textarea name="GhiChu" placeholder="Ghi chú" ng-model="GhiChu" class="form-control form-control-sm"></textarea>
                                     </div>
@@ -225,11 +225,18 @@
                     data: "idSach=" + idBook,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    success: function (data) {
-                        console.log('Tim thay sach');
-						$("#idSach").val(data.MaKiemSoat);
-						$("#SoLuong").focus();
-						console.log(data.ListTTSach	);
+					success: function (data) {
+						console.log(data.SoLuongTong);
+						if (data.SoLuongConLai > 0) {
+							console.log('Tim thay sach');
+							//$("#idSach").val(data.MaKiemSoat);
+							$("#SoLuong").focus();
+						}
+						else {
+							alert('Sách trong kho không có sẵn.')
+							$("#idSach").val('');
+							$("#idSach").focus();
+						}
                     },
                     error: function () {
                         alert('Mã sách không tồn tại');

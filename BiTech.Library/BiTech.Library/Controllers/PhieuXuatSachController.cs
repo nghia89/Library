@@ -219,7 +219,9 @@ namespace BiTech.Library.Controllers
 			string idTT = ttModel.IdTrangThai;			
 			//Kiểm tra số lượng tồn có lớn hơn đang có hay không
 			var slSachTon = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(_SachLogic.GetByMaMaKiemSoat(maKiemSoat).Id, idTT).SoLuong;
-			if (soLuong <= (slSachTon - soLuongHienThi))
+			//Kiểm tra số lượng cần xuất có phù hợp hay không ( sl cần xuất >= số lần dc mượn (số lần dc mượn + sl còn = sl tổng)
+			var slConLai = _SachLogic.GetByMaMaKiemSoat(maKiemSoat).SoLuongConLai;
+			if (soLuong <= (slSachTon - soLuongHienThi) && (slConLai - soLuong) >= 0)
 			{
 				if (!string.IsNullOrEmpty(maKiemSoat) && !string.IsNullOrEmpty(ghiChuDon)
 					&& soLuong > 0 && !string.IsNullOrEmpty(idTT))
@@ -265,14 +267,17 @@ namespace BiTech.Library.Controllers
 			List<TrangThaiSach> lstTTSach = new List<TrangThaiSach>();
 			foreach (var item in slSachTT)
 			{
-				var tt = _TrangThaiSach.getById(item.IdTrangThai);
-				lstTTSach.Add(tt); //lấy đc list trạng thái
+				if (item.SoLuong > 0)
+				{
+					var tt = _TrangThaiSach.getById(item.IdTrangThai);
+					lstTTSach.Add(tt); //lấy đc list trạng thái
+				}
 			}
 			//chuyển về listTT viewmodel
 			SoLuongTrangThaiSachVM slTTSachVM;
 			List<SoLuongTrangThaiSachVM> lstTTSachVM = new List<SoLuongTrangThaiSachVM>();
 			foreach (var item in lstTTSach)
-			{
+			{				
 				slTTSachVM = new SoLuongTrangThaiSachVM()
 				{
 					IdTrangThai = item.Id,

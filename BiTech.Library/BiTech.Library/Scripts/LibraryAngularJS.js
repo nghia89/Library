@@ -138,7 +138,6 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 
 	$scope.list = [];
 	$scope.listTrangThai = [];
-	$scope.listIndex = [];
 	$scope.slHienThi = 0;
     $scope.addItema = function () {
 		$scope.errortext = "";
@@ -147,10 +146,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 		for (i = 0; i < $scope.list.length; i++) {
 			if ($scope.list[i].MaKiemSoat == $scope.maKS && $scope.list[i].IdTinhTrang == $scope.idTrangThai.IdTrangThai)
 				sl += $scope.list[i].soLuong;
-			//let index = $scope.list.findIndex(_ => _.MaKiemSoat == $scope.maKS
-			//	&& _.IdTinhTrang == $scope.idTrangThai.IdTrangThai);
 		}
-		//if (index != -1)
 		$scope.slHienThi = sl;
         $http({
             method: "get",
@@ -165,7 +161,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
             }
 		}).then(function (response) {
 			if (response.data == null || response.data == "") {
-				$scope.errortext += "Số lượng sách không phù hợp.\n";
+				$scope.errortext += "Số lượng sách xuất cần <= số lượng có trong kho.\n";
 				alert($scope.errortext);
 				$("#SoLuong").val("");
 				$("#SoLuong").focus();
@@ -208,7 +204,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 					else
 						alert($scope.errortext);
 				}
-			}
+			}			
         }, function (e) {
             $scope.errortext = "";
             if (!$scope.maKS) {

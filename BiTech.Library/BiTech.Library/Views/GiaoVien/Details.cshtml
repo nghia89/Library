@@ -1,6 +1,6 @@
 ﻿@model BiTech.Library.Models.UserViewModel
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi tiết giáo viên";
 }
 <link href="~/Content/AvatarDetail.css" rel="stylesheet" />
 <div class="Title">Thông tin giáo viên: @Model.Ten</div>
@@ -83,7 +83,7 @@
             <div class="form-group-sm row">
                 <label class="col-sm-4 detail-label">Chức vụ:</label>
                 <div class="col-sm-8">
-                    <p class="detail-control">@Model.LopHoc</p>
+                    <p class="detail-control">@Model.ChucVu</p>
                 </div>
             </div>
             <div class="form-group-sm row">

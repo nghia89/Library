@@ -16,7 +16,7 @@
             @*<th>Ảnh thành viên</th>*@
             <th>Tên giáo viên</th>
             <th>Mã giáo viên</th>
-            <th>Lớp</th>
+            <th>Chức vụ</th>
             <th>Ngày sinh</th>
             <th>Giới tính</th>      
             <th>Trạng thái</th>
@@ -40,12 +40,12 @@
                         </div>
                     </div>
                 </td>-->
-                <td class="a_td" onclick="window.location = '/HocSinh/Details?idUser=@item.Id'">
+                <td class="a_td" onclick="window.location = '/GiaoVien/Details?idUser=@item.Id'">
                     @item.Ten
                     @*@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null)*@ 
                 </td>
                 <td>@item.MaSoThanhVien</td>
-                <td>@item.LopHoc</td>
+                <td>@item.ChucVu</td>
                 <td>@item.NgaySinh.ToString("dd-MM-yyyy")</td>
                 <td>@item.GioiTinh</td>
                 @{

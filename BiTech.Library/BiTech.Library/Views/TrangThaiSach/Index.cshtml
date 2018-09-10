@@ -1,11 +1,11 @@
 ﻿@model PagedList.IPagedList<BiTech.Library.Models.TrangThaiSachViewModels>
 @using PagedList.Mvc
 @{
-    ViewBag.Title = "DanhSachTrangThai";
+    ViewBag.Title = "Tình trạng sách";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 
 }
-<div class="Title">Danh Sách Trạng Thái</div>
+<div class="Title">Danh Sách Tình Trạng Sách</div>
 <p>@Html.ActionLink("Thêm mới", "Them", null, new { @class = "btn btn-primary btn-sm" })</p>
 <table class="table table-hover table-bordered" border="1">
     <thead>

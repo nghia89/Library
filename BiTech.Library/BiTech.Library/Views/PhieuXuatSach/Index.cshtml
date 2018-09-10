@@ -1,12 +1,14 @@
 ﻿@model PagedList.IPagedList<BiTech.Library.Models.PhieuXuatSachModels>
 @using PagedList.Mvc
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Danh sách phiếu xuất";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
 <div class="Title">Danh Sách Phiếu Xuất</div>
-<p>@Html.ActionLink("Thêm mới", "TaoPhieuXuatSach", null, new { @class = "btn btn-primary btn-sm" })</p>
+<div class="mb-2">
+	@Html.ActionLink("Thêm mới", "TaoPhieuXuatSach", null, new { @class = "btn btn-primary btn-sm" })
+</div>
 
 <table class="table table-hover table-bordered">
 

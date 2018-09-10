@@ -33,6 +33,7 @@ namespace BiTech.Library.DTO
   
         public EUser TrangThai { get; set; }
 
+		public string ChucVu { get; set; } //Sài cho giáo viên
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
