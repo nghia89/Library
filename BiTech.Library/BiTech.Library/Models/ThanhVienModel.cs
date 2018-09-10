@@ -71,25 +71,35 @@ namespace BiTech.Library.Models
 
         [Display(Name = "Trạng thái")]
         public EUser TrangThai { get; set; }
-        //[Display(Name = "Chức vụ")]
-        //public string IdChucVu { get; set; }
+
         [Display(Name = "Hình ảnh")]
         public HttpPostedFileBase HinhChanDung { get; set; }
+
         [Display(Name = "Mã QR")]
         public string QRLink { get; set; }
+
         public List<string> ListNienKhoa { get; set; }
+
         public string LinkAvatar { get; set; }
+
         public string[] ListName { get; set; }
+
         public string[] ListMaTV { get; set; }
+
         public string[] ListAll { get; set; }
+
         public List<ThanhVien> ListThanhVien { get; set; }
+
         [Display(Name = "Đường dẫn file Excel")]
         public HttpPostedFileBase LinkExcel { get; set; }
+
         public HttpPostedFileBase LinkWord { get; set; }
+
         public string LoaiTK { get; set; }
+
         public string TextForSearch { get; set; }
 
-		[Display(Name = "Chức vụ")]
+		[Display(Name = "Tổ")]
 		public string ChucVu { get; set; } //Sài cho giáo viên
 	}
     public class EditUserViewModel

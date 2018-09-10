@@ -94,7 +94,6 @@ namespace BiTech.Library.Models
         public string QRData { get; set; }
 
         public string ISBN { get; set; } = "";
-        public string IdNgonNgu { get; set; }
 
         [Required]
         public HttpPostedFileBase FileImageCover { get; set; }
