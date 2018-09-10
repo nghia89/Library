@@ -1,140 +1,101 @@
 ﻿@model BiTech.Library.Models.ImportResultViewModel
 @{
     Layout = null;
-
-    bool HasError = ViewBag.HasError;
-    var ColumnOptions = ViewBag.ColumnOptions;
-
-    string[] columnOptionArray = ColumnOptions.Split('|');
-
+    ViewBag.Title = "ResultImportExcel";
 }
 
-@if (HasError == false)
+<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count giáo viên</h4>
+<h4 class="text-danger">Lưu thất bại @Model.ListFail.Count giáo viên</h4>
+@if (@Model.ListFail.Count > 0)
 {
-    if (Model.TotalValidEntry > 0)
-    {
-        <div class="alert alert-success" role="alert"> <strong>Đã xong! </strong> Đã thêm mới <b>@Model.TotalValidEntry</b> tài khoản vào hệ thống. <b><a href="@Url.Content("/" + Model.ExcelFileName)"> Tải tệp Excel mật khẩu</a></b></div>
-        <center><a href="javascript:location.reload(true)">Nhập danh sách mới</a> | <a asp-controller="User" asp-action="Index">Danh sách tài khoản</a></center>
-    }
-    else
-    {
-        <div class="alert alert-warning" role="alert"> Không có tài khoản nào được lưu vào hệ thống.</div>
-    }
-}
-
-@if (Model.Entries.Count > 0 && HasError)
-{
-    <center><b>Cách tài khoản không hợp lệ</b></center>
-    <div id="result-table-container">
-        <div class="col-md-10 col-md-offset-1">
-            <table class="table table-bordered table-striped" id="result-table">
-                <thead>
-                    <tr>
-                        <th><center>#</center></th>
-
-                        @foreach (var item in columnOptionArray)
-                {
-                    if (item == "GrantedPermissionList" || item == "GrantedGradeAndSubjectId" || string.IsNullOrEmpty(item))
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "GiaoVien", new { fileName = Model.FileName })'">
+        <i class="fa fa-cloud-download" style="padding-right: 4px;font-size: 17px;"> Tải file lỗi để sửa</i>
+    </button>
+    <center><h3>Danh sách bị lỗi</h3></center>
+    <br />
+    <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
+        <thead>
+            <tr class="table-info text-center">
+                @{
+                    var longestRow = Model.ListShow.FirstOrDefault();
+                    if (longestRow != null)
                     {
-                        continue;
+                <th class="order-number-column">STT</th>
+                @*for (int i = 0; i < longestRow.Count; i++)
+                    {
+                        <th>
+                            <select class="form-control" onclick="clearSelectBoxDefaultOption(this)" id="select-@i" data-is-selected="false" data-datatype-chooser="true">
+                                <option>-----------------------------------------------------------------------------</option>
+                                <option value="FullName">Họ & tên</option>
+                                <option value="Username">Tên user</option>
+                                <option value="Password">Mã thành viên</option>
+                                <option value="Email">Loại tài khoản</option>
+                                <option value="PhoneNumber">Giới tính</option>
+                                <option value="GrantedPermissionList">Ngày sinh</option>
+                                <option value="RoleSystemName">Lớp học</option>
+                                <option value="GrantedGradeAndSubjectId">Niên khóa</option>
+                                <option value="Address">Địa chỉ</option>
+                                <option value="PhoneNumber">SĐT</option>
+                            </select>
+                        </th>
+
+                    }*@
+                <th>Họ và tên</th>
+                <th>Tên user</th>
+                <th>Mã giáo viên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Lớp học</th>
+                <th>Niên khóa</th>
+                <th>Địa chỉ</th>
+                <th>SĐT</th>
+                <th width="250px">Nguyên nhân lỗi </th>
                     }
-
-                    <th>
-                        <center>
-                            @switch (item)
-                            {
-                                case "FullName":
-                                    @:Họ & tên
-                                break;
-                                case "Username":
-                                    @:Tên đăng nhập
-                                break;
-                                case "Password":
-                                    @:Mật khẩu
-                                break;
-                                case "Email":
-                                    @:Email
-                                break;
-                                case "PhoneNumber":
-                                    @:Số điện thoại
-                                break;
-                                case "RoleSystemName":
-                                    @:Quyền quản lý
-                                break;
-                                default:
-                                    break;
-                            }
-                        </center>
-                    </th>
-                        }
-
-                        <th><center>Lý do</center></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var orderNumber = 0;
-
-                        foreach (var item in Model.Entries)
+                }
+                @*<th width="150px"><center>Thao tác</center></th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var orderNumber = 0;
+                int row = 1;
+                foreach (var item in Model.ListShow)
+                {
+                    var col = 1;
+            <tr id="element-@orderNumber">
+                @foreach (var j in item)
                         {
-                            orderNumber += 1;
-                            var css = "";
-                            if (item.IsDuplicationWithFile || item.IsDuplicationWithDatabase || item.IsInvalidEmailAddress || item.IsInvalidUsername)
+                            // tô màu ô trống dữ liệu cần thiêt
+                            if (String.IsNullOrEmpty(j.ToString().Trim()) && col <= 5)
                             {
-                                css = "danger";
-                            }
-
-                            <tr class="@css">
-                                <td><center>@orderNumber</center></td>
-                                @foreach (var columnName in columnOptionArray.Skip(1).ToList())
-                                {
-                                    if (columnName == "GrantedPermissionList" || columnName == "GrantedGradeAndSubjectId")
-                                    {
-                                        continue;
-                                    }
-                                    if (columnName == "RoleSystemName")
-                                    {
-                                        <td>
-                                            @if (item.RoleSystemName == "Teacher")
-                                            {
-                                                @:Giáo viên
-                                            }
-                                            else
-                                            {
-                                                @:Trưởng bộ môn
-                                            }
-                                        </td>
-
-                                        continue;
-                                    }
-
-                                    var jsonObject = Newtonsoft.Json.Linq.JObject.FromObject(item);
-                                    <td>@jsonObject[columnName]</td>
-                                }
-                                <td>
-                                    @if (item.IsDuplicationWithDatabase)
-                                    {
-                                        @:<div>Số điện thoại đã có người đăng ký</div>
-                                    }
-                                    @if (item.IsDuplicationWithFile)
-                                    {
-                                        @:<div>Số điện thoại trong Excel bị trùng lập</div>
-                                    }
-                                    @if (item.IsInvalidEmailAddress)
-                                    {
-                                        @:<div>Địa chỉ Email không hợp lệ</div>
-                                    }
-                                    @if (item.IsInvalidUsername)
-                                    {
-                                        @:<div>Tên tài khoản chỉ được chứa chữ cái và chữ số. Từ 6-20 ký tự</div>
-                                    }
-                                </td>
-                            </tr>
-                        }
+                <td style="background: #dc354582;"></td>
                     }
-                </tbody>
-            </table>
-            <center><a href="javascript:location.reload(true)">Nhập danh sách mới</a> | <a asp-controller="User" asp-action="Index">Danh sách tài khoản</a></center>
-        </div>
-    </div>
-                        }
+                    // tô màu ô trùng Mã Thành Viên
+                    else if (col == 4 && Model.ArrRows[row] == true)
+                    {
+                <td style="background: #dc354582;">@j.ToString()</td>
+                    }
+                    else
+                    {
+                <td>@j.ToString()</td>
+                    }
+                    col++;
+                }
+                @*<td>
+                        <center>
+                            <a href="#@orderNumber" data-array-index="@index" class="btn btn-primary edit-action">Sửa</a>
+                            <a href="#@orderNumber" data-array-index="@index" class="btn btn-danger remove-acction">Xóa</a>
+                        </center>
+                    </td>*@
+            </tr>
+                    row++;
+                }
+            }
+        </tbody>
+    </table>
+}
+<div class="f1-buttons">
+    <button type="button" class="btn btn-previous"><i class=""></i> Quay lại</button>
+</div>
+
+

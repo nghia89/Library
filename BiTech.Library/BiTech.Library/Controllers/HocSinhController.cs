@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using PagedList;
 using BiTech.Library.Controllers.BaseClass;
 using static BiTech.Library.Helpers.Tool;
+using Aspose.Cells;
 
 namespace BiTech.Library.Controllers
 {
@@ -271,8 +272,8 @@ namespace BiTech.Library.Controllers
             thanhVien.DiaChi = viewModel.DiaChi;
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
-            thanhVien.SDT = viewModel.SDT;        
-            
+            thanhVien.SDT = viewModel.SDT;
+
             //viewModel.LinkAvatar = "";
             //if (viewModel.HinhChanDung != null && Tool.IsImage(viewModel.HinhChanDung))
             //{
@@ -448,6 +449,33 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ImportFromExcel()
         {
+            #region Test create File Excel
+            //#region  Lấy thông tin người dùng
+            //var userdata = GetUserData();
+            //if (userdata == null)
+            //    return RedirectToAction("LogOff", "Account");
+            //var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            //#endregion
+            //var list = _ThanhVienLogic.GetAllHS();
+            //Workbook wb = new Workbook();
+            //Worksheet ws = wb.Worksheets[0];
+            //// Cell đặt title
+            //Cell cell = ws.Cells["A1"];
+            //cell.PutValue("Hello cái tô");
+            //ws.Cells["A2"].PutValue("Ten Hoc Sinh");
+            //// Import Data to Excel
+            //string[] arr = new string[list.Count];
+            //int i = 0;
+            //foreach (var item in list)
+            //{
+            //    arr[i] = item.Ten + "sajbdhjasu";
+            //    i++;
+            //}
+            //ws.Cells.ImportArray(arr, 2, 0, true);
+            //ws.AutoFitColumns();
+            //// Save
+            //wb.Save("D:\\TestSave.xlsx", SaveFormat.Xlsx);
+            #endregion
             return View();
         }
 
@@ -466,7 +494,7 @@ namespace BiTech.Library.Controllers
             if (model.LinkExcel != null)
             {
                 string physicalWebRootPath = Server.MapPath("/");
-                list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);             
+                list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);
                 int i = 0;
                 foreach (var item in list)
                 {
@@ -514,12 +542,12 @@ namespace BiTech.Library.Controllers
             #endregion
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllHS();
-            string fileName = "MauTheHS.docx";           
+            string fileName = "MauTheHS.docx";
             if (model.LinkWord != null)
             {
                 string physicalWebRootPath = Server.MapPath("/");
                 string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileWord);
-              
+
 
                 var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkWord.FileName);
 
@@ -575,7 +603,7 @@ namespace BiTech.Library.Controllers
                 linkMau = "/Content/MauWord/Mau2.docx";
                 fileName = "MauTheHS-Mau2.docx";
             }
-            excelManager.ExportWord(linkMau, listTV,fileName);
+            excelManager.ExportWord(linkMau, listTV, fileName);
             // To do Download           
             string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);

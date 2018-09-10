@@ -205,6 +205,7 @@ namespace BiTech.Library.Controllers.BaseClass
                 if (day == null && month == null && year == null)
                 {
                     dem++;
+
                 }
             }
             return dem;

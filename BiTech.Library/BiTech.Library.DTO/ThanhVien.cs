@@ -56,7 +56,13 @@ namespace BiTech.Library.DTO
         [BsonIgnore]
         public int ColumnExcel { get; set; }
         [BsonIgnore]
-        public int RowExcel { get; set; }
+        public int RowExcel { get; set; }      
+        [BsonIgnore]
+        public List<string> ListError { get; set; }      
+        [BsonIgnore]
+        public bool IsDuplicate { get; set; }
+        [BsonIgnore]
+        public string NgaySinhForAngular { get; set; }
         #endregion
     }
 }
