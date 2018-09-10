@@ -41,6 +41,14 @@
     <Reference Include="Aspose.Words">
       <HintPath>..\BiTech.Library\bin\Aspose.Words.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.11.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.11.0\lib\net20\DotNetZip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="OnBarcode.Barcode.BarcodeScanner">
       <HintPath>..\BiTech.Library\bin\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
     </Reference>
@@ -60,6 +68,8 @@
     <Compile Include="BarCode_QR\baseAsposeLic.cs" />
     <Compile Include="BarCode_QR\ExcelManager.cs" />
     <Compile Include="BarCode_QR\ReplaceWithImageEvaluator.cs" />
+    <Compile Include="DBLogic\AccessInfoLogic.cs" />
+    <Compile Include="DBLogic\BackupAndRestore.cs" />
     <Compile Include="DBLogic\Base\BaseLogic.cs" />
     <Compile Include="DBLogic\ChiTietNhapSachLogic.cs" />
     <Compile Include="DBLogic\ChiTietXuatSachLogic.cs" />
@@ -93,6 +103,9 @@
       <Project>{0585cc2f-7e2b-474e-8b5f-f480287225e9}</Project>
       <Name>BiTech.Library.DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

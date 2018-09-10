@@ -1,34 +1,74 @@
 ﻿@using Microsoft.AspNet.Identity
+@using System.Security.Claims
+@using BiTech.Library.Models
 @{
     Layout = null;
+    var isSSO = false;
+    if (Request.IsAuthenticated)
+    {
+        var claimSSO = (User.Identity as ClaimsIdentity).Claims.Where(c => c.Type == "SSOUserDataModel").Select(c => c.Value);
+        if (claimSSO != null)
+        {
+            foreach (var c in claimSSO)
+            {
+                try
+                {
+                    SSOUserDataModel loadData = Newtonsoft.Json.JsonConvert.DeserializeObject<SSOUserDataModel>(c);
+                    ViewBag.SSOFullName = loadData.FullName;
+                    ViewBag.Avatar = loadData.Avatar;
+                    isSSO = true;
+                    break;
+                }
+                catch { }
+            }
+        }
+    }
 }
-<div class="top clearfix">
-    <div class="banner">
-        <h5>Phần mềm Quản lý Thư viện B.Lib - Trường THPT Gò Vấp @ViewBag.SSOSchoolName </h5>
-    </div>
+<style>
+    .top .useravatar {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        float: left;
+        margin-top: -4px;
+        margin-bottom: -1px;
+        margin-right: 10px;
+    }
+</style>
 
-    @if (Request.IsAuthenticated)
+<div class="top clearfix">
+    <a href="@Url.Action("Index","Home")">
+        <div class="banner">
+            <div class="apptitle1">Phần mềm Quản lý Thư viện B.Lib</div>
+            <div class="dash"> - </div>
+            <div class="apptitle2">@ViewBag.WebHeader</div>
+        </div>
+    </a>
+
+    @if (Request.IsAuthenticated && isSSO)
     {
         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
         {
             @Html.AntiForgeryToken()
+            <div class="nav menutop">
+                <div class="dropdown">
+                    <div class="dropdown-toggle" data-toggle="dropdown" style="color:white;">
+                        <img src="@Html.Raw(ViewBag.Avatar)" alt="user" class="useravatar" onerror="this.style.display='none'" />
+                        <a href="@Url.Action("Index", "Manage", new { title = "Manage" })">@ViewBag.SSOFullName</a>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a class="dropdown-item" href="//bitechco.test/Customer/MyProfile">Thông tin cá nhân</a></li>
+                        <li>@Html.ActionLink("Trợ giúp", "Index", "Help", null, new { @class = "dropdown-item", @target = "_blank" })</li>
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Đăng xuất", "logoff", "Account", null, new { @class = "dropdown-item" })</li>
+                    </ul>
 
-            <ul class="nav menutop">
-                <li class="nav-item">
-                    <div class="dropdown">
-                        <div class="dropdown-toggle" data-toggle="dropdown">
-
-                            <a href="@Url.Action("Index", "Manage", new { title = "Manage" })">
-                                @ViewBag.SSOFullName
-                            </a>
-                        </div>
-                        <div class="dropdown-menu">
+                    @*<div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="//bitechco.test/Customer/MyProfile">Thông tin cá nhân</a>
                             @Html.ActionLink("Đăng xuất", "logoff", "Account", null, new { @class = "dropdown-item" })
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                        </div>*@
+                </div>
+            </div>
         }
     }
 </div>

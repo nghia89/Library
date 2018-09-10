@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessInfo.cs" />
     <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
     <Compile Include="ChucVu.cs" />

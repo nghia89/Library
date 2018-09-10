@@ -1,0 +1,179 @@
+﻿@model  BiTech.Library.Models.UserViewModel
+@{
+    var x = ViewBag.arr;
+}
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/toaster/toaster.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/bower_components/custom-file-input/css/component.css" />
+
+<div class="Title">Danh sách giáo viên</div>
+
+<div ng-app="LibraryApp">
+    <div id="ngListBkFiles" ng-controller="BackupRestoreCtrl" ng-init="GetFileList()">
+        <toaster-container toaster-options="{'close-button':false, 'time-out':{ 'toast-success': 3000, 'toast-warning': 5000, 'toast-error': 0 }, 'prevent-duplicates': true, 'limit':7 }"></toaster-container>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <button ng-click="create()" class="btn btn-sm btn-primary" type="button">Tạo sao lưu</button>
+                <button id="BrowseZipFile" class="btn btn-sm btn-primary" type="button">Tải lên file</button>
+                @*@using (Html.BeginForm("UploadBackupFile", "QuanLyThuVien", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="submit" class="btn btn-sm btn-primary" value="Chọn" />
+                    @Html.TextBoxFor(m => m.LinkExcel, new { @Class = "inputfile inputfile-2", type = "file", accept = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })
+                    <label for="LinkExcel"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" /></svg> <span>Chọn file</span></label>
+                }*@
+            </div>
+        </div>
+
+        <table border="1" class="table table-hover table-bordered">
+            <thead>
+                <tr class="table-info">
+                    <th class="text-center" width="50px">STT</th>
+                    <th class="text-center">Tên</th>
+                    <th class="text-center" width="170px">Ngày tạo</th>
+                    <th class="text-center" width="100px">Kích thước</th>
+                    <th class="text-center" width="120px"></th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                <tr ng-repeat="x in listfiles">
+                    <td lass="text-center">{{ $index + 1 }}</td>
+                    <td>{{ x.Name }}</td>
+                    <td class="text-center">{{ x.Date }}</td>
+                    <td class="text-right">{{ x.Size }}</td>
+                    <td align="center">
+                        <button ng-click="download($index)" class="btn btn-sm btn-primary btn-inTable" title="Tải xuống"><i class="fa fa-download"></i></button>
+                        <button ng-click="restore($index)" class="btn btn-sm btn-success btn-inTable" title="Phục hồi"><i class="fa fa-history"></i></button>
+                        <button ng-click="remove($index)" class="btn btn-sm btn-danger btn-inTable" title="Xóa"><i class="fa fa-times"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script src="~/Scripts/angular-1.6.8/angular.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-route.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-sanitize.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-touch.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-animate.min.js"></script>
+
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/angular-modules/toaster.min.js"></script>
+    <script src="~/Scripts/toastr/toastr.min.js"></script>
+
+    <script src="~/app/BackupRestoreModule.js"></script>
+
+    <script src="~/Scripts/simple-ajax-uploader/SimpleAjaxUploader.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Uploader danh sách học sinh
+            var btnZipFile = document.getElementById('BrowseZipFile');
+            var errBox = document.getElementById('errormsg');
+
+            var up_go = false;
+
+            var up = new ss.SimpleUpload({
+                autoSubmit: false,
+                button: btnZipFile,
+                url: '/QuanLyThuVien/UploadBackupFile',
+                name: 'file',
+                hoverClass: 'hover',
+                focusClass: 'focus',
+                allowedExtensions: ['zip'],
+                accept: 'application/zip',
+                maxSize: 102400,
+                maxUploads: 1,
+                startXHR: function (filename, extension) {
+                    console.log("startXHR " + filename);
+                    return up_go;
+                },
+                startnonXHR: function (filename, extension) {
+                    console.log("startXHR " + filename);
+                    return up_go;
+                },
+                onSizeError: function (filename, fileSize) {
+                    swal("Có lỗi!", "Size vượt quá dung lượng cho phép", "error");
+                    //console.log("onSizeError " + filename);
+                },
+                onSubmit: function (filename) {
+                    //console.log("onSubmit " + filename);
+                    return up_go;
+                },
+                onComplete: function (filename, response) {
+                    //console.log("onComplete " + response);
+                    angular.element(document.getElementById('ngListBkFiles')).scope().GetFileList();
+
+                    up_go = false;
+
+                    if (response.Status == 1) {
+                        swal("Có lỗi!", response.Data, "error");
+                    }
+                    else {
+                        toastr.success("Tải lên thành công");
+                    }
+                },
+                onError: function (xhr) {
+                    console.log("onError " + xhr);
+                },
+                onChange: function (filename, extension, uploadBtn, fileSize, file) {
+                    swal({
+                        title: "Xác nhận tải file",
+                        text: "Tên file: " + filename + "\nDung lượng: " + fileSize + " KB",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Tiến hành",
+                        cancelButtonText: "Hủy",
+                        closeOnConfirm: false,
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {                            
+                            $.ajax({
+                                type: 'GET',
+                                url: '/QuanLyThuVien/CheckOverwriteFile',
+                                data: { "name": filename },
+                                success: function (resultData) {
+                                    //console.log(resultData)
+                                    if (resultData.Status == 1) {
+                                        swal({
+                                            title: "Trùng tên file",
+                                            text: "Bạn có muốn ghi đề lên " + filename + "?",
+                                            type: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonClass: "btn-danger",
+                                            confirmButtonText: "Có",
+                                            cancelButtonText: "Không"
+                                        },
+                                        function (isConfirm2) {
+                                            if (isConfirm2) {
+                                                up_go = true;
+                                                up.submit();
+                                            }
+                                            else {
+                                                up_go = false;
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        swal.close();
+                                        up_go = true;
+                                        up.submit();
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            up_go = false;
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+}
