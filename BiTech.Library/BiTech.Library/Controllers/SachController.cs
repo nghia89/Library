@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Mvc;
 using static BiTech.Library.Helpers.Tool;
 using BiTech.Library.Controllers.BaseClass;
+using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
@@ -32,13 +33,13 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            KeSachLogic _KeSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            KeSachLogic _KeSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ListBooksModel model = new ListBooksModel();
 
@@ -111,10 +112,10 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var modelTT = _trangThaiSachLogic.GetAllTT_True();
             ViewBag.TT = modelTT;
 
@@ -137,17 +138,17 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
             var a = ViewData["LstTTS"];
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ViewBag.Message = TempData["ThemSachMsg"] = "";
 
             if (ModelState.IsValid)
             {
-                SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-                PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 string id = _SachLogic.ThemSach(model.SachDTO);
 
@@ -240,7 +241,7 @@ namespace BiTech.Library.Controllers
                     string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
                     int tongSach = 0;
-                    SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                    SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                     foreach (var item in model.ListTTSach)
                     {
                         if (item.SoLuong > 0)
@@ -304,10 +305,10 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("Index");
             }
 
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Sach sachDTO = _SachLogic.GetById(id);
             if (sachDTO == null)
@@ -345,9 +346,9 @@ namespace BiTech.Library.Controllers
 
             if (ModelState.IsValid)
             {
-                SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
                 if (sach != null)
@@ -483,7 +484,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("Index");
             }
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             model.Languages = _LanguageLogic.GetAll();
             ViewBag.TLS = model.SachDTO.IdTheLoai;
             ViewBag.NXB = model.SachDTO.IdNhaXuatBan;
@@ -499,8 +500,8 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var model = _SlTrangThaisach.GetByIdSach(Id);
             var tt = _TrangThaiSachLogic.GetAll();
@@ -535,7 +536,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet);
 
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var id = _SlTrangThaisach.GetById(vm.Id);
             int numberSl = id.SoLuong - vm.SoLuong;
             var IdSlTT = _SlTrangThaisach.GetByIdTT(txtIdttCategory, vm.IdSach);
@@ -572,8 +573,8 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var model = _SlTrangThaisach.GetById(Id);
             var tt = _TrangThaiSachLogic.GetAll();
@@ -604,7 +605,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
-            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var model = _trangThaiSachLogic.GetAllTT(id);
 
             return Json(model, JsonRequestBehavior.AllowGet);
@@ -621,12 +622,12 @@ namespace BiTech.Library.Controllers
 
             try
             {
-                SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 Sach s = _SachLogic.GetById(id);
                 //GetList: thông tin mượn sách by idSach (1)
@@ -688,7 +689,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var data = _SachLogic.ListName(q);
             return Json(new
             {
@@ -712,7 +713,7 @@ namespace BiTech.Library.Controllers
             #endregion
 
             TheLoaiSachLogic _TheLoaiSachLogic =
-                new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach(true);
             return PartialView("_NhapLoaiSach");
@@ -755,13 +756,13 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
 
             ExcelManager excelManager = new ExcelManager();
@@ -902,7 +903,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
             string fileName = string.Concat("QR_Word" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".docx");
             var folderReport = "/Reports/WordQR";
@@ -947,9 +948,9 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Sach sach = new Sach()
             {

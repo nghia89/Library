@@ -18,7 +18,7 @@
     <AssemblyName>BiTech.Library</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -2179,7 +2179,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59897</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:64002/</IISUrl>
+          <IISUrl>http://thuviensohcm.blib.bitechco.test</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

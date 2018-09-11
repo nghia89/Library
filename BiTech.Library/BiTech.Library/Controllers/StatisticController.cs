@@ -27,7 +27,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            _ThongTinThuVien = new ThongTinThuVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            _ThongTinThuVien = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             string Key = "nambatdau";
             ThongTinThuVien tt = _ThongTinThuVien.GetCustomKey(Key);
@@ -50,11 +50,11 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return Json(null,JsonRequestBehavior.AllowGet);
-            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             #endregion
 
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
 
             #region Khai báo
@@ -752,7 +752,7 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
 
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var query = _SachLogic.getAll();
             DataInformationVM ListSl = new DataInformationVM();
             foreach (var i in query)
@@ -788,7 +788,7 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
 
-            SachLogic _sachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _sachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             int[] arrDay = new int[7];
             DateTime thisWeekStart = dateTime.AddDays(-(int)dateTime.DayOfWeek);
             DateTime thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
@@ -839,9 +839,9 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
 
-            SachLogic _sachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _sachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var getAllTTSach = _trangThaiSachLogic.GetAll();
             var getAllSLTTS = _SoLuongSachTrangThaiLogic.GetAll();

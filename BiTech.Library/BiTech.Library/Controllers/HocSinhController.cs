@@ -33,7 +33,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
 
             UserViewModel model = new UserViewModel();
@@ -58,7 +58,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
             List<ThanhVien> listAll = _ThanhVienLogic.GetAllHS();
             ViewBag.ThongBao = false;
@@ -122,7 +122,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
             BarCodeQRManager barcode = new BarCodeQRManager();
             ThanhVien thanhVien = new ThanhVien()
@@ -221,7 +221,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSucces = TempData["UnSuccess"];
@@ -261,7 +261,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion          
 
             var thanhVien = _ThanhVienLogic.GetById(viewModel.Id);
@@ -337,7 +337,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
 
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
 
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
@@ -380,7 +380,7 @@ namespace BiTech.Library.Controllers
                 }, JsonRequestBehavior.AllowGet);
             #endregion
 
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
             if (thanhVien == null)
@@ -433,7 +433,7 @@ namespace BiTech.Library.Controllers
                 }, JsonRequestBehavior.AllowGet);
             #endregion
 
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
             if (thanhVien == null)
@@ -481,7 +481,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
                 return RedirectToAction("NotFound", "Error");
@@ -516,7 +516,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
             {
@@ -536,7 +536,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
             ThanhVien thanhVien = _ThanhVienLogic.GetById(model.Id);
             if (thanhVien.Password != null)
@@ -596,7 +596,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
 
             ExcelManager excelManager = new ExcelManager();
@@ -648,7 +648,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllHS();
@@ -695,7 +695,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");

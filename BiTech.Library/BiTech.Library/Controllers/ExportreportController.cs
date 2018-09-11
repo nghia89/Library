@@ -13,6 +13,7 @@ using System.Collections;
 using System.IO;
 using BiTech.Library.Models.ViewDataIF;
 using System.Drawing;
+using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
@@ -34,7 +35,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThongTinThuVien = new ThongTinThuVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _ThongTinThuVien = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             #endregion
 
@@ -61,7 +62,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            var _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             #endregion
             #region Khai báo
             if (year == null)
@@ -345,9 +346,9 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
 
-            SachLogic _sachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _sachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var getAllTTSach = _trangThaiSachLogic.GetAll();
             var getAllSLTTS = _SoLuongSachTrangThaiLogic.GetAll();

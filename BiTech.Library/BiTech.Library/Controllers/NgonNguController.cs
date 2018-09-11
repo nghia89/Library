@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
@@ -21,7 +22,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             int PageSize = 10;
             int PageNumber = (page ?? 1);
@@ -50,7 +51,7 @@ namespace BiTech.Library.Controllers
 
             if (ModelState.IsValid)
             {
-                LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 string rs = _LanguageLogic.InsertNew(model.TheL);
 
                 if (rs.Length == 24)
@@ -69,7 +70,7 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var list = _LanguageLogic.GetAll();
             return Json(list, JsonRequestBehavior.AllowGet);
 
@@ -83,7 +84,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var model = _LanguageLogic.GetById(Id);
 
             if (model == null)
@@ -103,7 +104,7 @@ namespace BiTech.Library.Controllers
 
             if (ModelState.IsValid)
             {
-                LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 var rs = _LanguageLogic.Update(model);
                 if (rs)
                     return RedirectToAction("Index");
@@ -121,7 +122,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             _LanguageLogic.Remove(id);
             return RedirectToAction("Index");
         }
@@ -135,7 +136,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            LanguageLogic _LanguageLogic = new LanguageLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Language LG = new Language()
             {

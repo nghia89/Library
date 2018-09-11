@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
@@ -24,7 +25,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var list = _keSachLogic.GetAll();
             List<KesachViewModels> lst = new List<KesachViewModels>();
             foreach (var item in list)
@@ -61,7 +62,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             KeSach keSach = new KeSach()
             {
@@ -83,7 +84,7 @@ namespace BiTech.Library.Controllers
             #endregion
             try
             {
-                KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 var dl = _keSachLogic.getById(Id);
                 _keSachLogic.Delete(dl.Id);
                 return RedirectToAction("Index");
@@ -101,7 +102,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var kesach = _keSachLogic.getById(Id);
             if (kesach == null)
                 return RedirectToAction("NotFound", "Error");
@@ -126,7 +127,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             KeSach keSach = new KeSach()
             {
                 Id = model.Id,
@@ -147,7 +148,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             KeSach keSach = new KeSach()
             {
@@ -166,7 +167,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
-            KeSachLogic _keSachLogic =new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            KeSachLogic _keSachLogic =new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _keSachLogic.GetAll();
             return Json(list, JsonRequestBehavior.AllowGet);
