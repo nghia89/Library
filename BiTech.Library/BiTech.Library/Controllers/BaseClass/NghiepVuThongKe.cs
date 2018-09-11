@@ -139,6 +139,23 @@ namespace BiTech.Library.Controllers.BaseClass
             return soNguoiKhongTra;
         }
 
+        public int DemSoNguoiTraSach(List<ThongTinMuonSach> listPM)
+        {
+            int soNguoiTraSach = 0;
+            DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
+            foreach (var item in listPM)
+            {
+                DateTime ngayTraThucTe = item.NgayTraThucTe;
+
+                // DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
+                if (ngayTraThucTe != ngayTraNull && ngayTraThucTe != null)
+                {
+                    soNguoiTraSach++;
+                }
+            }
+            return soNguoiTraSach;
+        }
+
         /// <summary>
         /// Đếm số sách được mượn trong phiếu mượn
         /// </summary>

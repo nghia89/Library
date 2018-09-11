@@ -9,7 +9,7 @@ using BiTech.Library.DAL;
 
 namespace BiTech.Library.BLL.DBLogic
 {    
-    public class TacGiaLogic
+    public class TacGiaLogic : BaseLogic
     {
         TacGiaEngine _tacGiaEngine;
         SachTacGiaEngine _sachTacGiaEngine;

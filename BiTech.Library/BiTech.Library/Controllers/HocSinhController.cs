@@ -33,7 +33,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
 
             UserViewModel model = new UserViewModel();
@@ -58,7 +58,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             List<ThanhVien> listAll = _ThanhVienLogic.GetAllHS();
             ViewBag.ThongBao = false;
@@ -122,7 +122,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             BarCodeQRManager barcode = new BarCodeQRManager();
             ThanhVien thanhVien = new ThanhVien()
@@ -221,7 +221,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             ViewBag.Success = TempData["Success"];
             ViewBag.UnSucces = TempData["UnSuccess"];
@@ -261,7 +261,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion          
 
             var thanhVien = _ThanhVienLogic.GetById(viewModel.Id);
@@ -273,6 +273,8 @@ namespace BiTech.Library.Controllers
             thanhVien.GioiTinh = viewModel.GioiTinh;
             thanhVien.NgaySinh = viewModel.NgaySinh;
             thanhVien.SDT = viewModel.SDT;
+            viewModel.LinkAvatar = thanhVien.HinhChanDung;
+
 
             //viewModel.LinkAvatar = "";
             //if (viewModel.HinhChanDung != null && Tool.IsImage(viewModel.HinhChanDung))
@@ -288,10 +290,11 @@ namespace BiTech.Library.Controllers
                     string imageName = null;
                     if (thanhVien.HinhChanDung != null)
                         imageName = thanhVien.HinhChanDung.Replace(@"/Upload/AvatarUser/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
+
                     ThanhVien tempt = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, thanhVien, imageName, viewModel.HinhChanDung);
                     if (tempt != null)
                     {
-                        thanhVien.HinhChanDung = tempt.HinhChanDung;
+                        viewModel.LinkAvatar = thanhVien.HinhChanDung = tempt.HinhChanDung;
                     }
                 }
                 catch { }
@@ -334,8 +337,9 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
 
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
+
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
             if (thanhVien == null)
             {
@@ -363,6 +367,112 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
+        // Ajax mở khóa tk
+        public JsonResult ActiveMember(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(new
+                {
+                    data = "Unauthorize",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            
+            ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
+            if (thanhVien == null)
+            {
+                return Json(new
+                {
+                    data = "Member is not found",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (thanhVien.TrangThai == EUser.DeActive)
+            {
+                // model.TenTrangThai = "Đã bị khóa";
+                thanhVien.TrangThai = EUser.Active;
+                bool result = _ThanhVienLogic.Update(thanhVien);
+                if (result == true)
+                {
+                    return Json(new
+                    {
+                        data = "Member account is activated",
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new
+                {
+                    data = "Fail to active member account",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new
+            {
+                data = "Member account is activated",
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        // Ajax khóa tk
+        public JsonResult DeactiveMember(string id)
+        {
+            #region  Lấy thông tin người dùng
+            var userdata = GetUserData();
+            if (userdata == null)
+                return Json(new
+                {
+                    data = "Unauthorize",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+
+            ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
+            if (thanhVien == null)
+            {
+                return Json(new
+                {
+                    data = "Member is not found",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (thanhVien.TrangThai == EUser.Active)
+            {
+                // model.TenTrangThai = "Đã bị khóa";
+                thanhVien.TrangThai = EUser.DeActive;
+                bool result = _ThanhVienLogic.Update(thanhVien);
+                if (result == true)
+                {
+                    return Json(new
+                    {
+                        data = "Member account is deactivated",
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new
+                {
+                    data = "Fail to deactive member account",
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new
+            {
+                data = "Member account is deactivated",
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Details(string idUser)
         {
             #region  Lấy thông tin người dùng
@@ -371,7 +481,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
                 return RedirectToAction("NotFound", "Error");
@@ -406,7 +516,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
             {
@@ -426,7 +536,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             ThanhVien thanhVien = _ThanhVienLogic.GetById(model.Id);
             if (thanhVien.Password != null)
@@ -486,7 +596,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
 
             ExcelManager excelManager = new ExcelManager();
@@ -538,7 +648,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllHS();
@@ -585,7 +695,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");

@@ -1,10 +1,4 @@
-﻿html {
-    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/176026/noise.png);
-    background-color: #fff;
-}
-
-
-.avatar {
+﻿.avatar {
     float: left;
     display: inline-block;
     overflow: hidden;
@@ -70,7 +64,7 @@
     position: relative;
     float: left;
     width: 9vw;
-    height: 9vw;
+    /*height: 9vw;*/
     min-width: 158px;
     min-height: 158px;
 }
@@ -263,6 +257,7 @@
 /*===================================================*/
 .avatar_biaSach {
     /*height: 250px;*/
+    z-index: 0;
 }
 
     .avatar_biaSach .avatar_container {
@@ -301,7 +296,7 @@
     position: relative;
     width: 200px;
     /*float: left;*/
-    z-index: 10;
+    /*z-index: 10;*/
 }
 
 .avatar_container_TT {

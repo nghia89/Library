@@ -9,7 +9,7 @@ using BiTech.Library.DAL;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class LanguageLogic
+    public class LanguageLogic : BaseLogic
     {
         LanguageEngine _LanguageEngine;
         public LanguageLogic(string connectionString, string databaseName)

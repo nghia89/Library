@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class TrangThaiSachLogic
+    public class TrangThaiSachLogic : BaseLogic
     {
         private string TableName = "TrangThaiSach";
         public TrangThaiSachEngine _TrangThaiSachEngine { get; set; }

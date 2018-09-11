@@ -37,7 +37,7 @@ namespace BiTech.Library.DAL.Respository
             entity.CreateDateTime = DateTime.Now;
 
             _DatabaseCollection.InsertOne(entity);
-            return entity.Id.ToString();
+            return entity.Id?.ToString()??"";
         }
 
         public virtual bool Remove(string id)

@@ -7,7 +7,10 @@ using System.Collections.Generic;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.1")]
+    /// <summary>
+    /// setting phần mềm thư viện
+    /// </summary>
+    [CurrentVersion("0.0.1")]    
     public class ThongTinThuVien : IModel
     {
         [BsonId]

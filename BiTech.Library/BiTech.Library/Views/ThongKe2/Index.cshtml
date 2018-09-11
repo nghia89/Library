@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Thống kê";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="Title">Thống kê đơn vị con</div>
+<div ng-app="LibraryApp" class="clearfix">
+
+    <div>
+
+    </div>
+
+    <div ng-controller="Thongke2Ctrlr" ng-init="GetSubDomainList('@ViewBag.wpid')" class="row">
+        <div ng-if="SubDomainPk.ListPhng.length > 0">
+            <label>Danh sách phòng</label>
+            <div ng-repeat="x in SubDomainPk.ListPhng | orderBy : '-Name'">
+                <a ng-click="GetStatForDomain(x.Site)">{{x.Name}}</a>
+                <a ng-click="GetSubDomainList(x.WpId)">Con</a>
+            </div>
+        </div>
+        <div ng-if="SubDomainPk.Cap3.length > 0">
+            <label>Danh sách Cap 3</label>
+            <div ng-repeat="x in SubDomainPk.Cap3 | orderBy : '-Name'">
+                <a ng-click="GetStatForDomain(x.Site)">{{x.Name}}</a>
+            </div>
+        </div>
+        <div ng-if="SubDomainPk.TTGD.length > 0">
+            <label>Danh sách TT</label>
+            <div ng-repeat="x in SubDomainPk.TTGD | orderBy : '-Name'">
+                <a ng-click="GetStatForDomain(x.Site)">{{x.Name}}</a>
+            </div>
+        </div>
+        <div ng-if="SubDomainPk.Cap2.length > 0">
+            <label>Danh sách C2</label>
+            <div ng-repeat="x in SubDomainPk.Cap2 | orderBy : '-Name'">
+                <a ng-click="GetStatForDomain(x.Site)">{{x.Name}}</a>
+            </div>
+        </div>
+        <div ng-if="SubDomainPk.Cap1.length > 0">
+            <label>Danh sách C1</label>
+            <div ng-repeat="x in SubDomainPk.Cap1 | orderBy : '-Name'">
+                <a ng-click="GetStatForDomain(x.Site)">{{x.Name}}</a>
+            </div>
+        </div>
+        <div ng-if="SubDomainPk.MNMG.length > 0">
+            <label>Danh sách C0</label>
+            <div ng-repeat="x in SubDomainPk.MNMG | orderBy : '-Name'">
+                <a ng-click="GetStatForDomain(x.Site)">{{x.Name}}</a>
+            </div>
+        </div>
+        <div>
+            <label>
+                <input type="radio" ng-model="statMode" value="0" ng-value="0">
+                Số lượng sách
+            </label>
+            <label>
+                <input type="radio" ng-model="statMode" value="1" ng-value="1">
+                Tuần
+            </label>
+            <label>
+                <input type="radio" ng-model="statMode" value="2" ng-value="2">
+                Tháng
+            </label>
+            <label>
+                <input type="radio" ng-model="statMode" value="3" ng-value="3">
+                Năm
+            </label>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/app/ThongKe2Module.js"></script>

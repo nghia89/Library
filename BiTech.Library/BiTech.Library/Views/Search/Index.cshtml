@@ -16,38 +16,10 @@
 
 <div class="clearfix">
 
-    <form action="/Search/Index" class="clearfix">
-
+    <form action="/Search/Index" class="clearfix" id="search_short">
+        
         <div class="container clearfix col-md-8">
-            <div class="form-group row clearfix">
-                <div class="col-md-4 ">
-                    <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
-                        <option value="">--Thể Loại Sách--</option>
-                        @foreach (var tls in TLS)
-                        {
-                            <option value="@tls.Id">@tls.TenTheLoai</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
-                        <option value="">--Tác Giả--</option>
-                        @foreach (var tg in TG)
-                        {
-                            <option value="@tg.Id">@tg.TenTacGia</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-control form-control-sm" name="TenNXB" id="">
-                        <option value="">--Nhà Xuất Bản--</option>
-                        @foreach (var nxb in NXB)
-                        {
-                            <option value="@nxb.Id">@nxb.Ten</option>
-                        }
-                    </select>
-                </div>
-            </div>
+            <div class="col-sm-12 font-weight-bold pl-0">Tìm kiếm: </div>
             <div class="form-group row clearfix">
                 <div class="input-group input-group-sm col-md-12">
                     <input class="form-control form-control-sm" type="text" id="txtKeyword" name="Keyword" placeholder="Nhập tên sách bạn muốn tiềm kiếm.!">
@@ -56,6 +28,55 @@
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+            <div class="form-group row clearfix">
+                <div class="col-md-4 ">
+                    <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
+                        <option value="">--Thể Loại Sách--</option>
+                        @foreach (var tls in TLS)
+                        {
+                            <option value="@tls.Id" @((@tls.Id == @ViewBag.theLoaiSach_selected) ? "selected" : " ") >@tls.TenTheLoai</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
+                        <option value="">--Tác Giả--</option>
+                        @foreach (var tg in TG)
+                        {
+                            <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ") >@tg.TenTacGia</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control form-control-sm" name="TenNXB" id="">
+                        <option value="">--Nhà Xuất Bản--</option>
+                        @foreach (var nxb in NXB)
+                        {
+                            <option value="@nxb.Id" @((@nxb.Id == @ViewBag.NXB_selected) ? "selected" : " ") >@nxb.Ten</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-sm-12 font-weight-bold pl-3">Sắp xếp: </div>
+                <div class="col-md-4 col-sm-12  form-group mt-1 mb-1">
+                    @{
+                        Dictionary<string, string> arry_short = new Dictionary<string, string>();
+                        arry_short.Add("1", "Thứ tự Alphabet");
+                        arry_short.Add("2", "Mã sách");
+                        arry_short.Add("3", "Thời gian nhập sách");
+                        arry_short.Add("4", "Năm xuất bản");
+                    }
+                    <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short').submit() ">
+                        <option value="">--Sắp xếp--</option>
+                        @foreach (var item_sx in arry_short)
+                        {
+                            <option value="@item_sx.Key" @((@item_sx.Key == @ViewBag.SapXep_selected) ? "selected" : " ")>@item_sx.Value</option>
+                        }
+                    </select>
                 </div>
             </div>
 

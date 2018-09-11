@@ -1,23 +1,17 @@
 ﻿using BiTech.Library.DAL;
 using BiTech.Library.DAL.Engines;
 using BiTech.Library.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class ChiTietNhapSachLogic
+    public class ChiTietNhapSachLogic : BaseLogic
     {
         ChiTietNhapSachEngine _ChiTietNhapSachEngine;
-        private string TableName = "ChiTietNhapSach";
         public ChiTietNhapSachLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString);
-            _ChiTietNhapSachEngine = new ChiTietNhapSachEngine(database, databaseName, TableName);
+            _ChiTietNhapSachEngine = new ChiTietNhapSachEngine(database, databaseName, DBTableNames.ChiTietNhapSach_Table);
         }
         public List<ChiTietNhapSach> GetAll()
         {

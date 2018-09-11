@@ -9,7 +9,7 @@ using BiTech.Library.DAL;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class KeSachLogic
+    public class KeSachLogic : BaseLogic
     {
         KeSachEngine _keSachEngine;
         public KeSachLogic(string connectionString,string databaseName)

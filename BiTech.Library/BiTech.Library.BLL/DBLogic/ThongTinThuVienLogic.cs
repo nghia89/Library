@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class ThongTinThuVienLogic
+    public class ThongTinThuVienLogic : BaseLogic
     {
         ThongTinThuVienEngine _ThongTinThuVienEngine;
         public ThongTinThuVienLogic(string connectionString, string databaseName)
