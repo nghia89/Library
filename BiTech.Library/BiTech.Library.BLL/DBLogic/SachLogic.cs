@@ -40,21 +40,33 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.Update(model);
         }
+		public List<Sach> GetAll_NonDelete()
+		{
+			return _sachEngine.GetAll_NonDelete();
+		}
+		/// <summary>
+		/// Get book by idBook
+		/// </summary>
+		/// <param name="idBook"></param>
+		/// <returns></returns>
+		//public Sach GetByIdBook(string idBook)
+		//{
+		//    return _sachEngine.GetByIdBook(idBook);
+		//}
 
-        /// <summary>
-        /// Get book by idBook
-        /// </summary>
-        /// <param name="idBook"></param>
-        /// <returns></returns>
-        //public Sach GetByIdBook(string idBook)
-        //{
-        //    return _sachEngine.GetByIdBook(idBook);
-        //}
-
-        public Sach GetBookById(string idBook)
+		public Sach GetBookById(string idBook)
         {
             return _sachEngine.GetById(idBook);
         }
+		/// <summary>
+		/// Ham get all isDelete = false thong qua Ma kiem soat
+		/// </summary>
+		/// <param name=""></param>
+		/// <returns></returns>
+		public Sach GetBook_NonDelete_ByMKS(string maKS)
+		{
+			return _sachEngine.GetBook_NonDelete_ByMKS(maKS);
+		}
         #endregion
 
         #region Thinh

@@ -29,18 +29,21 @@ namespace BiTech.Library.DAL.Engines
             return entity.Id.ToString();
         }
 
-        #region vinh
-        /// <summary>
-        /// Get book by idDauSach
-        /// </summary>
-        /// <param name="idBook"></param>
-        /// <returns></returns>
-        //public Sach GetByIdBook(string idBook)
-        //{
-        //    return _DatabaseCollection.Find(_ => _.IdDauSach == idBook ).FirstOrDefault();
-        //}
-
-        public Sach GetByMaKiemSoat(string MaKS)
+		#region vinh
+		/// <summary>
+		/// Get book by makiemsoat isdelete = false
+		/// </summary>
+		/// <param name="idBook"></param>
+		/// <returns></returns>
+		public Sach GetBook_NonDelete_ByMKS(string maKS)
+		{
+			return _DatabaseCollection.Find(_ => _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
+		}
+		public List<Sach> GetAll_NonDelete()
+		{
+			return _DatabaseCollection.Find(_ => _.IsDeleted == false).ToList();
+		}
+		public Sach GetByMaKiemSoat(string MaKS)
         {
             return _DatabaseCollection.Find(x => x.MaKiemSoat == MaKS).FirstOrDefault();
         }
