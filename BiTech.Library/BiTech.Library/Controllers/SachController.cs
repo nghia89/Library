@@ -48,10 +48,10 @@ namespace BiTech.Library.Controllers
 			ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
 			ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
 
-            ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
-            ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
-            ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
-            ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
+			ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
+			ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
+			ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
+			ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
 
 			var list = _SachLogic.getPageSach(KeySearch);
 			ViewBag.number = list.Count();
@@ -72,10 +72,10 @@ namespace BiTech.Library.Controllers
 				//item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
 
 				BookView book = new BookView(item);
-                book.TenSach = book.SachDTO.TenSach;
-                book.MaKiemSoat = book.SachDTO.MaKiemSoat;
-                book.CreateDateTime = book.SachDTO.CreateDateTime;
-                book.NamXuatBan = book.SachDTO.NamXuatBan;
+				book.TenSach = book.SachDTO.TenSach;
+				book.MaKiemSoat = book.SachDTO.MaKiemSoat;
+				book.CreateDateTime = book.SachDTO.CreateDateTime;
+				book.NamXuatBan = book.SachDTO.NamXuatBan;
 				book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
 				book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
 				book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
@@ -85,15 +85,15 @@ namespace BiTech.Library.Controllers
 				model.Books.Add(book);
 			}
 
-            //Sắp xếp
-            if (KeySearch.SapXep == "1")
-                model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
-            if (KeySearch.SapXep == "2")
-                model.Books = model.Books.OrderBy(_ => _.MaKiemSoat).ToList();
-            if (KeySearch.SapXep == "3")
-                model.Books = model.Books.OrderBy(_ => _.CreateDateTime).ToList();
-            if (KeySearch.SapXep == "4")
-                model.Books = model.Books.OrderBy(_ => _.NamXuatBan).ToList();
+			//Sắp xếp
+			if (KeySearch.SapXep == "1")
+				model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
+			if (KeySearch.SapXep == "2")
+				model.Books = model.Books.OrderBy(_ => _.MaKiemSoat).ToList();
+			if (KeySearch.SapXep == "3")
+				model.Books = model.Books.OrderBy(_ => _.CreateDateTime).ToList();
+			if (KeySearch.SapXep == "4")
+				model.Books = model.Books.OrderBy(_ => _.NamXuatBan).ToList();
 			return View(model.Books.ToPagedList(pageNumber, pageSize));
 		}
 
@@ -225,51 +225,64 @@ namespace BiTech.Library.Controllers
 						TempData["ThemSachMsg"] = string.Format("Chú ý: Chọn tác giả {0} thất bại, vui lòng cập nhật sau.", failTG);
 					}
 					//Tạo phiếu nhập - VINH
-					PhieuNhapSach pns = new PhieuNhapSach()
-					{
-						GhiChu = model.GhiChuPhieuNhap,
-						IdUserAdmin = userdata.Id,
-						UserName = userdata.UserName
-					};
-
-					string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
-
-					int tongSach = 0;
-					SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+					bool nhapSach = false;
 					foreach (var item in model.ListTTSach)
 					{
 						if (item.SoLuong > 0)
 						{
-							//Sach - trang thai (so luong)
-							SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
-							{
-								IdSach = id, //id sach khi da insert
-								IdTrangThai = item.IdTrangThai,
-								SoLuong = item.SoLuong,
-								CreateDateTime = DateTime.Now,
-							};
-							tongSach += dtoModel.SoLuong;
-							_SlTrangThaisach.Insert(dtoModel);
-
-							//Chi tiet phieu nhap
-
-							ChiTietNhapSach ctns = new ChiTietNhapSach()
-							{
-								IdPhieuNhap = idPhieuNhap,
-								IdSach = model.SachDTO.Id,
-								SoLuong = item.SoLuong,
-								CreateDateTime = DateTime.Now,
-								IdTinhtrang = item.IdTrangThai,
-							};
-							_ChiTietNhapSachLogic.Insert(ctns);
+							nhapSach = true;
+							break;
 						}
 					}
+					if (model.ListTTSach != null && nhapSach)
+					{
+						PhieuNhapSach pns = new PhieuNhapSach()
+						{
+							GhiChu = model.GhiChuPhieuNhap,
+							IdUserAdmin = userdata.Id,
+							UserName = userdata.UserName
+						};
 
-					//Update tổng số lượng sách
-					model.SachDTO.SoLuongTong = tongSach;
-					model.SachDTO.SoLuongConLai = tongSach;
-					_SachLogic.Update(model.SachDTO);
+						string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
+						int tongSach = 0;
+						SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+
+						foreach (var item in model.ListTTSach)
+						{
+
+							if (item.SoLuong > 0)
+							{
+								//Sach - trang thai (so luong)
+								SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
+								{
+									IdSach = id, //id sach khi da insert
+									IdTrangThai = item.IdTrangThai,
+									SoLuong = item.SoLuong,
+									CreateDateTime = DateTime.Now,
+								};
+								tongSach += dtoModel.SoLuong;
+								_SlTrangThaisach.Insert(dtoModel);
+
+								//Chi tiet phieu nhap
+
+								ChiTietNhapSach ctns = new ChiTietNhapSach()
+								{
+									IdPhieuNhap = idPhieuNhap,
+									IdSach = model.SachDTO.Id,
+									SoLuong = item.SoLuong,
+									CreateDateTime = DateTime.Now,
+									IdTinhtrang = item.IdTrangThai,
+								};
+								_ChiTietNhapSachLogic.Insert(ctns);
+							}
+						}
+						//Update tổng số lượng sách
+						model.SachDTO.SoLuongTong = tongSach;
+						model.SachDTO.SoLuongConLai = tongSach;
+						_SachLogic.Update(model.SachDTO);
+					}
+					
 					return RedirectToAction("Index");
 				}
 				TempData["ThemSachMsg"] = "Thêm sách thất bại";
@@ -659,7 +672,7 @@ namespace BiTech.Library.Controllers
 		}
 
 		// Popup PartialView
-		
+
 		/// <summary>
 		/// Giao diện thêm thể loại
 		/// </summary>
@@ -877,7 +890,7 @@ namespace BiTech.Library.Controllers
 
 			var listBook = _SachLogic.getAll();
 			string linkMau = null;
-			linkMau = "/Upload/FileWord/QRBook_Template.docx";
+			linkMau = "/Content/MauWord/QRBook_Template.docx";
 			if (string.IsNullOrEmpty(linkMau))
 			{
 			}
@@ -921,7 +934,7 @@ namespace BiTech.Library.Controllers
 				IdNgonNgu = model.IdNgonNgu,
 				NamXuatBan = model.NamSanXuat,
 				TomTat = model.TomTat,
-				CreateDateTime = DateTime.Now,				
+				CreateDateTime = DateTime.Now,
 			};
 			string id = _SachLogic.ThemSach(sach);
 			string failTG = "";
@@ -952,7 +965,7 @@ namespace BiTech.Library.Controllers
 					failTG += item.TenTacGia + ", ";
 				}
 			}
-			
+
 			return Json(true);
 		}
 		#endregion
