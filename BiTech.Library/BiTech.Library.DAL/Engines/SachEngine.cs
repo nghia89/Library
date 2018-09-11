@@ -67,6 +67,10 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x =>true).ToList();
         }
+        public List<Sach> GetDatetime(DateTime firstDayOfMonth, DateTime lastDayOfMonth)
+        {
+            return _DatabaseCollection.Find(x => x.CreateDateTime <= lastDayOfMonth && x.CreateDateTime>= firstDayOfMonth).ToList();
+        }
         public List<Sach> getPageSach(KeySearchViewModel KeySearch)
         {
 

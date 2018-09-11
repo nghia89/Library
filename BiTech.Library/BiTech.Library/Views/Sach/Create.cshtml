@@ -1,10 +1,14 @@
 ﻿@model  BiTech.Library.Models.SachUploadModel
 @{
-    ViewBag.Title = "Thêm sách";
-    //var IdTacGia =(List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
+	ViewBag.Title = "Thêm sách";
+	//var IdTacGia =(List<BiTech.Library.DTO.TacGia>)ViewBag.IdTacGia;
+	var TT = (IEnumerable<BiTech.Library.DTO.TrangThaiSach>)ViewBag.TT;
+	int i = 0;
 }
 
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/ThongKe.css" rel="stylesheet" />
+<link href="~/Content/tagsinput/ng-tags-input.css" rel="stylesheet" />
 <link href="~/Content/Avatar.css" rel="stylesheet" />
 <link href="~/Content/tagsinput/ng-tags-input.css" rel="stylesheet" />
 <script src="~/Scripts/angular.min.js"></script>
@@ -14,464 +18,535 @@
 <div class="Title">Thêm Sách</div>
 
 <div class="form-group row">
-    <div class="col-md-12">
-        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/Sach'">
-            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
-        </button>
-    </div>
+	<div class="col-md-12">
+		<button type="button" class="btn btn-primary btn-sm" onclick="window.location='/Sach'">
+			<i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+		</button>
+	</div>
 </div>
 
 @*<script src="~/bower_components/jquery/dist/jquery.js"></script>*@
 <div ng-app="LibraryApp" class="clearfix">
-    @using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { name = "frmCreate", role = "form", enctype = "multipart/form-data" }))
-    {
-        @*<div class="form-group row">
-                <label class="col-form-label col-sm-3 form-label" for="idmakiemsoat">Mã Kiểm Soát:</label>
-                <div class="col-sm-6">
-                    @Html.TextBoxFor(m => m.SachDTO.MaKiemSoat, new { @class = "form-control", @id = "idmakiemsoat", @readonly = "readonly" })
-                </div>
-            </div>*@
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label">Bìa sách:</label>
-            <div class="avatar_container_root avatar_biaSach col-sm-6">
-                <div class="avatar_container_HA avatar_clearfix">
-                    <img id="SaveImage" class="avatar_img" src="#" onerror="this.src = '/Content/Images/book.png'" alt="" />
-                    <label class="avatar " for="FileImageCover">
-                        @Html.TextBoxFor(m => m.FileImageCover, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
-                        <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
-                        <path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
-
-                        <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
-
-                        <g id="plus">
-                        <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
-
-                        <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
-
+	@using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { name = "frmCreate", role = "form", enctype = "multipart/form-data" }))
+	{
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="tab">
+			<button type="button" class="tablinks active" onclick="openCity(event, 'Info')">Thông tin chung</button>
+			<button type="button" class="tablinks" onclick="openCity(event, 'SoLuong')">Số lượng</button>
+		</div>
+		<div id="Info" class="tabcontent" style="display:block">
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label">Bìa sách:</label>
+				<div class="avatar_container_root avatar_biaSach col-sm-6" style="height:250px;">
+					<div class="avatar_container_HA avatar_clearfix">
+						<img id="SaveImage" class="avatar_img" src="#" onerror="this.src = '/Content/Images/book.png'" alt="" />
+						<label class="avatar " for="FileImageCover">
+							@Html.TextBoxFor(m => m.FileImageCover, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
+							<svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								 viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
+							<path id="cameraFrame" fill="none" stroke="white"
+								  stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
+							<path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4"
+								  stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
+							<g id="plus">
+							<path fill="none" id="plusLine" class="line" stroke="#ffffff"
+								  stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
+							<path fill="none" class="line" stroke="#ffffff" stroke-linecap="round"
+								  stroke-miterlimit="10" d="M18.7,4.6h4.4" />
                             </g>
                         </svg>
-                    </label>
-                </div>
+						</label>
+					</div>
 
-            </div>
-        </div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="tensach">Tên sách <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
+					@Html.ValidationMessageFor(model => model.SachDTO.TenSach, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group-sm row">
+				<label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN", type = "number", oninput = "validity.valid||(value='');" })
+					@Html.ValidationMessageFor(model => model.SachDTO.ISBN, "", new { @class = "text-danger" })
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="tensach">Tên sách <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
-                @Html.ValidationMessageFor(model => model.SachDTO.TenSach, "", new { @class = "text-danger" })
-            </div>
-        </div>
+				</div>
+			</div>
 
-        <div class="form-group-sm row">
-            <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN", type = "number" })
-                @Html.ValidationMessageFor(model => model.SachDTO.ISBN, "", new { @class = "text-danger" })
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="ListTT">Thể loại sách <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					<div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
+						@Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn loại sách--",
+		 new { @id = "IdTheLoai", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
+						<div class="input-group-append">
+							<a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
+							   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+								<i class="fa fa-plus" style="line-height: 20px;"></i>
+							</a>
+						</div>
+					</div>
+					@Html.ValidationMessageFor(model => model.SachDTO.IdTheLoai, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            </div>
-        </div>
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="DDC">Mã DDC:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "DDC" })
+					@Html.ValidationMessageFor(model => model.SachDTO.DDC, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="ListTT">Thể loại sách <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn loại sách--",
-                       new { @id = "IdTheLoai", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 20px;"></i>
-                        </a>
-                    </div>
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="ListTacGiaJson">Tác giả <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					<div class="input-group" style="margin-bottom:4px" id="ListTacGia" ng-controller="TacGiaFinder">
+						<tags-input ng-model="listtg"
+									replace-spaces-with-dashes="false"
+									display-property="TenTacGia"
+									placeholder="Nhập tên tác giả ..."
+									class="form-control form-control-sm form-control-tag">
+							<auto-complete source="loadData($query)"></auto-complete>
+							<div ng-repeat="s in listtg">
+								<input hidden="hidden" ng-cloak class="btn btn-default" required name="ListTacGiaJson" value="{{s}}" />
+							</div>
+						</tags-input>
+						<div class="input-group-append">
+							<a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary btn-sm"
+							   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+								<i class="fa fa-plus" style="opacity:0"></i>
+								<i class="fa fa-plus" style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></i>
+							</a>
+						</div>
+					</div>
+					@Html.ValidationMessageFor(model => model.ListTacGiaJson, "", new { @class = "text-danger" })
 
+				</div>
+			</div>
 
-                </div>
-                @Html.ValidationMessageFor(model => model.SachDTO.IdTheLoai, "", new { @class = "text-danger" })
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="ListNXB">Nhà xuất bản <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					<div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
+						@Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn nhà xuất bản--",
+		 new { @id = "IdNhaXuatBan", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+						<div class="input-group-append">
+							<a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
+							   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+								<i class="fa fa-plus" style="line-height: 20px;"></i>
+							</a>
+						</div>
+					</div>
+					@Html.ValidationMessageFor(model => model.SachDTO.IdNhaXuatBan, "", new { @class = "text-danger" })
 
-            </div>
-        </div>
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="DDC">Mã DDC:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "DDC" })
-                @Html.ValidationMessageFor(model => model.SachDTO.DDC, "", new { @class = "text-danger" })
-            </div>
-        </div>
+			<div class="form-group-sm row">
+				<label class="col-form-label col-sm-3 form-label" for="IdKeSach">Kệ sách:</label>
+				<div class="col-sm-6">
+					<div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
+						@Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn kệ sách--",
+		 new { @id = "IdKeSach", @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
+						<div class="input-group-append">
+							<a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
+							   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+								<i class="fa fa-plus" style="line-height: 20px;"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="ListTacGiaJson">Tác giả <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                <div class="input-group" style="margin-bottom:4px" id="ListTacGia" ng-controller="TacGiaFinder">
-                    <tags-input ng-model="listtg"
-                                replace-spaces-with-dashes="false"
-                                display-property="TenTacGia"
-                                placeholder="Nhập tên tác giả ..."
-                                class="form-control form-control-sm form-control-tag">
-                        <auto-complete source="loadData($query)"></auto-complete>
-                        <div ng-repeat="s in listtg">
-                            <input hidden="hidden" ng-cloak class="btn btn-default" required name="ListTacGiaJson" value="{{s}}" />
-                        </div>
-                    </tags-input>
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/ThemTacGia")" class="btn btn-primary btn-sm"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="opacity:0"></i>
-                            <i class="fa fa-plus" style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></i>
-                        </a>
-                    </div>
-                </div>
-                @Html.ValidationMessageFor(model => model.ListTacGiaJson, "", new { @class = "text-danger" })
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="sotrang">Số trang <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
+					@Html.ValidationMessageFor(model => model.SachDTO.SoTrang, "", new { @class = "text-danger" })
 
-            </div>
-        </div>
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="ListNXB">Nhà xuất bản <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn nhà xuất bản--",
-                       new { @id = "IdNhaXuatBan", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemNhaXuatBan")" class="btn btn-primary btn-sm"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-                @Html.ValidationMessageFor(model => model.SachDTO.IdNhaXuatBan, "", new { @class = "text-danger" })
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn ngữ <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					<div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
+						@Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn ngôn ngữ--",
+		 new { @id = "IdNgonNgu", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
+						<div class="input-group-append">
+							<a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
+							   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+								<i class="fa fa-plus" style="line-height: 20px;"></i>
+							</a>
+						</div>
+					</div>
+					@Html.ValidationMessageFor(model => model.SachDTO.IdNgonNgu, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            </div>
-        </div>
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat", type = "number", oninput = "validity.valid||(value='');" })
+					@Html.ValidationMessageFor(model => model.SachDTO.NamXuatBan, "", new { @class = "text-danger" })
 
-        <div class="form-group-sm row">
-            <label class="col-form-label col-sm-3 form-label" for="IdKeSach">Kệ sách:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="ListKeSach" ng-controller="KeSach" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdKeSach, new SelectList(new List<BiTech.Library.DTO.KeSach>(), "Id", "Ten"), "--Chọn kệ sách--",
-                       new { @id = "IdKeSach", @class = "form-control form-control-sm", @ng_model = "IdKeSach", @data_ng_disabled = "!list", @ng_options = "s.TenKe for s in list track by s.Id" })
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestThemTheKeSach")" class="btn btn-primary btn-sm"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="sotrang">Số trang <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
-                @Html.ValidationMessageFor(model => model.SachDTO.SoTrang, "", new { @class = "text-danger" })
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá bìa:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia", type = "number", oninput = "validity.valid||(value='');" })
+				</div>
+			</div>
 
-            </div>
-        </div>
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach", type = "number", oninput = "validity.valid||(value='');" })
+					@Html.ValidationMessageFor(model => model.SachDTO.PhiMuonSach, "", new { @class = "text-danger" })
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NgonNgu">Ngôn ngữ <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData()">
-                    @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn ngôn ngữ--",
-                       new { @id = "IdNgonNgu", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })
-                    <div class="input-group-append">
-                        <a href="@Url.Content("~/Sach/RequestLanguage")" class="btn btn-primary btn-sm"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                            <i class="fa fa-plus" style="line-height: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-                @Html.ValidationMessageFor(model => model.SachDTO.IdNgonNgu, "", new { @class = "text-danger" })
-            </div>
-        </div>
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="NamSanXuat">Năm xuất bản <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat", type = "number" })
-                @Html.ValidationMessageFor(model => model.SachDTO.NamXuatBan, "", new { @class = "text-danger" })
+			<div class="form-group-sm row">
+				<label class="col-form-label col-sm-3 form-label" for="XuatXu">Nước xuất xứ:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "XuatXu" })
+				</div>
+			</div>
 
-            </div>
-        </div>
+			<div class="form-group-sm row">
+				<label class="col-form-label col-sm-3 form-label" for="NguoiBienDich">Người biên dịch:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NguoiBienDich" })
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="GiaBia">Giá bìa:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.GiaBia, new { @class = "form-control form-control-sm", @id = "GiaBia" })
-            </div>
-        </div>
+			<div class="form-group-sm row">
+				<label class="col-form-label col-sm-3 form-label" for="TaiBan">Lần xuất bản:</label>
+				<div class="col-sm-6">
+					@Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "TaiBan" })
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="PhiMuonSach">Phí mượn sách <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
-                @Html.ValidationMessageFor(model => model.SachDTO.PhiMuonSach, "", new { @class = "text-danger" })
+			<div class="form-group row">
+				<label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm tắt <span style="color:red">*</span>:</label>
+				<div class="col-sm-6">
+					@Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
+					@Html.ValidationMessageFor(model => model.SachDTO.TomTat, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<div id="SoLuong" class="tabcontent">
+			<div class="form-group-sm row">
+				<label class="col-form-label col-sm-3 form-label"></label>
+				<div class="col-sm-6">
+					<div class="box-right clearfix p-1 mt-3">
+						<div class="container-box-window clearfix">
+							<div class="top">
+								<span class="col-form-label col-sm-3 form-label">Số lượng sách </span>
+							</div>
+							<div class="content-box-window">
+								@foreach (var item in TT)
+								{
+									<div class="form-group col-sm-12 mt-2 row">
+										<label class="col-sm-4 control-label col-form-label-sm" for="TenTheLoai">@item.TenTT</label>
 
-            </div>
-        </div>
-		
-        <div class="form-group-sm row">
-            <label class="col-form-label col-sm-3 form-label" for="XuatXu">Nước xuất xứ:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.XuatXu, new { @class = "form-control form-control-sm", @id = "XuatXu" })
-            </div>
-        </div>
-		
-        <div class="form-group-sm row">
-            <label class="col-form-label col-sm-3 form-label" for="NguoiBienDich">Người biên dịch:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.NguoiBienDich, new { @class = "form-control form-control-sm", @id = "NguoiBienDich" })
-            </div>
-        </div>
-		
-        <div class="form-group-sm row">
-            <label class="col-form-label col-sm-3 form-label" for="TaiBan">Lần xuất bản:</label>
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.SachDTO.TaiBan, new { @class = "form-control form-control-sm", @id = "TaiBan" })
-            </div>
-        </div>
-		
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label" for="TomTat">Tóm tắt <span style="color:red">*</span>:</label>
-            <div class="col-sm-6">
-                @Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat" })
-                @Html.ValidationMessageFor(model => model.SachDTO.TomTat, "", new { @class = "text-danger" })
-            </div>
-        </div>
+										<div class="col-sm-8">
+											@Html.TextBoxFor(model => model.ListTTSach[i].SoLuong, new {
+										   @class = "form-control form-control-sm ",
+										   oninput = "validity.valid||(value='');",
+										   @onchange = "OnChangeEvent(this);",
+										   @Value = "0", @type = "number", @min = 0, @id = "id" + @i })
+										</div>
+										<div class="col-sm" hidden="hidden">
+											@Html.TextBoxFor(model => model.ListTTSach[i].IdTrangThai, new { @Value = item.Id })
+										</div>
+									</div>
+									i++;
+								}
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-sm-12 mt-2 row">
+						<label class="col-sm-2 control-label col-form-label-sm" for="TenTheLoai">Ghi chú</label>
+						<div class="col-sm-10">
+							@Html.TextAreaFor(model => model.GhiChuPhieuNhap, new { @class = "form-control form-control-sm", placeholder = "Nhập ghi chú" })
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-sm-3 form-label"></label>
-            <div class="col-sm-6">
-                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm mới" />
-            </div>
-        </div>
-
-    }
+		<div class="form-group row mt-3">
+			<label class="col-form-label col-sm-3 form-label"></label>
+			<div class="col-sm-6">
+				<input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm mới"
+					   data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess" />
+			</div>
+		</div>
+	}
 </div>
 
 <div id="ajax"></div>
+
 @section scripts{
 
-    <script>
-        //$('.demo').fSelect();
-    </script>
-    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
-    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-   
-
-    <script>
-
-        // Ảnh thành viên
-        $("#FileImageCover").change(function () {
-            readURL_avatar(this);
-        });
-        $('.avatar').click(function (event) {
-            event.stopPropagation();
-        });
-        function readURL_avatar(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#SaveImage').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        $(document).ready(function () {
-            readURL_avatar($('#FileImageCover'));
-        });
-        //end  Ảnh thành viên
-
-        function RequestAltInsertGuiBegin() {
-            $(this).addClass('active');
-        }
-
-        function RequestAltInsertGuiSuccess(data) {
-            $(this).removeClass('active');
-
-            $("#ajax").html(data);
-
-            $("#edit-student-modal").modal();
-
-            var form = $("#edit-student-modal").closest("form");
-            form.removeData('validator');
-            form.removeData('unobtrusiveValidation');
-            $.validator.unobtrusive.parse(form);
-        }
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("#FileImageCover").change(function () {
-            readURL(this);
-        });
-
-        //$(document).ready(function () {
-        //    setInterval(function () {
-        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
-        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
-        //    }, 30000);
-        //});
-
-        $(function () {
-            var multiSelect = $('[data-multiple]');
-
-            multiSelect.each(function () {
-                var $this = $(this),
-                    numberOfOptions = $this.children('option'),
-                    listOption = $(),
-                    previewOption = $(),
-                    previewCloseButton = $();
+	<script>
+		//$('.demo').fSelect();
+	</script>
+	<script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+	<script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 
 
-                if (!$this.find('option:selected').length)
-                    $this.addClass('empty');
+	<script>
+		//VINh
+		function OnChangeEvent(obj) {
+			var a = $(obj).val();
+			if (a == null || a == "")
+				$(obj).val("0");
+		};
+		//
+		var acc = document.getElementsByClassName("accordion");
+		var i;
 
-                // Initially append class to select so it can be hidden
-                $this.addClass('select-hidden');
-                // Create wrappers and initial placeholders
-                $this.wrap('<div class="multi-select"></div>');
-                $this.after('<div class="multi-select-preview"></div>');
-                var selectedOptions = $this.next('div.multi-select-preview');
-                var selectOptionsListWrapper = $('<div />', {
-                    'class': 'multi-select-options-wrapper'
-                }).insertAfter(selectedOptions);
+		for (i = 0; i < acc.length; i++) {
+			acc[i].addEventListener("click", function () {
+				this.classList.toggle("active");
+				var panel = this.nextElementSibling;
+				if (panel.style.maxHeight) {
+					panel.style.maxHeight = null;
+				} else {
+					panel.style.maxHeight = panel.scrollHeight + "px";
+				}
+			});
+		}
+		//end vinh
+		// Ảnh thành viên
+		$("#FileImageCover").change(function () {
+			readURL_avatar(this);
+		});
+		$('.avatar').click(function (event) {
+			event.stopPropagation();
+		});
+		function readURL_avatar(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#SaveImage').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		$(document).ready(function () {
+			readURL_avatar($('#FileImageCover'));
+		});
+		//end  Ảnh thành viên
 
-                var selectOptionsList = $('<ul />', {
-                    'class': 'multi-select-options-list'
-                }).appendTo(selectOptionsListWrapper);
+		function RequestAltInsertGuiBegin() {
+			$(this).addClass('active');
+		}
 
-                // Loop through all options and create list items that can be easily styled
-                numberOfOptions.each(function (index, item) {
-                    var $item = $(item);
-                    listOption = listOption.add($('<li />', {
-                        text: $item.text(),
-                        rel: $item.val(),
-                        'class': $item.attr('selected') ? 'selected' : ''
-                    })).appendTo(selectOptionsList);
+		function RequestAltInsertGuiSuccess(data) {
+			$(this).removeClass('active');
 
-                    previewOption = previewOption.add($('<div />', {
-                        'class': $item.attr('selected') ? 'selected-value active' : 'selected-value'
-                    })).appendTo(selectedOptions);
+			$("#ajax").html(data);
 
-                    $('<span />', {
-                        text: '×',
-                        'class': 'selected-value-icon',
-                        'aria-hidden': true
-                    }).appendTo(previewOption.eq(index));
+			$("#edit-student-modal").modal();
 
-                    $('<span />', {
-                        text: $item.text(),
-                        'class': 'selected-value-label',
-                        'aria-selected': $item.attr('selected') ? true : false
-                    }).appendTo(previewOption.eq(index));
-                });
+			var form = $("#edit-student-modal").closest("form");
+			form.removeData('validator');
+			form.removeData('unobtrusiveValidation');
+			$.validator.unobtrusive.parse(form);
+		}
 
-                var buttonClearAll = $('<span />', {
-                    'class': true && $this.find('option:selected').length ? 'multi-select-clear' : 'multi-select-clear hidden',
-                    text: '×'
-                }).appendTo(selectedOptions);
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#blah').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
 
-                var buttonArrow = $('<span />', {
-                    'class': 'multi-select-arrow'
-                }).appendTo(selectedOptions);
+		$("#FileImageCover").change(function () {
+			readURL(this);
+		});
 
-                // Functionality on preview click
-                selectedOptions.on('click', function (e) {
-                    e.stopPropagation();
-                    var $self = $(this);
+		//$(document).ready(function () {
+		//    setInterval(function () {
+		//        angular.element(document.getElementById('ListTT')).scope().GetAllData();
+		//        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
+		//    }, 30000);
+		//});
 
-                    $('div.multi-select-preview.active').not(this).each(function () {
-                        $(this).removeClass('active').next('.multi-select-options-wrapper').hide();
-                    });
+		$(function () {
+			var multiSelect = $('[data-multiple]');
 
-                    $self.toggleClass('active').next('.multi-select-options-wrapper').toggle();
-                });
-                // Put close icon buttons in variable after initialization
-                previewCloseButton = selectedOptions.find('.selected-value-icon');
+			multiSelect.each(function () {
+				var $this = $(this),
+					numberOfOptions = $this.children('option'),
+					listOption = $(),
+					previewOption = $(),
+					previewCloseButton = $();
 
-                // Hide everything opened on document click
-                $(document).on('click', function () {
-                    selectedOptions.removeClass('active');
-                    selectOptionsListWrapper.hide();
-                });
 
-                // On escape key close selecte
-                $(document).keyup(function (e) {
-                    if (selectOptionsListWrapper.is(':visible') && e.keyCode == 27) {
-                        selectedOptions.removeClass('active');
-                        selectOptionsListWrapper.hide();
-                    }
-                });
+				if (!$this.find('option:selected').length)
+					$this.addClass('empty');
 
-                // Functionality on picked option
-                listOption.on('click', function (e) {
-                    e.stopPropagation();
-                    var $self = $(this);
+				// Initially append class to select so it can be hidden
+				$this.addClass('select-hidden');
+				// Create wrappers and initial placeholders
+				$this.wrap('<div class="multi-select"></div>');
+				$this.after('<div class="multi-select-preview"></div>');
+				var selectedOptions = $this.next('div.multi-select-preview');
+				var selectOptionsListWrapper = $('<div />', {
+					'class': 'multi-select-options-wrapper'
+				}).insertAfter(selectedOptions);
 
-                    var index = $self.index();
-                    if ($self.hasClass('selected')) {
-                        $self.removeClass('selected');
-                        previewOption.eq(index).removeClass('active');
-                        $this.find('option').eq(index).prop('selected', false);
+				var selectOptionsList = $('<ul />', {
+					'class': 'multi-select-options-list'
+				}).appendTo(selectOptionsListWrapper);
 
-                        triggerChange();
-                    } else {
-                        $self.addClass('selected');
-                        previewOption.eq(index).addClass('active');
-                        $this.find('option').eq(index).prop('selected', true);
+				// Loop through all options and create list items that can be easily styled
+				numberOfOptions.each(function (index, item) {
+					var $item = $(item);
+					listOption = listOption.add($('<li />', {
+						text: $item.text(),
+						rel: $item.val(),
+						'class': $item.attr('selected') ? 'selected' : ''
+					})).appendTo(selectOptionsList);
 
-                        triggerChange();
-                    }
-                });
+					previewOption = previewOption.add($('<div />', {
+						'class': $item.attr('selected') ? 'selected-value active' : 'selected-value'
+					})).appendTo(selectedOptions);
 
-                previewCloseButton.on('click', function (e) {
-                    e.stopPropagation();
-                    var currentPreviewOption = $(this).closest('.selected-value');
-                    var index = currentPreviewOption.index();
+					$('<span />', {
+						text: '×',
+						'class': 'selected-value-icon',
+						'aria-hidden': true
+					}).appendTo(previewOption.eq(index));
 
-                    currentPreviewOption.removeClass('active');
-                    listOption.eq(index).removeClass('selected');
-                    $this.find('option').eq(index).prop('selected', false);
+					$('<span />', {
+						text: $item.text(),
+						'class': 'selected-value-label',
+						'aria-selected': $item.attr('selected') ? true : false
+					}).appendTo(previewOption.eq(index));
+				});
 
-                    triggerChange();
-                });
+				var buttonClearAll = $('<span />', {
+					'class': true && $this.find('option:selected').length ? 'multi-select-clear' : 'multi-select-clear hidden',
+					text: '×'
+				}).appendTo(selectedOptions);
 
-                buttonClearAll.on('click', function (e) {
-                    e.stopPropagation();
-                    listOption.removeClass('selected');
-                    previewOption.removeClass('active');
-                    $this.find('option:selected').prop('selected', false);
+				var buttonArrow = $('<span />', {
+					'class': 'multi-select-arrow'
+				}).appendTo(selectedOptions);
 
-                    triggerChange();
-                });
+				// Functionality on preview click
+				selectedOptions.on('click', function (e) {
+					e.stopPropagation();
+					var $self = $(this);
 
-                // Returns number of selected items
-                var triggerChange = function () {
-                    $this.change();
-                    if ($this.find('option:selected').length > 0)
-                        selectedOptions.removeClass('empty');
-                    else
-                        selectedOptions.addClass('empty');
+					$('div.multi-select-preview.active').not(this).each(function () {
+						$(this).removeClass('active').next('.multi-select-options-wrapper').hide();
+					});
 
-                    console.log($this.val());
-                };
-            });
-        }());
-    </script>
+					$self.toggleClass('active').next('.multi-select-options-wrapper').toggle();
+				});
+				// Put close icon buttons in variable after initialization
+				previewCloseButton = selectedOptions.find('.selected-value-icon');
+
+				// Hide everything opened on document click
+				$(document).on('click', function () {
+					selectedOptions.removeClass('active');
+					selectOptionsListWrapper.hide();
+				});
+
+				// On escape key close selecte
+				$(document).keyup(function (e) {
+					if (selectOptionsListWrapper.is(':visible') && e.keyCode == 27) {
+						selectedOptions.removeClass('active');
+						selectOptionsListWrapper.hide();
+					}
+				});
+
+				// Functionality on picked option
+				listOption.on('click', function (e) {
+					e.stopPropagation();
+					var $self = $(this);
+
+					var index = $self.index();
+					if ($self.hasClass('selected')) {
+						$self.removeClass('selected');
+						previewOption.eq(index).removeClass('active');
+						$this.find('option').eq(index).prop('selected', false);
+
+						triggerChange();
+					} else {
+						$self.addClass('selected');
+						previewOption.eq(index).addClass('active');
+						$this.find('option').eq(index).prop('selected', true);
+
+						triggerChange();
+					}
+				});
+
+				previewCloseButton.on('click', function (e) {
+					e.stopPropagation();
+					var currentPreviewOption = $(this).closest('.selected-value');
+					var index = currentPreviewOption.index();
+
+					currentPreviewOption.removeClass('active');
+					listOption.eq(index).removeClass('selected');
+					$this.find('option').eq(index).prop('selected', false);
+
+					triggerChange();
+				});
+
+				buttonClearAll.on('click', function (e) {
+					e.stopPropagation();
+					listOption.removeClass('selected');
+					previewOption.removeClass('active');
+					$this.find('option:selected').prop('selected', false);
+
+					triggerChange();
+				});
+
+				// Returns number of selected items
+				var triggerChange = function () {
+					$this.change();
+					if ($this.find('option:selected').length > 0)
+						selectedOptions.removeClass('empty');
+					else
+						selectedOptions.addClass('empty');
+
+					console.log($this.val());
+				};
+			});
+		}());
+
+		// Tabs
+		function openCity(evt, cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			document.getElementById(cityName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+	</script>
 }

@@ -9,7 +9,7 @@ using BiTech.Library.DAL;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class ThongKeLogic
+    public class ThongKeLogic : BaseLogic
     {              
         private string TableName3 = "Sach";
         SachEngine _sachEngine;
@@ -43,20 +43,24 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _thongTinMuonSachEngine.GetTTMSByNgayMuon(ngayMuon);
         }
+
         public List<ThongTinMuonSach> GetTTMSByNgayTra(DateTime ngayTra)
         {
             return _thongTinMuonSachEngine.GetTTMSByNgayTra(ngayTra);
         }
+
         // SÁCH
         public Sach GetSachById(string idSach)
         {
             return _sachEngine.GetById(idSach);
         }
+
         // THÀNH VIÊN   
         public ThanhVien GetThanhVienById(string idThanhVien)
         {
             return _thanhVienEngine.GetById(idThanhVien);
         }
+
         public ThanhVien GetThanhVienByMSTV(string maSoThanhVien)
         {
             return _thanhVienEngine.GetByMaSoThanhVien(maSoThanhVien);

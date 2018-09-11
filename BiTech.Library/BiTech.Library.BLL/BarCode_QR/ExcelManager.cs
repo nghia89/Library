@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net.Http;
 
 namespace BiTech.Library.BLL.BarCode_QR
 {
@@ -35,6 +36,7 @@ namespace BiTech.Library.BLL.BarCode_QR
         public List<ThanhVien> ImportThanhVien(string sourceDir)
         {
             List<ThanhVien> list = new List<ThanhVien>();
+            // Chuyển đường dẫn ảo thành đường dẫn vật lý
             string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
             Workbook wb = new Workbook(sourceSavePath);
             Worksheet ws = wb.Worksheets[0];
@@ -57,6 +59,7 @@ namespace BiTech.Library.BLL.BarCode_QR
                 {
                     tv.MaSoThanhVien = (string)data[i, 2].ToString().Trim();
                     tv.RowExcel = firstRow + 1;
+                    tv.Password = tv.MaSoThanhVien;
                 }
                 if ((object)data[i, 3] != null)
                     tv.LoaiTK = (string)data[i, 3].ToString().Trim();
@@ -64,9 +67,34 @@ namespace BiTech.Library.BLL.BarCode_QR
                     tv.GioiTinh = (string)data[i, 4].ToString().Trim();
                 if ((object)data[i, 5] != null)
                 {
-                    string day = (string)data[i, 5];
-                    DateTime ngaySinh = DateTime.ParseExact(day, "dd-MM-yyyy", null);
-                    tv.NgaySinh = ngaySinh;
+                    var x = data[i, 5];
+                    string day = data[i, 5].ToString().Replace('/', '-').Replace('\\', '-');
+                    string[] arr = day.Split('-');
+                    string ngay = arr[0];
+                    string thang = arr[1];
+                    string nam = arr[2];
+                    if (ngay.Length == 1)
+                    {
+                        char firstChar = ngay[0];
+                        if (firstChar != 0)
+                        {
+                            ngay = "0" + arr[0];
+                        }
+                    }
+                    if (thang.Length == 1)
+                    {
+                        char firstChar = thang[0];
+                        if (firstChar != 0)
+                        {
+                            thang = "0" + arr[1];
+                        }
+                    }
+                    if (nam.Length == 4)
+                    {
+                        day = ngay + "-" + thang + "-" + nam;
+                        DateTime ngaySinh = DateTime.ParseExact(day, "dd-MM-yyyy", null);
+                        tv.NgaySinh = ngaySinh;
+                    }
                 }
                 if ((object)data[i, 6] != null)
                     tv.LopHoc = (string)data[i, 6].ToString().Trim();
@@ -76,7 +104,7 @@ namespace BiTech.Library.BLL.BarCode_QR
                     tv.DiaChi = (string)data[i, 8].ToString().Trim();
                 if ((object)data[i, 9] != null)
                     tv.SDT = (string)data[i, 9].ToString();
-                tv.Password = "1";
+
                 list.Add(tv);
             }
             return list;
@@ -142,7 +170,7 @@ namespace BiTech.Library.BLL.BarCode_QR
 
                 sach.IdNhaXuatBan = (string)data[i, 4].ToString().Trim();
                 sach.IdKeSach = (string)data[i, 5].ToString().Trim();
-                sach.SoTrang = (string)data[i, 6].ToString().Trim(); 
+                sach.SoTrang = (string)data[i, 6].ToString().Trim();
                 sach.IdNgonNgu = (string)data[i, 7].ToString().Trim();
                 sach.NamXuatBan = (string)data[i, 8].ToString().Trim();
                 sach.GiaBia = (string)data[i, 9].ToString().Trim();
@@ -156,7 +184,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             }
             return list;
         }
-        public void ExportWord(string sourceDir, List<ThanhVien> list)
+        public void ExportWord(string sourceDir, List<ThanhVien> list, string fileName)
         {
             string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
             Document outputDoc = new Document();
@@ -185,15 +213,14 @@ namespace BiTech.Library.BLL.BarCode_QR
                     string linkImage = HttpContext.Current.Server.MapPath(item.QRLink.ToString());
                     docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR(linkImage), false);
                 }
-                // int month= DateTime.Today.Month;
-                // int year = (DateTime.Today.Year + 1);
                 string thoiHan = DateTime.Today.Month.ToString() + "/" + (DateTime.Today.Year + 1).ToString();
-                docx.Range.Replace("_ThoiHan_",thoiHan, true, true);
+                docx.Range.Replace("_ThoiHan_", thoiHan, true, true);
                 outputBuilder.MoveToDocumentEnd();
                 outputBuilder.InsertDocument(docx, ImportFormatMode.KeepDifferentStyles);
             }
-            // outputDoc.Save(Path.GetDirectoryName(sourceSavePath) + @"/DanhSachThanhVien-Export.docx");
-            outputDoc.Save(@"D:/DanhSachThanhVien-Export.docx");
+
+            string saveFolder = @"D:/Pro Test/pro2/BiTech.Library/BiTech.Library/Upload/FileWord/" + fileName;
+            outputDoc.Save(saveFolder);
         }
 
         public List<ChiTietNhapSach> ImportPhieuNhapSach(string sourceDir)
@@ -217,8 +244,8 @@ namespace BiTech.Library.BLL.BarCode_QR
                 if ((object)data[i, 0] != null)
                 {
                     ctns.IdSach = (string)data[i, 0].ToString().Trim();
-                    ctns.RowExcel= firstRow + 1;
-                }                   
+                    ctns.RowExcel = firstRow + 1;
+                }
                 if ((object)data[i, 1] != null)
                     ctns.SoLuong = (int)data[i, 1];
                 if ((object)data[i, 2] != null)
@@ -230,5 +257,63 @@ namespace BiTech.Library.BLL.BarCode_QR
             }
             return listCTNS;
         }
+
+        #region Nghia
+
+        // xuat excelSoLuongSach
+
+        #endregion
+
+        #region Vinh ExportWord_QR
+
+        public void ExportQRToWord(string srcDir, List<Sach> lstBook, string filePath)
+        {
+            string sourceSavePath = HttpContext.Current.Server.MapPath(srcDir.ToString());
+            Document outputDoc = new Document();
+            DocumentBuilder outputBuilder = new DocumentBuilder(outputDoc);
+
+
+            for(int i = 0; i< lstBook.Count; i += 2)
+            {
+                Document docx = new Document(sourceSavePath);
+                //1
+                if (lstBook[i].TenSach != null)
+                    docx.Range.Replace("_TenSach1_", lstBook[i].TenSach, true, true);
+                if (lstBook[i].MaKiemSoat != null)
+                    docx.Range.Replace("_MaKiemSoat1_", lstBook[i].MaKiemSoat, true, true);
+
+                if (lstBook[i].QRlink != null)
+                {
+                    string linkImage = HttpContext.Current.Server.MapPath(lstBook[i].QRlink.ToString());
+                    docx.Range.Replace(new Regex("_ImgQR1_"), new ReplaceWithImageQRBook_Export(linkImage), false);                   
+                }
+
+                //2
+                if ((i+1)< lstBook.Count)
+                {
+                    if (lstBook[i + 1].TenSach != null)
+                        docx.Range.Replace("_TenSach2_", lstBook[i + 1].TenSach, true, true);
+                    if (lstBook[i + 1].MaKiemSoat != null)
+                        docx.Range.Replace("_MaKiemSoat2_", lstBook[i + 1].MaKiemSoat, true, true);
+
+                    if (lstBook[i + 1].QRlink != null)
+                    {
+                        string linkImage = HttpContext.Current.Server.MapPath(lstBook[i + 1].QRlink.ToString());
+                        docx.Range.Replace(new Regex("_ImgQR2_"), new ReplaceWithImageQRBook_Export(linkImage), false);
+                    }
+                }
+				else
+				{
+					docx.Range.Replace("_TenSach2_", "", true, true);
+					docx.Range.Replace("_MaKiemSoat2_", "", true, true);
+					docx.Range.Replace("_ImgQR2_", "", true, true);
+				}
+                outputBuilder.MoveToDocumentEnd();
+                outputBuilder.InsertDocument(docx, ImportFormatMode.KeepDifferentStyles);
+            }
+            outputDoc.Save(filePath);          
+        }
+
+        #endregion
     }
 }

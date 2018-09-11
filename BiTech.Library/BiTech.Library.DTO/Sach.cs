@@ -126,12 +126,15 @@ namespace BiTech.Library.DTO
         public string QRlink { get; set; }
 
         public string QRData { get; set; }
+
         public bool IsDeleted { get; set; } = false;
+
 
         /// <summary>
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
+
         #region Tai
         [BsonIgnore]
         public List<TacGia> listTacGia { get; set; }

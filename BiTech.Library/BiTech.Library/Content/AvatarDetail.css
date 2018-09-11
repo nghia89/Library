@@ -112,6 +112,12 @@
     border-color: #17a2b8;
 }
 
+.tag-default {
+    color: black;
+    background-color: white;
+    border-color: #d3d3d3;
+}
+
 .tag-danger {
     color: #fff;
     background-color: #dc3545;

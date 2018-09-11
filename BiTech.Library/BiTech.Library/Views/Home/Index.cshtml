@@ -1,31 +1,133 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using BiTech.Library.Models
+@{
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+@if (@User.IsInRole(Role.CustomerAdmin) || @User.IsInRole(Role.CustomerUser))
+{
+    <div class="">
+        <h2 style="text-align:center;">Chào mừng thầy cô đến với phần mềm Quản lý Thư viện B.Lib</h2>
+        <h3 style="text-align:center;">Thư viện @ViewBag.WebHeader</h3>
+    </div>
+
+    <div class="Title">Chức năng quản lý</div>
+    <div class="home-menu">
+
+        <div class="home-menu-group">
+            <div class="title">Mượn trả sách</div>
+            <div class="btntag-box">
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Mượn sách
+                </a>
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Trả sách
+                </a>
+            </div>
+        </div>
+
+        <div class="home-menu-group">
+            <div class="title">Quản lý thành viên</div>
+            <div class="btntag-box">
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Học sinh
+                </a>
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Giáo viên
+                </a>
+            </div>
+        </div>
+
+        <div class="home-menu-group">
+            <div class="title">Quản lý thông tin sách</div>
+            <div class="btntag-box">
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Sách
+                </a>
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Trạng thái sách
+                </a>
+            </div>
+        </div>
+
+        <div class="home-menu-group">
+            <div class="title">Nhập xuất kho</div>
+            <div class="btntag-box">
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Nhập kho
+                </a>
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Xuất kho
+                </a>
+            </div>
+        </div>
+
+        <div class="home-menu-group">
+            <div class="title">Thống kê</div>
+            <div class="btntag-box">
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Biểu đồ
+                </a>
+                <div class="btntag-group">
+                    <a href="#" class="btntag btntag-success">
+                        TK Kho sách
+                    </a>
+                    <a href="#" class="btntag btntag-success">
+                        TK sách mượn
+                    </a>
+                    <a href="#" class="btntag btntag-success">
+                        TK chưa trả
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-menu-group">
+            <div class="title">Cài đặt</div>
+            <div class="btntag-box">
+                <a href="#" class="btntag btntag-success">
+                    <img src="~/Content/Images/user5.jpg" />
+                    Tổng quan
+                </a>
+                <div class="btntag-group">
+                    <a href="#" class="btntag btntag-success">
+                        Tin tức
+                    </a>
+                    <a href="#" class="btntag btntag-success">
+                        Thông báo
+                    </a>
+                    <a href="#" class="btntag btntag-success">
+                        CSDL
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="">
+        <h2 style="text-align:center;">Thư viện @ViewBag.WebHeader</h2>
+        @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>*@
+    </div>
+}
+<div class="row">
+    <div class="col-sm-6">
+        <div class="Title">Bản tin thư viện</div>
+    </div>
+    <div class="col-sm-6">
+        <div class="Title">Thông báo</div>
+    </div>
+    <div class="col-sm-12">
+        <div class="Title">Giới thiệu sách</div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started xxxx</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>

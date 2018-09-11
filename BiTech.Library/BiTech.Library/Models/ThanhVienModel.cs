@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BiTech.Library.Controllers.BaseClass;
+using System.Collections;
+
 namespace BiTech.Library.Models
 {
     /// <summary>
@@ -16,7 +18,7 @@ namespace BiTech.Library.Models
         ThanhVienCommon thanhVienCommon;
         public UserViewModel()
         {
-            thanhVienCommon = new ThanhVienCommon();            
+            thanhVienCommon = new ThanhVienCommon();
             ListNienKhoa = thanhVienCommon.TaoNienKhoa();
         }
         public string Id { get; set; }
@@ -32,7 +34,7 @@ namespace BiTech.Library.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage =("Mật khẩu không khớp nhau!"))]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = ("Mật khẩu không khớp nhau!"))]
         [Required(ErrorMessage = "Bạn chưa nhập lại mật khẩu!")]
         [Display(Name = "Nhập lại mật khẩu")]
         public string ConfirmPass { get; set; }
@@ -68,25 +70,38 @@ namespace BiTech.Library.Models
         public string SDT { get; set; }
 
         [Display(Name = "Trạng thái")]
-        public EUser TrangThai { get; set; }        
-        //[Display(Name = "Chức vụ")]
-        //public string IdChucVu { get; set; }
+        public EUser TrangThai { get; set; }
+
         [Display(Name = "Hình ảnh")]
         public HttpPostedFileBase HinhChanDung { get; set; }
+
         [Display(Name = "Mã QR")]
         public string QRLink { get; set; }
+
         public List<string> ListNienKhoa { get; set; }
-        public string LinkAvatar { get; set; }        
+
+        public string LinkAvatar { get; set; }
+
         public string[] ListName { get; set; }
+
         public string[] ListMaTV { get; set; }
+
         public string[] ListAll { get; set; }
+
         public List<ThanhVien> ListThanhVien { get; set; }
-        [Display(Name ="Đường dẫn file Excel")]
+
+        [Display(Name = "Đường dẫn file Excel")]
         public HttpPostedFileBase LinkExcel { get; set; }
+
         public HttpPostedFileBase LinkWord { get; set; }
+
         public string LoaiTK { get; set; }
+
         public string TextForSearch { get; set; }
-    }
+
+		[Display(Name = "Tổ")]
+		public string ChucVu { get; set; } //Sài cho giáo viên
+	}
     public class EditUserViewModel
     {
         public EditUserViewModel()
@@ -101,18 +116,18 @@ namespace BiTech.Library.Models
                 listNienKhoa.Add(i + " - " + j);
                 i++; j++;
             } while (j != (yearEnd + 1));
-            ListNienKhoa = listNienKhoa;           
+            ListNienKhoa = listNienKhoa;
         }
         public string Id { get; set; }
 
-        [Required(ErrorMessage ="nhập tên người dùng")]
+        [Required(ErrorMessage = "nhập tên người dùng")]
         [Display(Name = "Tên người dùng")]
         public string Ten { get; set; }
 
         [Required]
         [Display(Name = "Giới tính")]
         public string GioiTinh { get; set; }
-      
+
         //[Required]
         [Display(Name = "Ngày sinh")]
         [DataType(DataType.Date)]
@@ -133,12 +148,14 @@ namespace BiTech.Library.Models
         public List<string> ListNienKhoa { get; set; }
         public string LinkAvatar { get; set; }
         public string LoaiTK { get; set; }
+		[Display(Name = "Chức vụ")]
+		public string ChucVu { get; set; } //sài cho giáo viên
     }
 
     public class ChangePasswordViewModel
     {
         public string Id { get; set; }
-       
+
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Bạn chưa nhập mật khẩu hiện tại!")]
         [Display(Name = "Mật khẩu hiện tại")]
@@ -146,19 +163,36 @@ namespace BiTech.Library.Models
 
 
         // [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-     
+
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Bạn chưa nhập mật khẩu mới!")]
         [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }
 
-        
+
         [DataType(DataType.Password)]
         [Display(Name = "Nhập lại mật khẩu mới")]
         [Required(ErrorMessage = "Bạn chưa nhập lại mật khẩu!")]
         [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Nhập lại mật khẩu không khớp nhau!")]
         public string ConfirmPassword { get; set; }
         public string LoaiTK { get; set; }
+    }
+
+    public class ImportResultViewModel
+    {
+        public List<string[]> RawDataList { get; set; }
+        public List<ThanhVien> RawListTV { get; set; } = new List<ThanhVien>();
+        public int TotalEntry { get; set; }
+        public ThanhVien Entry { get; set; }
+        public List<ThanhVien> ListSuccess { get; set; } = new List<ThanhVien>();
+        public List<ThanhVien> ListFail { get; set; } = new List<ThanhVien>();
+        public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
+        public string FileName { get; set; }
+        /// <summary>
+        /// Mảng chứa các dòng bị trùng Mã Thành Viên
+        /// </summary>
+        public bool[] ArrRows { get; set; }
+        public HttpPostedFileBase UploadFile { get; set; }
     }
 
 }

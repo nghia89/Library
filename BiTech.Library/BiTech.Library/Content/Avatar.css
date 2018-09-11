@@ -1,10 +1,4 @@
-﻿html {
-    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/176026/noise.png);
-    background-color: #fff;
-}
-
-
-.avatar {
+﻿.avatar {
     float: left;
     display: inline-block;
     overflow: hidden;
@@ -302,7 +296,7 @@
     position: relative;
     width: 200px;
     /*float: left;*/
-    z-index: 10;
+    /*z-index: 10;*/
 }
 
 .avatar_container_TT {

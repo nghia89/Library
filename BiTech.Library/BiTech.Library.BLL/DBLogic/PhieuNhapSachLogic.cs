@@ -9,7 +9,7 @@ using BiTech.Library.DTO;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class PhieuNhapSachLogic
+    public class PhieuNhapSachLogic : BaseLogic
     {
         private string TableName = "PhieuNhapSach";
         public PhieuNhapSachEngine _NhapSachEngine { get; set; }

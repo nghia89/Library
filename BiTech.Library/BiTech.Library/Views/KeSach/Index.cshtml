@@ -1,7 +1,7 @@
 ﻿@model PagedList.IPagedList<BiTech.Library.Models.KesachViewModels>
 @using PagedList.Mvc
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Danh sách kệ sách";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var i = 0;
 }
@@ -34,7 +34,7 @@
                 <td>@item.GhiChu </td>
 
                 <td>
-                    <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">
+                    <button class="color-white btn btndanger btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">
                         <i class="fa">&#xf044;</i> Sửa
                     </button>
                 </td>

@@ -10,7 +10,7 @@ using BiTech.Library.Common;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class SachLogic
+    public class SachLogic : BaseLogic
     {
         SachEngine _sachEngine;
         ThongTinThuVienEngine _ThongTinThuVienEngine;
@@ -65,6 +65,10 @@ namespace BiTech.Library.BLL.DBLogic
         public List<Sach> getAll()
         {
             return _sachEngine.GetAll();
+        }
+        public List<Sach> GetDatetime(DateTime firstDayOfMonth, DateTime lastDayOfMonth)
+        {
+            return _sachEngine.GetDatetime(firstDayOfMonth, lastDayOfMonth);
         }
         public List<Sach> ListName(string keyWord)
         {

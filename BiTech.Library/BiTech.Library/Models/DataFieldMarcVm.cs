@@ -62,8 +62,8 @@ namespace BiTech.Library.Models
         public string QRData { get; set; }
         public bool IsDeleted { get; set; } = true;
 
-        [Required]
-        public HttpPostedFileBase LinFileMarc { get; set; }
+        [Required(ErrorMessage = "Vui lòng chọn file")]
+        public HttpPostedFileBase[] Files { get; set; }
 
     }
 }

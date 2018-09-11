@@ -15,5 +15,8 @@ namespace BiTech.Library.Common
 
         // dùng cho lấy sách theo id tác giả và chuyển về regex dạng OR -> không hiện lên view
         public List<string> ListSachIds { get; set; }
+
+        public string ISBN { get; set; }
+        public string NamXuatBan { get; set; }
     }
 }

@@ -1,220 +1,227 @@
 ﻿@model BiTech.Library.Models.UserViewModel
 @{
-    ViewBag.Title = "Thêm mới";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+	ViewBag.Title = "Thêm giáo viên";
+	Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <link href="~/Content/Avatar.css" rel="stylesheet" />
 <div class="Title">Tạo mới tài khoản giáo viên</div>
 <div class="form-group row">
-    <div class="col-md-12">
-        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "GiaoVien")'">
-            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
-        </button>
-    </div>
+	<div class="col-md-12">
+		<button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "GiaoVien")'">
+			<i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+		</button>
+	</div>
 </div>
 <div ng-app="LibraryApp" class="container">
-    <h5 class="text-danger">@ViewBag.UnSuccess</h5>
-    <h5 class="text-danger">@ViewBag.Duplicate</h5>
-    <h5 class="text-danger">@ViewBag.ImageUnsuccess</h5>
-    <h5 class="text-danger">@ViewBag.QRUnsuccess</h5>
-    <h5 class="text-danger">@ViewBag.NullNgaySinh</h5>
+	<h5 class="text-danger">@ViewBag.UnSuccess</h5>
+	<h5 class="text-danger">@ViewBag.Duplicate</h5>
+	<h5 class="text-danger">@ViewBag.ImageUnsuccess</h5>
+	<h5 class="text-danger">@ViewBag.QRUnsuccess</h5>
+	<h5 class="text-danger">@ViewBag.NullNgaySinh</h5>
 
-    @using (Html.BeginForm("_CreateUser", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-        @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
-        <div class="modal-body">
+	@using (Html.BeginForm("_CreateUser", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+	{
+		@Html.AntiForgeryToken()
+		@*@Html.ValidationSummary("", new { @class = "text-danger" })*@
+		<div class="modal-body">
 
-            <div class="form-group row">
-                <div class="avatar_container_root col-md-offset-2 col-md-6">
-                    <div class="avatar_container avatar_clearfix">
-                        <img id="SaveImage" class="avatar_img" src="@Html.Raw(Model.LinkAvatar)" onerror="this.src = '/Content/Images/user5.jpg'" alt="" />
-                        <label class="avatar" for="HinhChanDung">
-                            @Html.TextBoxFor(m => m.HinhChanDung, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
-                            <svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
-                            <path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
-                            <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
-                            <g id="plus">
-                            <path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
-                            <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
+
+			<div class="avatar_container_root col-md-offset-2 col-md-6">
+				<div class="avatar_container avatar_clearfix">
+					<img id="SaveImage" class="avatar_img" src="@Html.Raw(Model.LinkAvatar)" onerror="this.src = '/Content/Images/user5.jpg'" alt="" />
+					<label class="avatar" for="HinhChanDung">
+						@Html.TextBoxFor(m => m.HinhChanDung, new { @class = "avatar_input", type = "file", accept = "image/jpeg,image/gif,image/jpg,image/png,image/bmp" })
+						<svg version="1.1" id="camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							 viewBox="0 0 25 15" enable-background="new 0 0 25 15" xml:space="preserve">
+						<path id="cameraFrame" fill="none" stroke="white" stroke-miterlimit="10" d="M23.1,14.1H1.9c-0.6,0-1-0.4-1-1V1.9c0-0.6,0.4-1,1-1h21.2c0.6,0,1,0.4,1,1v11.3C24.1,13.7,23.7,14.1,23.1,14.1z" />
+
+						<path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
+
+						<g id="plus">
+						<path fill="none" id="plusLine" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M20.9,2.3v4.4" />
+
+						<path fill="none" class="line" stroke="#ffffff" stroke-linecap="round" stroke-miterlimit="10" d="M18.7,4.6h4.4" />
+
                             </g>
                         </svg>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="form-group col">
-                        <label class="control-label">Tên đăng nhập <span style="color:#dc3545">*</span></label>
-                        <div>
-                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
-                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        <label class="control-label">Mật khẩu <span style="color:#dc3545">*</span></label>
-                        <div>
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        <label class="control-label">Nhập lại mật khẩu <span style="color:#dc3545">*</span></label>
-                        <div>
-                            @Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
-                            @Html.ValidationMessageFor(m => m.ConfirmPass, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        <label class="control-label">Tên giáo viên <span style="color:#dc3545">*</span></label>
-                        <div>
-                            @Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
-                            @Html.ValidationMessageFor(m => m.Ten, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        <label class="control-label">Mã số giáo viên <span style="color:#dc3545">*</span></label>
-                        <div>
-                            @Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
-                            @Html.ValidationMessageFor(m => m.MaSoThanhVien, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        <label class="control-label">Giới tính <span style="color:#dc3545">*</span></label>
-                        <div>
-                            @Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
-                            @Html.ValidationMessageFor(m => m.GioiTinh, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
+					</label>
+				</div>
+			</div>
 
-                <div class="col-lg-6">
-                    <div class="form-group col">
-                        @Html.LabelFor(m => m.NgaySinh, new { @class = "control-label" })
-                        <div>
-                            @Html.TextBoxFor(m => m.TemptNgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20", @autocomplete = "off" })
-                            @*@Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20" })*@
-                            @Html.ValidationMessageFor(m => m.NgaySinh, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        @Html.LabelFor(m => m.LopHoc, new { @class = "control-label" })
-                        <div>
-                            @Html.TextBoxFor(m => m.LopHoc, new { @class = "form-control form-control-sm" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        @Html.LabelFor(m => m.NienKhoa, new { @class = "control-label" })
-                        <div>
-                            @Html.DropDownListFor(m => m.NienKhoa, new SelectList(Model.ListNienKhoa), "---Chọn niên khóa---", new { @class = "form-control form-control-sm" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        @Html.LabelFor(m => m.DiaChi, new { @class = "control-label" })
-                        <div>
-                            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
-                        </div>
-                    </div>
-                    <div class="form-group col">
-                        @Html.LabelFor(m => m.SDT, new { @class = "control-label" })
-                        <div>
-                            @Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-offset-2 mx-3 col-md-12">
-                    <input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
-                </div>
-            </div>
-        </div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group col">
+						<label class="control-label">Tên đăng nhập <span style="color:#dc3545">*</span></label>
+						<div>
+							@Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @maxlength = "40" })
+							@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group col">
+						<label class="control-label">Mật khẩu <span style="color:#dc3545">*</span></label>
+						<div>
+							@Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm", @maxlength = "20" })
+							@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group col">
+						<label class="control-label">Nhập lại mật khẩu <span style="color:#dc3545">*</span></label>
+						<div>
+							@Html.PasswordFor(m => m.ConfirmPass, new { @class = "form-control form-control-sm", @maxlength = "20" })
+							@Html.ValidationMessageFor(m => m.ConfirmPass, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group col">
+						<label class="control-label">Tên giáo viên <span style="color:#dc3545">*</span></label>
+						<div>
+							@Html.TextBoxFor(m => m.Ten, new { @class = "form-control form-control-sm", @maxlength = "40" })
+							@Html.ValidationMessageFor(m => m.Ten, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group col">
+						<label class="control-label">Mã số giáo viên <span style="color:#dc3545">*</span></label>
+						<div>
+							@Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
+							@Html.ValidationMessageFor(m => m.MaSoThanhVien, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group col">
+						<label class="control-label">Giới tính <span style="color:#dc3545">*</span></label>
+						<div>
+							@Html.DropDownListFor(m => m.GioiTinh, new SelectList(new List<string>() { "Nam", "Nữ" }), "---Chọn giới tính---", new { @class = "form-control form-control-sm" })
+							@Html.ValidationMessageFor(m => m.GioiTinh, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
 
-       
-    }
+				<div class="col-lg-6">
+					<div class="form-group col">
+						@Html.LabelFor(m => m.NgaySinh, new { @class = "control-label" })
+						<div>
+							@Html.TextBoxFor(m => m.TemptNgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20", @autocomplete = "off" })
+							@*@Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20" })*@
+							@Html.ValidationMessageFor(m => m.NgaySinh, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group col">
+						@Html.LabelFor(m => m.ChucVu, new { @class = "control-label" })
+						<div>
+							@Html.TextBoxFor(m => m.ChucVu, new { @class = "form-control form-control-sm" })
+						</div>
+					</div>
+					<div class="form-group col">
+						@Html.LabelFor(m => m.NienKhoa, new { @class = "control-label" })
+						<div>
+							@Html.DropDownListFor(m => m.NienKhoa, new SelectList(Model.ListNienKhoa), "---Chọn niên khóa---", new { @class = "form-control form-control-sm" })
+						</div>
+					</div>
+					<div class="form-group col">
+						@Html.LabelFor(m => m.DiaChi, new { @class = "control-label" })
+						<div>
+							@Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control form-control-sm" })
+						</div>
+					</div>
+					<div class="form-group col">
+						@Html.LabelFor(m => m.SDT, new { @class = "control-label" })
+						<div>
+							@Html.TextBoxFor(m => m.SDT, new { @class = "form-control form-control-sm" })
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="form-group row">
+						<div class="col-md-offset-2 mx-3 col-md-12">
+							<input type="submit" class="btn btn-sm btn-primary" value="Tạo mới" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+	}
 </div>
 <div id="ajax"></div>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 @section scripts{
-    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
-    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/LibraryAngularJS.js"></script>
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+	@*<script src="~/Scripts/bootstrap.min.js"></script>*@
+	<script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+	<script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+	<script src="~/Scripts/angular.min.js"></script>
+	<script src="~/Scripts/LibraryAngularJS.js"></script>
+	<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 
 
-    <script>
-        // Ảnh thành viên
-        $("#HinhChanDung").change(function () {
-            readURL(this);
-        });
-        $('.avatar').click(function (event) {
-            event.stopPropagation();
-        });
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#SaveImage').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        $(document).ready(function () {
-            readURL($('#HinhChanDung'));
-        });
+	<script>
+		// Ảnh thành viên
+		$("#HinhChanDung").change(function () {
+			readURL(this);
+		});
+		$('.avatar').click(function (event) {
+			event.stopPropagation();
+		});
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#SaveImage').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		$(document).ready(function () {
+			readURL($('#HinhChanDung'));
+		});
 
 
-        // Ngày sinh thành viên
-        $.validator.addMethod('date', function (value, element) {
-            if (this.optional(element)) {
-                return true;
-            }
-            var valid = true;
-            try {
-                $.datepicker.parseDate('dd/mm/yy', value);
-            }
-            catch (err) {
-                valid = false;
-            }
-            return valid;
-        });
-        //
-        $(function () {
-            $(".DatetimePicker").datepicker({
-                dateFormat: 'dd/mm/yy',
-                monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
-                dayNamesMin: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1900:-4",
-                defaultDate: "01/01/1990"
-                //}).datepicker("setDate", new Date(null)).attr("readonly", "readonly");
-            }).datepicker.attr("readonly", "readonly");
-        });
-        //----
-        function RequestAltInsertGuiBegin() {
-            $(this).addClass('active');
-        }
+		// Ngày sinh thành viên
+		$.validator.addMethod('date', function (value, element) {
+			if (this.optional(element)) {
+				return true;
+			}
+			var valid = true;
+			try {
+				$.datepicker.parseDate('dd/mm/yy', value);
+			}
+			catch (err) {
+				valid = false;
+			}
+			return valid;
+		});
+		//
+		$(function () {
+			$(".DatetimePicker").datepicker({
+				dateFormat: 'dd/mm/yy',
+				monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+				dayNamesMin: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+				changeMonth: true,
+				changeYear: true,
+				yearRange: "1900:-4",
+				defaultDate: "01/01/1990"
+				//}).datepicker("setDate", new Date(null)).attr("readonly", "readonly");
+			}).datepicker.attr("readonly", "readonly");
+		});
+		//----
+		function RequestAltInsertGuiBegin() {
+			$(this).addClass('active');
+		}
 
-        function RequestAltInsertGuiSuccess(data) {
-            $(this).removeClass('active');
+		function RequestAltInsertGuiSuccess(data) {
+			$(this).removeClass('active');
 
-            $("#ajax").html(data);
+			$("#ajax").html(data);
 
-            $("#edit-student-modal").modal();
+			$("#edit-student-modal").modal();
 
-            var form = $("#edit-student-modal").closest("form");
-            form.removeData('validator');
-            form.removeData('unobtrusiveValidation');
-            $.validator.unobtrusive.parse(form);
-        }
-    </script>
+			var form = $("#edit-student-modal").closest("form");
+			form.removeData('validator');
+			form.removeData('unobtrusiveValidation');
+			$.validator.unobtrusive.parse(form);
+		}
+	</script>
 }

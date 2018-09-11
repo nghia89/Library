@@ -3,7 +3,7 @@
 @using PagedList;
 @*@model BiTech.Library.Models.ListBooksModel*@
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sách";
     var listSach = ViewBag.ListSach;
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
@@ -20,8 +20,9 @@
         <div class="clearfix pb-sm-2 pl-sm-2">
             @Html.ActionLink("Thêm mới", "Create", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
-            @Html.ActionLink("Thêm từ Marc", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
-            @Html.ActionLink("Xuất Marc", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @Html.ActionLink("Thêm từ Marc21", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @Html.ActionLink("Xuất Marc21", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+			@Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-2" })
         </div>
     </div>
 
@@ -37,7 +38,6 @@
                     </button>
                 </div>
             </div>
-
             <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
                 <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
                     <option value="">--Thể loại sách--</option>
@@ -47,7 +47,6 @@
                     }
                 </select>
             </div>
-
             <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
                 <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
                     <option value="">--Tác giả--</option>
@@ -57,7 +56,6 @@
                     }
                 </select>
             </div>
-
             <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
                 <select class="form-control form-control-sm" name="TenNXB" id="">
                     <option value="">--Nhà xuất bản--</option>
@@ -172,6 +170,13 @@
 <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 
 @section scripts{
+    <script>
+                    $(document).keypress(function (e) {
+                        if (e.which == 13) {
+                            $("#btnSearch").submit();
+                        }
+                    });
+    </script>
     <script src="~/Scripts/AutocompleteSach.js"></script>
     <script>
         function XoaCauHoi() {

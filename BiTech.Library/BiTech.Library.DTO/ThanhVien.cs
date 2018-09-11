@@ -33,6 +33,7 @@ namespace BiTech.Library.DTO
   
         public EUser TrangThai { get; set; }
 
+		public string ChucVu { get; set; } //Sài cho giáo viên
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
@@ -56,7 +57,13 @@ namespace BiTech.Library.DTO
         [BsonIgnore]
         public int ColumnExcel { get; set; }
         [BsonIgnore]
-        public int RowExcel { get; set; }
+        public int RowExcel { get; set; }      
+        [BsonIgnore]
+        public List<string> ListError { get; set; }      
+        [BsonIgnore]
+        public bool IsDuplicate { get; set; }
+        [BsonIgnore]
+        public string NgaySinhForAngular { get; set; }
         #endregion
     }
 }
