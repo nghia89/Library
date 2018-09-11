@@ -17,12 +17,12 @@ using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
-    public class ExportreportController : BaseController
+    public class ExportReportController : BaseController
     {
         NghiepVuThongKe nghiepVu;
         static List<string> list_tk = new List<string>();// List chứ số sách được mượn và số người mượn sách
 
-        public ExportreportController()
+        public ExportReportController()
         {
             nghiepVu = new NghiepVuThongKe();
             new Aspose.Cells.License().SetLicense(LicenseHelper.License.LStream);
