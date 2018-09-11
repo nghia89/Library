@@ -53,6 +53,8 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
+        #region CSDL
+
         public JsonResult GetBackupFiles()
         {
             List<BackupFileModel> model = new List<BackupFileModel>();
@@ -315,5 +317,7 @@ namespace BiTech.Library.Controllers
 
             return Json(new ResultInfo() { Status = ResultInfo.ResultStatus.OK, Data = "" }, JsonRequestBehavior.AllowGet);
         }
+
+        #endregion
     }
 }
