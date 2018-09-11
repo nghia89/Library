@@ -86,6 +86,7 @@ namespace BiTech.Library.BLL.BarCode_QR
 			builder.MoveTo(e.MatchNode);
 
 			// Replace 'text to replace' text with an image.
+			//if(ImageLink != null)
 			Shape img = builder.InsertImage(ImageLink);
 
 			img.Height = Math.Max(img.Height * 0.4, WHeight_QR);

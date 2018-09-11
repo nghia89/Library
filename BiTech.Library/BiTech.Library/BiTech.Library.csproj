@@ -1709,6 +1709,7 @@
     <Content Include="ExcelStep\Simple-Ajax-Uploader\Changelog.md" />
     <Content Include="ExcelStep\Simple-Ajax-Uploader\package.json" />
     <Content Include="ExcelStep\Simple-Ajax-Uploader\README.md" />
+    <Content Include="Content\MauWord\QRBook_Template.docx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\dist\build\build.less" />
     <Content Include="Scripts\dist\build\build3.less" />

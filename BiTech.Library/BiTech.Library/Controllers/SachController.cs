@@ -49,10 +49,10 @@ namespace BiTech.Library.Controllers
             ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
             ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
 
-            ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
-            ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
-            ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
-            ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
+			ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
+			ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
+			ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
+			ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
 
             var list = _SachLogic.getPageSach(KeySearch);
             ViewBag.number = list.Count();
@@ -72,16 +72,16 @@ namespace BiTech.Library.Controllers
                 //var numKhongMuonDuoc =  MuonSachController.GetSoLuongSach(item.Id, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 //item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
 
-                BookView book = new BookView(item);
-                book.TenSach = book.SachDTO.TenSach;
-                book.MaKiemSoat = book.SachDTO.MaKiemSoat;
-                book.CreateDateTime = book.SachDTO.CreateDateTime;
-                book.NamXuatBan = book.SachDTO.NamXuatBan;
-                book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
-                book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
-                book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
-                book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
-                book.Ten_TacGia = tenTG;
+				BookView book = new BookView(item);
+				book.TenSach = book.SachDTO.TenSach;
+				book.MaKiemSoat = book.SachDTO.MaKiemSoat;
+				book.CreateDateTime = book.SachDTO.CreateDateTime;
+				book.NamXuatBan = book.SachDTO.NamXuatBan;
+				book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
+				book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
+				book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
+				book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
+				book.Ten_TacGia = tenTG;
 
                 model.Books.Add(book);
             }
@@ -231,50 +231,62 @@ namespace BiTech.Library.Controllers
                     }
 
                     //Tạo phiếu nhập - VINH
-                    PhieuNhapSach pns = new PhieuNhapSach()
-                    {
-                        GhiChu = model.GhiChuPhieuNhap,
-                        IdUserAdmin = userdata.Id,
-                        UserName = userdata.UserName
-                    };
+					bool nhapSach = false;
+					foreach (var item in model.ListTTSach)
+					{
+						if (item.SoLuong > 0)
+						{
+							nhapSach = true;
+							break;
+						}
+					}
+					if (model.ListTTSach != null && nhapSach)
+					{
+						PhieuNhapSach pns = new PhieuNhapSach()
+						{
+							GhiChu = model.GhiChuPhieuNhap,
+							IdUserAdmin = userdata.Id,
+							UserName = userdata.UserName
+						};
 
-                    string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
+						string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
-                    int tongSach = 0;
-                    SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                    foreach (var item in model.ListTTSach)
-                    {
-                        if (item.SoLuong > 0)
-                        {
-                            //Sach - trang thai (so luong)
-                            SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
-                            {
-                                IdSach = id, //id sach khi da insert
-                                IdTrangThai = item.IdTrangThai,
-                                SoLuong = item.SoLuong,
-                                CreateDateTime = DateTime.Now,
-                            };
-                            tongSach += dtoModel.SoLuong;
-                            _SlTrangThaisach.Insert(dtoModel);
+						int tongSach = 0;
+						SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+						foreach (var item in model.ListTTSach)
+						{
+							if (item.SoLuong > 0)
+							{
+								//Sach - trang thai (so luong)
+								SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
+								{
+									IdSach = id, //id sach khi da insert
+									IdTrangThai = item.IdTrangThai,
+									SoLuong = item.SoLuong,
+									CreateDateTime = DateTime.Now,
+								};
+								tongSach += dtoModel.SoLuong;
+								_SlTrangThaisach.Insert(dtoModel);
 
-                            //Chi tiet phieu nhap
+								//Chi tiet phieu nhap
 
-                            ChiTietNhapSach ctns = new ChiTietNhapSach()
-                            {
-                                IdPhieuNhap = idPhieuNhap,
-                                IdSach = model.SachDTO.Id,
-                                SoLuong = item.SoLuong,
-                                CreateDateTime = DateTime.Now,
-                                IdTinhtrang = item.IdTrangThai,
-                            };
-                            _ChiTietNhapSachLogic.Insert(ctns);
-                        }
-                    }
+								ChiTietNhapSach ctns = new ChiTietNhapSach()
+								{
+									IdPhieuNhap = idPhieuNhap,
+									IdSach = model.SachDTO.Id,
+									SoLuong = item.SoLuong,
+									CreateDateTime = DateTime.Now,
+									IdTinhtrang = item.IdTrangThai,
+								};
+								_ChiTietNhapSachLogic.Insert(ctns);
+							}
+						}
 
-                    //Update tổng số lượng sách
-                    model.SachDTO.SoLuongTong = tongSach;
-                    model.SachDTO.SoLuongConLai = tongSach;
-                    _SachLogic.Update(model.SachDTO);
+						//Update tổng số lượng sách
+						model.SachDTO.SoLuongTong = tongSach;
+						model.SachDTO.SoLuongConLai = tongSach;
+						_SachLogic.Update(model.SachDTO);
+					}
 
                     return RedirectToAction("Index");
                 }
