@@ -50,10 +50,12 @@ namespace BiTech.Library.DAL.Engines
         {
             FilterDefinition<Sach> filterDefinition = new BsonDocument();
             var builder = Builders<Sach>.Filter;
-            filterDefinition = builder.Where(x => x.TenSach.ToLower().Contains(keyWord.ToLower()));
+            filterDefinition = builder.Where(x => x.TenSach.ToLower().Contains(keyWord.ToLower())
+            || x.ISBN.ToLower().Contains(keyWord.ToLower())
+            || x.NamXuatBan.ToLower().Contains(keyWord.ToLower()));
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
-         
+
         //public List<Sach> ListNameTest(string keyWord)
         //{
         //    var list = _DatabaseCollection.Find(x => x.TenSach.Contains(keyWord));
@@ -61,15 +63,15 @@ namespace BiTech.Library.DAL.Engines
         //}
         public List<Sach> GetAllSach()
         {
-            return _DatabaseCollection.Find(x=>x.IsDeleted==false).ToList();
+            return _DatabaseCollection.Find(x => x.IsDeleted == false).ToList();
         }
         public List<Sach> GetAll()
         {
-            return _DatabaseCollection.Find(x =>true).ToList();
+            return _DatabaseCollection.Find(x => true).ToList();
         }
         public List<Sach> GetDatetime(DateTime firstDayOfMonth, DateTime lastDayOfMonth)
         {
-            return _DatabaseCollection.Find(x => x.CreateDateTime <= lastDayOfMonth && x.CreateDateTime>= firstDayOfMonth).ToList();
+            return _DatabaseCollection.Find(x => x.CreateDateTime <= lastDayOfMonth && x.CreateDateTime >= firstDayOfMonth).ToList();
         }
         public List<Sach> getPageSach(KeySearchViewModel KeySearch)
         {
@@ -82,7 +84,8 @@ namespace BiTech.Library.DAL.Engines
             if (!string.IsNullOrEmpty(KeySearch.Keyword))
             {
                 //ToLower chuyễn chữ hoa sang thường
-                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
+                || x.ISBN.ToLower().Contains(KeySearch.Keyword.ToLower()) || x.NamXuatBan.ToLower().Contains(KeySearch.Keyword.ToLower()));
             }
             if (!string.IsNullOrEmpty(KeySearch.TenNXB))
             {
@@ -92,11 +95,11 @@ namespace BiTech.Library.DAL.Engines
             {
                 filterDefinition = filterDefinition & builder.Where(x => x.IdTheLoai.ToLower().Contains(KeySearch.TheLoaiSach.ToLower()));
             }
-            if(KeySearch.ListSachIds.Count > 0)
+            if (KeySearch.ListSachIds.Count > 0)
             {
                 //string[] Id = KeySearch.ListSachIds.Split(',');
 
-                FilterDefinition<Sach> filterDefinition2 = builder.Where(x=>false);
+                FilterDefinition<Sach> filterDefinition2 = builder.Where(x => false);
 
                 foreach (var item in KeySearch.ListSachIds)
                 {

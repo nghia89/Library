@@ -245,7 +245,7 @@
     <Compile Include="Controllers\BaseClass\SachCommon.cs" />
     <Compile Include="Controllers\BaseClass\ThanhVienCommon.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\ExportreportController.cs" />
+    <Compile Include="Controllers\ExportReportController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\ExportMarcController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1281,6 +1281,7 @@
     <Content Include="Views\ThongKe\ThongKeTheoTuan.cshtml" />
     <Content Include="Views\ExportMarc\Index.cshtml" />
     <Content Include="Views\exportreport\Index.cshtml" />
+    <Content Include="Views\Marc\ImportMarc4j.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -65,5 +65,7 @@ namespace BiTech.Library.Models
         [Required(ErrorMessage = "Vui lòng chọn file")]
         public HttpPostedFileBase[] Files { get; set; }
 
+        public HttpPostedFileBase File { get; set; }
+
     }
 }
