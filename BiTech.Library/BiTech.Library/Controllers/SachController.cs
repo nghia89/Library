@@ -539,7 +539,6 @@ namespace BiTech.Library.Controllers
             return Json(vm, JsonRequestBehavior.AllowGet);
         }
 
-
         public JsonResult GetAllTT(string id)
         {
             #region  Lấy thông tin người dùng
@@ -564,13 +563,47 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            try
+            {
+                SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                
+                Sach s = _SachLogic.GetById(id);
+                //GetList: thông tin mượn sách by idSach (1)
+                List<ThongTinMuonSach> list_TTMS = _ThongTinMuonSachLogic.GetAllbyIdSach(s.Id);
+                //GetList: chi tiết nhập sách by idSach (2)
+                List<ChiTietNhapSach> list_CTNS = _ChiTietNhapSachLogic.GetAllChiTietByIdSach(s.Id);
+                //GetList: chi tiết xuất sách by idSach (3)
+                List<ChiTietXuatSach> list_CTXS = _ChiTietXuatSachLogic.GetAllChiTietByIdSach(s.Id);
 
-            Sach s = _SachLogic.GetById(id);
-            s.IsDeleted = true;
-            _SachLogic.Update(s);
-            //_SachLogic.XoaSach(s.Id);
-            return RedirectToAction("Index");
+                //if: (1)(2)(3) === 0 
+                if((list_TTMS.Count() + list_CTNS.Count() + list_CTXS.Count()) == 0)
+                {
+                    //Xoá row table sách - xoá thật
+                    _SachLogic.XoaSach(s.Id);
+                }
+                else
+                {
+                    //update IsDeleted = true
+                    s.IsDeleted = true;
+                    _SachLogic.Update(s);
+                }
+                //Xoá row table số lượng sách trạng thái by idSach
+                _SoLuongSachTrangThaiLogic.DeleteByIdSach(s.Id);
+                //Xoá row table sách tác giả by idSach
+                _SachTacGiaLogic.DeleteAllTacGiaByidSach(s.Id);
+                
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+
         }
 
         [HttpPost]

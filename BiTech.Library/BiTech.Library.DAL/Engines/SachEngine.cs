@@ -74,6 +74,8 @@ namespace BiTech.Library.DAL.Engines
 
             FilterDefinition<Sach> filterDefinition = new BsonDocument();
             var builder = Builders<Sach>.Filter;
+            //lấy những dòng chưa bị xoá
+            filterDefinition = filterDefinition & builder.Where(_=>_.IsDeleted == false);
             // Tìm theo UserName
             if (!string.IsNullOrEmpty(KeySearch.Keyword))
             {

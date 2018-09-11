@@ -25,5 +25,9 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.IdPhieuXuat == id).ToList();
         }
+        public List<ChiTietXuatSach> GetAllChiTietByIdSach(string idSach)
+        {
+            return _DatabaseCollection.Find(x => x.IdSach == idSach).ToList();
+        }
     }
 }

@@ -31,7 +31,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietXuatSachEngine.GetAllChiTietById(id);
         }
-
+        public List<ChiTietXuatSach> GetAllChiTietByIdSach(string idSach)
+        {
+            return _ChiTietXuatSachEngine.GetAllChiTietById(idSach);
+        }
         public ChiTietXuatSach GetById(string id)
         {
             return _ChiTietXuatSachEngine.GetById(id);

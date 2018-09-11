@@ -52,8 +52,12 @@ namespace BiTech.Library.BLL.DBLogic
 
         public List<SoLuongSachTrangThai> GetByIdSach(string id)
         {
-
             return _SoLuongSachTrangThaiEngine.GetByIdSach(id);
+        }
+
+        public bool DeleteByIdSach(string idSach)
+        {
+            return _SoLuongSachTrangThaiEngine.DeleteAllSoLuongSachTrangThaiByidSach(idSach);
         }
     }
 }

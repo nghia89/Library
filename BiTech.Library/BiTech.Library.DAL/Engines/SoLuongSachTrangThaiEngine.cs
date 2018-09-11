@@ -37,6 +37,17 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.IdTrangThai == id&&x.IdSach== IdSach).FirstOrDefault();
         }
 
-
+        public bool DeleteAllSoLuongSachTrangThaiByidSach(string idSach)
+        {
+            try
+            {
+                _DatabaseCollection.DeleteMany(x => x.IdSach == idSach);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -32,9 +32,14 @@ namespace BiTech.Library.BLL.DBLogic
             return _ThongTinMuonSachEngine.GetAllTT(id);
         }
 
-        public List<ThongTinMuonSach> GetAllIdUser(string IdUser)
+        public List<ThongTinMuonSach> GetAllbyIdUser(string IdUser)
         {
             return _ThongTinMuonSachEngine.GetByidUser(IdUser);
+        }
+
+        public List<ThongTinMuonSach> GetAllbyIdSach(string IdSach)
+        {
+            return _ThongTinMuonSachEngine.GetByidSach(IdSach);
         }
 
         public List<ThongTinMuonSach> GetAllIdUser_ChuaTra(string IdUser)
