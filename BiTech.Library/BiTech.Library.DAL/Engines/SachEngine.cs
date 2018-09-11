@@ -39,7 +39,10 @@ namespace BiTech.Library.DAL.Engines
 		{
 			return _DatabaseCollection.Find(_ => _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
 		}
-
+		public List<Sach> GetAll_NonDelete()
+		{
+			return _DatabaseCollection.Find(_ => _.IsDeleted == false).ToList();
+		}
 		public Sach GetByMaKiemSoat(string MaKS)
         {
             return _DatabaseCollection.Find(x => x.MaKiemSoat == MaKS).FirstOrDefault();

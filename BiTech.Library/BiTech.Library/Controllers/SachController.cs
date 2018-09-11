@@ -927,7 +927,7 @@ namespace BiTech.Library.Controllers
             }
             string fullPath = Path.Combine(filePath, fileName);
 
-            var listBook = _SachLogic.getAll();
+            var listBook = _SachLogic.GetAll_NonDelete();
             string linkMau = null;
             linkMau = "/Content/MauWord/QRBook_Template.docx";
             if (string.IsNullOrEmpty(linkMau))
