@@ -35,7 +35,7 @@ namespace BiTech.Library.Areas.Controllers
                         EndDate = info.EndDate,
                         IsActivePeriod = info.IsActivePeriod,
                         WebHeader = info.WebHeader,
-                        WebSubDomain = info.WebSubDomain
+                        WebSubDomain = info.WebSubDomain.Trim().ToLower()
                     });
 
                     HttpResponseMessage response2 = Request.CreateResponse(HttpStatusCode.OK, rs ? "updated" : "update fail");

@@ -113,21 +113,6 @@
                                     Chức năng nhiệm vụ
                                 </a>
                             </li>
-                            <li class="@((@controller == "NgonNgu" ) ? "active" : "")">
-                                <a href="@Url.Action("Index","NgonNgu")" title="Ngôn ngữ">
-                                    Ngôn ngữ
-                                </a>
-                            </li>
-                            <li class="@(( @controller == "TrangThaiSach") ? "active" : "")">
-                                <a href="@Url.Action("Index", "TrangThaiSach")" title="Trạng thái sách">
-                                    Trạng thái sách
-                                </a>
-                            </li>
-                            <li class="@(( @controller == "DDC") ? "active" : "")">
-                                <a href="@Url.Action("Index", "DDC")" title="DDC">
-                                    DDC
-                                </a>
-                            </li>
                             <li class="@((@controller == "Home" && @action == "CoCauToChuc") ? "active" : "")">
                                 <a href="@Url.Action("CoCauToChuc","Home")" title="Tra cứu">
                                     Cơ cấu tổ chức
