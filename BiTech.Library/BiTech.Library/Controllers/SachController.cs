@@ -45,6 +45,9 @@ namespace BiTech.Library.Controllers
 
             int pageSize = 30;
             int pageNumber = (page ?? 1);
+            ViewBag.pageSize = pageSize;
+            ViewBag.pages = pageNumber;
+
             ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();
             ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
             ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();

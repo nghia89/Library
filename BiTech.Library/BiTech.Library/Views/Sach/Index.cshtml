@@ -22,7 +22,7 @@
             @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Thêm từ Marc21", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Xuất Marc21", "exportMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
-			@Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-2" })
+			@Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
         </div>
     </div>
 
@@ -95,7 +95,7 @@
             <div Class="book_box_v3 clearfix">
                 <div class="container-box-window clearfix">
                     <div class="top">
-                        <div class="title">@item.SachDTO.TenSach</div>
+                        <div class="title" title="@item.SachDTO.TenSach"> <span>@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</span> @item.SachDTO.TenSach</div>
                     </div>
 
                     <div class="content-box-window clearfix">
