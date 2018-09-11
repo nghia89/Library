@@ -285,7 +285,8 @@ namespace BiTech.Library.BLL.BarCode_QR
                 if (lstBook[i].QRlink != null)
                 {
                     string linkImage = HttpContext.Current.Server.MapPath(lstBook[i].QRlink.ToString());
-                    docx.Range.Replace(new Regex("_ImgQR1_"), new ReplaceWithImageQRBook_Export(linkImage), false);                   
+					if(System.IO.File.Exists(linkImage))
+						docx.Range.Replace(new Regex("_ImgQR1_"), new ReplaceWithImageQRBook_Export(linkImage), false);                   
                 }
 
                 //2

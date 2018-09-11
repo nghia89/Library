@@ -371,7 +371,7 @@ namespace BiTech.Library.Controllers
 
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(idSach));
+            Sach _sach = _SachLogicLogic.GetBook_NonDelete_ByMKS(new SachCommon().GetInfo(idSach));
 
             return Json(_sach, JsonRequestBehavior.AllowGet);
         }

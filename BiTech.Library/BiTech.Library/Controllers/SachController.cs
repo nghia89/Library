@@ -929,7 +929,7 @@ namespace BiTech.Library.Controllers
 
             var listBook = _SachLogic.getAll();
             string linkMau = null;
-            linkMau = "/Upload/FileWord/QRBook_Template.docx";
+            linkMau = "/Content/MauWord/QRBook_Template.docx";
             if (string.IsNullOrEmpty(linkMau))
             {
             }

@@ -55,6 +55,15 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetById(idBook);
         }
+		/// <summary>
+		/// Ham get all isDelete = false thong qua Ma kiem soat
+		/// </summary>
+		/// <param name=""></param>
+		/// <returns></returns>
+		public Sach GetBook_NonDelete_ByMKS(string maKS)
+		{
+			return _sachEngine.GetBook_NonDelete_ByMKS(maKS);
+		}
         #endregion
 
         #region Thinh
