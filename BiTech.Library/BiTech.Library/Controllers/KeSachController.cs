@@ -19,12 +19,6 @@ namespace BiTech.Library.Controllers
         // GET: KeSach
         public ActionResult Index(int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var list = _keSachLogic.GetAll();
             List<KesachViewModels> lst = new List<KesachViewModels>();
@@ -56,12 +50,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Create(KesachViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             KeSach keSach = new KeSach()
@@ -77,11 +65,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Delete(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             try
             {
                 KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -97,11 +80,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Edit(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var kesach = _keSachLogic.getById(Id);
             if (kesach == null)
@@ -120,13 +98,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Edit(KesachViewModels model)
         {
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             KeSach keSach = new KeSach()
             {
@@ -142,12 +113,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ThemAjax(KesachViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             KeSach keSach = new KeSach()
@@ -162,11 +127,6 @@ namespace BiTech.Library.Controllers
 
         public JsonResult GetAll() 
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
             KeSachLogic _keSachLogic =new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _keSachLogic.GetAll();

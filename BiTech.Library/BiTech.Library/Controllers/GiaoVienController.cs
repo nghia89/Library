@@ -33,12 +33,7 @@ namespace BiTech.Library.Controllers
         // GET: User
         public ActionResult Index()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
 
             UserViewModel model = new UserViewModel();
             List<ThanhVien> listThanhVien = _ThanhVienLogic.GetAllGV();
@@ -59,13 +54,8 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Index(UserViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion           
-
+            
             List<ThanhVien> listAll = _ThanhVienLogic.GetAllGV();
             ViewBag.ThongBao = false;
             model.ListThanhVien = new List<ThanhVien>();
@@ -96,12 +86,6 @@ namespace BiTech.Library.Controllers
 
         public PartialViewResult _PartialUser(int? page, string IdUser, List<ThanhVien> list)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return null;
-            #endregion
-
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             ViewBag.pageSize = pageSize;
@@ -110,12 +94,7 @@ namespace BiTech.Library.Controllers
         }
 
         public ActionResult _CreateUser()
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion           
+        {       
             UserViewModel model = new UserViewModel();
             model.TemptNgaySinh = "--/--/----";
             return View(model);
@@ -124,12 +103,8 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _CreateUser(UserViewModel viewModel)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion          
+
             ThanhVien thanhVien = new ThanhVien()
             {
                 UserName = viewModel.UserName,
@@ -148,6 +123,7 @@ namespace BiTech.Library.Controllers
                 // Loại tài khoản 
                 LoaiTK = "gv"
             };
+
             DateTime ngaySinh = new DateTime();
             if (viewModel.TemptNgaySinh.Equals("--/--/----") == false)
             {
@@ -159,6 +135,7 @@ namespace BiTech.Library.Controllers
                 ViewBag.NullNgaySinh = "Bạn chưa chọn ngày sinh!";
                 return View(viewModel);
             }
+
             // Kiem tra trung ma thanh vien
             var idMaThanhVien = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.MaSoThanhVien);
             if (idMaThanhVien == null)
@@ -230,11 +207,6 @@ namespace BiTech.Library.Controllers
         //Get
         public ActionResult _Edit(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ViewBag.Success = TempData["Success"];
@@ -276,12 +248,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _Edit(EditUserViewModel viewModel)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion          
             var thanhVien = _ThanhVienLogic.GetById(viewModel.Id);
             // thông tin cho phép cập nhật            
             thanhVien.ChucVu = viewModel.ChucVu;
@@ -341,13 +308,7 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Delete(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
             if (thanhVien == null)
             {
@@ -377,12 +338,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Details(string idUser)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
@@ -416,11 +371,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ChangePassword(string idUser)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
@@ -437,12 +387,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
 
             ThanhVien thanhVien = _ThanhVienLogic.GetById(model.Id);
             if (thanhVien.Password != null)
@@ -479,12 +424,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ImportFromExcel(UserViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
 
             ExcelManager excelManager = new ExcelManager();
             List<ThanhVien> list = new List<ThanhVien>();
@@ -531,12 +471,8 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ExportWord(UserViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
+
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllGV();
             string fileName = "MauTheGV.docx";
@@ -577,17 +513,15 @@ namespace BiTech.Library.Controllers
 
         public ActionResult MauThe(string mauThe)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
+
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");
+
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllGV();
             string linkMau = null;
+
             //DateTime today = DateTime.Today;
             //string fileName = "MauTheGV ("+ today.Day.ToString() + "-" + today.Month.ToString() + "-"+today.Year.ToString() + ")"+".docx";
             string fileName = "MauTheGV.docx";
@@ -813,12 +747,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ImportSave(List<string[]> data)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
             #region xxx          
             var listAllGV = new List<ThanhVien>();
             List<ThanhVien> ListFail = new List<ThanhVien>();

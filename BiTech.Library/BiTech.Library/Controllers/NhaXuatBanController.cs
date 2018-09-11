@@ -18,12 +18,6 @@ namespace BiTech.Library.Controllers
         // GET: NhaXuatBan
         public ActionResult Index(int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
@@ -53,12 +47,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Them(NhaXuatBanViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             NhaXuatBan nxb = new NhaXuatBan()
@@ -73,12 +61,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ThemAjax(NhaXuatBanViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             NhaXuatBan nxb = new NhaXuatBan()
@@ -92,11 +74,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Sua(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
@@ -114,12 +91,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Sua(NhaXuatBanViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             NhaXuatBan nxb = _NhaXuatBanLogic.getById(model.Id);
@@ -133,12 +104,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Xoa(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var nxb = _NhaXuatBanLogic.getById(Id);
             _NhaXuatBanLogic.XoaNXB(nxb.Id);
@@ -148,11 +113,6 @@ namespace BiTech.Library.Controllers
 
         public JsonResult Get_AllNhaXuatBan() //JsonResult
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
             NhaXuatBanLogic _NhaXuatBanLogic =
                 new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
