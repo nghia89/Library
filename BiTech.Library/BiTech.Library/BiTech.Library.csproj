@@ -18,7 +18,7 @@
     <AssemblyName>BiTech.Library</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -333,6 +333,7 @@
     <Content Include="Assets\Images\bg.png" />
     <Content Include="app\BackupRestoreModule.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
+    <Content Include="Content\Images\userUnauth.jpg" />
     <Content Include="ExcelStep\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.css" />
     <Content Include="ExcelStep\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="ExcelStep\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap.css" />
@@ -1940,7 +1941,6 @@
     <Content Include="Views\NhapSach\NhapSach.cshtml" />
     <Content Include="Views\Shared\_LayoutMain.cshtml" />
     <Content Include="Views\Shared\layout\header.cshtml" />
-    <Content Include="Views\Shared\layout\menuleft_v1.cshtml" />
     <Content Include="Views\TacGia\Index.cshtml" />
     <Content Include="Views\TacGia\Create.cshtml" />
     <Content Include="Views\TacGia\Edit.cshtml" />
@@ -2179,7 +2179,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59897</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://blib.bitechco.test</IISUrl>
+          <IISUrl>http://localhost:64002/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

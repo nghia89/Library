@@ -85,7 +85,7 @@
         <div class="logo">
             <img src="~/Content/Images/logo.png" alt="logo" style="max-width: 100%" />
         </div>
-
+        @ViewBag.ss
         <div id="accordion">
 
             <div class="card @((@Bool_TabHome) ? "active function_active" : "")">
@@ -138,7 +138,7 @@
                 </div>
             </div>
 
-            @if (@User.IsInRole(Role.CustomerAdmin) || @User.IsInRole(Role.CustomerUser))
+            @if (User.IsInRole(Role.CustomerAdmin) || User.IsInRole(Role.CustomerUser) || ViewBag.IsDebuging)
             {
                 <div class="card @((@Bool_TabThanhVien) ? "active function_active" : "")">
                     <div class="card-header ">

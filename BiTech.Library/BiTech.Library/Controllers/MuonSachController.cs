@@ -132,7 +132,7 @@ namespace BiTech.Library.Controllers
 
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
 
-            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser), userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser), userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }

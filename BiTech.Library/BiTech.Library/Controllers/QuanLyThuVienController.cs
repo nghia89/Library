@@ -13,6 +13,9 @@ using System.Web.Mvc;
 namespace BiTech.Library.Controllers
 {
     [AuthorizeRoles(Role.CustomerAdmin, Role.CustomerUser)]
+#if DEBUG
+    [AllowAnonymous]
+#endif
     public class QuanLyThuVienController : BaseController
     {
         BackupAndRestore brMng = new BackupAndRestore();
@@ -54,9 +57,9 @@ namespace BiTech.Library.Controllers
         {
             List<BackupFileModel> model = new List<BackupFileModel>();
 
-            string subdomain = GetSubDomain(Request.Url);
+            //string subdomain = Tool.GetSubDomain(Request.Url);
             string physicalWebRootPath = Server.MapPath("/");
-            var backupPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, subdomain)) + "\\";
+            var backupPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, _SubDomain)) + "\\";
 
             var lst = brMng.GetBackupFiles(backupPath).OrderByDescending(x => x.CreationTime);
             foreach (var i in lst)
@@ -74,10 +77,10 @@ namespace BiTech.Library.Controllers
 
         public JsonResult CreateBackupFile()
         {
-            string subdomain = GetSubDomain(Request.Url);
+            //string subdomain = Tool.GetSubDomain(Request.Url);
             string physicalWebRootPath = Server.MapPath("/");
-            var backupPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, subdomain)) + "\\";
-            var uploadPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.Upload, subdomain)) + "\\";
+            var backupPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, _SubDomain)) + "\\";
+            var uploadPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.Upload, _SubDomain)) + "\\";
 
             var cs = Tool.GetConfiguration("ConnectionString"); // mongodb://superadmin:password@127.0.0.1:27017/admin
 
@@ -146,10 +149,10 @@ namespace BiTech.Library.Controllers
 
         public JsonResult RestoreBackupFile(string name)
         {
-            string subdomain = GetSubDomain(Request.Url);
+            //string subdomain = Tool.GetSubDomain(Request.Url);
             string physicalWebRootPath = Server.MapPath("/");
-            var uploadPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.Upload, subdomain)) + "\\";
-            var upFileName = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, subdomain), name);
+            var uploadPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.Upload, _SubDomain)) + "\\";
+            var upFileName = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, _SubDomain), name);
 
             if (System.IO.File.Exists(upFileName))
             {
@@ -229,9 +232,9 @@ namespace BiTech.Library.Controllers
             if (extension.ToLower() != ".zip")
                 return Json(new ResultInfo() { Status = ResultInfo.ResultStatus.Error, Data = "Không phải file zip" }, JsonRequestBehavior.AllowGet);
 
-            string subdomain = GetSubDomain(Request.Url);
+            //string subdomain = GetSubDomain(Request.Url);
             string physicalWebRootPath = Server.MapPath("/");
-            var upFileName = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, subdomain), file.FileName);
+            var upFileName = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, _SubDomain), file.FileName);
 
             string location = Path.GetDirectoryName(upFileName);
             if (!Directory.Exists(location))
@@ -255,9 +258,9 @@ namespace BiTech.Library.Controllers
 
         public JsonResult CheckOverwriteFile(string name)
         {
-            string subdomain = GetSubDomain(Request.Url);
+            //string subdomain = GetSubDomain(Request.Url);
             string physicalWebRootPath = Server.MapPath("/");
-            var backupPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, subdomain)) + "\\";
+            var backupPath = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, _SubDomain)) + "\\";
 
             var lst = brMng.GetBackupFiles(backupPath).OrderByDescending(x => x.CreationTime);
             foreach (var i in lst)
@@ -271,9 +274,9 @@ namespace BiTech.Library.Controllers
 
         public ActionResult DownloadBackupFile(string name)
         {
-            string subdomain = GetSubDomain(Request.Url);
+            //string subdomain = GetSubDomain(Request.Url);
             string physicalWebRootPath = Server.MapPath("/");
-            var filelocation = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, subdomain)) + "\\" + name;
+            var filelocation = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, _SubDomain)) + "\\" + name;
 
             if (System.IO.File.Exists(filelocation))
             {
@@ -293,9 +296,9 @@ namespace BiTech.Library.Controllers
 
         public JsonResult RemoveBackupFile(string name)
         {
-            string subdomain = GetSubDomain(Request.Url);
+            //string subdomain = GetSubDomain(Request.Url);
             string physicalWebRootPath = Server.MapPath("/");
-            var filelocation = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, subdomain)) + "\\" + name;
+            var filelocation = Path.Combine(physicalWebRootPath, Tool.GetUploadFolder(UploadFolder.CustomerBackup, _SubDomain)) + "\\" + name;
 
             if (System.IO.File.Exists(filelocation))
             {

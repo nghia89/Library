@@ -651,7 +651,7 @@ namespace BiTech.Library.Controllers
 
                 soPhieuMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoPhieuMuon(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(arrTTSachMuon[ngayMuon.Day]);
-                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(arrTTSachMuon[ngayMuon.Day], userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(arrTTSachMuon[ngayMuon.Day], userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(arrTTSachMuon[ngayMuon.Day]);
                 soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(arrTTSachMuon[ngayMuon.Day]);
@@ -943,7 +943,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             // Thống kê theo tuần          
             DateTime thisWeekStart = date.AddDays(-(int)date.DayOfWeek);
@@ -959,7 +959,7 @@ namespace BiTech.Library.Controllers
             foreach (var item in listDates)
             {
                 // list chứ thông tin thống kê của 1 ngày
-                model.thongKeTheoTuan.Add(nghiepVu.ThongKeTheoTuan(item, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName));
+                model.thongKeTheoTuan.Add(nghiepVu.ThongKeTheoTuan(item, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName));
             }
             return View(model);
         }

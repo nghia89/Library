@@ -3,6 +3,7 @@ using System.Web;
 using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
+using BiTech.Library.DTO;
 
 namespace BiTech.Library.Helpers
 {
@@ -35,7 +36,7 @@ namespace BiTech.Library.Helpers
                 case UploadFolder.Upload:
                     return mainUpload + subdomain;
                 case UploadFolder.CustomerBackup:
-                    return @"CustomerBackup\" + subdomain;
+                    return mainUpload + @"CustomerBackup\" + subdomain;
                 case UploadFolder.BookCovers:
                     return mainUpload + @"BookCovers\";
                 case UploadFolder.QRCodeUser:
@@ -132,6 +133,40 @@ namespace BiTech.Library.Helpers
             finally
             {
                 postedFile.InputStream.Position = 0;
+            }
+
+            return true;
+        }
+        
+        public static string GetSubDomain(Uri url, bool withoutBlib = true)
+        {
+            if (url.HostNameType == UriHostNameType.Dns)
+            {
+                string host = url.Host;
+
+                if (host.Split('.').Length > 2)
+                {
+                    int lastIndex = host.LastIndexOf(".");
+                    int index = host.LastIndexOf(".", lastIndex - 1);
+
+                    if (withoutBlib)
+                        return host.Substring(0, index - 5); //".blib".Length = 5
+                    return host.Substring(0, index);
+                }
+            }
+            return null;
+        }
+
+        public static bool CheckAccessEndDate(AccessInfo info)
+        {
+            if (info == null)
+                return false;
+
+            if (info.IsActivePeriod)
+            {
+                if (info.EndDate == null)
+                    return false;
+                return info.EndDate > DateTime.Now;
             }
 
             return true;

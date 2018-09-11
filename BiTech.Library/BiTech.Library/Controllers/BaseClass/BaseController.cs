@@ -16,12 +16,14 @@ namespace BiTech.Library.Controllers.BaseClass
     {
         protected string _AppCode = Tool.GetConfiguration("AppCode");
         protected UserAccessInfo _UserAccessInfo;
-        
+        protected string _SubDomain;
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            ViewBag._SubDomain = _SubDomain = Tool.GetSubDomain(Request.Url);
             _UserAccessInfo = GetAccessInfo();
 
-            if(_UserAccessInfo == null)
+            if (_UserAccessInfo == null)
             {
                 filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary {
@@ -35,21 +37,6 @@ namespace BiTech.Library.Controllers.BaseClass
 
         protected SSOUserDataModel GetUserData()
         {
-            string subdomain = GetSubDomain(Request.Url);
-
-            AccessInfoLogic _AccessInfoLogic = new AccessInfoLogic(Tool.GetConfiguration("StoreConnectionString"), Tool.GetConfiguration("BLibDatabaseName"));
-            var accessInfo = _AccessInfoLogic.GetBySubDomain(subdomain);
-
-            if (accessInfo == null)
-            {
-                // return null;
-            }
-
-            if (!CheckAccessEndDate(accessInfo))
-            {
-                // return null;
-            }
-
             SSOUserDataModel loadData = null;
             ViewBag.SSOFullName = "";
             try
@@ -127,34 +114,26 @@ namespace BiTech.Library.Controllers.BaseClass
             return loadData;
         }
 
-        internal UserAccessInfo GetAccessInfo()
+        protected UserAccessInfo GetAccessInfo()
         {
-            string subdomain = GetSubDomain(Request.Url);
 
-            AccessInfoLogic _AccessInfoLogic = new AccessInfoLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("BLibDatabaseName"));
-            var accessInfo = _AccessInfoLogic.GetBySubDomain(subdomain);
+            var accessInfoLogic = new AccessInfoLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("BLibDatabaseName"));
+            var accessInfo = accessInfoLogic.GetBySubDomain(_SubDomain);
 
-            if (accessInfo == null)
-            {
+            if (accessInfo == null || !Tool.CheckAccessEndDate(accessInfo))
                 return null;
-            }
 
-            if (!CheckAccessEndDate(accessInfo))
-            {
-                return null;
-            }
+            ViewBag.WebHeader = accessInfo.WebHeader;
+            ViewBag.IsDebuging = false;
 
             var userAccess = new UserAccessInfo();
             userAccess.DatabaseName = accessInfo.DataBaseName;
-            ViewBag.WebHeader = accessInfo.WebHeader;
-
-            SSOUserDataModel loadData = null;
-            ViewBag.SSOFullName = "";
 
             if (Request.IsAuthenticated)
             {
                 try
                 {
+                    SSOUserDataModel loadData = null;
                     var claimSSO = (User.Identity as ClaimsIdentity).Claims.Where(c => c.Type == "SSOUserDataModel").Select(c => c.Value);
                     foreach (var c in claimSSO)
                     {
@@ -170,67 +149,37 @@ namespace BiTech.Library.Controllers.BaseClass
                     {
                         if (loadData.MyApps.Keys.Contains(_AppCode))
                         {
-                            // Kiểm tra DB name để vào các đơn vị con
-                            //if (accessInfo.DataBaseName.StartsWith(accessInfo.DataBaseName) && loadData.MyApps[AppCode].DatabaseName.Length > 0)
-                            //{
-
-                            //}
-                            //else
-                            //{
-
-                            //}
-
-                            // check Licence
+                            // todo if(CheckLicence( loadData.MyApps[_AppCode].Licence) == true) {
 
                             userAccess.Id = loadData.Id;
                             userAccess.UserName = loadData.UserName;
                             userAccess.FullName = loadData.FullName;
+                            userAccess.Avatar = loadData.Avatar;
                             userAccess.WorkPlaceId = loadData.WorkPlaceId;
                             userAccess.Role = loadData.Role;
-
-                            ViewBag.SSOFullName = loadData.FullName;
-                            ViewBag.Avatar = loadData.Avatar;
                         }
                     }
                 }
                 catch { }
             }
 
+#if DEBUG
+            if (userAccess.Id.Length == 0)
+            {
+                userAccess.Id = "debug_id";
+                userAccess.UserName = "DebugUser";
+                userAccess.FullName = "Debug User";
+                userAccess.WorkPlaceId = "";
+                userAccess.Role = "";
+                userAccess.Avatar = @"\Content\Images\userUnauth.jpg";
+
+                ViewBag.SSOFullName = userAccess.FullName;
+                ViewBag.Avatar = userAccess.Avatar;
+
+                ViewBag.IsDebuging = true;
+            }
+#endif
             return userAccess;
-        }
-
-        internal static string GetSubDomain(Uri url, bool withoutBlib = true)
-        {
-            if (url.HostNameType == UriHostNameType.Dns)
-            {
-                string host = url.Host;
-
-                if (host.Split('.').Length > 2)
-                {
-                    int lastIndex = host.LastIndexOf(".");
-                    int index = host.LastIndexOf(".", lastIndex - 1);
-
-                    if(withoutBlib)
-                        return host.Substring(0, index - 5); //".blib".Length = 5
-                    return host.Substring(0, index);
-                }
-            }
-            return null;
-        }
-
-        private static bool CheckAccessEndDate(AccessInfo info)
-        {
-            if (info == null)
-                return false;
-
-            if (info.IsActivePeriod)
-            {
-                if (info.EndDate == null)
-                    return false;
-                return info.EndDate > DateTime.Now;
-            }
-
-            return true;
         }
     }
 }
