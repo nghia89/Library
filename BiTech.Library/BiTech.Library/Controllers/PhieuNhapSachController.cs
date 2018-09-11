@@ -20,12 +20,6 @@ namespace BiTech.Library.Controllers
     {
         public ActionResult Index(int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             int PageSize = 10;
             int PageNumber = (page ?? 1);
@@ -51,12 +45,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Details(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachLogic _SachLogic =
@@ -101,12 +89,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult TaoPhieuNhapSach()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
@@ -116,12 +98,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult TaoPhieuNhapSach(PhieuNhapSachModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -133,8 +109,8 @@ namespace BiTech.Library.Controllers
                 PhieuNhapSach pns = new PhieuNhapSach()
                 {
                     GhiChu = model.GhiChu,
-                    IdUserAdmin = userdata.Id,
-                    UserName = userdata.UserName
+                    IdUserAdmin = _UserAccessInfo.Id,
+                    UserName = _UserAccessInfo.UserName
                 };
 
                 string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);
@@ -204,11 +180,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ImportFromExcel(PhieuNhapSachModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -237,8 +208,8 @@ namespace BiTech.Library.Controllers
                 PhieuNhapSach pns = new PhieuNhapSach()
                 {
                     GhiChu = model.GhiChu,
-                    IdUserAdmin = userdata.Id,
-                    UserName = userdata.UserName
+                    IdUserAdmin = _UserAccessInfo.Id,
+                    UserName = _UserAccessInfo.UserName
                 };
                 string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);
                 var listAllTTS = _TrangThaiSachLogic.GetAll();
@@ -298,12 +269,6 @@ namespace BiTech.Library.Controllers
         [HttpGet]
         public JsonResult _GetBookItemById(string maKS, int soLuong, string idtrangthai, string GhiChuDon)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             if (maKS != null)
@@ -343,12 +308,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Autocomplete(string a)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
             SachLogic _SachLogic =
                new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
@@ -363,12 +322,6 @@ namespace BiTech.Library.Controllers
         //VINH
         public JsonResult GetBookByID(string idSach)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Sach _sach = _SachLogicLogic.GetBook_NonDelete_ByMKS(new SachCommon().GetInfo(idSach));

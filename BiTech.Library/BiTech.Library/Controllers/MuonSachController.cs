@@ -20,12 +20,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Index(string IdUser, string flagResult)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             //Danh sách
@@ -96,12 +90,7 @@ namespace BiTech.Library.Controllers
         public JsonResult GetBook(string maSach)
         {
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
+            
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(maSach));
@@ -111,7 +100,7 @@ namespace BiTech.Library.Controllers
                 {
                     MaKiemSoat = _sach.MaKiemSoat,
                     TenSach = _sach.TenSach,
-                    SoLuong = GetSoLuongSach(_sach.Id, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName).ToString()
+                    SoLuong = GetSoLuongSach(_sach.Id, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName).ToString()
                 });
             }
 
@@ -124,15 +113,9 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public JsonResult GetListBook_IdUser(string IdUser)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
 
-            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser), userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser), Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
@@ -144,13 +127,7 @@ namespace BiTech.Library.Controllers
         {
             if (List_newitem == null)
                 return Json(false, JsonRequestBehavior.AllowGet);
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(false, JsonRequestBehavior.AllowGet);
-            #endregion
-
+            
             ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
@@ -190,7 +167,7 @@ namespace BiTech.Library.Controllers
                         }
                     }
                 }
-                list_book = GetByIdUser(List_newitem[0].IdUser, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                list_book = GetByIdUser(List_newitem[0].IdUser, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 return Json(list_book, JsonRequestBehavior.AllowGet);
             }
             return Json(false, JsonRequestBehavior.AllowGet);

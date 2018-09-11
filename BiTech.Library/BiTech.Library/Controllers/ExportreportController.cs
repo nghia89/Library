@@ -31,13 +31,7 @@ namespace BiTech.Library.Controllers
         // GET: exportreport
         public ActionResult Index()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThongTinThuVien = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            #endregion
 
             string Key = "nambatdau";
             ThongTinThuVien tt = _ThongTinThuVien.GetCustomKey(Key);
@@ -58,13 +52,8 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ExportTTSach(int? year)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            var _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
             #region Khai báo
+            var _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             if (year == null)
             {
                 year = DateTime.Now.Year;
@@ -248,7 +237,7 @@ namespace BiTech.Library.Controllers
 
                 // dữ liệu mỗi tháng ứng mới 1 phần tử trong mảng (mảng có 12 phần tử ứng với 12 tháng)
                 soNguoiMuonSachTrongNam[i] = nghiepVu.DemSoNguoiMuonSach(list);
-                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             }
             #endregion
             #endregion
@@ -340,12 +329,6 @@ namespace BiTech.Library.Controllers
         //xuất tất cả sách theo trạng thái có cho mượn hay không
         public ActionResult ExportSLSachTT()
         {
-            #region lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet);
-            #endregion
-
             SachLogic _sachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);

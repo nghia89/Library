@@ -21,12 +21,6 @@ namespace BiTech.Library.Controllers
 		// GET: PhieuXuatSach
 		public ActionResult Index(int? page)
 		{
-			#region  Lấy thông tin người dùng
-			var userdata = GetUserData();
-			if (userdata == null)
-				return RedirectToAction("LogOff", "Account");
-			#endregion
-
 			PhieuXuatSachLogic _PhieuXuatSachLogic = new PhieuXuatSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			int PageSize = 10;
 			int PageNumber = (page ?? 1);
@@ -51,12 +45,6 @@ namespace BiTech.Library.Controllers
 
 		public ActionResult Details(string id)
 		{
-			#region  Lấy thông tin người dùng
-			var userdata = GetUserData();
-			if (userdata == null)
-				return RedirectToAction("LogOff", "Account");
-			#endregion
-
 			ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			SachLogic _SachLogic =
@@ -102,12 +90,6 @@ namespace BiTech.Library.Controllers
 
 		public ActionResult TaoPhieuXuatSach()
 		{
-			#region  Lấy thông tin người dùng
-			var userdata = GetUserData();
-			if (userdata == null)
-				return RedirectToAction("LogOff", "Account");
-			#endregion
-
 			TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
 			ViewBag.listtt = _TrangThaiSachLogic.GetAll();
@@ -117,12 +99,6 @@ namespace BiTech.Library.Controllers
 		[HttpPost]
 		public ActionResult TaoPhieuXuatSach(PhieuXuatSachModels model)
 		{
-			#region  Lấy thông tin người dùng
-			var userdata = GetUserData();
-			if (userdata == null)
-				return RedirectToAction("LogOff", "Account");
-			#endregion
-
 			var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			var _PhieuNhapSachLogic = new PhieuXuatSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			var _ChiTietNhapSachLogic = new ChiTietXuatSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -135,8 +111,8 @@ namespace BiTech.Library.Controllers
 				PhieuXuatSach pxs = new PhieuXuatSach()
 				{
 					GhiChu = model.GhiChu,
-					IdUserAdmin = userdata.Id,
-					UserName = userdata.UserName
+					IdUserAdmin = _UserAccessInfo.Id,
+					UserName = _UserAccessInfo.UserName
 				};
 				string idPhieuXuat = _PhieuNhapSachLogic.XuatSach(pxs);
 
@@ -202,12 +178,6 @@ namespace BiTech.Library.Controllers
 		[HttpGet]
 		public JsonResult _GetBookItemById(string maKiemSoat, int soLuong, string idtrangthai, string ghiChuDon, int soLuongHienThi)
 		{
-			#region  Lấy thông tin người dùng
-			var userdata = GetUserData();
-			if (userdata == null)
-				return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-			#endregion
-
 			var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			var _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			var _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -256,12 +226,6 @@ namespace BiTech.Library.Controllers
 
 		public JsonResult GetStatusByIdBook(string idBook)
 		{
-			#region  Lấy thông tin người dùng
-			var userdata = GetUserData();
-			if (userdata == null)
-				return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-			#endregion
-
 			SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			TrangThaiSachLogic _TrangThaiSach = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 			SoLuongSachTrangThaiLogic _SLSachTTLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);

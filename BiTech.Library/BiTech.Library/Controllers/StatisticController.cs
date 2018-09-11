@@ -21,12 +21,6 @@ namespace BiTech.Library.Controllers
         // GET: ThongKe
         public ActionResult Index()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             _ThongTinThuVien = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             string Key = "nambatdau";
@@ -46,16 +40,8 @@ namespace BiTech.Library.Controllers
 
         public JsonResult BieuDoPhieuMuon(int? month, int? year, BieuDoPhieuMuonViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null,JsonRequestBehavior.AllowGet);
             var _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            #endregion
-
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
 
             #region Khai báo
             if (month == null)
@@ -408,7 +394,7 @@ namespace BiTech.Library.Controllers
 
                 soPhieuMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoPhieuMuon(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiMuonSachTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiMuonSach(arrTTSachMuon[ngayMuon.Day]);
-                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(arrTTSachMuon[ngayMuon.Day], userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                soSachDuocMuonTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachDuocMuon(arrTTSachMuon[ngayMuon.Day], Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 soNguoiKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiKhongTra(arrTTSachMuon[ngayMuon.Day]);
                 soNguoiTraTreTrongThang[ngayMuon.Day] = nghiepVu.DemSoNguoiTraTre(arrTTSachMuon[ngayMuon.Day]);
                 soSachKhongTraTrongThang[ngayMuon.Day] = nghiepVu.DemSoSachKhongTra(arrTTSachMuon[ngayMuon.Day]);
@@ -575,7 +561,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongNam[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongNam[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongNam[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 // new                                 
                 soSachKhongTraTrongNam[i] = nghiepVu.DemSoSachKhongTra(list);
                 soNguoiTraSachTrongNam[i] = nghiepVu.DemSoNguoiTraSach(list);
@@ -615,7 +601,7 @@ namespace BiTech.Library.Controllers
                 soNguoiTraTreTrongQuy[i] = nghiepVu.DemSoNguoiTraTre(list);
                 soNguoiKhongTraTrongQuy[i] = nghiepVu.DemSoNguoiKhongTra(list);
                 soPhieuMuonTrongQuy[i] = nghiepVu.DemSoPhieuMuon(list);
-                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                soSachDuocMuonTrongQuy[i] = nghiepVu.DemSoSachDuocMuon(list, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 // new            
                 soSachKhongTraTrongQuy[i] = nghiepVu.DemSoSachKhongTra(list);
               
@@ -746,12 +732,6 @@ namespace BiTech.Library.Controllers
         [HttpGet]
         public JsonResult DataInformation()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet);
-            #endregion
-
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var query = _SachLogic.getAll();
             DataInformationVM ListSl = new DataInformationVM();
@@ -782,12 +762,6 @@ namespace BiTech.Library.Controllers
 
         public JsonResult StartDayAndlastDay(DateTime dateTime)
         {
-            #region lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet);
-            #endregion
-
             SachLogic _sachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             int[] arrDay = new int[7];
             DateTime thisWeekStart = dateTime.AddDays(-(int)dateTime.DayOfWeek);
@@ -806,7 +780,7 @@ namespace BiTech.Library.Controllers
             foreach (var item in listDates)
             {
                 // list chứ thông tin thống kê của 1 ngày
-                model.thongKeTheoTuan.Add(nghiepVu.ThongKeTheoTuan(item, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName));
+                model.thongKeTheoTuan.Add(nghiepVu.ThongKeTheoTuan(item, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName));
             }
 
             int[] arrSoNguoiMuon = new int[7];
@@ -833,12 +807,6 @@ namespace BiTech.Library.Controllers
 
         public JsonResult TTSach()
         {
-            #region lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet);
-            #endregion
-
             SachLogic _sachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -872,5 +840,4 @@ namespace BiTech.Library.Controllers
             return result;
         }
     }
-
 }

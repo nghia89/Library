@@ -19,12 +19,6 @@ namespace BiTech.Library.Controllers
         // GET: TacGia
         public ActionResult Index(int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             int PageSize = 10;
             int PageNumber = (page ?? 1);
@@ -58,12 +52,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Create(TacGia tacgia)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             _TacGiaLogic.Insert(tacgia);
 
@@ -74,11 +62,6 @@ namespace BiTech.Library.Controllers
         // GET: TacGia/Edit
         public ActionResult Edit(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var tacgia = _TacGiaLogic.GetById(id);
             if (tacgia == null)
@@ -98,12 +81,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Edit(TacGia tacgia)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             _TacGiaLogic.Update(tacgia);
 
@@ -113,11 +90,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public JsonResult GetAll()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _TacGiaLogic.GetAllTacGia();
@@ -128,11 +100,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public JsonResult GetAllTacGiaByIdSach(string idSach)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
@@ -152,12 +119,6 @@ namespace BiTech.Library.Controllers
 
         public JsonResult FindTacGia(string query)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _TacGiaLogic.FindTacGia(query);
@@ -175,12 +136,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Delete(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var tacgia = _TacGiaLogic.GetById(Id);
             _TacGiaLogic.Delete(tacgia.Id);
@@ -190,12 +145,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ThemAjax(TacGiaViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TacGia TG = new TacGia()
