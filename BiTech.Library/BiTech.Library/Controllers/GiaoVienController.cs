@@ -699,111 +699,7 @@ namespace BiTech.Library.Controllers
 
             return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });                 
         }
-
-        [HttpPost]
-        public JsonResult PreviewImport_Json(HttpPostedFileBase file,List<ThanhVien> RawDataList2)
-        {
-            if (file != null)
-            {
-                // Chỉ chấp nhận file *.xls, *.xlsx
-                if (Path.GetExtension(file.FileName).EndsWith(".xls") || Path.GetExtension(file.FileName).EndsWith(".xlsx"))
-                {
-                    var viewModel = new ImportResultViewModel();
-                    // Đường dẫn để lưu nội dung file Excel
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
-                    string uploadFileName = null;
-                    string physicalWebRootPath = Server.MapPath("/");
-                    uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, file.FileName);
-                    string location = Path.GetDirectoryName(uploadFileName);
-                    if (!Directory.Exists(location))
-                    {
-                        Directory.CreateDirectory(location);
-                    }
-                    // Ghi nội dung file Excel vào tệp tạm
-                    using (var fileStream = new FileStream(uploadFileName, FileMode.Create))
-                    {
-                        // Lưu                
-                        file.InputStream.CopyTo(fileStream);
-                        string sourceSavePath = uploadFileName;
-                        Workbook workBook = new Workbook(sourceSavePath);
-                        Worksheet workSheet = workBook.Worksheets[0];
-                        // Số dòng, đầu tiên chứ dữ liệu
-                        int firstRow = workSheet.Cells.FirstCell.Row + 1;
-                        int firstColumn = workSheet.Cells.FirstCell.Column;
-                        // Số dòng, cột tối đa
-                        var maxRows = workSheet.Cells.MaxDataRow - workSheet.Cells.MinDataRow;
-                        var maxColumns = (workSheet.Cells.MaxDataColumn + 1) - workSheet.Cells.MinDataColumn;
-                        //
-                        viewModel.RawDataList = new List<string[]>();
-                        // Đọc từng dòng trong Excel
-                        for (int rowIndex = firstRow; rowIndex <= firstRow + maxRows; rowIndex++)
-                        {
-                            // Xác định dòng dữ liệu này có bị trống dữ liệu CẢ DÒNG hay không.
-                            var isEmptyRow = true;
-                            // Tạo từng dòng thông tin
-                            var rowData = new string[maxColumns];
-                            // Lấy nội dung từng cột dữ liệu trong hàng hiện tại.
-                            for (int columnIndex = firstColumn; columnIndex <= firstColumn + maxColumns; columnIndex++)
-                            {
-                                // Đọc nội dung ô
-                                var cellData = (workSheet.Cells[rowIndex, columnIndex]).Value?.ToString() ?? "";
-                                if (false == string.IsNullOrEmpty(cellData))
-                                {
-                                    // Lấy nội dung của Ô, lưu vào bộ nhớ
-                                    rowData[columnIndex - firstColumn] = cellData;
-                                    // Xác định Row hiện tại không bị trống dữ liệu
-                                    isEmptyRow = false;
-                                }
-                            }
-                            #region Nếu dòng không trống thì thêm vào danh sách đã quét.
-                            if (isEmptyRow == false)
-                            {
-                                viewModel.RawDataList.Add(rowData);
-                                // TO DO Angular
-                                ThanhVien tv = new ThanhVien();
-                                tv.Ten = rowData[0];
-                                tv.UserName = rowData[1];
-                                tv.MaSoThanhVien = rowData[2];
-                                tv.GioiTinh = rowData[3];
-                                tv.NgaySinhForAngular = rowData[4];
-                                tv.LopHoc = rowData[5];
-                                tv.NienKhoa = rowData[6];
-                                tv.DiaChi = rowData[7];
-                                tv.SDT = rowData[8];
-                                viewModel.RawListTV.Add(tv);
-                            }
-                            #endregion                            
-                        }
-                        workBook.Dispose();
-
-                        // Realse
-                        //releaseObject(workSheet);
-                        // releaseObject(workBook);
-                        // releaseObject(xlApp);
-                    }
-                    // Xóa file đã lưu tạm
-                    System.IO.File.Delete(uploadFileName);
-                    viewModel.TotalEntry = viewModel.RawListTV.Count;
-                    //  return View(viewModel);
-                    viewModel.UploadFile = file;                   
-                    return Json(viewModel, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { status = "fail", message = "Tập tin không đúng định dạng của Excel, vui lòng kiểm tra lại" });
-                }
-            }
-            else if (RawDataList2 != null)
-            {
-                var viewModel = new ImportResultViewModel();
-                viewModel.TotalEntry = viewModel.RawListTV.Count;
-                viewModel.RawListTV =  RawDataList2;
-                return Json(viewModel, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });
-        }
-
-
+   
         public ActionResult RequestEditPreviewForm(string[] data, string orderNumber)
         {
             ViewBag.OrderNumber = orderNumber;
@@ -1073,6 +969,7 @@ namespace BiTech.Library.Controllers
             return View(model);
             #endregion
         }
+
         public ActionResult DowloadExcel(string fileName)
         {
             if (fileName == null)

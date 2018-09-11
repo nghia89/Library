@@ -86,18 +86,16 @@
 
 
 @section scripts{
+    <link href="~/Scripts/bootzard-bootstrap-wizard-new-step/assets/css/style.css" rel="stylesheet" />
+    <script src="~/Scripts/bootzard-bootstrap-wizard-new-step/assets/js/jquery.backstretch.js"></script>
+    <script src="~/Scripts/bootzard-bootstrap-wizard-new-step/assets/js/scripts.js"></script>
+    <link href="~/Scripts/Simple-Ajax-Uploader/examples/assets/css/styles.css" rel="stylesheet" />
+    <script src="~/Scripts/Simple-Ajax-Uploader/SimpleAjaxUploader.js"></script>
 
-   
-    <link href="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/css/style.css" rel="stylesheet" />
-    <script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/jquery.backstretch.js"></script>
-    <script src="~/ExcelStep/bootzard-bootstrap-wizard-new-step/assets/js/scripts.js"></script>
-    <script src="~/ExcelStep/Simple-Ajax-Uploader/SimpleAjaxUploader.js"></script>
-    <link href="~/ExcelStep/Simple-Ajax-Uploader/examples/assets/css/styles.css" rel="stylesheet" />
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="~/bower_components/custom-file-input/custom-file-input.js"></script>
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-
     <script>
         function ReadUrl(input) {
             if (input.files && input.files[0]) {
@@ -120,8 +118,7 @@
 
             var uploader = new ss.SimpleUpload({
                 button: btn,
-                url: '@Url.Content("~/GiaoVien/PreviewImport")',
-                @*url: '@Url.Content("~/GiaoVien/PreviewImport_Json")',*@
+                url: '@Url.Content("~/GiaoVien/PreviewImport")',              
                 name: 'file',
                 multipart: true,
                 hoverClass: 'hover',
@@ -181,7 +178,7 @@
                         type: "error",
                         text: "Có lỗi xảy ra, vui lòng thử lại !!! \r\n Kiểm tra định dạng, dung lượng tập tin hoặc trường truyền Internet"
                     }, function myfunction() {
-                      //  location.reload();
+                        //  location.reload();
                     });
                 }
             });
