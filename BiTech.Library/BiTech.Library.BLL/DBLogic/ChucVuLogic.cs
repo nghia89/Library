@@ -9,7 +9,7 @@ using BiTech.Library.DAL;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class ChucVuLogic
+    public class ChucVuLogic : BaseLogic
     {
         ChucVuEngine _chucVuEngine;
         public ChucVuLogic(string connectionString, string databaseName)

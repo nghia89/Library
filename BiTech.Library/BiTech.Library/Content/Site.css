@@ -3,6 +3,14 @@
     margin: 0;
 }
 
+html {
+
+    background: url('Images/background.jpg') no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: right;
+}
+
 a {
     color: #000;
 }
@@ -87,6 +95,14 @@ a {
     margin-top: -12px;
     margin-bottom: -6px;
 }
+
+.input-group-append .btn, .input-group-prepend .btn {
+    z-index: 0;
+}
+
+.table {
+    background: #fff;
+}
 /*End bootstap edit*/
 
 .a_td {
@@ -133,7 +149,7 @@ a:hover {
     display: inline-block;
     font-size: 18px;
     line-height: 18px;
-    min-width: 250px;
+    min-width: 225px;
     cursor: pointer;
 }
 
@@ -157,6 +173,7 @@ a:hover {
     border-bottom: 2px solid;
     position: relative;
     color: #2E5894;
+    width: 50%;
     display: inline-block;
     text-transform: uppercase;
 }
@@ -178,8 +195,14 @@ a:hover {
         }
 
 .form-label {
-    text-align: right;
+    text-align: left;
     font-weight: 600;
+}
+
+@media (min-width:768px) {
+    .form-label {
+        text-align: right;
+    }
 }
 
 /*---Menu left---*/
@@ -241,9 +264,11 @@ a:hover {
         background: #154D81;
     }
 
+
+
 .contain .top {
     background: #718D94;
-    min-height: 40px;
+    min-height: 50px;
     position: relative;
     z-index: 3;
 }
@@ -252,11 +277,30 @@ a:hover {
         float: left;
     }
 
-        .contain .top .banner h4, h5 {
+        .contain .top .banner .apptitle1 {
             color: white;
             margin: 0px;
-            padding-top: 5px;
+            padding-top: 2px;
             padding-left: 15px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .contain .top .banner .apptitle2 {
+            color: white;
+            margin: 0px;
+            padding-top: 2px;
+            padding-left: 15px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .contain .top .banner .dash {
+            display: none;
         }
 
 .contain .left {
@@ -267,7 +311,7 @@ a:hover {
     .contain .left .bg {
         background: #728D94;
         height: 100%;
-        width: 250px;
+        width: 225px;
         display: inline-block;
         left: 0;
         position: fixed;
@@ -285,7 +329,7 @@ a:hover {
     }
 
     .contain .left .menu {
-        width: 250px;
+        width: 225px;
         display: inline-block;
         float: left;
         position: relative;
@@ -295,7 +339,7 @@ a:hover {
         .contain .left .menu .logo {
             text-align: center;
             background: #f8f9fa;
-            height: 89px;
+            height: 90px;
         }
 
         .contain .left .menu ul {
@@ -304,8 +348,41 @@ a:hover {
             padding: 0;
         }
 
+@media (min-width: 492px) {
+
+    .contain .top {
+        min-height: 40px;
+    }
+
+        .contain .top .banner {
+            display: inline-flex;
+        }
+
+            .contain .top .banner .apptitle1 {
+                padding-top: 8px;
+            }
+
+            .contain .top .banner .apptitle2 {
+                padding-left: 0px;
+                padding-top: 8px;
+            }
+
+            .contain .top .banner .dash {
+                color: white;
+                margin: 0px;
+                padding-top: 8px;
+                padding-left: 5px;
+                padding-right: 5px;
+                font-size: 1.1rem;
+                font-family: inherit;
+                font-weight: 500;
+                line-height: 1.2;
+                display: inline-block;
+            }
+}
+
 #accordion {
-    width: 250px;
+    width: 225px;
 }
 
     #accordion .card {
@@ -362,20 +439,20 @@ a:hover {
         }
 
             #accordion .card-header a:before {
-                content: "":;
+                content: "";
             }
 
-            #accordion .card-header a .fa {
-            }
+            /*#accordion .card-header a .fa {
+            }*/
 
 
 /*---End Menu left---*/
 
 /*--- right---*/
 .contain .right {
-    background: #fff;
+    /*background: #fff;*/
     min-height: 500px;
-    width: calc(100% - 250px);
+    width: calc(100% - 225px);
     float: right;
     padding: 0 10px;
     /*position: relative;*/
@@ -383,43 +460,56 @@ a:hover {
 }
 
     .contain .right .content {
-        box-shadow: 0 0 10px #ccc;
+        /*box-shadow: 0 0 10px #ccc*/;
         min-height: 500px;
         margin-bottom: 50px;
         padding-bottom: 10px;
         overflow: auto;
         font-size: 15px;
     }
+
+    .contain .right table {
+        background: #fff;
+    }
 /*---End right---*/
+
 /*menu top*/
 .menutop {
     float: right;
+    margin-top: 8px;
+    margin-right: 15px;
 }
 
-    .menutop li {
-        padding: 7px;
+    .menutop a {
+        color: #fff;
     }
 
-        .menutop li a {
-            color: #fff;
+        .menutop a:hover {
+            color: #e3e3e3;
         }
+    .menutop .dropdown-menu {
+        transform: translate3d(-66px, 30px, 0px) !important;
+    }
+    .menutop .dropdown-menu a {
+        color: #000;
+    }
 
-            .menutop li a:hover {
-                color: #e3e3e3;
-            }
-
-        .menutop li .dropdown-menu a {
+        .menutop .dropdown-menu a:hover {
             color: #000;
         }
 
-            .menutop li .dropdown-menu a:hover {
-                color: #000;
-            }
+    .menutop .dropdown-menu .divider {
+        height: 1px;
+        margin: 9px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+    }
 
 .box-search {
     margin-top: 1px;
 }
 /*end menu top*/
+
 /*--- small_menu---*/
 .small_menu .menu > ul > li {
     width: 40px;
@@ -516,7 +606,8 @@ a:hover {
 .bg,
 .bg_icon,
 .logo,
-.menu {
+.menu,
+.card-body {
     transition: all 0.3s ease-out;
 }
 
@@ -526,9 +617,23 @@ a:hover {
 }
 
     .small_menu #accordion .card-header a .fa {
-        padding: 11px;
+        padding: 9px 0px 9px 10px;
         /* font-size: 22px; */
     }
+
+.card-header-title {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: visibility 0.3s, opacity 0.3s linear;
+    transition: visibility 0.3s, opacity 0.3s linear;
+}
+
+.small_menu .card-header-title {
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: visibility 0.3s, opacity 0.3s linear;
+    transition: visibility 0.3s, opacity 0.3s linear;
+}
 
 .small_menu #accordion .card-body {
     display: none;
@@ -539,15 +644,15 @@ a:hover {
     height: 0;
 }
 
-.small_menu #accordion .card.active .card-header {
+.small_menu #accordion .card .active .card-header {
     position: relative;
 }
 
-    .small_menu #accordion .card.active .card-header:after {
+    .small_menu #accordion .card .active .card-header:after {
         content: "";
         position: absolute;
         width: 40px;
-        height: 38px;
+        height: 34px;
         top: 0;
         left: 0;
         z-index: 10;
@@ -942,6 +1047,12 @@ a:hover {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+.pagination-container {
+    z-index: 0;
+    position: relative;
+}
+
 /*Mượn sách*/
 .hidden_lib {
     display: none;
@@ -981,6 +1092,7 @@ a:hover {
     border: 3px solid #f1f1f1;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    background: #fff;
 }
 
     .container-box-window .top {
@@ -1004,6 +1116,53 @@ a:hover {
         /*overflow-x: auto;*/
     }
 
+
+
+.Thongtinuser {
+    text-align: center;
+}
+
+    .Thongtinuser * {
+        max-width: 100%;
+    }
+
+    .Thongtinuser img {
+        width: 170px;
+        height: 170px;
+        border-radius: 100%;
+        border: 6px solid #B3C9CB;
+        object-fit: cover;
+    }
+
+    .Thongtinuser .ten {
+        font-size: 17px;
+        padding: 5px 0;
+        font-weight: 700;
+        color: #728C92;
+    }
+
+    .Thongtinuser .mks {
+        font-weight: 600;
+        color: #000;
+    }
+
+    .Thongtinuser .list {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+    }
+
+.danhsachmuon {
+    min-height: 100%;
+}
+
+.box-table-min {
+    overflow-x: auto;
+}
+
+.table-min {
+    min-width: 700px;
+}
 /*End Mượn sách*/
 @media screen and (max-width: 1500px) {
     .book_box_v3 {
@@ -1022,6 +1181,7 @@ a:hover {
 @media screen and (max-width: 1200px) {
     .book_box_v3 {
         margin: 3px;
+        width: calc(50% - 6px);
     }
 
         .book_box_v3 .container-box-window {
@@ -1101,6 +1261,10 @@ a:hover {
 }
 
 @media screen and (max-width: 768px) {
+    .box-Thongtinuser {
+        margin-top: 20px;
+    }
+
     .book_box_v2 {
         width: calc(100% - 20px);
         max-width: 600px;
@@ -1122,6 +1286,24 @@ a:hover {
 
 
 @media screen and (max-width: 600px) {
+    .bar_mobile {
+        padding: .5rem 1.5rem !important;
+    }
+
+        .bar_mobile > div {
+            width: 100%;
+        }
+
+        .bar_mobile .btn-primary {
+            width: calc(50% - 3px);
+            margin: 2px 0px;
+        }
+
+    .bar_mobile_tl .btn-sm {
+        width: calc(100% - 3px);
+        margin: 2px 0px;
+    }
+
     .line-gl,
     .box_temp {
         display: none;
@@ -1143,6 +1325,7 @@ a:hover {
     }*/
     .book_box_v3 {
         margin: 2px;
+        width: calc(100% - 4px);
     }
 
         .book_box_v3 .container-box-window {
@@ -1198,6 +1381,11 @@ a:hover {
     .book_box_v3 .container-box-window .book_cell_information.width_right {
         width: 100%;
     }
+
+    .bar_mobile .btn-sm {
+        width: calc(100% - 3px);
+        margin: 2px 0px;
+    }
 }
 
 /*----------css Autocomplate--------*/
@@ -1222,16 +1410,16 @@ a:hover {
     flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     width: 100%;
-	justify-content: center;
+    justify-content: center;
 }
 
 @media (min-width: 900px) {
     .home-menu {
         flex: 0 0 95%;
         max-width: 95%;
-        margin-left:auto;
-        margin-right:auto;
-        padding:0px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0px;
     }
 }
 
@@ -1375,7 +1563,7 @@ a:hover {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    margin: 2px;
+    margin: 2px 4px;
 }
 
     .btntag-group > .btntag,
@@ -1397,3 +1585,84 @@ a:hover {
     display: inline-block;
     text-transform: uppercase;
 }
+
+/*--Custom Detail---------*/
+
+.container-dl {
+}
+
+.col-dl-left {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.col-dl-right {
+    width: 100%;
+}
+
+@media (min-width:992px) {
+
+    .container-dl {
+        display: flex;
+    }
+
+    .col-dl-left {
+        width: 300px;
+        float: left;
+        margin-bottom: 0px;
+    }
+}
+
+.col-dl-label, .col-dl-half, .col-dl-full {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width:768px) {
+
+    .col-dl-label {
+        -ms-flex: 0 0 20%;
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+
+    .col-dl-half {
+        -ms-flex: 0 0 30%;
+        flex: 0 0 30%;
+        max-width: 30%;
+    }
+
+    .col-dl-full {
+        -ms-flex: 0 0 80%;
+        flex: 0 0 80%;
+        max-width: 80%;
+    }
+}
+
+.button-dl-spc {
+    width: 28px;
+    height: 28px;
+    line-height: 1.5;
+    padding: 2px;
+    margin-right: 3px;
+}
+
+@media (min-width: 768px) {
+    .user-dl-spc {
+        margin-top: 40px;
+    }
+}
+
+/*--Custom Detail END-----*/
+
+/*--Custom file input---------*/
+
+.inputfile-2 + label {
+    background: white;
+}
+
+/*--Custom file input END-----*/
+

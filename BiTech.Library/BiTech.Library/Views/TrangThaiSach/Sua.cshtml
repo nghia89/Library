@@ -1,13 +1,14 @@
 ﻿@model BiTech.Library.Models.TrangThaiSachViewModels
 @{
-    ViewBag.Title = "SuaTT";
+    ViewBag.Title = "Sửa tình trạng";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <script src="~/Scripts/jquery-1.12.4.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-<div class="Title">Sửa Trạng Thái Sách</div>
+
+<div class="Title">Sửa Tình Trạng Sách</div>
 
 <div class="form-group row">
     <div class="col-md-12">
@@ -21,7 +22,7 @@
     @using (Html.BeginForm("Sua", "TrangThaiSach", FormMethod.Post, new { role = "form" }))
     {
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="tentt">Tên tình trạng:<span style="color:#dc3545">*</span></label>
+            <label class="col-form-label col-sm-2" for="tentt">Tên trạng thái:<span style="color:#dc3545">*</span></label>
             <div class="col-sm-10">
                 @Html.TextBoxFor(m => m.TenTT, new { @class = "form-control form-control-sm", @id = "tentt" })
                 @Html.ValidationMessageFor(m => m.TenTT, "", new { @class = "text-danger" })
@@ -29,7 +30,7 @@
         </div>
 
         <div class="form-group row tinhtrangsach">
-            <label class="col-form-label col-sm-2" for="TrangThai">Loại tình trạng:</label>
+            <label class="col-form-label col-sm-2" for="TrangThai">Loại trạng thái:</label>
             <div class="col-sm-10 mt-2">
                 <div class="custom-control custom-checkbox">
                     @Html.CheckBoxFor(m => m.TrangThai, new { @Class = "custom-control-input"})

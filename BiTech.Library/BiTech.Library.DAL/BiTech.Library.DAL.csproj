@@ -77,9 +77,11 @@
     <Compile Include="CommonConstants\CommonConstants.cs" />
     <Compile Include="Common\KeySearchViewModel.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Engines\AccessInfoEngine.cs" />
     <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
     <Compile Include="Engines\ChiTietXuatSachEngine.cs" />
     <Compile Include="Engines\ChucVuEngine.cs" />
+    <Compile Include="Engines\DDCEngine.cs" />
     <Compile Include="Engines\PhieuNhapSachEngine.cs" />
     <Compile Include="Engines\LanguageEngine.cs" />
     <Compile Include="Engines\NhaXuatBanEngine.cs" />
@@ -95,10 +97,12 @@
     <Compile Include="Engines\TacGiaEngine.cs" />
     <Compile Include="Engines\TheLoaiSachEngine.cs" />
     <Compile Include="IDatabase.cs" />
+    <Compile Include="MongoMirgrations\AccessInfo_Mirgrations\M001_Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietNhapSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M001\V_0_0_2_RemoveField.cs" />
     <Compile Include="MongoMirgrations\ChucVu_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\DDC_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\NhaXuatBan_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\KeSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\Language_Mirgrations\M000\Init.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respository\EntityRepository.cs" />
     <Compile Include="Respository\IEntityRepository.cs" />
+    <Compile Include="StoreDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -111,7 +111,7 @@ namespace BiTech.Library.DTO
         public string IdNgonNgu { get; set; }
 
         /// <summary>
-        /// Đã được xóa chưa
+        /// Mã DDC
         /// </summary>
         public string DDC { get; set; }
 
@@ -126,12 +126,13 @@ namespace BiTech.Library.DTO
         public string QRlink { get; set; }
 
         public string QRData { get; set; }
-        public bool IsDeleted { get; set; } = true;
+        public bool IsDeleted { get; set; } = true;		
 
         /// <summary>
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
+
         #region Tai
         [BsonIgnore]
         public List<TacGia> listTacGia { get; set; }

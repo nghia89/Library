@@ -34,7 +34,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _ThongTinThuVien = new ThongTinThuVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _ThongTinThuVien = new ThongTinThuVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             #endregion
 
@@ -61,7 +61,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            var _thongKeLogic = new ThongKeLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             #region Khai báo
             if (year == null)
@@ -247,7 +247,7 @@ namespace BiTech.Library.Controllers
 
                 // dữ liệu mỗi tháng ứng mới 1 phần tử trong mảng (mảng có 12 phần tử ứng với 12 tháng)
                 soNguoiMuonSachTrongNam[i] = nghiepVu.DemSoNguoiMuonSach(list);
-                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                soSachDuocMuonTrongNam[i] = nghiepVu.DemSoSachDuocMuon(list, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             }
             #endregion
             #endregion
@@ -345,9 +345,9 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             #endregion
 
-            SachLogic _sachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _sachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var getAllTTSach = _trangThaiSachLogic.GetAll();
             var getAllSLTTS = _SoLuongSachTrangThaiLogic.GetAll();

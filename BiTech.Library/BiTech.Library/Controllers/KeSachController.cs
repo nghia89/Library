@@ -1,13 +1,14 @@
 ﻿using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Models;
+using PagedList;
+using PagedList.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
-using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
@@ -23,7 +24,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             var list = _keSachLogic.GetAll();
             List<KesachViewModels> lst = new List<KesachViewModels>();
             foreach (var item in list)
@@ -60,7 +61,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             KeSach keSach = new KeSach()
             {
@@ -82,7 +83,7 @@ namespace BiTech.Library.Controllers
             #endregion
             try
             {
-                KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 var dl = _keSachLogic.getById(Id);
                 _keSachLogic.Delete(dl.Id);
                 return RedirectToAction("Index");
@@ -100,7 +101,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             var kesach = _keSachLogic.getById(Id);
             if (kesach == null)
                 return RedirectToAction("NotFound", "Error");
@@ -125,7 +126,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             KeSach keSach = new KeSach()
             {
                 Id = model.Id,
@@ -146,7 +147,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             KeSach keSach = new KeSach()
             {
@@ -165,7 +166,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
-            KeSachLogic _keSachLogic =new KeSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            KeSachLogic _keSachLogic =new KeSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var list = _keSachLogic.GetAll();
             return Json(list, JsonRequestBehavior.AllowGet);

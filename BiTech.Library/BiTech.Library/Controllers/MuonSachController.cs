@@ -16,7 +16,9 @@ namespace BiTech.Library.Controllers
 {
     public class MuonSachController : BaseController
     {
-        public ActionResult Index(string IdUser)
+        static public List<MuonTraSachViewModel> list_ChuanBiMuon = new List<MuonTraSachViewModel>();
+
+        public ActionResult Index(string IdUser, string flagResult)
         {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
@@ -24,8 +26,8 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             //Danh sách
             List<ThanhVien> list_user = _ThanhVienLogic.GetAllActive();//Danh sách thành viên Active
             List<Sach> list_Sach = _SachLogic.getPageSach(new Common.KeySearchViewModel()); //Danh sách trong kho
@@ -39,6 +41,7 @@ namespace BiTech.Library.Controllers
             ViewBag.ThongBao = false; //Có hiện thị thông báo hay không
             ViewBag.ThongBaoString = ""; //Nội dung thông báo
             ViewBag.user = null; // Giữ thông tin user nếu đăng nhập thành công
+            ViewBag.flagResult = (flagResult == "true") ? true : false;
             ViewBag.MaxDate = 10;
 
             if (IdUser == null)
@@ -63,7 +66,7 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(IdUser);//Thành viên DeActive
+                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(new ThanhVienCommon().GetInfo(IdUser));//Thành viên DeActive
                     if (user_DeActive != null)
                     {
                         ViewBag.ThongBao = true;
@@ -76,8 +79,14 @@ namespace BiTech.Library.Controllers
                 }
                 #endregion
             }
-            ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien).Take(20).ToList();
-            ViewBag.list_maSach = list_Sach.Select(_ => _.MaKiemSoat).Take(20).ToList();
+
+            ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien).ToList();
+            ViewBag.list_maSach = list_Sach.Select(_ => _.MaKiemSoat + "-" + _.TenSach).ToList();
+
+            if(list_ChuanBiMuon != null)
+            {
+                list_book = list_ChuanBiMuon.OrderBy(_=>_.NgayMuon).ToList();
+            }
             return View(list_book);
         }
 
@@ -93,7 +102,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
-            SachLogic _SachLogicLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            SachLogic _SachLogicLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(maSach));
             if (_sach != null)
@@ -102,7 +111,7 @@ namespace BiTech.Library.Controllers
                 {
                     MaKiemSoat = _sach.MaKiemSoat,
                     TenSach = _sach.TenSach,
-                    SoLuong = GetSoLuongSach(_sach.Id, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName).ToString()
+                    SoLuong = GetSoLuongSach(_sach.Id, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName).ToString()
                 });
             }
 
@@ -122,7 +131,9 @@ namespace BiTech.Library.Controllers
             #endregion
 
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-            list_book = GetByIdUser(IdUser, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+
+            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser), userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
         
@@ -140,8 +151,8 @@ namespace BiTech.Library.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             #endregion
 
-            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
-            SachLogic _SachLogic = new SachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            SachLogic _SachLogic = new SachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
             if (List_newitem.Count > 0)
@@ -179,10 +190,19 @@ namespace BiTech.Library.Controllers
                         }
                     }
                 }
-                list_book = GetByIdUser(List_newitem[0].IdUser, userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                list_book = GetByIdUser(List_newitem[0].IdUser, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 return Json(list_book, JsonRequestBehavior.AllowGet);
             }
             return Json(false, JsonRequestBehavior.AllowGet);
+        }
+
+        // ChuanBiTra
+        // POST: /TraSach/UpdateList_ChuanBiMuon
+        [HttpPost]
+        public JsonResult UpdateList_ChuanBiMuon(List<MuonTraSachViewModel> List_newitem)
+        {
+            list_ChuanBiMuon = List_newitem;
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         #region Function

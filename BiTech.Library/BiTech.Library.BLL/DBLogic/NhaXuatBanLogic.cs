@@ -10,7 +10,7 @@ using BiTech.Library.DTO;
 
 namespace BiTech.Library.BLL.DBLogic
 {
-    public class NhaXuatBanLogic
+    public class NhaXuatBanLogic : BaseLogic
     {
         private string TableName = "NhaXuatBan";
         

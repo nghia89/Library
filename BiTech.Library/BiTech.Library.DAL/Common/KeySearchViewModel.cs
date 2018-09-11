@@ -11,6 +11,7 @@ namespace BiTech.Library.Common
         public String TheLoaiSach { get; set; }
         public String TenTacGia { get; set; }
         public String TenNXB { get; set; }
+        public string SapXep { get; set; }
 
         // dùng cho lấy sách theo id tác giả và chuyển về regex dạng OR -> không hiện lên view
         public List<string> ListSachIds { get; set; }

@@ -1,16 +1,18 @@
-﻿using BiTech.Library.BLL.DBLogic;
-using BiTech.Library.BLL.BarCode_QR;
-using BiTech.Library.Models;
+﻿using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
+using BiTech.Library.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
-using System.IO;
 using static BiTech.Library.Helpers.Tool;
+
 namespace BiTech.Library.Controllers
 {
     public class TheLoaiSachController : BaseController
@@ -25,7 +27,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var list = _TheLoaiSachLogic.GetAllTheLoaiSach();
             List<TheLoaiSachViewModels> list_viewmode = new List<TheLoaiSachViewModels>();
@@ -83,7 +85,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
 
             return View();
@@ -98,7 +100,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             TheLoaiSach TLS = new TheLoaiSach()
             {
@@ -121,7 +123,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             try
             {
@@ -132,6 +134,12 @@ namespace BiTech.Library.Controllers
                     MoTa = model.MoTa,
                     MaDDC = model.MaDDC
                 };
+
+                //todo bàn lại sau
+                //Kiểm tra ddc level mấy
+                //Kiểm tra ddc levet tra đã tồn tại chưa
+                //Nếu không có ddc thì theo idparent
+
                 if (check_NameChildren(TLS, model.IdParent))
                 {
                     _TheLoaiSachLogic.ThemTheLoaiSach(TLS);
@@ -153,7 +161,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             TheLoaiSach TLS = _TheLoaiSachLogic.getById(id);
             if (TLS == null)
@@ -211,7 +219,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             TheLoaiSach TLS = _TheLoaiSachLogic.getById(model.Id);
             if (TLS == null)
@@ -250,7 +258,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             try
             {
@@ -281,7 +289,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var TLS = _TheLoaiSachLogic.getById(Id);
             _TheLoaiSachLogic.XoaTheLoaiSach(TLS.Id);
@@ -304,12 +312,12 @@ namespace BiTech.Library.Controllers
         }
         [HttpPost]
         public ActionResult ImportFromExcel(TheLoaiSachViewModels model)
-        {
+          {
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             #endregion
             ExcelManager excelManager = new ExcelManager();
             List<TheLoaiSach> listExcel = new List<TheLoaiSach>();
@@ -366,7 +374,7 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
             TheLoaiSachLogic _TheLoaiSachLogic =
-                new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var list = _TheLoaiSachLogic.GetAllTheLoaiSach(true);
             return Json(list.OrderBy(c => c.MaDDC), JsonRequestBehavior.AllowGet);
@@ -388,7 +396,7 @@ namespace BiTech.Library.Controllers
             var userdata = GetUserData();
             #endregion
 
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             string kq = "";
             if (TLS == null)
@@ -413,7 +421,7 @@ namespace BiTech.Library.Controllers
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             #endregion
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             #region idParent_TL có là con hoặc cháu của id_TL không
 
@@ -456,7 +464,7 @@ namespace BiTech.Library.Controllers
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             #endregion
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             List<TheLoaiSach> list_chlidren = new List<TheLoaiSach>();
             if (idParent == null)
             {
@@ -484,7 +492,7 @@ namespace BiTech.Library.Controllers
             #region  Lấy thông tin người dùng
             var userdata = GetUserData();
             #endregion
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             List<string> list_id = new List<string>();
             if (id_check.IdParent == null)
             {
@@ -498,6 +506,20 @@ namespace BiTech.Library.Controllers
             return list_id;
         }
 
+        /// <summary>
+        /// Kiểm tra ddc level mấy 
+        /// </summary>
+        /// <param name="maDDC"></param>
+        /// <returns>
+        ///=>-1 không phải mã đc
+        ///=>1(vd: 000,100, 200 , ... 900)
+        ///=>2(vd: 010, 110, 210, ..., 910)
+        ///=>3(vd: 011, 111, 211, ..., 911)
+        /// </returns>
+        private int CheckDDC(string maDDC)
+        {
+            return -1;
+        }
         #endregion
     }
 }

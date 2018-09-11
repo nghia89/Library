@@ -1,14 +1,15 @@
 ﻿using BiTech.Library.BLL.DBLogic;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
+using PagedList;
+using PagedList.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
-using PagedList.Mvc;
 
 namespace BiTech.Library.Controllers
 {
@@ -23,7 +24,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
             int PageSize = 10;
@@ -58,7 +59,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             NhaXuatBan nxb = new NhaXuatBan()
             {
@@ -78,7 +79,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             NhaXuatBan nxb = new NhaXuatBan()
             {
@@ -96,7 +97,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             NhaXuatBan nxb = _NhaXuatBanLogic.getById(id);
             if (nxb == null)
@@ -119,7 +120,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             NhaXuatBan nxb = _NhaXuatBanLogic.getById(model.Id);
             nxb.Ten = model.Ten;
@@ -138,7 +139,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
             var nxb = _NhaXuatBanLogic.getById(Id);
             _NhaXuatBanLogic.XoaNXB(nxb.Id);
             return RedirectToAction("Index");
@@ -153,7 +154,7 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
             NhaXuatBanLogic _NhaXuatBanLogic =
-                new NhaXuatBanLogic(userdata.MyApps[AppCode].ConnectionString, userdata.MyApps[AppCode].DatabaseName);
+                new NhaXuatBanLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
 
             var list = _NhaXuatBanLogic.GetAllNhaXuatBan();
             return Json(list, JsonRequestBehavior.AllowGet);

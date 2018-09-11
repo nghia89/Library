@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BiTech.Library.Controllers.BaseClass;
+using System.Collections;
+
 namespace BiTech.Library.Models
 {
     /// <summary>
@@ -69,25 +71,37 @@ namespace BiTech.Library.Models
 
         [Display(Name = "Trạng thái")]
         public EUser TrangThai { get; set; }
-        //[Display(Name = "Chức vụ")]
-        //public string IdChucVu { get; set; }
+
         [Display(Name = "Hình ảnh")]
         public HttpPostedFileBase HinhChanDung { get; set; }
+
         [Display(Name = "Mã QR")]
         public string QRLink { get; set; }
+
         public List<string> ListNienKhoa { get; set; }
+
         public string LinkAvatar { get; set; }
+
         public string[] ListName { get; set; }
+
         public string[] ListMaTV { get; set; }
+
         public string[] ListAll { get; set; }
+
         public List<ThanhVien> ListThanhVien { get; set; }
+
         [Display(Name = "Đường dẫn file Excel")]
         public HttpPostedFileBase LinkExcel { get; set; }
-        public HttpPostedFileBase LinkWord { get; set; }
-        public string LoaiTK { get; set; }
-        public string TextForSearch { get; set; }
-    }
 
+        public HttpPostedFileBase LinkWord { get; set; }
+
+        public string LoaiTK { get; set; }
+
+        public string TextForSearch { get; set; }
+
+		[Display(Name = "Tổ")]
+		public string ChucVu { get; set; } //Sài cho giáo viên
+	}
     public class EditUserViewModel
     {
         public EditUserViewModel()
@@ -134,6 +148,8 @@ namespace BiTech.Library.Models
         public List<string> ListNienKhoa { get; set; }
         public string LinkAvatar { get; set; }
         public string LoaiTK { get; set; }
+		[Display(Name = "Chức vụ")]
+		public string ChucVu { get; set; } //sài cho giáo viên
     }
 
     public class ChangePasswordViewModel
@@ -165,8 +181,18 @@ namespace BiTech.Library.Models
     public class ImportResultViewModel
     {
         public List<string[]> RawDataList { get; set; }
+        public List<ThanhVien> RawListTV { get; set; } = new List<ThanhVien>();
         public int TotalEntry { get; set; }
         public ThanhVien Entry { get; set; }
+        public List<ThanhVien> ListSuccess { get; set; } = new List<ThanhVien>();
+        public List<ThanhVien> ListFail { get; set; } = new List<ThanhVien>();
+        public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
+        public string FileName { get; set; }
+        /// <summary>
+        /// Mảng chứa các dòng bị trùng Mã Thành Viên
+        /// </summary>
+        public bool[] ArrRows { get; set; }
+        public HttpPostedFileBase UploadFile { get; set; }
     }
 
 }

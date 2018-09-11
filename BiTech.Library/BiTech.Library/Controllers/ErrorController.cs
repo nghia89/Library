@@ -1,23 +1,26 @@
-﻿using BiTech.Library.Models;
+﻿using BiTech.Library.Controllers.BaseClass;
+using BiTech.Library.Models;
 using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
-    public class ErrorController : BaseController
+    [AllowAnonymous]
+    public class ErrorController : Controller
     {
-        [AllowAnonymous]
+        // Error
         public ActionResult AccessDenied()
         {
             return View();
         }
-
-
-        [AllowAnonymous]
+        
         public ActionResult NotFound()
         {
             return View();
         }
-        
+
+        public ActionResult ErrorOccur()
+        {
+            return View();
+        }
     }
 }
