@@ -55,8 +55,9 @@
                                 </div>
                             </div>
                             <img class="col-sm-12" src="@Model.SachDTO.QRlink" style="max-width:220px; display:block; margin-left:auto;margin-right:auto;" />
-                            <div class="col-sm-12">
-                                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Cập nhật" style="display:block; margin-left:auto;margin-right:auto;" />
+                            <div class="col-sm-12" style="text-align: center;">
+                                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Cập nhật" />
+                                <input type="button" class="btn btn-danger btn-sm" value="Xóa" onclick="XoaSach('@Model.SachDTO.Id','@Model.SachDTO.TenSach')" />
                             </div>
                         </div>
                     </div>
@@ -514,5 +515,43 @@
             document.getElementById(cityName).style.display = "block";
             evt.currentTarget.className += " active";
         }
+
+        //Xoá Sách
+        function XoaSach(id, ten) {
+            swal({
+                title: " Bạn có muốn xóa sách " + ten + "?",
+                text: "Bạn sẽ không thể khôi phục lại kệ sách này sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Sach/Delete",
+                        data: { "Id": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                text: "Bạn sẽ không thể khôi phục lại sách này sau khi xóa!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function (isConfirm) {
+                                window.location.href = '/Sach/Index';
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
     </script>
 }

@@ -25,7 +25,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             int PageSize = 10;
             int PageNumber = (page ?? 1);
             var lst = _TacGiaLogic.GetAllTacGia();
@@ -64,7 +64,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             _TacGiaLogic.Insert(tacgia);
 
             return RedirectToAction("Index");
@@ -79,7 +79,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var tacgia = _TacGiaLogic.GetById(id);
             if (tacgia == null)
                 return RedirectToAction("NotFound", "Error");
@@ -104,7 +104,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             _TacGiaLogic.Update(tacgia);
 
             return RedirectToAction("Index");
@@ -118,7 +118,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _TacGiaLogic.GetAllTacGia();
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -133,8 +133,8 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
-            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             List<SachTacGia> list_IDTacGia = _SachTacGiaLogic.getListById(idSach);
             List<string> List_TenTacGia = new List<string>();
@@ -158,7 +158,7 @@ namespace BiTech.Library.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _TacGiaLogic.FindTacGia(query);
 
@@ -181,7 +181,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var tacgia = _TacGiaLogic.GetById(Id);
             _TacGiaLogic.Delete(tacgia.Id);
             return RedirectToAction("Index");
@@ -196,7 +196,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TacGia TG = new TacGia()
             {

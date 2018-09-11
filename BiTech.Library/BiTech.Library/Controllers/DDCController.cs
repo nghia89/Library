@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
 using BiTech.Library.Controllers.BaseClass;
+using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
@@ -16,13 +17,16 @@ namespace BiTech.Library.Controllers
     {
         public ActionResult Index(int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
+            // _SubDomain
+            DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            DDCLogic _DDCLogic = new DDCLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            //#region  Lấy thông tin người dùng
+            //var userdata = GetUserData();
+            //if (userdata == null)
+            //    return RedirectToAction("LogOff", "Account");
+            //#endregion
+
+            //DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var list = _DDCLogic.GetAllDDC();
             List<DDC> lst = new List<DDC>();
             foreach (var item in list)
@@ -58,7 +62,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            DDCLogic _DDCLogic = new DDCLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             DDC ddc = new DDC()
             {
@@ -76,7 +80,7 @@ namespace BiTech.Library.Controllers
             if (userdata == null)
                 return RedirectToAction("LogOff", "Account");
             #endregion
-            DDCLogic _DDCLogic = new DDCLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var item = _DDCLogic.getById(Id);
             if (item == null)
                 return RedirectToAction("NotFound", "Error");
@@ -100,7 +104,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("LogOff", "Account");
             #endregion
 
-            DDCLogic _DDCLogic = new DDCLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+            DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             DDC ddc = new DDC()
             {
                 Id = model.Id,
@@ -121,7 +125,7 @@ namespace BiTech.Library.Controllers
             #endregion
             try
             {
-                DDCLogic _DDCLogic = new DDCLogic(userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
+                DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 var dl = _DDCLogic.getById(Id);
                 _DDCLogic.Delete(dl.Id);
                 return RedirectToAction("Index");

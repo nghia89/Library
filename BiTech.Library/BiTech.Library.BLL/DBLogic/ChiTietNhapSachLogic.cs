@@ -22,6 +22,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietNhapSachEngine.GetAllChiTietById(id);
         }
+        public List<ChiTietNhapSach> GetAllChiTietByIdSach(string idSach)
+        {
+            return _ChiTietNhapSachEngine.GetAllChiTietByIdSach(idSach);
+        }
         public string Insert(ChiTietNhapSach ctns)
         {
             return _ChiTietNhapSachEngine.Insert(ctns);
