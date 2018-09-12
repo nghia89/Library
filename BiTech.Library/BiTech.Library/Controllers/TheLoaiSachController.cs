@@ -17,16 +17,9 @@ namespace BiTech.Library.Controllers
 {
     public class TheLoaiSachController : BaseController
     {
-
         // GET: TheLoaiSach
         public ActionResult Index(int? page, string idParent)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var list = _TheLoaiSachLogic.GetAllTheLoaiSach();
@@ -79,12 +72,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Them()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ViewBag.ListTheLoai = _TheLoaiSachLogic.GetAllTheLoaiSach();
 
@@ -94,12 +81,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Them(TheLoaiSach model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TheLoaiSach TLS = new TheLoaiSach()
@@ -117,12 +98,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ThemAjax(TheLoaiSach model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             try
@@ -155,12 +130,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Sua(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TheLoaiSach TLS = _TheLoaiSachLogic.getById(id);
@@ -212,13 +181,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Sua(TheLoaiSachViewModels model)
         {
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TheLoaiSach TLS = _TheLoaiSachLogic.getById(model.Id);
@@ -252,12 +214,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult SuaAjax(string id_TL, string idParent)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             try
@@ -283,12 +239,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Xoa(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var TLS = _TheLoaiSachLogic.getById(Id);
@@ -312,13 +262,8 @@ namespace BiTech.Library.Controllers
         }
         [HttpPost]
         public ActionResult ImportFromExcel(TheLoaiSachViewModels model)
-          {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
+        {
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
             ExcelManager excelManager = new ExcelManager();
             List<TheLoaiSach> listExcel = new List<TheLoaiSach>();
             if (model.LinkExcel != null)
@@ -368,11 +313,6 @@ namespace BiTech.Library.Controllers
 
         public JsonResult Get_AllTheLoaiSach() //JsonResult
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
             TheLoaiSachLogic _TheLoaiSachLogic =
                 new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
@@ -391,11 +331,6 @@ namespace BiTech.Library.Controllers
         /// <returns></returns>
         private string GetViewLinkURL(TheLoaiSach TLS)
         {
-            //
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            #endregion
-
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             string kq = "";
@@ -418,9 +353,6 @@ namespace BiTech.Library.Controllers
         /// <returns></returns>
         private bool CheckUpdate_parent(string id_TL, string idParent_TL, ref string tb)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            #endregion
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             #region idParent_TL có là con hoặc cháu của id_TL không
@@ -461,9 +393,6 @@ namespace BiTech.Library.Controllers
         /// <returns></returns>
         private bool check_NameChildren(TheLoaiSach TLS, string idParent, int dk_so = 0)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            #endregion
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             List<TheLoaiSach> list_chlidren = new List<TheLoaiSach>();
             if (idParent == null)
@@ -489,9 +418,6 @@ namespace BiTech.Library.Controllers
         /// <returns></returns>
         private List<string> Get_TreeFamily_ID(TheLoaiSach id_check)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            #endregion
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             List<string> list_id = new List<string>();
             if (id_check.IdParent == null)

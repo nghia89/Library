@@ -823,6 +823,19 @@ a:hover {
                 max-width: 100%;
             }
 
+                .book_box_v3 .container-box-window .top .title span {
+                    width: 25px;
+                    height: 25px;
+                    font-size: 17px;
+                    font-weight: 500;
+                    display: inline-block;
+                    text-align: center;
+                    background: #fff;
+                    color: #728B90;
+                    border-radius: 50px;
+                    background-color: white;
+                }
+
         .book_box_v3 .container-box-window .content-box-window {
             background: #fff;
             border-bottom-left-radius: 4px;
@@ -1472,7 +1485,7 @@ a:hover {
         border-bottom: 2px solid;
         position: relative;
         color: #2E5894;
-        display:block;
+        display: block;
     }
 
 .btntag-box {

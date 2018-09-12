@@ -16,12 +16,6 @@ namespace BiTech.Library.Controllers
     {
         public ActionResult Index(int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             int PageSize = 10;
@@ -43,12 +37,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Create(LanguageModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             if (ModelState.IsValid)
             {
                 LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -64,12 +52,6 @@ namespace BiTech.Library.Controllers
         }
         public JsonResult GetAll()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet);
-            #endregion
-
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var list = _LanguageLogic.GetAll();
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -78,12 +60,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Edit(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var model = _LanguageLogic.GetById(Id);
 
@@ -96,12 +72,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Edit(Language model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             if (ModelState.IsValid)
             {
                 LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -116,12 +86,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             _LanguageLogic.Remove(id);
             return RedirectToAction("Index");
@@ -130,12 +94,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ThemAjax(LanguageViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Language LG = new Language()

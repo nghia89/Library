@@ -17,16 +17,8 @@ namespace BiTech.Library.Controllers
     {
         public ActionResult Index(int? page)
         {
-            // _SubDomain
             DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            //#region  Lấy thông tin người dùng
-            //var userdata = GetUserData();
-            //if (userdata == null)
-            //    return RedirectToAction("LogOff", "Account");
-            //#endregion
-
-            //DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            
             var list = _DDCLogic.GetAllDDC();
             List<DDC> lst = new List<DDC>();
             foreach (var item in list)
@@ -56,12 +48,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Create(DDC model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             DDC ddc = new DDC()
@@ -75,11 +61,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Edit(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var item = _DDCLogic.getById(Id);
             if (item == null)
@@ -97,13 +78,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Edit(DDC model)
         {
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             DDC ddc = new DDC()
             {
@@ -118,11 +92,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Delete(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             try
             {
                 DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);

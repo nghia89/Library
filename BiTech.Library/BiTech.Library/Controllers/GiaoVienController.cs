@@ -33,12 +33,7 @@ namespace BiTech.Library.Controllers
         // GET: User
         public ActionResult Index()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
 
             UserViewModel model = new UserViewModel();
             List<ThanhVien> listThanhVien = _ThanhVienLogic.GetAllGV();
@@ -59,13 +54,8 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Index(UserViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion           
-
+            
             List<ThanhVien> listAll = _ThanhVienLogic.GetAllGV();
             ViewBag.ThongBao = false;
             model.ListThanhVien = new List<ThanhVien>();
@@ -96,12 +86,6 @@ namespace BiTech.Library.Controllers
 
         public PartialViewResult _PartialUser(int? page, string IdUser, List<ThanhVien> list)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return null;
-            #endregion
-
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             ViewBag.pageSize = pageSize;
@@ -110,12 +94,7 @@ namespace BiTech.Library.Controllers
         }
 
         public ActionResult _CreateUser()
-        {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion           
+        {       
             UserViewModel model = new UserViewModel();
             model.TemptNgaySinh = "--/--/----";
             return View(model);
@@ -124,12 +103,8 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _CreateUser(UserViewModel viewModel)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion          
+
             ThanhVien thanhVien = new ThanhVien()
             {
                 UserName = viewModel.UserName,
@@ -148,6 +123,7 @@ namespace BiTech.Library.Controllers
                 // Loại tài khoản 
                 LoaiTK = "gv"
             };
+
             DateTime ngaySinh = new DateTime();
             if (viewModel.TemptNgaySinh.Equals("--/--/----") == false)
             {
@@ -159,6 +135,7 @@ namespace BiTech.Library.Controllers
                 ViewBag.NullNgaySinh = "Bạn chưa chọn ngày sinh!";
                 return View(viewModel);
             }
+
             // Kiem tra trung ma thanh vien
             var idMaThanhVien = _ThanhVienLogic.GetByMaSoThanhVien(viewModel.MaSoThanhVien);
             if (idMaThanhVien == null)
@@ -230,11 +207,6 @@ namespace BiTech.Library.Controllers
         //Get
         public ActionResult _Edit(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ViewBag.Success = TempData["Success"];
@@ -276,12 +248,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult _Edit(EditUserViewModel viewModel)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion          
             var thanhVien = _ThanhVienLogic.GetById(viewModel.Id);
             // thông tin cho phép cập nhật            
             thanhVien.ChucVu = viewModel.ChucVu;
@@ -341,13 +308,7 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Delete(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
             if (thanhVien == null)
             {
@@ -377,12 +338,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Details(string idUser)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
@@ -416,11 +371,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ChangePassword(string idUser)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThanhVien thanhVien = _ThanhVienLogic.GetById(idUser);
             if (thanhVien == null)
@@ -437,12 +387,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
 
             ThanhVien thanhVien = _ThanhVienLogic.GetById(model.Id);
             if (thanhVien.Password != null)
@@ -479,12 +424,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ImportFromExcel(UserViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
 
             ExcelManager excelManager = new ExcelManager();
             List<ThanhVien> list = new List<ThanhVien>();
@@ -531,12 +471,8 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ExportWord(UserViewModel model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
+
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllGV();
             string fileName = "MauTheGV.docx";
@@ -577,17 +513,15 @@ namespace BiTech.Library.Controllers
 
         public ActionResult MauThe(string mauThe)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
+
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");
+
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllGV();
             string linkMau = null;
+
             //DateTime today = DateTime.Today;
             //string fileName = "MauTheGV ("+ today.Day.ToString() + "-" + today.Month.ToString() + "-"+today.Year.ToString() + ")"+".docx";
             string fileName = "MauTheGV.docx";
@@ -699,111 +633,7 @@ namespace BiTech.Library.Controllers
 
             return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });                 
         }
-
-        [HttpPost]
-        public JsonResult PreviewImport_Json(HttpPostedFileBase file,List<ThanhVien> RawDataList2)
-        {
-            if (file != null)
-            {
-                // Chỉ chấp nhận file *.xls, *.xlsx
-                if (Path.GetExtension(file.FileName).EndsWith(".xls") || Path.GetExtension(file.FileName).EndsWith(".xlsx"))
-                {
-                    var viewModel = new ImportResultViewModel();
-                    // Đường dẫn để lưu nội dung file Excel
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
-                    string uploadFileName = null;
-                    string physicalWebRootPath = Server.MapPath("/");
-                    uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, file.FileName);
-                    string location = Path.GetDirectoryName(uploadFileName);
-                    if (!Directory.Exists(location))
-                    {
-                        Directory.CreateDirectory(location);
-                    }
-                    // Ghi nội dung file Excel vào tệp tạm
-                    using (var fileStream = new FileStream(uploadFileName, FileMode.Create))
-                    {
-                        // Lưu                
-                        file.InputStream.CopyTo(fileStream);
-                        string sourceSavePath = uploadFileName;
-                        Workbook workBook = new Workbook(sourceSavePath);
-                        Worksheet workSheet = workBook.Worksheets[0];
-                        // Số dòng, đầu tiên chứ dữ liệu
-                        int firstRow = workSheet.Cells.FirstCell.Row + 1;
-                        int firstColumn = workSheet.Cells.FirstCell.Column;
-                        // Số dòng, cột tối đa
-                        var maxRows = workSheet.Cells.MaxDataRow - workSheet.Cells.MinDataRow;
-                        var maxColumns = (workSheet.Cells.MaxDataColumn + 1) - workSheet.Cells.MinDataColumn;
-                        //
-                        viewModel.RawDataList = new List<string[]>();
-                        // Đọc từng dòng trong Excel
-                        for (int rowIndex = firstRow; rowIndex <= firstRow + maxRows; rowIndex++)
-                        {
-                            // Xác định dòng dữ liệu này có bị trống dữ liệu CẢ DÒNG hay không.
-                            var isEmptyRow = true;
-                            // Tạo từng dòng thông tin
-                            var rowData = new string[maxColumns];
-                            // Lấy nội dung từng cột dữ liệu trong hàng hiện tại.
-                            for (int columnIndex = firstColumn; columnIndex <= firstColumn + maxColumns; columnIndex++)
-                            {
-                                // Đọc nội dung ô
-                                var cellData = (workSheet.Cells[rowIndex, columnIndex]).Value?.ToString() ?? "";
-                                if (false == string.IsNullOrEmpty(cellData))
-                                {
-                                    // Lấy nội dung của Ô, lưu vào bộ nhớ
-                                    rowData[columnIndex - firstColumn] = cellData;
-                                    // Xác định Row hiện tại không bị trống dữ liệu
-                                    isEmptyRow = false;
-                                }
-                            }
-                            #region Nếu dòng không trống thì thêm vào danh sách đã quét.
-                            if (isEmptyRow == false)
-                            {
-                                viewModel.RawDataList.Add(rowData);
-                                // TO DO Angular
-                                ThanhVien tv = new ThanhVien();
-                                tv.Ten = rowData[0];
-                                tv.UserName = rowData[1];
-                                tv.MaSoThanhVien = rowData[2];
-                                tv.GioiTinh = rowData[3];
-                                tv.NgaySinhForAngular = rowData[4];
-                                tv.LopHoc = rowData[5];
-                                tv.NienKhoa = rowData[6];
-                                tv.DiaChi = rowData[7];
-                                tv.SDT = rowData[8];
-                                viewModel.RawListTV.Add(tv);
-                            }
-                            #endregion                            
-                        }
-                        workBook.Dispose();
-
-                        // Realse
-                        //releaseObject(workSheet);
-                        // releaseObject(workBook);
-                        // releaseObject(xlApp);
-                    }
-                    // Xóa file đã lưu tạm
-                    System.IO.File.Delete(uploadFileName);
-                    viewModel.TotalEntry = viewModel.RawListTV.Count;
-                    //  return View(viewModel);
-                    viewModel.UploadFile = file;                   
-                    return Json(viewModel, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { status = "fail", message = "Tập tin không đúng định dạng của Excel, vui lòng kiểm tra lại" });
-                }
-            }
-            else if (RawDataList2 != null)
-            {
-                var viewModel = new ImportResultViewModel();
-                viewModel.TotalEntry = viewModel.RawListTV.Count;
-                viewModel.RawListTV =  RawDataList2;
-                return Json(viewModel, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });
-        }
-
-
+   
         public ActionResult RequestEditPreviewForm(string[] data, string orderNumber)
         {
             ViewBag.OrderNumber = orderNumber;
@@ -813,12 +643,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ImportSave(List<string[]> data)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            #endregion
             #region xxx          
             var listAllGV = new List<ThanhVien>();
             List<ThanhVien> ListFail = new List<ThanhVien>();
@@ -1073,6 +898,7 @@ namespace BiTech.Library.Controllers
             return View(model);
             #endregion
         }
+
         public ActionResult DowloadExcel(string fileName)
         {
             if (fileName == null)

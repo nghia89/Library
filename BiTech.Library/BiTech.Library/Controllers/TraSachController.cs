@@ -19,12 +19,6 @@ namespace BiTech.Library.Controllers
         static public List<MuonTraSachViewModel> list_ChuanBiTra = new List<MuonTraSachViewModel>();
         public ActionResult Index(string IdUser, string flagResult)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             //Danh sách
@@ -102,13 +96,7 @@ namespace BiTech.Library.Controllers
         public JsonResult GetBook(string maSach, string IdUser, string NgayMuon = "", string NgayTra = "")
         {
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
-
+            
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             //Lấy danh sach những đang mượn của user id
@@ -160,13 +148,7 @@ namespace BiTech.Library.Controllers
         {
             if (List_newitem == null)
                 return Json(false, JsonRequestBehavior.AllowGet);
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(false, JsonRequestBehavior.AllowGet);
-            #endregion
-
+            
             ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -270,16 +252,8 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public JsonResult GetAllTrangThaiSach()
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(false, JsonRequestBehavior.AllowGet);
-            #endregion
-
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
             List<TrangThaiSach> list_TT = _TrangThaiSachLogic.GetAll();
-
             return Json(list_TT, JsonRequestBehavior.AllowGet);
         }
 
@@ -349,11 +323,7 @@ namespace BiTech.Library.Controllers
         private List<MuonTraSachViewModel> GetByIdUser(string IdUser)
         {
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            #endregion
-
+            
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -399,12 +369,6 @@ namespace BiTech.Library.Controllers
         /// <returns></returns>
         private string GetSoLuongSach(string idSach)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return "";
-            #endregion
-
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);

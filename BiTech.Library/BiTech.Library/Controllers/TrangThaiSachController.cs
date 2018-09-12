@@ -18,15 +18,7 @@ namespace BiTech.Library.Controllers
         // GET: TrangThai
         public ActionResult Index(int? page)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-
             
             var lst = _TrangThaiSachLogic.GetAll();
             List<TrangThaiSachViewModels> lsttt = new List<TrangThaiSachViewModels>();
@@ -56,12 +48,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Them(TrangThaiSachViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TrangThaiSach tts = new TrangThaiSach()
@@ -75,11 +61,6 @@ namespace BiTech.Library.Controllers
 
         public ActionResult Sua(string id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TrangThaiSach tts = _TrangThaiSachLogic.getById(id);
@@ -97,12 +78,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Sua(TrangThaiSachViewModels model)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TrangThaiSach tts = _TrangThaiSachLogic.getById(model.Id);
@@ -117,12 +92,6 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Xoa(string Id)
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return RedirectToAction("LogOff", "Account");
-            #endregion
-
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var tts = _TrangThaiSachLogic.getById(Id);
@@ -133,11 +102,6 @@ namespace BiTech.Library.Controllers
 
         public JsonResult Get_AllTrangThaiSach() //JsonResult
         {
-            #region  Lấy thông tin người dùng
-            var userdata = GetUserData();
-            if (userdata == null)
-                return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
-            #endregion
             TrangThaiSachLogic _TrangThaiSachLogic =
                 new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 

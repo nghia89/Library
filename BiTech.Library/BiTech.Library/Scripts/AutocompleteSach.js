@@ -28,7 +28,7 @@
         })
             .autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<a>")
-                    .append("<li style='width:100%; border-bottom-style: dashed; border-width: thin; border-color:#d3d3d3;'>" + item.TenSach + "</li>")
+                    .append("<li style='width:100%; border-bottom-style: dashed; border-width: thin; border-color:#d3d3d3;'>" + item.TenSach +" " + '"' + item.ISBN + '"' +"</li>")
                     .appendTo(ul);
             };
     }
