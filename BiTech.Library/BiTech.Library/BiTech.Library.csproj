@@ -333,6 +333,10 @@
     <Content Include="Assets\Images\bg.png" />
     <Content Include="app\BackupRestoreModule.js" />
     <Content Include="Assets\Images\DefaultBookCover.jpg" />
+    <Content Include="Content\Images\MauTheGV2.png" />
+    <Content Include="Content\Images\MauTheHS1.png" />
+    <Content Include="Content\Images\MauTheHS2.png" />
+    <Content Include="Content\Images\MauTheGV1.png" />
     <Content Include="Content\Images\userUnauth.jpg" />
     <Content Include="ExcelStep\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.css" />
     <Content Include="ExcelStep\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.min.css" />
@@ -672,8 +676,6 @@
     <Content Include="Content\Images\calendar.ico" />
     <Content Include="Content\Images\book.png" />
     <Content Include="Content\Images\logo.png" />
-    <Content Include="Content\Images\Mau1.PNG" />
-    <Content Include="Content\Images\Mau2.PNG" />
     <Content Include="Content\Images\nancyy.jpg" />
     <Content Include="Content\Images\user5.jpg" />
     <Content Include="Content\tagsinput\ng-tags-input-style.css" />

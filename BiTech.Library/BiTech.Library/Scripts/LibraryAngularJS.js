@@ -48,7 +48,9 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
 
 	$scope.list = [];
     $scope.addItem = function () {
-        $scope.errortext = "";
+		$scope.errortext = "";
+		var a = $('#idSach').val();
+		console.log(a);
         if (!$scope.GhiChuDon) {
             $scope.GhiChuDon = "";
         }
@@ -56,7 +58,7 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuNhapSach/_GetBookItemById",
             params: {
-                maKS: $scope.maKS,
+				maKS: $('#idSach').val(),
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
                 GhiChuDon: $scope.GhiChuDon,
@@ -152,7 +154,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuXuatSach/_GetBookItemById",
             params: {
-                maKiemSoat: $scope.maKS,
+				maKiemSoat: $('#idSach').val(),
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
 				ghiChuDon: $scope.GhiChuDon,

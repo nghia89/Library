@@ -261,37 +261,42 @@ namespace BiTech.Library.Controllers
 			if (userdata == null)
 				return Json(null, JsonRequestBehavior.AllowGet); //RedirectToAction("LogOff", "Account");
 			#endregion
-
-			SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-			TrangThaiSachLogic _TrangThaiSach = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-			SoLuongSachTrangThaiLogic _SLSachTTLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-			Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(idBook)); //Lấy sách theo input 
-			var slSachTT = _SLSachTTLogic.GetByIdSach(_sach.Id); // Lấy đc IdTrangThai
-			List<TrangThaiSach> lstTTSach = new List<TrangThaiSach>();
-			foreach (var item in slSachTT)
+			if (!string.IsNullOrEmpty(idBook))
 			{
-				if (item.SoLuong > 0)
+				SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+				TrangThaiSachLogic _TrangThaiSach = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+				SoLuongSachTrangThaiLogic _SLSachTTLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+				Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(idBook)); //Lấy sách theo input 
+				if (_sach != null)
 				{
-					var tt = _TrangThaiSach.getById(item.IdTrangThai);
-					lstTTSach.Add(tt); //lấy đc list trạng thái
+					var slSachTT = _SLSachTTLogic.GetByIdSach(_sach.Id); // Lấy đc IdTrangThai
+					List<TrangThaiSach> lstTTSach = new List<TrangThaiSach>();
+					foreach (var item in slSachTT)
+					{
+						if (item.SoLuong > 0)
+						{
+							var tt = _TrangThaiSach.getById(item.IdTrangThai);
+							lstTTSach.Add(tt); //lấy đc list trạng thái
+						}
+					}
+					//chuyển về listTT viewmodel
+					SoLuongTrangThaiSachVM slTTSachVM;
+					List<SoLuongTrangThaiSachVM> lstTTSachVM = new List<SoLuongTrangThaiSachVM>();
+					foreach (var item in lstTTSach)
+					{
+						slTTSachVM = new SoLuongTrangThaiSachVM()
+						{
+							IdTrangThai = item.Id,
+							TrangThai = item.TenTT,
+							IdSach = _sach.Id
+						};
+						lstTTSachVM.Add(slTTSachVM);
+					}
+					return Json(lstTTSachVM, JsonRequestBehavior.AllowGet);
 				}
 			}
-			//chuyển về listTT viewmodel
-			SoLuongTrangThaiSachVM slTTSachVM;
-			List<SoLuongTrangThaiSachVM> lstTTSachVM = new List<SoLuongTrangThaiSachVM>();
-			foreach (var item in lstTTSach)
-			{				
-				slTTSachVM = new SoLuongTrangThaiSachVM()
-				{
-					IdTrangThai = item.Id,
-					TrangThai = item.TenTT,
-					IdSach = _sach.Id
-				};
-				lstTTSachVM.Add(slTTSachVM);
-			}
-
-			return Json(lstTTSachVM, JsonRequestBehavior.AllowGet);
+			return null;
 		}
 	}
 }

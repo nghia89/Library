@@ -705,12 +705,12 @@ namespace BiTech.Library.Controllers
             string fileName = "MauTheHS.docx";
             if (mauThe.Equals("mau1") == true)
             {
-                linkMau = "/Content/MauWord/Mau1.docx";
+                linkMau = "/Content/MauWord/MauTheHS1.docx";
                 fileName = "MauTheHS-Mau1.docx";
             }
             else if ((mauThe.Equals("mau2") == true))
             {
-                linkMau = "/Content/MauWord/Mau2.docx";
+                linkMau = "/Content/MauWord/MauTheHS2.docx";
                 fileName = "MauTheHS-Mau2.docx";
             }
             excelManager.ExportWord(linkMau, listTV, fileName);

@@ -35,7 +35,7 @@
 										   onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
 										   ng-keydown="$event.keyCode === 13  ? updateListTrangThai():return"
 										   ng-blur="updateListTrangThai()"
-										   ng-mouseleave="updateListTrangThai()"
+										   @*ng-mouseleave="updateListTrangThai()"*@
 										   @*onfocusout="EnterMaSach()"*@
 										   placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
 								</div>
@@ -229,7 +229,7 @@
 						console.log(data.SoLuongTong);
 						if (data.SoLuongConLai > 0) {
 							console.log('Tim thay sach');
-							//$("#idSach").val(data.MaKiemSoat);
+							$("#idSach").val(data.MaKiemSoat);
 							$("#SoLuong").focus();
 						}
 						else {

@@ -116,7 +116,7 @@ namespace BiTech.Library.Controllers
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            var modelTT = _trangThaiSachLogic.GetAllTT_True();
+            var modelTT = _trangThaiSachLogic.GetAll();
             ViewBag.TT = modelTT;
 
             //var idTG = _TacGiaLogic.GetAllTacGia();
@@ -210,10 +210,10 @@ namespace BiTech.Library.Controllers
                         }
                         catch { }
                     }
-                    // Lưu mã QR
-                    try
-                    {
-                        Sach sach = _SachLogic.GetBookById(id);
+					// Lưu mã QR
+					Sach sach = _SachLogic.GetBookById(id);
+					try
+                    {                        
                         string physicalWebRootPath = Server.MapPath("/");
                         Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
                         if (temp != null)
@@ -283,9 +283,9 @@ namespace BiTech.Library.Controllers
 						}
 
 						//Update tổng số lượng sách
-						model.SachDTO.SoLuongTong = tongSach;
-						model.SachDTO.SoLuongConLai = tongSach;
-						_SachLogic.Update(model.SachDTO);
+						sach.SoLuongTong = tongSach;
+						sach.SoLuongConLai = tongSach;
+						_SachLogic.Update(sach);
 					}
 
                     return RedirectToAction("Index");
