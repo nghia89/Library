@@ -32,6 +32,34 @@ namespace BiTech.Library.BLL.DBLogic
 
         #endregion
 
+        #region Thẻ Header1
+
+        public void SetTheHeader1(string value)
+        {
+            _ThongTinThuVienEngine.SetTheHeader1(value);
+        }
+
+        public string GetTheHeader1()
+        {
+            return _ThongTinThuVienEngine.GetTheHeader1();
+        }
+
+        #endregion
+
+        #region Thẻ Header2
+
+        public void SetTheHeader2(string value)
+        {
+            _ThongTinThuVienEngine.SetTheHeader2(value);
+        }
+
+        public string GetTheHeader2()
+        {
+            return _ThongTinThuVienEngine.GetTheHeader2();
+        }
+
+        #endregion
+
         #region DiaChi
 
         public void SetDiaChi(string value)

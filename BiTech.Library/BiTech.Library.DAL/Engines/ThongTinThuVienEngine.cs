@@ -43,6 +43,58 @@ namespace BiTech.Library.DAL.Engines
 
         #endregion
 
+        #region Thẻ Header1
+
+        public void SetTheHeader1(string value)
+        {
+            var setting = _DatabaseCollection.Find(_ => _.Key == "TheHeader1").FirstOrDefault();
+            if (setting == null)
+            {
+                _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "TheHeader1", Value = value, CreateDateTime = DateTime.Now });
+            }
+            else
+            {
+                setting.Value = value;
+                _DatabaseCollection.ReplaceOne(m => m.Id == setting.Id, setting);
+            }
+        }
+
+        public string GetTheHeader1()
+        {
+            var setting = _DatabaseCollection.Find(_ => _.Key == "TheHeader1").FirstOrDefault();
+            if (setting != null)
+                return setting.Value;
+            return "";
+        }
+
+        #endregion
+
+        #region Thẻ Header2
+
+        public void SetTheHeader2(string value)
+        {
+            var setting = _DatabaseCollection.Find(_ => _.Key == "TheHeader2").FirstOrDefault();
+            if (setting == null)
+            {
+                _DatabaseCollection.InsertOne(new ThongTinThuVien() { Key = "TheHeader2", Value = value, CreateDateTime = DateTime.Now });
+            }
+            else
+            {
+                setting.Value = value;
+                _DatabaseCollection.ReplaceOne(m => m.Id == setting.Id, setting);
+            }
+        }
+
+        public string GetTheHeader2()
+        {
+            var setting = _DatabaseCollection.Find(_ => _.Key == "TheHeader2").FirstOrDefault();
+            if (setting != null)
+                return setting.Value;
+            return "";
+        }
+
+        #endregion
+
         #region DiaChi
 
         public void SetDiaChi(string value)
