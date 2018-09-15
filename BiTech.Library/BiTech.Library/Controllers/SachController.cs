@@ -14,15 +14,21 @@ using System.Web.Mvc;
 using static BiTech.Library.Helpers.Tool;
 using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.Helpers;
+using System.Collections;
+using System.Threading.Tasks;
+using Aspose.Cells;
 
 namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
     {
         SachCommon sachCommon;
+        XuLyChuoi xuLyChuoi;
         public SachController()
         {
             sachCommon = new SachCommon();
+            xuLyChuoi = new XuLyChuoi();
+            new Aspose.Cells.License().SetLicense(LicenseHelper.License.LStream);
         }
 
         public ActionResult Index(KeySearchViewModel KeySearch, int? page)
@@ -46,10 +52,10 @@ namespace BiTech.Library.Controllers
             ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
             ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
 
-			ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
-			ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
-			ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
-			ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
+            ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
+            ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
+            ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
+            ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
 
             var list = _SachLogic.getPageSach(KeySearch);
             ViewBag.number = list.Count();
@@ -69,16 +75,16 @@ namespace BiTech.Library.Controllers
                 //var numKhongMuonDuoc =  MuonSachController.GetSoLuongSach(item.Id, userdata.MyApps[_AppCode].ConnectionString, userdata.MyApps[_AppCode].DatabaseName);
                 //item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
 
-				BookView book = new BookView(item);
-				book.TenSach = book.SachDTO.TenSach;
-				book.MaKiemSoat = book.SachDTO.MaKiemSoat;
-				book.CreateDateTime = book.SachDTO.CreateDateTime;
-				book.NamXuatBan = book.SachDTO.NamXuatBan;
-				book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
-				book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
-				book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
-				book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
-				book.Ten_TacGia = tenTG;
+                BookView book = new BookView(item);
+                book.TenSach = book.SachDTO.TenSach;
+                book.MaKiemSoat = book.SachDTO.MaKiemSoat;
+                book.CreateDateTime = book.SachDTO.CreateDateTime;
+                book.NamXuatBan = book.SachDTO.NamXuatBan;
+                book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
+                book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
+                book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
+                book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
+                book.Ten_TacGia = tenTG;
 
                 model.Books.Add(book);
             }
@@ -217,62 +223,62 @@ namespace BiTech.Library.Controllers
                     }
 
                     //Tạo phiếu nhập - VINH
-					bool nhapSach = false;
-					foreach (var item in model.ListTTSach)
-					{
-						if (item.SoLuong > 0)
-						{
-							nhapSach = true;
-							break;
-						}
-					}
-					if (model.ListTTSach != null && nhapSach)
-					{
-						PhieuNhapSach pns = new PhieuNhapSach()
-						{
-							GhiChu = model.GhiChuPhieuNhap,
-							IdUserAdmin = _UserAccessInfo.Id,
-							UserName = _UserAccessInfo.UserName
-						};
+                    bool nhapSach = false;
+                    foreach (var item in model.ListTTSach)
+                    {
+                        if (item.SoLuong > 0)
+                        {
+                            nhapSach = true;
+                            break;
+                        }
+                    }
+                    if (model.ListTTSach != null && nhapSach)
+                    {
+                        PhieuNhapSach pns = new PhieuNhapSach()
+                        {
+                            GhiChu = model.GhiChuPhieuNhap,
+                            IdUserAdmin = _UserAccessInfo.Id,
+                            UserName = _UserAccessInfo.UserName
+                        };
 
-						string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
+                        string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
-						int tongSach = 0;
-						SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-						foreach (var item in model.ListTTSach)
-						{
-							if (item.SoLuong > 0)
-							{
-								//Sach - trang thai (so luong)
-								SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
-								{
-									IdSach = id, //id sach khi da insert
-									IdTrangThai = item.IdTrangThai,
-									SoLuong = item.SoLuong,
-									CreateDateTime = DateTime.Now,
-								};
-								tongSach += dtoModel.SoLuong;
-								_SlTrangThaisach.Insert(dtoModel);
+                        int tongSach = 0;
+                        SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                        foreach (var item in model.ListTTSach)
+                        {
+                            if (item.SoLuong > 0)
+                            {
+                                //Sach - trang thai (so luong)
+                                SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
+                                {
+                                    IdSach = id, //id sach khi da insert
+                                    IdTrangThai = item.IdTrangThai,
+                                    SoLuong = item.SoLuong,
+                                    CreateDateTime = DateTime.Now,
+                                };
+                                tongSach += dtoModel.SoLuong;
+                                _SlTrangThaisach.Insert(dtoModel);
 
-								//Chi tiet phieu nhap
+                                //Chi tiet phieu nhap
 
-								ChiTietNhapSach ctns = new ChiTietNhapSach()
-								{
-									IdPhieuNhap = idPhieuNhap,
-									IdSach = model.SachDTO.Id,
-									SoLuong = item.SoLuong,
-									CreateDateTime = DateTime.Now,
-									IdTinhtrang = item.IdTrangThai,
-								};
-								_ChiTietNhapSachLogic.Insert(ctns);
-							}
-						}
+                                ChiTietNhapSach ctns = new ChiTietNhapSach()
+                                {
+                                    IdPhieuNhap = idPhieuNhap,
+                                    IdSach = model.SachDTO.Id,
+                                    SoLuong = item.SoLuong,
+                                    CreateDateTime = DateTime.Now,
+                                    IdTinhtrang = item.IdTrangThai,
+                                };
+                                _ChiTietNhapSachLogic.Insert(ctns);
+                            }
+                        }
 
-						//Update tổng số lượng sách
-						model.SachDTO.SoLuongTong = tongSach;
-						model.SachDTO.SoLuongConLai = tongSach;
-						_SachLogic.Update(model.SachDTO);
-					}
+                        //Update tổng số lượng sách
+                        model.SachDTO.SoLuongTong = tongSach;
+                        model.SachDTO.SoLuongConLai = tongSach;
+                        _SachLogic.Update(model.SachDTO);
+                    }
 
                     return RedirectToAction("Index");
                 }
@@ -676,12 +682,494 @@ namespace BiTech.Library.Controllers
         {
             return PartialView("_ThemTacGia");
         }
+
+        #region Tai 
         public ActionResult ImportFromExcel()
         {
             return View();
         }
+
         [HttpPost]
-        public ActionResult ImportFromExcel(SachViewModels model)
+        public async Task<ActionResult> PreviewImport(HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                // Chỉ chấp nhận file *.xls, *.xlsx
+                if (Path.GetExtension(file.FileName).EndsWith(".xls") || Path.GetExtension(file.FileName).EndsWith(".xlsx"))
+                {
+                    var viewModel = new ImportExcelSachViewModel();
+                    // Đường dẫn để lưu nội dung file Excel
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFileName = null;
+                    string physicalWebRootPath = Server.MapPath("/");
+                    uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, file.FileName);
+                    string location = Path.GetDirectoryName(uploadFileName);
+                    if (!Directory.Exists(location))
+                    {
+                        Directory.CreateDirectory(location);
+                    }
+                    // Ghi nội dung file Excel vào tệp tạm
+                    using (var fileStream = new FileStream(uploadFileName, FileMode.Create))
+                    {
+                        // Lưu                
+                        file.InputStream.CopyTo(fileStream);
+                        string sourceSavePath = uploadFileName;
+                        Workbook workBook = new Workbook(sourceSavePath);
+                        Worksheet workSheet = workBook.Worksheets[0];
+                        // Số dòng, đầu tiên chứ dữ liệu
+                        int firstRow = workSheet.Cells.FirstCell.Row + 1;
+                        int firstColumn = workSheet.Cells.FirstCell.Column;
+                        // Số dòng, cột tối đa
+                        var maxRows = workSheet.Cells.MaxDataRow - workSheet.Cells.MinDataRow;
+                        var maxColumns = (workSheet.Cells.MaxDataColumn + 1) - workSheet.Cells.MinDataColumn;
+                        //
+                        viewModel.RawDataList = new List<string[]>();
+                        // Đọc từng dòng trong Excel
+                        for (int rowIndex = firstRow; rowIndex <= firstRow + maxRows; rowIndex++)
+                        {
+                            // Xác định dòng dữ liệu này có bị trống dữ liệu CẢ DÒNG hay không.
+                            var isEmptyRow = true;
+                            // Tạo từng dòng thông tin
+                            var rowData = new string[maxColumns];
+                            // Lấy nội dung từng cột dữ liệu trong hàng hiện tại.
+                            for (int columnIndex = firstColumn; columnIndex <= firstColumn + maxColumns; columnIndex++)
+                            {
+                                // Đọc nội dung ô
+                                var cellData = (workSheet.Cells[rowIndex, columnIndex]).Value?.ToString() ?? "";
+                                if (false == string.IsNullOrEmpty(cellData))
+                                {
+                                    // Lấy nội dung của Ô, lưu vào bộ nhớ
+                                    rowData[columnIndex - firstColumn] = cellData;
+                                    // Xác định Row hiện tại không bị trống dữ liệu
+                                    isEmptyRow = false;
+                                }
+                            }
+                            #region Nếu dòng không trống thì thêm vào danh sách đã quét.
+                            if (isEmptyRow == false)
+                            {
+                                viewModel.RawDataList.Add(rowData);
+                            }
+                            #endregion                            
+                        }
+                        workBook.Dispose();
+                    }
+                    // Xóa file đã lưu tạm
+                    System.IO.File.Delete(uploadFileName);
+                    viewModel.TotalEntry = viewModel.RawDataList.Count;
+                    return View(viewModel);
+                }
+                else
+                {
+                    return Json(new { status = "fail", message = "Tập tin không đúng định dạng của Excel, vui lòng kiểm tra lại" });
+                }
+            }
+            return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });
+        }
+
+        [HttpPost]
+        public ActionResult ImportSave(List<string[]> data)
+        {
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            var listAll = new List<Sach>();
+            List<Sach> ListFail = new List<Sach>();
+            List<Sach> ListSuccess = new List<Sach>();
+            List<ArrayList> ListShow = new List<ArrayList>();
+            var model = new ImportExcelSachViewModel();
+            #region Truyền dữ liệu vào ListAll
+            foreach (var item in data)
+            {
+                Sach sach = new Sach();
+                sach.TenSach = item[1].ToString().Trim();
+                sach.ISBN = item[2].ToString().Trim();
+                sach.IdTheLoai = item[3].ToString().Trim();
+                var input = item[4].ToString().Trim();
+                if (!String.IsNullOrEmpty(input))
+                {
+                    string[] tenTacGia = input.Split(new Char[] { ',', '.', '!', '\\', '/', ':', ';', '\n', '_', '-' });
+                    sach.listTacGia = new List<TacGia>();
+                    foreach (var ten in tenTacGia)
+                    {
+                        sach.listTacGia.Add(new TacGia() { TenTacGia = ten.Trim() });
+                    }
+                }
+                sach.IdNhaXuatBan = item[5].ToString().Trim();
+                sach.IdKeSach = item[6].ToString().Trim();
+                sach.SoTrang = item[7].ToString().Trim();
+                sach.IdNgonNgu = item[8].ToString().Trim();
+                sach.NamXuatBan = item[9].ToString().Trim();
+                sach.GiaBia = item[10].ToString().Trim();
+                sach.PhiMuonSach = item[11].ToString().Trim();
+                sach.XuatXu = item[12].ToString().Trim();
+                sach.NguoiBienDich = item[13].ToString().Trim();
+                sach.TaiBan = item[14].ToString().Trim();
+                sach.TomTat = item[15].ToString().Trim();
+                listAll.Add(sach);
+            }
+            #endregion
+            #region Gán thông báo cho từng loại lỗi
+            if (listAll != null)
+            {
+                foreach (var item in listAll)
+                {
+                    // Tên sách
+                    if (String.IsNullOrEmpty(item.TenSach.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Tên sách\"");
+                    }
+                    // TheLoai
+                    if (String.IsNullOrEmpty(item.IdTheLoai.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Thể loại\"");
+                    }
+                    // TacGia
+                    if (item.listTacGia.Count == 0)
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Tác giả\"");
+                    }
+                    // NhaXuatBan
+                    if (String.IsNullOrEmpty(item.IdNhaXuatBan.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Nhà xuất bản\"");
+                    }
+                    // SoTrang
+                    if (String.IsNullOrEmpty(item.SoTrang.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Số trang\"");
+                    }
+                    // NgonNgu
+                    if (String.IsNullOrEmpty(item.IdNgonNgu.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Ngôn ngữ\"");
+                    }
+                    // NamXuatBan
+                    if (String.IsNullOrEmpty(item.NamXuatBan.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Năm xuất bản\"");
+                    }
+                    // PhiMuonSach
+                    if (String.IsNullOrEmpty(item.PhiMuonSach.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Phí mượn sách\"");
+                    }
+                    // TomTat
+                    if (String.IsNullOrEmpty(item.TomTat.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Tóm tắt\"");
+                    }
+                    //
+                    if (item.ListError.Count == 0)
+                        ListSuccess.Add(item);
+                    else
+                        ListFail.Add(item);
+                }
+                #endregion
+                #region Lưu vào CSDL ds không bị lỗi  
+                if (ListSuccess.Count > 0)
+                {
+                    foreach (var item in ListSuccess)
+                    {
+                        // linh tinh
+                        #region Linh tinh
+                        // Thể loại sách
+                        //string itemTheLoai = sachCommon.ChuanHoaChuoi(item.IdTheLoai);// Chuẩn hóa tên Thể Loại Sách
+                        string itemTheLoai = item.IdTheLoai.Trim();
+                        var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
+                        if (machs.Length > 0)
+                        {
+                            var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
+                            if (theloai != null)
+                            {
+                                item.IdTheLoai = theloai.Id;
+                            }
+                            else
+                            {
+                                // todo - ddc dictionary version 21
+                                var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
+                                {
+                                    TenTheLoai = item.IdTheLoai.Trim(),
+                                    MaDDC = itemTheLoai.Trim()
+                                });
+                                item.IdTheLoai = id;
+                            }
+                        }
+                        else
+                        {
+                            var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
+                            if (theloai != null)
+                            {
+                                item.IdTheLoai = theloai.Id;
+                            }
+                            else
+                            {
+                                var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = itemTheLoai });
+                                item.IdTheLoai = id;
+                            }
+                        }
+
+                        // Kệ sách
+                        // string nameKS = sachCommon.ChuanHoaChuoi(item.IdKeSach);// Chuẩn hóa tên Kệ Sách
+                        string nameKS = item.IdKeSach.Trim();
+                        var keSach = _keSachLogic.GetByTenKeSach(nameKS);
+                        if (keSach != null)
+                        {
+                            item.IdKeSach = keSach.Id;
+                        }
+                        else
+                        {
+                            var id = _keSachLogic.Add(new KeSach() { TenKe = nameKS });
+                            item.IdKeSach = id;
+                        }
+
+                        // Nhà xuất bản
+                        string nameNXB = xuLyChuoi.ChuanHoaChuoi(item.IdNhaXuatBan);// Chuẩn hóa tên Nhà Xuất Bản
+                        var nxb = _NhaXuatBanLogic.GetByTenNXB(nameNXB);
+                        if (nxb != null)
+                        {
+                            item.IdNhaXuatBan = nxb.Id;
+                        }
+                        else
+                        {
+                            var id = _NhaXuatBanLogic.ThemNXB(new NhaXuatBan() { Ten = nameNXB });
+                            item.IdNhaXuatBan = id;
+                        }
+
+                        // Ngôn ngữ
+                        string nameNN = xuLyChuoi.ChuanHoaChuoi(item.IdNgonNgu);// Chuẩn hóa tên Ngôn Ngữ
+                        var ngonNgu = _LanguageLogic.GetByTenNgonNgu(nameNN);
+                        if (ngonNgu != null)
+                        {
+                            item.IdNgonNgu = ngonNgu.Id;
+                        }
+                        else
+                        {
+                            var id = _LanguageLogic.InsertNew(new Language() { Ten = nameNN });
+                            item.IdNgonNgu = id;
+                        }
+                        #endregion
+                        // Thêm Sách  
+                        var idSach = _SachLogic.ThemSach(item);
+                        if (idSach.Length > 0)
+                        {
+                            // Tác giả 
+                            foreach (var tg in item.listTacGia)
+                            {
+                                tg.TenTacGia = xuLyChuoi.ChuanHoaChuoi(tg.TenTacGia);// Chuẩn hóa tên Tác Giả
+                                string idTG = null;
+                                var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
+                                if (tacGia != null)
+                                {
+                                    idTG = tacGia.Id;
+                                }
+                                else
+                                {
+                                    // Thêm mới nếu tác giả không tồn tại
+                                    idTG = _TacGiaLogic.Insert(tg);
+                                }
+                                _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
+                            }
+                            // Lưu mã vạch
+                            string physicalWebRootPath = Server.MapPath("/");
+                            Sach sachUpdate = _SachLogic.GetBookById(idSach);
+                            Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sachUpdate, null);
+                            if (temp != null)
+                            {
+                                sachUpdate.QRlink = temp.QRlink;
+                                sachUpdate.QRData = temp.QRData;
+                                _SachLogic.Update(sachUpdate);
+                            }
+                        }
+                    }
+                }
+                #endregion
+                #region Tạo file excel cho ds Thành Viên bị lỗi   
+                if (ListFail.Count > 0)
+                {
+                    Workbook wb = new Workbook();
+                    Worksheet ws = wb.Worksheets[0];
+                    // Tên header
+                    Style style = new Style();
+                    style.Pattern = BackgroundType.Solid;
+                    style.ForegroundColor = System.Drawing.Color.FromArgb(139, 195, 234);
+                    style.Font.Size = 20;
+                    style.Font.IsBold = true;
+                    style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+                    style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+                    style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+                    style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                    Style styleData = new Style();
+                    styleData.Font.Size = 18;
+                    styleData.Font.Name = "Times New Roman";
+                    styleData.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+                    styleData.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+                    styleData.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+                    styleData.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                    Style styleError = new Style();
+                    styleError.Pattern = BackgroundType.Solid;
+                    styleError.ForegroundColor = System.Drawing.Color.LightPink;
+                    styleError.Font.Size = 18;
+                    styleError.Font.Name = "Times New Roman";
+                    styleError.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+                    styleError.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+                    styleError.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+                    styleError.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                    ws.Cells["A1"].PutValue("STT");
+                    ws.Cells["A1"].SetStyle(style);
+                    ws.Cells["B1"].PutValue("Tên sách");
+                    ws.Cells["B1"].SetStyle(style);
+                    ws.Cells["C1"].PutValue("Mã ISBN");
+                    ws.Cells["C1"].SetStyle(style);
+                    ws.Cells["D1"].PutValue("Thể loại sách");
+                    ws.Cells["D1"].SetStyle(style);
+                    ws.Cells["E1"].PutValue("Tác giả");
+                    ws.Cells["E1"].SetStyle(style);
+                    ws.Cells["F1"].PutValue("Nhà xuất bản");
+                    ws.Cells["F1"].SetStyle(style);
+                    ws.Cells["G1"].PutValue("Kệ sách");
+                    ws.Cells["G1"].SetStyle(style);
+                    ws.Cells["H1"].PutValue("Số trang");
+                    ws.Cells["H1"].SetStyle(style);
+                    ws.Cells["I1"].PutValue("Ngôn ngữ");
+                    ws.Cells["I1"].SetStyle(style);
+                    ws.Cells["J1"].PutValue("Năm xuất bản");
+                    ws.Cells["J1"].SetStyle(style);
+                    ws.Cells["K1"].PutValue("Giá bìa");
+                    ws.Cells["K1"].SetStyle(style);
+                    ws.Cells["L1"].PutValue("Phí mượn");
+                    ws.Cells["L1"].SetStyle(style);
+                    ws.Cells["M1"].PutValue("Nước xuất xứ");
+                    ws.Cells["M1"].SetStyle(style);
+                    ws.Cells["N1"].PutValue("Người biên dịch");
+                    ws.Cells["N1"].SetStyle(style);
+                    ws.Cells["O1"].PutValue("Lần xuất bản");
+                    ws.Cells["O1"].SetStyle(style);
+                    ws.Cells["P1"].PutValue("Tóm tắt");
+                    ws.Cells["P1"].SetStyle(style);
+                    // Import data             
+                    int firstRow = 1;
+                    int firstColumn = 0;
+                    int stt = 1;
+                    foreach (var item in ListFail)
+                    {
+                        ArrayList arrList = new ArrayList();
+                        arrList.Add(stt);
+                        arrList.Add(item.TenSach);
+                        arrList.Add(item.ISBN);
+                        arrList.Add(item.IdTheLoai);
+                        // Danh sách tên tác giả
+                        string nameAuthor = null;
+                        foreach (var name in item.listTacGia)
+                        {
+                            nameAuthor += name.TenTacGia + ", ";
+                        }
+                        if (nameAuthor != null && nameAuthor.Equals(", ") == false)
+                            arrList.Add(nameAuthor);
+                        else
+                            arrList.Add("");
+                        arrList.Add(item.IdNhaXuatBan);
+                        arrList.Add(item.IdKeSach);
+                        arrList.Add(item.SoTrang);
+                        arrList.Add(item.IdNgonNgu);
+                        arrList.Add(item.NamXuatBan);
+                        arrList.Add(item.GiaBia);
+                        arrList.Add(item.PhiMuonSach);
+                        arrList.Add(item.XuatXu);
+                        arrList.Add(item.NguoiBienDich);
+                        arrList.Add(item.TaiBan);
+                        arrList.Add(item.TomTat);
+                        // Danh sách thông báo lỗi
+                        string errorExcel = null;
+                        bool isFirst = true;// xét dấu phẩy cho chuỗi thông báo
+                        foreach (var err in item.ListError)
+                        {
+                            if (isFirst)
+                                errorExcel += err;
+                            else
+                                errorExcel += ", " + err;
+                            isFirst = false;
+                        }
+                        ws.Cells.ImportArrayList(arrList, firstRow, firstColumn, false);
+                        // Set style màu sắc
+                        for (int i = firstColumn; i < firstColumn + 16; i++)
+                        {
+                            ws.Cells[firstRow, i].SetStyle(styleData);
+                        }
+                        if (String.IsNullOrEmpty(item.TenSach.Trim()))
+                            ws.Cells[firstRow, firstColumn + 1].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(item.IdTheLoai.Trim()))
+                            ws.Cells[firstRow, firstColumn + 3].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(nameAuthor) || nameAuthor.Equals(", "))
+                            ws.Cells[firstRow, firstColumn + 4].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(item.IdNhaXuatBan.Trim()))
+                            ws.Cells[firstRow, firstColumn + 5].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(item.SoTrang.Trim()))
+                            ws.Cells[firstRow, firstColumn + 7].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(item.IdNgonNgu.Trim()))
+                            ws.Cells[firstRow, firstColumn + 8].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(item.NamXuatBan.Trim()))
+                            ws.Cells[firstRow, firstColumn + 9].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(item.PhiMuonSach.Trim()))
+                            ws.Cells[firstRow, firstColumn + 11].SetStyle(styleError);
+
+                        if (String.IsNullOrEmpty(item.TomTat.Trim()))
+                            ws.Cells[firstRow, firstColumn + 15].SetStyle(styleError);
+                        // K lưu lý do lỗi vào file Excel, chỉ xuất lên table
+                        item.Error = errorExcel;
+                        arrList.Add(errorExcel);
+                        ListShow.Add(arrList);
+                        firstRow++;
+                        stt++;
+                    }
+                    ws.AutoFitColumns();
+                    // Save
+                    string fileName = "DsSachBiLoi.xlsx";
+                    wb.Save(@"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName, SaveFormat.Xlsx);
+                    model.FileName = fileName;
+                }
+                #endregion
+            }
+            model.ListSuccess = ListSuccess;
+            model.ListFail = ListFail;
+            model.ListShow = ListShow;
+            return View(model);
+        }
+
+        public ActionResult DowloadExcel(string fileName)
+        {
+            if (fileName == null)
+                return RedirectToAction("NotFound", "Error");
+            // To do Download              
+            string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName;
+            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+            string contentType = MimeMapping.GetMimeMapping(filepath);
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = fileName,
+                Inline = true,
+            };
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+            return File(filedata, contentType);
+        }
+        [HttpPost]
+        public ActionResult ImportFromExcel2(SachViewModels model)
         {
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -690,7 +1178,7 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            
+
             ExcelManager excelManager = new ExcelManager();
             List<Sach> listExcel = new List<Sach>();
             if (model.LinkExcel != null)
@@ -819,7 +1307,7 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", "Sach");
             // return View();
         }
-
+        #endregion
         #region Vinh 
         //- Xuất QR
         public ActionResult XuatQR()

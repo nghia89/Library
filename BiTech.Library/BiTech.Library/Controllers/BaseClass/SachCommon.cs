@@ -42,6 +42,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             return sach;
         }
+
         public string GetInfo(string info)
         {
             try
@@ -59,6 +60,6 @@ namespace BiTech.Library.Controllers.BaseClass
                 return MaKiemSoat;
             }
             catch { return info; }
-        }
+        }        
     }
 }

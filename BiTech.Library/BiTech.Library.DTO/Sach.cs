@@ -27,7 +27,7 @@ namespace BiTech.Library.DTO
         /// </summary>
         public string MaKiemSoat { get; set; }
 
-        [Required(ErrorMessage ="Vui lòng không để trống")]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Tên của sách
         /// </summary>
@@ -78,7 +78,7 @@ namespace BiTech.Library.DTO
         /// </summary>
         public string GiaBia { get; set; }
 
-        [Required(ErrorMessage ="Vui lòng không để trống")]
+        [Required(ErrorMessage = "Vui lòng không để trống")]
         /// <summary>
         /// Phí mượn sách nếu có
         /// </summary>
@@ -137,7 +137,11 @@ namespace BiTech.Library.DTO
 
         #region Tai
         [BsonIgnore]
-        public List<TacGia> listTacGia { get; set; }
+        public List<TacGia> listTacGia { get; set; } = new List<TacGia>();
+        [BsonIgnore]
+        public List<string> ListError { get; set; } = new List<string>();
+        [BsonIgnore]
+        public string Error { get; set; }
         #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿@model BiTech.Library.Models.ImportResultViewModel
+﻿@model BiTech.Library.Models.ImportExcelTVViewModel
 @{
     Layout = null;
     ViewBag.Title = "ResultImportExcel";
@@ -45,7 +45,7 @@
                 <th>Mã giáo viên</th>
                 <th>Giới tính</th>
                 <th>Ngày sinh</th>
-                <th>Lớp học</th>
+                <th>Tổ</th>
                 <th>Niên khóa</th>
                 <th>Địa chỉ</th>
                 <th>SĐT</th>
@@ -95,7 +95,12 @@
     </table>
 }
 <div class="f1-buttons">
-    <button type="button" class="btn btn-previous"><i class=""></i> Quay lại</button>
+    <button type="button" class="btn btn-success" id="btn-finish"><i class=""></i>Hoàn tất</button>
 </div>
 
+<script>   
+    $(document).on('click', '#btn-finish', function () {      
+         location.reload();
+    });
+</script>
 

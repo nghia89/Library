@@ -12,28 +12,28 @@ namespace BiTech.Library.DTO
 {
     [CurrentVersion("0.0.1")]
     public class ThanhVien : IModel
-    {        
+    {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         public string UserName { get; set; }
 
-        public string Password{ get; set; }
+        public string Password { get; set; }
 
         public string MaSoThanhVien { get; set; }
 
         public string Ten { get; set; }
-      
+
         public string DiaChi { get; set; }
 
         public string SDT { get; set; }
 
         public string HinhChanDung { get; set; }
-  
+
         public EUser TrangThai { get; set; }
 
-		public string ChucVu { get; set; } //Sài cho giáo viên
+        public string ChucVu { get; set; } //Sài cho giáo viên
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
@@ -46,7 +46,7 @@ namespace BiTech.Library.DTO
         public string GioiTinh { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime NgaySinh { get; set; }
-        public string LopHoc { get; set; }     
+        public string LopHoc { get; set; }
         public string NienKhoa { get; set; }
         public string QRLink { get; set; }
         public string QRData { get; set; }
@@ -57,11 +57,11 @@ namespace BiTech.Library.DTO
         [BsonIgnore]
         public int ColumnExcel { get; set; }
         [BsonIgnore]
-        public int RowExcel { get; set; }      
+        public int RowExcel { get; set; }
         [BsonIgnore]
-        public List<string> ListError { get; set; }      
+        public List<string> ListError { get; set; } = new List<string>();
         [BsonIgnore]
-        public bool IsDuplicate { get; set; }
+        public bool IsDuplicate { get; set; } = false;
         [BsonIgnore]
         public string NgaySinhForAngular { get; set; }
         #endregion

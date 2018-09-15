@@ -1,5 +1,6 @@
 ﻿using BiTech.Library.DTO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -141,5 +142,15 @@ namespace BiTech.Library.Models
         }
 
     
+    }
+
+    public class ImportExcelSachViewModel
+    {
+        public List<string[]> RawDataList { get; set; }    
+        public int TotalEntry { get; set; }       
+        public List<Sach> ListSuccess { get; set; } = new List<Sach>();
+        public List<Sach> ListFail { get; set; } = new List<Sach>();       
+        public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
+        public string FileName { get; set; }      
     }
 }

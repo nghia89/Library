@@ -1,4 +1,4 @@
-﻿@model BiTech.Library.Models.ImportExcelTVViewModel
+﻿@model BiTech.Library.Models.ImportExcelPNSViewModel
 @using Newtonsoft.Json;
 @{
     Layout = null;
@@ -7,7 +7,7 @@
 <ul class="list-group">
     <li class="list-group-item">
         @*<span class="badge">@Model.TotalEntry</span>*@
-        <b id="CountTotal">Tổng số tài khoản được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
+        <b id="CountTotal">Tổng số đầu sách được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
     </li>
 </ul>
 
@@ -22,16 +22,11 @@
                         var longestRow = Model.RawDataList.FirstOrDefault();
                         if (longestRow != null)
                         {
-                            <th class="order-number-column">STT</th>                           
-                            <th width="70px">Họ và tên</th>
-                            <th>Tên user</th>
-                            <th>Mã giáo viên</th>
-                            <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Tổ</th>
-                            <th>Niên khóa</th>
-                            <th width="70px">Địa chỉ</th>
-                            <th>SĐT</th>
+                            <th class="order-number-column">STT</th>
+                            <th width="70px">Mã sách</th>
+                            <th>Số lượng</th>
+                            <th>Trạng thái sách</th>
+                            <th>Ghi chú</th>
                         }
                     }
                     <th width="150px"><center>Thao tác</center></th>
@@ -45,7 +40,7 @@
                     foreach (var item in Model.RawDataList)
                     {
                         orderNumber += 1;
-                        <tr id="element-@orderNumber">                         
+                        <tr id="element-@orderNumber">
                             <td class="text-center SL_STT-@stt" data-tongstt="@stt">@stt</td>
                             @for (int j = 1; j < item.Length; j++)
                             {
@@ -75,12 +70,13 @@
 @{
     // Chuyển danh sách các tài khoản thành chuỗi JSON để chuyển lên Server
     var jsonData = Html.Raw(JsonConvert.SerializeObject(Model.RawDataList));
+    var note = Html.Raw(JsonConvert.ToString(Model.GhiChu));
 }
 
 <script>
 
     jsonData = @jsonData;
-
+    note=@note;
     function clearSelectBoxDefaultOption(element) {
         if ($(element).attr('data-is-selected') == 'false') {
             $('#' + $(element).attr('id') + ' :selected').remove();
@@ -141,11 +137,11 @@
                var kq_TSL = parseInt(TSL) - 1;
                $(".CountTotal_SL").data("tongsl",kq_TSL );
                $(".CountTotal_SL").html(kq_TSL);
-               // STT              
+               // STT
                var begin=parseInt(arrayIndex) +1 ;
                var end=@Model.TotalEntry;
                for (var i = begin+1; i <= end; i++)
-               {                                    
+               {
                    var TSL2 = $(".SL_STT-"+i).data("tongstt");
                    var kq_TSL2 = parseInt(TSL2) - 1;
                    $(".SL_STT-"+i).data("tongstt", kq_TSL2);
@@ -168,11 +164,12 @@
     // --
     $(document).on('click', '#btn-check-step-2', function (e) {
         e.preventDefault();
-        $(this).addClass('active');       
+        $(this).addClass('active');
 
-        $.post('@Url.Content("~/GiaoVien/ImportSave")',{
-            data : jsonData
-        }).done(function (data) {
+        $.post('@Url.Content("~/PhieuNhapSach/ImportSave")',{
+            data : jsonData,
+            ghiChu: note
+        }).done(function (data,ghiChu) {
 
             $("#success-step-container #message").html(data);
             $("#step-2-success").click();
@@ -181,7 +178,7 @@
             swal({title:'Thông tin không hợp lệ',text:'Kiểm tra lại các cột dữ liệu có phù hợp hay chưa.',type:'error'},function () {
                 $("#btn-check-step-2").removeClass('active');
             });
-        });      
+        });
     });
 
     function goToByScroll(id){

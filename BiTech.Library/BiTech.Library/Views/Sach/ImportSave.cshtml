@@ -1,0 +1,145 @@
+﻿@model BiTech.Library.Models.ImportExcelSachViewModel
+@using BiTech.Library.DTO;
+@{
+    Layout = null;
+    ViewBag.Title = "ResultImportExcel";
+}
+<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count cuốn</h4>
+<h4 class="text-danger">Lưu thất bại @Model.ListFail.Count cuốn</h4>
+@if (@Model.ListFail.Count > 0)
+{
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "Sach", new { fileName = Model.FileName })'">
+        <i class="fa fa-cloud-download" style="padding-right: 4px;font-size: 17px;"> Tải file lỗi để sửa</i>
+    </button>
+    <center><h3>Danh sách bị lỗi</h3></center>
+        <br />
+        <div @*class="table-wrapper-scroll-y"*@ @*class="scrollbar scrollbar-primary"*@>
+            <div @*id="tableContainer" class="tableContainer"*@>
+                <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
+                    <thead @*class="fixedHeader"*@>
+                        <tr class="table-info text-center">
+                            @{
+                                var longestRow = Model.ListShow.FirstOrDefault();
+                                if (longestRow != null)
+                                {
+                                    <th class="order-number-column">STT</th>
+                                    @*for (int i = 0; i < longestRow.Count; i++)
+                                        {
+                                            <th>
+                                                <select class="form-control" onclick="clearSelectBoxDefaultOption(this)" id="select-@i" data-is-selected="false" data-datatype-chooser="true">
+                                                    <option>-----------------------------------------------------------------------------</option>
+                                                    <option value="FullName">Họ & tên</option>
+                                                    <option value="Username">Tên user</option>
+                                                    <option value="Password">Mã thành viên</option>
+                                                    <option value="Email">Loại tài khoản</option>
+                                                    <option value="PhoneNumber">Giới tính</option>
+                                                    <option value="GrantedPermissionList">Ngày sinh</option>
+                                                    <option value="RoleSystemName">Lớp học</option>
+                                                    <option value="GrantedGradeAndSubjectId">Niên khóa</option>
+                                                    <option value="Address">Địa chỉ</option>
+                                                    <option value="PhoneNumber">SĐT</option>
+                                                </select>
+                                            </th>
+
+                                        }*@
+                                    <th>Tên sách</th>
+                                    <th>Mã ISBN</th>
+                                    <th>Thể loại sách</th>
+                                    <th>Tác giả</th>
+                                    <th>Nhà xuất bản</th>
+                                    <th>Kệ sách</th>
+                                    <th>Số trang</th>
+                                    <th>Ngôn ngữ</th>
+                                    <th>Năm xuất bản</th>
+                                    <th>Giá bìa</th>
+                                    <th>Phí mượn</th>
+                                    <th>Nước xuất xứ</th>
+                                    <th>Người biên soạn</th>
+                                    <th>Lần xuất bản</th>
+                                    <th>Tóm tắt</th>
+                                    <th>Nguyên nhân lỗi </th>
+                                }
+                            }
+                            @*<th width="150px"><center>Thao tác</center></th>*@
+                        </tr>
+                    </thead>
+                    <tbody @*class="scrollContent"*@>
+                        @{
+                            var orderNumber = 0;
+                            int row = 1;
+                            foreach (var item in Model.ListShow)
+                            {
+                                var col = 0;
+                                <tr id="element-@orderNumber">
+                                    @foreach (var j in item)
+                                    {
+                                        // tô màu ô trống dữ liệu cần thiết
+                                        if (String.IsNullOrEmpty(j.ToString().Trim()) && (col == 1 || col == 3 || col == 5 || col == 7 ||
+                                             col == 8 || col == 9 || col == 11 || col == 15 || col == 4))
+                                        {
+                                            <td style="background: #dc354582;"></td>
+                                        }
+                                        else
+                                        {
+                                            <td>@j.ToString()</td>
+                                        }
+                                        col++;
+                                    }
+                                </tr>
+                                row++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+                            }
+<div class="f1-buttons">
+    <button type="button" class="btn btn-success" id="btn-finish"><i class=""></i>Hoàn tất</button>
+</div>
+<style>
+    .CellError {
+        background: #dc354582;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+        width: 100%;
+        overflow: auto;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    .scrollbar {
+        margin-left: 30px;
+        float: left;
+        height: auto;
+        width: auto;
+        background: #fff;
+        overflow-y: scroll;
+        margin-bottom: 25px;
+    }
+
+    .force-overflow {
+        min-height: 450px;
+    }
+
+    .scrollbar-primary::-webkit-scrollbar {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    .scrollbar-primary::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        background-color: #4285F4;
+    }
+</style>
+<script>
+    $(document).on('click', '#btn-finish', function () {
+        location.reload();
+    });
+    // Tô màu cho các ô cần thiết bị trống
+    for (var i = 1; i <= 16; i++) {
+
+    }
+</script>
