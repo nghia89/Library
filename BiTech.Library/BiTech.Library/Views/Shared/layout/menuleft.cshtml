@@ -35,6 +35,7 @@
     string[] List_Controller_TabMuonTra = new string[7];
     List_Controller_TabMuonTra[0] = "MuonSach";
     List_Controller_TabMuonTra[1] = "TraSach";
+    List_Controller_TabMuonTra[2] = "GiaHan";
 
     string[] List_Controller_TabNhapXuatKho = new string[7];
     List_Controller_TabNhapXuatKho[0] = "PhieuNhapSach";
@@ -191,9 +192,9 @@
                                         Ngôn ngữ
                                     </a>
                                 </li>
-                                <li class="@((controller == "TrangThaiSach") ? "active" : "")">
-                                    <a href="@Url.Action("Index", "TrangThaiSach")" title="Loại tình trạng">
-                                        Loại tình trạng
+                                <li class="@(( @controller == "TrangThaiSach") ? "active" : "")">
+                                    <a href="@Url.Action("Index", "TrangThaiSach")" title="Trạng thái sách">
+                                        Trạng thái sách
                                     </a>
                                 </li>
                                 <li class="@((controller == "DDC") ? "active" : "")">
@@ -224,6 +225,11 @@
                                 <li class="@((controller == "TraSach") ? "active" : "")">
                                     <a href="@Url.Action("Index","TraSach")" title="Trả sách">
                                         Trả sách
+                                    </a>
+                                </li>
+                                <li class="@(( @controller == "GiaHan") ? "active" : "")">
+                                    <a href="@Url.Action("Index","GiaHan")" title="Gia hạn">
+                                        Gia hạn
                                     </a>
                                 </li>
                             </ul>

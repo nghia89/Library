@@ -49,6 +49,13 @@ namespace BiTech.Library.DAL.Engines
         }
         #endregion
 
+        #region Phong
+        public Sach GetByID_IsDeleteFalse(string id)
+        {
+            return _DatabaseCollection.Find(x => x.Id == id && x.IsDeleted == false).SingleOrDefault();
+        }
+        #endregion
+
         public List<Sach> ListName(string keyWord)
         {
             FilterDefinition<Sach> filterDefinition = new BsonDocument();

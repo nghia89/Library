@@ -23,7 +23,11 @@
             @Html.ActionLink("Thêm từ Marc21", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Xuất Marc21", "Index", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
 			@Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+
             <a class="btn btn-sm btn-primary ml-2" href="~/Tempaltes/MauSach.xlsx">Mẫu Excel</a>
+
+            @Html.ActionLink("Xoá sách", "DeleteMany", "Sach", null, new { @class = "btn btn-sm btn-danger ml-sm-2" })
+
         </div>
     </div>
 
@@ -71,11 +75,15 @@
             <div class="col-sm-12 font-weight-bold">Sắp xếp: </div>
             <div class="col-md-3 col-sm-12  form-group px-2 mt-1 mb-1">
                 @{
-                    Dictionary<string, string> arry_short = new Dictionary<string, string>();
-                    arry_short.Add("1", "Thứ tự Alphabet");
-                    arry_short.Add("2", "Mã sách");
-                    arry_short.Add("3", "Thời gian nhập sách");
-                    arry_short.Add("4", "Năm xuất bản");
+                    Dictionary<string, object> arry_short = new Dictionary<string, object>();
+                    arry_short.Add("1", @Html.Raw("Thứ tự A  -Z &#xf175;"));
+                    arry_short.Add("11", @Html.Raw("Thứ tự Z - A &#xf176;"));
+                    arry_short.Add("2", @Html.Raw("Mã sách &#xf175;"));
+                    arry_short.Add("22", @Html.Raw("Mã sách &#xf176;"));
+                    arry_short.Add("3", @Html.Raw("Thời gian nhập sách &#xf175;"));
+                    arry_short.Add("33", @Html.Raw("Thời gian nhập sách &#xf176;"));
+                    arry_short.Add("4", @Html.Raw("Năm xuất bản &#xf175;"));
+                    arry_short.Add("44", @Html.Raw("Năm xuất bản &#xf176;"));
                 }
                 <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short').submit() ">
                     <option value="">--Sắp xếp--</option>

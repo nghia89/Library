@@ -1,0 +1,212 @@
+﻿@model IPagedList<BiTech.Library.Models.BookView>
+@using PagedList.Mvc;
+@using PagedList;
+@*@model BiTech.Library.Models.ListBooksModel*@
+@{
+    ViewBag.Title = "Sách";
+    var listSach = ViewBag.ListSach;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
+    var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
+    var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
+
+}
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+
+<div class="Title">Xoá sách</div>
+
+<div class="form-group row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/Sach'">
+            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+        </button>
+    </div>
+</div>
+
+<div class="clearfix">
+    <h4 class="alert-danger">@TempData["alert"]</h4>
+
+
+    <form action="/Sach/DeleteMany" class="clearfix" id="search_short">
+        <div class="col-sm-12 font-weight-bold">Tìm kiếm: </div>
+        <div class="clearfix m-0">
+
+            <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
+                <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm" placeholder="Tên sách...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary btn-sm" id="btnSearch" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
+                <select class="form-control form-control-sm" name="TheLoaiSach" id="ddlCategorySearch">
+                    <option value="">--Thể loại sách--</option>
+                    @foreach (var tls in TLS)
+                    {
+                        <option value="@tls.Id" @((@tls.Id == @ViewBag.theLoaiSach_selected) ? "selected" : " ")>@tls.TenTheLoai</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
+                <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
+                    <option value="">--Tác giả--</option>
+                    @foreach (var tg in TG)
+                    {
+                        <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ")>@tg.TenTacGia</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12  form-group pull-right px-2 mt-1 mb-1">
+                <select class="form-control form-control-sm" name="TenNXB" id="">
+                    <option value="">--Nhà xuất bản--</option>
+                    @foreach (var nxb in NXB)
+                    {
+                        <option value="@nxb.Id" @((@nxb.Id == @ViewBag.NXB_selected) ? "selected" : " ")>@nxb.Ten</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row m-0 mb-2">
+            <div class="col-sm-12 font-weight-bold">Sắp xếp: </div>
+            <div class="col-md-3 col-sm-12  form-group px-2 mt-1 mb-1">
+                @{
+                    Dictionary<string, object> arry_short = new Dictionary<string, object>();
+                    arry_short.Add("1", @Html.Raw("Thứ tự A-Z &#xf175;"));
+                    arry_short.Add("11", @Html.Raw("Thứ tự Z-A &#xf176;"));
+                    arry_short.Add("2", @Html.Raw("Mã sách &#xf175;"));
+                    arry_short.Add("22", @Html.Raw("Mã sách &#xf176;"));
+                    arry_short.Add("3", @Html.Raw("Thời gian nhập sách &#xf175;"));
+                    arry_short.Add("33", @Html.Raw("Thời gian nhập sách &#xf176;"));
+                    arry_short.Add("4", @Html.Raw("Năm xuất bản &#xf175;"));
+                    arry_short.Add("44", @Html.Raw("Năm xuất bản &#xf176;"));
+                }
+                <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short').submit() ">
+                    <option value="">--Sắp xếp--</option>
+                    @foreach (var item_sx in arry_short)
+                    {
+                        <option value="@item_sx.Key" @((@item_sx.Key == @ViewBag.SapXep_selected) ? "selected" : " ")>@item_sx.Value</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </form>
+
+    @{int i = 1;}
+
+    <form action="/Sach/DeleteMany" method="post" class="clearfix" id="DeleteMany">
+
+        <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
+            <div class="clearfix pl-sm-2">
+                <input type="button" value="Xoá sách" onclick="XoaSach()" class="btn btn-sm btn-danger ml-sm-2" />
+                <input type="hidden" name="paging" value="@ViewBag.paged" />
+                <input type="hidden" name="pageSize" value="@ViewBag.pageSize" />
+                <input type="hidden" name="colRowCount" value="@ViewBag.number" />
+            </div>
+        </div>
+
+        <div class="book_content p-3 clearfix">
+
+            <table class="table table-hover table-bordered ">
+                <thead>
+                    <tr class="table-info">
+                        <th style="width: 10px">
+                            <input type="checkbox" name="chonhet" id="chonhet" />
+                        </th>
+                        <th width="50" align="right">STT</th>
+                        <th width="100" scope="col">Bìa sách</th>
+                        <th width="15%" style="max-width:150px" scope="col">Mã kiễm soát</th>
+                        <th width="80%" scope="col">Thông tin</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="chon" value="@item.SachDTO.Id" class="chon" />
+                            </td>
+                            <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
+                            <td><img width="100" src="@item.SachDTO.LinkBiaSach??null" onerror="this.src = '/Content/Images/book.png'"></td>
+                            <td>@item.SachDTO.MaKiemSoat</td>
+                            <td>
+                                <p class="m-0"><b>Tên sách:</b> @item.SachDTO.TenSach</p>
+                                <p class="m-0"><b>Nhà xuất bản:</b> @item.SachDTO.NamXuatBan</p>
+                                <p class="m-0"><b>Tác giả:</b> @item.Ten_TacGia</p>
+                                <p class="m-0"><b>Thể loại:</b> @item.Ten_TheLoai</p>
+                            </td>
+                        </tr>
+
+                        i++;
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </form>
+
+    <div class="clearfix"></div>
+    <br />
+    @if (@ViewBag.number > 30)
+    {
+        @Html.PagedListPager(Model, page => Url.Action("DeleteMany", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    }
+
+</div>
+@*<button value="Xoa" onclick="XoaCauHoi()" />*@
+
+
+@section scripts{
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                $("#btnSearch").submit();
+            }
+        });
+    </script>
+
+    <script>
+
+        //Xoá Sách
+        function XoaSach() {
+
+            swal({
+                title: " Bạn có muốn xóa danh sách đã chọn ?",
+                text: "Bạn sẽ không thể khôi phục lại danh sách này sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $("#DeleteMany").submit();
+                }
+            });
+
+        }
+
+
+        $(document).ready(function () {
+            //Chọn Sách
+            $("#chonhet").click(function () {
+                var status = this.checked;
+                $("input[name='chon']").each(function () { this.checked = status; })
+            });
+
+            $('tbody :checkbox').on('click', function () {
+                $(this).closest('table').find('#chonhet').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll
+            });
+
+        });
+
+    </script>
+}

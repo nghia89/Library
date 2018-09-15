@@ -17,7 +17,9 @@ a {
     a:hover {
         color: #f00;
     }
-
+select {
+  font-family: 'FontAwesome', 'Arial';
+}
 /*bootstap edit*/
 .btn-primary {
     color: #fff;
@@ -161,7 +163,7 @@ a:hover {
     width: 25px;
     transform: rotate(180deg);
     position: relative;
-    left: -4px;
+    left: -8px;
     top: -4px;
     font-size: 20px;
 }
@@ -824,9 +826,11 @@ a:hover {
             }
 
                 .book_box_v3 .container-box-window .top .title span {
-                    width: 25px;
-                    height: 25px;
-                    font-size: 17px;
+                    min-width: 25px;
+                    padding: 5px;
+                    min-height: 25px;
+                    font-size: 11px;
+                    line-height: 15px;
                     font-weight: 500;
                     display: inline-block;
                     text-align: center;
@@ -834,6 +838,8 @@ a:hover {
                     color: #728B90;
                     border-radius: 50px;
                     background-color: white;
+                    position: relative;
+                    top: -3px;
                 }
 
         .book_box_v3 .container-box-window .content-box-window {

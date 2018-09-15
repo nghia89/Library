@@ -7,83 +7,101 @@
     var url_modal = "~/TheLoaiSach/RequestThemTheLoaiGui?idParent=" + ViewBag.idParent;
 
 }
+<form action="/TheLoaiSach/DeleteMany" method="post" class="clearfix" id="DeleteMany">
 
-<div class="Title">Danh Sách Thể Loại Sách</div>
-<div class="clearfix bar_mobile_tl">
-    <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
-       data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>
+    <div class="Title">Danh Sách Thể Loại Sách</div>
+    <div class="clearfix bar_mobile_tl">
+        <a class="btn btn-primary btn-sm" href="@Url.Content(url_modal)" data-ajax="true"
+           data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>
 
-    @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })
-    <a class="btn btn-sm btn-danger" href="~/Tempaltes/DDC.xlsx">Mẫu Excel</a>
+        @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })
+        <a class="btn btn-sm btn-primary" href="~/Tempaltes/DDC.xlsx">Mẫu Excel</a>
 
-    <button class="btn-dan btn btn-sm btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');">
-        Dán
-    </button>
+        <input type="button" value="Xoá thể loại" onclick="XoaTheloai()" class="btn btn-sm btn-danger" />
+        <input type="hidden" name="paging" value="@ViewBag.paged" />
+        <input type="hidden" name="pageSize" value="@ViewBag.pageSize" />
+        <input type="hidden" name="colRowCount" value="@ViewBag.number" />
+        <input type="hidden" name="idParent" value="@ViewBag.idParent" />
 
-</div>
-<div id="topbar">
-    <h5></h5>
-</div>
-<div class="direction">
-    @if (ViewBag.url != "")
-    {
-        <a href=/TheLoaiSach>Thể loại sách</a>@Html.Raw(ViewBag.url)
-    }
-</div>
+        <input type="button" class="btn-dan btn btn-sm btn-default" onclick="Dan_TLS(this, '@ViewBag.idParent');" value="Dán" />
+            
 
-<table class="table table-hover table-bordered ">
-    <thead>
-        <tr class="table-info">
-            <th width="50" align="right">STT</th>
-            <th width="40%">Tên thể loại</th>
-            <th width="50%">Mô tả</th>
-            <th width="5%">Sửa</th>
-            <th width="5%">Cắt</th>
-        </tr>
-    </thead>
-    @{int i = 1;}
-    <tbody>
-        @{
-            if (ViewBag.URLBackParent != null)
+    </div>
+    <div id="topbar">
+        <h5></h5>
+    </div>
+    <div class="direction">
+        @if (ViewBag.url != "")
+        {
+            <a href=/TheLoaiSach>Thể loại sách</a>@Html.Raw(ViewBag.url)
+        }
+    </div>
+
+    <table class="table table-hover table-bordered ">
+        <thead>
+            <tr class="table-info">
+                <th style="width: 10px">
+                    <input type="checkbox" name="chonhet" id="chonhet" />
+                </th>
+                <th width="50" align="right">STT</th>
+                <th width="40%">Tên thể loại</th>
+                <th width="50%">Mô tả</th>
+                <th width="5%">Sửa</th>
+                <th width="5%">Cắt</th>
+            </tr>
+        </thead>
+        @{int i = 1;}
+        <tbody>
+            @{
+                if (ViewBag.URLBackParent != null)
+                {
+                    <tr>
+                        <td>
+                            
+                        </td>
+                        <td align="center"></td>
+                        <td class="a_td" onclick="window.location='@ViewBag.URLBackParent'" title="../ Trở lại thể loại cha">
+                            ../ Trở lại thể loại cha
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            }
+
+            @foreach (var item in Model)
             {
                 <tr>
-                    <td align="center"></td>
-                    <td class="a_td" onclick="window.location='@ViewBag.URLBackParent'" title="../ Trở lại thể loại cha">
-                        ../ Trở lại thể loại cha
+                    <td>
+                        <input type="checkbox" name="chon" value="@item.Id" class="chon" />
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
+                    <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
+                        @item.TenTheLoai
+                    </td>
+                    <td>@item.MoTa</td>
+                    <td>
+                        <a class="color-white btn btndanger btn-sm btn-inTable" href="javascript:void(0)" onclick="window.location.href='@Url.Action("Sua", new { idTheLoai = item.Id })'">
+                            <i class="fa">&#xf044;</i> Sửa
+                        </a>
+                    </td>
+                    <td>
+
+                        <button class="btn-cut color-white btn btn-danger btn-sm btn-inTable" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
+                            <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
+                        </button>
+                    </td>
                 </tr>
+                { i++; }
             }
-        }
+        </tbody>
+    </table>
 
-        @foreach (var item in Model)
-            {
-            <tr>
-                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
-                <td class="a_td" onclick="window.location='@Url.Action("index", new { idParent = @item.Id })'">
-                    @item.TenTheLoai
-                </td>
-                <td>@item.MoTa</td>
-                <td>
-                    <button class="color-white btn btndanger btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Sua", new { id = item.Id })'">
-                        <i class="fa">&#xf044;</i> Sửa
-                    </button>
-                </td>
-                <td>
+    @Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page, idParent = ViewBag.idParent }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 
-                    <button class="btn-cut color-white btn btn-danger btn-sm btn-inTable" id="@item.Id" onclick="Cut_TheLoai('@item.Id',this);">
-                        <i class="fa fa-scissors" aria-hidden="true"></i> Cắt
-                    </button>
-                </td>
-            </tr>
-            { i++; }
-        }
-    </tbody>
-</table>
+</form>
 
-@Html.PagedListPager(Model, Page => Url.Action("Index", new { page = Page, idParent = ViewBag.idParent }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 @section scripts{
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
@@ -201,6 +219,41 @@
 
         $(document).ready(function () {
             check_session_cut();
+        });
+
+        //Xoá Sách
+        function XoaTheloai() {
+
+            swal({
+                title: " Bạn có muốn xóa danh sách thể loại đã chọn ?",
+                text: "Bạn sẽ không thể khôi phục lại danh sách thể loại này sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $("#DeleteMany").submit();
+                }
+            });
+
+        }
+
+        $(document).ready(function () {
+            //Chọn Sách
+            $("#chonhet").click(function () {
+                var status = this.checked;
+                $("input[name='chon']").each(function () { this.checked = status; })
+            });
+
+            $('tbody :checkbox').on('click', function () {
+                $(this).closest('table').find('#chonhet').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll
+            });
+
         });
 
     </script>

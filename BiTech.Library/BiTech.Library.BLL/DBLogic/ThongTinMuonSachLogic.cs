@@ -62,6 +62,11 @@ namespace BiTech.Library.BLL.DBLogic
             return _ThongTinMuonSachEngine.Insert(model);
         }
 
+        public bool Update(ThongTinMuonSach model)
+        {
+            return _ThongTinMuonSachEngine.Update(model);
+        }
+
         public string ThemTrangThai(ThongTinMuonSach TT)
         {
             return _ThongTinMuonSachEngine.Insert(TT);
@@ -78,6 +83,11 @@ namespace BiTech.Library.BLL.DBLogic
             if(team.Count > 0)
                 return team[0];
             return null;
+        }
+
+        public List<ThongTinMuonSach> getByThongTinMuonSachList(ThongTinMuonSach TT)
+        {
+            return _ThongTinMuonSachEngine.GetByThongTinMuonSach(TT);
         }
 
         public bool SuaTrangThai(ThongTinMuonSach TT)

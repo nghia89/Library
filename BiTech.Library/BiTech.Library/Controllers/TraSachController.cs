@@ -334,7 +334,9 @@ namespace BiTech.Library.Controllers
 
             foreach (ThongTinMuonSach item in list_TTMS)
             {
-                Sach _Sach = _SachLogic.GetBookById(item.idSach); //lấy thông tin sách bằng idSach
+                Sach _Sach = _SachLogic.GetByID_IsDeleteFalse(item.idSach); //lấy thông tin sách bằng idSach
+                if (_Sach == null)
+                    continue;
                 //Tạo đối tượng dùng kiểm tra 
                 MuonTraSachCheckViewTable _itemcheck = new MuonTraSachCheckViewTable()
                 {

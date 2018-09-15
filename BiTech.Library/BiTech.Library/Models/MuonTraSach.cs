@@ -16,6 +16,7 @@ namespace BiTech.Library.Models
         public string SoLuong { get; set; }
         public string SoLuongMax { get; set; }
         public string NgayMuon { get; set; }
+        public string NgayTraNew { get; set; }
         public string NgayTra { get; set; }
         public string TinhTrangSach { get; set; }
         public string TinhTrangSachTen { get; set; }

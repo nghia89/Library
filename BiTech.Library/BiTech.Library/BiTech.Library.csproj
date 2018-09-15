@@ -236,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseClass\XuLyChuoi.cs" />
+    <Compile Include="Controllers\GiaHanController.cs" />
     <Compile Include="Helpers\App_Start\BundleConfig.cs" />
     <Compile Include="Helpers\App_Start\FilterConfig.cs" />
     <Compile Include="Helpers\App_Start\RouteConfig.cs" />
@@ -2131,6 +2132,9 @@
     <Content Include="Views\DDC\ImportSave.cshtml" />
     <Content Include="Views\DDC\PreviewImport.cshtml" />
     <Content Include="Views\DDC\ImportFromExcel.cshtml" />
+    <Content Include="Views\Error\ErrorOccur.cshtml" />
+    <Content Include="Views\Sach\DeleteMany.cshtml" />
+    <Content Include="Views\GiaHan\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

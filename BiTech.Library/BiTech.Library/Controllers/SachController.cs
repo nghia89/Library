@@ -92,12 +92,20 @@ namespace BiTech.Library.Controllers
             //Sắp xếp
             if (KeySearch.SapXep == "1")
                 model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
+            if (KeySearch.SapXep == "11")
+                model.Books = model.Books.OrderByDescending(_ => _.TenSach).ToList();
             if (KeySearch.SapXep == "2")
                 model.Books = model.Books.OrderBy(_ => _.MaKiemSoat).ToList();
+            if (KeySearch.SapXep == "22")
+                model.Books = model.Books.OrderByDescending(_ => _.MaKiemSoat).ToList();
             if (KeySearch.SapXep == "3")
                 model.Books = model.Books.OrderBy(_ => _.CreateDateTime).ToList();
+            if (KeySearch.SapXep == "33")
+                model.Books = model.Books.OrderByDescending(_ => _.CreateDateTime).ToList();
             if (KeySearch.SapXep == "4")
                 model.Books = model.Books.OrderBy(_ => _.NamXuatBan).ToList();
+            if (KeySearch.SapXep == "44")
+                model.Books = model.Books.OrderByDescending(_ => _.NamXuatBan).ToList();
 
             return View(model.Books.ToPagedList(pageNumber, pageSize));
         }
@@ -275,9 +283,15 @@ namespace BiTech.Library.Controllers
                         }
 
                         //Update tổng số lượng sách
+
                         sach.SoLuongTong = tongSach;
                         sach.SoLuongConLai = tongSach;
                         _SachLogic.Update(sach);
+// =======
+                        // model.SachDTO.SoLuongTong = tongSach;
+                        // model.SachDTO.SoLuongConLai = tongSach;
+                        // _SachLogic.Update(model.SachDTO);
+// >>>>>>> Phongv25
                     }
 
                     return RedirectToAction("Index");
@@ -559,38 +573,7 @@ namespace BiTech.Library.Controllers
         {
             try
             {
-                SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-                Sach s = _SachLogic.GetById(id);
-                //GetList: thông tin mượn sách by idSach (1)
-                List<ThongTinMuonSach> list_TTMS = _ThongTinMuonSachLogic.GetAllbyIdSach(s.Id);
-                //GetList: chi tiết nhập sách by idSach (2)
-                List<ChiTietNhapSach> list_CTNS = _ChiTietNhapSachLogic.GetAllChiTietByIdSach(s.Id);
-                //GetList: chi tiết xuất sách by idSach (3)
-                List<ChiTietXuatSach> list_CTXS = _ChiTietXuatSachLogic.GetAllChiTietByIdSach(s.Id);
-
-                //if: (1)(2)(3) === 0 
-                if ((list_TTMS.Count() + list_CTNS.Count() + list_CTXS.Count()) == 0)
-                {
-                    //Xoá row table sách - xoá thật
-                    _SachLogic.XoaSach(s.Id);
-                }
-                else
-                {
-                    //update IsDeleted = true
-                    s.IsDeleted = true;
-                    _SachLogic.Update(s);
-                }
-                //Xoá row table số lượng sách trạng thái by idSach
-                _SoLuongSachTrangThaiLogic.DeleteByIdSach(s.Id);
-                //Xoá row table sách tác giả by idSach
-                _SachTacGiaLogic.DeleteAllTacGiaByidSach(s.Id);
-
+                DeleteByIdSach(id);
                 return RedirectToAction("Index");
             }
             catch (Exception)
@@ -609,6 +592,130 @@ namespace BiTech.Library.Controllers
             // todo Xoa het ca hoi lien quan
             //_SachLogic.XoaSach(s.Id);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult DeleteMany(KeySearchViewModel KeySearch, int? page)
+        {
+
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            KeSachLogic _KeSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            ListBooksModel model = new ListBooksModel();
+
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+            ViewBag.paged = page;
+            ViewBag.pageSize = pageSize;
+            ViewBag.pages = pageNumber;
+
+            ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();
+            ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
+            ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
+
+            ViewBag.theLoaiSach_selected = KeySearch.TheLoaiSach ?? " ";
+            ViewBag.tacGia_selected = KeySearch.TenTacGia ?? " ";
+            ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
+            ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
+
+            var list = _SachLogic.getPageSach(KeySearch);
+            ViewBag.number = list.Count();
+
+            foreach (var item in list)
+            {
+                var listTG = _SachTacGiaLogic.getListById(item.Id);
+
+                string tenTG = "";
+                foreach (var item2 in listTG)
+                {
+                    tenTG += _TacGiaLogic.GetByIdTG(item2.IdTacGia)?.TenTacGia + ", " ?? "";
+                }
+                tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
+
+                BookView book = new BookView(item);
+                book.TenSach = book.SachDTO.TenSach;
+                book.MaKiemSoat = book.SachDTO.MaKiemSoat;
+                book.CreateDateTime = book.SachDTO.CreateDateTime;
+                book.NamXuatBan = book.SachDTO.NamXuatBan;
+                book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
+                book.Ten_NhaXuatBan = _NhaXuatBanLogic.getById(item.IdNhaXuatBan)?.Ten ?? "--";
+                book.Ten_KeSach = _KeSachLogic.getById(item.IdKeSach)?.TenKe ?? "--";
+                book.Ten_NgonNgu = _LanguageLogic.GetById(item.IdNgonNgu)?.Ten ?? "--";
+                book.Ten_TacGia = tenTG;
+
+                model.Books.Add(book);
+            }
+
+            //Sắp xếp
+            if (KeySearch.SapXep == "1")
+                model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
+            if (KeySearch.SapXep == "11")
+                model.Books = model.Books.OrderByDescending(_ => _.TenSach).ToList();
+            if (KeySearch.SapXep == "2")
+                model.Books = model.Books.OrderBy(_ => _.MaKiemSoat).ToList();
+            if (KeySearch.SapXep == "22")
+                model.Books = model.Books.OrderByDescending(_ => _.MaKiemSoat).ToList();
+            if (KeySearch.SapXep == "3")
+                model.Books = model.Books.OrderBy(_ => _.CreateDateTime).ToList();
+            if (KeySearch.SapXep == "33")
+                model.Books = model.Books.OrderByDescending(_ => _.CreateDateTime).ToList();
+            if (KeySearch.SapXep == "4")
+                model.Books = model.Books.OrderBy(_ => _.NamXuatBan).ToList();
+            if (KeySearch.SapXep == "44")
+                model.Books = model.Books.OrderByDescending(_ => _.NamXuatBan).ToList();
+
+            return View(model.Books.ToPagedList(pageNumber, pageSize));
+
+
+        }
+
+        [HttpPost]
+        public ActionResult DeleteMany(List<string> chon, string paging, string pageSize, string colRowCount)
+        {
+            try
+            {
+                if(paging != "")
+                {
+                    //Count max item in page
+                    int kq_so1 = (int.Parse(paging) * int.Parse(pageSize)) - int.Parse(colRowCount);
+                    int SlItemInPage = int.Parse(pageSize);
+
+                    //kq_so1 >= 0 => đang ở page cuối
+                    if (kq_so1 >= 0)
+                    {
+                        SlItemInPage = SlItemInPage - kq_so1;
+
+                        //Nếu cái item ở trang cuối được xoá hết thì luồi 1 page
+                        if (chon.Count == SlItemInPage)
+                        {
+                            paging = ( ((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
+                        }
+                    }
+                }
+
+                if (chon != null)
+                {
+                    foreach (string item in chon)
+                    {
+                        DeleteByIdSach(item);
+                    }
+                } 
+
+                //return RedirectToAction("DeleteMany");
+                return RedirectToAction("DeleteMany", "Sach", new
+                {
+                    page = paging
+                });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+
         }
 
         public JsonResult ListName(string q)
@@ -758,6 +865,7 @@ namespace BiTech.Library.Controllers
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+//<<<<<<< HEAD
             var listAll = new List<Sach>();
             List<Sach> ListFail = new List<Sach>();
             List<Sach> ListSuccess = new List<Sach>();
@@ -765,6 +873,14 @@ namespace BiTech.Library.Controllers
             var model = new ImportExcelSachViewModel();
             #region Truyền dữ liệu vào ListAll
             foreach (var item in data)
+// =======
+            // SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            // TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            // ExcelManager excelManager = new ExcelManager();
+            // List<Sach> listExcel = new List<Sach>();
+            // if (model.LinkExcel != null)
+// >>>>>>> Phongv25
             {
                 Sach sach = new Sach();
                 sach.TenSach = item[1].ToString().Trim();
@@ -1382,5 +1498,109 @@ namespace BiTech.Library.Controllers
 
             return Json(true);
         }
+
+        #endregion
+
+        #region Phong
+        /// <summary>
+        /// Xoá sách bằng idSach
+        /// </summary>
+        /// <param name="idSach"></param>
+        private void DeleteByIdSach(string idSach)
+        {
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            ChiTietXuatSachLogic _ChiTietXuatSachLogic = new ChiTietXuatSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            Sach s = _SachLogic.GetById(idSach);
+            //GetList: thông tin mượn sách by idSach (1)
+            List<ThongTinMuonSach> list_TTMS = _ThongTinMuonSachLogic.GetAllbyIdSach(s.Id);
+            //GetList: chi tiết nhập sách by idSach (2)
+            List<ChiTietNhapSach> list_CTNS = _ChiTietNhapSachLogic.GetAllChiTietByIdSach(s.Id);
+            //GetList: chi tiết xuất sách by idSach (3)
+            List<ChiTietXuatSach> list_CTXS = _ChiTietXuatSachLogic.GetAllChiTietByIdSach(s.Id);
+
+            RemoveFileFromServer(s.LinkBiaSach);
+
+            //if: (1)(2)(3) === 0 
+            if ((list_TTMS.Count() + list_CTNS.Count() + list_CTXS.Count()) == 0)
+            {
+                //Xoá row table sách - xoá thật
+                _SachLogic.XoaSach(s.Id);
+            }
+            else
+            {
+                //update IsDeleted = true
+                s.IsDeleted = true;
+                _SachLogic.Update(s);
+            }
+
+            
+            //Xoá row table số lượng sách trạng thái by idSach
+            _SoLuongSachTrangThaiLogic.DeleteByIdSach(s.Id);
+            //Xoá row table sách tác giả by idSach
+            _SachTacGiaLogic.DeleteAllTacGiaByidSach(s.Id);
+        }
+        
+        /// <summary>
+        /// Xoa image khoi server
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private bool RemoveFileFromServer(string path)
+        {
+            var fullPath = Request.MapPath(path);
+            if (!System.IO.File.Exists(fullPath)) return false;
+
+            try //Maybe error could happen like Access denied or Presses Already User used
+            {
+                System.IO.File.Delete(fullPath);
+                DeleteFolderParent(fullPath);
+                return true;
+            }
+            catch (Exception e)
+            {
+                //Debug.WriteLine(e.Message);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Xoa folder chua file
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private bool DeleteFolderParent(string path) {
+            var pathFolder = Directory.GetParent(path).FullName;
+            DirectoryInfo attachments_AR = new DirectoryInfo(pathFolder);
+            EmptyFolder(attachments_AR);
+            Directory.Delete(pathFolder);
+            return false;
+        }
+
+        /// <summary>
+        /// Xoa het cac file trong folder
+        /// </summary>
+        /// <param name="directory"></param>
+        private void EmptyFolder(DirectoryInfo directory)
+        {
+
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                file.Delete();
+            }
+
+            foreach (DirectoryInfo subdirectory in directory.GetDirectories())
+            {
+                EmptyFolder(subdirectory);
+                subdirectory.Delete();
+            }
+
+        }
+
+        #endregion
     }
 }
