@@ -423,11 +423,6 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult ExportWord()
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult ImportFromExcel(UserViewModel model)
         {
@@ -542,12 +537,12 @@ namespace BiTech.Library.Controllers
             string fileName = "MauTheGV.docx";
             if (mauThe.Equals("mau1") == true)
             {
-                linkMau = "/Content/MauWord/MauTheGV1.docx";
+                linkMau = "/Content/MauWord/Mau1-GV.docx";
                 fileName = "MauTheGV-Mau1.docx";
             }
             else if ((mauThe.Equals("mau2") == true))
             {
-                linkMau = "/Content/MauWord/MauTheGV2.docx";
+                linkMau = "/Content/MauWord/Mau2-GV.docx";
                 fileName = "MauTheGV-Mau2.docx";
             }
             excelManager.ExportWord(linkMau, listTV, fileName);

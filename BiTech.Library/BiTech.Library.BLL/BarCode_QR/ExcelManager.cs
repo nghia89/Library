@@ -251,7 +251,7 @@ namespace BiTech.Library.BLL.BarCode_QR
 				if (item.QRLink != null)
 				{//mẫu 1 hình nhỏ hơn mẫu 2
 					string linkImage = HttpContext.Current.Server.MapPath(item.QRLink.ToString());
-					if(sourceDir == "/Content/MauWord/Mau2-GV.docx" || sourceDir == "/Content/MauWord/Mau2.docx")
+					if(sourceDir == "/Content/MauWord/Mau2-GV.docx" || sourceDir == "/Content/MauWord/Mau2-HS.docx")
 						docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR_Large(linkImage), false);
 					else
 						docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR(linkImage), false);
