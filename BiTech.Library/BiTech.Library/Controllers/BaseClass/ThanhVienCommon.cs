@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.DAL.CommonConstants;
 using BiTech.Library.DTO;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,8 @@ namespace BiTech.Library.Controllers.BaseClass
         public ThanhVien LuuMaVach(string physicalWebRootPath, ThanhVien thanhVien, string imageName)
         {
             BarCodeQRManager barcode = new BarCodeQRManager();
-            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+			string tenKhongDau = ConvertToTiengVietKhongDauConstants.RemoveSign4VietnameseString(thanhVien.Ten);
+			string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
             string uploadFileNameQR = null;
             if (imageName != null)
             {
@@ -84,7 +86,7 @@ namespace BiTech.Library.Controllers.BaseClass
             // chuyển đường dẫn vật lý thành đường dẫn ảo
             var pathQR = uploadFileNameQR.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
             //   ==> Info QRdata <==
-            string info = "BLibUser-" + thanhVien.Id + "-" + thanhVien.MaSoThanhVien + "-" + thanhVien.Ten;
+            string info = "BLibUser-" + thanhVien.Id + "-" + thanhVien.MaSoThanhVien + "-" + tenKhongDau;
             bool bolQR = barcode.CreateQRCode(info, pathQR);
             if (bolQR == true)
             {

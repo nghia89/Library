@@ -28,7 +28,7 @@ namespace BiTech.Library.BLL.BarCode_QR
 
 			// Replace 'text to replace' text with an image.
 			Shape img = builder.InsertImage(ImageLink);
-			img.Height = 75;
+			img.Height = 80;
 			img.Width = 55;
 			img.WrapType = WrapType.None;
 			e.Replacement = "";
@@ -56,8 +56,38 @@ namespace BiTech.Library.BLL.BarCode_QR
 			// Replace 'text to replace' text with an image.
 			Shape img = builder.InsertImage(ImageLink);
 
-			img.Height = 24;
-			img.Width = 32;
+			img.Height = 38;
+			img.Width = 38;
+			img.WrapType = WrapType.None;
+
+			e.Replacement = "";
+			return ReplaceAction.Replace;
+		}
+	}
+
+	class ReplaceWithImageQR_Large : IReplacingCallback
+	{
+		string ImageLink = "";
+
+		public ReplaceWithImageQR_Large(string imageLink) : base()
+		{
+			this.ImageLink = imageLink;
+		}
+
+		///
+		/// NOTE: This is a simplistic method that will only work well when the match
+		/// starts at the beginning of a run.
+		///
+		ReplaceAction IReplacingCallback.Replacing(ReplacingArgs e)
+		{
+			DocumentBuilder builder = new DocumentBuilder((Document)e.MatchNode.Document);
+			builder.MoveTo(e.MatchNode);
+
+			// Replace 'text to replace' text with an image.
+			Shape img = builder.InsertImage(ImageLink);
+
+			img.Height = 50;
+			img.Width = 50;
 			img.WrapType = WrapType.None;
 
 			e.Replacement = "";

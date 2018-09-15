@@ -664,7 +664,7 @@ namespace BiTech.Library.Controllers
             SachLogic _SachLogic =
                new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            var ListTD = (from N in _SachLogic.getAll()
+            var ListTD = (from N in _SachLogic.getAllSach()
                           where N.MaKiemSoat.StartsWith(a)
                           select new { N.MaKiemSoat });
 
