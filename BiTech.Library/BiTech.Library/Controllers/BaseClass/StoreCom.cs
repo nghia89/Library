@@ -11,7 +11,14 @@ namespace BiTech.Library.Controllers.BaseClass
 {
     public class StoreCom
     {
-        internal async Task<List<WorkPlaceApiModel>> GetChildWorkPlace(string wpId, string site, string appCode)
+        internal List<WorkPlaceApiModel> GetChildWorkPlace(string wpId, string site, string appCode)
+        {
+            List<WorkPlaceApiModel> list = null;
+            Task.Run(async () => list = await GetChildWorkPlaceAsync(wpId, site, appCode)).Wait();
+            return list;
+        }
+
+        internal async Task<List<WorkPlaceApiModel>> GetChildWorkPlaceAsync(string wpId, string site, string appCode)
         {
             using (var client = new HttpClient())
             {
@@ -20,7 +27,7 @@ namespace BiTech.Library.Controllers.BaseClass
                 client.BaseAddress = new Uri("http://" + site);
 
                 //var content = new StringContent(JsonConvert.SerializeObject(info), Encoding.UTF8, "application/json");
-
+                
                 var result = await client.GetAsync("/api/BiTechAppCenter/GetSubWorkPlace" + "?id=" + wpId + "&appCode=" + appCode);
 
                 if (result.StatusCode == System.Net.HttpStatusCode.OK)

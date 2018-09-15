@@ -21,7 +21,7 @@
     List_Controller_TabThanhVien[0] = "HocSinh";
     List_Controller_TabThanhVien[1] = "GiaoVien";
 
-    string[] List_Controller_TabSach = new string[8];
+    string[] List_Controller_TabSach = new string[9];
     List_Controller_TabSach[0] = "Sach";
     List_Controller_TabSach[1] = "TheLoaiSach";
     List_Controller_TabSach[2] = "Kesach";
@@ -30,6 +30,7 @@
     List_Controller_TabSach[5] = "NgonNgu";
     List_Controller_TabSach[6] = "TrangThaiSach";
     List_Controller_TabSach[7] = "DDC";
+    List_Controller_TabSach[8] = "Marc";
 
     string[] List_Controller_TabMuonTra = new string[7];
     List_Controller_TabMuonTra[0] = "MuonSach";
@@ -88,32 +89,32 @@
         @ViewBag.ss
         <div id="accordion">
 
-            <div class="card @((@Bool_TabHome) ? "active function_active" : "")">
+            <div class="card @((Bool_TabHome) ? "active function_active" : "")">
                 <div class="card-header">
-                    <a class="card-link @((@Bool_TabHome) ? " " : "collapsed")" data-toggle="collapse" href="#collapseHome">
+                    <a class="card-link @((Bool_TabHome) ? " " : "collapsed")" data-toggle="collapse" href="#collapseHome">
                         <i class="fa fa-home"></i>
                         <span class="card-header-title">Thư viện</span>
                     </a>
                 </div>
-                <div id="collapseHome" class="collapse @((@Bool_TabHome) ? "show" : "")" data-parent="#accordion">
+                <div id="collapseHome" class="collapse @((Bool_TabHome) ? "show" : "")" data-parent="#accordion">
                     <div class="card-body">
                         <ul>
-                            <li class="@((@controller == "Home" && @action == "Index") ? "active" : "")">
+                            <li class="@((controller == "Home" && @action == "Index") ? "active" : "")">
                                 <a href="@Url.Action("Index","Home")" title="Tra cứu">
                                     Trang chủ
                                 </a>
                             </li>
-                            <li class="@((@controller == "Home" && @action == "GioiThieu") ? "active" : "")">
+                            <li class="@((controller == "Home" && @action == "GioiThieu") ? "active" : "")">
                                 <a href="@Url.Action("GioiThieu","Home")" title="Tra cứu">
                                     Giới thiệu
                                 </a>
                             </li>
-                            <li class="@((@controller == "Home" && @action == "ChucNangNhiemVu") ? "active" : "")">
+                            <li class="@((controller == "Home" && @action == "ChucNangNhiemVu") ? "active" : "")">
                                 <a href="@Url.Action("ChucNangNhiemVu","Home")" title="Tra cứu">
                                     Chức năng nhiệm vụ
                                 </a>
                             </li>
-                            <li class="@((@controller == "Home" && @action == "CoCauToChuc") ? "active" : "")">
+                            <li class="@((controller == "Home" && @action == "CoCauToChuc") ? "active" : "")">
                                 <a href="@Url.Action("CoCauToChuc","Home")" title="Tra cứu">
                                     Cơ cấu tổ chức
                                 </a>
@@ -122,25 +123,24 @@
                     </div>
                 </div>
             </div>
-
-            @if (User.IsInRole(Role.CustomerAdmin) || User.IsInRole(Role.CustomerUser) || ViewBag.IsDebuging)
+            @if ((User.IsInRole(Role.CustomerAdmin) || User.IsInRole(Role.CustomerUser) || ViewBag.IsDebuging) && ViewBag._SubDomainAccessPermission)
             {
-                <div class="card @((@Bool_TabThanhVien) ? "active function_active" : "")">
+                <div class="card @(Bool_TabThanhVien ? "active function_active" : "")">
                     <div class="card-header ">
-                        <a class="card-link @((@Bool_TabThanhVien) ? " " : "collapsed")" data-toggle="collapse" href="#collapse0">
+                        <a class="card-link @(Bool_TabThanhVien ? " " : "collapsed")" data-toggle="collapse" href="#collapse0">
                             <i class="fa fa-group"></i>
                             <span class="card-header-title">Quản lý thành viên</span>
                         </a>
                     </div>
-                    <div id="collapse0" class="collapse @((@Bool_TabThanhVien) ? "show" : "")" data-parent="#accordion">
+                    <div id="collapse0" class="collapse @(Bool_TabThanhVien ? "show" : "")" data-parent="#accordion">
                         <div class="card-body">
                             <ul>
-                                <li class="@((@controller == "HocSinh" ) ? "active" : "")">
+                                <li class="@(controller == "HocSinh" ? "active" : "")">
                                     <a href="@Url.Action("index","HocSinh")" title="Học sinh">
                                         Học sinh
                                     </a>
                                 </li>
-                                <li class="@((@controller == "GiaoVien" ) ? "active" : "")">
+                                <li class="@(controller == "GiaoVien" ? "active" : "")">
                                     <a href="@Url.Action("index","GiaoVien")" title="Giáo viên">
                                         Giáo viên
                                     </a>
@@ -151,77 +151,77 @@
                     </div>
                 </div>
 
-                <div class="card @((@Bool_TabSach) ? "active function_active" : "")">
+                <div class="card @((Bool_TabSach) ? "active function_active" : "")">
                     <div class="card-header">
-                        <a class="card-link @((@Bool_TabSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapse1">
+                        <a class="card-link @((Bool_TabSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapse1">
                             <i class="fa fa-book"></i>
                             <span class="card-header-title">Quản lý thông tin sách</span>
                         </a>
                     </div>
-                    <div id="collapse1" class="collapse @((@Bool_TabSach) ? "show" : "")" data-parent="#accordion">
+                    <div id="collapse1" class="collapse @((Bool_TabSach) ? "show" : "")" data-parent="#accordion">
                         <div class="card-body">
                             <ul>
-                                <li class="@((@controller == "Sach" ) ? "active" : "")">
+                                <li class="@((controller == "Sach" || controller == "Marc") ? "active" : "")">
                                     <a href="@Url.Action("index","Sach")" title="Sách">
                                         Sách
                                     </a>
                                 </li>
-                                <li class="@((@controller == "TheLoaiSach" ) ? "active" : "")">
+                                <li class="@((controller == "TheLoaiSach" ) ? "active" : "")">
                                     <a href="@Url.Action("index","TheLoaiSach")" title="Thể loại">
                                         Thể loại
                                     </a>
                                 </li>
-                                <li class="@((@controller == "Kesach" ) ? "active" : "")">
+                                <li class="@((controller == "Kesach" ) ? "active" : "")">
                                     <a href="@Url.Action("index","Kesach")" title="Kệ sách">
                                         Kệ sách
                                     </a>
                                 </li>
-                                <li class="@((@controller == "TacGia" ) ? "active" : "")">
+                                <li class="@((controller == "TacGia" ) ? "active" : "")">
                                     <a href="@Url.Action("Index","TacGia")" title="Tác giả">
                                         Tác giả
                                     </a>
                                 </li>
-                                <li class="@(( @controller == "NhaXuatBan") ? "active" : "")">
+                                <li class="@((controller == "NhaXuatBan") ? "active" : "")">
                                     <a href="@Url.Action("Index","NhaXuatBan")" title="Nhà xuất bản">
                                         Nhà xuất bản
                                     </a>
                                 </li>
-                                <li class="@((@controller == "NgonNgu" ) ? "active" : "")">
+                                <li class="@((controller == "NgonNgu" ) ? "active" : "")">
                                     <a href="@Url.Action("Index","NgonNgu")" title="Ngôn ngữ">
                                         Ngôn ngữ
                                     </a>
                                 </li>
-                                <li class="@(( @controller == "TrangThaiSach") ? "active" : "")">
+                                <li class="@((controller == "TrangThaiSach") ? "active" : "")">
                                     <a href="@Url.Action("Index", "TrangThaiSach")" title="Loại tình trạng">
                                         Loại tình trạng
                                     </a>
                                 </li>
-								<li class="@(( @controller == "DDC") ? "active" : "")">
-									<a href="@Url.Action("Index", "DDC")" title="DDC">
-										DDC
-									</a>
-								</li>
+                                <li class="@((controller == "DDC") ? "active" : "")">
+                                    <a href="@Url.Action("Index", "DDC")" title="DDC">
+                                        DDC
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="card @((@Bool_TabMuonTra) ? "active function_active" : "")">
+                <div class="card @((Bool_TabMuonTra) ? "active function_active" : "")">
                     <div class="card-header">
-                        <a class="card-link @((@Bool_TabMuonTra) ? " " : "collapsed")" data-toggle="collapse" href="#collapse2">
+                        <a class="card-link @((Bool_TabMuonTra) ? " " : "collapsed")" data-toggle="collapse" href="#collapse2">
                             <i class="fa fa-address-book-o"></i>
                             <span class="card-header-title">Mượn trả sách</span>
                         </a>
                     </div>
-                    <div id="collapse2" class="collapse @((@Bool_TabMuonTra) ? "show" : "")" data-parent="#accordion">
+                    <div id="collapse2" class="collapse @((Bool_TabMuonTra) ? "show" : "")" data-parent="#accordion">
                         <div class="card-body">
                             <ul>
-                                <li class="@(( @controller == "MuonSach") ? "active" : "")">
+                                <li class="@((controller == "MuonSach") ? "active" : "")">
                                     <a href="@Url.Action("Index","MuonSach")" title="Mượn sách">
                                         Mượn sách
                                     </a>
                                 </li>
-                                <li class="@(( @controller == "TraSach") ? "active" : "")">
+                                <li class="@((controller == "TraSach") ? "active" : "")">
                                     <a href="@Url.Action("Index","TraSach")" title="Trả sách">
                                         Trả sách
                                     </a>
@@ -231,22 +231,22 @@
                     </div>
                 </div>
 
-                <div class="card @((@Bool_TabNhapXuatKho) ? "active function_active" : "")">
+                <div class="card @((Bool_TabNhapXuatKho) ? "active function_active" : "")">
                     <div class="card-header">
-                        <a class="card-link @((@Bool_TabNhapXuatKho) ? " " : "collapsed")" data-toggle="collapse" href="#collapse3">
+                        <a class="card-link @((Bool_TabNhapXuatKho) ? " " : "collapsed")" data-toggle="collapse" href="#collapse3">
                             <i class="fa fa-server"></i>
                             <span class="card-header-title">Nhập xuất kho</span>
                         </a>
                     </div>
-                    <div id="collapse3" class="collapse @((@Bool_TabNhapXuatKho) ? "show" : "")" data-parent="#accordion">
+                    <div id="collapse3" class="collapse @((Bool_TabNhapXuatKho) ? "show" : "")" data-parent="#accordion">
                         <div class="card-body">
                             <ul>
-                                <li class="@((@controller == "PhieuNhapSach") ? "active" : "")">
+                                <li class="@((controller == "PhieuNhapSach") ? "active" : "")">
                                     <a href="@Url.Action("Index","PhieuNhapSach")" title="Nhập sách">
                                         Nhập sách
                                     </a>
                                 </li>
-                                <li class="@((@controller == "PhieuXuatSach") ? "active" : "")">
+                                <li class="@((controller == "PhieuXuatSach") ? "active" : "")">
                                     <a href="@Url.Action("Index","PhieuXuatSach")" title="Xuất sách">
                                         Xuất sách
                                     </a>
@@ -256,67 +256,67 @@
                     </div>
                 </div>
 
-                <div class="card @((@Bool_TabThongke) ? "active function_active" : "")">
+                <div class="card @((Bool_TabThongke) ? "active function_active" : "")">
                     <div class="card-header">
-                        <a class="card-link @((@Bool_TabThongke) ? " " : "collapsed")" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link @((Bool_TabThongke) ? " " : "collapsed")" data-toggle="collapse" href="#collapse4">
                             <i class="fa fa-bar-chart-o"></i>
                             <span class="card-header-title">Thống kê</span>
                         </a>
                     </div>
-                    <div id="collapse4" class="collapse @((@Bool_TabThongke) ? "show" : "")" data-parent="#accordion">
+                    <div id="collapse4" class="collapse @((Bool_TabThongke) ? "show" : "")" data-parent="#accordion">
                         <div class="card-body">
                             <ul>
-                                <li class="@((@controller == "Statistic") ? "active" : "")">
+                                <li class="@((controller == "Statistic") ? "active" : "")">
                                     <a href="@Url.Action("Index","Statistic")" title="Biểu đồ thống kê">
                                         Biểu đồ thống kê
                                     </a>
                                 </li>
-                                <li class="@((@controller == "ThongKe" && @action == "MuonSach") ? "active" : "")">
+                                <li class="@((controller == "ThongKe" && @action == "MuonSach") ? "active" : "")">
                                     <a href="@Url.Action("MuonSach","ThongKe")" title="Danh sách mượn">
                                         Danh sách mượn
                                     </a>
                                 </li>
-                                <li class="@((@controller == "ThongKe" && @action == "DanhSachChuaTra") ? "active" : "")">
+                                <li class="@((controller == "ThongKe" && @action == "DanhSachChuaTra") ? "active" : "")">
                                     <a href="@Url.Action("DanhSachChuaTra","ThongKe")" title="Danh sách chưa trả">
                                         Danh sách chưa trả
                                     </a>
                                 </li>
-								<li class="@((@controller == "Exportreport" && @action == "Index") ? "active" : "")">
-									<a href="@Url.Action("Index","Exportreport")" title="Thống kê sách">
-									   Thống kê sách
-									</a>
-								</li>
+                                <li class="@((controller == "Exportreport" && @action == "Index") ? "active" : "")">
+                                    <a href="@Url.Action("Index","Exportreport")" title="Thống kê sách">
+                                        Thống kê sách
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="card @((@Bool_TabQuanLyThuVien) ? "active function_active" : "")">
+                <div class="card @((Bool_TabQuanLyThuVien) ? "active function_active" : "")">
                     <div class="card-header">
-                        <a class="card-link @((@Bool_TabQuanLyThuVien) ? " " : "collapsed")" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link @((Bool_TabQuanLyThuVien) ? " " : "collapsed")" data-toggle="collapse" href="#collapse5">
                             <i class="fa fa-gear"></i>
                             <span class="card-header-title">Cài đặt</span>
                         </a>
                     </div>
-                    <div id="collapse5" class="collapse @((@Bool_TabQuanLyThuVien) ? "show" : "")" data-parent="#accordion">
+                    <div id="collapse5" class="collapse @((Bool_TabQuanLyThuVien) ? "show" : "")" data-parent="#accordion">
                         <div class="card-body">
                             <ul>
-                                <li class="@((@controller == "QuanLyThuVien" && @action == "Index") ? "active" : "")">
+                                <li class="@((controller == "QuanLyThuVien" && @action == "Index") ? "active" : "")">
                                     <a href="@Url.Action("Index","QuanLyThuVien")" title="Tra cứu">
                                         Tổng quan
                                     </a>
                                 </li>
-                                <li class="@((@controller == "QuanLyThuVien" && @action == "TinTuc") ? "active" : "")">
+                                <li class="@((controller == "QuanLyThuVien" && @action == "TinTuc") ? "active" : "")">
                                     <a href="@Url.Action("TinTuc","QuanLyThuVien")" title="Tin tức">
                                         Tin tức
                                     </a>
                                 </li>
-                                <li class="@((@controller == "QuanLyThuVien" && @action == "ThongBao") ? "active" : "")">
+                                <li class="@((controller == "QuanLyThuVien" && @action == "ThongBao") ? "active" : "")">
                                     <a href="@Url.Action("ThongBao","QuanLyThuVien")" title="Thông báo">
                                         Thông báo
                                     </a>
                                 </li>
-                                <li class="@((@controller == "QuanLyThuVien" && @action == "CSDL") ? "active" : "")">
+                                <li class="@((controller == "QuanLyThuVien" && @action == "CSDL") ? "active" : "")">
                                     <a href="@Url.Action("CSDL","QuanLyThuVien")" title="Cơ sở dữ liệu">
                                         Cơ sở dữ liệu
                                     </a>
@@ -327,22 +327,22 @@
                 </div>
             }
 
-            <div class="card @((@Bool_TabThongTinSach) ? "active function_active" : "")">
+            <div class="card @((Bool_TabThongTinSach) ? "active function_active" : "")">
                 <div class="card-header">
-                    <a class="card-link @((@Bool_TabThongTinSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapse6">
+                    <a class="card-link @((Bool_TabThongTinSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapse6">
                         <i class="fa fa-search"></i>
                         <span class="card-header-title">Thông tin sách</span>
                     </a>
                 </div>
-                <div id="collapse6" class="collapse @((@Bool_TabThongTinSach) ? "show" : "")" data-parent="#accordion">
+                <div id="collapse6" class="collapse @((Bool_TabThongTinSach) ? "show" : "")" data-parent="#accordion">
                     <div class="card-body">
                         <ul>
-                            <li class="@((@controller == "Search" && @action == "Index") ? "active" : "")">
+                            <li class="@((controller == "Search" && @action == "Index") ? "active" : "")">
                                 <a href="@Url.Action("Index","Search")" title="Tra cứu">
                                     Tra cứu
                                 </a>
                             </li>
-                            <li class="@((@controller == "Search" && @action == "NewBook") ? "active" : "")">
+                            <li class="@((controller == "Search" && @action == "NewBook") ? "active" : "")">
                                 <a href="@Url.Action("NewBook","Search")" title="Sách mới">
                                     Sách mới
                                 </a>
@@ -352,17 +352,17 @@
                 </div>
             </div>
 
-            <div class="card @((@Bool_TabNghiepVu) ? "active function_active" : "")">
+            <div class="card @((Bool_TabNghiepVu) ? "active function_active" : "")">
                 <div class="card-header">
-                    <a class="card-link @((@Bool_TabNghiepVu) ? " " : "collapsed")" data-toggle="collapse" href="#collapse7">
+                    <a class="card-link @((Bool_TabNghiepVu) ? " " : "collapsed")" data-toggle="collapse" href="#collapse7">
                         <i class="fa fa-bookmark"></i>
                         <span class="card-header-title">Nghiệp vụ thư viện</span>
                     </a>
                 </div>
-                <div id="collapse7" class="collapse @((@Bool_TabNghiepVu) ? "show" : "")" data-parent="#accordion">
+                <div id="collapse7" class="collapse @((Bool_TabNghiepVu) ? "show" : "")" data-parent="#accordion">
                     <div class="card-body">
                         <ul>
-                            <li class="@((@controller == "NghiepVu" && @action == "Index") ? "active" : "")">
+                            <li class="@((controller == "NghiepVu" && @action == "Index") ? "active" : "")">
                                 <a href="@Url.Action("Index","NghiepVu")" title="Phân loại sách">
                                     Phân loại sách
                                 </a>

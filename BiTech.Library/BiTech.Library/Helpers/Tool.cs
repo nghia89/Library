@@ -29,28 +29,28 @@ namespace BiTech.Library.Helpers
 
         public static string GetUploadFolder(UploadFolder type, string subdomain = "")
         {
-            string mainUpload = @"Upload\";
+            string mainUpload = @"Upload";
 
             switch (type)
             {
                 case UploadFolder.Upload:
-                    return mainUpload + subdomain;
+                    return Path.Combine(mainUpload, subdomain);
                 case UploadFolder.CustomerBackup:
-                    return mainUpload + @"CustomerBackup\" + subdomain;
+                    return Path.Combine(mainUpload, @"CustomerBackup", subdomain);
                 case UploadFolder.BookCovers:
-                    return mainUpload + @"BookCovers\";
+                    return Path.Combine(mainUpload, subdomain, @"BookCovers");
                 case UploadFolder.QRCodeUser:
-                    return mainUpload + @"QRCodeUser\";
+                    return Path.Combine(mainUpload, subdomain, @"QRCodeUser");
                 case UploadFolder.QRCodeBook:
-                    return mainUpload + @"QRCodeBook\";
+                    return Path.Combine(mainUpload, subdomain, @"QRCodeBook");
                 case UploadFolder.AvatarUser:
-                    return mainUpload + @"AvatarUser\";
+                    return Path.Combine(mainUpload, subdomain, @"AvatarUser");
                 case UploadFolder.FileExcel:
-                    return mainUpload + @"FileExcel\";
+                    return Path.Combine(mainUpload, subdomain, @"FileExcel");
                 case UploadFolder.FileWord:
-                    return mainUpload + @"FileWord\";
+                    return Path.Combine(mainUpload, subdomain, @"FileWord");
                 case UploadFolder.FileMrc:
-                    return mainUpload + @"FileMrc\";
+                    return Path.Combine(mainUpload, subdomain, @"FileMrc");
                 default:
                     return null;
             }
@@ -133,40 +133,6 @@ namespace BiTech.Library.Helpers
             finally
             {
                 postedFile.InputStream.Position = 0;
-            }
-
-            return true;
-        }
-        
-        public static string GetSubDomain(Uri url, bool withoutBlib = true)
-        {
-            if (url.HostNameType == UriHostNameType.Dns)
-            {
-                string host = url.Host;
-
-                if (host.Split('.').Length > 2)
-                {
-                    int lastIndex = host.LastIndexOf(".");
-                    int index = host.LastIndexOf(".", lastIndex - 1);
-
-                    if (withoutBlib)
-                        return host.Substring(0, index - 5); //".blib".Length = 5
-                    return host.Substring(0, index);
-                }
-            }
-            return null;
-        }
-
-        public static bool CheckAccessEndDate(AccessInfo info)
-        {
-            if (info == null)
-                return false;
-
-            if (info.IsActivePeriod)
-            {
-                if (info.EndDate == null)
-                    return false;
-                return info.EndDate > DateTime.Now;
             }
 
             return true;

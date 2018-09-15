@@ -13,11 +13,9 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    [AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
+    //[AuthorizeRoles(Role.CustomerAdmin, Role.CustomerUser)]
     public class ThongKe2Controller : BaseController
     {
-        private AccessInfoLogic _AccessInfoLogic = new AccessInfoLogic(Tool.GetConfiguration("ConnectionString"), Tool.GetConfiguration("BLibDatabaseName"));
-
         // GET: ThongKe2
         public ActionResult Index()
         {
@@ -28,10 +26,12 @@ namespace BiTech.Library.Controllers
 
         public async Task<JsonResult> GetSubDomainList(string wpid)
         {
-            var rs = await new StoreCom().GetChildWorkPlace(wpid, Tool.GetConfiguration("StoreSite"), Tool.GetConfiguration("AppCode"));
+            var rs = await new StoreCom().GetChildWorkPlaceAsync(wpid, Tool.GetConfiguration("StoreSite"), Tool.GetConfiguration("AppCode"));
             if (rs != null)
             {
                 SubDomainPacket pk = new SubDomainPacket();
+
+                rs.RemoveAt(0); // itself
 
                 foreach (var i in rs)
                 {
@@ -74,9 +74,7 @@ namespace BiTech.Library.Controllers
 
         public JsonResult GetStatForDomain(string site)
         {
-            var accessInfo = _AccessInfoLogic.GetBySubDomain(site);
-
-            var _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), accessInfo.DataBaseName);
+            var _thongKeLogic = new ThongKeLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             return Json(new
             {
