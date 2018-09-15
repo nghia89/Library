@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.DAL.CommonConstants;
 using BiTech.Library.DTO;
 using System;
 using System.Collections.Generic;

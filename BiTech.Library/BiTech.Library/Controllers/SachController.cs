@@ -1498,8 +1498,7 @@ namespace BiTech.Library.Controllers
 
             return Json(true);
         }
-
-        #endregion
+        
 
         #region Phong
         /// <summary>

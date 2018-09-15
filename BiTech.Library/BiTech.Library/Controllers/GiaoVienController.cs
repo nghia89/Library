@@ -519,7 +519,7 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", "GiaoVien");
         }
 
-        public ActionResult MauThe(string mauThe)
+        public ActionResult MauThe(string mauThe, string idTV)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 

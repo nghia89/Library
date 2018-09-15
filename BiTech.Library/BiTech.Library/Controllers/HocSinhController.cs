@@ -510,7 +510,7 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult ExportWord()
+        public ActionResult ExportWord(string idTV)
         {
             ViewBag.IdTV = idTV;
             return View();
@@ -560,7 +560,7 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", "HocSinh");
         }
 
-        public ActionResult MauThe(string mauThe)
+        public ActionResult MauThe(string mauThe, string idTV)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
@@ -608,7 +608,7 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PreviewImport(HttpPostedFileBase file)
+        public ActionResult PreviewImport(HttpPostedFileBase file)
         {
             if (file != null)
             {
