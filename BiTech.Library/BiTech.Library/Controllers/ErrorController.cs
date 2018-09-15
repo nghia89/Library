@@ -5,7 +5,7 @@ using System.Web.Mvc;
 namespace BiTech.Library.Controllers
 {
     [AllowAnonymous]
-    public class ErrorController : Controller
+    public class ErrorController : BaseController
     {
         // Error
         public ActionResult AccessDenied()

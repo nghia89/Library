@@ -67,7 +67,7 @@ namespace BiTech.Library.BLL.DBLogic
             {
                 // prepare directory
 
-                var backupPath = string.Format(@"{0}{1}_{2}", info.BackupPath, "backup", DateTime.Now.ToString("ddMMyy_HHmmss"));
+                var backupPath = string.Format(@"{0}\{1}_{2}", info.BackupPath, "backup", DateTime.Now.ToString("ddMMyy_HHmmss"));
                 var backup_dirMongodb = backupPath + "\\" + _dirMongodb;
                 var backup_dirUpload = backupPath + "\\" + _dirUpload;
 

@@ -58,7 +58,11 @@ namespace BiTech.Library.Models
 
         public string DatabaseName { get; set; } = "";
 
-        public string WorkPlaceId { get; set; }
+        public string WorkPlaceId { get; set; } = "";
+
+        public string WebHeader { get; set; } = "";
+
+        public bool SubDomainAccessPermission { get; set; } = false;
     }
 
     public class SubAccess
