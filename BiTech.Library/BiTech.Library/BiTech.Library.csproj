@@ -235,6 +235,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\GiaHanController.cs" />
     <Compile Include="Helpers\App_Start\BundleConfig.cs" />
     <Compile Include="Helpers\App_Start\FilterConfig.cs" />
     <Compile Include="Helpers\App_Start\RouteConfig.cs" />
@@ -2115,6 +2116,8 @@
     <Content Include="Views\NghiepVu\Index.cshtml" />
     <Content Include="Views\Search\NewBook.cshtml" />
     <Content Include="Views\Error\ErrorOccur.cshtml" />
+    <Content Include="Views\Sach\DeleteMany.cshtml" />
+    <Content Include="Views\GiaHan\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

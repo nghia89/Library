@@ -134,5 +134,12 @@ namespace BiTech.Library.BLL.DBLogic
         }
         #endregion
 
+        #region Phong
+        public Sach GetByID_IsDeleteFalse(string id)
+        {
+            return _sachEngine.GetByID_IsDeleteFalse(id);
+        }
+        #endregion
+
     }
 }

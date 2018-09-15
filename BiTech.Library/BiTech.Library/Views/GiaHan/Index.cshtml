@@ -6,9 +6,11 @@
     //ViewBag.ThongBao = true;
 }
 <link href="~/Content/AutoComplete.css" rel="stylesheet" />
-<div class="Title">Mượn sách</div>
+<div class="Title">Gia hạn sách</div>
 
 <div ng-app="LibraryApp" class="container-mt">
+
+
     @*Chưa có user*@
     @if (!ViewBag.hasUser)
     {
@@ -21,30 +23,32 @@
                             <span class="">Tìm kiếm thành viên</span>
                         </div>
                         <div class="content-box-window clearfix">
+
                             <div class="search-thanhvien">
                                 @if (ViewBag.ThongBao)
                                 {
-                                <div class="alert p-2 alert-danger alert-dismissible fade show">
-                                    <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
-                                    <strong>Thông báo!</strong> @ViewBag.ThongBaoString
-                                </div>
+                                    <div class="alert p-2 alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+                                        <strong>Thông báo!</strong> @ViewBag.ThongBaoString
+                                    </div>
                                 }
 
-                                @using (Html.BeginForm("Index", "MuonSach", FormMethod.Get, new { role = "form", id = "MuonSach" }))
+                                @using (Html.BeginForm("Index", "GiaHan", FormMethod.Get, new { role = "form", id = "GiaHan" }))
                                 {
-                                <div class="input-group mb-3 p-1">
-                                    <div class="form-control form-control-sm p-0" style="position:relative;">
-                                        <input class="form-control form-control-sm border-0"
-                                               id="list_maThanhVien" name="IdUser"
-                                               autocomplete="off" placeholder="Nhập mã học sinh hoặc giáo viên ..."
-                                               onkeydown="if (event.keyCode == 13) { search_user(); }" />
+                                    <div class="input-group mb-3 p-1">
+                                        <div class="form-control form-control-sm p-0" style="position:relative;">
+                                            <input class="form-control form-control-sm border-0"
+                                                   id="list_maThanhVien" name="IdUser"
+                                                   autocomplete="off" placeholder="Nhập mã học sinh hoặc giáo viên ..."
+                                                   onkeydown="if (event.keyCode == 13) { search_user(); }" />
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="submit" value="Tìm kiếm" class="btn btn-primary btn-sm" />
+                                        </div>
                                     </div>
-                                    <div class="input-group-append">
-                                        <input type="submit" value="Tìm kiếm" class="btn btn-primary btn-sm" />
-                                    </div>
-                                </div>
                                 }
                             </div>
+
                         </div>
                     </div>
 
@@ -70,9 +74,9 @@
         </div>
     }
 
-    @*Có user*@
     @if (ViewBag.hasUser)
     {
+
         <div style="display: none;" id="Thongtinuser">
             <img class="avatar_detail detail-control-img" src="@Html.Raw(ViewBag.user.HinhChanDung)" onerror="this.src = '/Content/Images/user5.jpg'" />
             <div class="ten">@ViewBag.user.Ten</div>
@@ -81,14 +85,13 @@
                 <li><b>Lớp/Tổ: </b>@ViewBag.user.LopHoc</li>
                 <li><b>Niên khoá: </b>@ViewBag.user.NienKhoa</li>
             </ul>
-            <button class="btn btn-primary btn-sm w-100" onclick="window.location='/MuonSach'">Thoát</button>
+            <button class="btn btn-primary btn-sm w-100" onclick="window.location='/GiaHan'">Thoát</button>
         </div>
 
-        <div class="container-mt-sach clearfix " id="box_MuonSachCtrlr" ng-controller="MuonSachCtrlr" ng-init="GetListBook()">
+        <div class="container-mt-sach clearfix " ng-controller="GiaHanCtrlr" ng-init="GetListBook()">
 
             @if (ViewBag.flagResult)
             {
-                @*Show lại kết quả mượn sách thành công*@
                 <div class="box-left clearfix p-1">
 
                     <div class="row">
@@ -108,7 +111,7 @@
                                             </div>
                                         }
 
-                                        @using (Html.BeginForm("Index", "MuonSach", FormMethod.Get, new { role = "form", id = "MuonSach" }))
+                                        @using (Html.BeginForm("Index", "GiaHan", FormMethod.Get, new { role = "form", id = "GiaHan" }))
                                         {
                                             <div class="input-group mb-3 pt-1 pb-2">
                                                 <div class="form-control form-control-sm p-0" style="position:relative;">
@@ -128,7 +131,7 @@
                                     {
                                         <div id="box_ThongBao">
                                             <div class="alert alert-info mb-1 p-2 alert-dismissible fade show">
-                                                <strong>Mượn sách thành công!</strong>
+                                                <strong>Gia hạn thành công!</strong>
                                             </div>
                                         </div>
                                     }
@@ -136,12 +139,12 @@
                                         <table class="table table-hover table-bordered table-min mb-0" border="1">
                                             <thead>
                                                 <tr class="table-info text-center">
-                                                    <th width="50" align="right">STT</th>
-                                                    <th width="10%">MKS</th>
-                                                    <th width="35%">Tên sách</th>
-                                                    <th width="15%">Số lượng</th>
-                                                    <th width="15%">Ngày mượn</th>
-                                                    <th width="15%">Ngày trả</th>
+                                                    <th width="50">STT</th>
+                                                    <th width="15%">MKS</th>
+                                                    <th width="30%">Tên sách</th>
+                                                    <th width="10%">Số lượng</th>
+                                                    <th width="20%">Ngày mượn</th>
+                                                    <th width="20%">Ngày phải trả</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -152,8 +155,8 @@
                                                         <td>@item.MaKiemSoat</td>
                                                         <td>@item.TenSach</td>
                                                         <td>@item.SoLuong</td>
-                                                        <td>@(DateTime.Now.ToString("dd/MM/yyyy"))</td>
-                                                        <td>@item.NgayTra</td>
+                                                        <td>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+                                                        <td>@item.NgayTraNew</td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -177,9 +180,11 @@
 
                     </div>
                 </div>
+
             }
             else
             {
+
                 <div class="box-left clearfix p-1">
 
                     <div class="row">
@@ -187,60 +192,57 @@
                         <div class="col-md-9">
                             <div class="container-box-window danhsachmuon clearfix">
                                 <div class="top">
-                                    <span class="">Danh sách mượn</span>
+                                    <span class="">Danh sách trả</span>
                                 </div>
 
                                 <div class="content-box-window">
-                                    <div class="form-mt-sach" id="form_Sach">
+                                    <div class="form-mt-sach row" id="form_Sach">
 
-                                        <div class="form-group mb-0">
+                                        @*<div class="form-group col-md-6">
+                                            <label for="email">Trạng thái sách:</label>
+                                            <select class="form-control form-control-sm" ng-init="item.carType='none'" ng-model="modelTT">
+                                                <option ng-repeat="y in list_book_TinhTrang" value="{{y.Id}}">{{y.TenTT}}</option>
+                                            </select>
+                                        </div>*@
+
+                                        <div class="form-group col-md-12">
                                             <label for="email">Mã sách:</label>
-                                            <div class="input-group mb-3 p-0">
+                                            <div class="input-group mb-3">
                                                 <div class="form-control form-control-sm p-0" style="position:relative;">
                                                     <input class="form-control form-control-sm border-0" id="MaSach" ng-model="masach"
-                                                           tabindex="0"
                                                            autocomplete="off"
                                                            onkeydown="if (event.keyCode == 13) {search_book()}"
                                                            placeholder="Nhập mã sách ..." />
                                                 </div>
+
                                                 <div class="input-group-append">
-                                                    <input type="button" id="searchMaSachbtn" value="Thêm sách" ng-click="GetBook_loading()" class="btn btn-primary btn-sm" />
+                                                    <input type="button" id="searchMaSachbtn" value="Thêm danh sách trả" ng-click="GetBook_loading()" class="btn btn-primary btn-sm" />
                                                 </div>
                                             </div>
+                                            @*<div class="progress mt-1 mb-1 hidden_lib" style="height: 10px;" ng-class="{hidden_lib: loading_bar==false}">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                                    </div>
+                                                <div class="hidden_lib" id="box_ThongBao" ng-class="{hidden_lib: show_thongbao==false}">
+                                                    <div ng-if="!show_thongbao_CoSach" class="alert mt-1 mb-1 p-2 alert-danger alert-dismissible fade show">
+                                                        <strong>Thông báo!</strong> {{NoiDungThongBao}}
+                                                    </div>
+                                                </div>*@
+                                        </div>
+
+                                        <div class="form-group" style="display: none;">
+                                            <label for="pwd">Ngày trả:</label>
+                                            <input type="text" class="form-control form-control-sm " ng-model="ngaytra" id="ngayPhaiTra">
+                                        </div>
+                                        <div class="form-group col-md-12">
                                             <div class="progress mt-1 mb-1 hidden_lib" style="height: 10px;" ng-class="{hidden_lib: loading_bar==false}">
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
                                             </div>
                                             <div class="hidden_lib" id="box_ThongBao" ng-class="{hidden_lib: show_thongbao==false}">
-                                                @*<div ng-if="show_thongbao_CoSach" class="alert alert-info m-1 p-2 alert-dismissible fade show">
-
-                                                    <div>
-                                                    <strong>Mã sách:</strong> {{masach}}
-                                                    </div>
-                                                    <div>
-                                                    <strong>Tên sách:</strong> {{TenSach}}
-                                                    </div>
-                                                    <div>
-                                                    <strong>Số lượng:</strong> {{SoLuong}}
-                                                    </div>
-                                                    </div>*@
                                                 <div ng-if="!show_thongbao_CoSach" class="alert mt-1 mb-1 p-2 alert-danger alert-dismissible fade show">
                                                     <strong>Thông báo!</strong> {{NoiDungThongBao}}
                                                 </div>
                                             </div>
                                         </div>
-                                        @*<div class="form-group mb-0">
-                                            <label for="pwd">Số lượng:</label>
-                                            <input type="number" id="SoLuongSach" ng-model="SoluongSachMuon" ng-blur="loadfocus_input_soluongsachmuon()" class="form-control form-control-sm" min="0" max="{{SoLuong}}" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" ng-disabled="disabled_input">
-                                            </div>*@
-                                        <div class="form-group" style="display: none;">
-                                            <label for="pwd">Ngày trả:</label>
-                                            <input type="text" class="form-control form-control-sm " ng-model="ngaytra" id="ngayPhaiTra">
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            @*<button type="button" ng-click="ThemSach()" class="btn btn-primary btn-sm float-right">Thêm Sách</button>*@
-                                            @*<button type="button" onclick="reset_book()" ng-click="ResetBook()" class="btn btn-default btn-sm">Làm mới</button>*@
-                                        </div>
-
                                     </div>
                                     <div class="danhsach-mt-sach-new">
                                         <div class="form-group">
@@ -250,41 +252,41 @@
                                                         <tr class="table-info text-center">
                                                             <th width="50">STT</th>
                                                             <th width="15%">MKS</th>
-                                                            <th width="31%">Tên sách</th>
-                                                            <th width="15%">Số lượng</th>
-                                                            <th width="17%">Ngày mượn</th>
-                                                            <th width="17%">Ngày trả</th>
+                                                            <th width="30%">Tên sách</th>
+                                                            <th width="10%">Số lượng</th>
+                                                            <th width="20%">Ngày mượn</th>
+                                                            <th width="20%">Ngày phải trả</th>
+                                                            @*<th width="15%">Trạng thái sách</th>*@
                                                             <th width="100" style="text-align: center;">
                                                                 <i class="fa fa-trash-o" title="Xoá tất cả" ng-click="ResetListBookQueue()" style="font-size:20px; cursor:pointer;"></i>
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+
                                                         <tr class="text-center" ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'" my-repeat-directive>
-                                                            <td align="center">{{$index + 1}}</td>
+                                                            <td>{{$index + 1}}</td>
                                                             <td>{{ x.MaKiemSoat }}</td>
                                                             <td>{{ x.TenSach }}</td>
                                                             <td width="100px">
-                                                                <div style="display: flex;">
-                                                                    <div style="width:100%">
-                                                                        <input type="number" ng-value="{{x.SoLuong}}" id="List_{{x.MaKiemSoat}}"
-                                                                               class="form-control form-control-sm"
-                                                                               ng-blur="loadfocus_input_soluongsachmuon($index, x.SoLuong)"
-                                                                               min="1"
-                                                                               max="{{x.SoLuongMax}}"
-                                                                               required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                                                                    </div>
-                                                                    <div style="float:right; padding:4px;">&nbsp/&nbsp{{x.SoLuongMax}}</div>
-                                                                </div>
+                                                                <input type="number" ng-value="{{x.SoLuong}}" id="List_{{x.Id}}"
+                                                                       class="form-control form-control-sm"
+                                                                       ng-blur="loadfocus_input_soluongsachmuon($index, x.SoLuong)"
+                                                                       min="0"
+                                                                       max="{{x.SoLuongMax}}"
+                                                                       required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                                                             </td>
                                                             <td>
-                                                                {{ x.NgayMuon | date : "dd/MM/y" }}
+                                                                {{ x.NgayMuon }}
                                                             </td>
                                                             <td>
                                                                 <input type="text"
-                                                                       class="form-control form-control-sm "
-                                                                       id="ngayPhaiTra_{{x.MaKiemSoat}}">
+                                                                       class="form-control form-control-sm ngayPhaiTra_{{x.Id}}"
+                                                                       >
                                                             </td>
+                                                            @*<td>
+                                                                {{ x.TinhTrangSachTen }}
+                                                            </td>*@
                                                             <td align="center">
                                                                 <i class="fa fa-remove text-danger" ng-click="removeItem($index)" style="font-size:20px; cursor:pointer;"></i>
                                                             </td>
@@ -295,7 +297,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group m-0 clearfix">
-                                            <button type="button" ng-click="MuonSach()" class="btn btn-primary btn-sm float-right">Mượn sách</button>
+                                            <button type="button" ng-click="GiaHan()" class="btn btn-primary btn-sm float-right">Gia hạn sách</button>
                                         </div>
                                     </div>
                                 </div>
@@ -314,6 +316,8 @@
                         </div>
 
                     </div>
+
+
                 </div>
 
                 <div class="box-right clearfix p-1 mt-3">
@@ -324,6 +328,7 @@
 
                         <div class="content-box-window">
                             <div class="danhsach-mt-sach-old box-table-min">
+
                                 <table class="table table-hover table-bordered table-min mb-0" border="1">
                                     <thead>
                                         <tr class="table-info text-center">
@@ -332,17 +337,18 @@
                                             <th width="40%">Tên sách</th>
                                             <th width="10%">Số lượng</th>
                                             <th width="15%">Ngày mượn</th>
-                                            <th width="15%">Ngày trả</th>
+                                            <th width="15%">Ngày phải trả</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="text-center" ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''">
+
+                                        <tr style="cursor: pointer;" class="text-center" ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''" ng-click="GetBook_Choice_DayNew(x.MaKiemSoat, x.NgayMuon,x.NgayTra)">
                                             <td align="center">{{$index + 1}}</td>
                                             <td>{{ x.MaKiemSoat }}</td>
                                             <td>{{ x.TenSach }}</td>
                                             <td>{{ x.SoLuong }}</td>
-                                            <td>{{ x.NgayMuon }}</td>
-                                            <td>{{ x.NgayTra }}</td>
+                                            <td>{{ x.NgayMuon | date  }}</td>
+                                            <td>{{ x.NgayTra | date  }}</td>
                                         </tr>
 
                                     </tbody>
@@ -351,9 +357,42 @@
                         </div>
                     </div>
                 </div>
+
             }
 
+
+            <!-- The Modal -->
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Gia hạn ngày trả sách</h4>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body row">
+                            <div class="form-group form-group-sm col-md-12">
+                                <input type="text" data-chon="false"
+                                       class="form-control form-control-sm ngayPhaiTra_Change"
+                                       />
+                            </div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="GetBook_Choice_TinhTrang_result_true()">Gia hạn</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Đóng</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     }
 </div>
 
@@ -364,6 +403,7 @@
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/angular-1.6.8/angular.min.js"></script>
     <script src="~/Scripts/LibraryAngularJS.js"></script>
+
 
     @if (ViewBag.hasUser)
     {
@@ -379,7 +419,7 @@
         {
             <script>
                 $(function () {
-                    AutoComplete(document.getElementById("MaSach"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maSach) + "'")], true);
+                    AutoComplete(document.getElementById("MaSach"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maSach) + "'")],true);
                 });
             </script>
         }
@@ -393,17 +433,26 @@
             });
         </script>
     }
+
     <script>
 
         $(function () {
             load_datepicker("ngayPhaiTra");
+            //load_datepicker("ngayPhaiTra_Change");
+            
             $(".Thongtinuser-out").html($("#Thongtinuser").html());
-
-
         });
 
         function reset_book(){
             //load_datepicker();
+        }
+
+        function show_modal(){
+            $("#myModal").modal();
+        }
+
+        function hide_modal(){
+            $("#myModal").modal('hide');
         }
 
         function search_book(){
@@ -414,12 +463,12 @@
 
         function search_user(){
             setTimeout(function () {
-                $("#MuonSach").submit();
+                $("#GiaHan").submit();
             }, 10);
         }
 
-        function load_datepicker(name_id){
-            $("#"+name_id).datepicker({
+        function load_datepicker(name_id, day){
+            $("."+name_id).datepicker({
                 //showWeek: true,
                 dateFormat: "dd/mm/yy",
                 monthNames: ['Tháng 1', 'Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10',,'Tháng 11','Tháng 12',],
@@ -427,10 +476,10 @@
                 //changeMonth: true,
                 //changeYear: true,
                 //gotoCurrent: true,
-                dayNamesMin: [ "CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+                dayNamesMin: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
                 minDate: 0,
                 maxDate: @Html.Raw(ViewBag.MaxDate),
-            }).datepicker("setDate", new Date() + 1).attr("readonly", "readonly");
+            }).datepicker("setDate", day).attr("readonly", "readonly");
         }
 
         // AutoCompelete Search
@@ -508,8 +557,6 @@
                 closeAllLists(e.target);
             });
         }
-
-
 
     </script>
 }

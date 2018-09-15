@@ -64,7 +64,7 @@
                             <div class="ten">Tên thành viên</div>
                             <div class="mks">- Mã kiểm soát -</div>
                             <ul class="list">
-                                <li><b>Lớp: </b>...</li>
+                                <li><b>Lớp/Tổ: </b>...</li>
                                 <li><b>Niên khoá: </b>...</li>
                             </ul>
                         </div>
@@ -82,7 +82,7 @@
             <div class="ten">@ViewBag.user.Ten</div>
             <div class="mks">- @ViewBag.user.MaSoThanhVien -</div>
             <ul class="list">
-                <li><b>Lớp: </b>@ViewBag.user.LopHoc</li>
+                <li><b>Lớp/Tổ: </b>@ViewBag.user.LopHoc</li>
                 <li><b>Niên khoá: </b>@ViewBag.user.NienKhoa</li>
             </ul>
             <button class="btn btn-primary btn-sm w-100" onclick="window.location='/TraSach'">Thoát</button>
@@ -144,7 +144,7 @@
                                                     <th width="25%">Tên sách</th>
                                                     <th width="10%">Số lượng</th>
                                                     <th width="15%">Ngày mượn</th>
-                                                    <th width="15%">Ngày trả</th>
+                                                    <th width="15%">Ngày phải trả</th>
                                                     <th width="15%">Trạng thái sách</th>
                                                 </tr>
                                             </thead>
@@ -257,7 +257,7 @@
                                                             <th width="25%">Tên sách</th>
                                                             <th width="10%">Số lượng</th>
                                                             <th width="15%">Ngày mượn</th>
-                                                            <th width="15%">Ngày trả</th>
+                                                            <th width="15%">Ngày phải trả</th>
                                                             <th width="15%">Trạng thái sách</th>
                                                             <th width="100" style="text-align: center;">
                                                                 <i class="fa fa-trash-o" title="Xoá tất cả" ng-click="ResetListBookQueue()" style="font-size:20px; cursor:pointer;"></i>
@@ -337,7 +337,7 @@
                                             <th width="40%">Tên sách</th>
                                             <th width="10%">Số lượng</th>
                                             <th width="15%">Ngày mượn</th>
-                                            <th width="15%">Ngày trả</th>
+                                            <th width="15%">Ngày phải trả</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -65,8 +65,10 @@ namespace BiTech.Library.Controllers
             // Phân trang
             int pageSize = 5;
             int pageNumber = (page ?? 1);
+            ViewBag.paged = page;
             ViewBag.pageSize = pageSize;
             ViewBag.pages = pageNumber;
+            ViewBag.number = list_viewmode_view.Count();
             return View(list_viewmode_view.OrderBy(c => c.MaDDC).ToPagedList(pageNumber, pageSize));
         }
 
@@ -128,11 +130,12 @@ namespace BiTech.Library.Controllers
             catch { return Json(false); }
         }
 
-        public ActionResult Sua(string id)
+        [HttpGet]
+        public ActionResult Sua(string idTheLoai)
         {
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            TheLoaiSach TLS = _TheLoaiSachLogic.getById(id);
+            TheLoaiSach TLS = _TheLoaiSachLogic.getById(idTheLoai);
             if (TLS == null)
                 return RedirectToAction("Index", "Error");
             TheLoaiSachViewModels VM = new TheLoaiSachViewModels()
@@ -151,7 +154,7 @@ namespace BiTech.Library.Controllers
                 ListTheLoai.AddRange(ListTheLoaiChildren(item, _TheLoaiSachLogic));
             }
 
-            var folder = _TheLoaiSachLogic.getById(id);
+            var folder = _TheLoaiSachLogic.getById(idTheLoai);
             if (folder != null)
             {
                 ViewBag.URLBackParent = (folder.IdParent != null) ? "/TheLoaiSach?idParent=" + folder.IdParent : "/TheLoaiSach";
@@ -239,11 +242,52 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult Xoa(string Id)
         {
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            var TLS = _TheLoaiSachLogic.getById(Id);
-            _TheLoaiSachLogic.XoaTheLoaiSach(TLS.Id);
+            XoaTheLoai(Id);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteMany(List<string> chon, string paging, string pageSize, string colRowCount, string idParent)
+        {
+            try
+            {
+                if (paging != "")
+                {
+                    //Count max item in page
+                    int kq_so1 = (int.Parse(paging) * int.Parse(pageSize)) - int.Parse(colRowCount);
+                    int SlItemInPage = int.Parse(pageSize);
+
+                    //kq_so1 >= 0 => đang ở page cuối
+                    if (kq_so1 >= 0)
+                    {
+                        SlItemInPage = SlItemInPage - kq_so1;
+
+                        //Nếu cái item ở trang cuối được xoá hết thì luồi 1 page
+                        if (chon.Count == SlItemInPage)
+                        {
+                            paging = (((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
+                        }
+                    }
+                }
+
+                if (chon != null)
+                {
+                    foreach (string item in chon)
+                    {
+                        XoaTheLoai(item);
+                    }
+                }
+
+                return RedirectToAction("Index", "TheLoaiSach", new
+                {
+                    idParent = idParent,
+                    page = paging
+                });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
         }
 
         /// <summary>
@@ -432,19 +476,14 @@ namespace BiTech.Library.Controllers
             return list_id;
         }
 
-        /// <summary>
-        /// Kiểm tra ddc level mấy 
-        /// </summary>
-        /// <param name="maDDC"></param>
-        /// <returns>
-        ///=>-1 không phải mã đc
-        ///=>1(vd: 000,100, 200 , ... 900)
-        ///=>2(vd: 010, 110, 210, ..., 910)
-        ///=>3(vd: 011, 111, 211, ..., 911)
-        /// </returns>
-        private int CheckDDC(string maDDC)
+
+        private bool XoaTheLoai(string id)
         {
-            return -1;
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            var TLS = _TheLoaiSachLogic.getById(id);
+            _TheLoaiSachLogic.XoaTheLoaiSach(TLS.Id);
+            return true;
         }
         #endregion
     }

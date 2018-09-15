@@ -80,8 +80,8 @@
                             </div>
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-sm-3 form-label" for="ISBN">Mã ISBN:</label>
-                                <div class="col-sm-8">
+                                <label class="col-form-label col-dl-label form-label" for="ISBN">Mã ISBN:</label>
+                                <div class="col-dl-full">
                                     @Html.TextBoxFor(m => m.SachDTO.ISBN, new { @class = "form-control form-control-sm", @id = "ISBN", type = "number" })
                                 </div>
                             </div>
@@ -124,16 +124,16 @@
                             </div>
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-sm-3 form-label" for="DDC">Mã DDC:</label>
-                                <div class="col-sm-8">
+                                <label class="col-form-label col-dl-label form-label" for="DDC">Mã DDC:</label>
+                                <div class="col-dl-full">
                                     @Html.TextBoxFor(m => m.SachDTO.DDC, new { @class = "form-control form-control-sm", @id = "DDC" })
                                     @Html.ValidationMessageFor(model => model.SachDTO.DDC, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-sm-3 form-label">Tác giả:</label>
-                                <div class="col-sm-8">
+                                <label class="col-form-label col-dl-label form-label">Tác giả:</label>
+                                <div class="col-dl-full">
 
                                     <div class="input-group" style="margin-bottom:4px" id="ListTacGia" ng-controller="TacGiaFinder" ng-init="GetAllTacGiaByIdSach('@Model.SachDTO.Id');">
                                         <tags-input ng-model="listtg"
@@ -515,6 +515,37 @@
             document.getElementById(cityName).style.display = "block";
             evt.currentTarget.className += " active";
         }
+
+        /*sticky*/
+        $(document).ready(function () {
+            //$(".left_sticky").stick_in_parent();
+            tinhvitri_in_parent(".left_sticky");
+
+        });
+
+        function tinhvitri_in_parent(div) {
+            var w = $(div).width();
+            $(window).scroll(function () {
+                var h_parent_of_top = $(div).parent().offset().top;
+                var h_parent = $(div).parent().height();
+                var top = $(window).scrollTop();
+                var h_left = $(div).height();
+                var kq = top - h_parent_of_top; //cach top khi scroll
+                var kq_dung = h_parent_of_top + h_parent - h_left;
+
+                if (top > h_parent_of_top) {
+                    $(div).stop().css({ "position": "absolute", "top": kq, "bottom": "auto", "width": "100%" });
+                } else {
+                    $(div).stop().css({ "position": "relative", "top": 0, "bottom": "auto" });
+                }
+
+                if (top > kq_dung) {
+                    $(div).stop().css({ "position": "absolute", "bottom": 0, "top": "auto", "width": "100%" });
+                }
+
+            })
+        }
+        /*End sticky*/
 
         //Xoá Sách
         function XoaSach(id, ten) {
