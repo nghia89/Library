@@ -1708,6 +1708,8 @@
     <Content Include="Scripts\Simple-Ajax-Uploader\Changelog.md" />
     <Content Include="Scripts\Simple-Ajax-Uploader\package.json" />
     <Content Include="Scripts\Simple-Ajax-Uploader\README.md" />
+    <Content Include="Content\MauWord\Mau1-GV.docx" />
+    <Content Include="Content\MauWord\Mau2-GV.docx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\dist\build\build.less" />
     <Content Include="Scripts\dist\build\build3.less" />

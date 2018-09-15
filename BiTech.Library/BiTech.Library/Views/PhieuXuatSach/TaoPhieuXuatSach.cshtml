@@ -34,7 +34,7 @@
 									<input id="idSach" name="idSach"
 										   onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
 										   ng-keydown="$event.keyCode === 13  ? updateListTrangThai():return"
-										   ng-blur="updateListTrangThai()"
+										   ng-blur="updateListTrangThai()" autofocus
 										   @*ng-mouseleave="updateListTrangThai()"*@
 										   @*onfocusout="EnterMaSach()"*@
 										   placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">

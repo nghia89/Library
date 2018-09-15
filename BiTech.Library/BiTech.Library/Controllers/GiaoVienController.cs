@@ -463,9 +463,10 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", "GiaoVien");
         }
 
-        public ActionResult ExportWord()
+        public ActionResult ExportWord(string idTV)
         {
-            return View();
+			ViewBag.IdTV = idTV;
+			return View();
         }
 
         [HttpPost]
@@ -511,28 +512,35 @@ namespace BiTech.Library.Controllers
             return RedirectToAction("Index", "GiaoVien");
         }
 
-        public ActionResult MauThe(string mauThe)
+        public ActionResult MauThe(string mauThe, string idTV)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
+			
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");
 
             ExcelManager excelManager = new ExcelManager();
-            var listTV = _ThanhVienLogic.GetAllGV();
-            string linkMau = null;
+			List<ThanhVien> listTV = new List<ThanhVien>();
+			if (string.IsNullOrEmpty(idTV))
+				listTV = _ThanhVienLogic.GetAllGV();
+			else
+			{
+				var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
+				listTV.Add(tv);
+			}
+			string linkMau = null;
 
             //DateTime today = DateTime.Today;
             //string fileName = "MauTheGV ("+ today.Day.ToString() + "-" + today.Month.ToString() + "-"+today.Year.ToString() + ")"+".docx";
             string fileName = "MauTheGV.docx";
             if (mauThe.Equals("mau1") == true)
             {
-                linkMau = "/Content/MauWord/MauTheGV1.docx";
+                linkMau = "/Content/MauWord/Mau1-GV.docx";
                 fileName = "MauTheGV-Mau1.docx";
             }
             else if ((mauThe.Equals("mau2") == true))
             {
-                linkMau = "/Content/MauWord/MauTheGV2.docx";
+                linkMau = "/Content/MauWord/Mau2-GV.docx";
                 fileName = "MauTheGV-Mau2.docx";
             }
             excelManager.ExportWord(linkMau, listTV, fileName);

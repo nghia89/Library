@@ -36,7 +36,7 @@
 							<div class="input-group mb-3">
 								<input id="idSach" name="idSach"
 									   onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
-									   @*onfocusout="EnterMaSach()"*@
+									   @*onfocusout="EnterMaSach()"*@ autofocus
 									   placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
 								<div class="input-group-append">
 									<a href="@Url.Action("Create", "Sach")" target="_blank" class="btn btn-primary btn-sm" title="Tạo sách mới">
@@ -108,9 +108,9 @@
 										<td>{{ x.MaKiemSoat }}</td>
 										<td>{{ x.ten }}</td>
 										<td>{{ x.tenTinhTrang }}</td>
-										@*<td width="100px">{{x.soLuong}}</td>*@
+										<td id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}" width="100px">{{x.soLuong}}</td>
 										@*VINH*@
-										<td width="100px">
+										@*<td width="100px">
 											<div style="display: flex;">
 												<div style="width:100%">
 													<input type="number" ng-value="{{x.soLuong}}" id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}"
@@ -119,7 +119,7 @@
 														   required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
 												</div>
 											</div>
-										</td>
+										</td>*@
 										@*END VINH*@
 										<td>{{x.GhiChuDon}}</td>
 										<td align="center">

@@ -49,8 +49,6 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
 	$scope.list = [];
     $scope.addItem = function () {
 		$scope.errortext = "";
-		var a = $('#idSach').val();
-		console.log(a);
         if (!$scope.GhiChuDon) {
             $scope.GhiChuDon = "";
         }
@@ -75,11 +73,11 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
 						$("#List_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.list[index].soLuong);
 					}
 					else
-						$scope.list.push(response.data);					
+						$scope.list.push(response.data);						
 				}
 				else
-					$scope.list.push(response.data);
-
+					$scope.list.push(response.data);				
+				$('#idSach').focus();
                 $scope.maKS = null;
                 $scope.soLuong = null;
                 $scope.GhiChuDon = null;
@@ -87,26 +85,32 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
             else {
                 $scope.errortext = "";
                 if (!$scope.maKS || $scope.maKS.valueOf() == "") {
-                    $scope.errortext += "Vui lòng nhập mã sách.\n";
+					$scope.errortext += "Vui lòng nhập mã sách.\n"; 
+					$('#idSach').focus();
                 }
                 if (!$scope.soLuong) {
-                    $scope.errortext += "Vui lòng nhập số lượng.\n";
+					$scope.errortext += "Vui lòng nhập số lượng.\n";
+					$('#SoLuong').focus();
                 }
                 if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
-                    $scope.errortext += "Vui lòng chọn trạng thái.\n";
+					$scope.errortext += "Vui lòng chọn trạng thái.\n";					
                 }
-				if ($scope.errortext == "")
+				if ($scope.errortext == "") {
 					alert('Cần nhập đúng mã sách');
+					$('#idSach').focus();
+				}
 				else
 					alert($scope.errortext);
-            }
+			}			
         }, function (e) {
             $scope.errortext = "";
             if (!$scope.maKS || $scope.maKS.valueOf() == "") {
-                $scope.errortext += "Vui lòng nhập mã sách.\n";
+				$scope.errortext += "Vui lòng nhập mã sách.\n";
+				$('#idSach').focus();
             }
             if (!$scope.soLuong) {
-                $scope.errortext += "Vui lòng nhập số lượng.\n";
+				$scope.errortext += "Vui lòng nhập số lượng.\n";
+				$('#SoLuong').focus();
             }
             if ($scope.idTrangThai == null || $scope.idTrangThai == "") {
                 $scope.errortext += "Vui lòng chọn trạng thái.\n";
@@ -120,7 +124,8 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
             console.log(e);
             if ($scope.errortext == "")
 				alert('Cần nhập đúng mã sách');
-        })
+			})
+		//$('#idSach').focus();
 	}
 	//Xóa theo MaKiemSoat va IdTrangThai
     $scope.removeItem = function (x1, x2) {
@@ -181,7 +186,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 					}
 					else
 						$scope.list.push(response.data);		
-
+					$('#idSach').focus();
 					$scope.maKS = null;
 					$scope.soLuong = null;
 					$scope.GhiChuDon = null;
@@ -190,15 +195,18 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 					$scope.errortext = "";
 					if (!$scope.maKS) {
 						$scope.errortext += "Vui lòng nhập mã sách.\n";
+						$('#idSach').focus();
 					}
 					if (!$scope.soLuong) {
 						$scope.errortext += "Vui lòng nhập số lượng.\n";
+						$('#SoLuong').focus();
 					}
 					if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
 						$scope.errortext += "Vui lòng chọn trạng thái.\n";
 					}
 					if (!$scope.GhiChuDon) {
 						$scope.errortext += "Vui lòng chọn lý do.\n";
+						$('#LyDo').focus();
 					}
 
 					if ($scope.errortext == "")
@@ -210,16 +218,19 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
         }, function (e) {
             $scope.errortext = "";
             if (!$scope.maKS) {
-                $scope.errortext += "Vui lòng nhập mã sách.\n";
+				$scope.errortext += "Vui lòng nhập mã sách.\n";
+				$('#idSach').focus();
             }
             if (!$scope.soLuong) {
-                $scope.errortext += "Vui lòng nhập số lượng.\n";
+				$scope.errortext += "Vui lòng nhập số lượng.\n";
+				$('#SoLuong').focus();
             }
             if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
                 $scope.errortext += "Vui lòng chọn trạng thái.\n";
             }
             if (!$scope.GhiChuDon) {
-                $scope.errortext += "Vui lòng chọn lý do.\n";
+				$scope.errortext += "Vui lòng chọn lý do.\n";
+				$('#LyDo').focus();
             }
 
             if ($scope.errortext.length > 0)
@@ -230,7 +241,8 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
             console.log(e);
             if ($scope.errortext == "")
 				alert('Cần nhập đúng mã sách');
-        })
+			})
+		//$('#idSach').focus();
     }
     $scope.removeItem = function (x1, x2) {
         $scope.errortext = "";
