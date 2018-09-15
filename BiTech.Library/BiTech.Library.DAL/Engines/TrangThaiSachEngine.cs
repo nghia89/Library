@@ -45,6 +45,10 @@ namespace BiTech.Library.DAL.Engines
         {
             return null;
         }
+        public TrangThaiSach GetByName(string tenTrangThai)
+        {
+            return _DatabaseCollection.Find(_ => _.TenTT.ToLower() == tenTrangThai.ToLower()).FirstOrDefault();
+        }
         #endregion
 
     }

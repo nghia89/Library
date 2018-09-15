@@ -1,0 +1,81 @@
+﻿@model BiTech.Library.Models.ImportExcelPNSViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "ResultImportExcel";
+}
+
+<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count đầu sách</h4>
+<h4 class="text-danger">Lưu thất bại @Model.ListFail.Count đầu sách</h4>
+@if (@Model.ListFail.Count > 0)
+{
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "PhieuNhapSach", new { fileName = Model.FileName })'">
+        <i class="fa fa-cloud-download" style="padding-right: 4px;font-size: 17px;"> Tải file lỗi để sửa</i>
+    </button>
+    <center><h3>Danh sách bị lỗi</h3></center>
+    <br />
+    <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
+        <thead>
+            <tr class="table-info text-center">
+                @{
+                    var longestRow = Model.ListShow.FirstOrDefault();
+                    if (longestRow != null)
+                    {
+                        <th class="order-number-column">STT</th>
+                        <th width="70px">Mã sách</th>
+                        <th>Số lượng</th>
+                        <th>Trạng thái sách</th>
+                        <th>Ghi chú</th>
+                        <th width="250px">Nguyên nhân lỗi </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var orderNumber = 0;
+                int row = 1;
+                foreach (var item in Model.ListShow)
+                {
+                    var col = 1;
+                    <tr id="element-@orderNumber">
+                        @foreach (var j in item)
+                        {
+                            // tô màu ô trống dữ liệu cần thiêt
+                            if (String.IsNullOrEmpty(j.ToString().Trim()) && col < 5)
+                            {
+                                <td style="background: #dc354582;"></td>
+                            }
+                            // tô màu ô Mã sách không tồn tại
+                            else if (col == 2 && Model.ArrRows[row] == false)
+                            {
+                                <td style="background: #dc354582;">@j.ToString()</td>
+                            }
+                            // tô màu Số lượng sách rỗng
+                            else if (col == 3 && Int32.Parse(j.ToString()) == -1)
+                            {
+                                <td style="background: #dc354582;"></td>
+                            }
+                            else
+                            {
+                                <td>@j.ToString()</td>
+                            }
+                            col++;
+                        }
+                    </tr>
+                    row++;
+                }
+            }
+        </tbody>
+    </table>
+                }
+<div class="f1-buttons">
+    <button type="button" class="btn btn-success" id="btn-finish"><i class=""></i>Hoàn tất</button>
+</div>
+
+<script>
+
+    $(document).on('click', '#btn-finish', function () {
+        location.reload();
+    });
+</script>
+

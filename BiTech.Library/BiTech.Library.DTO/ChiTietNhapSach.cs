@@ -37,6 +37,10 @@ namespace BiTech.Library.DTO
         #region Tai
         [BsonIgnore]
         public int RowExcel { get; set; }
+        [BsonIgnore]
+        public List<string> ListError { get; set; } = new List<string>();
+        [BsonIgnore]
+        public bool IsExist { get; set; } = true;
         #endregion
     }
 }

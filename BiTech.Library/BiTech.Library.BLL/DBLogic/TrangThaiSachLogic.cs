@@ -72,6 +72,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _TrangThaiSachEngine.GetBySTT(idTinhtrang);
         }
+        public TrangThaiSach GetByName(string tenTrangThai)
+        {
+            return _TrangThaiSachEngine.GetByName(tenTrangThai);
+        }
         #endregion
 
 

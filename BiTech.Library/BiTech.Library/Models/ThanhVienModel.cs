@@ -178,12 +178,10 @@ namespace BiTech.Library.Models
         public string LoaiTK { get; set; }
     }
 
-    public class ImportResultViewModel
+    public class ImportExcelTVViewModel
     {
-        public List<string[]> RawDataList { get; set; }
-        public List<ThanhVien> RawListTV { get; set; } = new List<ThanhVien>();
-        public int TotalEntry { get; set; }
-        public ThanhVien Entry { get; set; }
+        public List<string[]> RawDataList { get; set; }    
+        public int TotalEntry { get; set; }     
         public List<ThanhVien> ListSuccess { get; set; } = new List<ThanhVien>();
         public List<ThanhVien> ListFail { get; set; } = new List<ThanhVien>();
         public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
@@ -191,8 +189,7 @@ namespace BiTech.Library.Models
         /// <summary>
         /// Mảng chứa các dòng bị trùng Mã Thành Viên
         /// </summary>
-        public bool[] ArrRows { get; set; }
-        public HttpPostedFileBase UploadFile { get; set; }
+        public bool[] ArrRows { get; set; }      
     }
 
 }

@@ -1,4 +1,4 @@
-﻿@model BiTech.Library.Models.ImportExcelTVViewModel
+﻿@model BiTech.Library.Models.ImportExcelSachViewModel
 @using Newtonsoft.Json;
 @{
     Layout = null;
@@ -22,16 +22,23 @@
                         var longestRow = Model.RawDataList.FirstOrDefault();
                         if (longestRow != null)
                         {
-                            <th class="order-number-column">STT</th>                           
-                            <th width="70px">Họ và tên</th>
-                            <th>Tên user</th>
-                            <th>Mã giáo viên</th>
-                            <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Tổ</th>
-                            <th>Niên khóa</th>
-                            <th width="70px">Địa chỉ</th>
-                            <th>SĐT</th>
+                            <th class="order-number-column">STT</th>
+                            <th width="70px">Tên sách</th>
+                            <th>Mã ISBN</th>
+                            <th>Thể loại sách</th>
+                            <th>Tác giả</th>
+                            <th>Nhà sản xuất</th>
+                            <th>Kệ sách</th>
+                            <th>Số trang</th>
+                            <th>Ngôn ngữ</th>
+                            <th>Năm xuất bản</th>
+                            <th>Giá bìa</th>
+                            <th>Phí mượn</th>
+                            <th>Nước xuất xứ</th>
+                            <th>Người biên dịch</th>
+                            <th>Lần xuất bản</th>
+                            <th>Tóm tắt</th>
+                           
                         }
                     }
                     <th width="150px"><center>Thao tác</center></th>
@@ -45,7 +52,7 @@
                     foreach (var item in Model.RawDataList)
                     {
                         orderNumber += 1;
-                        <tr id="element-@orderNumber">                         
+                        <tr id="element-@orderNumber">
                             <td class="text-center SL_STT-@stt" data-tongstt="@stt">@stt</td>
                             @for (int j = 1; j < item.Length; j++)
                             {
@@ -65,7 +72,7 @@
             </tbody>
         </table>
         <div class="f1-buttons">
-            <button type="button" class="btn" id="btn-back">Quay lại</button>
+            <button type="button" class="btn" id="btn-back"> Quay lại</button>
             <button class="btn btn-success has-spinner btn-check-step-2" id="btn-check-step-2">Tiếp tục</button>
             <button type="button" class="btn btn-next" id="step-2-success" style="display: none;">Next</button>
         </div>
@@ -141,11 +148,11 @@
                var kq_TSL = parseInt(TSL) - 1;
                $(".CountTotal_SL").data("tongsl",kq_TSL );
                $(".CountTotal_SL").html(kq_TSL);
-               // STT              
+               // STT
                var begin=parseInt(arrayIndex) +1 ;
                var end=@Model.TotalEntry;
                for (var i = begin+1; i <= end; i++)
-               {                                    
+               {
                    var TSL2 = $(".SL_STT-"+i).data("tongstt");
                    var kq_TSL2 = parseInt(TSL2) - 1;
                    $(".SL_STT-"+i).data("tongstt", kq_TSL2);
@@ -168,9 +175,9 @@
     // --
     $(document).on('click', '#btn-check-step-2', function (e) {
         e.preventDefault();
-        $(this).addClass('active');       
+        $(this).addClass('active');
 
-        $.post('@Url.Content("~/GiaoVien/ImportSave")',{
+        $.post('@Url.Content("~/Sach/ImportSave")',{
             data : jsonData
         }).done(function (data) {
 
@@ -181,7 +188,7 @@
             swal({title:'Thông tin không hợp lệ',text:'Kiểm tra lại các cột dữ liệu có phù hợp hay chưa.',type:'error'},function () {
                 $("#btn-check-step-2").removeClass('active');
             });
-        });      
+        });
     });
 
     function goToByScroll(id){

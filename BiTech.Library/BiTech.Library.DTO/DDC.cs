@@ -26,5 +26,11 @@ namespace BiTech.Library.DTO
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
+        #region Tai
+        [BsonIgnore]
+        public List<string> ListError { get; set; } = new List<string>();
+        [BsonIgnore]
+        public bool IsExist { get; set; } = true;
+        #endregion
     }
 }

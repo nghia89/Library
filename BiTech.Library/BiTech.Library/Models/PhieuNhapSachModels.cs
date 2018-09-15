@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using BiTech.Library.DTO;
+using System.Collections;
 
 namespace BiTech.Library.Models
 {
@@ -41,5 +43,22 @@ namespace BiTech.Library.Models
         public int soLuong { get; set; }
         public string GhiChuDon { get; set; }
         public string ten { get; set; }
+    }
+
+    public class ImportExcelPNSViewModel
+    {
+        [Display(Name = "Ghi chú phiếu nhập sách")]
+        [Required(ErrorMessage = "Vui lòng nhập ghi chú")]
+        public string GhiChu { get; set; } = "";
+        public List<string[]> RawDataList { get; set; }
+        public int TotalEntry { get; set; }
+        public List<ChiTietNhapSach> ListSuccess { get; set; } = new List<ChiTietNhapSach>();
+        public List<ChiTietNhapSach> ListFail { get; set; } = new List<ChiTietNhapSach>();
+        public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
+        public string FileName { get; set; }
+        /// <summary>
+        /// Mảng chứa các dòng chứ Mã sách bị trùng
+        /// </summary>
+        public bool[] ArrRows { get; set; }
     }
 }

@@ -1171,35 +1171,3 @@ app.controller('ThongKeCtrlr', function ($scope, $http) {
 })
 //======================================END Thống Kê===================================
 
-//======================================Giáo Viên=======================================
-app.controller('GiaoVienCtrlr', function ($scope, $http) {
-    $scope.File = null;
-    $scope.DataRow = null;
-    $scope.ListImport = null;
-    $scope.TotalEntry = 0;
-    function Main() {
-        $http({
-            method: "post",
-            url: "/GiaoVien/PreviewImport_Json",
-            params: {
-                file: $scope.File,
-                RawDataList2: $scope.DataRow
-            }
-        }).then(function (response) {
-            if (response.data != null) {
-                $scope.ListImport = response.data.RawListTV;
-                $scope.TotalEntry = response.data.TotalEntry;
-            }
-        })
-    }
-    $scope.RemoveRow() = function () {
-
-    }
-    function Load() {
-        //  $scope.UploadFile = ;
-        $scope.ListImport = null;
-        Main();
-    }
-    Main();
-})
-//======================================END Giáo Viên=======================================

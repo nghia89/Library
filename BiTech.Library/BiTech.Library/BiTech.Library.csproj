@@ -235,6 +235,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BaseClass\XuLyChuoi.cs" />
     <Compile Include="Helpers\App_Start\BundleConfig.cs" />
     <Compile Include="Helpers\App_Start\FilterConfig.cs" />
     <Compile Include="Helpers\App_Start\RouteConfig.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="Marc\Record.cs" />
     <Compile Include="Helpers\Tool.cs" />
     <Compile Include="Models\DataFieldMarcVm.cs" />
+    <Compile Include="Models\DDCViewModels.cs" />
     <Compile Include="Models\KesachViewModels.cs" />
     <Compile Include="Models\LanguageViewModel.cs" />
     <Compile Include="Models\LyDoXuatViewModel.cs" />
@@ -334,6 +336,7 @@
     <Content Include="Content\Images\MauTheHS1.png" />
     <Content Include="Content\Images\MauTheHS2.png" />
     <Content Include="Content\Images\MauTheGV1.png" />
+    <Content Include="Content\FixHeader.css" />
     <Content Include="Content\Images\userUnauth.jpg" />
     <Content Include="Scripts\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Scripts\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.min.css" />
@@ -1915,7 +1918,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\GiaoVien\Error\AccessDenied.cshtml" />
     <Content Include="Views\HocSinh\Index.cshtml" />
     <Content Include="Views\HocSinh\_PartialUser.cshtml" />
     <Content Include="Views\HocSinh\_CreateUser.cshtml" />
@@ -1962,7 +1965,7 @@
     <Content Include="Views\NgonNgu\Index.cshtml" />
     <Content Include="Views\NgonNgu\Edit.cshtml" />
     <Content Include="Views\NgonNgu\Create.cshtml" />
-    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\GiaoVien\Error\NotFound.cshtml" />
     <Content Include="Views\Sach\_NhapkeSach.cshtml" />
     <Content Include="Views\Sach\_Language.cshtml" />
     <Content Include="Views\Sach\_ThemTacGia.cshtml" />
@@ -2116,7 +2119,16 @@
     <Content Include="Views\QuanLyThuVien\Thongbao.cshtml" />
     <Content Include="Views\NghiepVu\Index.cshtml" />
     <Content Include="Views\Search\NewBook.cshtml" />
-    <Content Include="Views\Error\ErrorOccur.cshtml" />
+    <Content Include="Views\GiaoVien\Error\ErrorOccur.cshtml" />
+    <Content Include="Views\HocSinh\PreviewImport.cshtml" />
+    <Content Include="Views\HocSinh\ImportSave.cshtml" />
+    <Content Include="Views\Sach\PreviewImport.cshtml" />
+    <Content Include="Views\Sach\ImportSave.cshtml" />
+    <Content Include="Views\PhieuNhapSach\ImportSave.cshtml" />
+    <Content Include="Views\PhieuNhapSach\PreviewImport.cshtml" />
+    <Content Include="Views\DDC\ImportSave.cshtml" />
+    <Content Include="Views\DDC\PreviewImport.cshtml" />
+    <Content Include="Views\DDC\ImportFromExcel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
