@@ -55,7 +55,7 @@ namespace BiTech.Library.Controllers
         public ActionResult Index(UserViewModel model)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            
+
             List<ThanhVien> listAll = _ThanhVienLogic.GetAllGV();
             ViewBag.ThongBao = false;
             model.ListThanhVien = new List<ThanhVien>();
@@ -94,7 +94,7 @@ namespace BiTech.Library.Controllers
         }
 
         public ActionResult _CreateUser()
-        {       
+        {
             UserViewModel model = new UserViewModel();
             model.TemptNgaySinh = "--/--/----";
             return View(model);
@@ -113,7 +113,7 @@ namespace BiTech.Library.Controllers
                 MaSoThanhVien = viewModel.MaSoThanhVien,
                 NgaySinh = viewModel.NgaySinh,
                 GioiTinh = viewModel.GioiTinh,
-				ChucVu = viewModel.ChucVu,
+                ChucVu = viewModel.ChucVu,
                 DiaChi = viewModel.DiaChi,
                 SDT = viewModel.SDT,
                 NienKhoa = viewModel.NienKhoa,
@@ -224,7 +224,7 @@ namespace BiTech.Library.Controllers
                 SDT = tv.SDT,
                 GioiTinh = tv.GioiTinh,
                 NgaySinh = tv.NgaySinh,
-				ChucVu = tv.ChucVu,
+                ChucVu = tv.ChucVu,
                 NienKhoa = tv.NienKhoa,
                 LinkAvatar = tv.HinhChanDung,
                 Id = tv.Id
@@ -465,8 +465,8 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ExportWord(string idTV)
         {
-			ViewBag.IdTV = idTV;
-			return View();
+            ViewBag.IdTV = idTV;
+            return View();
         }
 
         [HttpPost]
@@ -515,20 +515,20 @@ namespace BiTech.Library.Controllers
         public ActionResult MauThe(string mauThe, string idTV)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-			
+
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");
 
             ExcelManager excelManager = new ExcelManager();
-			List<ThanhVien> listTV = new List<ThanhVien>();
-			if (string.IsNullOrEmpty(idTV))
-				listTV = _ThanhVienLogic.GetAllGV();
-			else
-			{
-				var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
-				listTV.Add(tv);
-			}
-			string linkMau = null;
+            List<ThanhVien> listTV = new List<ThanhVien>();
+            if (string.IsNullOrEmpty(idTV))
+                listTV = _ThanhVienLogic.GetAllGV();
+            else
+            {
+                var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
+                listTV.Add(tv);
+            }
+            string linkMau = null;
 
             //DateTime today = DateTime.Today;
             //string fileName = "MauTheGV ("+ today.Day.ToString() + "-" + today.Month.ToString() + "-"+today.Year.ToString() + ")"+".docx";
@@ -639,9 +639,9 @@ namespace BiTech.Library.Controllers
                 }
             }
 
-            return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });                 
+            return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });
         }
-   
+
         public ActionResult RequestEditPreviewForm(string[] data, string orderNumber)
         {
             ViewBag.OrderNumber = orderNumber;

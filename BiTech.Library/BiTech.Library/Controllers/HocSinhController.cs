@@ -341,7 +341,7 @@ namespace BiTech.Library.Controllers
             //#endregion
 
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            
+
             ThanhVien thanhVien = _ThanhVienLogic.GetById(id);
             if (thanhVien == null)
             {
@@ -578,7 +578,7 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ExportWord(string idTV)
         {
-			ViewBag.IdTV = idTV;
+            ViewBag.IdTV = idTV;
             return View();
         }
 
@@ -587,8 +587,8 @@ namespace BiTech.Library.Controllers
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            ExcelManager excelManager = new ExcelManager();						
-			var	listTV = _ThanhVienLogic.GetAllHS();			
+            ExcelManager excelManager = new ExcelManager();
+            var listTV = _ThanhVienLogic.GetAllHS();
             string fileName = "MauTheHS.docx";
             if (model.LinkWord != null)
             {
@@ -632,16 +632,16 @@ namespace BiTech.Library.Controllers
 
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");
-            ExcelManager excelManager = new ExcelManager();         
-			List<ThanhVien> listTV = new List<ThanhVien>();
-			if (string.IsNullOrEmpty(idTV))
-				listTV = _ThanhVienLogic.GetAllHS();
-			else
-			{
-				var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
-				listTV.Add(tv);
-			}
-			string linkMau = null;
+            ExcelManager excelManager = new ExcelManager();
+            List<ThanhVien> listTV = new List<ThanhVien>();
+            if (string.IsNullOrEmpty(idTV))
+                listTV = _ThanhVienLogic.GetAllHS();
+            else
+            {
+                var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
+                listTV.Add(tv);
+            }
+            string linkMau = null;
             string fileName = "MauTheHS.docx";
             if (mauThe.Equals("mau1") == true)
             {
