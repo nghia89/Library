@@ -23,7 +23,40 @@ namespace BiTech.Library.Controllers
         // GET: QuanLyThuVien
         public ActionResult Index()
         {
-            return View();
+            ThongTinThuVienLogic _thongTinThuVienLogic = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            
+            return View(new ThongTinThuVienModel()
+            {
+                TenThuVien = _thongTinThuVienLogic.GetTenThuVien(),
+                TheHeader1 = _thongTinThuVienLogic.GetTheHeader1(),
+                TheHeader2 = _thongTinThuVienLogic.GetTheHeader2(),
+                DiaChi = _thongTinThuVienLogic.GetDiaChi(),
+            });
+        }
+
+        // POST: QuanLyThuVien
+        [HttpPost]
+        public ActionResult Index(ThongTinThuVienModel model)
+        {
+            ThongTinThuVienLogic _thongTinThuVienLogic = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _thongTinThuVienLogic.SetTenThuVien(model.TenThuVien);
+                    _thongTinThuVienLogic.SetTheHeader1(model.TheHeader1);
+                    _thongTinThuVienLogic.SetTheHeader2(model.TheHeader2);
+                    _thongTinThuVienLogic.SetDiaChi(model.DiaChi);
+                    ViewBag.Success = true;
+                }
+                catch
+                {
+                    ViewBag.Success = false;
+                }
+            }
+
+            return View(model);
         }
 
         public ActionResult TinTuc()

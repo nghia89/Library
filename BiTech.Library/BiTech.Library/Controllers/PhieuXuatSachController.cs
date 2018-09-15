@@ -3,20 +3,15 @@ using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Models;
 using PagedList;
-using PagedList.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using PagedList;
-using PagedList.Mvc;
-using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
-	public class PhieuXuatSachController : BaseController
+    public class PhieuXuatSachController : BaseController
 	{
 		// GET: PhieuXuatSach
 		public ActionResult Index(int? page)
