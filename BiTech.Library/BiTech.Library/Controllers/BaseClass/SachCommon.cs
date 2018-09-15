@@ -13,6 +13,7 @@ namespace BiTech.Library.Controllers.BaseClass
         public Sach LuuMaVachSach(string physicalWebRootPath, Sach sach, string imageName)
         {
             BarCodeQRManager barcode = new BarCodeQRManager();
+            string tenKhongDau = ConvertToTiengVietKhongDauConstants.RemoveSign4VietnameseString(sach.TenSach);
             string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeBook);
             string uploadFileNameQR = null;
             if (imageName != null)
@@ -22,6 +23,7 @@ namespace BiTech.Library.Controllers.BaseClass
             else
             {
                 //   ==> Tên hình QR <==
+
                 uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, sach.MaKiemSoat +
                 "-" + sach.TenSach + ".jpg");
             }
@@ -33,7 +35,11 @@ namespace BiTech.Library.Controllers.BaseClass
             // chuyển đường dẫn vật lý thành đường dẫn ảo
             var pathQR = uploadFileNameQR.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
             //   ==> Info QRdata <==
-            string info = "BLibBook-" + sach.Id + "-" + sach.MaKiemSoat + "-" + sach.TenSach;
+
+            //string info = "BLibBook-" + sach.Id + "-" + sach.MaKiemSoat + "-" + sach.TenSach;
+
+            string info = "BLibBook-" + sach.Id + "-" + sach.MaKiemSoat + "-" + tenKhongDau;
+
             bool bolQR = barcode.CreateQRCode(info, pathQR);
             if (bolQR == true)
             {
@@ -60,6 +66,6 @@ namespace BiTech.Library.Controllers.BaseClass
                 return MaKiemSoat;
             }
             catch { return info; }
-        }        
+        }
     }
 }

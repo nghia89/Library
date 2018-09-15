@@ -223,62 +223,62 @@ namespace BiTech.Library.Controllers
                     }
 
                     //Tạo phiếu nhập - VINH
-					bool nhapSach = false;
-					foreach (var item in model.ListTTSach)
-					{
-						if (item.SoLuong > 0)
-						{
-							nhapSach = true;
-							break;
-						}
-					}
-					if (model.ListTTSach != null && nhapSach)
-					{
-						PhieuNhapSach pns = new PhieuNhapSach()
-						{
-							GhiChu = model.GhiChuPhieuNhap,
-							IdUserAdmin = _UserAccessInfo.Id,
-							UserName = _UserAccessInfo.UserName
-						};
+                    bool nhapSach = false;
+                    foreach (var item in model.ListTTSach)
+                    {
+                        if (item.SoLuong > 0)
+                        {
+                            nhapSach = true;
+                            break;
+                        }
+                    }
+                    if (model.ListTTSach != null && nhapSach)
+                    {
+                        PhieuNhapSach pns = new PhieuNhapSach()
+                        {
+                            GhiChu = model.GhiChuPhieuNhap,
+                            IdUserAdmin = _UserAccessInfo.Id,
+                            UserName = _UserAccessInfo.UserName
+                        };
 
-						string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
+                        string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
-						int tongSach = 0;
-						SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-						foreach (var item in model.ListTTSach)
-						{
-							if (item.SoLuong > 0)
-							{
-								//Sach - trang thai (so luong)
-								SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
-								{
-									IdSach = id, //id sach khi da insert
-									IdTrangThai = item.IdTrangThai,
-									SoLuong = item.SoLuong,
-									CreateDateTime = DateTime.Now,
-								};
-								tongSach += dtoModel.SoLuong;
-								_SlTrangThaisach.Insert(dtoModel);
+                        int tongSach = 0;
+                        SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                        foreach (var item in model.ListTTSach)
+                        {
+                            if (item.SoLuong > 0)
+                            {
+                                //Sach - trang thai (so luong)
+                                SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
+                                {
+                                    IdSach = id, //id sach khi da insert
+                                    IdTrangThai = item.IdTrangThai,
+                                    SoLuong = item.SoLuong,
+                                    CreateDateTime = DateTime.Now,
+                                };
+                                tongSach += dtoModel.SoLuong;
+                                _SlTrangThaisach.Insert(dtoModel);
 
-								//Chi tiet phieu nhap
+                                //Chi tiet phieu nhap
 
-								ChiTietNhapSach ctns = new ChiTietNhapSach()
-								{
-									IdPhieuNhap = idPhieuNhap,
-									IdSach = model.SachDTO.Id,
-									SoLuong = item.SoLuong,
-									CreateDateTime = DateTime.Now,
-									IdTinhtrang = item.IdTrangThai,
-								};
-								_ChiTietNhapSachLogic.Insert(ctns);
-							}
-						}
+                                ChiTietNhapSach ctns = new ChiTietNhapSach()
+                                {
+                                    IdPhieuNhap = idPhieuNhap,
+                                    IdSach = model.SachDTO.Id,
+                                    SoLuong = item.SoLuong,
+                                    CreateDateTime = DateTime.Now,
+                                    IdTinhtrang = item.IdTrangThai,
+                                };
+                                _ChiTietNhapSachLogic.Insert(ctns);
+                            }
+                        }
 
-						//Update tổng số lượng sách
-						sach.SoLuongTong = tongSach;
-						sach.SoLuongConLai = tongSach;
-						_SachLogic.Update(sach);
-					}
+                        //Update tổng số lượng sách
+                        sach.SoLuongTong = tongSach;
+                        sach.SoLuongConLai = tongSach;
+                        _SachLogic.Update(sach);
+                    }
 
                     return RedirectToAction("Index");
                 }
@@ -345,26 +345,7 @@ namespace BiTech.Library.Controllers
                 Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
                 if (sach != null)
                 {
-                    //<<<<<<< HEAD
-                    // Id = model.SachDTO.Id,
-                    // IdTheLoai = model.SachDTO.IdTheLoai,
-                    // IdKeSach = model.SachDTO.IdKeSach,
-                    // IdNhaXuatBan = model.SachDTO.IdNhaXuatBan,
-                    // MaKiemSoat = model.SachDTO.MaKiemSoat,
-                    // SoLuongTong = model.SachDTO.SoLuongTong,
-                    // SoTrang = model.SachDTO.SoTrang,
-                    // IdNgonNgu = model.SachDTO.IdNgonNgu,
-                    // NamXuatBan = model.SachDTO.NamXuatBan,
-                    // GiaBia = model.SachDTO.GiaBia,
-                    // TaiBan = model.SachDTO.TaiBan,
-                    // TenSach = model.SachDTO.TenSach,
-                    // TomTat = model.SachDTO.TomTat,
-                    // PhiMuonSach = model.SachDTO.PhiMuonSach,
-                    // ISBN=model.SachDTO.ISBN,
-                    // XuatXu=model.SachDTO.XuatXu
-                    //=======
                     sach.Id = model.SachDTO.Id;
-                    //sach.MaKiemSoat = model.SachDTO.MaKiemSoat;
                     sach.DDC = model.SachDTO.DDC;
                     sach.TenSach = model.SachDTO.TenSach;
                     sach.ISBN = model.SachDTO.ISBN;
@@ -380,9 +361,6 @@ namespace BiTech.Library.Controllers
                     sach.NguoiBienDich = model.SachDTO.NguoiBienDich;
                     sach.TaiBan = model.SachDTO.TaiBan;
                     sach.TomTat = model.SachDTO.TomTat;
-                    //sach.SoLuongTong = model.SachDTO.SoLuongTong;
-                    //>>>>>>> Phongv25
-                    //LinkBiaSach = model.FileImageCover.ToString()
 
                     string failTG = "";
                     if (_SachTacGiaLogic.DeleteAllTacGiaByidSach(sach.Id))
@@ -688,6 +666,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
+		
 
         [HttpPost]
         public async Task<ActionResult> PreviewImport(HttpPostedFileBase file)
@@ -1168,147 +1147,153 @@ namespace BiTech.Library.Controllers
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(filedata, contentType);
         }
-        [HttpPost]
-        public ActionResult ImportFromExcel2(SachViewModels model)
-        {
-            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+		
+        // [HttpPost]
+        // public ActionResult ImportFromExcel2(SachViewModels model)
+// =======
+        // [HttpPost]
+        // public ActionResult ImportFromExcel(SachViewModels model)
+// >>>>>>> Vinh
+        // {
+            // SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            // TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            // KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            // NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            // LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            // SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            // TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            ExcelManager excelManager = new ExcelManager();
-            List<Sach> listExcel = new List<Sach>();
-            if (model.LinkExcel != null)
-            {
-                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
-                string physicalWebRootPath = Server.MapPath("/");
+            // ExcelManager excelManager = new ExcelManager();
+            // List<Sach> listExcel = new List<Sach>();
+            // if (model.LinkExcel != null)
+            // {
+                // string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                // string physicalWebRootPath = Server.MapPath("/");
 
-                var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
-                string location = Path.GetDirectoryName(sourceFileName);
-                if (!Directory.Exists(location))
-                {
-                    Directory.CreateDirectory(location);
-                }
-                using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
-                {
-                    model.LinkExcel.InputStream.CopyTo(fileStream);
-                    var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                    listExcel = excelManager.ImportSach(sourceDir);
-                }
+                // var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
+                // string location = Path.GetDirectoryName(sourceFileName);
+                // if (!Directory.Exists(location))
+                // {
+                    // Directory.CreateDirectory(location);
+                // }
+                // using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
+                // {
+                    // model.LinkExcel.InputStream.CopyTo(fileStream);
+                    // var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                    // listExcel = excelManager.ImportSach(sourceDir);
+                // }
 
-                foreach (var item in listExcel)
-                {
-                    #region Linh tinh
-                    // Thể loại sách
-                    string itemTheLoai = item.IdTheLoai.Trim();
-                    var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
+                // foreach (var item in listExcel)
+                // {
+                    // #region Linh tinh
+                    // // Thể loại sách
+                    // string itemTheLoai = item.IdTheLoai.Trim();
+                    // var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
 
-                    if (machs.Length > 0)
-                    {
-                        var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
-                        if (theloai != null)
-                        {
-                            item.IdTheLoai = theloai.Id;
-                        }
-                        else
-                        {
-                            // todo - ddc dictionary version 21
-                            var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
-                            {
-                                TenTheLoai = item.IdTheLoai.Trim(),
-                                MaDDC = itemTheLoai.Trim()
-                            });
-                            item.IdTheLoai = id;
-                        }
-                    }
-                    else
-                    {
-                        var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
-                        if (theloai != null)
-                        {
-                            item.IdTheLoai = theloai.Id;
-                        }
-                        else
-                        {
-                            var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = item.IdTheLoai });
-                            item.IdTheLoai = id;
-                        }
-                    }
+                    // if (machs.Length > 0)
+                    // {
+                        // var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
+                        // if (theloai != null)
+                        // {
+                            // item.IdTheLoai = theloai.Id;
+                        // }
+                        // else
+                        // {
+                            // // todo - ddc dictionary version 21
+                            // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
+                            // {
+                                // TenTheLoai = item.IdTheLoai.Trim(),
+                                // MaDDC = itemTheLoai.Trim()
+                            // });
+                            // item.IdTheLoai = id;
+                        // }
+                    // }
+                    // else
+                    // {
+                        // var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
+                        // if (theloai != null)
+                        // {
+                            // item.IdTheLoai = theloai.Id;
+                        // }
+                        // else
+                        // {
+                            // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = item.IdTheLoai });
+                            // item.IdTheLoai = id;
+                        // }
+                    // }
 
-                    // Kệ sách
-                    var keSach = _keSachLogic.GetByTenKeSach(item.IdKeSach);
-                    if (keSach != null)
-                    {
-                        item.IdKeSach = keSach.Id;
-                    }
-                    else
-                    {
-                        var id = _keSachLogic.Add(new KeSach() { TenKe = item.IdKeSach.Trim() });
-                        item.IdKeSach = id;
-                    }
+                    // // Kệ sách
+                    // var keSach = _keSachLogic.GetByTenKeSach(item.IdKeSach);
+                    // if (keSach != null)
+                    // {
+                        // item.IdKeSach = keSach.Id;
+                    // }
+                    // else
+                    // {
+                        // var id = _keSachLogic.Add(new KeSach() { TenKe = item.IdKeSach.Trim() });
+                        // item.IdKeSach = id;
+                    // }
 
-                    // Nhà xuất bản
-                    var nxb = _NhaXuatBanLogic.GetByTenNXB(item.IdNhaXuatBan);
-                    if (nxb != null)
-                    {
-                        item.IdNhaXuatBan = nxb.Id;
-                    }
-                    else
-                    {
-                        var id = _NhaXuatBanLogic.ThemNXB(new NhaXuatBan() { Ten = item.IdNhaXuatBan.Trim() });
-                        item.IdNhaXuatBan = id;
-                    }
+                    // // Nhà xuất bản
+                    // var nxb = _NhaXuatBanLogic.GetByTenNXB(item.IdNhaXuatBan);
+                    // if (nxb != null)
+                    // {
+                        // item.IdNhaXuatBan = nxb.Id;
+                    // }
+                    // else
+                    // {
+                        // var id = _NhaXuatBanLogic.ThemNXB(new NhaXuatBan() { Ten = item.IdNhaXuatBan.Trim() });
+                        // item.IdNhaXuatBan = id;
+                    // }
 
-                    // Ngôn ngữ
-                    var ngonNgu = _LanguageLogic.GetByTenNgonNgu(item.IdNgonNgu);
-                    if (ngonNgu != null)
-                    {
-                        item.IdNgonNgu = ngonNgu.Id;
-                    }
-                    else
-                    {
-                        var id = _LanguageLogic.InsertNew(new Language() { Ten = item.IdNgonNgu.Trim() });
-                        item.IdNgonNgu = id;
-                    }
-                    #endregion
+                    // // Ngôn ngữ
+                    // var ngonNgu = _LanguageLogic.GetByTenNgonNgu(item.IdNgonNgu);
+                    // if (ngonNgu != null)
+                    // {
+                        // item.IdNgonNgu = ngonNgu.Id;
+                    // }
+                    // else
+                    // {
+                        // var id = _LanguageLogic.InsertNew(new Language() { Ten = item.IdNgonNgu.Trim() });
+                        // item.IdNgonNgu = id;
+                    // }
+                    // #endregion
 
-                    var idSach = _SachLogic.ThemSach(item);
-                    if (idSach.Length > 0)
-                    {
-                        // Tác giả 
-                        foreach (var tg in item.listTacGia)
-                        {
-                            string idTG = null;
-                            var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
-                            if (tacGia != null)
-                            {
-                                idTG = tacGia.Id;
-                            }
-                            else
-                            {
-                                idTG = _TacGiaLogic.Insert(tg);
-                            }
-                            _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
-                        }
-                        Sach sach = _SachLogic.GetBookById(idSach);
-                        Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
-                        if (temp != null)
-                        {
-                            sach.QRlink = temp.QRlink;
-                            sach.QRData = temp.QRData;
-                            _SachLogic.Update(sach);
-                        }
-                    }
-                }
-            }
-            return RedirectToAction("Index", "Sach");
-            // return View();
-        }
+                    // var idSach = _SachLogic.ThemSach(item);
+                    // if (idSach.Length > 0)
+                    // {
+                        // // Tác giả 
+                        // foreach (var tg in item.listTacGia)
+                        // {
+                            // string idTG = null;
+                            // var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
+                            // if (tacGia != null)
+                            // {
+                                // idTG = tacGia.Id;
+                            // }
+                            // else
+                            // {
+                                // idTG = _TacGiaLogic.Insert(tg);
+                            // }
+                            // _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
+                        // }
+                        // Sach sach = _SachLogic.GetBookById(idSach);
+                        // Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
+                        // if (temp != null)
+                        // {
+                            // sach.QRlink = temp.QRlink;
+                            // sach.QRData = temp.QRData;
+                            // _SachLogic.Update(sach);
+                        // }
+                    // }
+                // }
+            // }
+            // return RedirectToAction("Index", "Sach");
+            // // return View();
+        // }
+
         #endregion
-        #region Vinh 
+
         //- Xuất QR
         public ActionResult XuatQR()
         {
@@ -1397,8 +1382,5 @@ namespace BiTech.Library.Controllers
 
             return Json(true);
         }
-        #endregion
-
-
     }
 }

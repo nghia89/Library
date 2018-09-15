@@ -429,6 +429,54 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpPost]
+        public ActionResult ImportFromExcel(UserViewModel model)
+        {
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            ExcelManager excelManager = new ExcelManager();
+            List<ThanhVien> list = new List<ThanhVien>();
+            if (model.LinkExcel != null)
+            {
+                string physicalWebRootPath = Server.MapPath("/");
+                // Todo Excel
+                list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);
+                int i = 0;
+                foreach (var item in list)
+                {
+                    // ktr trùng mã số thành viên
+                    var thanhVien = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
+                    if (thanhVien == null)
+                    {
+                        // Thêm thành viên,lưu mã vạch                        
+                        var id = _ThanhVienLogic.Insert(item); //insert toàn bộ,chưa ktra gv hs
+                        ThanhVien tv = _ThanhVienLogic.GetById(id);
+                        ThanhVien temp = new ThanhVien();
+                        temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null);
+                        if (temp != null)
+                        {
+                            tv.QRLink = temp.QRLink;
+                            tv.QRData = temp.QRData;
+                            _ThanhVienLogic.Update(tv);
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Duplicate = "Mã thành viên bị trùng ở dòng số " + (item.RowExcel + i).ToString();
+                        return View();
+                    }
+                    i++;
+                }
+            }
+            return RedirectToAction("Index", "GiaoVien");
+        }
+
+        public ActionResult ExportWord(string idTV)
+        {
+            ViewBag.IdTV = idTV;
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult ExportWord(UserViewModel model)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -479,7 +527,14 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("NotFound", "Error");
 
             ExcelManager excelManager = new ExcelManager();
-            var listTV = _ThanhVienLogic.GetAllGV();
+            List<ThanhVien> listTV = new List<ThanhVien>();
+            if (string.IsNullOrEmpty(idTV))
+                listTV = _ThanhVienLogic.GetAllGV();
+            else
+            {
+                var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
+                listTV.Add(tv);
+            }
             string linkMau = null;
 
             //DateTime today = DateTime.Today;
@@ -589,7 +644,14 @@ namespace BiTech.Library.Controllers
                     return Json(new { status = "fail", message = "Tập tin không đúng định dạng của Excel, vui lòng kiểm tra lại" });
                 }
             }
-            return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thữ lại" });
+
+            return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thử lại" });
+        }
+
+        public ActionResult RequestEditPreviewForm(string[] data, string orderNumber)
+        {
+            ViewBag.OrderNumber = orderNumber;
+            return PartialView("_EditPreviewForm", data);
         }
 
         [HttpPost]

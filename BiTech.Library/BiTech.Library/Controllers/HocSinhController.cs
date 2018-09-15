@@ -512,6 +512,7 @@ namespace BiTech.Library.Controllers
 
         public ActionResult ExportWord()
         {
+            ViewBag.IdTV = idTV;
             return View();
         }
 
@@ -566,7 +567,15 @@ namespace BiTech.Library.Controllers
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");
             ExcelManager excelManager = new ExcelManager();
-            var listTV = _ThanhVienLogic.GetAllHS();
+
+            List<ThanhVien> listTV = new List<ThanhVien>();
+            if (string.IsNullOrEmpty(idTV))
+                listTV = _ThanhVienLogic.GetAllHS();
+            else
+            {
+                var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
+                listTV.Add(tv);
+            }
             string linkMau = null;
             string fileName = "MauTheHS.docx";
             if (mauThe.Equals("mau1") == true)
