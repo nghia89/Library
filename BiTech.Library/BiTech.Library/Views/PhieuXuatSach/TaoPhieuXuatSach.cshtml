@@ -1,5 +1,7 @@
 ﻿@model BiTech.Library.Models.PhieuXuatSachModels
 @{
+    /**/
+
     ViewBag.Title = "Tạo phiếu xuất kho";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
@@ -27,55 +29,59 @@
                         <div class="top">
                             <span class="">Thông tin phiếu xuất</span>
                         </div>
-						<div class="content-box-window">
-							<div class="form-group row">
-								@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-								<div class="col-md-10">
-									<input id="idSach" name="idSach"
-										   onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
-										   ng-keydown="$event.keyCode === 13  ? updateListTrangThai():return"
-										   ng-blur="updateListTrangThai()" autofocus
-										   @*ng-mouseleave="updateListTrangThai()"*@
-										   @*onfocusout="EnterMaSach()"*@
-										   placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
-								</div>
-							</div>
-							<div class="form-group row">
-								@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
-								<div class="col-md-10">
-									<input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
-								</div>
-							</div>
-							@*<div class="form-group row">
-								@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
-								<div class="col-md-10">
-									@Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--",
-								   new { ng_model = "idTrangThai", @class = "form-control form-control-sm", @id = "cbTTSach" })
-								</div>
-							</div>*@
+                        <div class="content-box-window">
+                            <div class="form-group row">
+                                @*@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })*@
+                                <label class="col-md-2 control-label">Mã sách <span style="color:red">*</span>:</label>
+                                <div class="col-md-10">
+                                    <input id="idSach" name="idSach"
+                                           onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
+                                           ng-keydown="$event.keyCode === 13  ? updateListTrangThai():return"
+                                           ng-blur="updateListTrangThai()" autofocus
+                                           @*ng-mouseleave="updateListTrangThai()"*@
+                                           @*onfocusout="EnterMaSach()"*@
+                                           placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @*@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })*@
+                                <label class="col-md-2 control-label">Số lượng <span style="color:red">*</span>:</label>
+                                <div class="col-md-10">
+                                    <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
+                                </div>
+                            </div>
+                            @*<div class="form-group row">
+                                    @Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--",
+                                       new { ng_model = "idTrangThai", @class = "form-control form-control-sm", @id = "cbTTSach" })
+                                    </div>
+                                </div>*@
 
-							<div class="form-group row">
-								@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
-								<div class="col-md-10">									
-										@Html.DropDownList("TrangThai", new SelectList(new List<BiTech.Library.DTO.TrangThaiSach>(), "IdTrangThai", "TrangThai"), "--Chọn tình trạng--",
-						 new { @id = "idTrangThai", @class = "form-control form-control-sm", @ng_model = "idTrangThai", @data_ng_disabled = "!listTrangThai", @ng_options = "s.TrangThai for s in listTrangThai track by s.IdTrangThai" })									
-								</div>
-							</div>
+                            <div class="form-group row">
+                                @*@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })*@
+                                <label class="col-md-2 control-label">Trạng thái sách <span style="color:red">*</span>:</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("TrangThai", new SelectList(new List<BiTech.Library.DTO.TrangThaiSach>(), "IdTrangThai", "TrangThai"), "--Chọn tình trạng--",
+                     new { @id = "idTrangThai", @class = "form-control form-control-sm", @ng_model = "idTrangThai", @data_ng_disabled = "!listTrangThai", @ng_options = "s.TrangThai for s in listTrangThai track by s.IdTrangThai" })
+                                </div>
+                            </div>
 
-							<div class="form-group row">
-								@*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
-								@Html.Label("Lý do", new { @class = "col-md-2 control-label" })
-								<div class="col-md-10">
-									<input id="LyDo" name="LyDo" placeholder="Lý do" ng-model="GhiChuDon" class="form-control form-control-sm" />
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-2"></div>
-								<div class="col-md-10">
-									<input type="button" ng-click="addItema()" value="Thêm" class="btn btn-primary btn-sm" />
-								</div>
-							</div>
-						</div>
+                            <div class="form-group row">
+                                @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
+                                @*@Html.Label("Lý do", new { @class = "col-md-2 control-label" })*@
+                                <label class="col-md-2 control-label">Lý do <span style="color:red">*</span>:</label>
+                                <div class="col-md-10">
+                                    <input id="LyDo" name="LyDo" placeholder="Lý do" ng-model="GhiChuDon" class="form-control form-control-sm" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-10">
+                                    <input type="button" ng-click="addItema()" value="Thêm" class="btn btn-primary btn-sm" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <br />
@@ -103,29 +109,29 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-											<tr class="text-center" ng-repeat="x in list | orderBy : '-MaKiemSoat'" my-repeat-directive>
-												<td align="center">{{$index + 1}}</td>
-												<td>{{ x.MaKiemSoat }}</td>
-												<td>{{ x.ten }}</td>
-												<td>{{ x.tenTinhTrang }}</td>
-												<td id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}" width="100px">{{x.soLuong}}</td>
-												@*VINH*@
-												@*<td width="100px">
-													<div style="display: flex;">
-														<div style="width:100%">
-															<input type="number" ng-value="{{x.soLuong}}" id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}"
-																   class="form-control form-control-sm"
-																   min="1"
-																   required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-														</div>
-													</div>
-												</td>*@
-												@*END VINH*@
-												<td>{{x.GhiChuDon}}</td>
-												<td align="center">
-													<button ng-click="removeItem(x.MaKiemSoat, x.IdTinhTrang)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
-												</td>
-											</tr>
+                                            <tr class="text-center" ng-repeat="x in list | orderBy : '-MaKiemSoat'" my-repeat-directive>
+                                                <td align="center">{{$index + 1}}</td>
+                                                <td>{{ x.MaKiemSoat }}</td>
+                                                <td>{{ x.ten }}</td>
+                                                <td>{{ x.tenTinhTrang }}</td>
+                                                <td id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}" width="100px">{{x.soLuong}}</td>
+                                                @*VINH*@
+                                                @*<td width="100px">
+                                                        <div style="display: flex;">
+                                                            <div style="width:100%">
+                                                                <input type="number" ng-value="{{x.soLuong}}" id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}"
+                                                                       class="form-control form-control-sm"
+                                                                       min="1"
+                                                                       required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                                            </div>
+                                                        </div>
+                                                    </td>*@
+                                                @*END VINH*@
+                                                <td>{{x.GhiChuDon}}</td>
+                                                <td align="center">
+                                                    <button ng-click="removeItem(x.MaKiemSoat, x.IdTinhTrang)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -216,7 +222,7 @@
             console.log(idBook);
 			if (idBook == "") {
 				alert('Chưa nhập mã sách');
-				$("#idSach").focus();	
+				$("#idSach").focus();
 			}
             else {
                 $.ajax({
@@ -241,7 +247,7 @@
                     error: function () {
                         alert('Mã sách không tồn tại');
 						$("#idSach").val("");
-						$("#idSach").focus();	
+						$("#idSach").focus();
                     }
                 });
             }

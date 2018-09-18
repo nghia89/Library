@@ -210,10 +210,10 @@ namespace BiTech.Library.Controllers
                         }
                         catch { }
                     }
-					// Lưu mã QR
-					Sach sach = _SachLogic.GetBookById(id);
-					try
-                    {                        
+                    // Lưu mã QR
+                    Sach sach = _SachLogic.GetBookById(id);
+                    try
+                    {
                         string physicalWebRootPath = Server.MapPath("/");
                         Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
                         if (temp != null)
@@ -232,66 +232,64 @@ namespace BiTech.Library.Controllers
 
                     //Tạo phiếu nhập - VINH
                     bool nhapSach = false;
-                    foreach (var item in model.ListTTSach)
+                    if (model.ListTTSach != null)
                     {
-                        if (item.SoLuong > 0)
-                        {
-                            nhapSach = true;
-                            break;
-                        }
-                    }
-                    if (model.ListTTSach != null && nhapSach)
-                    {
-                        PhieuNhapSach pns = new PhieuNhapSach()
-                        {
-                            GhiChu = model.GhiChuPhieuNhap,
-                            IdUserAdmin = _UserAccessInfo.Id,
-                            UserName = _UserAccessInfo.UserName
-                        };
-
-                        string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
-
-                        int tongSach = 0;
-                        SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                         foreach (var item in model.ListTTSach)
                         {
                             if (item.SoLuong > 0)
                             {
-                                //Sach - trang thai (so luong)
-                                SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
-                                {
-                                    IdSach = id, //id sach khi da insert
-                                    IdTrangThai = item.IdTrangThai,
-                                    SoLuong = item.SoLuong,
-                                    CreateDateTime = DateTime.Now,
-                                };
-                                tongSach += dtoModel.SoLuong;
-                                _SlTrangThaisach.Insert(dtoModel);
-
-                                //Chi tiet phieu nhap
-
-                                ChiTietNhapSach ctns = new ChiTietNhapSach()
-                                {
-                                    IdPhieuNhap = idPhieuNhap,
-                                    IdSach = model.SachDTO.Id,
-                                    SoLuong = item.SoLuong,
-                                    CreateDateTime = DateTime.Now,
-                                    IdTinhtrang = item.IdTrangThai,
-                                };
-                                _ChiTietNhapSachLogic.Insert(ctns);
+                                nhapSach = true;
+                                break;
                             }
                         }
+                        if (model.ListTTSach != null && nhapSach)
+                        {
+                            PhieuNhapSach pns = new PhieuNhapSach()
+                            {
+                                GhiChu = model.GhiChuPhieuNhap,
+                                IdUserAdmin = _UserAccessInfo.Id,
+                                UserName = _UserAccessInfo.UserName
+                            };
 
-                        //Update tổng số lượng sách
+                            string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
-                        sach.SoLuongTong = tongSach;
-                        sach.SoLuongConLai = tongSach;
-                        _SachLogic.Update(sach);
-// =======
-                        // model.SachDTO.SoLuongTong = tongSach;
-                        // model.SachDTO.SoLuongConLai = tongSach;
-                        // _SachLogic.Update(model.SachDTO);
-// >>>>>>> Phongv25
+                            int tongSach = 0;
+                            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                            foreach (var item in model.ListTTSach)
+                            {
+                                if (item.SoLuong > 0)
+                                {
+                                    //Sach - trang thai (so luong)
+                                    SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
+                                    {
+                                        IdSach = id, //id sach khi da insert
+                                        IdTrangThai = item.IdTrangThai,
+                                        SoLuong = item.SoLuong,
+                                        CreateDateTime = DateTime.Now,
+                                    };
+                                    tongSach += dtoModel.SoLuong;
+                                    _SlTrangThaisach.Insert(dtoModel);
+
+                                    //Chi tiet phieu nhap
+
+                                    ChiTietNhapSach ctns = new ChiTietNhapSach()
+                                    {
+                                        IdPhieuNhap = idPhieuNhap,
+                                        IdSach = model.SachDTO.Id,
+                                        SoLuong = item.SoLuong,
+                                        CreateDateTime = DateTime.Now,
+                                        IdTinhtrang = item.IdTrangThai,
+                                    };
+                                    _ChiTietNhapSachLogic.Insert(ctns);
+                                }
+                            }
+
+                            //Update tổng số lượng sách
+
+                            sach.SoLuongTong = tongSach;
+                            sach.SoLuongConLai = tongSach;
+                            _SachLogic.Update(sach);
+                        }
                     }
 
                     return RedirectToAction("Index");
@@ -692,7 +690,7 @@ namespace BiTech.Library.Controllers
                         //Nếu cái item ở trang cuối được xoá hết thì luồi 1 page
                         if (chon.Count == SlItemInPage)
                         {
-                            paging = ( ((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
+                            paging = (((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
                         }
                     }
                 }
@@ -703,7 +701,7 @@ namespace BiTech.Library.Controllers
                     {
                         DeleteByIdSach(item);
                     }
-                } 
+                }
 
                 //return RedirectToAction("DeleteMany");
                 return RedirectToAction("DeleteMany", "Sach", new
@@ -773,7 +771,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
-		
+
 
         [HttpPost]
         public async Task<ActionResult> PreviewImport(HttpPostedFileBase file)
@@ -873,14 +871,6 @@ namespace BiTech.Library.Controllers
             var model = new ImportExcelSachViewModel();
             #region Truyền dữ liệu vào ListAll
             foreach (var item in data)
-// =======
-            // SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            // ExcelManager excelManager = new ExcelManager();
-            // List<Sach> listExcel = new List<Sach>();
-            // if (model.LinkExcel != null)
-// >>>>>>> Phongv25
             {
                 Sach sach = new Sach();
                 sach.TenSach = item[1].ToString().Trim();
@@ -1364,7 +1354,7 @@ namespace BiTech.Library.Controllers
 
             return Json(true);
         }
-        
+
 
         #region Phong
         /// <summary>
@@ -1403,13 +1393,13 @@ namespace BiTech.Library.Controllers
                 _SachLogic.Update(s);
             }
 
-            
+
             //Xoá row table số lượng sách trạng thái by idSach
             _SoLuongSachTrangThaiLogic.DeleteByIdSach(s.Id);
             //Xoá row table sách tác giả by idSach
             _SachTacGiaLogic.DeleteAllTacGiaByidSach(s.Id);
         }
-        
+
         /// <summary>
         /// Xoa image khoi server
         /// </summary>
@@ -1438,7 +1428,8 @@ namespace BiTech.Library.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private bool DeleteFolderParent(string path) {
+        private bool DeleteFolderParent(string path)
+        {
             var pathFolder = Directory.GetParent(path).FullName;
             DirectoryInfo attachments_AR = new DirectoryInfo(pathFolder);
             EmptyFolder(attachments_AR);

@@ -184,7 +184,8 @@ namespace BiTech.Library.BLL.BarCode_QR
             }
             return list;
         }
-        public void ExportWord(string sourceDir, List<ThanhVien> list, string fileName)
+		
+        public void ExportWord(string sourceDir, List<ThanhVien> list, string fileName, List<string> lstHeader)
         {
             string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
             Document outputDoc = new Document();
@@ -193,17 +194,17 @@ namespace BiTech.Library.BLL.BarCode_QR
             {
                 Document docx = new Document(sourceSavePath);
                 if (item.Ten != null)
-                    docx.Range.Replace("_TenDonVi_", "SỞ GIÁO DỤC HỒ CHÍ MINH", true, true);
+                    docx.Range.Replace("_TenDonVi_", lstHeader[0].ToUpper(), true, true);
                 else
                     docx.Range.Replace("_TenDonVi_", "", true, true);
 
                 if (item.Ten != null)
-                    docx.Range.Replace("_TenTruong_", "THPT VÕ TRƯỜNG TOẢN", true, true);
+                    docx.Range.Replace("_TenTruong_", lstHeader[1].ToUpper(), true, true);
                 else
                     docx.Range.Replace("_TenTruong_", "", true, true);
 
                 if (item.Ten != null)
-                    docx.Range.Replace("_FullName_", item.Ten, true, true);
+                    docx.Range.Replace("_FullName_", item.Ten.ToUpper(), true, true);
                 else
                     docx.Range.Replace("_FullName_", "", true, true);
 
@@ -212,7 +213,8 @@ namespace BiTech.Library.BLL.BarCode_QR
                 else
                     docx.Range.Replace("_GioiTinh_", "", true, true);
 
-                if (item.NgaySinh != null && item.NgaySinh.ToString("dd-MM-yyyy") != "01-01-0001")
+                // if (item.NgaySinh != null && item.NgaySinh.ToString("dd-MM-yyyy") != "01-01-0001")
+                if (item.NgaySinh != null)
                     docx.Range.Replace("_NgaySinh_", item.NgaySinh.ToString("dd-MM-yyyy"), true, true);
                 else
                     docx.Range.Replace("_NgaySinh_", "", true, true);
@@ -238,8 +240,26 @@ namespace BiTech.Library.BLL.BarCode_QR
                 else
                     docx.Range.Replace("_NienKhoa_", "", true, true);
 
+                List<string> lstMS_Import = new List<string>();
+                string strMS = item.MaSoThanhVien;
+                for (int i = (strMS.Length / 4) + 1; i > 0; i--) //Chia mã số 1451010245 = 1 451 010 245  
+                {
+                    if (strMS.Length >= 4)
+                    {
+                        lstMS_Import.Add(strMS.Substring(strMS.Length - 4, 4));
+                        strMS = strMS.Substring(0, strMS.Length - 4);
+                    }
+                    else
+                        lstMS_Import.Add(strMS);
+                }
+                string MS = "";
+                for (int i = lstMS_Import.Count - 1; i >= 0; i--)
+                {
+                    MS += lstMS_Import[i] + "  ";
+                }
+
                 if (item.MaSoThanhVien != null)
-                    docx.Range.Replace("_MS_", item.MaSoThanhVien, true, true);
+                    docx.Range.Replace("_MS_", MS, true, true);
                 else
                     docx.Range.Replace("_MS_", "", true, true);
 
@@ -251,7 +271,7 @@ namespace BiTech.Library.BLL.BarCode_QR
                 if (item.QRLink != null)
                 {//mẫu 1 hình nhỏ hơn mẫu 2
                     string linkImage = HttpContext.Current.Server.MapPath(item.QRLink.ToString());
-                    if (sourceDir == "/Content/MauWord/Mau2-GV.docx" || sourceDir == "/Content/MauWord/Mau2.docx")
+                    if (sourceDir == "/Content/MauWord/Mau2-GV.docx" || sourceDir == "/Content/MauWord/Mau2-HS.docx")
                         docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR_Large(linkImage), false);
                     else
                         docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR(linkImage), false);

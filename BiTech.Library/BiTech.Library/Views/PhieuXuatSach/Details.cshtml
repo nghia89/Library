@@ -1,7 +1,9 @@
 ﻿@model BiTech.Library.Models.PhieuXuatSachModels
 @{
-    ViewBag.Title = "Chi tiết phiếu xuất kho";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+                /**/
+
+                ViewBag.Title = "Chi tiết phiếu xuất kho";
+                Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <div class="Title">Chi Tiết Phiếu Xuất Kho</div>
 <br />
@@ -36,7 +38,7 @@
         </div>
     </div>
 </div>
-<br/>
+<br />
 <div class="container-box-window clearfix">
     <div class="top">
         <span class="">Danh sách chi tiết phiếu xuất</span>
@@ -46,10 +48,11 @@
             <thead>
                 <tr class="table-info">
                     <th width="50" align="right">STT</th>
-                    <th>Tên sách</th>
-                    <th>Số lượng</th>
-                    <th>Lý do</th>
-                    <th>Trạng thái sách</th>
+                    <th width="15%">Mã kiểm soát</th>
+                    <th width="30%">Tên sách</th>
+                    <th width="10%">Số lượng</th>
+                    <th width="20%">Trạng thái sách</th>
+                    <th width="20%">Lý do</th>
 
                 </tr>
             </thead>
@@ -59,10 +62,11 @@
                 {
                     <tr>
                         <td align="center">@i.ToString()</td>
+                        <td>@item.MaKiemSoat</td>
                         <td>@item.ten</td>
                         <td>@item.soLuong</td>
-                        <td>@item.GhiChuDon</td>
                         <td>@item.tenTinhTrang</td>
+                        <td>@item.GhiChuDon</td>
                     </tr>
                     i++;
                 }
@@ -74,7 +78,7 @@
 </div>
 
 
-        
+
 
 
 

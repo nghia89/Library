@@ -88,6 +88,7 @@ namespace BiTech.Library.Controllers
                 ctns.ten = TenSach.TenSach;
                 ctns.soLuong = item.SoLuong;
                 ctns.GhiChuDon = item.GhiChu;
+                ctns.MaKiemSoat = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).MaKiemSoat;
                 lst.Add(ctns);
 
             }

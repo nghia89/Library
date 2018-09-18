@@ -1660,8 +1660,8 @@
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\MauWord\Mau1.docx" />
-    <Content Include="Content\MauWord\Mau2.docx" />
+    <Content Include="Content\MauWord\Mau1-HS.docx" />
+    <Content Include="Content\MauWord\Mau2-HS.docx" />
     <Content Include="Scripts\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="Scripts\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap-theme.min.css.map" />
     <Content Include="Scripts\bootzard-bootstrap-wizard-new-step\assets\bootstrap\css\bootstrap.css.map" />
