@@ -53,7 +53,7 @@ namespace BiTech.Library.Helpers
                 case UploadFolder.FileMrc:
                     return Path.Combine(mainUpload, subdomain, @"FileMrc");
                 case UploadFolder.Reports:
-                    return Path.Combine(mainUpload, subdomain, @"Reports")";
+                    return Path.Combine(mainUpload, subdomain, @"Reports");
                 default:
                     return null;
             }
