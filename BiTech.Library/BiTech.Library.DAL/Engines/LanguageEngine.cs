@@ -37,7 +37,7 @@ namespace BiTech.Library.DAL.Engines
 		
         public List<Language> GetByFindName(string Name)
         {
-            return _DatabaseCollection.AsQueryable().Where(x => x.Ten == Name).ToList();
+            return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).ToList();
 
         }
         public Language GetByNameId(string Name)

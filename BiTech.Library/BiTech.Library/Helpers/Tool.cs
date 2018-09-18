@@ -17,7 +17,8 @@ namespace BiTech.Library.Helpers
         AvatarUser,
         FileExcel,
         FileWord,
-        FileMrc
+        filemarc,
+        Reports
     }
 
     public static class Tool
@@ -49,8 +50,10 @@ namespace BiTech.Library.Helpers
                     return mainUpload + @"FileExcel\";
                 case UploadFolder.FileWord:
                     return mainUpload + @"FileWord\";
-                case UploadFolder.FileMrc:
-                    return mainUpload + @"FileMrc\";
+                case UploadFolder.filemarc:
+                    return mainUpload + @"filemarc\";
+                case UploadFolder.Reports:
+                    return mainUpload + @"Reports\";
                 default:
                     return null;
             }

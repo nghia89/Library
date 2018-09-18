@@ -15,6 +15,7 @@ using static BiTech.Library.Helpers.Tool;
 using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.Helpers;
 
+
 namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
@@ -107,7 +108,7 @@ namespace BiTech.Library.Controllers
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            var modelTT = _trangThaiSachLogic.GetAllTT_True();
+            var modelTT = _trangThaiSachLogic.GetAll();
             ViewBag.TT = modelTT;
 
             //var idTG = _TacGiaLogic.GetAllTacGia();
@@ -136,6 +137,8 @@ namespace BiTech.Library.Controllers
                 PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
+                var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
+                model.SachDTO.TenSachKhongDau = TenSachKhongDau;
                 string id = _SachLogic.ThemSach(model.SachDTO);
 
                 if (id.Length > 0)
@@ -337,6 +340,7 @@ namespace BiTech.Library.Controllers
                 TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
+                var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
                 if (sach != null)
                 {
                     //<<<<<<< HEAD
@@ -361,6 +365,7 @@ namespace BiTech.Library.Controllers
                     //sach.MaKiemSoat = model.SachDTO.MaKiemSoat;
                     sach.DDC = model.SachDTO.DDC;
                     sach.TenSach = model.SachDTO.TenSach;
+                    sach.TenSachKhongDau = TenSachKhongDau;
                     sach.ISBN = model.SachDTO.ISBN;
                     sach.IdTheLoai = model.SachDTO.IdTheLoai;
                     sach.IdNhaXuatBan = model.SachDTO.IdNhaXuatBan;
@@ -751,6 +756,7 @@ namespace BiTech.Library.Controllers
                     }
 
                     // Kệ sách
+                    
                     var keSach = _keSachLogic.GetByTenKeSach(item.IdKeSach);
                     if (keSach != null)
                     {
@@ -787,6 +793,8 @@ namespace BiTech.Library.Controllers
                     }
                     #endregion
 
+                    var TenSachKhongDau = ConvertToUnSign.ConvertName(item.TenSach);
+                    item.TenSachKhongDau = TenSachKhongDau;
                     var idSach = _SachLogic.ThemSach(item);
                     if (idSach.Length > 0)
                     {

@@ -11,16 +11,26 @@
     var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
     var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
     var list = (IEnumerable<BiTech.Library.Models.SachViewModels>)ViewBag.container;
-
+    var i = 0;
 }
-<div class="title">Danh sách sách xuất marc</div>
-<div class="row ">
-    <div class="col-lg-12">
-        <div class="col-md-1 col-sm-12  form-group pull-left px-2 mt-1 mb-1" style="left:58px">
-            @*@Html.ActionLink("Xuất Tất Cả Marc", "exportAllMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2" })*@
-            @Html.ActionLink("Xuất Marc", "exportItemMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-danger ml-2" })
-        </div>
 
+<div class="title" style="float: left;">Danh sách sách xuất marc</div>
+<div class="col-md-5" style="float: left;">
+    <div class="alert alert-success @TempData["error"] addError " id="success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Thông Báo:! </strong>
+        Bạn chưa chọn sách cần xuất.?
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row ">
+
+    <div class="col-lg-12">
+
+        <div class="col-md-1 col-sm-12  form-group pull-left px-2 mt-1 mb-1" style="left:58px"  >
+            @*@Html.ActionLink("Xuất Tất Cả Marc", "exportAllMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2" })*@
+            @Html.ActionLink("Xuất Marc", "exportItemMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2 hidden" })
+        </div>
         <form action="/ExportMarc/Index">
 
             <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
@@ -60,6 +70,7 @@
     <thead>
         <tr>
             <th scope="col"><input type="checkbox" id="CheckAll" /></th>
+            <th>STT</th>
             <th scope="col">Tên sách</th>
             <th scope="col">Mã kiểm soát</th>
             <th scope="col">Tác giả</th>
@@ -69,6 +80,7 @@
     <tbody>
         @foreach (var item in Model)
         {
+            i++;
             <tr class="">
                 @if (list.Any(x => x.Id == item.SachDTO.Id))
                 {
@@ -78,6 +90,7 @@
                 {
                     <td> <input type="checkbox" name="all" class="AddList" value="@item.SachDTO.Id"></td>
                 }
+                <td>@i</td>
                 <td>@item.SachDTO.TenSach</td>
                 <td>@item.SachDTO.MaKiemSoat</td>
                 <td>@item.Ten_TacGia</td>
@@ -99,13 +112,20 @@
 
     <script>
         $(document).keypress(function (e) {
-            if (e.which == 13) {
+            if (e.which === 13) {
                 $("#btnSearch").submit();
             }
         });
     </script>
-    <script src="~/Scripts/AutocompleteSach.js"></script>
 
+    <script>
+        window.setTimeout(function () {
+            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 4000);
+    </script>
+    <script src="~/Scripts/AutocompleteSach.js"></script>
 }
 
 

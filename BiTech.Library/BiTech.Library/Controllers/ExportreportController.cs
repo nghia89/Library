@@ -48,8 +48,6 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
-
-
         public ActionResult ExportTTSach(int? year)
         {
             #region Khai báo
@@ -250,7 +248,7 @@ namespace BiTech.Library.Controllers
 
             string fileName = string.Concat("ExportTTSach.xlsx");
             string fileNameOut = string.Concat("OutExportTTSach.xlsx");
-            var folderReport = "/Reports";
+            var folderReport = "/Upload/Reports";
             string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
             if (!Directory.Exists(filePath))
             {
@@ -369,7 +367,7 @@ namespace BiTech.Library.Controllers
             //ArrayList arrayList = new ArrayList(ListAll);
             string fileName = string.Concat("ExportSlSach.xlsx");
             string fileNameOut = string.Concat("OutExportSlSach.xlsx");
-            var folderReport = "/Reports";
+            var folderReport = "/Upload/Reports";
             string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
             if (!Directory.Exists(filePath))
             {

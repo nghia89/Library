@@ -62,7 +62,7 @@ namespace BiTech.Library.Controllers
                 BookView book = new BookView(item);
                 book.Ten_TheLoai = _TheLoaiSachLogic.getById(item.IdTheLoai)?.TenTheLoai ?? "--";
                 book.Ten_TacGia = tenTG;
-
+                
                 model.Books.Add(book);
             }
             //Session[CommonConstants.Session] = model;
@@ -86,99 +86,118 @@ namespace BiTech.Library.Controllers
 
             var ListSession = (List<SachViewModels>)Session[CommonConstants.Session];
 
-            string fileName = string.Concat("FileMarc_" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".mrc");
-            var folderReport = "/Reports";
-            string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/{fileName}";
-            string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
-            //kiễm tra nếu chưa có thì tạo mới
-            if (!Directory.Exists(filePath))
+            if (ListSession.Count() != 0)
             {
-                Directory.CreateDirectory(filePath);
-            }
-            string fullPath = Path.Combine(filePath, fileName);
-
-            using (var fs2 = new FileStream(fullPath, FileMode.OpenOrCreate))
-            {
-                using (var writer = new MarcStreamWriter(fs2, "UTF-8"))
+                string fileName = string.Concat("FileMarc_" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".mrc");
+                var folderReport = "/Upload/Reports";
+                string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/{fileName}";
+                string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+                //kiễm tra nếu chưa có thì tạo mới
+                if (!Directory.Exists(filePath))
                 {
-                    foreach (var i in ListSession)
+                    Directory.CreateDirectory(filePath);
+                }
+                string fullPath = Path.Combine(filePath, fileName);
+
+                using (var fs2 = new FileStream(fullPath, FileMode.OpenOrCreate))
+                {
+                    using (var writer = new MarcStreamWriter(fs2, "UTF-8"))
                     {
-                        IRecord record = MarcFactory.Instance.NewRecord();
-                        IDataField dataField = null;
-
-                        record.AddVariableField(MarcFactory.Instance.NewControlField("001", i.MaKiemSoat));
-
-                        var getIdSachTG = _SachTacGiaLogic.getById(i.Id);
-                        var getByIdTG = _TacGiaLogic.GetById(getIdSachTG.IdTacGia);
-                        if (getByIdTG != null)
+                        foreach (var i in ListSession)
                         {
-                            dataField = MarcFactory.Instance.NewDataField("100", '1', ' ');
-                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getByIdTG.TenTacGia != null) ? getByIdTG.TenTacGia : ""));
+                            IRecord record = MarcFactory.Instance.NewRecord();
+                            IDataField dataField = null;
+
+                            record.AddVariableField(MarcFactory.Instance.NewControlField("001", i.MaKiemSoat));
+
+                            var getIdSachTG = _SachTacGiaLogic.getById(i.Id);
+                            if (getIdSachTG != null)
+                            {
+                                var getByIdTG = _TacGiaLogic.GetById(getIdSachTG.IdTacGia);
+                                if (getByIdTG != null)
+                                {
+                                    dataField = MarcFactory.Instance.NewDataField("100", '1', ' ');
+                                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getByIdTG.TenTacGia != null) ? getByIdTG.TenTacGia : ""));
+                                    record.AddVariableField(dataField);
+                                }
+                                else
+                                {
+                                    dataField = MarcFactory.Instance.NewDataField("100", '1', ' ');
+                                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', " "));
+                                    record.AddVariableField(dataField);
+                                }
+                            }
+
+
+                            dataField = MarcFactory.Instance.NewDataField("020", ' ', ' ');
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.ISBN != null) ? i.ISBN : " "));
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('c', (i.GiaBia != null) ? i.GiaBia : " "));
                             record.AddVariableField(dataField);
-                        }
-                        else
-                        {
-                            dataField = MarcFactory.Instance.NewDataField("100", '1', ' ');
-                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', " "));
+
+                            dataField = MarcFactory.Instance.NewDataField("041", '0', ' ');
+                            var getById = _LanguageLogic.GetById(i.IdNgonNgu);
+                            if (getById != null)
+                            {
+                                dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getById.Ten != null) ? getById.Ten : ""));
+                                record.AddVariableField(dataField);
+                            }
+                            else
+                            {
+                                dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', " "));
+                                record.AddVariableField(dataField);
+                            }
+
+                            dataField = MarcFactory.Instance.NewDataField("250", ' ', ' ');
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TaiBan != null) ? i.TaiBan : " "));
                             record.AddVariableField(dataField);
-                        }
 
-                        dataField = MarcFactory.Instance.NewDataField("020", ' ', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.ISBN != null) ? i.ISBN : " "));
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('c', (i.GiaBia != null) ? i.GiaBia : " "));
-                        record.AddVariableField(dataField);
-
-                        dataField = MarcFactory.Instance.NewDataField("041", '0', ' ');
-                        var getById = _LanguageLogic.GetById(i.IdNgonNgu);
-                        if (getById != null)
-                        {
-                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (getById.Ten != null) ? getById.Ten : ""));
+                            dataField = MarcFactory.Instance.NewDataField("300", ' ', ' ');
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.SoTrang != null) ? i.SoTrang : ""));
                             record.AddVariableField(dataField);
-                        }
-                        else
-                        {
-                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', " "));
+
+                            dataField = MarcFactory.Instance.NewDataField("520", ' ', ' ');
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TomTat != null) ? i.TomTat : ""));
                             record.AddVariableField(dataField);
+
+                            dataField = MarcFactory.Instance.NewDataField("245", '1', ' ');
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TenSach != null) ? i.TenSach : ""));
+                            record.AddVariableField(dataField);
+
+
+                            dataField = MarcFactory.Instance.NewDataField("260", ' ', ' ');
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.NamSanXuat != null) ? i.NamSanXuat : ""));
+                            record.AddVariableField(dataField);
+
+
+
+                            writer.Write(record);
                         }
 
-                        dataField = MarcFactory.Instance.NewDataField("250", ' ', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TaiBan != null) ? i.TaiBan : " "));
-                        record.AddVariableField(dataField);
-
-                        dataField = MarcFactory.Instance.NewDataField("300", ' ', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.SoTrang != null) ? i.SoTrang : ""));
-                        record.AddVariableField(dataField);
-
-                        dataField = MarcFactory.Instance.NewDataField("520", ' ', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TomTat != null) ? i.TomTat : ""));
-                        record.AddVariableField(dataField);
-
-                        dataField = MarcFactory.Instance.NewDataField("245", '1', ' ');
-                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (i.TenSach != null) ? i.TenSach : ""));
-                        record.AddVariableField(dataField);
-
-
-                        writer.Write(record);
                     }
 
-                }
+                    string filename = fileName;
+                    string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + filename;
+                    byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+                    string contentType = MimeMapping.GetMimeMapping(filepath);
 
-                string filename = fileName;
-                string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + filename;
-                byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-                string contentType = MimeMapping.GetMimeMapping(filepath);
+                    var cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = filename,
+                        Inline = true,
+                    };
 
-                var cd = new System.Net.Mime.ContentDisposition
-                {
-                    FileName = filename,
-                    Inline = true,
-                };
+                    Response.AppendHeader("Content-Disposition", cd.ToString());      
+                    return File(filedata, contentType);  
 
-                Response.AppendHeader("Content-Disposition", cd.ToString());
-
-                return File(filedata, contentType);
+                }      
             }
+            else {
+                TempData["error"] = "addErrorBlock"; 
+     
+            }
+            return RedirectToAction("Index","ExportMarc");
         }
+      
 
 
         //[HttpGet]//exportAllMarc
@@ -307,6 +326,8 @@ namespace BiTech.Library.Controllers
         public JsonResult AddList(string Id)
         {
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             if (Session[CommonConstants.Session] == null)//nếu null mới được khởi tạo
                 Session[CommonConstants.Session] = new List<SachViewModels>();
@@ -329,19 +350,18 @@ namespace BiTech.Library.Controllers
                 newItem.Id = list.Id;
                 newItem.TenSach = list.TenSach;
                 newItem.MaKiemSoat = list.MaKiemSoat;
-                newItem.IdTheLoai = list.IdTheLoai;
-                newItem.IdKeSach = list.IdKeSach;
-                newItem.IdNhaXuatBan = list.IdNhaXuatBan;
                 newItem.SoTrang = list.SoTrang;
                 newItem.NamSanXuat = list.NamXuatBan;
                 newItem.ISBN = list.ISBN;
-                //newItem.NgonNgu = list.IdNgonNgu;
                 newItem.DDC = list.DDC;
                 newItem.XuatXu = list.XuatXu;
                 newItem.TaiBan = list.TaiBan;
                 newItem.GiaBia = list.GiaBia;
-
+                newItem.TomTat = list.TomTat;
+                newItem.IdNgonNgu = list.IdNgonNgu;
                 container.Add(newItem);
+
+
             }
             Session[CommonConstants.Session] = container;
             return Json(new

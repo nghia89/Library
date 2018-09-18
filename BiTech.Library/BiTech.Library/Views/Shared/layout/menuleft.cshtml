@@ -30,6 +30,8 @@
     List_Controller_TabSach[5] = "NgonNgu";
     List_Controller_TabSach[6] = "TrangThaiSach";
     List_Controller_TabSach[7] = "DDC";
+    List_Controller_TabSach[0] = "Marc";
+    List_Controller_TabSach[0] = "ExportMarc";
 
     string[] List_Controller_TabMuonTra = new string[7];
     List_Controller_TabMuonTra[0] = "MuonSach";
@@ -42,7 +44,7 @@
     string[] List_Controller_TabThongke = new string[7];
     List_Controller_TabThongke[0] = "Statistic";
     List_Controller_TabThongke[1] = "ThongKe";
-    List_Controller_TabThongke[2] = "exportreport";
+    List_Controller_TabThongke[2] = "ExportReport";
 
     string[] List_Controller_TabQuanLyThuVien = new string[7];
     List_Controller_TabQuanLyThuVien[0] = "QuanLyThuVien";
@@ -281,8 +283,8 @@
                                         Danh sách chưa trả
                                     </a>
                                 </li>
-								<li class="@((@controller == "Exportreport" && @action == "Index") ? "active" : "")">
-									<a href="@Url.Action("Index","Exportreport")" title="Thống kê sách">
+								<li class="@((@controller == "ExportReport" && @action == "Index") ? "active" : "")">
+									<a href="@Url.Action("Index","ExportReport")" title="Thống kê sách">
 									   Thống kê sách
 									</a>
 								</li>

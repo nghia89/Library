@@ -141,19 +141,9 @@ namespace BiTech.Library.Controllers.BaseClass
 
         public int DemSoNguoiTraSach(List<ThongTinMuonSach> listPM)
         {
-            int soNguoiTraSach = 0;
-            DateTime ngayTraNull = DateTime.ParseExact("01-01-0001", "dd-MM-yyyy", null);
-            foreach (var item in listPM)
-            {
-                DateTime ngayTraThucTe = item.NgayTraThucTe;
-
-                // DateTime ngayMuon = DateTime.ParseExact(item.NgayGioMuon, "dd-MM-yyyy", null);
-                if (ngayTraThucTe != ngayTraNull && ngayTraThucTe != null)
-                {
-                    soNguoiTraSach++;
-                }
-            }
-            return soNguoiTraSach;
+            var query = listPM.Where(x => x.TrangThaiTra != null);
+            var groupedCustomerList = query.GroupBy(u => u.idUser).ToList();
+            return groupedCustomerList.Count();
         }
 
         /// <summary>
@@ -268,13 +258,13 @@ namespace BiTech.Library.Controllers.BaseClass
                 }
             }
             int soSachDuocMuon = DemSoSachDuocMuon(listPM, connectionString, databaseName);
-            int soSachTra = DemSoSachDuocTra(listPT,null,null,null);
+            int soSachTra = DemSoSachDuocTra(listPT, null, null, null);
             int soSachTraTre = DemSoSachKhongTra(listPM);
             int soNguoiMuon = DemSoNguoiMuonSach(listPM);
             arrInfo[0] = soNguoiMuon;
             arrInfo[1] = soSachDuocMuon;
             arrInfo[2] = soSachTra;
-            arrInfo[3] = soSachTraTre;  
+            arrInfo[3] = soSachTraTre;
             return arrInfo;
         }
     }

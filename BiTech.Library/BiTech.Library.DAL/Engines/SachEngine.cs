@@ -6,8 +6,11 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BiTech.Library.DAL.Engines
@@ -53,17 +56,10 @@ namespace BiTech.Library.DAL.Engines
         {
             FilterDefinition<Sach> filterDefinition = new BsonDocument();
             var builder = Builders<Sach>.Filter;
-            filterDefinition = builder.Where(x => x.TenSach.ToLower().Contains(keyWord.ToLower())
-            || x.ISBN.ToLower().Contains(keyWord.ToLower())
-            || x.NamXuatBan.ToLower().Contains(keyWord.ToLower()));
+            filterDefinition=builder.Where(x => x.TenSach.ToLower().Contains(keyWord.ToLower()) || x.TenSachKhongDau.ToLower().Contains(keyWord.ToLower()));
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
 
-        //public List<Sach> ListNameTest(string keyWord)
-        //{
-        //    var list = _DatabaseCollection.Find(x => x.TenSach.Contains(keyWord));
-        //    return list.ToList();
-        //}
         public List<Sach> GetAllSach()
         {
             return _DatabaseCollection.Find(x => x.IsDeleted == false).ToList();

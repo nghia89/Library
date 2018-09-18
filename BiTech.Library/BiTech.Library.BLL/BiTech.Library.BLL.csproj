@@ -89,6 +89,7 @@
     <Compile Include="DBLogic\SachTacGiaLogic.cs" />
     <Compile Include="DBLogic\TacGiaLogic.cs" />
     <Compile Include="DBLogic\TheLoaiSachLogic.cs" />
+    <Compile Include="Helper\ConvertToUnSign.cs" />
     <Compile Include="Helper\LicenseHelper.cs" />
     <Compile Include="DBTableNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
