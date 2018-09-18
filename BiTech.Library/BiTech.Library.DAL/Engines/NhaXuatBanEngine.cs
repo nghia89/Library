@@ -22,6 +22,20 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(p => true).ToList(); 
         }
+
+        public List<NhaXuatBan> GetByFindName(string Name)
+        {
+            return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).ToList();
+
+        }
+        #region nghia
+        public NhaXuatBan GetByIdFindName(string Name)
+        {
+            return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).FirstOrDefault();
+        }
+        #endregion
+
+
         #region Tai
         public NhaXuatBan GetByTenNXB(string tenNXB)
         {

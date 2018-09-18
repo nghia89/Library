@@ -1696,3 +1696,17 @@ a:hover {
 
 /*--Custom file input END-----*/
 
+.addError {
+    visibility: hidden;
+
+}
+.addErrorBlock {
+    visibility: visible;
+}
+.pointer-eventsNone {
+    pointer-events:none;
+    background:red;
+}
+.pointer-eventsAuto {
+    pointer-events: auto;
+}

@@ -17,6 +17,8 @@ namespace BiTech.Library.Models
 
         public string TenSach { get; set; }
 
+        public string TenSachKhongDau { get; set; }
+
         public string IdTheLoai { get; set; }
 
         public string IdKeSach { get; set; }
@@ -64,8 +66,6 @@ namespace BiTech.Library.Models
 
         [Required(ErrorMessage = "Vui lòng chọn file")]
         public HttpPostedFileBase[] Files { get; set; }
-
-        public HttpPostedFileBase File { get; set; }
 
     }
 }

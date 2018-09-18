@@ -110,23 +110,8 @@
             </div>
 
             <div class="form-group-sm row">
-                <label class="col-sm-4 detail-label">Ngày sinh:</label>
-                <div class="col-sm-8">
-                    @{
-                        if (@Model.NgaySinh.ToString("dd-MM-yyyy").Equals("01-01-0001") == true)
-                        {
-                            <p>--/--/----</p>
-                        }
-                        else
-                        {
-                            <p class="detail-control">@Model.NgaySinh.ToString("dd-MM-yyyy")</p>
-                        }
-                    }                    
-                </div>
-            </div>
-            <div class="form-group-sm row">
-                <label class="col-sm-4 detail-label">Lớp học:</label>
-                <div class="col-sm-8">
+                <div class="col-md-6">
+                    <label class="col-form-label form-label">Lớp học</label>
                     <p class="detail-control">@Model.LopHoc</p>
                 </div>
                 <div class="col-md-6">
@@ -163,43 +148,43 @@
             closeOnConfirm: false,
             closeOnCancel: false
         },
-        function (isConfirm) {
-            if (isConfirm) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/HocSinh/DeactiveMember',
-                    data: { "Id": Id },
-                    success: function (resultData) {
-                        var title = "";
-                        var text = "";
-                        var type = "";
-                        if(resultData.status == true){
-                            title = "Khóa thành công!";
-                            type = "success";
-                        }
-                        else{
-                            title = "Khóa thất bại!";
-                            text = resultData.data;
-                            type = "error";
-                        }
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/HocSinh/DeactiveMember',
+                        data: { "Id": Id },
+                        success: function (resultData) {
+                            var title = "";
+                            var text = "";
+                            var type = "";
+                            if (resultData.status == true) {
+                                title = "Khóa thành công!";
+                                type = "success";
+                            }
+                            else {
+                                title = "Khóa thất bại!";
+                                text = resultData.data;
+                                type = "error";
+                            }
 
-                        swal({
-                            title: title,
-                            text: text,
-                            type: type,
-                            showCancelButton: false,
-                            confirmButtonText: "OK",
-                            closeOnConfirm: true
-                        },
-                        function (isConfirm) {
-                            location.reload();
-                        });
-                    }
-                })
-            } else {
-                swal("Hủy!", null, "error");
-            }
-        });
+                            swal({
+                                title: title,
+                                text: text,
+                                type: type,
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: true
+                            },
+                                function (isConfirm) {
+                                    location.reload();
+                                });
+                        }
+                    })
+                } else {
+                    swal("Hủy!", null, "error");
+                }
+            });
     }
 
     function ActiveMember(Id, Ten) {
@@ -213,43 +198,43 @@
             closeOnConfirm: false,
             closeOnCancel: false
         },
-        function (isConfirm) {
-            if (isConfirm) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/HocSinh/ActiveMember',
-                    data: { "Id": Id },
-                    success: function (resultData) {
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/HocSinh/ActiveMember',
+                        data: { "Id": Id },
+                        success: function (resultData) {
 
-                        var title = "";
-                        var text = "";
-                        var type = "";
-                        if(resultData.status == true){
-                            title = "Mở khóa thành công!";
-                            type = "success";
-                        }
-                        else{
-                            title = "Mở khóa thất bại!";
-                            text = resultData.data;
-                            type = "error";
-                        }
+                            var title = "";
+                            var text = "";
+                            var type = "";
+                            if (resultData.status == true) {
+                                title = "Mở khóa thành công!";
+                                type = "success";
+                            }
+                            else {
+                                title = "Mở khóa thất bại!";
+                                text = resultData.data;
+                                type = "error";
+                            }
 
-                        swal({
-                            title: title,
-                            text: text,
-                            type: type,
-                            showCancelButton: false,
-                            confirmButtonText: "OK",
-                            closeOnConfirm: true
-                        },
-                        function (isConfirm) {
-                            location.reload();
-                        });
-                    }
-                })
-            } else {
-                swal("Hủy!", null, "error");
-            }
-        });
+                            swal({
+                                title: title,
+                                text: text,
+                                type: type,
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: true
+                            },
+                                function (isConfirm) {
+                                    location.reload();
+                                });
+                        }
+                    })
+                } else {
+                    swal("Hủy!", null, "error");
+                }
+            });
     }
 </script>

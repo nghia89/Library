@@ -41,7 +41,10 @@ namespace BiTech.Library.Models
 
         [Required]
         public string TenSach { get; set; }
-        
+
+        [Required]
+        public string TenSachKhongDau { get; set; }
+
         [Required] 
 		public string IdTheLoai { get; set; }
 

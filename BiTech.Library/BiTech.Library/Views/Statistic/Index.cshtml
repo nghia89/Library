@@ -36,9 +36,9 @@
     <div class="row">
         <div style="margin-left:134px; padding-bottom:30px">
             <button class="tablink" onclick="openCity('Day', this, '#1ab188')" style="outline:none" id="defaultOpen">Thống kê tuần</button>
-            <button class="tablink" onclick="openCity('MonthYear', this, '#1ab188')" style="outline:none">Thống kê theo tháng</button>
-            <button class="tablink" onclick="openCity('Year', this, '#1ab188')" style="outline:none">Thống kê theo năm</button>
-            <button class="tablink" onclick="openCity('TTSach', this, '#1ab188')" style="outline:none">Thống kê trạng sách</button>
+            <button class="tablink" onclick="openCity('MonthYear', this, '#1ab188')" style="outline:none">Thống kê tháng</button>
+            <button class="tablink" onclick="openCity('Year', this, '#1ab188')" style="outline:none">Thống kê năm</button>
+            <button class="tablink" onclick="openCity('TTSach', this, '#1ab188')" style="outline:none">Thống kê trạng thái </button>
 
         </div>
         @*thống kê theo ngày*@
@@ -67,6 +67,7 @@
                                         chart-data="chartdataDay" chart-labels="labels" chart-colors="colors"
                                         chart-series="series" chart-options="options" chart-legend="true"
                                         chart-dataset-override="datasetOverride"></canvas>
+                                <p style="float: right;margin-right: -53px;margin-top: -50px;padding-bottom: 15px;">Ngày</p>
                             </div>
                         </div>
                     </div>

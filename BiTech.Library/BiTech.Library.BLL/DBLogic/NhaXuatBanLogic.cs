@@ -34,6 +34,7 @@ namespace BiTech.Library.BLL.DBLogic
             return _NhaXuatBanEngine.GetById(id);
         }
 
+ 
         public string ThemNXB(NhaXuatBan NXB)
         {
             return _NhaXuatBanEngine.Insert(NXB);
@@ -47,6 +48,18 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _NhaXuatBanEngine.Remove(id);
         }
+        #region ghia
+
+        public List<NhaXuatBan> GetByFindName(string name) {
+            return _NhaXuatBanEngine.GetByFindName(name);
+        }
+
+        public NhaXuatBan FindNameId(string name)
+        {
+            return _NhaXuatBanEngine.GetByIdFindName(name);
+        }
+        #endregion
+
         #region Tai
         public NhaXuatBan GetByTenNXB(string tenNXB)
         {

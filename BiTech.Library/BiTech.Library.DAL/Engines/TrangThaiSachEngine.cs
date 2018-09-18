@@ -26,7 +26,7 @@ namespace BiTech.Library.DAL.Engines
         }
         public List<TrangThaiSach> GetAllTT(string id)
         {
-            return _DatabaseCollection.Find(x=>x.Id !=id).ToList();
+            return _DatabaseCollection.Find(x => x.Id != id).ToList();
         }
 
         #region Phong

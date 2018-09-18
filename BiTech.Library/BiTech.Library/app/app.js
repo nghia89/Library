@@ -141,8 +141,7 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
                     },
                     legend: { display: true },
                     scales: {
-                        yAxes: [
-                            {
+                        yAxes: [{
                                 ticks: {
                                     beginAtZero: true,
                                     suggestedMax: highest,
@@ -150,9 +149,20 @@ app.controller('Statistic', function ($scope, $timeout, $http, $location) {
                                     callback: function (value) { if (value % 1 === 0) { return value; } }
 
                                 },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'probability',
+                                    position: 'top'
 
+                                }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString:'tesst'
                             }
-                        ]
+                        }]
+
                     }
                 };
                 //$scope.labels = labels;
@@ -474,7 +484,7 @@ app.controller('startDayAndlastDay', function ($scope, $http, $location) {
 //thống kê sô sách theo trạng thái
 app.controller('TTSach', function ($scope, $http) {
     $scope.labels = [];
-    $scope.series = ['Số người mượn', 'Số sách mượn',];
+    $scope.series = ['Số người mượn', 'Số sách mượn'];
     $scope.chartdataTT = [];
     $scope.loading = true;
 
@@ -483,14 +493,14 @@ app.controller('TTSach', function ($scope, $http) {
     function TKSachTT() {
         $http({
             method: 'get',
-            url: '/Statistic/TTSach',
+            url: '/Statistic/TTSach'
         }).then(function (response) {
             response.data.forEach(function (i, index) {
-                if (index % 2 == 0) {
+                if (index % 2 === 0) {
                     tinhTrang.push(i);
                 }
                 else {
-                    datas.push(i)
+                    datas.push(i);
                 }
             });
             $scope.labels = tinhTrang;
@@ -498,16 +508,25 @@ app.controller('TTSach', function ($scope, $http) {
             $scope.chartdataTT = datas;
 
             $scope.options = {
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true,
+                            }
+                        }
+                    ]
+                },
                 responsive: true,
                 title: {
                     display: true,
                     position: "top",
-                    text: "Thống kê Số lượng Sách Theo Trạng Thái",
+                    text: "Thống Kê Số Lượng Sách Theo Trạng Thái",
                     fontSize: 20,
                     fontColor: "#111"
-                },
+                }
             }
-        })
+        });
     }
 
     TKSachTT();

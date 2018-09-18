@@ -18,6 +18,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using Aspose.Cells;
 
+
 namespace BiTech.Library.Controllers
 {
     public class SachController : BaseController
@@ -150,6 +151,8 @@ namespace BiTech.Library.Controllers
                 PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
+                var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
+                model.SachDTO.TenSachKhongDau = TenSachKhongDau;
                 string id = _SachLogic.ThemSach(model.SachDTO);
 
                 if (id.Length > 0)
@@ -357,11 +360,13 @@ namespace BiTech.Library.Controllers
                 TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
+                var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
                 if (sach != null)
                 {
                     sach.Id = model.SachDTO.Id;
                     sach.DDC = model.SachDTO.DDC;
                     sach.TenSach = model.SachDTO.TenSach;
+                    sach.TenSachKhongDau = TenSachKhongDau;
                     sach.ISBN = model.SachDTO.ISBN;
                     sach.IdTheLoai = model.SachDTO.IdTheLoai;
                     sach.IdNhaXuatBan = model.SachDTO.IdNhaXuatBan;

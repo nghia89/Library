@@ -17,7 +17,8 @@ namespace BiTech.Library.Helpers
         AvatarUser,
         FileExcel,
         FileWord,
-        FileMrc
+        FileMrc,
+        Reports
     }
 
     public static class Tool
@@ -51,6 +52,8 @@ namespace BiTech.Library.Helpers
                     return Path.Combine(mainUpload, subdomain, @"FileWord");
                 case UploadFolder.FileMrc:
                     return Path.Combine(mainUpload, subdomain, @"FileMrc");
+                case UploadFolder.Reports:
+                    return Path.Combine(mainUpload, subdomain, @"Reports")";
                 default:
                     return null;
             }

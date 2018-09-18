@@ -12,6 +12,7 @@
             if ($(this).is(":checked")) {
                 var idCheck = $(this).val();
                 AddList(idCheck);
+
             }
             else {
                 var removeIdCheck = $(this).val();
@@ -27,6 +28,7 @@
         });
 
         $('#CheckAll').on('click', function () {
+
             if ($('.AddList').is(':checked')) {
                 DeleteAll();
                 $(this).prop('checked', false);
