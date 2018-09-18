@@ -9,11 +9,11 @@
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="Title">Danh Sách DDC</div>
 <div class="row">
-    <div class="col-md-12 bar_mobile_tl">
+    <p class="col-md-12 bar_mobile_tl">
         @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary btn-sm" })
         @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "DDC", new { @class = "btn btn-sm btn-primary" })
-        <a class="btn btn-sm btn-primary ml-2" href="~/Tempaltes/MauDDC.xlsx">Mẫu Excel</a>
-    </div>
+        <a class="btn btn-sm btn-primary" href="~/Tempaltes/MauDDC.xlsx">Mẫu Excel</a>
+    </p>
 </div>
 
 <table class="table table-hover table-bordered ">

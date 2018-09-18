@@ -17,8 +17,9 @@ a {
     a:hover {
         color: #f00;
     }
+
 select {
-  font-family: 'FontAwesome', 'Arial';
+    font-family: 'FontAwesome', 'Arial';
 }
 /*bootstap edit*/
 .btn-primary {
@@ -174,7 +175,8 @@ a:hover {
     border-bottom: 2px solid;
     position: relative;
     color: #2E5894;
-    width: 50%;
+    /*width: 50%;*/
+    min-width: 50%;
     display: inline-block;
     text-transform: uppercase;
 }
@@ -470,7 +472,7 @@ a:hover {
     }
 
     .contain .right table {
-        background: #fff;
+        /*background: #fff;*/
     }
 /*---End right---*/
 
