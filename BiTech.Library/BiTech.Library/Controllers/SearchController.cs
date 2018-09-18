@@ -72,16 +72,24 @@ namespace BiTech.Library.Controllers
                 
                 model.Add(book);
             }
-
+            
             //Sắp xếp
             if (KeySearch.SapXep == "1")
                 model = model.OrderBy(_ => _.TenSach).ToList();
+            if (KeySearch.SapXep == "11")
+                model = model.OrderByDescending(_ => _.TenSach).ToList();
             if (KeySearch.SapXep == "2")
                 model = model.OrderBy(_ => _.MaKiemSoat).ToList();
+            if (KeySearch.SapXep == "22")
+                model = model.OrderByDescending(_ => _.MaKiemSoat).ToList();
             if (KeySearch.SapXep == "3")
                 model = model.OrderBy(_ => _.CreateDateTime).ToList();
+            if (KeySearch.SapXep == "33")
+                model = model.OrderByDescending(_ => _.CreateDateTime).ToList();
             if (KeySearch.SapXep == "4")
                 model = model.OrderBy(_ => _.NamXuatBan).ToList();
+            if (KeySearch.SapXep == "44")
+                model = model.OrderByDescending(_ => _.NamXuatBan).ToList();
 
             return View(model.ToPagedList(pageNumber, pageSize));
         }

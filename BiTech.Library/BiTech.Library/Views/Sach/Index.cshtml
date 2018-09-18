@@ -18,14 +18,12 @@
     <h4 class="alert-danger">@TempData["alert"]</h4>
     <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
         <div class="clearfix pb-sm-2 pl-sm-2">
-            @Html.ActionLink("Thêm mới", "Create", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
-            @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @Html.ActionLink("Thêm mới", "Create", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            <a class="btn btn-sm btn-primary ml-2" href="~/Tempaltes/MauSach.xlsx">Tải mẫu Excel</a>
             @Html.ActionLink("Thêm từ Marc21", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Xuất Marc21", "Index", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
-			@Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
-
-            <a class="btn btn-sm btn-primary ml-2" href="~/Tempaltes/MauSach.xlsx">Mẫu Excel</a>
-
+            @Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Xoá sách", "DeleteMany", "Sach", null, new { @class = "btn btn-sm btn-danger ml-sm-2" })
 
         </div>
@@ -34,7 +32,7 @@
     <form action="/Sach/Index" class="clearfix" id="search_short">
         <div class="col-sm-12 font-weight-bold">Tìm kiếm: </div>
         <div class="clearfix m-0">
-            
+
             <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
                 <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm" placeholder="Tên sách...">
                 <div class="input-group-append">
@@ -76,10 +74,10 @@
             <div class="col-md-3 col-sm-12  form-group px-2 mt-1 mb-1">
                 @{
                     Dictionary<string, object> arry_short = new Dictionary<string, object>();
-                    arry_short.Add("1", @Html.Raw("Thứ tự A  -Z &#xf175;"));
-                    arry_short.Add("11", @Html.Raw("Thứ tự Z - A &#xf176;"));
-                    arry_short.Add("2", @Html.Raw("Mã sách &#xf175;"));
-                    arry_short.Add("22", @Html.Raw("Mã sách &#xf176;"));
+                    arry_short.Add("1", @Html.Raw("Thứ tự A-Z &#xf175;"));
+                    arry_short.Add("11", @Html.Raw("Thứ tự Z-A &#xf176;"));
+                    arry_short.Add("2", @Html.Raw("Mã kiểm soát &#xf175;"));
+                    arry_short.Add("22", @Html.Raw("Mã kiểm soát &#xf176;"));
                     arry_short.Add("3", @Html.Raw("Thời gian nhập sách &#xf175;"));
                     arry_short.Add("33", @Html.Raw("Thời gian nhập sách &#xf176;"));
                     arry_short.Add("4", @Html.Raw("Năm xuất bản &#xf175;"));
@@ -94,11 +92,9 @@
                 </select>
             </div>
         </div>
-</form>
+    </form>
     @{int i = 1;}
-
     <div class="book_content clearfix">
-
         @foreach (var item in Model)
         {
             <div Class="book_box_v3 clearfix">
@@ -106,11 +102,11 @@
                     <div class="top">
                         <div class="title" title="@item.SachDTO.TenSach"> <span>@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</span> @item.SachDTO.TenSach</div>
                     </div>
-
                     <div class="content-box-window clearfix">
+                        
                         <div class="book_image">
-                            <img src="@item.SachDTO.LinkBiaSach"
-                                 onerror="this.src = '/Assets/Images/DefaultBookCover.jpg';">
+                            <img src="@(string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) == false ? item.SachDTO.LinkBiaSach : "/Content/Images/book.png" )"
+                                 onerror="this.src = '/Content/Images/book.png';">
                         </div>
                         <div class="book_cell_information clearfix width_left">
                             <div class="book_information clearfix">
@@ -180,11 +176,11 @@
 
 @section scripts{
     <script>
-                    $(document).keypress(function (e) {
-                        if (e.which == 13) {
-                            $("#btnSearch").submit();
-                        }
-                    });
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                $("#btnSearch").submit();
+            }
+        });
     </script>
     <script src="~/Scripts/AutocompleteSach.js"></script>
     <script>

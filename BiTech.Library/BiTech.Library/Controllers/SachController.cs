@@ -210,6 +210,7 @@ namespace BiTech.Library.Controllers
                         }
                         catch { }
                     }
+
 					// Lưu mã QR
 					Sach sach = _SachLogic.GetBookById(id);
 					try
@@ -224,6 +225,7 @@ namespace BiTech.Library.Controllers
                         }
                     }
                     catch { }
+
                     if (failTG.Length > 0)
                     {
                         failTG = failTG.Substring(0, failTG.Length - 2);
