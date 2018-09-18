@@ -97,7 +97,8 @@ namespace BiTech.Library.BLL.DBLogic
                 backupProcess.Refresh();
 
                 // start copy upload
-                DirectoryCopy(info.UploadPath, backup_dirUpload, true);
+                if (Directory.Exists(info.UploadPath))
+                    DirectoryCopy(info.UploadPath, backup_dirUpload, true);
 
                 // start compress backupPath
 

@@ -1900,8 +1900,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\LibraryAngularJS.js" />
-    <Content Include="Upload\BookCovers\5b4458c2af06b93f489798db\6f07dea0-6f27-47d2-96b4-5752decbdb63.jpg" />
-    <Content Include="Upload\BookCovers\5b45adb2af06b908d8e820b0\21fa387e-ba1f-4008-97e6-710b2e7637b2.jpg" />
     <Content Include="app\ThongKe2Module.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -2109,7 +2107,6 @@
     <Content Include="Views\DDC\Create.cshtml" />
     <Content Include="Views\DDC\Edit.cshtml" />
     <Content Include="Views\GiaoVien\ResultImportExcel.cshtml" />
-    <Content Include="Upload\FileWord\QRBook_Template.docx" />
     <Content Include="Views\Home\DemoApi.cshtml" />
     <Content Include="Views\ThongKe2\Index.cshtml" />
     <Content Include="Views\Home\GioiThieu.cshtml" />

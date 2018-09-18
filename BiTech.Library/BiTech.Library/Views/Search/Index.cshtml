@@ -1,8 +1,6 @@
 ﻿@model PagedList.IPagedList<BiTech.Library.Models.BookView>
 @using PagedList.Mvc;
-
 @*@model BiTech.Library.Models.ListBooksModel*@
-
 @{
     ViewBag.Title = "Index";
     var listSach = ViewBag.ListSach;
@@ -11,13 +9,9 @@
     var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
     var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
 }
-
 <div class="Title">Danh Sách</div>
-
 <div class="clearfix">
-
     <form action="/Search/Index" class="clearfix" id="search_short">
-        
         <div class="container clearfix col-md-8">
             <div class="col-sm-12 font-weight-bold pl-0">Tìm kiếm: </div>
             <div class="form-group row clearfix">
@@ -36,7 +30,7 @@
                         <option value="">--Thể Loại Sách--</option>
                         @foreach (var tls in TLS)
                         {
-                            <option value="@tls.Id" @((@tls.Id == @ViewBag.theLoaiSach_selected) ? "selected" : " ") >@tls.TenTheLoai</option>
+                            <option value="@tls.Id" @((@tls.Id == @ViewBag.theLoaiSach_selected) ? "selected" : " ")>@tls.TenTheLoai</option>
                         }
                     </select>
                 </div>
@@ -45,7 +39,7 @@
                         <option value="">--Tác Giả--</option>
                         @foreach (var tg in TG)
                         {
-                            <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ") >@tg.TenTacGia</option>
+                            <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ")>@tg.TenTacGia</option>
                         }
                     </select>
                 </div>
@@ -54,7 +48,7 @@
                         <option value="">--Nhà Xuất Bản--</option>
                         @foreach (var nxb in NXB)
                         {
-                            <option value="@nxb.Id" @((@nxb.Id == @ViewBag.NXB_selected) ? "selected" : " ") >@nxb.Ten</option>
+                            <option value="@nxb.Id" @((@nxb.Id == @ViewBag.NXB_selected) ? "selected" : " ")>@nxb.Ten</option>
                         }
                     </select>
                 </div>
@@ -64,11 +58,15 @@
                 <div class="col-sm-12 font-weight-bold pl-3">Sắp xếp: </div>
                 <div class="col-md-4 col-sm-12  form-group mt-1 mb-1">
                     @{
-                        Dictionary<string, string> arry_short = new Dictionary<string, string>();
-                        arry_short.Add("1", "Thứ tự Alphabet");
-                        arry_short.Add("2", "Mã sách");
-                        arry_short.Add("3", "Thời gian nhập sách");
-                        arry_short.Add("4", "Năm xuất bản");
+                        Dictionary<string, object> arry_short = new Dictionary<string, object>();
+                        arry_short.Add("1", Html.Raw("Thứ tự A-Z &#xf175;"));
+                        arry_short.Add("11", Html.Raw("Thứ tự Z-A &#xf176;"));
+                        arry_short.Add("2", Html.Raw("Mã kiểm soát &#xf175;"));
+                        arry_short.Add("22", Html.Raw("Mã kiểm soát &#xf176;"));
+                        arry_short.Add("3", Html.Raw("Thời gian nhập sách &#xf175;"));
+                        arry_short.Add("33", Html.Raw("Thời gian nhập sách &#xf176;"));
+                        arry_short.Add("4", Html.Raw("Năm xuất bản &#xf175;"));
+                        arry_short.Add("44", Html.Raw("Năm xuất bản &#xf176;"));
                     }
                     <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short').submit() ">
                         <option value="">--Sắp xếp--</option>
@@ -92,13 +90,13 @@
             <div Class="book_box_v3 clearfix">
                 <div class="container-box-window clearfix">
                     <div class="top">
-                        <div class="title">@item.SachDTO.TenSach</div>
+                        <div class="title" title="@item.SachDTO.TenSach"> <span>@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</span> @item.SachDTO.TenSach</div>
                     </div>
 
                     <div class="content-box-window clearfix">
                         <div class="book_image">
-                            <img src="@item.SachDTO.LinkBiaSach"
-                                 onerror="this.src = '/Assets/Images/DefaultBookCover.jpg';">
+                            <img src="@(string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) == false ? item.SachDTO.LinkBiaSach : "/Content/Images/book.png" )"
+                                 onerror="this.src = '/Content/Images/book.png';">
                         </div>
                         <div class="book_cell_information clearfix width_left">
                             <div class="book_information clearfix">

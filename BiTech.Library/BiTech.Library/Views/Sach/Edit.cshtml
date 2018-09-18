@@ -87,7 +87,7 @@
                         <div id="Info" class="tabcontent" style="display:block; padding-left:12px; padding-right:12px;">
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-dl-label form-label" for="tensach">Tên sách:</label>
+                                <label class="col-form-label col-dl-label form-label" for="tensach">Tên sách <span style="color:red">*</span>:</label>
                                 <div class="col-dl-full">
                                     @Html.TextBoxFor(m => m.SachDTO.TenSach, new { @class = "form-control form-control-sm", @id = "tensach" })
                                     @Html.ValidationMessageFor(model => model.SachDTO.TenSach, "", new { @class = "text-danger" })
@@ -103,7 +103,7 @@
                             </div>
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-dl-label form-label" for="IdTheLoai">Thể loại sách:</label>
+                                <label class="col-form-label col-dl-label form-label" for="IdTheLoai">Thể loại sách <span style="color:red">*</span>:</label>
                                 <div class="col-dl-half">
                                     <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData('@ViewBag.TLS')">
                                         @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
@@ -122,7 +122,7 @@
 
                                 @*Nhà xuất bản*@
 
-                                <label class="col-form-label col-dl-label form-label" for="IdNhaXuatBan">Nhà xuất bản:</label>
+                                <label class="col-form-label col-dl-label form-label" for="IdNhaXuatBan">Nhà xuất bản <span style="color:red">*</span>:</label>
                                 <div class="col-dl-half">
                                     <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData('@ViewBag.NXB')">
                                         @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
@@ -148,7 +148,7 @@
                             </div>
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-dl-label form-label">Tác giả:</label>
+                                <label class="col-form-label col-dl-label form-label">Tác giả <span style="color:red">*</span>:</label>
                                 <div class="col-dl-full">
 
                                     <div class="input-group" style="margin-bottom:4px" id="ListTacGia" ng-controller="TacGiaFinder" ng-init="GetAllTacGiaByIdSach('@Model.SachDTO.Id');">
@@ -185,7 +185,7 @@
                                 </div>
 
                                 @*Số trang:*@
-                                <label class="col-form-label col-dl-label form-label" for="sotrang">Số trang:</label>
+                                <label class="col-form-label col-dl-label form-label" for="sotrang">Số trang <span style="color:red">*</span>:</label>
                                 <div class="col-dl-half">
                                     @Html.TextBoxFor(m => m.SachDTO.SoTrang, new { @class = "form-control form-control-sm", @id = "sotrang" })
                                     @Html.ValidationMessageFor(model => model.SachDTO.SoTrang, "", new { @class = "text-danger" })
@@ -194,7 +194,7 @@
 
                             <div class="form-group-sm row">
                                 @*Ngôn ngữ:*@
-                                <label class="col-form-label col-dl-label form-label" for="IdNgonNgu">Ngôn ngữ:</label>
+                                <label class="col-form-label col-dl-label form-label" for="IdNgonNgu">Ngôn ngữ <span style="color:red">*</span>:</label>
                                 <div class="col-dl-half">
                                     <div class="input-group mb-3" id="Language" ng-controller="NgonNgu" ng-init="GetAllData('@ViewBag.NgonNgu')">
                                         @Html.DropDownListFor(m => m.SachDTO.IdNgonNgu, new SelectList(new List<BiTech.Library.DTO.Language>(), "Id", "Ten"), "--Chọn Ngôn Ngữ--",
@@ -210,7 +210,7 @@
                                 </div>
 
                                 @*Năm xuất bản:*@
-                                <label class="col-form-label col-dl-label form-label" for="NamSanXuat">Năm xuất bản:</label>
+                                <label class="col-form-label col-dl-label form-label" for="NamSanXuat">Năm xuất bản <span style="color:red">*</span>:</label>
                                 <div class="col-dl-half">
                                     @Html.TextBoxFor(m => m.SachDTO.NamXuatBan, new { @class = "form-control form-control-sm", @id = "NamSanXuat", type = "number" })
                                     @Html.ValidationMessageFor(model => model.SachDTO.NamXuatBan, "", new { @class = "text-danger" })
@@ -239,7 +239,7 @@
                                 </div>
 
                                 @*Phí mượn sách:*@
-                                <label class="col-form-label col-dl-label form-label" for="PhiMuonSach">Phí mượn sách:</label>
+                                <label class="col-form-label col-dl-label form-label" for="PhiMuonSach">Phí mượn sách <span style="color:red">*</span>:</label>
                                 <div class="col-dl-half">
                                     @Html.TextBoxFor(m => m.SachDTO.PhiMuonSach, new { @class = "form-control form-control-sm", @id = "PhiMuonSach" })
                                     @Html.ValidationMessageFor(model => model.SachDTO.PhiMuonSach, "", new { @class = "text-danger" })
@@ -264,7 +264,7 @@
                             </div>
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-dl-label form-label" for="TomTat">Tóm tắt:</label>
+                                <label class="col-form-label col-dl-label form-label" for="TomTat">Tóm tắt <span style="color:red">*</span>:</label>
                                 <div class="col-dl-full">
                                     @Html.TextAreaFor(m => m.SachDTO.TomTat, new { @class = "form-control form-control-sm", @id = "TomTat", @style = "min-height:150px;" })
                                     @Html.ValidationMessageFor(model => model.SachDTO.TomTat, "", new { @class = "text-danger" })

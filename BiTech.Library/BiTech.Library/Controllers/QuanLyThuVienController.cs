@@ -292,8 +292,7 @@ namespace BiTech.Library.Controllers
             }
             return Json(new ResultInfo() { Status = ResultInfo.ResultStatus.OK, Data = "" }, JsonRequestBehavior.AllowGet);
         }
-
-
+        
         public JsonResult CheckOverwriteFile(string name)
         {
             //string subdomain = GetSubDomain(Request.Url);
