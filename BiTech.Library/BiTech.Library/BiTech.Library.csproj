@@ -677,7 +677,6 @@
     <Content Include="Content\Images\calendar.ico" />
     <Content Include="Content\Images\book.png" />
     <Content Include="Content\Images\logo.png" />
-    <Content Include="Content\Images\nancyy.jpg" />
     <Content Include="Content\Images\user5.jpg" />
     <Content Include="Content\tagsinput\ng-tags-input-style.css" />
     <Content Include="Content\tagsinput\ng-tags-input.bootstrap.css" />
