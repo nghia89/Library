@@ -30,45 +30,49 @@
 						</div>*@
 
 					@*VINH*@
-					<div class="form-group row">
-						@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-						<div class="col-sm-10">
-							<div class="input-group mb-3">
-								<input id="idSach" name="idSach"
-									   onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
-									   @*onfocusout="EnterMaSach()"*@ autofocus
-									   placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
-								<div class="input-group-append">
-									<a href="@Url.Action("Create", "Sach")" target="_blank" class="btn btn-primary btn-sm" title="Tạo sách mới">
-										<i class="fa fa-plus" style="line-height: 20px;"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
+                    <div class="form-group row">
+                        @*@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })*@
+                        <label class="col-md-2 control-label">Mã sách <span style="color:red">*</span>:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <input id="idSach" name="idSach"
+                                       onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
+                                       @*onfocusout="EnterMaSach()"*@ autofocus
+                                       placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
+                                <div class="input-group-append">
+                                    <a href="@Url.Action("Create", "Sach")" target="_blank" class="btn btn-primary btn-sm" title="Tạo sách mới">
+                                        <i class="fa fa-plus" style="line-height: 20px;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 					@*V*@
 
-					<div class="form-group row">
-						@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
-						<div class="col-md-10">
-							<input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
-						</div>
-					</div>
+                    <div class="form-group row">
+                        @*@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })*@
+                        <label class="col-md-2 control-label">Số lượng <span style="color:red">*</span>:</label>
+                        <div class="col-md-10">
+                            <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
+                        </div>
+                    </div>
 
-					<div class="form-group row">
-						@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })
-						<div class="col-md-10">
-							@Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
-						</div>
-					</div>
+                    <div class="form-group row">
+                        @*@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })*@
+                        <label class="col-md-2 control-label">Trạng thái sách <span style="color:red">*</span>:</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
+                        </div>
+                    </div>
 
-					<div class="form-group row">
-						@*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
-						<label class="col-md-2 control-label">Ghi chú sách</label>
-						<div class="col-md-10">
-							<textarea placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm"></textarea>
-						</div>
-					</div>
+                    <div class="form-group row">
+                        @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
+                        <label class="col-md-2 control-label">Ghi chú sách</label>
+                       
+                        <div class="col-md-10">
+                            <textarea placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm"></textarea>
+                        </div>
+                    </div>
 
 					<div class="form-group row">
 						<label class="col-md-2 control-label"></label>
@@ -121,7 +125,7 @@
 											</div>
 										</td>*@
 										@*END VINH*@
-										<td>{{x.GhiChuDon}}</td>
+										<td id="GhiChu_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}">{{x.GhiChuDon}}</td>
 										<td align="center">
 											<button ng-click="removeItem(x.MaKiemSoat, x.IdTinhTrang)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
 										</td>

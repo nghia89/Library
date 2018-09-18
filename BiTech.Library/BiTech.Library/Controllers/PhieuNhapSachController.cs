@@ -88,6 +88,7 @@ namespace BiTech.Library.Controllers
                 ctns.ten = TenSach.TenSach;
                 ctns.soLuong = item.SoLuong;
                 ctns.GhiChuDon = item.GhiChu;
+                ctns.MaKiemSoat = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).MaKiemSoat;
                 lst.Add(ctns);
 
             }
@@ -449,7 +450,7 @@ namespace BiTech.Library.Controllers
                             trangThaiSach = new TrangThaiSach
                             {
                                 TenTT = xuLyChuoi.ChuanHoaChuoi(item.IdTinhtrang),
-                                TrangThai=true
+                                TrangThai = true
                             };
                             _TrangThaiSachLogic.Insert(trangThaiSach);
                         }

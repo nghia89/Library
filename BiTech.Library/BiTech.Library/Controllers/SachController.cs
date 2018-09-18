@@ -232,66 +232,69 @@ namespace BiTech.Library.Controllers
 
                     //Tạo phiếu nhập - VINH
                     bool nhapSach = false;
-                    foreach (var item in model.ListTTSach)
+                    if (model.ListTTSach != null)
                     {
-                        if (item.SoLuong > 0)
-                        {
-                            nhapSach = true;
-                            break;
-                        }
-                    }
-                    if (model.ListTTSach != null && nhapSach)
-                    {
-                        PhieuNhapSach pns = new PhieuNhapSach()
-                        {
-                            GhiChu = model.GhiChuPhieuNhap,
-                            IdUserAdmin = _UserAccessInfo.Id,
-                            UserName = _UserAccessInfo.UserName
-                        };
-
-                        string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
-
-                        int tongSach = 0;
-                        SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                         foreach (var item in model.ListTTSach)
                         {
                             if (item.SoLuong > 0)
                             {
-                                //Sach - trang thai (so luong)
-                                SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
-                                {
-                                    IdSach = id, //id sach khi da insert
-                                    IdTrangThai = item.IdTrangThai,
-                                    SoLuong = item.SoLuong,
-                                    CreateDateTime = DateTime.Now,
-                                };
-                                tongSach += dtoModel.SoLuong;
-                                _SlTrangThaisach.Insert(dtoModel);
-
-                                //Chi tiet phieu nhap
-
-                                ChiTietNhapSach ctns = new ChiTietNhapSach()
-                                {
-                                    IdPhieuNhap = idPhieuNhap,
-                                    IdSach = model.SachDTO.Id,
-                                    SoLuong = item.SoLuong,
-                                    CreateDateTime = DateTime.Now,
-                                    IdTinhtrang = item.IdTrangThai,
-                                };
-                                _ChiTietNhapSachLogic.Insert(ctns);
+                                nhapSach = true;
+                                break;
                             }
                         }
+                        if (model.ListTTSach != null && nhapSach)
+                        {
+                            PhieuNhapSach pns = new PhieuNhapSach()
+                            {
+                                GhiChu = model.GhiChuPhieuNhap,
+                                IdUserAdmin = _UserAccessInfo.Id,
+                                UserName = _UserAccessInfo.UserName
+                            };
 
-                        //Update tổng số lượng sách
+                            string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
-                        sach.SoLuongTong = tongSach;
-                        sach.SoLuongConLai = tongSach;
-                        _SachLogic.Update(sach);
-// =======
-                        // model.SachDTO.SoLuongTong = tongSach;
-                        // model.SachDTO.SoLuongConLai = tongSach;
-                        // _SachLogic.Update(model.SachDTO);
-// >>>>>>> Phongv25
+                            int tongSach = 0;
+                            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                            foreach (var item in model.ListTTSach)
+                            {
+                                if (item.SoLuong > 0)
+                                {
+                                    //Sach - trang thai (so luong)
+                                    SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
+                                    {
+                                        IdSach = id, //id sach khi da insert
+                                        IdTrangThai = item.IdTrangThai,
+                                        SoLuong = item.SoLuong,
+                                        CreateDateTime = DateTime.Now,
+                                    };
+                                    tongSach += dtoModel.SoLuong;
+                                    _SlTrangThaisach.Insert(dtoModel);
+
+                                    //Chi tiet phieu nhap
+
+                                    ChiTietNhapSach ctns = new ChiTietNhapSach()
+                                    {
+                                        IdPhieuNhap = idPhieuNhap,
+                                        IdSach = model.SachDTO.Id,
+                                        SoLuong = item.SoLuong,
+                                        CreateDateTime = DateTime.Now,
+                                        IdTinhtrang = item.IdTrangThai,
+                                    };
+                                    _ChiTietNhapSachLogic.Insert(ctns);
+                                }
+                            }
+
+                            //Update tổng số lượng sách
+
+                            sach.SoLuongTong = tongSach;
+                            sach.SoLuongConLai = tongSach;
+                            _SachLogic.Update(sach);
+                            // =======
+                            // model.SachDTO.SoLuongTong = tongSach;
+                            // model.SachDTO.SoLuongConLai = tongSach;
+                            // _SachLogic.Update(model.SachDTO);
+                            // >>>>>>> Phongv25
+                        }
                     }
 
                     return RedirectToAction("Index");

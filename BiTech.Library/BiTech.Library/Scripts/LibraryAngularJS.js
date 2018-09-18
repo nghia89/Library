@@ -70,7 +70,10 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
 					if (index >= 0) {
 						//Đã tồn tại
 						$scope.list[index].soLuong = (parseInt($scope.list[index].soLuong) + parseInt($scope.soLuong)).toString();						
-						$("#List_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.list[index].soLuong);
+                        $("#List_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.list[index].soLuong);
+                        $scope.list[index].GhiChuDon = $scope.GhiChuDon;
+                        $("#GhiChu_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.GhiChuDon);
+                        console.log($scope.GhiChuDon);
 					}
 					else
 						$scope.list.push(response.data);						
