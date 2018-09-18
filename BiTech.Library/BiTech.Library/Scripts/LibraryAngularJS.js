@@ -46,9 +46,9 @@ app.controller('PublishersCtrlr', function ($scope, $http) {
 // nhập sách
 app.controller('ImportBookCtrlr', function ($scope, $http) {
 
-	$scope.list = [];
+    $scope.list = [];
     $scope.addItem = function () {
-		$scope.errortext = "";
+        $scope.errortext = "";
         if (!$scope.GhiChuDon) {
             $scope.GhiChuDon = "";
         }
@@ -56,31 +56,31 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
             method: "get",
             url: "/PhieuNhapSach/_GetBookItemById",
             params: {
-				maKS: $('#idSach').val(),
+                maKS: $('#idSach').val(),
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
                 GhiChuDon: $scope.GhiChuDon,
             }
         }).then(function (response) {
-			if (response.data.valueOf() != "" || response.data != "") {
-				$scope.masach = $scope.maKS;				
-				//Kiểm trả có tồn tại trong list chưa để cộng dồn
-				if ($scope.list.length != 0) {
-					let index = $scope.list.findIndex(_ => _.MaKiemSoat == $scope.masach && _.IdTinhTrang == $scope.idTrangThai);
-					if (index >= 0) {
-						//Đã tồn tại
-						$scope.list[index].soLuong = (parseInt($scope.list[index].soLuong) + parseInt($scope.soLuong)).toString();						
+            if (response.data.valueOf() != "" || response.data != "") {
+                $scope.masach = $scope.maKS;
+                //Kiểm trả có tồn tại trong list chưa để cộng dồn
+                if ($scope.list.length != 0) {
+                    let index = $scope.list.findIndex(_ => _.MaKiemSoat == $scope.masach && _.IdTinhTrang == $scope.idTrangThai);
+                    if (index >= 0) {
+                        //Đã tồn tại
+                        $scope.list[index].soLuong = (parseInt($scope.list[index].soLuong) + parseInt($scope.soLuong)).toString();
                         $("#List_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.list[index].soLuong);
                         $scope.list[index].GhiChuDon = $scope.GhiChuDon;
                         $("#GhiChu_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.GhiChuDon);
                         console.log($scope.GhiChuDon);
-					}
-					else
-						$scope.list.push(response.data);						
-				}
-				else
-					$scope.list.push(response.data);				
-				$('#idSach').focus();
+                    }
+                    else
+                        $scope.list.push(response.data);
+                }
+                else
+                    $scope.list.push(response.data);
+                $('#idSach').focus();
                 $scope.maKS = null;
                 $scope.soLuong = null;
                 $scope.GhiChuDon = null;
@@ -88,32 +88,32 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
             else {
                 $scope.errortext = "";
                 if (!$scope.maKS || $scope.maKS.valueOf() == "") {
-					$scope.errortext += "Vui lòng nhập mã sách.\n"; 
-					$('#idSach').focus();
+                    $scope.errortext += "Vui lòng nhập mã sách.\n";
+                    $('#idSach').focus();
                 }
                 if (!$scope.soLuong) {
-					$scope.errortext += "Vui lòng nhập số lượng.\n";
-					$('#SoLuong').focus();
+                    $scope.errortext += "Vui lòng nhập số lượng.\n";
+                    $('#SoLuong').focus();
                 }
                 if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
-					$scope.errortext += "Vui lòng chọn trạng thái.\n";					
+                    $scope.errortext += "Vui lòng chọn trạng thái.\n";
                 }
-				if ($scope.errortext == "") {
-					alert('Cần nhập đúng mã sách');
-					$('#idSach').focus();
-				}
-				else
-					alert($scope.errortext);
-			}			
+                if ($scope.errortext == "") {
+                    alert('Cần nhập đúng mã sách');
+                    $('#idSach').focus();
+                }
+                else
+                    alert($scope.errortext);
+            }
         }, function (e) {
             $scope.errortext = "";
             if (!$scope.maKS || $scope.maKS.valueOf() == "") {
-				$scope.errortext += "Vui lòng nhập mã sách.\n";
-				$('#idSach').focus();
+                $scope.errortext += "Vui lòng nhập mã sách.\n";
+                $('#idSach').focus();
             }
             if (!$scope.soLuong) {
-				$scope.errortext += "Vui lòng nhập số lượng.\n";
-				$('#SoLuong').focus();
+                $scope.errortext += "Vui lòng nhập số lượng.\n";
+                $('#SoLuong').focus();
             }
             if ($scope.idTrangThai == null || $scope.idTrangThai == "") {
                 $scope.errortext += "Vui lòng chọn trạng thái.\n";
@@ -126,114 +126,114 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
 
             console.log(e);
             if ($scope.errortext == "")
-				alert('Cần nhập đúng mã sách');
-			})
-		//$('#idSach').focus();
-	}
-	//Xóa theo MaKiemSoat va IdTrangThai
+                alert('Cần nhập đúng mã sách');
+        })
+        //$('#idSach').focus();
+    }
+    //Xóa theo MaKiemSoat va IdTrangThai
     $scope.removeItem = function (x1, x2) {
-		$scope.errortext = "";
-		let index = $scope.list.findIndex(_ => _.MaKiemSoat == x1 && _.IdTinhTrang == x2);
-		$scope.list.splice(index, 1);
+        $scope.errortext = "";
+        let index = $scope.list.findIndex(_ => _.MaKiemSoat == x1 && _.IdTinhTrang == x2);
+        $scope.list.splice(index, 1);
     };
-	//Clear list book queue
-	$scope.ResetListBookQueue = function () {
-		$scope.list = []
-	};
+    //Clear list book queue
+    $scope.ResetListBookQueue = function () {
+        $scope.list = []
+    };
 
 });
 
 //xuất sách
 app.controller('ExportBookCtrlr', function ($scope, $http) {
 
-	$scope.list = [];
-	$scope.listTrangThai = [];
-	$scope.slHienThi = 0;
+    $scope.list = [];
+    $scope.listTrangThai = [];
+    $scope.slHienThi = 0;
     $scope.addItema = function () {
-		$scope.errortext = "";
-		var i = 0;
-		var sl = 0;
-		for (i = 0; i < $scope.list.length; i++) {
-			if ($scope.list[i].MaKiemSoat == $scope.maKS && $scope.list[i].IdTinhTrang == $scope.idTrangThai.IdTrangThai)
-				sl += $scope.list[i].soLuong;
-		}
-		$scope.slHienThi = sl;
+        $scope.errortext = "";
+        var i = 0;
+        var sl = 0;
+        for (i = 0; i < $scope.list.length; i++) {
+            if ($scope.list[i].MaKiemSoat == $scope.maKS && $scope.list[i].IdTinhTrang == $scope.idTrangThai.IdTrangThai)
+                sl += $scope.list[i].soLuong;
+        }
+        $scope.slHienThi = sl;
         $http({
             method: "get",
             url: "/PhieuXuatSach/_GetBookItemById",
             params: {
-				maKiemSoat: $('#idSach').val(),
+                maKiemSoat: $('#idSach').val(),
                 soLuong: $scope.soLuong,
                 idTrangThai: $scope.idTrangThai,
-				ghiChuDon: $scope.GhiChuDon,
-				soLuongHienThi: $scope.slHienThi
-					//index == -1 ? $scope.list[index].SoLuong : null
+                ghiChuDon: $scope.GhiChuDon,
+                soLuongHienThi: $scope.slHienThi
+                //index == -1 ? $scope.list[index].SoLuong : null
             }
-		}).then(function (response) {
-			if (response.data == null || response.data == "") {
-				$scope.errortext += "Số lượng sách xuất cần <= số lượng có trong kho.\n";
-				alert($scope.errortext);
-				$("#SoLuong").val("");
-				$("#SoLuong").focus();
-			}
-			else {
-				$scope.masach = $scope.maKS;
-				if (response.data.valueOf() != "") {
-					let index = $scope.list.findIndex(_ => _.MaKiemSoat == $scope.masach
-						&& _.IdTinhTrang == $scope.idTrangThai.IdTrangThai
-						&& _.GhiChuDon == $scope.GhiChuDon);
-					if (index >= 0) {
-						//Đã tồn tại
-						$scope.list[index].soLuong = (parseInt($scope.list[index].soLuong) + parseInt($scope.soLuong)).toString();
-						$("#List_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.list[index].soLuong);
-					}
-					else
-						$scope.list.push(response.data);		
-					$('#idSach').focus();
-					$scope.maKS = null;
-					$scope.soLuong = null;
-					$scope.GhiChuDon = null;
-				}
-				else {
-					$scope.errortext = "";
-					if (!$scope.maKS) {
-						$scope.errortext += "Vui lòng nhập mã sách.\n";
-						$('#idSach').focus();
-					}
-					if (!$scope.soLuong) {
-						$scope.errortext += "Vui lòng nhập số lượng.\n";
-						$('#SoLuong').focus();
-					}
-					if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
-						$scope.errortext += "Vui lòng chọn trạng thái.\n";
-					}
-					if (!$scope.GhiChuDon) {
-						$scope.errortext += "Vui lòng chọn lý do.\n";
-						$('#LyDo').focus();
-					}
+        }).then(function (response) {
+            if (response.data == null || response.data == "") {
+                $scope.errortext += "Số lượng sách xuất cần <= số lượng có trong kho.\n";
+                alert($scope.errortext);
+                $("#SoLuong").val("");
+                $("#SoLuong").focus();
+            }
+            else {
+                $scope.masach = $scope.maKS;
+                if (response.data.valueOf() != "") {
+                    let index = $scope.list.findIndex(_ => _.MaKiemSoat == $scope.masach
+                        && _.IdTinhTrang == $scope.idTrangThai.IdTrangThai
+                        && _.GhiChuDon == $scope.GhiChuDon);
+                    if (index >= 0) {
+                        //Đã tồn tại
+                        $scope.list[index].soLuong = (parseInt($scope.list[index].soLuong) + parseInt($scope.soLuong)).toString();
+                        $("#List_" + $scope.list[index].MaKiemSoat + "_" + $scope.list[index].IdTinhTrang).val($scope.list[index].soLuong);
+                    }
+                    else
+                        $scope.list.push(response.data);
+                    $('#idSach').focus();
+                    $scope.maKS = null;
+                    $scope.soLuong = null;
+                    $scope.GhiChuDon = null;
+                }
+                else {
+                    $scope.errortext = "";
+                    if (!$scope.maKS) {
+                        $scope.errortext += "Vui lòng nhập mã sách.\n";
+                        $('#idSach').focus();
+                    }
+                    if (!$scope.soLuong) {
+                        $scope.errortext += "Vui lòng nhập số lượng.\n";
+                        $('#SoLuong').focus();
+                    }
+                    if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
+                        $scope.errortext += "Vui lòng chọn trạng thái.\n";
+                    }
+                    if (!$scope.GhiChuDon) {
+                        $scope.errortext += "Vui lòng chọn lý do.\n";
+                        $('#LyDo').focus();
+                    }
 
-					if ($scope.errortext == "")
-						alert('Cần nhập đúng mã sách');
-					else
-						alert($scope.errortext);
-				}
-			}			
+                    if ($scope.errortext == "")
+                        alert('Cần nhập đúng mã sách');
+                    else
+                        alert($scope.errortext);
+                }
+            }
         }, function (e) {
             $scope.errortext = "";
             if (!$scope.maKS) {
-				$scope.errortext += "Vui lòng nhập mã sách.\n";
-				$('#idSach').focus();
+                $scope.errortext += "Vui lòng nhập mã sách.\n";
+                $('#idSach').focus();
             }
             if (!$scope.soLuong) {
-				$scope.errortext += "Vui lòng nhập số lượng.\n";
-				$('#SoLuong').focus();
+                $scope.errortext += "Vui lòng nhập số lượng.\n";
+                $('#SoLuong').focus();
             }
             if ($scope.idTrangThai == null || $scope.idTrangThai.valueOf() == "") {
                 $scope.errortext += "Vui lòng chọn trạng thái.\n";
             }
             if (!$scope.GhiChuDon) {
-				$scope.errortext += "Vui lòng chọn lý do.\n";
-				$('#LyDo').focus();
+                $scope.errortext += "Vui lòng chọn lý do.\n";
+                $('#LyDo').focus();
             }
 
             if ($scope.errortext.length > 0)
@@ -243,30 +243,30 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
 
             console.log(e);
             if ($scope.errortext == "")
-				alert('Cần nhập đúng mã sách');
-			})
-		//$('#idSach').focus();
+                alert('Cần nhập đúng mã sách');
+        })
+        //$('#idSach').focus();
     }
     $scope.removeItem = function (x1, x2) {
         $scope.errortext = "";
-		let index = $scope.list.findIndex(_ => _.MaKiemSoat == x1 && _.IdTinhTrang == x2);
-		$scope.list.splice(index, 1);
+        let index = $scope.list.findIndex(_ => _.MaKiemSoat == x1 && _.IdTinhTrang == x2);
+        $scope.list.splice(index, 1);
     };
-	//Clear list book queue
-	$scope.ResetListBookQueue = function () {
-		$scope.list = []
-	};
-	//Load danh sach trang thai cua sach da co
-	$scope.updateListTrangThai = function () {
-		$http({
-			method: "get",
-			url: "/PhieuXuatSach/GetStatusByIdBook",
-			params: { idBook: $scope.maKS }
-		}).then(function (response) {
-			$scope.listTrangThai = response.data;
-			console.log(response.data.length);
-		})
-	};
+    //Clear list book queue
+    $scope.ResetListBookQueue = function () {
+        $scope.list = []
+    };
+    //Load danh sach trang thai cua sach da co
+    $scope.updateListTrangThai = function () {
+        $http({
+            method: "get",
+            url: "/PhieuXuatSach/GetStatusByIdBook",
+            params: { idBook: $scope.maKS }
+        }).then(function (response) {
+            $scope.listTrangThai = response.data;
+            console.log(response.data.length);
+        })
+    };
 });
 
 // Get a book by Id - show bookName 
@@ -543,7 +543,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
                 window.location = '/MuonSach?IdUser=' + IdUser + '&flagResult=true';
             }
             $scope.ResetListBookQueue();
-            
+
         }, function () {
             console.log("MuonSachCtrlr - MuonSach - fail.");
         })
@@ -636,7 +636,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
     //=====================End Mượn Sách========================================================
 
     //Lấy mã sách bằng nhập tay và quét mã QR
-    $scope.GetInfoSach = function(masach){
+    $scope.GetInfoSach = function (masach) {
         try {
             var arrStr = masach.split('-');
             var MaKiemSoat = masach;
@@ -806,7 +806,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
                 window.location = '/TraSach?IdUser=' + IdUser + '&flagResult=true';
             }
             $scope.ResetListBookQueue();
-            
+
         }, function () {
             console.log("TraSachCtrlr - TraSach - fail.");
         })
@@ -843,7 +843,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
     $scope.GetBook_2 = function (MaSach, NgayMuon, NgayTra) {
         $scope.UpdateListChuanBiTra();
         MaSach = $scope.GetInfoSach(MaSach);
-        $scope.show_thongbao = false;  
+        $scope.show_thongbao = false;
         $http({
             method: "post",
             url: "/TraSach/GetBook",
@@ -902,10 +902,10 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
         if (bool_kq) {
             //Kiểm tra MaKiemSoat có tồn tại trong list chưa
             let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == $scope.list[0].MaKiemSoat
-                                                            && _.NgayMuon == $scope.list[0].NgayMuon
-                                                            && _.NgayTra == $scope.list[0].NgayTra
-                                                            && _.TinhTrangSach == $scope.modelTT
-                                                            );
+                && _.NgayMuon == $scope.list[0].NgayMuon
+                && _.NgayTra == $scope.list[0].NgayTra
+                && _.TinhTrangSach == $scope.modelTT
+            );
             if (index >= 0) {
                 //Đã tồn tại
                 $scope.list_book_queue[index].SoLuong = (parseInt($scope.list_book_queue[index].SoLuong) + 1).toString();
@@ -916,7 +916,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
                 //Chưa tồn tại
                 var edit_NgayMuon = $scope.list[0].NgayMuon.split('/').join('-'); //format lại date
                 var edit_Ngaytra = $scope.list[0].NgayTra.split('/').join('-'); //format lại date
-                var index_TT = $scope.list_book_TinhTrang.findIndex(_=>_.Id == $scope.modelTT); //lấy thông tin của tình trạng đang chọn
+                var index_TT = $scope.list_book_TinhTrang.findIndex(_ => _.Id == $scope.modelTT); //lấy thông tin của tình trạng đang chọn
                 $scope.items = {
                     Id: $scope.list[0].MaKiemSoat + edit_NgayMuon + edit_Ngaytra + $scope.modelTT,
                     IdUser: parseLocation(window.location.search)['IdUser'],
@@ -1251,7 +1251,7 @@ app.controller('GiaHanCtrlr', function ($scope, $http, $filter, $location) {
     //lấy sách thêm vào list (2) chọn trên danh sách - show model chọn tình trạng - result true
     $scope.GetBook_Choice_TinhTrang_result_true = function () {
         $scope.GetBook_2($scope.ChoiceInlistbookdangmuon_MaSach, $scope.ChoiceInlistbookdangmuon_NgayMuon, $scope.ChoiceInlistbookdangmuon_NgayTra);
-        
+
         hide_modal();
     }
 
@@ -1281,10 +1281,10 @@ app.controller('GiaHanCtrlr', function ($scope, $http, $filter, $location) {
         if (bool_kq) {
             //Kiểm tra MaKiemSoat có tồn tại trong list chưa
             let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == $scope.list[0].MaKiemSoat
-                                                            && _.NgayMuon == $scope.list[0].NgayMuon
-                                                            && _.NgayTra == $scope.list[0].NgayTra
-                                                            && _.TinhTrangSach == $scope.modelTT
-                                                            );
+                && _.NgayMuon == $scope.list[0].NgayMuon
+                && _.NgayTra == $scope.list[0].NgayTra
+                && _.TinhTrangSach == $scope.modelTT
+            );
             if (index >= 0) {
                 //Đã tồn tại
                 $scope.list_book_queue[index].SoLuong = (parseInt($scope.list_book_queue[index].SoLuong) + 1).toString();
@@ -1295,7 +1295,7 @@ app.controller('GiaHanCtrlr', function ($scope, $http, $filter, $location) {
                 //Chưa tồn tại
                 var edit_NgayMuon = $scope.list[0].NgayMuon.split('/').join('-'); //format lại date
                 var edit_Ngaytra = $scope.list[0].NgayTra.split('/').join('-'); //format lại date
-                var index_TT = $scope.list_book_TinhTrang.findIndex(_=>_.Id == $scope.modelTT); //lấy thông tin của tình trạng đang chọn
+                var index_TT = $scope.list_book_TinhTrang.findIndex(_ => _.Id == $scope.modelTT); //lấy thông tin của tình trạng đang chọn
                 $scope.items = {
                     Id: $scope.list[0].MaKiemSoat + edit_NgayMuon + edit_Ngaytra,
                     IdUser: parseLocation(window.location.search)['IdUser'],

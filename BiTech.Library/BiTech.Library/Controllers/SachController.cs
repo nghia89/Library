@@ -210,10 +210,10 @@ namespace BiTech.Library.Controllers
                         }
                         catch { }
                     }
-					// Lưu mã QR
-					Sach sach = _SachLogic.GetBookById(id);
-					try
-                    {                        
+                    // Lưu mã QR
+                    Sach sach = _SachLogic.GetBookById(id);
+                    try
+                    {
                         string physicalWebRootPath = Server.MapPath("/");
                         Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
                         if (temp != null)
@@ -695,7 +695,7 @@ namespace BiTech.Library.Controllers
                         //Nếu cái item ở trang cuối được xoá hết thì luồi 1 page
                         if (chon.Count == SlItemInPage)
                         {
-                            paging = ( ((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
+                            paging = (((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
                         }
                     }
                 }
@@ -706,7 +706,7 @@ namespace BiTech.Library.Controllers
                     {
                         DeleteByIdSach(item);
                     }
-                } 
+                }
 
                 //return RedirectToAction("DeleteMany");
                 return RedirectToAction("DeleteMany", "Sach", new
@@ -776,7 +776,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
-		
+
 
         [HttpPost]
         public async Task<ActionResult> PreviewImport(HttpPostedFileBase file)
@@ -868,7 +868,7 @@ namespace BiTech.Library.Controllers
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-//<<<<<<< HEAD
+            //<<<<<<< HEAD
             var listAll = new List<Sach>();
             List<Sach> ListFail = new List<Sach>();
             List<Sach> ListSuccess = new List<Sach>();
@@ -876,14 +876,14 @@ namespace BiTech.Library.Controllers
             var model = new ImportExcelSachViewModel();
             #region Truyền dữ liệu vào ListAll
             foreach (var item in data)
-// =======
+            // =======
             // SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             // TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             // ExcelManager excelManager = new ExcelManager();
             // List<Sach> listExcel = new List<Sach>();
             // if (model.LinkExcel != null)
-// >>>>>>> Phongv25
+            // >>>>>>> Phongv25
             {
                 Sach sach = new Sach();
                 sach.TenSach = item[1].ToString().Trim();
@@ -1266,149 +1266,149 @@ namespace BiTech.Library.Controllers
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(filedata, contentType);
         }
-		
+
         // [HttpPost]
         // public ActionResult ImportFromExcel2(SachViewModels model)
-// =======
+        // =======
         // [HttpPost]
         // public ActionResult ImportFromExcel(SachViewModels model)
-// >>>>>>> Vinh
+        // >>>>>>> Vinh
         // {
-            // SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+        // SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+        // TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+        // KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+        // NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+        // LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+        // SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+        // TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            // ExcelManager excelManager = new ExcelManager();
-            // List<Sach> listExcel = new List<Sach>();
-            // if (model.LinkExcel != null)
-            // {
-                // string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
-                // string physicalWebRootPath = Server.MapPath("/");
+        // ExcelManager excelManager = new ExcelManager();
+        // List<Sach> listExcel = new List<Sach>();
+        // if (model.LinkExcel != null)
+        // {
+        // string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+        // string physicalWebRootPath = Server.MapPath("/");
 
-                // var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
-                // string location = Path.GetDirectoryName(sourceFileName);
-                // if (!Directory.Exists(location))
-                // {
-                    // Directory.CreateDirectory(location);
-                // }
-                // using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
-                // {
-                    // model.LinkExcel.InputStream.CopyTo(fileStream);
-                    // var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                    // listExcel = excelManager.ImportSach(sourceDir);
-                // }
+        // var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
+        // string location = Path.GetDirectoryName(sourceFileName);
+        // if (!Directory.Exists(location))
+        // {
+        // Directory.CreateDirectory(location);
+        // }
+        // using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
+        // {
+        // model.LinkExcel.InputStream.CopyTo(fileStream);
+        // var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+        // listExcel = excelManager.ImportSach(sourceDir);
+        // }
 
-                // foreach (var item in listExcel)
-                // {
-                    // #region Linh tinh
-                    // // Thể loại sách
-                    // string itemTheLoai = item.IdTheLoai.Trim();
-                    // var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
+        // foreach (var item in listExcel)
+        // {
+        // #region Linh tinh
+        // // Thể loại sách
+        // string itemTheLoai = item.IdTheLoai.Trim();
+        // var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
 
-                    // if (machs.Length > 0)
-                    // {
-                        // var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
-                        // if (theloai != null)
-                        // {
-                            // item.IdTheLoai = theloai.Id;
-                        // }
-                        // else
-                        // {
-                            // // todo - ddc dictionary version 21
-                            // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
-                            // {
-                                // TenTheLoai = item.IdTheLoai.Trim(),
-                                // MaDDC = itemTheLoai.Trim()
-                            // });
-                            // item.IdTheLoai = id;
-                        // }
-                    // }
-                    // else
-                    // {
-                        // var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
-                        // if (theloai != null)
-                        // {
-                            // item.IdTheLoai = theloai.Id;
-                        // }
-                        // else
-                        // {
-                            // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = item.IdTheLoai });
-                            // item.IdTheLoai = id;
-                        // }
-                    // }
+        // if (machs.Length > 0)
+        // {
+        // var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
+        // if (theloai != null)
+        // {
+        // item.IdTheLoai = theloai.Id;
+        // }
+        // else
+        // {
+        // // todo - ddc dictionary version 21
+        // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
+        // {
+        // TenTheLoai = item.IdTheLoai.Trim(),
+        // MaDDC = itemTheLoai.Trim()
+        // });
+        // item.IdTheLoai = id;
+        // }
+        // }
+        // else
+        // {
+        // var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
+        // if (theloai != null)
+        // {
+        // item.IdTheLoai = theloai.Id;
+        // }
+        // else
+        // {
+        // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = item.IdTheLoai });
+        // item.IdTheLoai = id;
+        // }
+        // }
 
-                    // // Kệ sách
-                    // var keSach = _keSachLogic.GetByTenKeSach(item.IdKeSach);
-                    // if (keSach != null)
-                    // {
-                        // item.IdKeSach = keSach.Id;
-                    // }
-                    // else
-                    // {
-                        // var id = _keSachLogic.Add(new KeSach() { TenKe = item.IdKeSach.Trim() });
-                        // item.IdKeSach = id;
-                    // }
+        // // Kệ sách
+        // var keSach = _keSachLogic.GetByTenKeSach(item.IdKeSach);
+        // if (keSach != null)
+        // {
+        // item.IdKeSach = keSach.Id;
+        // }
+        // else
+        // {
+        // var id = _keSachLogic.Add(new KeSach() { TenKe = item.IdKeSach.Trim() });
+        // item.IdKeSach = id;
+        // }
 
-                    // // Nhà xuất bản
-                    // var nxb = _NhaXuatBanLogic.GetByTenNXB(item.IdNhaXuatBan);
-                    // if (nxb != null)
-                    // {
-                        // item.IdNhaXuatBan = nxb.Id;
-                    // }
-                    // else
-                    // {
-                        // var id = _NhaXuatBanLogic.ThemNXB(new NhaXuatBan() { Ten = item.IdNhaXuatBan.Trim() });
-                        // item.IdNhaXuatBan = id;
-                    // }
+        // // Nhà xuất bản
+        // var nxb = _NhaXuatBanLogic.GetByTenNXB(item.IdNhaXuatBan);
+        // if (nxb != null)
+        // {
+        // item.IdNhaXuatBan = nxb.Id;
+        // }
+        // else
+        // {
+        // var id = _NhaXuatBanLogic.ThemNXB(new NhaXuatBan() { Ten = item.IdNhaXuatBan.Trim() });
+        // item.IdNhaXuatBan = id;
+        // }
 
-                    // // Ngôn ngữ
-                    // var ngonNgu = _LanguageLogic.GetByTenNgonNgu(item.IdNgonNgu);
-                    // if (ngonNgu != null)
-                    // {
-                        // item.IdNgonNgu = ngonNgu.Id;
-                    // }
-                    // else
-                    // {
-                        // var id = _LanguageLogic.InsertNew(new Language() { Ten = item.IdNgonNgu.Trim() });
-                        // item.IdNgonNgu = id;
-                    // }
-                    // #endregion
+        // // Ngôn ngữ
+        // var ngonNgu = _LanguageLogic.GetByTenNgonNgu(item.IdNgonNgu);
+        // if (ngonNgu != null)
+        // {
+        // item.IdNgonNgu = ngonNgu.Id;
+        // }
+        // else
+        // {
+        // var id = _LanguageLogic.InsertNew(new Language() { Ten = item.IdNgonNgu.Trim() });
+        // item.IdNgonNgu = id;
+        // }
+        // #endregion
 
-                    // var idSach = _SachLogic.ThemSach(item);
-                    // if (idSach.Length > 0)
-                    // {
-                        // // Tác giả 
-                        // foreach (var tg in item.listTacGia)
-                        // {
-                            // string idTG = null;
-                            // var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
-                            // if (tacGia != null)
-                            // {
-                                // idTG = tacGia.Id;
-                            // }
-                            // else
-                            // {
-                                // idTG = _TacGiaLogic.Insert(tg);
-                            // }
-                            // _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
-                        // }
-                        // Sach sach = _SachLogic.GetBookById(idSach);
-                        // Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
-                        // if (temp != null)
-                        // {
-                            // sach.QRlink = temp.QRlink;
-                            // sach.QRData = temp.QRData;
-                            // _SachLogic.Update(sach);
-                        // }
-                    // }
-                // }
-            // }
-            // return RedirectToAction("Index", "Sach");
-            // // return View();
+        // var idSach = _SachLogic.ThemSach(item);
+        // if (idSach.Length > 0)
+        // {
+        // // Tác giả 
+        // foreach (var tg in item.listTacGia)
+        // {
+        // string idTG = null;
+        // var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
+        // if (tacGia != null)
+        // {
+        // idTG = tacGia.Id;
+        // }
+        // else
+        // {
+        // idTG = _TacGiaLogic.Insert(tg);
+        // }
+        // _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
+        // }
+        // Sach sach = _SachLogic.GetBookById(idSach);
+        // Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
+        // if (temp != null)
+        // {
+        // sach.QRlink = temp.QRlink;
+        // sach.QRData = temp.QRData;
+        // _SachLogic.Update(sach);
+        // }
+        // }
+        // }
+        // }
+        // return RedirectToAction("Index", "Sach");
+        // // return View();
         // }
 
         #endregion
@@ -1501,7 +1501,7 @@ namespace BiTech.Library.Controllers
 
             return Json(true);
         }
-        
+
 
         #region Phong
         /// <summary>
@@ -1540,13 +1540,13 @@ namespace BiTech.Library.Controllers
                 _SachLogic.Update(s);
             }
 
-            
+
             //Xoá row table số lượng sách trạng thái by idSach
             _SoLuongSachTrangThaiLogic.DeleteByIdSach(s.Id);
             //Xoá row table sách tác giả by idSach
             _SachTacGiaLogic.DeleteAllTacGiaByidSach(s.Id);
         }
-        
+
         /// <summary>
         /// Xoa image khoi server
         /// </summary>
@@ -1575,7 +1575,8 @@ namespace BiTech.Library.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private bool DeleteFolderParent(string path) {
+        private bool DeleteFolderParent(string path)
+        {
             var pathFolder = Directory.GetParent(path).FullName;
             DirectoryInfo attachments_AR = new DirectoryInfo(pathFolder);
             EmptyFolder(attachments_AR);

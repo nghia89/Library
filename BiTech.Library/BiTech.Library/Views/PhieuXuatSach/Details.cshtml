@@ -1,7 +1,9 @@
 ﻿@model BiTech.Library.Models.PhieuXuatSachModels
 @{
-    ViewBag.Title = "Chi tiết phiếu xuất kho";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+                /**/
+
+                ViewBag.Title = "Chi tiết phiếu xuất kho";
+                Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <div class="Title">Chi Tiết Phiếu Xuất Kho</div>
 <br />
@@ -36,7 +38,7 @@
         </div>
     </div>
 </div>
-<br/>
+<br />
 <div class="container-box-window clearfix">
     <div class="top">
         <span class="">Danh sách chi tiết phiếu xuất</span>
@@ -58,14 +60,14 @@
                 @{int i = 1;}
                 @foreach (var item in ViewBag.lstctxuat)
                 {
-                <tr>
-                    <td align="center">@i.ToString()</td>
-                    <td >@item.MaKiemSoat</td>
-                    <td>@item.ten</td>
-                    <td>@item.soLuong</td>
-                    <td>@item.tenTinhTrang</td>
-                    <td>@item.GhiChuDon</td>
-                </tr>
+                    <tr>
+                        <td align="center">@i.ToString()</td>
+                        <td>@item.MaKiemSoat</td>
+                        <td>@item.ten</td>
+                        <td>@item.soLuong</td>
+                        <td>@item.tenTinhTrang</td>
+                        <td>@item.GhiChuDon</td>
+                    </tr>
                     i++;
                 }
             </tbody>
@@ -76,7 +78,7 @@
 </div>
 
 
-        
+
 
 
 

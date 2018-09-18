@@ -1,5 +1,7 @@
 ﻿@model BiTech.Library.Models.PhieuNhapSachModels
 @{
+    /**/
+
     ViewBag.Title = "Chi tiết phiếu nhập kho";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
@@ -56,7 +58,7 @@
             <tbody>
                 @{ int i = 1;}
                 @foreach (var item in ViewBag.lstctnhap)
-            {
+                {
                     <tr>
                         <td align="center">@i.ToString()</td>
                         <td width="10%">@item.MaKiemSoat</td>

@@ -520,7 +520,10 @@ namespace BiTech.Library.Controllers
         public ActionResult ExportWord(UserViewModel model)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
+            ThongTinThuVienLogic _thongTinThuVienLogic = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            List<string> lstHeader = new List<string>();
+            lstHeader.Add(_thongTinThuVienLogic.GetTheHeader1());//tên Phòng, sở
+            lstHeader.Add(_thongTinThuVienLogic.GetTheHeader2());//tên trường
             ExcelManager excelManager = new ExcelManager();
             var listTV = _ThanhVienLogic.GetAllHS();
             string fileName = "MauTheHS.docx";
@@ -542,7 +545,7 @@ namespace BiTech.Library.Controllers
                     model.LinkWord.InputStream.CopyTo(fileStream);
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                     fileStream.Close();
-                    excelManager.ExportWord(sourceDir, listTV, fileName);
+                    excelManager.ExportWord(sourceDir, listTV, fileName, lstHeader);
                     // To do Download           
                     string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
                     byte[] filedata = System.IO.File.ReadAllBytes(filepath);
@@ -563,7 +566,10 @@ namespace BiTech.Library.Controllers
         public ActionResult MauThe(string mauThe, string idTV)
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
+            ThongTinThuVienLogic _thongTinThuVienLogic = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            List<string> lstHeader = new List<string>();
+            lstHeader.Add(_thongTinThuVienLogic.GetTheHeader1());//tên Phòng, sở
+            lstHeader.Add(_thongTinThuVienLogic.GetTheHeader2());//tên trường
             if (mauThe == null)
                 return RedirectToAction("NotFound", "Error");
             ExcelManager excelManager = new ExcelManager();
@@ -588,7 +594,7 @@ namespace BiTech.Library.Controllers
                 linkMau = "/Content/MauWord/Mau2-HS.docx";
                 fileName = "MauTheHS-Mau2.docx";
             }
-            excelManager.ExportWord(linkMau, listTV, fileName);
+            excelManager.ExportWord(linkMau, listTV, fileName, lstHeader);
             // To do Download           
             string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);

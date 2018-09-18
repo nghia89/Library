@@ -1,13 +1,15 @@
 ﻿@model PagedList.IPagedList<BiTech.Library.Models.PhieuXuatSachModels>
 @using PagedList.Mvc
 @{
-    ViewBag.Title = "Danh sách phiếu xuất";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+                /**/
+
+                ViewBag.Title = "Danh sách phiếu xuất";
+                Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
 <div class="Title">Danh Sách Phiếu Xuất</div>
 <div class="mb-2">
-	@Html.ActionLink("Thêm mới", "TaoPhieuXuatSach", null, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Thêm mới", "TaoPhieuXuatSach", null, new { @class = "btn btn-primary btn-sm" })
 </div>
 
 <table class="table table-hover table-bordered">
@@ -26,10 +28,10 @@
         @foreach (var item in Model)
         {
             <tr class="text-center">
-                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
-                <td>@item.UserName</td>
-                <td>@item.GhiChu</td>
-                <td>@String.Format("{0:dd-MM-yyyy}", item.NgayXuat)</td>
+                <td align="center">@( )</td>
+                <td>@</td>
+                <td>@</td>
+                <td>@</td>
                 <td>
                     <a class="color-white btn btn-primary btn-sm btn-inTable" href="@Url.Action("Details",new { id = item.IdPhieuXuat})">
                         Xem chi tiết
