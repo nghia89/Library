@@ -22,19 +22,19 @@
                         var longestRow = Model.RawDataList.FirstOrDefault();
                         if (longestRow != null)
                         {
-                            <th class="order-number-column">STT</th>                           
-                            <th width="70px">Họ và tên</th>
-                            <th>Tên user</th>
-                            <th>Mã giáo viên</th>
-                            <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Tổ</th>
-                            <th>Niên khóa</th>
-                            <th width="70px">Địa chỉ</th>
-                            <th>SĐT</th>
+                            <th>STT</th>
+                            <th width="15%">Họ và tên</th>
+                            <th width="10%">Tên user</th>
+                            <th width="10%">Mã giáo viên</th>
+                            <th width="5%">Giới tính</th>
+                            <th width="10%">Ngày sinh</th>
+                            <th width="5%">Tổ</th>
+                            <th width="10%">Niên khóa</th>
+                            <th width="15%">Địa chỉ</th>
+                            <th width="10%">SĐT</th>
                         }
                     }
-                    <th width="150px"><center>Thao tác</center></th>
+                    <th><center>Thao tác</center></th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
                     foreach (var item in Model.RawDataList)
                     {
                         orderNumber += 1;
-                        <tr id="element-@orderNumber">                         
+                        <tr id="element-@orderNumber">
                             <td class="text-center SL_STT-@stt" data-tongstt="@stt">@stt</td>
                             @for (int j = 1; j < item.Length; j++)
                             {
@@ -64,6 +64,7 @@
                 }
             </tbody>
         </table>
+        <br />
         <div class="f1-buttons">
             <button type="button" class="btn" id="btn-back">Quay lại</button>
             <button class="btn btn-success has-spinner btn-check-step-2" id="btn-check-step-2">Tiếp tục</button>
@@ -75,12 +76,17 @@
 @{
     // Chuyển danh sách các tài khoản thành chuỗi JSON để chuyển lên Server
     var jsonData = Html.Raw(JsonConvert.SerializeObject(Model.RawDataList));
+
 }
 
 <script>
 
     jsonData = @jsonData;
-
+    var arrIndex=[@Model.TotalEntry];
+    for(var i=0;i<@Model.TotalEntry;i++)
+    {
+        arrIndex[i]=i;
+    }
     function clearSelectBoxDefaultOption(element) {
         if ($(element).attr('data-is-selected') == 'false') {
             $('#' + $(element).attr('id') + ' :selected').remove();
@@ -121,7 +127,13 @@
     // Remove action
     $(document).on('click','.remove-acction', function () {
         var arrayIndex = $(this).attr('data-array-index');
-        jsonData.splice(arrayIndex, 1);
+        // Nếu vị trí Xóa k phải là dòng cuối trong table (data cuối trong DataJson) thì đẩy vị trí lên 1 đơn vị
+        @*var end=@Model.TotalEntry;
+        var giaoDong=0;
+        if(arrayIndex<end){
+            giaoDong=end-arrayIndex;
+            arrayIndex-=1;
+        }*@
         swal({
             title: "Xác nhận",
             text: "Bạn có chắc chắn xóa mục đã chọn không ?",
@@ -134,6 +146,7 @@
         },
        function (isConfirm) {
            if (isConfirm) {
+               jsonData.splice(arrayIndex, 1); // Xóa vị trí Data trong JsonData ứng với vị trí Row trong Table               
                $("#element-" + (parseInt(arrayIndex) + 1)).hide();
                console.log( $("#element-" + (parseInt(arrayIndex) + 1)));
                // So luong tong
@@ -141,11 +154,11 @@
                var kq_TSL = parseInt(TSL) - 1;
                $(".CountTotal_SL").data("tongsl",kq_TSL );
                $(".CountTotal_SL").html(kq_TSL);
-               // STT              
+               // STT
                var begin=parseInt(arrayIndex) +1 ;
                var end=@Model.TotalEntry;
                for (var i = begin+1; i <= end; i++)
-               {                                    
+               {
                    var TSL2 = $(".SL_STT-"+i).data("tongstt");
                    var kq_TSL2 = parseInt(TSL2) - 1;
                    $(".SL_STT-"+i).data("tongstt", kq_TSL2);
@@ -168,7 +181,7 @@
     // --
     $(document).on('click', '#btn-check-step-2', function (e) {
         e.preventDefault();
-        $(this).addClass('active');       
+        $(this).addClass('active');
 
         $.post('@Url.Content("~/GiaoVien/ImportSave")',{
             data : jsonData
@@ -181,7 +194,7 @@
             swal({title:'Thông tin không hợp lệ',text:'Kiểm tra lại các cột dữ liệu có phù hợp hay chưa.',type:'error'},function () {
                 $("#btn-check-step-2").removeClass('active');
             });
-        });      
+        });
     });
 
     function goToByScroll(id){

@@ -8,7 +8,7 @@
 <h4 class="text-danger">Lưu thất bại @Model.ListFail.Count đầu sách</h4>
 @if (@Model.ListFail.Count > 0)
 {
-    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "PhieuNhapSach", new { fileName = Model.FileName })'">
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "PhieuNhapSach", new {filePath=Model.FilePath, fileName = Model.FileName })'">
         <i class="fa fa-cloud-download" style="padding-right: 4px;font-size: 17px;"> Tải file lỗi để sửa</i>
     </button>
     <center><h3>Danh sách bị lỗi</h3></center>
@@ -20,12 +20,12 @@
                     var longestRow = Model.ListShow.FirstOrDefault();
                     if (longestRow != null)
                     {
-                        <th class="order-number-column">STT</th>
-                        <th width="70px">Mã sách</th>
+                        <th>STT</th>
+                        <th>Mã sách</th>
                         <th>Số lượng</th>
                         <th>Trạng thái sách</th>
                         <th>Ghi chú</th>
-                        <th width="250px">Nguyên nhân lỗi </th>
+                        <th>Nguyên nhân lỗi </th>
                     }
                 }
             </tr>
@@ -68,6 +68,7 @@
         </tbody>
     </table>
                 }
+<br />
 <div class="f1-buttons">
     <button type="button" class="btn btn-success" id="btn-finish"><i class=""></i>Hoàn tất</button>
 </div>

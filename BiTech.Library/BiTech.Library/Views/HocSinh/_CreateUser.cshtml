@@ -96,7 +96,7 @@
 
 				<div class="col-lg-6">
 					<div class="form-group col">
-						@Html.LabelFor(m => m.NgaySinh, new { @class = "control-label" })
+                        <label class="control-label">Ngày sinh <span style="color:#dc3545">*</span></label>
 						<div>
 							@Html.TextBoxFor(m => m.TemptNgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20", @autocomplete = "off" })
 							@*@Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control form-control-sm DatetimePicker", @placeholder = "--/--/----", @maxlength = "20" })*@

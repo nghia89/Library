@@ -341,6 +341,8 @@ namespace BiTech.Library.Controllers
                     // Xóa file đã lưu tạm
                     System.IO.File.Delete(uploadFileName);
                     viewModel.TotalEntry = viewModel.RawDataList.Count;
+                    if (String.IsNullOrEmpty(ghiChu))
+                        ViewBag.NullGhiChu = true;
                     viewModel.GhiChu = ghiChu;
                     return View(viewModel);
                 }
@@ -449,7 +451,7 @@ namespace BiTech.Library.Controllers
                             trangThaiSach = new TrangThaiSach
                             {
                                 TenTT = xuLyChuoi.ChuanHoaChuoi(item.IdTinhtrang),
-                                TrangThai=true
+                                TrangThai = true
                             };
                             _TrangThaiSachLogic.Insert(trangThaiSach);
                         }
@@ -477,8 +479,9 @@ namespace BiTech.Library.Controllers
 
                             var updateSach = _SachLogic.GetBookById(sltt.IdSach);
                             updateSach.SoLuongTong += item.SoLuong;
-                            if (trangThaiSach.TrangThai == true)
-                                updateSach.SoLuongConLai += item.SoLuong;
+                            // Chỉ update số lượng còn lại cho Sách có trạng thái true (là sách cho mượn được)
+                            //if (trangThaiSach.TrangThai == true)
+                               updateSach.SoLuongConLai += item.SoLuong;
                             _SachLogic.Update(updateSach);
                         }
 
@@ -589,8 +592,18 @@ namespace BiTech.Library.Controllers
                     ws.AutoFitColumns();
                     // Save
                     string fileName = "DsPhieuNhapSachBiLoi.xlsx";
-                    wb.Save(@"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName, SaveFormat.Xlsx);
+                    string physicalWebRootPath = Server.MapPath("/");
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFileName = null;
+                    uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
+                    string location = Path.GetDirectoryName(uploadFileName);
+                    if (!Directory.Exists(location))
+                    {
+                        Directory.CreateDirectory(location);
+                    }
+                    wb.Save(uploadFileName, SaveFormat.Xlsx);
                     model.FileName = fileName;
+                    model.FilePath = uploadFileName;
                 }
                 #endregion
             }
@@ -600,12 +613,12 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult DowloadExcel(string fileName)
+        public ActionResult DowloadExcel(string filePath, string fileName)
         {
             if (fileName == null)
                 return RedirectToAction("NotFound", "Error");
-            // To do Download             
-            string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName;
+            // To do Download                       
+            string filepath = filePath;
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);
             string contentType = MimeMapping.GetMimeMapping(filepath);
             var cd = new System.Net.Mime.ContentDisposition

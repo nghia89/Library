@@ -151,6 +151,7 @@ namespace BiTech.Library.Models
         public List<Sach> ListSuccess { get; set; } = new List<Sach>();
         public List<Sach> ListFail { get; set; } = new List<Sach>();       
         public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
-        public string FileName { get; set; }      
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
     }
 }

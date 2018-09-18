@@ -186,6 +186,7 @@ namespace BiTech.Library.Models
         public List<ThanhVien> ListFail { get; set; } = new List<ThanhVien>();
         public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
         public string FileName { get; set; }
+        public string FilePath { get; set; }
         /// <summary>
         /// Mảng chứa các dòng bị trùng Mã Thành Viên
         /// </summary>

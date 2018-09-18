@@ -16,8 +16,8 @@
     </div>
     <div class="f1">
         @Html.AntiForgeryToken()
-        <div class="form-group row">
-            @Html.Label("Ghi chú phiếu nhập kho:", new { @class = "col-md-12 control-label" })
+        <div class="form-group row">           
+            <label class="col-md-12 control-label" id="labelGhiChu">Ghi chú phiếu nhập kho:</label>
             <div class="col-md-12">
                 <input class="form-control form-control-sm" id="ghiChu" placeholder="Nhập ghi chú .." />
             </div>
@@ -101,11 +101,11 @@
             var btn = document.getElementById('BrowseButton'),
               progressBar = document.getElementById('progressBar'),
               progressOuter = document.getElementById('progressOuter'),
-              msgBox = document.getElementById('UploaderMessageBox');           
+              msgBox = document.getElementById('UploaderMessageBox');
             var uploader = new ss.SimpleUpload({
                 button: btn,
                 url: '@Url.Content("~/PhieuNhapSach/PreviewImport")',
-                name: 'file',                             
+                name: 'file',
                 multipart: true,
                 hoverClass: 'hover',
                 focusClass: 'focus',
@@ -133,6 +133,7 @@
                 onComplete: function (filename, response) {
                     $("#upload-complete").hide();
                     $("#ghiChu").hide();
+                    $("#labelGhiChu").hide();
                     progressOuter.style.display = 'none'; // hide progress bar when upload is completed
 
                     if (tryParseJSON(response) == false) {

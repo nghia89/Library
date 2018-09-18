@@ -4,6 +4,14 @@
     Layout = null;
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+@if (ViewBag.NullGhiChu==true)
+{
+    <div class="alert p-2 alert-danger alert-dismissible fade show">
+        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+        <strong>Thông báo: </strong>Bạn chưa nhập ghi chú!
+    </div>
+}
+
 <ul class="list-group">
     <li class="list-group-item">
         @*<span class="badge">@Model.TotalEntry</span>*@
@@ -22,14 +30,14 @@
                         var longestRow = Model.RawDataList.FirstOrDefault();
                         if (longestRow != null)
                         {
-                            <th class="order-number-column">STT</th>
-                            <th width="70px">Mã sách</th>
+                            <th>STT</th>
+                            <th>Mã sách</th>
                             <th>Số lượng</th>
                             <th>Trạng thái sách</th>
                             <th>Ghi chú</th>
                         }
                     }
-                    <th width="150px"><center>Thao tác</center></th>
+                    <th><center>Thao tác</center></th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +67,7 @@
                 }
             </tbody>
         </table>
+        <br />
         <div class="f1-buttons">
             <button type="button" class="btn" id="btn-back">Quay lại</button>
             <button class="btn btn-success has-spinner btn-check-step-2" id="btn-check-step-2">Tiếp tục</button>
@@ -150,7 +159,7 @@
                swal({
                    title: "Đã xong",
                    type: "success",
-                   text: "Đã loại bỏ tài khoản mà bạn vừa chọn !!!"
+                   text: "Đã loại bỏ phiếu nhập sách mà bạn vừa chọn !!!"
                }, function () {
                    // --
                });

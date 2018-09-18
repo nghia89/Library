@@ -865,7 +865,7 @@ namespace BiTech.Library.Controllers
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-//<<<<<<< HEAD
+
             var listAll = new List<Sach>();
             List<Sach> ListFail = new List<Sach>();
             List<Sach> ListSuccess = new List<Sach>();
@@ -1236,8 +1236,18 @@ namespace BiTech.Library.Controllers
                     ws.AutoFitColumns();
                     // Save
                     string fileName = "DsSachBiLoi.xlsx";
-                    wb.Save(@"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName, SaveFormat.Xlsx);
+                    string physicalWebRootPath = Server.MapPath("/");
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFileName = null;
+                    uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
+                    string location = Path.GetDirectoryName(uploadFileName);
+                    if (!Directory.Exists(location))
+                    {
+                        Directory.CreateDirectory(location);
+                    }
+                    wb.Save(uploadFileName, SaveFormat.Xlsx);
                     model.FileName = fileName;
+                    model.FilePath = uploadFileName;
                 }
                 #endregion
             }
@@ -1247,12 +1257,12 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult DowloadExcel(string fileName)
+        public ActionResult DowloadExcel(string filePath, string fileName)
         {
             if (fileName == null)
                 return RedirectToAction("NotFound", "Error");
-            // To do Download              
-            string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName;
+            // To do Download                       
+            string filepath = filePath;
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);
             string contentType = MimeMapping.GetMimeMapping(filepath);
             var cd = new System.Net.Mime.ContentDisposition
@@ -1263,150 +1273,6 @@ namespace BiTech.Library.Controllers
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(filedata, contentType);
         }
-		
-        // [HttpPost]
-        // public ActionResult ImportFromExcel2(SachViewModels model)
-// =======
-        // [HttpPost]
-        // public ActionResult ImportFromExcel(SachViewModels model)
-// >>>>>>> Vinh
-        // {
-            // SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            // TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            // ExcelManager excelManager = new ExcelManager();
-            // List<Sach> listExcel = new List<Sach>();
-            // if (model.LinkExcel != null)
-            // {
-                // string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
-                // string physicalWebRootPath = Server.MapPath("/");
-
-                // var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
-                // string location = Path.GetDirectoryName(sourceFileName);
-                // if (!Directory.Exists(location))
-                // {
-                    // Directory.CreateDirectory(location);
-                // }
-                // using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
-                // {
-                    // model.LinkExcel.InputStream.CopyTo(fileStream);
-                    // var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                    // listExcel = excelManager.ImportSach(sourceDir);
-                // }
-
-                // foreach (var item in listExcel)
-                // {
-                    // #region Linh tinh
-                    // // Thể loại sách
-                    // string itemTheLoai = item.IdTheLoai.Trim();
-                    // var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
-
-                    // if (machs.Length > 0)
-                    // {
-                        // var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
-                        // if (theloai != null)
-                        // {
-                            // item.IdTheLoai = theloai.Id;
-                        // }
-                        // else
-                        // {
-                            // // todo - ddc dictionary version 21
-                            // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
-                            // {
-                                // TenTheLoai = item.IdTheLoai.Trim(),
-                                // MaDDC = itemTheLoai.Trim()
-                            // });
-                            // item.IdTheLoai = id;
-                        // }
-                    // }
-                    // else
-                    // {
-                        // var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
-                        // if (theloai != null)
-                        // {
-                            // item.IdTheLoai = theloai.Id;
-                        // }
-                        // else
-                        // {
-                            // var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = item.IdTheLoai });
-                            // item.IdTheLoai = id;
-                        // }
-                    // }
-
-                    // // Kệ sách
-                    // var keSach = _keSachLogic.GetByTenKeSach(item.IdKeSach);
-                    // if (keSach != null)
-                    // {
-                        // item.IdKeSach = keSach.Id;
-                    // }
-                    // else
-                    // {
-                        // var id = _keSachLogic.Add(new KeSach() { TenKe = item.IdKeSach.Trim() });
-                        // item.IdKeSach = id;
-                    // }
-
-                    // // Nhà xuất bản
-                    // var nxb = _NhaXuatBanLogic.GetByTenNXB(item.IdNhaXuatBan);
-                    // if (nxb != null)
-                    // {
-                        // item.IdNhaXuatBan = nxb.Id;
-                    // }
-                    // else
-                    // {
-                        // var id = _NhaXuatBanLogic.ThemNXB(new NhaXuatBan() { Ten = item.IdNhaXuatBan.Trim() });
-                        // item.IdNhaXuatBan = id;
-                    // }
-
-                    // // Ngôn ngữ
-                    // var ngonNgu = _LanguageLogic.GetByTenNgonNgu(item.IdNgonNgu);
-                    // if (ngonNgu != null)
-                    // {
-                        // item.IdNgonNgu = ngonNgu.Id;
-                    // }
-                    // else
-                    // {
-                        // var id = _LanguageLogic.InsertNew(new Language() { Ten = item.IdNgonNgu.Trim() });
-                        // item.IdNgonNgu = id;
-                    // }
-                    // #endregion
-
-                    // var idSach = _SachLogic.ThemSach(item);
-                    // if (idSach.Length > 0)
-                    // {
-                        // // Tác giả 
-                        // foreach (var tg in item.listTacGia)
-                        // {
-                            // string idTG = null;
-                            // var tacGia = _TacGiaLogic.GetByTenTacGia(tg.TenTacGia);
-                            // if (tacGia != null)
-                            // {
-                                // idTG = tacGia.Id;
-                            // }
-                            // else
-                            // {
-                                // idTG = _TacGiaLogic.Insert(tg);
-                            // }
-                            // _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
-                        // }
-                        // Sach sach = _SachLogic.GetBookById(idSach);
-                        // Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
-                        // if (temp != null)
-                        // {
-                            // sach.QRlink = temp.QRlink;
-                            // sach.QRData = temp.QRData;
-                            // _SachLogic.Update(sach);
-                        // }
-                    // }
-                // }
-            // }
-            // return RedirectToAction("Index", "Sach");
-            // // return View();
-        // }
 
         #endregion
 

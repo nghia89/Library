@@ -8,7 +8,7 @@
 <h4 class="text-danger">Lưu thất bại @Model.ListFail.Count học sinh</h4>
 @if (@Model.ListFail.Count > 0)
 {
-    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "HocSinh", new { fileName = Model.FileName })'">
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "HocSinh", new {filePath=Model.FilePath, fileName = Model.FileName })'">
         <i class="fa fa-cloud-download" style="padding-right: 4px;font-size: 17px;"> Tải file lỗi để sửa</i>
     </button>
     <center><h3>Danh sách bị lỗi</h3></center>
@@ -20,7 +20,7 @@
                     var longestRow = Model.ListShow.FirstOrDefault();
                     if (longestRow != null)
                     {
-                        <th class="order-number-column">STT</th>
+                        <th>STT</th>
                         @*for (int i = 0; i < longestRow.Count; i++)
                             {
                                 <th>
@@ -49,7 +49,7 @@
                         <th>Niên khóa</th>
                         <th>Địa chỉ</th>
                         <th>SĐT</th>
-                        <th width="250px">Nguyên nhân lỗi </th>
+                        <th>Nguyên nhân lỗi </th>
                     }
                 }
                 @*<th width="150px"><center>Thao tác</center></th>*@
@@ -66,7 +66,7 @@
                         @foreach (var j in item)
                         {
                             // tô màu ô trống dữ liệu cần thiêt
-                            if (String.IsNullOrEmpty(j.ToString().Trim()) && col <= 5)
+                            if (String.IsNullOrEmpty(j.ToString().Trim()) && col <= 6)
                             {
                                 <td style="background: #dc354582;"></td>
                             }
@@ -94,6 +94,7 @@
         </tbody>
     </table>
                 }
+<br />
 <div class="f1-buttons">
     <button type="button" class="btn btn-success" id="btn-finish"><i class=""></i>Hoàn tất</button>
 </div>

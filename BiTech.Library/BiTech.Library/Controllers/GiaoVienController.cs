@@ -423,10 +423,10 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult ExportWord()
-        {
-            return View();
-        }
+        //public ActionResult ExportWord()
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
         public ActionResult ImportFromExcel(UserViewModel model)
@@ -569,7 +569,7 @@ namespace BiTech.Library.Controllers
         {
             return View();
         }
-     
+
         [HttpPost]
         public async Task<ActionResult> PreviewImport(HttpPostedFileBase file)
         {
@@ -648,12 +648,6 @@ namespace BiTech.Library.Controllers
             return Json(new { status = "fail", message = "Quá trình Upload bị gián đoạn. Vui lòng thử lại" });
         }
 
-        public ActionResult RequestEditPreviewForm(string[] data, string orderNumber)
-        {
-            ViewBag.OrderNumber = orderNumber;
-            return PartialView("_EditPreviewForm", data);
-        }
-
         [HttpPost]
         public ActionResult ImportSave(List<string[]> data)
         {
@@ -715,7 +709,7 @@ namespace BiTech.Library.Controllers
             if (listAllGV != null)
             {
                 foreach (var item in listAllGV)
-                {                                    
+                {
                     // Tên
                     if (String.IsNullOrEmpty(item.Ten.Trim()))
                     {
@@ -735,6 +729,11 @@ namespace BiTech.Library.Controllers
                     if (String.IsNullOrEmpty(item.MaSoThanhVien.Trim()))
                     {
                         item.ListError.Add("Rỗng ô nhập \"Mã giáo viên\"");
+                    }
+                    // NgaySinh
+                    if (String.IsNullOrEmpty(item.NgaySinh.ToString().Trim()) || item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Ngày sinh\"");
                     }
                     // Trùng mã                
                     var tv = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien.Trim());
@@ -888,6 +887,10 @@ namespace BiTech.Library.Controllers
                         if (String.IsNullOrEmpty(item.GioiTinh.Trim()))
                             ws.Cells[firstRow, firstColumn + 4].SetStyle(styleError);
 
+                        if (String.IsNullOrEmpty(item.NgaySinh.ToString().Trim()) ||
+                            item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
+                            ws.Cells[firstRow, firstColumn + 5].SetStyle(styleError);
+
                         model.ArrRows[firstRow] = false;// khởi tạo dòng False (không bị trùng)
                         if (item.IsDuplicate == true)
                         {
@@ -903,8 +906,18 @@ namespace BiTech.Library.Controllers
                     ws.AutoFitColumns();
                     // Save
                     string fileName = "DsGiaoVienBiLoi.xlsx";
-                    wb.Save(@"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName, SaveFormat.Xlsx);
+                    string physicalWebRootPath = Server.MapPath("/");                  
+                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFileName = null;
+                    uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
+                    string location = Path.GetDirectoryName(uploadFileName);
+                    if (!Directory.Exists(location))
+                    {
+                        Directory.CreateDirectory(location);
+                    }
+                    wb.Save(uploadFileName, SaveFormat.Xlsx);
                     model.FileName = fileName;
+                    model.FilePath = uploadFileName;
                 }
                 #endregion
             }
@@ -914,12 +927,12 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult DowloadExcel(string fileName)
+        public ActionResult DowloadExcel(string filePath,string fileName)
         {
             if (fileName == null)
                 return RedirectToAction("NotFound", "Error");
-            // To do Download            
-            string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileExcel\" + fileName;
+            // To do Download                       
+            string filepath = filePath;
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);
             string contentType = MimeMapping.GetMimeMapping(filepath);
             var cd = new System.Net.Mime.ContentDisposition

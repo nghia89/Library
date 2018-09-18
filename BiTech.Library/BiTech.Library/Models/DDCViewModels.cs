@@ -14,6 +14,7 @@ namespace BiTech.Library.Models
         public List<DDC> ListSuccess { get; set; } = new List<DDC>();
         public List<DDC> ListFail { get; set; } = new List<DDC>();
         public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
-        public string FileName { get; set; }       
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
     }
 }

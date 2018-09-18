@@ -56,6 +56,7 @@ namespace BiTech.Library.Models
         public List<ChiTietNhapSach> ListFail { get; set; } = new List<ChiTietNhapSach>();
         public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
         public string FileName { get; set; }
+        public string FilePath { get; set; }
         /// <summary>
         /// Mảng chứa các dòng chứ Mã sách bị trùng
         /// </summary>

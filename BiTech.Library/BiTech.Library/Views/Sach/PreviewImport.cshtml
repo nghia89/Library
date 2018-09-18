@@ -22,8 +22,8 @@
                         var longestRow = Model.RawDataList.FirstOrDefault();
                         if (longestRow != null)
                         {
-                            <th class="order-number-column">STT</th>
-                            <th width="70px">Tên sách</th>
+                            <th>STT</th>
+                            <th>Tên sách</th>
                             <th>Mã ISBN</th>
                             <th>Thể loại sách</th>
                             <th>Tác giả</th>
@@ -41,7 +41,7 @@
                            
                         }
                     }
-                    <th width="150px"><center>Thao tác</center></th>
+                    <th><center>Thao tác</center></th>
                 </tr>
             </thead>
             <tbody>
@@ -71,6 +71,7 @@
                 }
             </tbody>
         </table>
+        <br />
         <div class="f1-buttons">
             <button type="button" class="btn" id="btn-back"> Quay lại</button>
             <button class="btn btn-success has-spinner btn-check-step-2" id="btn-check-step-2">Tiếp tục</button>
@@ -161,7 +162,7 @@
                swal({
                    title: "Đã xong",
                    type: "success",
-                   text: "Đã loại bỏ tài khoản mà bạn vừa chọn !!!"
+                   text: "Đã loại bỏ sách mà bạn vừa chọn !!!"
                }, function () {
                    // --
                });
