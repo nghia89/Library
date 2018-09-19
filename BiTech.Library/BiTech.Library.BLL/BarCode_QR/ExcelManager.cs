@@ -184,7 +184,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             }
             return list;
         }
-		
+
         public void ExportWord(string sourceDir, List<ThanhVien> list, string fileName, List<string> lstHeader)
         {
             string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
@@ -193,15 +193,19 @@ namespace BiTech.Library.BLL.BarCode_QR
             foreach (var item in list)
             {
                 Document docx = new Document(sourceSavePath);
-                if (item.Ten != null)
-                    docx.Range.Replace("_TenDonVi_", lstHeader[0].ToUpper(), true, true);
-                else
-                    docx.Range.Replace("_TenDonVi_", "", true, true);
+                //if (lstHeader[0] != null)
+                //    docx.Range.Replace("_TenDonVi_", lstHeader[0].ToUpper(), true, true);
+                //else
+                //    docx.Range.Replace("_TenDonVi_", "", true, true);
 
-                if (item.Ten != null)
-                    docx.Range.Replace("_TenTruong_", lstHeader[1].ToUpper(), true, true);
-                else
-                    docx.Range.Replace("_TenTruong_", "", true, true);
+                //if (lstHeader[1]!= null)
+                //    docx.Range.Replace("_TenTruong_", lstHeader[1].ToUpper(), true, true);
+                //else
+                //    docx.Range.Replace("_TenTruong_", "", true, true);
+                docx.Range.Replace("_TenDonVi_", "SỞ GIÁO DỤC VÀ ĐÀO TẠO TPHCM", true, true);
+
+                docx.Range.Replace("_TenTruong_", "TRƯỜNG THPT VÕ THỊ SÁU", true, true);
+
 
                 if (item.Ten != null)
                     docx.Range.Replace("_FullName_", item.Ten.ToUpper(), true, true);
@@ -215,7 +219,7 @@ namespace BiTech.Library.BLL.BarCode_QR
 
                 // if (item.NgaySinh != null && item.NgaySinh.ToString("dd-MM-yyyy") != "01-01-0001")
                 if (item.NgaySinh != null)
-                    docx.Range.Replace("_NgaySinh_", item.NgaySinh.ToString("dd-MM-yyyy"), true, true);
+                    docx.Range.Replace("_NgaySinh_", item.NgaySinh.ToString("dd/MM/yyyy"), true, true);
                 else
                     docx.Range.Replace("_NgaySinh_", "", true, true);
 

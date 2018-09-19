@@ -76,7 +76,7 @@ namespace BiTech.Library.Controllers
                 ctxs.ten = TenSach.TenSach;
                 ctxs.IdPhieuXuat = item.IdPhieuXuat;
                 ctxs.soLuong = item.SoLuong;
-                ctxs.MaKiemSoat = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).MaKiemSoat;
+                ctxs.MaKiemSoat = _SachLogic.GetById(item.IdSach).MaKiemSoat;
                 lst.Add(ctxs);
 
             }
