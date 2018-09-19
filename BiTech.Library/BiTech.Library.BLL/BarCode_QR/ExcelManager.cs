@@ -22,6 +22,7 @@ namespace BiTech.Library.BLL.BarCode_QR
         {
 
         }
+
         public void ConvertCellToHTML(string sourceDir, string outputDir)
         {
             // Chuyển đường dẫn ảo thành đường dẫn vật lý
@@ -109,6 +110,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             }
             return list;
         }
+
         public List<TheLoaiSach> ImportTheLoaiSach(string sourceDir)
         {
             List<TheLoaiSach> list = new List<TheLoaiSach>();
@@ -193,19 +195,18 @@ namespace BiTech.Library.BLL.BarCode_QR
             foreach (var item in list)
             {
                 Document docx = new Document(sourceSavePath);
-                //if (lstHeader[0] != null)
-                //    docx.Range.Replace("_TenDonVi_", lstHeader[0].ToUpper(), true, true);
-                //else
-                //    docx.Range.Replace("_TenDonVi_", "", true, true);
+                if (lstHeader[0] != null)
+                    docx.Range.Replace("_TenDonVi_", lstHeader[0].ToUpper(), true, true);
+                else
+                    docx.Range.Replace("_TenDonVi_", "", true, true);
 
-                //if (lstHeader[1]!= null)
-                //    docx.Range.Replace("_TenTruong_", lstHeader[1].ToUpper(), true, true);
-                //else
-                //    docx.Range.Replace("_TenTruong_", "", true, true);
-                docx.Range.Replace("_TenDonVi_", "SỞ GIÁO DỤC VÀ ĐÀO TẠO TPHCM", true, true);
+                if (lstHeader[1] != null)
+                    docx.Range.Replace("_TenTruong_", lstHeader[1].ToUpper(), true, true);
+                else
+                    docx.Range.Replace("_TenTruong_", "", true, true);
 
-                docx.Range.Replace("_TenTruong_", "TRƯỜNG THPT VÕ THỊ SÁU", true, true);
-
+                //docx.Range.Replace("_TenDonVi_", "SỞ GIÁO DỤC VÀ ĐÀO TẠO TPHCM", true, true);
+                //docx.Range.Replace("_TenTruong_", "TRƯỜNG THPT VÕ THỊ SÁU", true, true);
 
                 if (item.Ten != null)
                     docx.Range.Replace("_FullName_", item.Ten.ToUpper(), true, true);
@@ -270,15 +271,28 @@ namespace BiTech.Library.BLL.BarCode_QR
                 if (item.HinhChanDung != null)
                 {
                     string linkImage = HttpContext.Current.Server.MapPath(item.HinhChanDung.ToString());
-                    docx.Range.Replace(new Regex("_Image_"), new ReplaceWithImageEvaluator(linkImage), false);
-                }
-                if (item.QRLink != null)
-                {//mẫu 1 hình nhỏ hơn mẫu 2
-                    string linkImage = HttpContext.Current.Server.MapPath(item.QRLink.ToString());
-                    if (sourceDir == "/Content/MauWord/Mau2-GV.docx" || sourceDir == "/Content/MauWord/Mau2-HS.docx")
-                        docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR_Large(linkImage), false);
+                    if (File.Exists(linkImage))
+                        docx.Range.Replace(new Regex("_Image_"), new ReplaceWithImageEvaluator(linkImage), false);
                     else
-                        docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR(linkImage), false);
+                        docx.Range.Replace("_Image_", "", true, true);
+                }
+                else
+                    docx.Range.Replace("_Image_", "", true, true);
+
+                if (item.QRLink != null)
+                {
+                    //mẫu 1 hình nhỏ hơn mẫu 2
+                    string linkImage = HttpContext.Current.Server.MapPath(item.QRLink.ToString());
+
+                    if (File.Exists(linkImage))
+                    {
+                        if (sourceDir == "/Content/MauWord/Mau2-GV.docx" || sourceDir == "/Content/MauWord/Mau2-HS.docx")
+                            docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR_Large(linkImage), false);
+                        else
+                            docx.Range.Replace(new Regex("_QR_"), new ReplaceWithImageQR(linkImage), false);
+                    }
+                    else
+                        docx.Range.Replace("_QR_", "", true, true);
                 }
                 string thoiHan = DateTime.Today.Month.ToString() + "/" + (DateTime.Today.Year + 1).ToString();
                 docx.Range.Replace("_ThoiHan_", thoiHan, true, true);
@@ -286,6 +300,7 @@ namespace BiTech.Library.BLL.BarCode_QR
                 outputBuilder.InsertDocument(docx, ImportFormatMode.KeepDifferentStyles);
             }
             // Đường dẫn lưu file word
+
             string saveFolder = @"D:/Pro Test/pro2/BiTech.Library/BiTech.Library/Upload/FileWord/" + fileName;
             outputDoc.Save(saveFolder);
         }

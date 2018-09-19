@@ -1284,13 +1284,19 @@ namespace BiTech.Library.Controllers
         {
             var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             string fileName = string.Concat("QR_Word" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".docx");
+
             var folderReport = Tool.GetUploadFolder(UploadFolder.ReportsWordQR, _SubDomain);
+
             //string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/WordQR/{fileName}";
-            string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+
+            string physicalWebRootPath = Server.MapPath("~/");
+
+            string filePath = Path.Combine(physicalWebRootPath, folderReport); //System.Web.HttpContext.Current.Server.MapPath(folderReport);
             if (!Directory.Exists(filePath))
             {
                 Directory.CreateDirectory(filePath);
             }
+
             string fullPath = Path.Combine(filePath, fileName);
 
             var listBook = _SachLogic.GetAll_NonDelete();
@@ -1304,9 +1310,9 @@ namespace BiTech.Library.Controllers
                 ExcelManager wordExport = new ExcelManager();
                 wordExport.ExportQRToWord(linkMau, listBook, fullPath);
 
-                string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + fileName;
-                byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-                string contentType = MimeMapping.GetMimeMapping(filepath);
+                //string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + fileName;
+                byte[] filedata = System.IO.File.ReadAllBytes(fullPath);
+                string contentType = MimeMapping.GetMimeMapping(fullPath);
 
                 var cd = new System.Net.Mime.ContentDisposition
                 {

@@ -547,7 +547,9 @@ namespace BiTech.Library.Controllers
                     model.LinkWord.InputStream.CopyTo(fileStream);
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                     fileStream.Close();
+
                     excelManager.ExportWord(sourceDir, listTV, fileName, lstHeader);
+
                     // To do Download           
                     string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
                     byte[] filedata = System.IO.File.ReadAllBytes(filepath);
