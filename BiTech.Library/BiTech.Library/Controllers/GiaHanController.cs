@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Mvc;
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class GiaHanController : BaseController
     {
         static public List<MuonTraSachViewModel> list_ChuanBiTra = new List<MuonTraSachViewModel>();

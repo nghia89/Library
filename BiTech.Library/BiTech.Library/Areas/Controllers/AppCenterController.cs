@@ -19,11 +19,16 @@ namespace BiTech.Library.Areas.Controllers
             _AccessInfoLogic = new AccessInfoLogic(Tool.GetConfiguration("StoreConnectionString"), Tool.GetConfiguration("BLibDatabaseName"));
         }
 
+        [HttpGet]
+        public dynamic Test()
+        {
+            return "OK";
+        }
+
         // POST: AppCenter/UpdateAccessInfo
         [HttpPost]
         public IHttpActionResult UpdateAccessInfo([FromBody] CustomerAccessInfo info)
         {
-
             if (CheckConfirmKey(info.ConfirmKey))
             {
                 if (CheckInfoData(info))

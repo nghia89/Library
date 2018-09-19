@@ -4,7 +4,7 @@
 }
 
 html {
-    background: url('Images/background.jpg') no-repeat;
+    background: url('/Content/Images/background.jpg') no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-position: right;

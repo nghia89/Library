@@ -29,7 +29,7 @@ namespace BiTech.Library.Helpers
             return ConfigurationManager.AppSettings[key]?.ToString();
         }
 
-        public static string GetUploadFolder(UploadFolder type, string subdomain = "")
+        public static string GetUploadFolder(UploadFolder type, string subdomain)
         {
             string mainUpload = @"Upload";
 

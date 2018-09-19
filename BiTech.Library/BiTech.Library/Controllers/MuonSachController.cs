@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class MuonSachController : BaseController
     {
         static public List<MuonTraSachViewModel> list_ChuanBiMuon = new List<MuonTraSachViewModel>();

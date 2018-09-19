@@ -1,13 +1,9 @@
 ﻿using BiTech.Library.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    //[AuthorizeRoles(Role.CustomerUser, Role.CustomerAdmin)]
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class HelpController : Controller
     {
         // GET: Controllers/Help

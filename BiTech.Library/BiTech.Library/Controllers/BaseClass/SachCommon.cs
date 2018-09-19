@@ -11,22 +11,20 @@ namespace BiTech.Library.Controllers.BaseClass
 {
     public class SachCommon
     {
-        public Sach LuuMaVachSach(string physicalWebRootPath, Sach sach, string imageName)
+        public Sach LuuMaVachSach(string physicalWebRootPath, Sach sach, string imageName, string subDomain)
         {
             BarCodeQRManager barcode = new BarCodeQRManager();
             string tenKhongDau = ConvertToTiengVietKhongDauConstants.RemoveSign4VietnameseString(sach.TenSach);
-            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeBook);
+            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeBook, subDomain);
             string uploadFileNameQR = null;
-            if (imageName != null)
+            if (imageName != null && File.Exists(imageName))
             {
                 uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, imageName);
             }
             else
             {
                 //   ==> Tên hình QR <==
-
-                uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, sach.MaKiemSoat +
-                "-" + sach.TenSach + ".jpg");
+                uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, sach.Id + ".jpg");
             }
             string location = Path.GetDirectoryName(uploadFileNameQR);
             if (!Directory.Exists(location))

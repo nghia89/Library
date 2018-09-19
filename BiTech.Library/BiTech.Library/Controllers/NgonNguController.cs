@@ -12,6 +12,7 @@ using BiTech.Library.Helpers;
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class NgonNguController : BaseController
     {
         public ActionResult Index(int? page)

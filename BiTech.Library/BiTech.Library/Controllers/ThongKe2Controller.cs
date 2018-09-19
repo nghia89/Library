@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
-    //[AuthorizeRoles(Role.CustomerAdmin, Role.CustomerUser)]
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class ThongKe2Controller : BaseController
     {
         // GET: ThongKe2
