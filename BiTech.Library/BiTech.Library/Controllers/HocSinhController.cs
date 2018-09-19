@@ -48,7 +48,7 @@ namespace BiTech.Library.Controllers
                 model.ListAll[i + 1] = item.MaSoThanhVien;
                 i += 2;
             }
-            model.ListThanhVien = listThanhVien;
+            model.ListThanhVien = listThanhVien.OrderBy(x => x.MaSoThanhVien).ToList();
             ViewBag.ThongBao = false;
             return View(model);
         }
@@ -534,7 +534,7 @@ namespace BiTech.Library.Controllers
             {
                 string physicalWebRootPath = Server.MapPath("/");
                 string uploadForder = GetUploadFolder(UploadFolder.FileWord, _SubDomain);
-                
+
                 var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkWord.FileName);
 
                 string location = Path.GetDirectoryName(sourceFileName);
@@ -548,7 +548,7 @@ namespace BiTech.Library.Controllers
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                     fileStream.Close();
                     // TO DO - Lưu file kiễu mới
-                    Aspose.Words.Document outputDoc= excelManager.ExportWord(sourceDir, listTV, fileName, lstHeader);
+                    Aspose.Words.Document outputDoc = excelManager.ExportWord(sourceDir, listTV, fileName, lstHeader);
                     // Đường dẫn lưu file word                              
                     string uploadFolder = GetUploadFolder(UploadFolder.FileWord, _SubDomain);
                     string uploadFileName = null;
@@ -746,7 +746,7 @@ namespace BiTech.Library.Controllers
                     string ngay = arr[0];
                     string thang = arr[1];
                     string nam = arr[2];
-                   
+
                     nam = nam.Substring(0, 4);// Trường hợp có định dạng datetime, 2018 00:00:00    
                     if (ngay.Length == 1)
                     {
@@ -831,7 +831,7 @@ namespace BiTech.Library.Controllers
                             GioiTinh = xuLyChuoi.ChuanHoaChuoi(item.GioiTinh),
                             NgaySinh = item.NgaySinh,
                             NienKhoa = item.NienKhoa,
-                            LopHoc=item.LopHoc,                            
+                            LopHoc = item.LopHoc,
                             DiaChi = item.DiaChi,
                             SDT = item.SDT,
                             Password = item.MaSoThanhVien,

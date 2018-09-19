@@ -2140,6 +2140,16 @@
     <Content Include="Views\GiaHan\Index.cshtml" />
     <Content Include="Views\TheLoaiSach\PreviewImport.cshtml" />
     <Content Include="Views\TheLoaiSach\ImportSave.cshtml" />
+    <Content Include="Tempalates\DDC.xlsx" />
+    <Content Include="Tempalates\ExportTTSach.xlsx" />
+    <Content Include="Tempalates\MauDDC.xlsx" />
+    <Content Include="Tempalates\MauGV.xlsx" />
+    <Content Include="Tempalates\MauHS.xlsx" />
+    <Content Include="Tempalates\MauPNS.xlsx" />
+    <Content Include="Tempalates\MauSach.xlsx" />
+    <Content Include="Tempalates\PhieuNhapSach.xlsx" />
+    <Content Include="Tempalates\Sach.xlsx" />
+    <Content Include="Tempalates\ThanhVien.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2149,7 +2159,6 @@
     <Folder Include="Reports\" />
     <Folder Include="Scripts\angular-1.6.8\i18n\ngLocale\" />
     <Folder Include="Scripts\mustache.js-master\test\spec\" />
-    <Folder Include="Tempalates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
