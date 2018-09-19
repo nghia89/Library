@@ -213,7 +213,7 @@ namespace BiTech.Library.Controllers
                         }
                         catch { }
                     }
-					
+
                     // Lưu mã QR
                     Sach sach = _SachLogic.GetBookById(id);
                     try
@@ -683,7 +683,7 @@ namespace BiTech.Library.Controllers
         {
             try
             {
-                if(paging != "")
+                if (paging != "")
                 {
                     //Count max item in page
                     int kq_so1 = (int.Parse(paging) * int.Parse(pageSize)) - int.Parse(colRowCount);
@@ -860,6 +860,7 @@ namespace BiTech.Library.Controllers
         [HttpPost]
         public ActionResult ImportSave(List<string[]> data)
         {
+            #region Khai báo
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -876,6 +877,7 @@ namespace BiTech.Library.Controllers
             List<Sach> ListSuccess = new List<Sach>();
             List<ArrayList> ListShow = new List<ArrayList>();
             var model = new ImportExcelSachViewModel();
+            #endregion
             #region Truyền dữ liệu vào ListAll
             foreach (var item in data)
             {
@@ -890,7 +892,8 @@ namespace BiTech.Library.Controllers
                     sach.listTacGia = new List<TacGia>();
                     foreach (var ten in tenTacGia)
                     {
-                        sach.listTacGia.Add(new TacGia() { TenTacGia = ten.Trim() });
+                        if (!String.IsNullOrEmpty(ten.Trim()))
+                            sach.listTacGia.Add(new TacGia() { TenTacGia = ten.Trim() });
                     }
                 }
                 sach.IdNhaXuatBan = item[5].ToString().Trim();

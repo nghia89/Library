@@ -281,7 +281,7 @@ namespace BiTech.Library.BLL.BarCode_QR
                 outputBuilder.MoveToDocumentEnd();
                 outputBuilder.InsertDocument(docx, ImportFormatMode.KeepDifferentStyles);
             }
-
+            // Đường dẫn lưu file word
             string saveFolder = @"D:/Pro Test/pro2/BiTech.Library/BiTech.Library/Upload/FileWord/" + fileName;
             outputDoc.Save(saveFolder);
         }

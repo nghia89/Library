@@ -1,14 +1,14 @@
-﻿@model BiTech.Library.Models.ImportExcelDDCViewModel
+﻿@model BiTech.Library.Models.ImportExcelTLSViewModel
 @{
     Layout = null;
     ViewBag.Title = "ResultImportExcel";
 }
 
-<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count mã</h4>
-<h4 class="text-danger">Lưu thất bại @Model.ListFail.Count mã</h4>
+<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count thể loại</h4>
+<h4 class="text-danger">Lưu thất bại @Model.ListFail.Count thể loại</h4>
 @if (@Model.ListFail.Count > 0)
 {
-    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "DDC",new {filePath=Model.FilePath, fileName = Model.FileName })'">
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "TheLoaiSach",new {filePath=Model.FilePath, fileName = Model.FileName })'">
         <i class="fa fa-cloud-download" style="padding-right: 4px;font-size: 17px;"> Tải file lỗi để sửa</i>
     </button>
     <center><h3>Danh sách bị lỗi</h3></center>
@@ -20,9 +20,9 @@
                     var longestRow = Model.ListShow.FirstOrDefault();
                     if (longestRow != null)
                     {
-                        <th>STT</th>
-                        <th width="20%">Mã DDC</th>
-                        <th width="40%">Tên thể loại</th>
+                        <th>STT</th>                        
+                        <th width="40%">Tên thể loại sách</th>
+                        <th width="20%">Mô tả</th>
                         <th width="40%">Nguyên nhân lỗi </th>
                     }
                 }

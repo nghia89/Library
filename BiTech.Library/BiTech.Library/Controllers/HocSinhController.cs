@@ -721,6 +721,8 @@ namespace BiTech.Library.Controllers
                     string ngay = arr[0];
                     string thang = arr[1];
                     string nam = arr[2];
+                   
+                    nam = nam.Substring(0, 4);// Trường hợp có định dạng datetime, 2018 00:00:00    
                     if (ngay.Length == 1)
                     {
                         char firstChar = ngay[0];
@@ -773,7 +775,7 @@ namespace BiTech.Library.Controllers
                         item.ListError.Add("Rỗng ô nhập \"Mã học sinh\"");
                     }
                     // NgaySinh
-                    if (String.IsNullOrEmpty(item.NgaySinh.ToString().Trim()) || item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
+                    if (String.IsNullOrEmpty(item.NgaySinh.ToShortDateString().Trim()) || item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
                     {
                         item.ListError.Add("Rỗng ô nhập \"Ngày sinh\"");
                     }
@@ -804,6 +806,7 @@ namespace BiTech.Library.Controllers
                             GioiTinh = xuLyChuoi.ChuanHoaChuoi(item.GioiTinh),
                             NgaySinh = item.NgaySinh,
                             NienKhoa = item.NienKhoa,
+                            LopHoc=item.LopHoc,                            
                             DiaChi = item.DiaChi,
                             SDT = item.SDT,
                             Password = item.MaSoThanhVien,

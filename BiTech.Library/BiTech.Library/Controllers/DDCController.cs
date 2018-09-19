@@ -210,13 +210,7 @@ namespace BiTech.Library.Controllers
             List<ArrayList> ListShow = new List<ArrayList>();
             var model = new ImportExcelDDCViewModel();
             foreach (var item in data)
-            {
-                // test
-                int maDDC = 0;
-                if (String.IsNullOrEmpty(item[1].ToString().Trim()))
-                    maDDC = -1;
-                else
-                    maDDC = Int32.Parse(item[1].ToString().Trim());
+            {              
                 DDC ddc = new DDC
                 {
                     MaDDC = item[1].ToString().Trim(),
@@ -333,7 +327,7 @@ namespace BiTech.Library.Controllers
                     }
                     ws.AutoFitColumns();
                     // Save
-                    string fileName = "DsTheLoaiSachBiLoi.xlsx";
+                    string fileName = "DsDDCBiLoi.xlsx";
                     string physicalWebRootPath = Server.MapPath("/");
                     string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
                     string uploadFileName = null;

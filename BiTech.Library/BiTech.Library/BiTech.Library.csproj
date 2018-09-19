@@ -2130,6 +2130,8 @@
     <Content Include="Views\Error\ErrorOccur.cshtml" />
     <Content Include="Views\Sach\DeleteMany.cshtml" />
     <Content Include="Views\GiaHan\Index.cshtml" />
+    <Content Include="Views\TheLoaiSach\PreviewImport.cshtml" />
+    <Content Include="Views\TheLoaiSach\ImportSave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
