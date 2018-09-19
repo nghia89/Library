@@ -623,7 +623,8 @@ namespace BiTech.Library.Controllers
                     UserName = item[2].ToString().Trim(),
                     MaSoThanhVien = item[3].ToString().Trim(),
                     GioiTinh = item[4].ToString().Trim(),
-                    LopHoc = item[6].ToString().Trim(),
+                    // LopHoc = item[6].ToString().Trim(),
+                    ChucVu = item[6].ToString().Trim(),
                     NienKhoa = item[7].ToString().Trim(),
                     DiaChi = item[8].ToString().Trim(),
                     SDT = item[9].ToString().Trim(),
@@ -720,10 +721,11 @@ namespace BiTech.Library.Controllers
                             LoaiTK = item.LoaiTK,
                             GioiTinh = xuLyChuoi.ChuanHoaChuoi(item.GioiTinh),
                             NgaySinh = item.NgaySinh,
-                            NienKhoa = item.NienKhoa,
+                            NienKhoa = item.NienKhoa,                            
                             DiaChi = item.DiaChi,
                             SDT = item.SDT,
-                            LopHoc=item.LopHoc,
+                            //LopHoc=item.LopHoc,
+                            ChucVu=item.ChucVu,
                             Password = item.MaSoThanhVien,
                             TrangThai = EUser.Active
                         };
@@ -815,7 +817,7 @@ namespace BiTech.Library.Controllers
                             arrList.Add("");
                         else
                             arrList.Add(item.NgaySinh.ToShortDateString());
-                        arrList.Add(item.LopHoc);
+                        arrList.Add(item.ChucVu);
                         arrList.Add(item.NienKhoa);
                         arrList.Add(item.DiaChi);
                         arrList.Add(item.SDT);
