@@ -45,16 +45,35 @@
                     foreach (var item in Model.RawDataList)
                     {
                         orderNumber += 1;
-                        <tr id="element-@orderNumber">
+                        var col = 1;
+                        <tr id="element-@orderNumber" class="text-center">
                             <td class="text-center SL_STT-@stt" data-tongstt="@stt">@stt</td>
                             @for (int j = 1; j < item.Length; j++)
                             {
-                                <td>@item[j]</td>
+                                if (col == 5)
+                                {
+                                    if (!String.IsNullOrEmpty(@item[j]))
+                                    {
+                                        string ngaySinh = @item[j].Replace("00:00:00", "");
+                                        <td>@ngaySinh</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td>@item[j]</td>
+                                }
+                                col++;
                             }
                             <td>
                                 <center>
-                                    @*<a href="#@orderNumber" data-array-index="@index" class="btn btn-primary edit-action">Sửa</a>*@
-                                    <a href="#@orderNumber" data-array-index="@index" class="btn btn-danger btn-sm remove-acction">Xóa</a>
+                                    <a href="#@orderNumber"
+                                       class="btn btn-sm btn-danger remove-acction arrayindex-@index"
+                                       data-array-index="@index"
+                                       data-constant-index="@index">Xóa</a>
                                 </center>
                             </td>
                         </tr>
@@ -64,7 +83,7 @@
                 }
             </tbody>
         </table>
-        <br/>
+        <br />
         <div class="f1-buttons">
             <button type="button" class="btn btn-sm mt-2" id="btn-back"> Quay lại</button>
             <button class="btn btn-sm btn-success has-spinner btn-check-step-2 mt-2" id="btn-check-step-2">Tiếp tục</button>
@@ -121,8 +140,8 @@
 
     // Remove action
     $(document).on('click','.remove-acction', function () {
-        var arrayIndex = $(this).attr('data-array-index');
-        jsonData.splice(arrayIndex, 1);
+        var arrayIndex = $(this).data("array-index");// Dùng để update lại row khi xóa
+        var arrayIndex_element = $(this).attr("data-constant-index");// Dùng để update STT và Xác định Row bị xóa
         swal({
             title: "Xác nhận",
             text: "Bạn có chắc chắn xóa mục đã chọn không ?",
@@ -135,15 +154,16 @@
         },
        function (isConfirm) {
            if (isConfirm) {
-               $("#element-" + (parseInt(arrayIndex) + 1)).hide();
+               jsonData.splice(arrayIndex, 1); // Xóa vị trí Data trong JsonData ứng với vị trí Row trong Table
+               $("#element-" + (parseInt(arrayIndex_element) + 1)).hide();
                console.log( $("#element-" + (parseInt(arrayIndex) + 1)));
-               // So luong tong
+               // Số lượng tổng
                var TSL = $(".CountTotal_SL").data("tongsl");
                var kq_TSL = parseInt(TSL) - 1;
                $(".CountTotal_SL").data("tongsl",kq_TSL );
                $(".CountTotal_SL").html(kq_TSL);
                // STT
-               var begin=parseInt(arrayIndex) +1 ;
+               var begin=parseInt(arrayIndex_element) +1 ;
                var end=@Model.TotalEntry;
                for (var i = begin+1; i <= end; i++)
                {
@@ -151,6 +171,15 @@
                    var kq_TSL2 = parseInt(TSL2) - 1;
                    $(".SL_STT-"+i).data("tongstt", kq_TSL2);
                    $(".SL_STT-"+i).html(kq_TSL2);
+               }
+               // Array Index - update lại jsonData
+               arrBegin=parseInt(arrayIndex);
+               arrEnd=@Model.TotalEntry;
+               for(var i=arrBegin+1;i<=arrEnd;i++)
+               {
+                   var dataIndex = $(".arrayindex-"+i).data("array-index");// du lieu o vi tri tiep theo
+                   var dataIndexNext=parseInt(dataIndex) - 1;// du lieu -1
+                   $(".arrayindex-"+i).data("array-index", dataIndexNext);// gan lai vao vi tri do
                }
                swal({
                    title: "Đã xong",

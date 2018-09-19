@@ -1,21 +1,12 @@
-﻿@model BiTech.Library.Models.ImportExcelPNSViewModel
+﻿@model BiTech.Library.Models.ImportExcelTLSViewModel
 @using Newtonsoft.Json;
 @{
     Layout = null;
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-@if (ViewBag.NullGhiChu==true)
-{
-    <div class="alert p-2 alert-danger alert-dismissible fade show">
-        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
-        <strong>Thông báo: </strong>Bạn chưa nhập ghi chú!
-    </div>
-}
-
 <ul class="list-group">
-    <li class="list-group-item">
-        @*<span class="badge">@Model.TotalEntry</span>*@
-        <b id="CountTotal">Tổng số đầu sách được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
+    <li class="list-group-item">       
+        <b id="CountTotal">Tổng số thể loại sách được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
     </li>
 </ul>
 
@@ -30,11 +21,9 @@
                         var longestRow = Model.RawDataList.FirstOrDefault();
                         if (longestRow != null)
                         {
-                            <th>STT</th>
-                            <th>Mã sách</th>
-                            <th>Số lượng</th>
-                            <th>Trạng thái sách</th>
-                            <th>Ghi chú</th>
+                            <th class="order-number-column">STT</th>                           
+                            <th>Tên thể loại sách</th>
+                            <th>Mô tả</th>
                         }
                     }
                     <th><center>Thao tác</center></th>
@@ -55,7 +44,7 @@
                                 <td>@item[j]</td>
                             }
                             <td>
-                                <center>                                  
+                                <center>
                                     <a href="#@orderNumber"
                                        class="btn btn-sm btn-danger remove-acction arrayindex-@index"
                                        data-array-index="@index"
@@ -72,8 +61,8 @@
         <br />
         <div class="f1-buttons">
             <button type="button" class="btn btn-sm mt-2" id="btn-back">Quay lại</button>
-            <button class="btn btn-sm btn-success has-spinner btn-check-step-2 mt-2" id="btn-check-step-2">Tiếp tục</button>
-            <button type="button" class="btn btn-sm btn-next mt-2" id="step-2-success" style="display: none;">Next</button>
+            <button class="btn btn-sm mt-2 btn-success has-spinner btn-check-step-2" id="btn-check-step-2">Tiếp tục</button>
+            <button type="button" class="btn btn-sm mt-2 btn-next" id="step-2-success" style="display: none;">Next</button>
         </div>
         <br />
     </div>
@@ -81,13 +70,12 @@
 @{
     // Chuyển danh sách các tài khoản thành chuỗi JSON để chuyển lên Server
     var jsonData = Html.Raw(JsonConvert.SerializeObject(Model.RawDataList));
-    var note = Html.Raw(JsonConvert.ToString(Model.GhiChu));
 }
 
 <script>
 
     jsonData = @jsonData;
-    note=@note;
+
     function clearSelectBoxDefaultOption(element) {
         if ($(element).attr('data-is-selected') == 'false') {
             $('#' + $(element).attr('id') + ' :selected').remove();
@@ -126,7 +114,7 @@
     });
 
     // Remove action
-    $(document).on('click','.remove-acction', function () {
+  $(document).on('click','.remove-acction', function () {
         var arrayIndex = $(this).data("array-index");// Dùng để update lại row khi xóa
         var arrayIndex_element = $(this).attr("data-constant-index");// Dùng để update STT và Xác định Row bị xóa
         swal({
@@ -171,7 +159,7 @@
                swal({
                    title: "Đã xong",
                    type: "success",
-                   text: "Đã loại bỏ tài khoản mà bạn vừa chọn !!!"
+                   text: "Đã loại bỏ thể loại sách mà bạn vừa chọn !!!"
                }, function () {
                    // --
                });
@@ -187,10 +175,9 @@
         e.preventDefault();
         $(this).addClass('active');
 
-        $.post('@Url.Content("~/PhieuNhapSach/ImportSave")',{
-            data : jsonData,
-            ghiChu: note
-        }).done(function (data,ghiChu) {
+        $.post('@Url.Content("~/TheLoaiSach/ImportSave")',{
+            data : jsonData
+        }).done(function (data) {
 
             $("#success-step-container #message").html(data);
             $("#step-2-success").click();

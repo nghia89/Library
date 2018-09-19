@@ -7,7 +7,7 @@
 <ul class="list-group">
     <li class="list-group-item">
         @*<span class="badge">@Model.TotalEntry</span>*@
-        <b id="CountTotal">Tổng số thể loại sách được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
+        <b id="CountTotal">Tổng số mã DDC được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
     </li>
 </ul>
 
@@ -46,7 +46,10 @@
                             }
                             <td>
                                 <center>                                   
-                                    <a href="#@orderNumber" data-array-index="@index" class="btn btn-sm btn-danger remove-acction">Xóa</a>
+                                    <a href="#@orderNumber"
+                                       class="btn btn-sm btn-danger remove-acction arrayindex-@index"
+                                       data-array-index="@index"
+                                       data-constant-index="@index">Xóa</a>
                                 </center>
                             </td>
                         </tr>
@@ -112,9 +115,9 @@
     });
 
     // Remove action
-    $(document).on('click','.remove-acction', function () {
-        var arrayIndex = $(this).attr('data-array-index');
-        jsonData.splice(arrayIndex, 1);
+  $(document).on('click','.remove-acction', function () {
+        var arrayIndex = $(this).data("array-index");// Dùng để update lại row khi xóa
+        var arrayIndex_element = $(this).attr("data-constant-index");// Dùng để update STT và Xác định Row bị xóa
         swal({
             title: "Xác nhận",
             text: "Bạn có chắc chắn xóa mục đã chọn không ?",
@@ -127,15 +130,16 @@
         },
        function (isConfirm) {
            if (isConfirm) {
-               $("#element-" + (parseInt(arrayIndex) + 1)).hide();
+               jsonData.splice(arrayIndex, 1); // Xóa vị trí Data trong JsonData ứng với vị trí Row trong Table
+               $("#element-" + (parseInt(arrayIndex_element) + 1)).hide();
                console.log( $("#element-" + (parseInt(arrayIndex) + 1)));
-               // So luong tong
+               // Số lượng tổng
                var TSL = $(".CountTotal_SL").data("tongsl");
                var kq_TSL = parseInt(TSL) - 1;
                $(".CountTotal_SL").data("tongsl",kq_TSL );
                $(".CountTotal_SL").html(kq_TSL);
                // STT
-               var begin=parseInt(arrayIndex) +1 ;
+               var begin=parseInt(arrayIndex_element) +1 ;
                var end=@Model.TotalEntry;
                for (var i = begin+1; i <= end; i++)
                {
@@ -144,10 +148,19 @@
                    $(".SL_STT-"+i).data("tongstt", kq_TSL2);
                    $(".SL_STT-"+i).html(kq_TSL2);
                }
+               // Array Index - update lại jsonData
+               arrBegin=parseInt(arrayIndex);
+               arrEnd=@Model.TotalEntry;
+               for(var i=arrBegin+1;i<=arrEnd;i++)
+               {
+                   var dataIndex = $(".arrayindex-"+i).data("array-index");// du lieu o vi tri tiep theo
+                   var dataIndexNext=parseInt(dataIndex) - 1;// du lieu -1
+                   $(".arrayindex-"+i).data("array-index", dataIndexNext);// gan lai vao vi tri do
+               }
                swal({
                    title: "Đã xong",
                    type: "success",
-                   text: "Đã loại bỏ thể loại sách mà bạn vừa chọn !!!"
+                   text: "Đã loại bỏ mã DDC mà bạn vừa chọn !!!"
                }, function () {
                    // --
                });

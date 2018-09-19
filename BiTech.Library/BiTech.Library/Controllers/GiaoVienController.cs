@@ -423,48 +423,6 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult ImportFromExcel(UserViewModel model)
-        {
-            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            ExcelManager excelManager = new ExcelManager();
-            List<ThanhVien> list = new List<ThanhVien>();
-            if (model.LinkExcel != null)
-            {
-                string physicalWebRootPath = Server.MapPath("/");
-                // Todo Excel
-                list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel);
-                int i = 0;
-                foreach (var item in list)
-                {
-                    // ktr trùng mã số thành viên
-                    var thanhVien = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
-                    if (thanhVien == null)
-                    {
-                        // Thêm thành viên,lưu mã vạch                        
-                        var id = _ThanhVienLogic.Insert(item); //insert toàn bộ,chưa ktra gv hs
-                        ThanhVien tv = _ThanhVienLogic.GetById(id);
-                        ThanhVien temp = new ThanhVien();
-                        temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null);
-                        if (temp != null)
-                        {
-                            tv.QRLink = temp.QRLink;
-                            tv.QRData = temp.QRData;
-                            _ThanhVienLogic.Update(tv);
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.Duplicate = "Mã thành viên bị trùng ở dòng số " + (item.RowExcel + i).ToString();
-                        return View();
-                    }
-                    i++;
-                }
-            }
-            return RedirectToAction("Index", "GiaoVien");
-        }
-
         public ActionResult ExportWord(string idTV)
         {
             ViewBag.IdTV = idTV;
@@ -539,7 +497,7 @@ namespace BiTech.Library.Controllers
 
             //DateTime today = DateTime.Today;
             //string fileName = "MauTheGV ("+ today.Day.ToString() + "-" + today.Month.ToString() + "-"+today.Year.ToString() + ")"+".docx";
-            string fileName = "MauTheGV.docx";
+            string fileName = "";
             if (mauThe.Equals("mau1") == true)
             {
                 linkMau = "/Content/MauWord/Mau1-GV.docx";
@@ -678,7 +636,8 @@ namespace BiTech.Library.Controllers
                     string[] arr = day.Split('-');
                     string ngay = arr[0];
                     string thang = arr[1];
-                    string nam = arr[2];
+                    string nam = arr[2];                   
+                    nam = nam.Substring(0, 4);// Trường hợp có định dạng datetime, 2018 00:00:00                   
                     if (ngay.Length == 1)
                     {
                         char firstChar = ngay[0];
@@ -731,7 +690,7 @@ namespace BiTech.Library.Controllers
                         item.ListError.Add("Rỗng ô nhập \"Mã giáo viên\"");
                     }
                     // NgaySinh
-                    if (String.IsNullOrEmpty(item.NgaySinh.ToString().Trim()) || item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
+                    if (String.IsNullOrEmpty(item.NgaySinh.ToShortDateString().Trim()) || item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
                     {
                         item.ListError.Add("Rỗng ô nhập \"Ngày sinh\"");
                     }
@@ -764,6 +723,7 @@ namespace BiTech.Library.Controllers
                             NienKhoa = item.NienKhoa,
                             DiaChi = item.DiaChi,
                             SDT = item.SDT,
+                            LopHoc=item.LopHoc,
                             Password = item.MaSoThanhVien,
                             TrangThai = EUser.Active
                         };
@@ -906,7 +866,7 @@ namespace BiTech.Library.Controllers
                     ws.AutoFitColumns();
                     // Save
                     string fileName = "DsGiaoVienBiLoi.xlsx";
-                    string physicalWebRootPath = Server.MapPath("/");                  
+                    string physicalWebRootPath = Server.MapPath("/");
                     string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
                     string uploadFileName = null;
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
@@ -927,7 +887,7 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult DowloadExcel(string filePath,string fileName)
+        public ActionResult DowloadExcel(string filePath, string fileName)
         {
             if (fileName == null)
                 return RedirectToAction("NotFound", "Error");
