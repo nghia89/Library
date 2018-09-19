@@ -98,7 +98,7 @@ namespace BiTech.Library.Controllers.BaseClass
             return thanhVien;
         }
 
-        public string GetInfo(string info)
+        public static string GetInfo(string info)
         {
             try
             {
