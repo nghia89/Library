@@ -185,7 +185,7 @@ namespace BiTech.Library.BLL.BarCode_QR
             return list;
         }
 
-        public void ExportWord(string sourceDir, List<ThanhVien> list, string fileName, List<string> lstHeader)
+        public Document ExportWord(string sourceDir, List<ThanhVien> list, string fileName, List<string> lstHeader)
         {
             string sourceSavePath = HttpContext.Current.Server.MapPath(sourceDir.ToString());
             Document outputDoc = new Document();
@@ -285,9 +285,10 @@ namespace BiTech.Library.BLL.BarCode_QR
                 outputBuilder.MoveToDocumentEnd();
                 outputBuilder.InsertDocument(docx, ImportFormatMode.KeepDifferentStyles);
             }
-            // Đường dẫn lưu file word
-            string saveFolder = @"D:/Pro Test/pro2/BiTech.Library/BiTech.Library/Upload/FileWord/" + fileName;
-            outputDoc.Save(saveFolder);
+            // Đường dẫn lưu file word           
+            //string saveFolder = @"D:/Pro Test/pro2/BiTech.Library/BiTech.Library/Upload/FileWord/" + fileName;
+           // outputDoc.Save(saveFolder);
+            return outputDoc;
         }
 
         public List<ChiTietNhapSach> ImportPhieuNhapSach(string sourceDir)

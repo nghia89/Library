@@ -547,9 +547,20 @@ namespace BiTech.Library.Controllers
                     model.LinkWord.InputStream.CopyTo(fileStream);
                     var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                     fileStream.Close();
-                    excelManager.ExportWord(sourceDir, listTV, fileName, lstHeader);
-                    // To do Download           
-                    string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
+                    // TO DO - Lưu file kiễu mới
+                    Aspose.Words.Document outputDoc= excelManager.ExportWord(sourceDir, listTV, fileName, lstHeader);
+                    // Đường dẫn lưu file word                              
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileWord, _SubDomain);
+                    string uploadFileName = null;
+                    uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
+                    location = Path.GetDirectoryName(uploadFileName);
+                    if (!Directory.Exists(location))
+                    {
+                        Directory.CreateDirectory(location);
+                    }
+                    outputDoc.Save(uploadFileName);
+                    // Download
+                    string filepath = uploadFileName;
                     byte[] filedata = System.IO.File.ReadAllBytes(filepath);
                     string contentType = MimeMapping.GetMimeMapping(filepath);
                     var cd = new System.Net.Mime.ContentDisposition
@@ -585,7 +596,7 @@ namespace BiTech.Library.Controllers
                 listTV.Add(tv);
             }
             string linkMau = null;
-            string fileName = "MauTheHS.docx";
+            string fileName = "";
             if (mauThe.Equals("mau1") == true)
             {
                 linkMau = "/Content/MauWord/Mau1-HS.docx";
@@ -596,9 +607,21 @@ namespace BiTech.Library.Controllers
                 linkMau = "/Content/MauWord/Mau2-HS.docx";
                 fileName = "MauTheHS-Mau2.docx";
             }
-            excelManager.ExportWord(linkMau, listTV, fileName, lstHeader);
-            // To do Download           
-            string filepath = @"D:\Pro Test\pro2\BiTech.Library\BiTech.Library\Upload\FileWord\" + fileName;
+            // Tạo ds Word từ mẫu thẻ
+            Aspose.Words.Document outputDoc = excelManager.ExportWord(linkMau, listTV, fileName, lstHeader);
+            // Đường dẫn lưu file word            
+            string physicalWebRootPath = Server.MapPath("/");
+            string uploadFolder = GetUploadFolder(UploadFolder.FileWord, _SubDomain);
+            string uploadFileName = null;
+            uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
+            string location = Path.GetDirectoryName(uploadFileName);
+            if (!Directory.Exists(location))
+            {
+                Directory.CreateDirectory(location);
+            }
+            outputDoc.Save(uploadFileName);
+            // Download
+            string filepath = uploadFileName;
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);
             string contentType = MimeMapping.GetMimeMapping(filepath);
             var cd = new System.Net.Mime.ContentDisposition
