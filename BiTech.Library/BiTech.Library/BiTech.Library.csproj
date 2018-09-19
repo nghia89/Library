@@ -2101,7 +2101,7 @@
     <Content Include="Views\ThongKe\ThongKeTheoTuan.cshtml" />
     <Content Include="Views\ExportMarc\Index.cshtml" />
     <Content Include="Views\ExportReport\Index.cshtml" />
-    <Content Include="Views\Marc\ImportMarc4j.cshtml" />
+    <Content Include="Views\Marc\ImportMarc.cshtml" />
     <Content Include="Views\DDC\Index.cshtml" />
     <Content Include="Views\DDC\Create.cshtml" />
     <Content Include="Views\DDC\Edit.cshtml" />

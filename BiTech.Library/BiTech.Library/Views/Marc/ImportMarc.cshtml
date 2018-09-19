@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="~/bower_components/custom-file-input/css/component.css" />
 
 <div class="Title">Thêm dữ liệu từ file Marc</div>
-@using (Html.BeginForm("ImportMarc4j", "Marc", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ImportMarc", "Marc", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     <div class="form-group row">
         <div class="col-md-12">
@@ -52,7 +52,8 @@
                 output.innerHTML += '</ul>';
             }
             else {
-                console.log("input file >1");
+                output.innerHTML = '<ul>';
+                output.innerHTML = '</ul>';
             }
         }
 
