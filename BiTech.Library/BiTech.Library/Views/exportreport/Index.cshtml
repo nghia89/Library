@@ -5,28 +5,36 @@
 }
 
 <div class="row">
-        <div class="col-lg-6">
-            <h3>Xuất số lượng sách được mượn:</h3>
-            <form action="/Exportreport/ExportTTSach" method="get" role="form">
-                <button style="float:left" type="submit" class="btn btn-primary">Tải excel</button>
-                <div class="col-lg-3" style="float:left">
-                    <select class="form-control" name="year">
-                        <option value="">---chọn năm---</option>
-                        @for (int i = Int32.Parse(ViewBag.tt); i <= DateTime.Now.Year; i++)
-                        {
-                            if (DateTime.Now.Year == i)
+    <div class="col-lg-11 marginAuto">
+        <div class="Leftcontent">
+            <div class="col-lg-11 marginAuto">
+                <h3>Xuất số lượng sách được mượn:</h3>
+                <form action="/Exportreport/ExportTTSach" method="get" role="form">
+                    <button style="margin-left: 20px;" type="submit" class="btn btn-primary">Tải excel</button>
+                    <div style="float:left">
+                        <select class="form-control" name="year">
+                            <option value="">---chọn năm---</option>
+                            @for (int i = Int32.Parse(ViewBag.tt); i <= DateTime.Now.Year; i++)
                             {
-                                <option value="@i" selected hidden>Năm @i</option>
+                                if (DateTime.Now.Year == i)
+                                {
+                                    <option value="@i" selected hidden>Năm @i</option>
+                                }
+                                <option value="@i">Năm @i</option>
                             }
-                            <option value="@i">Năm @i</option>
-                        }
-                    </select>
-                </div>
-            </form>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
         </div>
-        <div class="col-lg-6">
-            <h3>Xuất số lượng sách theo trạng thái:</h3>
-            <a href="/Exportreport/ExportSLSachTT" class="btn btn-info">Tải excel</a>
+        <div class="Rightcontent">
+            <div class="col-lg-11 marginAuto">
+                <h3>Xuất số lượng sách theo trạng thái:</h3>
+                <a href="/Exportreport/ExportSLSachTT" class="btn btn-info">Tải excel</a>
+            </div>
         </div>
+    </div>
+
 </div>
 
