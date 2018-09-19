@@ -1706,7 +1706,6 @@ a:hover {
 
 .pointer-eventsNone {
     pointer-events: none;
-    background: red;
 }
 
 .pointer-eventsAuto {
