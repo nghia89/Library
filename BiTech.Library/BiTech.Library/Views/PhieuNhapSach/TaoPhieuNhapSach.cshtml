@@ -63,7 +63,8 @@
                         @*@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })*@
                         <label class="col-md-2 control-label">Trạng thái sách <span style="color:red">*</span>:</label>
                         <div class="col-md-10">
-                            @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--", new { ng_model = "idTrangThai", @class = "form-control form-control-sm" })
+                            @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn trạng thái--", new { ng_model = "idTrangThai",
+                           @class = "form-control form-control-sm" })
                         </div>
                     </div>
 
