@@ -55,8 +55,24 @@
 
 
 
+
+
+
+
+
+
+
+
                             <path id="circle" fill="none" stroke="#ffffff" stroke-width="1.4"
                                   stroke-miterlimit="12" d="M17.7,7.5c0-2.8-2.3-5.2-5.2-5.2S7.3,4.7,7.3,7.5s2.3,5.2,5.2,5.2S17.7,10.3,17.7,7.5z" />
+
+
+
+
+
+
+
+
 
 
 
@@ -74,8 +90,24 @@
 
 
 
+
+
+
+
+
+
+
+
                             <path fill="none" class="line" stroke="#ffffff" stroke-linecap="round"
                                   stroke-miterlimit="10" d="M18.7,4.6h4.4" />
+
+
+
+
+
+
+
+
 
 
 
@@ -272,13 +304,13 @@
                 </div>
             </div>
 
-            <div class="form-group row mt-3">
-                <label class="col-form-label col-sm-3 form-label"></label>
-                <div class="col-sm-6">
-                    <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm mới"
-                           data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess" />
-                </div>
-            </div>
+            @*<div class="form-group row mt-3">
+                    <label class="col-form-label col-sm-3 form-label"></label>
+                    <div class="col-sm-6">
+                        <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm mới"
+                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess" />
+                    </div>
+                </div>*@
         </div>
         <div id="SoLuong" class="tabcontent">
             <div class="form-group-sm row">
@@ -311,13 +343,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 mt-2 row">
-                        <label class="control-label col-form-label-sm" for="TenTheLoai">Ghi chú phiếu nhập</label>
-                    </div>
-                    <div class="form-group col-sm-12 mt-2 row ">
+
+                    <label class="control-label clearfix p-1" for="TenTheLoai">Ghi chú phiếu nhập</label>
+
+                    <div class="form-group clearfix p-1">
                         @Html.TextAreaFor(model => model.GhiChuPhieuNhap, new { @class = "form-control form-control-sm", placeholder = "Nhập ghi chú cho phiếu nhập" })
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="form-group row mt-3">
+            <label class="col-form-label col-sm-3 form-label"></label>
+            <div class="col-sm-6">
+                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm mới"
+                       data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess" />
             </div>
         </div>
     }

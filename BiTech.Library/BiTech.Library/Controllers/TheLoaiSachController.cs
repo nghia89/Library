@@ -15,6 +15,7 @@ using static BiTech.Library.Helpers.Tool;
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class TheLoaiSachController : BaseController
     {
         // GET: TheLoaiSach
@@ -312,7 +313,7 @@ namespace BiTech.Library.Controllers
             List<TheLoaiSach> listExcel = new List<TheLoaiSach>();
             if (model.LinkExcel != null)
             {
-                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                string uploadForder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                 string physicalWebRootPath = Server.MapPath("/");
 
                 var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);

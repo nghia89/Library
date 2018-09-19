@@ -19,6 +19,7 @@ using System.Collections;
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class PhieuNhapSachController : BaseController
     {
         XuLyChuoi xuLyChuoi;
@@ -88,7 +89,7 @@ namespace BiTech.Library.Controllers
                 ctns.ten = TenSach.TenSach;
                 ctns.soLuong = item.SoLuong;
                 ctns.GhiChuDon = item.GhiChu;
-                ctns.MaKiemSoat = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).MaKiemSoat;
+                ctns.MaKiemSoat = _SachLogic.GetById(item.IdSach).MaKiemSoat;
                 lst.Add(ctns);
 
             }
@@ -200,7 +201,7 @@ namespace BiTech.Library.Controllers
             List<ChiTietNhapSach> list = new List<ChiTietNhapSach>();
             if (model.LinkExcel != null)
             {
-                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                string uploadForder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                 string physicalWebRootPath = Server.MapPath("/");
 
                 var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
@@ -285,7 +286,7 @@ namespace BiTech.Library.Controllers
                 {
                     var viewModel = new ImportExcelPNSViewModel();
                     // Đường dẫn để lưu nội dung file Excel
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     string physicalWebRootPath = Server.MapPath("/");
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, file.FileName);
@@ -594,7 +595,7 @@ namespace BiTech.Library.Controllers
                     // Save
                     string fileName = "DsPhieuNhapSachBiLoi.xlsx";
                     string physicalWebRootPath = Server.MapPath("/");
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
                     string location = Path.GetDirectoryName(uploadFileName);

@@ -18,7 +18,8 @@ namespace BiTech.Library.Helpers
         FileExcel,
         FileWord,
         FileMrc,
-        Reports
+        Reports,
+        ReportsWordQR
     }
 
     public static class Tool
@@ -28,7 +29,7 @@ namespace BiTech.Library.Helpers
             return ConfigurationManager.AppSettings[key]?.ToString();
         }
 
-        public static string GetUploadFolder(UploadFolder type, string subdomain = "")
+        public static string GetUploadFolder(UploadFolder type, string subdomain)
         {
             string mainUpload = @"Upload";
 
@@ -54,6 +55,8 @@ namespace BiTech.Library.Helpers
                     return Path.Combine(mainUpload, subdomain, @"FileMrc");
                 case UploadFolder.Reports:
                     return Path.Combine(mainUpload, subdomain, @"Reports");
+                case UploadFolder.ReportsWordQR:
+                    return Path.Combine(mainUpload, subdomain, @"Reports", "WordQR");
                 default:
                     return null;
             }

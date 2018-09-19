@@ -15,12 +15,12 @@
         <div class="home-menu-group">
             <div class="title">Mượn trả sách</div>
             <div class="btntag-box">
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("Index", "MuonSach")" class="btntag btntag-success">
+                    <img src="~/Content/Images/checkout.png" />
                     Mượn sách
                 </a>
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("Index", "TraSach")" class="btntag btntag-success">
+                    <img src="~/Content/Images/checkin.png" />
                     Trả sách
                 </a>
             </div>
@@ -29,12 +29,12 @@
         <div class="home-menu-group">
             <div class="title">Quản lý thành viên</div>
             <div class="btntag-box">
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("index", "HocSinh")" class="btntag btntag-success">
+                    <img src="~/Content/Images/student.png" />
                     Học sinh
                 </a>
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("index", "GiaoVien")" class="btntag btntag-success">
+                    <img src="~/Content/Images/teacher.png" />
                     Giáo viên
                 </a>
             </div>
@@ -43,13 +43,13 @@
         <div class="home-menu-group">
             <div class="title">Quản lý thông tin sách</div>
             <div class="btntag-box">
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("index", "Sach")" class="btntag btntag-success">
+                    <img src="~/Content/Images/book2.png" />
                     Sách
                 </a>
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
-                    Trạng thái sách
+                <a href="@Url.Action("Index", "TrangThaiSach")" class="btntag btntag-success">
+                    <img src="~/Content/Images/checklist.png" />
+                    Trạng thái
                 </a>
             </div>
         </div>
@@ -57,12 +57,12 @@
         <div class="home-menu-group">
             <div class="title">Nhập xuất kho</div>
             <div class="btntag-box">
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("Index", "PhieuNhapSach")" class="btntag btntag-success">
+                    <img src="~/Content/Images/import.png" />
                     Nhập kho
                 </a>
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("Index", "PhieuXuatSach")" class="btntag btntag-success">
+                    <img src="~/Content/Images/export.png" />
                     Xuất kho
                 </a>
             </div>
@@ -71,19 +71,19 @@
         <div class="home-menu-group">
             <div class="title">Thống kê</div>
             <div class="btntag-box">
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("Index", "Statistic")" class="btntag btntag-success">
+                    <img src="~/Content/Images/chart.png" />
                     Biểu đồ
                 </a>
                 <div class="btntag-group">
-                    <a href="#" class="btntag btntag-success">
-                        TK Kho sách
-                    </a>
-                    <a href="#" class="btntag btntag-success">
+                    <a href="@Url.Action("MuonSach", "ThongKe")" class="btntag btntag-success">
                         TK sách mượn
                     </a>
-                    <a href="#" class="btntag btntag-success">
+                    <a href="@Url.Action("DanhSachChuaTra", "ThongKe")" class="btntag btntag-success">
                         TK chưa trả
+                    </a>
+                    <a href="@Url.Action("Index", "Exportreport")" class="btntag btntag-success">
+                        Xuất báo cáo
                     </a>
                 </div>
             </div>
@@ -92,11 +92,15 @@
         <div class="home-menu-group">
             <div class="title">Cài đặt</div>
             <div class="btntag-box">
-                <a href="#" class="btntag btntag-success">
-                    <img src="~/Content/Images/user5.jpg" />
+                <a href="@Url.Action("Index", "QuanLyThuVien")" class="btntag btntag-success">
+                    <img src="~/Content/Images/tools.png" />
                     Tổng quan
                 </a>
-                <div class="btntag-group">
+                <a href="@Url.Action("CSDL", "QuanLyThuVien")" class="btntag btntag-success">
+                    <img src="~/Content/Images/database.png" />
+                    CSDL
+                </a>
+                @*<div class="btntag-group">
                     <a href="#" class="btntag btntag-success">
                         Tin tức
                     </a>
@@ -106,7 +110,7 @@
                     <a href="#" class="btntag btntag-success">
                         CSDL
                     </a>
-                </div>
+                </div>*@
             </div>
         </div>
 
@@ -119,7 +123,7 @@ else
         @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>*@
     </div>
 }
-<div class="row">
+@*<div class="row">
     <div class="col-sm-6">
         <div class="Title">Bản tin thư viện</div>
     </div>
@@ -129,5 +133,5 @@ else
     <div class="col-sm-12">
         <div class="Title">Giới thiệu sách</div>
     </div>
-</div>
+</div>*@
 

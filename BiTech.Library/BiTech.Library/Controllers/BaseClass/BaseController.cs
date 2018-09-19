@@ -34,6 +34,7 @@ namespace BiTech.Library.Controllers.BaseClass
             }
             else
             {
+                ViewBag.ShowLeft = true;
                 ViewBag.WebHeader = _UserAccessInfo.WebHeader;
                 ViewBag._SubDomainAccessPermission = _UserAccessInfo.SubDomainAccessPermission;
                 ViewBag.SSOFullName = _UserAccessInfo.FullName;

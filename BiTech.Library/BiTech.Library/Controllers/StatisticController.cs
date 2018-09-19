@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class StatisticController : BaseController
     {
         NghiepVuThongKe nghiepVu = new NghiepVuThongKe();
