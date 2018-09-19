@@ -8,12 +8,12 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Nhập nhà kệ sách</h4>
+                    <h4 class="modal-title">Nhập kệ sách</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group m-0 row">
-                        <label class="col-sm-4 control-label col-form-label-sm" for="TenTheLoai">Tên kệ sách</label>
+                        <label class="col-sm-4 control-label col-form-label-sm" for="TenTheLoai">Tên kệ sách <span style="color:red">*</span></label>
                         <div class="col-sm-8">
                             @Html.TextBoxFor(model=>model.TenKe, new { @class = "form-control form-control-sm" })
                         </div>
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="form-group m-0 row">
-                        <label class="col-sm-4 control-label col-form-label-sm" for="MoTa">Vị trí</label>
+                        <label class="col-sm-4 control-label col-form-label-sm" for="MoTa">Vị trí <span style="color:red">*</span></label>
                         <div class="col-sm-8">
                             @Html.TextBoxFor(model => model.ViTri, new { @class = "form-control form-control-sm" })
                         </div>

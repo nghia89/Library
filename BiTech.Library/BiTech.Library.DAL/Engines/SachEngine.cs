@@ -64,6 +64,7 @@ namespace BiTech.Library.DAL.Engines
             FilterDefinition<Sach> filterDefinition = new BsonDocument();
             var builder = Builders<Sach>.Filter;
             filterDefinition=builder.Where(x => x.TenSach.ToLower().Contains(keyWord.ToLower()) || x.TenSachKhongDau.ToLower().Contains(keyWord.ToLower()));
+            filterDefinition = filterDefinition & builder.Where(_ => _.IsDeleted == false);
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
 
