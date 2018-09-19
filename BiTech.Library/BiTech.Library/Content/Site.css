@@ -649,11 +649,11 @@ a:hover {
     height: 0;
 }
 
-.small_menu #accordion .card .active .card-header {
+.small_menu #accordion .card.active .card-header {
     position: relative;
 }
 
-    .small_menu #accordion .card .active .card-header:after {
+    .small_menu #accordion .card.active .card-header:after {
         content: "";
         position: absolute;
         width: 40px;
@@ -1698,15 +1698,17 @@ a:hover {
 
 .addError {
     visibility: hidden;
-
 }
+
 .addErrorBlock {
     visibility: visible;
 }
+
 .pointer-eventsNone {
-    pointer-events:none;
-    background:red;
+    pointer-events: none;
+    background: red;
 }
+
 .pointer-eventsAuto {
     pointer-events: auto;
 }
