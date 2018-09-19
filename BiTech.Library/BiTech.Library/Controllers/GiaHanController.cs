@@ -52,7 +52,7 @@ namespace BiTech.Library.Controllers
             else
             {
                 #region Thành viên
-                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == new ThanhVienCommon().GetInfo(IdUser)).SingleOrDefault(); //Thành viên
+                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == ThanhVienCommon.GetInfo(IdUser)).SingleOrDefault(); //Thành viên
                 if (_thanhvienmodoe != null)
                 {
                     ViewBag.user = _thanhvienmodoe;
@@ -60,7 +60,7 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(new ThanhVienCommon().GetInfo(IdUser));//thành viên DeActive
+                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(ThanhVienCommon.GetInfo(IdUser));//thành viên DeActive
                     if (user_DeActive != null)
                     {
                         ViewBag.ThongBao = true;
@@ -74,7 +74,7 @@ namespace BiTech.Library.Controllers
                 }
                 #endregion
             }
-            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser));
+            list_book = GetByIdUser(ThanhVienCommon.GetInfo(IdUser));
             ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien).ToList();
             //ViewBag.list_maSach = list_book.Select(_ => _.MaKiemSoat + "-" + _.TenSach).ToList();
             //var list = list_book.GroupBy(_ => new { _.MaKiemSoat, _.TenSach } );
@@ -104,7 +104,7 @@ namespace BiTech.Library.Controllers
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             //Lấy danh sach những đang mượn của user id
-            List<MuonTraSachViewModel> list_book_team = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser));
+            List<MuonTraSachViewModel> list_book_team = GetByIdUser(ThanhVienCommon.GetInfo(IdUser));
 
             //Nếu ngày mượn và ngày trả là ""
             if (NgayMuon == "" && NgayTra == "")
@@ -132,7 +132,7 @@ namespace BiTech.Library.Controllers
         public JsonResult GetListBook_IdUser(string IdUser)
         {
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
-            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser));
+            list_book = GetByIdUser(ThanhVienCommon.GetInfo(IdUser));
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
 
@@ -166,7 +166,7 @@ namespace BiTech.Library.Controllers
                     Sach _sach = _SachLogic.GetByMaMaKiemSoat(item.MaKiemSoat); //Lấy thông tin sách
                     ThongTinMuonSach team = new ThongTinMuonSach()
                     {
-                        idUser = item.IdUser,
+                        idUser = ThanhVienCommon.GetInfo(item.IdUser),
                         idSach = _sach.Id,
                         NgayTraThucTe = DateTime.Now,
                         NgayGioMuon = DateTime.ParseExact(item.NgayMuon, "dd/MM/yyyy", null),
@@ -188,7 +188,7 @@ namespace BiTech.Library.Controllers
 
 
                 }
-                list_book = GetByIdUser(List_newitem[0].IdUser);
+                list_book = GetByIdUser(ThanhVienCommon.GetInfo(List_newitem[0].IdUser));
                 return Json(list_book, JsonRequestBehavior.AllowGet);
             }
             return Json(false, JsonRequestBehavior.AllowGet);

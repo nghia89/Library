@@ -56,7 +56,7 @@ namespace BiTech.Library.Controllers
             {
                 #region Thành viên
 
-                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == new ThanhVienCommon().GetInfo(IdUser)).SingleOrDefault(); //Thành viên
+                _thanhvienmodoe = list_user.Where(_ => _.MaSoThanhVien == ThanhVienCommon.GetInfo(IdUser)).SingleOrDefault(); //Thành viên
                 if (_thanhvienmodoe != null)
                 {
                     ViewBag.user = _thanhvienmodoe;
@@ -64,7 +64,7 @@ namespace BiTech.Library.Controllers
                 }
                 else
                 {
-                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(new ThanhVienCommon().GetInfo(IdUser));//Thành viên DeActive
+                    ThanhVien user_DeActive = _ThanhVienLogic.GetByMaSoThanhVienDeActive(ThanhVienCommon.GetInfo(IdUser));//Thành viên DeActive
                     if (user_DeActive != null)
                     {
                         ViewBag.ThongBao = true;
@@ -119,7 +119,7 @@ namespace BiTech.Library.Controllers
         {
             List<MuonTraSachViewModel> list_book = new List<MuonTraSachViewModel>();
 
-            list_book = GetByIdUser(new ThanhVienCommon().GetInfo(IdUser), Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            list_book = GetByIdUser(ThanhVienCommon.GetInfo(IdUser), Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
@@ -146,7 +146,7 @@ namespace BiTech.Library.Controllers
                     {
                         ThongTinMuonSach team = new ThongTinMuonSach()
                         {
-                            idUser = item.IdUser,
+                            idUser = ThanhVienCommon.GetInfo(item.IdUser),
                             idSach = _sach.Id,
                             NgayGioMuon = DateTime.Now,
                             NgayPhaiTra = DateTime.ParseExact(item.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture),//item.NgayTra,
@@ -171,7 +171,7 @@ namespace BiTech.Library.Controllers
                         }
                     }
                 }
-                list_book = GetByIdUser(List_newitem[0].IdUser, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                list_book = GetByIdUser(ThanhVienCommon.GetInfo(List_newitem[0].IdUser), Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 return Json(list_book, JsonRequestBehavior.AllowGet);
             }
             return Json(false, JsonRequestBehavior.AllowGet);
