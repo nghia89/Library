@@ -53,9 +53,12 @@
 <div class="top clearfix">
     <a href="@Url.Action("Index","Home")">
         <div class="banner">
-            <div class="apptitle1">Phần mềm Quản lý Thư viện B.Lib</div>
-            <div class="dash"> - </div>
-            <div class="apptitle2">@ViewBag.WebHeader</div>
+            @if (ViewBag.ShowLeft)
+            {
+                <div class="apptitle1">Phần mềm Quản lý Thư viện B.Lib</div>
+                <div class="dash"> - </div>
+                <div class="apptitle2">@ViewBag.WebHeader</div>
+            }
         </div>
     </a>
 
@@ -85,7 +88,7 @@
             </div>
         }
     }
-    else if(ViewBag.IsDebuging)
+    else if (ViewBag.IsDebuging)
     {
         <div class="nav menutop">
             <div class="dropdown">

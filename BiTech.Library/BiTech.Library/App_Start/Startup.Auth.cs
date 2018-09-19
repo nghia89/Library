@@ -18,7 +18,7 @@ namespace BiTech.Library
                 AuthenticationMode = AuthenticationMode.Active,
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 CookieName = ".XMyCookieNameCustomer",
-                CookieDomain = ".bitechco.test",
+                CookieDomain = ".bitechco.com",//CookieDomain = ".bitechco.test",
                 LoginPath = new PathString("/Account/login"),
                 Provider = new CookieAuthenticationProvider
                 {

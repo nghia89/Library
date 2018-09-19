@@ -39,16 +39,19 @@ namespace BiTech.Library.Controllers.BaseClass
         /// <param name="maSoThanhVien"></param>
         /// <returns></returns>
         public ThanhVien LuuHinhChanDung(string physicalWebRootPath, ThanhVien thanhVien,
-              string ImageName, HttpPostedFileBase hinhChanDung)
+              string ImageName, HttpPostedFileBase hinhChanDung, string subDomain)
         {
             //  string physicalWebRootPath = Server.MapPath("/");
-            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.AvatarUser);
+            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.AvatarUser, subDomain);
             string uploadFileName = null;
-            if (ImageName != null)
+
+            if (ImageName != null && File.Exists(ImageName))
                 uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, ImageName);
             else
-                uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien + "-" + hinhChanDung.FileName);
+                uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.Id + Path.GetExtension(hinhChanDung.FileName));
+
             string location = Path.GetDirectoryName(uploadFileName);
+
             if (!Directory.Exists(location))
             {
                 Directory.CreateDirectory(location);
@@ -62,11 +65,11 @@ namespace BiTech.Library.Controllers.BaseClass
             }
         }
 
-        public ThanhVien LuuMaVach(string physicalWebRootPath, ThanhVien thanhVien, string imageName)
+        public ThanhVien LuuMaVach(string physicalWebRootPath, ThanhVien thanhVien, string imageName, string subDomain)
         {
             BarCodeQRManager barcode = new BarCodeQRManager();
-			string tenKhongDau = ConvertToTiengVietKhongDauConstants.RemoveSign4VietnameseString(thanhVien.Ten);
-			string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+            string tenKhongDau = ConvertToTiengVietKhongDauConstants.RemoveSign4VietnameseString(thanhVien.Ten);
+            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser, subDomain);
             string uploadFileNameQR = null;
             if (imageName != null)
             {
@@ -75,8 +78,7 @@ namespace BiTech.Library.Controllers.BaseClass
             else
             {
                 //   ==> Tên hình QR <==
-                uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.MaSoThanhVien +
-                "-" + thanhVien.Ten + ".jpg");
+                uploadFileNameQR = Path.Combine(physicalWebRootPath, uploadFolder, thanhVien.Id + ".jpg");
             }
             string location = Path.GetDirectoryName(uploadFileNameQR);
             if (!Directory.Exists(location))
@@ -115,11 +117,11 @@ namespace BiTech.Library.Controllers.BaseClass
             catch { return info; }
         }
 
-        public List<ThanhVien> ImportFromExcel(string physicalWebRootPath, HttpPostedFileBase linkExcel)
+        public List<ThanhVien> ImportFromExcel(string physicalWebRootPath, HttpPostedFileBase linkExcel, string subDomain)
         {
             ExcelManager excelManager = new ExcelManager();
             List<ThanhVien> list = new List<ThanhVien>();
-            string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+            string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel, subDomain);
             var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, linkExcel.FileName);
             string location = Path.GetDirectoryName(sourceFileName);
             if (!Directory.Exists(location))

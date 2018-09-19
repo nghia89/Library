@@ -2,7 +2,6 @@
 using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Models;
-//using MARC;
 using System;
 using System.Collections;
 using System.IO;
@@ -15,6 +14,7 @@ using MARC4J.Net.MARC;
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class MarcController : BaseController
     {
         //private FileMARCReaders marcRecords;
@@ -25,13 +25,13 @@ namespace BiTech.Library.Controllers
         }
 
         [HttpGet]
-        public ActionResult ImportMarc4j()
+        public ActionResult ImportMarc()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult ImportMarc4j(DataFieldMarcVm dataFieldMarcVm)
+        public ActionResult ImportMarc(DataFieldMarcVm dataFieldMarcVm)
         {
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -39,17 +39,25 @@ namespace BiTech.Library.Controllers
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
+            char[] Character = { '/', '*', ' ', ':', '.', ',' };
 
-            foreach (HttpPostedFileBase files in dataFieldMarcVm.Files)
+            foreach (HttpPostedFileBase file in dataFieldMarcVm.Files)
             {
-                if (files != null)
+                if (file != null)
                 {
-                    //var files = dataFieldMarcVm.Files;
+                    var files = dataFieldMarcVm.Files;
                     DateTime now = DateTime.Now;
-                    var imageFolder = $@"\Upload\filemarc\{now.ToString("yyyyMMdd")}";
-                    files.SaveAs(HttpContext.Server.MapPath(imageFolder) + files.FileName);
-                    char[] Character = { '/', '*', ' ', ':', '.', ',' };
-                    string LinkFile = HttpContext.Server.MapPath(imageFolder) + files.FileName;
+                    var marcFolder = Path.Combine(Tool.GetUploadFolder(UploadFolder.FileMrc, _SubDomain), now.ToString("yyyyMMdd"));
+
+                    string physicalWebRootPath = Server.MapPath("~/");
+                    var localMarcFolder = Path.Combine(physicalWebRootPath, marcFolder);
+                    if (!Directory.Exists(localMarcFolder))
+                        Directory.CreateDirectory(localMarcFolder);
+
+                    file.SaveAs(Path.Combine(localMarcFolder, file.FileName));
+                    
+                    string LinkFile = Path.Combine(localMarcFolder, file.FileName);
+
                     using (var fs = new FileStream(LinkFile, FileMode.Open))
                     {
                         using (var reader = new MarcPermissiveStreamReader(fs, true, true, "UTF-8"))
@@ -87,7 +95,7 @@ namespace BiTech.Library.Controllers
                                     foreach (var controlFile in controlFields)
                                     {
                                         ////mã kiễm soát
-                                        
+
                                         //if (controlFile.Tag == "001" && controlFile.Data != null)
                                         //{
                                         //    dataFieldMarcVm.MaKiemSoat = controlFile.Data;

@@ -18,7 +18,7 @@ using System.Collections;
 
 namespace BiTech.Library.Controllers
 {
-    //[Authorize]
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class HocSinhController : BaseController
     {
         ThanhVienCommon thanhVienCommon;
@@ -85,7 +85,7 @@ namespace BiTech.Library.Controllers
 
         public PartialViewResult _PartialUser(int? page, string IdUser, List<ThanhVien> list)
         {
-            int pageSize = 6;
+            int pageSize = 30;
             int pageNumber = (page ?? 1);
             ViewBag.pageSize = pageSize;
             ViewBag.pages = pageNumber;
@@ -147,7 +147,7 @@ namespace BiTech.Library.Controllers
                     // Lưu hình chân dung     
                     if (viewModel.HinhChanDung != null)
                     {
-                        temp = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, tv, null, viewModel.HinhChanDung);
+                        temp = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, tv, null, viewModel.HinhChanDung, _SubDomain);
                         tv.HinhChanDung = temp.HinhChanDung;
                     }
                 }
@@ -160,7 +160,7 @@ namespace BiTech.Library.Controllers
                 try
                 {
                     // Lưu mã vạch
-                    temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null);
+                    temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null, _SubDomain);
                     if (temp != null)
                     {
                         tv.QRLink = temp.QRLink;
@@ -261,7 +261,7 @@ namespace BiTech.Library.Controllers
                     if (thanhVien.HinhChanDung != null)
                         imageName = thanhVien.HinhChanDung.Replace(@"/Upload/AvatarUser/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
 
-                    ThanhVien tempt = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, thanhVien, imageName, viewModel.HinhChanDung);
+                    ThanhVien tempt = thanhVienCommon.LuuHinhChanDung(physicalWebRootPath, thanhVien, imageName, viewModel.HinhChanDung, _SubDomain);
                     if (tempt != null)
                     {
                         viewModel.LinkAvatar = thanhVien.HinhChanDung = tempt.HinhChanDung;
@@ -278,7 +278,7 @@ namespace BiTech.Library.Controllers
                 string imageName = null;
                 if (thanhVien.QRLink != null)
                     imageName = thanhVien.QRLink.Replace(@"/Upload/QRCodeUser/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
-                ThanhVien temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, thanhVien, imageName);
+                ThanhVien temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, thanhVien, imageName, _SubDomain);
                 if (temp != null)
                 {
                     thanhVien.QRLink = temp.QRLink;
@@ -530,9 +530,8 @@ namespace BiTech.Library.Controllers
             if (model.LinkWord != null)
             {
                 string physicalWebRootPath = Server.MapPath("/");
-                string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileWord);
-
-
+                string uploadForder = GetUploadFolder(UploadFolder.FileWord, _SubDomain);
+                
                 var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkWord.FileName);
 
                 string location = Path.GetDirectoryName(sourceFileName);
@@ -623,7 +622,7 @@ namespace BiTech.Library.Controllers
                 {
                     var viewModel = new ImportExcelTVViewModel();
                     // Đường dẫn để lưu nội dung file Excel
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     string physicalWebRootPath = Server.MapPath("/");
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, file.FileName);
@@ -814,7 +813,7 @@ namespace BiTech.Library.Controllers
                         ThanhVien tv = _ThanhVienLogic.GetById(id);
                         ThanhVien temp = new ThanhVien();
                         string physicalWebRootPath = Server.MapPath("/");
-                        temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null);
+                        temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null, _SubDomain);
                         if (temp != null)
                         {
                             tv.QRLink = temp.QRLink;
@@ -948,7 +947,7 @@ namespace BiTech.Library.Controllers
                     // Save
                     string fileName = "DsHocSinhBiLoi.xlsx";
                     string physicalWebRootPath = Server.MapPath("/");
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
                     string location = Path.GetDirectoryName(uploadFileName);

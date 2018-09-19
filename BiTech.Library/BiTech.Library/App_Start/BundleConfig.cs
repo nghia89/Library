@@ -25,6 +25,11 @@ namespace BiTech.Library
                       "~/Scripts/respond.js",
                       "~/Scripts/main.js"
                       ));
+            //bundles.Add(new ScriptBundle("~/bundles/Content/fonts").Include(
+            //          "~/Content/fonts/fontawesome-webfont.eot",
+            //          "~/Content/fonts/fontawesome-webfont.woff",
+            //          "~/Content/fonts/fontawesome-webfont.woff2"
+            //          ));
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
                       "~/Scripts/main.js",
                       "~/Scripts/jquery.session.js"
@@ -32,8 +37,7 @@ namespace BiTech.Library
             bundles.Add(new StyleBundle("~/bundles/Content/css").Include(
                       "~/Content/css/bootstrap.min.css",
                       "~/Content/site.css",
-                      "~/Content/PagedList.css",
-                      "~/Content/css/font-awesome.min.css"));
+                      "~/Content/PagedList.css"));
         }
     }
 }

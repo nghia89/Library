@@ -1,26 +1,26 @@
-﻿using BiTech.Library.BLL.DBLogic;
+﻿using Aspose.Cells;
 using BiTech.Library.BLL.BarCode_QR;
+using BiTech.Library.BLL.DBLogic;
 using BiTech.Library.Common;
+using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
+using BiTech.Library.Helpers;
 using BiTech.Library.Models;
 using Newtonsoft.Json;
 using PagedList;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static BiTech.Library.Helpers.Tool;
-using BiTech.Library.Controllers.BaseClass;
-using BiTech.Library.Helpers;
-using System.Collections;
-using System.Threading.Tasks;
-using Aspose.Cells;
-
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class SachController : BaseController
     {
         SachCommon sachCommon;
@@ -191,10 +191,9 @@ namespace BiTech.Library.Controllers
                         try
                         {
                             string physicalWebRootPath = Server.MapPath("~/");
-                            string uploadFolder = GetUploadFolder(Helpers.UploadFolder.BookCovers) + id;
+                            string uploadFolder = Path.Combine(GetUploadFolder(UploadFolder.BookCovers, _SubDomain), id);
 
-                            var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, Guid.NewGuid()
-                                + Path.GetExtension(model.FileImageCover.FileName));
+                            var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, "cover" + Path.GetExtension(model.FileImageCover.FileName));
                             string location = Path.GetDirectoryName(uploadFileName);
 
                             if (!Directory.Exists(location))
@@ -213,13 +212,13 @@ namespace BiTech.Library.Controllers
                         }
                         catch { }
                     }
-					
+
                     // Lưu mã QR
                     Sach sach = _SachLogic.GetBookById(id);
                     try
                     {
                         string physicalWebRootPath = Server.MapPath("/");
-                        Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null);
+                        Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, null, _SubDomain);
                         if (temp != null)
                         {
                             sach.QRlink = temp.QRlink;
@@ -424,10 +423,9 @@ namespace BiTech.Library.Controllers
                     try
                     {
                         string physicalWebRootPath = Server.MapPath("~/");
-                        string uploadFolder = GetUploadFolder(Helpers.UploadFolder.BookCovers) + model.SachDTO.Id;
+                        string uploadFolder = Path.Combine(GetUploadFolder(UploadFolder.BookCovers, _SubDomain), model.SachDTO.Id);
 
-                        var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, Guid.NewGuid()
-                            + Path.GetExtension(model.FileImageCover.FileName));
+                        var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, "cover" + Path.GetExtension(model.FileImageCover.FileName));
                         string location = Path.GetDirectoryName(uploadFileName);
 
                         if (!Directory.Exists(location))
@@ -453,11 +451,11 @@ namespace BiTech.Library.Controllers
                 {
                     // cập nhật QR
                     string physicalWebRootPath = Server.MapPath("/");
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.QRCodeUser);
+                    //string uploadFolder = GetUploadFolder(UploadFolder.QRCodeUser, _SubDomain);
                     string imageName = null;
                     if (sach.QRlink != null)
-                        imageName = sach.QRlink.Replace(@"/Upload/QRCodeUser/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
-                    Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, imageName);
+                        imageName = sach.QRlink.Replace(@"/Upload/QRCodeBook/", @"").Replace(@"/", @"\").Replace(@"/", @"//");
+                    Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sach, imageName, _SubDomain);
                     if (temp != null)
                     {
                         sach.QRlink = temp.QRlink;
@@ -540,6 +538,7 @@ namespace BiTech.Library.Controllers
             var model = _SlTrangThaisach.Update(vm);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetById(string Id)
         {
             SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -563,8 +562,7 @@ namespace BiTech.Library.Controllers
 
             return Json(vm, JsonRequestBehavior.AllowGet);
         }
-
-
+        
         public JsonResult GetAllTT(string id)
         {
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -683,7 +681,7 @@ namespace BiTech.Library.Controllers
         {
             try
             {
-                if(paging != "")
+                if (paging != "")
                 {
                     //Count max item in page
                     int kq_so1 = (int.Parse(paging) * int.Parse(pageSize)) - int.Parse(colRowCount);
@@ -790,7 +788,7 @@ namespace BiTech.Library.Controllers
                 {
                     var viewModel = new ImportExcelSachViewModel();
                     // Đường dẫn để lưu nội dung file Excel
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     string physicalWebRootPath = Server.MapPath("/");
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, file.FileName);
@@ -1071,7 +1069,7 @@ namespace BiTech.Library.Controllers
                             // Lưu mã vạch
                             string physicalWebRootPath = Server.MapPath("/");
                             Sach sachUpdate = _SachLogic.GetBookById(idSach);
-                            Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sachUpdate, null);
+                            Sach temp = sachCommon.LuuMaVachSach(physicalWebRootPath, sachUpdate, null, _SubDomain);
                             if (temp != null)
                             {
                                 sachUpdate.QRlink = temp.QRlink;
@@ -1234,7 +1232,7 @@ namespace BiTech.Library.Controllers
                     // Save
                     string fileName = "DsSachBiLoi.xlsx";
                     string physicalWebRootPath = Server.MapPath("/");
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
                     string location = Path.GetDirectoryName(uploadFileName);
@@ -1278,8 +1276,8 @@ namespace BiTech.Library.Controllers
         {
             var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             string fileName = string.Concat("QR_Word" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".docx");
-            var folderReport = "/Reports/WordQR";
-            string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/WordQR/{fileName}";
+            var folderReport = Tool.GetUploadFolder(UploadFolder.ReportsWordQR, _SubDomain);
+            //string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/WordQR/{fileName}";
             string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
             if (!Directory.Exists(filePath))
             {

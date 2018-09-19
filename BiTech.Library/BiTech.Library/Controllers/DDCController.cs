@@ -18,6 +18,7 @@ using System.Collections;
 
 namespace BiTech.Library.Controllers
 {
+    [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
     public class DDCController : BaseController
     {
         XuLyChuoi xuLyChuoi;
@@ -133,7 +134,7 @@ namespace BiTech.Library.Controllers
                 {
                     var viewModel = new ImportExcelDDCViewModel();
                     // Đường dẫn để lưu nội dung file Excel
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     string physicalWebRootPath = Server.MapPath("/");
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, file.FileName);
@@ -335,7 +336,7 @@ namespace BiTech.Library.Controllers
                     // Save
                     string fileName = "DsTheLoaiSachBiLoi.xlsx";
                     string physicalWebRootPath = Server.MapPath("/");
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
+                    string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
                     string uploadFileName = null;
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
                     string location = Path.GetDirectoryName(uploadFileName);
