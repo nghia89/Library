@@ -15,6 +15,9 @@ using MARC4J.Net.MARC;
 namespace BiTech.Library.Controllers
 {
     [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
+#if DEBUG
+    [AllowAnonymous]
+#endif
     public class MarcController : BaseController
     {
         //private FileMARCReaders marcRecords;

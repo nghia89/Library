@@ -18,6 +18,9 @@ using BiTech.Library.Helpers;
 namespace BiTech.Library.Controllers
 {
     [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
+#if DEBUG
+    [AllowAnonymous]
+#endif
     public class ExportReportController : BaseController
     {
         NghiepVuThongKe nghiepVu;

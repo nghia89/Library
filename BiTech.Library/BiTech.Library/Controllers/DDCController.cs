@@ -19,6 +19,9 @@ using System.Collections;
 namespace BiTech.Library.Controllers
 {
     [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
+#if DEBUG
+    [AllowAnonymous]
+#endif
     public class DDCController : BaseController
     {
         XuLyChuoi xuLyChuoi;

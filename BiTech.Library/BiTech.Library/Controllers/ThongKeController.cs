@@ -13,6 +13,9 @@ using BiTech.Library.Controllers.BaseClass;
 namespace BiTech.Library.Controllers
 {
     [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
+#if DEBUG
+    [AllowAnonymous]
+#endif
     public class ThongKeController : BaseController
     {
         NghiepVuThongKe nghiepVu;

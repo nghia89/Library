@@ -23,6 +23,9 @@ using System.Web.Routing;
 namespace BiTech.Library.Controllers
 {
     [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
+#if DEBUG
+    [AllowAnonymous]
+#endif
     public class GiaoVienController : BaseController
     {
         ThanhVienCommon thanhVienCommon;
@@ -911,13 +914,8 @@ namespace BiTech.Library.Controllers
                     ws.AutoFitColumns();
                     // Save
                     string fileName = "DsGiaoVienBiLoi.xlsx";
-<<<<<<< HEAD
-                    string physicalWebRootPath = Server.MapPath("/");
-                    string uploadFolder = GetUploadFolder(Helpers.UploadFolder.FileExcel);
-=======
                     string physicalWebRootPath = Server.MapPath("/");                  
                     string uploadFolder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
->>>>>>> Thinh
                     string uploadFileName = null;
                     uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, fileName);
                     string location = Path.GetDirectoryName(uploadFileName);

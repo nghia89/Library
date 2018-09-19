@@ -21,6 +21,9 @@ using static BiTech.Library.Helpers.Tool;
 namespace BiTech.Library.Controllers
 {
     [AuthorizeRoles(true, Role.CustomerAdmin, Role.CustomerUser)]
+#if DEBUG
+    [AllowAnonymous]
+#endif
     public class SachController : BaseController
     {
         SachCommon sachCommon;

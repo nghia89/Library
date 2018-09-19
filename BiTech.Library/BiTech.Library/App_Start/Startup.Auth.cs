@@ -13,12 +13,14 @@ namespace BiTech.Library
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
+
+            var cookieOpts = new CookieAuthenticationOptions
             {
                 AuthenticationMode = AuthenticationMode.Active,
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 CookieName = ".XMyCookieNameCustomer",
                 CookieDomain = ".bitechco.com",//CookieDomain = ".bitechco.test",
+
                 LoginPath = new PathString("/Account/login"),
                 Provider = new CookieAuthenticationProvider
                 {
@@ -32,7 +34,11 @@ namespace BiTech.Library
                         context.Properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(14);
                     }
                 }
-            });
+            };
+#if DEBUG
+            cookieOpts.CookieDomain = ".bitechco.test";
+#endif
+            app.UseCookieAuthentication(cookieOpts);
         }
     }
 }
