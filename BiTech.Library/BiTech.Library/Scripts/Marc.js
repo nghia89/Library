@@ -28,7 +28,6 @@
         });
 
         $('#CheckAll').on('click', function () {
-
             if ($('.AddList').is(':checked')) {
                 DeleteAll();
                 $(this).prop('checked', false);
@@ -91,7 +90,7 @@
             dataType: 'json',
             success: function (response) {
                 if (response.status) {
-                    return true;
+                    return true;    
                 }
             }
         });

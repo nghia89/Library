@@ -86,6 +86,9 @@ namespace BiTech.Library.Controllers
                                     dataFieldMarcVm.SoTrang = "";
                                     dataFieldMarcVm.TomTat = "";
                                     dataFieldMarcVm.IdNgonNgu = "";
+                                    dataFieldMarcVm.DDC = "";
+                                    dataFieldMarcVm.NamXuatBan = "";
+                  
 
                                     ////ghi vào file dạng marcXml
                                     for (var i = 0; i < allFields.Count; i++)
@@ -97,28 +100,28 @@ namespace BiTech.Library.Controllers
                                     /// các trường kiễm soát
                                     foreach (var controlFile in controlFields)
                                     {
-                                        ////mã kiễm soát
+                                        //mã kiễm soát
 
-                                        //if (controlFile.Tag == "001" && controlFile.Data != null)
-                                        //{
-                                        //    dataFieldMarcVm.MaKiemSoat = controlFile.Data;
-                                        //}
-                                        //else
-                                        //{
-                                        //    //Unreachable code!
-                                        //    Console.WriteLine("Data does not exist");
-                                        //}
-
-
-                                        if (controlFile.Tag == "008" && controlFile.Data != null)
+                                        if (controlFile.Tag == "001" && controlFile.Data != null)
                                         {
-                                            dataFieldMarcVm.DDC = controlFile.Data;
+                                            dataFieldMarcVm.MaKiemSoat = controlFile.Data;
                                         }
                                         else
                                         {
                                             //Unreachable code!
                                             Console.WriteLine("Data does not exist");
                                         }
+
+
+                                        //if (controlFile.Tag == "008" && controlFile.Data != null)
+                                        //{
+                                        //    dataFieldMarcVm.DDC = controlFile.Data;
+                                        //}
+                                        //else
+                                        //{
+                                        //    //Unreachable code!
+                                        //    Console.WriteLine("Data does not exist");
+                                        //}
 
                                         ///ngày giao dịch chưa có
 
@@ -172,13 +175,31 @@ namespace BiTech.Library.Controllers
                                             }
                                         }
 
+                                        //DDC
+                                        if (dataFile.Tag == "082")
+                                        {
+                                            var subfields = dataFile.GetSubfields();
+                                            foreach (var subfield in subfields)
+                                            {
+                                                if (subfield.Code == 'a' && subfield.Data != null)
+                                                {
+                                                    dataFieldMarcVm.DDC = subfield.Data;
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("Data does not exist");
+                                                }
+
+                                            }
+                                        }
+
                                         //ngôn ngữ
                                         if (dataFile.Tag == "041")
                                         {
                                             var subfields = dataFile.GetSubfields();
                                             foreach (var subfield in subfields)
                                             {
-                                                if (subfield.Code == 'a' && subfield.Data != null && subfield.Data != string.Empty)
+                                                if (subfield.Code == 'a' && subfield.Data != null && subfield.Data != " ")
                                                 {
                                                     var getNamelanguageCode = _LanguageLogic.FindNamelanguge(subfield.Data);
                                                     var getById = _LanguageLogic.FindNameId(subfield.Data);
@@ -257,7 +278,7 @@ namespace BiTech.Library.Controllers
                                         }
 
                                         //tóm tắt
-                                        if (dataFile.Tag == "520")
+                                        if (dataFile.Tag == "500")
                                         {
                                             var subfields = dataFile.GetSubfields();
                                             foreach (var subfield in subfields)
@@ -293,7 +314,7 @@ namespace BiTech.Library.Controllers
                                         }
 
                                         //năm xuất bản "c"
-                                        //người biên dịch "b"
+                                        //nhà xuất bản "b"
                                         if (dataFile.Tag == "260")
                                         {
                                             var subfields = dataFile.GetSubfields();
