@@ -653,7 +653,7 @@ namespace BiTech.Library.Controllers
 
                 if (!string.IsNullOrEmpty(maKS) && !string.IsNullOrEmpty(idtrangthai) && soLuong > 0)
                 {
-                    var book = _SachLogic.GetByMaMaKiemSoat(maKS);
+                    var book = _SachLogic.GetBook_NonDelete_ByMKS(maKS);
 
                     var tt = _TrangThaiSachLogic.getById(idtrangthai);
                     if (book != null && tt != null)
@@ -691,6 +691,11 @@ namespace BiTech.Library.Controllers
         }
 
         //VINH
+        /// <summary>
+        /// idSach là maKS hoặc ISBN
+        /// </summary>
+        /// <param name="idSach"></param>
+        /// <returns></returns>
         public JsonResult GetBookByID(string idSach)
         {
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
