@@ -53,6 +53,12 @@ namespace BiTech.Library.DAL.Engines
         #endregion
 
         #region Phong
+
+        public Sach GetByMaKiemSoatorISBN(string mastring)
+        {
+            return _DatabaseCollection.Find(x => x.MaKiemSoat == mastring || x.ISBN == mastring).FirstOrDefault();
+        }
+
         public Sach GetByID_IsDeleteFalse(string id)
         {
             return _DatabaseCollection.Find(x => x.Id == id && x.IsDeleted == false).SingleOrDefault();
@@ -94,7 +100,10 @@ namespace BiTech.Library.DAL.Engines
             {
                 //ToLower chuyễn chữ hoa sang thường
                 filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
-                || x.ISBN.ToLower().Contains(KeySearch.Keyword.ToLower()) || x.NamXuatBan.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                || x.MaKiemSoat.ToLower().Contains(KeySearch.Keyword.ToLower())
+                || x.ISBN.ToLower().Contains(KeySearch.Keyword.ToLower()) 
+                || x.NamXuatBan.ToLower().Contains(KeySearch.Keyword.ToLower())
+                );
             }
             if (!string.IsNullOrEmpty(KeySearch.TenNXB))
             {

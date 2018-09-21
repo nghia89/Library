@@ -132,6 +132,17 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetByMaKiemSoat(maKS);
         }
+
+        /// <summary>
+        /// Lấy sách bằng MaKiemSoat or ISBN
+        /// </summary>
+        /// <param name="mastring"></param>
+        /// <returns></returns>
+        public Sach GetByMaKiemSoatorISBN(string mastring)
+        {
+            return _sachEngine.GetByMaKiemSoatorISBN(mastring);
+        }
+
         #endregion
 
         #region Phong

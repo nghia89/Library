@@ -572,7 +572,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
             //Kiểm tra
             if ($scope.list.length > 0) {
                 //Số lượng sách còn lại lớn hơn không
-                if ((parseInt($scope.list[0].SoLuong) - parseInt($scope.Get_SoluongSachDangMuonTheoMKS($scope.masach))) > 0) {
+                if ((parseInt($scope.list[0].SoLuong) - parseInt($scope.Get_SoluongSachDangMuonTheoMKS($scope.list[0].MaKiemSoat))) > 0) {
                     bool_kq = true;
                 } else {
                     //Số lượng trong sách hết
@@ -587,7 +587,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
             //kết quả
             if (bool_kq) {
                 //Kiểm tra MaKiemSoat có tồn tại trong list chưa
-                let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == $scope.masach);
+                let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == $scope.list[0].MaKiemSoat);
                 if (index >= 0) {
                     //Đã tồn tại
                     $scope.list_book_queue[index].SoLuong = (parseInt($scope.list_book_queue[index].SoLuong) + parseInt($scope.SoluongSachMuon)).toString();

@@ -28,6 +28,8 @@ namespace BiTech.Library.Controllers
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
+            ViewBag.pageSize = pageSize;
+            ViewBag.pages = pageNumber;
             //var model = new ListBooksModel();
 
             var model = new List<BookView>();
@@ -42,7 +44,9 @@ namespace BiTech.Library.Controllers
             ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
             ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
 
+            KeySearch.Keyword = new SachCommon().GetInfo(KeySearch.Keyword);
             var list = _SachLogic.getPageSach(KeySearch);
+
             foreach (var item in list)
             {
                 var listTG = _SachTacGiaLogic.getListById(item.Id);
@@ -72,8 +76,9 @@ namespace BiTech.Library.Controllers
                 
                 model.Add(book);
             }
-            
+
             //Sắp xếp
+            
             if (KeySearch.SapXep == "1")
                 model = model.OrderBy(_ => _.TenSach).ToList();
             if (KeySearch.SapXep == "11")

@@ -61,6 +61,8 @@ namespace BiTech.Library.Controllers
             ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
             ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
 
+            KeySearch.Keyword = sachCommon.GetInfo(KeySearch.Keyword);
+
             var list = _SachLogic.getPageSach(KeySearch);
             ViewBag.number = list.Count();
 
@@ -94,6 +96,7 @@ namespace BiTech.Library.Controllers
             }
 
             //Sắp xếp
+            
             if (KeySearch.SapXep == "1")
                 model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
             if (KeySearch.SapXep == "11")
@@ -1402,6 +1405,7 @@ namespace BiTech.Library.Controllers
             List<ChiTietXuatSach> list_CTXS = _ChiTietXuatSachLogic.GetAllChiTietByIdSach(s.Id);
 
             RemoveFileFromServer(s.LinkBiaSach);
+            RemoveFileFromServer(s.QRlink, false);
 
             //if: (1)(2)(3) === 0 
             if ((list_TTMS.Count() + list_CTNS.Count() + list_CTXS.Count()) == 0)
@@ -1428,7 +1432,7 @@ namespace BiTech.Library.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private bool RemoveFileFromServer(string path)
+        private bool RemoveFileFromServer(string path, bool isDeleteFolderParent = true)
         {
             var fullPath = Request.MapPath(path);
             if (!System.IO.File.Exists(fullPath)) return false;
@@ -1436,7 +1440,8 @@ namespace BiTech.Library.Controllers
             try //Maybe error could happen like Access denied or Presses Already User used
             {
                 System.IO.File.Delete(fullPath);
-                DeleteFolderParent(fullPath);
+                if(isDeleteFolderParent)
+                    DeleteFolderParent(fullPath);
                 return true;
             }
             catch (Exception e)
