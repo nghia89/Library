@@ -327,6 +327,7 @@
     <Content Include="app\AngularChartJs\jquery.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
     <Content Include="app\app.js" />
+    <Content Include="app\ImportExportModule.js" />
     <Content Include="app\ngTagInputAngular.js" />
     <Content Include="app\StatisticTransition.js" />
     <Content Include="Assets\Images\bg.jpg" />

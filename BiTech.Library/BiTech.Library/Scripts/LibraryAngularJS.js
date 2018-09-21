@@ -81,9 +81,10 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
                 else
                     $scope.list.push(response.data);
                 $('#idSach').focus();
-                $scope.maKS = null;
+                $scope.maKS = null;                                
                 $scope.soLuong = null;
                 $scope.GhiChuDon = null;
+                $("#TenSach").val("");
             }
             else {
                 $scope.errortext = "";
@@ -193,6 +194,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
                     $scope.maKS = null;
                     $scope.soLuong = null;
                     $scope.GhiChuDon = null;
+                    $("#TenSach").val("");
                 }
                 else {
                     $scope.errortext = "";
@@ -208,7 +210,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
                         $scope.errortext += "Vui lòng chọn trạng thái.\n";
                     }
                     if (!$scope.GhiChuDon) {
-                        $scope.errortext += "Vui lòng chọn lý do.\n";
+                        $scope.errortext += "Vui lòng nhập lý do.\n";
                         $('#LyDo').focus();
                     }
 
@@ -232,7 +234,7 @@ app.controller('ExportBookCtrlr', function ($scope, $http) {
                 $scope.errortext += "Vui lòng chọn trạng thái.\n";
             }
             if (!$scope.GhiChuDon) {
-                $scope.errortext += "Vui lòng chọn lý do.\n";
+                $scope.errortext += "Vui lòng nhập lý do.\n";
                 $('#LyDo').focus();
             }
 

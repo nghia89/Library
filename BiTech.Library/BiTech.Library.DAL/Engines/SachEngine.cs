@@ -34,14 +34,15 @@ namespace BiTech.Library.DAL.Engines
 
 		#region vinh
 		/// <summary>
-		/// Get book by makiemsoat isdelete = false
+		/// Get book by makiemsoat hoặc ISBN isdelete = false
 		/// </summary>
 		/// <param name="idBook"></param>
 		/// <returns></returns>
 		public Sach GetBook_NonDelete_ByMKS(string maKS)
 		{
-			return _DatabaseCollection.Find(_ => _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
-		}
+            //return _DatabaseCollection.Find(_ => _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
+            return _DatabaseCollection.Find(_ => _.ISBN == maKS || _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
+        }
 		public List<Sach> GetAll_NonDelete()
 		{
 			return _DatabaseCollection.Find(_ => _.IsDeleted == false).ToList();
