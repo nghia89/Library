@@ -61,7 +61,9 @@ namespace BiTech.Library.DTO
         [BsonIgnore]
         public List<string> ListError { get; set; } = new List<string>();
         [BsonIgnore]
-        public bool IsDuplicate { get; set; } = false;
+        public bool IsDuplicateMSTV { get; set; } = false;
+        [BsonIgnore]
+        public bool IsDuplicateUser { get; set; } = false;
         [BsonIgnore]
         public string NgaySinhForAngular { get; set; }
         #endregion

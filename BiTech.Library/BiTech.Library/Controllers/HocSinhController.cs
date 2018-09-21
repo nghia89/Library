@@ -789,56 +789,39 @@ namespace BiTech.Library.Controllers
                     {
                         item.ListError.Add("Rỗng ô nhập \"Tên User\"");
                     }
-                    // GioiTinh
-                    if (String.IsNullOrEmpty(item.GioiTinh.Trim()))
+                    // Trùng User name                              
+                    if (_ThanhVienLogic.GetByUserName(item.UserName.Trim()) != null)
                     {
-                        item.ListError.Add("Rỗng ô nhập \"Giới tính\"");
+                        item.ListError.Add(" Bị trùng \"Tên user\"");
+                        item.IsDuplicateUser = true;
                     }
                     // MaSoThanhVien
                     if (String.IsNullOrEmpty(item.MaSoThanhVien.Trim()))
                     {
                         item.ListError.Add("Rỗng ô nhập \"Mã học sinh\"");
                     }
+                    // Trùng Mã số thành viên                  
+                    if (_ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien.Trim()) != null)
+                    {
+                        item.ListError.Add(" Bị trùng \"Mã học sinh\"");
+                        item.IsDuplicateMSTV = true;
+                    }
+                    // GioiTinh
+                    if (String.IsNullOrEmpty(item.GioiTinh.Trim()))
+                    {
+                        item.ListError.Add("Rỗng ô nhập \"Giới tính\"");
+                    }
                     // NgaySinh
                     if (String.IsNullOrEmpty(item.NgaySinh.ToShortDateString().Trim()) || item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
                     {
                         item.ListError.Add("Rỗng ô nhập \"Ngày sinh\"");
                     }
-                    // Trùng mã                
-                    var tv = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien.Trim());
-                    if (tv != null)
-                    {
-                        item.ListError.Add(" Bị trùng \"Mã học sinh\"");
-                        item.IsDuplicate = true;
-                    }
-                    //
+                    // Lưu vào CSDL Thành Viên không bị lỗi  
                     if (item.ListError.Count == 0)
-                        ListSuccess.Add(item);
-                    else
-                        ListFail.Add(item);
-                }
-                #region Lưu vào CSDL ds Thành Viên không bị lỗi  
-                if (ListSuccess.Count > 0)
-                {
-                    foreach (var item in ListSuccess)
                     {
-                        var thanhVien = new ThanhVien
-                        {
-                            Ten = xuLyChuoi.ChuanHoaChuoi(item.Ten),
-                            UserName = item.UserName,
-                            MaSoThanhVien = item.MaSoThanhVien,
-                            LoaiTK = item.LoaiTK,
-                            GioiTinh = xuLyChuoi.ChuanHoaChuoi(item.GioiTinh),
-                            NgaySinh = item.NgaySinh,
-                            NienKhoa = item.NienKhoa,
-                            LopHoc=item.LopHoc,                            
-                            DiaChi = item.DiaChi,
-                            SDT = item.SDT,
-                            Password = item.MaSoThanhVien,
-                            TrangThai = EUser.Active
-                        };
+                        item.Password = item.MaSoThanhVien;
                         // Thêm thành viên,lưu mã vạch  
-                        var id = _ThanhVienLogic.Insert(thanhVien);
+                        var id = _ThanhVienLogic.Insert(item);
                         ThanhVien tv = _ThanhVienLogic.GetById(id);
                         ThanhVien temp = new ThanhVien();
                         string physicalWebRootPath = Server.MapPath("/");
@@ -849,9 +832,13 @@ namespace BiTech.Library.Controllers
                             tv.QRData = temp.QRData;
                             _ThanhVienLogic.Update(tv);
                         }
+                        //
+                        ListSuccess.Add(item);
                     }
-                }
-                #endregion
+                    // Tạo ds Thành Viên bị lỗi  
+                    else
+                        ListFail.Add(item);
+                }               
                 #region Tạo file excel cho ds Thành Viên bị lỗi   
 
                 if (ListFail.Count > 0)
@@ -912,7 +899,8 @@ namespace BiTech.Library.Controllers
                     int firstRow = 1;
                     int firstColumn = 0;
                     int stt = 1;
-                    model.ArrRows = new bool[ListFail.Count + 1];
+                    model.ArrRowsMSTV = new bool[ListFail.Count + 1];
+                    model.ArrRowsUser = new bool[ListFail.Count + 1];
                     foreach (var item in ListFail)
                     {
                         ArrayList arrList = new ArrayList();
@@ -960,11 +948,17 @@ namespace BiTech.Library.Controllers
                         if (String.IsNullOrEmpty(item.NgaySinh.ToString().Trim()) ||
                             item.NgaySinh.ToShortDateString().Equals("01/01/0001") == true)
                             ws.Cells[firstRow, firstColumn + 5].SetStyle(styleError);
-                        model.ArrRows[firstRow] = false;// khởi tạo dòng False (không bị trùng)
-                        if (item.IsDuplicate == true)
+                        model.ArrRowsMSTV[firstRow] = false;// khởi tạo dòng False (không bị trùng)
+                        model.ArrRowsUser[firstRow] = false;
+                        if (item.IsDuplicateMSTV == true)
                         {
                             ws.Cells[firstRow, firstColumn + 3].SetStyle(styleError);
-                            model.ArrRows[firstRow] = true;
+                            model.ArrRowsMSTV[firstRow] = true;
+                        }
+                        if (item.IsDuplicateUser == true)
+                        {
+                            ws.Cells[firstRow, firstColumn + 2].SetStyle(styleError);
+                            model.ArrRowsUser[firstRow] = true;
                         }
                         // K lưu vào file Excel, chỉ xuất lên table
                         arrList.Add(errorExcel);

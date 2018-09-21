@@ -190,7 +190,8 @@ namespace BiTech.Library.Models
         /// <summary>
         /// Mảng chứa các dòng bị trùng Mã Thành Viên
         /// </summary>
-        public bool[] ArrRows { get; set; }      
+        public bool[] ArrRowsMSTV { get; set; }
+        public bool[] ArrRowsUser { get; set; }
     }
 
 }

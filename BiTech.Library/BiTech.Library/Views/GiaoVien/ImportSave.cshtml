@@ -4,7 +4,7 @@
     ViewBag.Title = "ResultImportExcel";
 }
 
-<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count giáo viên</h4>
+<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count  giáo viên</h4>
 <h4 class="text-danger">Lưu thất bại @Model.ListFail.Count giáo viên</h4>
 @if (@Model.ListFail.Count > 0)
 {
@@ -13,87 +13,75 @@
     </button>
     <center><h3>Danh sách bị lỗi</h3></center>
     <br />
-    <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
-        <thead>
-            <tr class="table-info text-center">
-                @{
-                    var longestRow = Model.ListShow.FirstOrDefault();
-                    if (longestRow != null)
-                    {
-                        <th>STT</th>
-                        @*for (int i = 0; i < longestRow.Count; i++)
-                            {
-                                <th>
-                                    <select class="form-control" onclick="clearSelectBoxDefaultOption(this)" id="select-@i" data-is-selected="false" data-datatype-chooser="true">
-                                        <option>-----------------------------------------------------------------------------</option>
-                                        <option value="FullName">Họ & tên</option>
-                                        <option value="Username">Tên user</option>
-                                        <option value="Password">Mã thành viên</option>
-                                        <option value="Email">Loại tài khoản</option>
-                                        <option value="PhoneNumber">Giới tính</option>
-                                        <option value="GrantedPermissionList">Ngày sinh</option>
-                                        <option value="RoleSystemName">Lớp học</option>
-                                        <option value="GrantedGradeAndSubjectId">Niên khóa</option>
-                                        <option value="Address">Địa chỉ</option>
-                                        <option value="PhoneNumber">SĐT</option>
-                                    </select>
-                                </th>
+    <div style="overflow-x:auto">
+        <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
+            <thead>
+                <tr class="table-info text-center">
+                    @{
+                        var longestRow = Model.ListShow.FirstOrDefault();
+                        if (longestRow != null)
+                        {
+                            <th>STT</th>
+                            <th>Họ và tên</th>
+                            <th>Tên user</th>
+                            <th>Mã giáo viên</th>
+                            <th>Giới tính</th>
+                            <th>Ngày sinh</th>
+                            <th>Tổ</th>
+                            <th>Niên khóa</th>
+                            <th>Địa chỉ</th>
+                            <th>SĐT</th>
+                            <th>Nguyên nhân lỗi </th>
+                        }
+                    }
 
-                            }*@
-                        <th>Họ và tên</th>
-                        <th>Tên user</th>
-                        <th>Mã giáo viên</th>
-                        <th>Giới tính</th>
-                        <th>Ngày sinh</th>
-                        <th>Tổ</th>
-                        <th>Niên khóa</th>
-                        <th>Địa chỉ</th>
-                        <th>SĐT</th>
-                        <th>Nguyên nhân lỗi </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var orderNumber = 0;
+                    int row = 1;
+                    foreach (var item in Model.ListShow)
+                    {
+                        var col = 1;
+                        <tr id="element-@orderNumber">
+                            @foreach (var j in item)
+                            {
+                                // tô màu ô trống dữ liệu cần thiêt
+                                if (String.IsNullOrEmpty(j.ToString().Trim()) && col <= 6)
+                                {
+                                    <td style="background: #dc354582;"></td>
+                                }
+                                // tô màu ô trùng Mã Thành Viên
+                                else if (col == 4 && Model.ArrRowsMSTV[row] == true)
+                                {
+                                    <td style="background: #dc354582;">@j.ToString()</td>
+                                }
+                                // tô màu ô trùng User name
+                                else if (col == 3 && Model.ArrRowsUser[row] == true)
+                                {
+                                    <td style="background: #dc354582;">@j.ToString()</td>
+                                }
+                                else
+                                {
+                                    <td>@j.ToString()</td>
+                                }
+                                col++;
+                            }
+                            @*<td>
+                                    <center>
+                                        <a href="#@orderNumber" data-array-index="@index" class="btn btn-primary edit-action">Sửa</a>
+                                        <a href="#@orderNumber" data-array-index="@index" class="btn btn-danger remove-acction">Xóa</a>
+                                    </center>
+                                </td>*@
+                        </tr>
+                        row++;
                     }
                 }
-                @*<th width="150px"><center>Thao tác</center></th>*@
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                var orderNumber = 0;
-                int row = 1;
-                foreach (var item in Model.ListShow)
-                {
-                    var col = 1;
-                    <tr id="element-@orderNumber">
-                        @foreach (var j in item)
-                        {
-                            // tô màu ô trống dữ liệu cần thiêt
-                            if (String.IsNullOrEmpty(j.ToString().Trim()) && col <= 6)
-                            {
-                                <td style="background: #dc354582;"></td>
-                            }
-                            // tô màu ô trùng Mã Thành Viên
-                            else if (col == 4 && Model.ArrRows[row] == true)
-                            {
-                                <td style="background: #dc354582;">@j.ToString()</td>
-                            }                            
-                            else
-                            {
-                                <td>@j.ToString()</td>
-                            }
-                            col++;
-                        }
-                        @*<td>
-                                <center>
-                                    <a href="#@orderNumber" data-array-index="@index" class="btn btn-primary edit-action">Sửa</a>
-                                    <a href="#@orderNumber" data-array-index="@index" class="btn btn-danger remove-acction">Xóa</a>
-                                </center>
-                            </td>*@
-                    </tr>
-                    row++;
-                }
-            }
-        </tbody>
-    </table>
-                }
+            </tbody>
+        </table>
+    </div>
+                    }
 <br />
 <div class="f1-buttons">
     <button type="button" class="btn btn-sm btn-success" id="btn-finish"><i class=""></i>Hoàn tất</button>

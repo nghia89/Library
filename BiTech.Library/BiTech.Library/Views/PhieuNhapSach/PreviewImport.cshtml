@@ -4,7 +4,7 @@
     Layout = null;
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-@if (ViewBag.NullGhiChu==true)
+@if (ViewBag.NullGhiChu == true)
 {
     <div class="alert p-2 alert-danger alert-dismissible fade show">
         <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
@@ -22,7 +22,7 @@
 <center><h3>Danh sách đã nhận diện</h3></center>
 
 <div id="result-table-container">
-    <div>
+    <div style="overflow-x:auto">
         <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
             <thead>
                 <tr class="table-info text-center">
@@ -55,7 +55,7 @@
                                 <td>@item[j]</td>
                             }
                             <td>
-                                <center>                                  
+                                <center>
                                     <a href="#@orderNumber"
                                        class="btn btn-sm btn-danger remove-acction arrayindex-@index"
                                        data-array-index="@index"
@@ -171,7 +171,7 @@
                swal({
                    title: "Đã xong",
                    type: "success",
-                   text: "Đã loại bỏ tài khoản mà bạn vừa chọn !!!"
+                   text: "Đã loại bỏ đầu sách mà bạn vừa chọn !!!"
                }, function () {
                    // --
                });

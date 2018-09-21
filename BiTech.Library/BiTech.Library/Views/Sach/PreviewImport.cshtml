@@ -7,14 +7,14 @@
 <ul class="list-group">
     <li class="list-group-item">
         @*<span class="badge">@Model.TotalEntry</span>*@
-        <b id="CountTotal">Tổng số tài khoản được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
+        <b id="CountTotal">Tổng số đầu sách được nhận diện: <b class="CountTotal_SL" data-tongsl="@Model.TotalEntry">@Model.TotalEntry</b></b>
     </li>
 </ul>
 
 <center><h3>Danh sách đã nhận diện</h3></center>
 
 <div id="result-table-container">
-    <div>
+    <div style="overflow-x:auto">
         <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
             <thead>
                 <tr class="table-info text-center">
@@ -38,7 +38,7 @@
                             <th>Người biên dịch</th>
                             <th>Lần xuất bản</th>
                             <th>Tóm tắt</th>
-                           
+
                         }
                     }
                     <th><center>Thao tác</center></th>
@@ -56,10 +56,23 @@
                             <td class="text-center SL_STT-@stt" data-tongstt="@stt">@stt</td>
                             @for (int j = 1; j < item.Length; j++)
                             {
-                                <td>@item[j]</td>
+                                if (j == 15)// Cột tóm tắt sách
+                                {                                  
+                                        <td style="white-space: nowrap;
+                                        overflow:hidden;
+                                        text-overflow: ellipsis;
+                                        max-width: 50px;
+                                        max-height:50px;">                                     
+                                        @item[j]                                           
+                                        </td>                                                                     
+                                }
+                                else
+                                {
+                                    <td>@item[j]</td>
+                                }
                             }
                             <td>
-                                <center>                                    
+                                <center>
                                     <a href="#@orderNumber"
                                        class="btn btn-sm btn-danger remove-acction arrayindex-@index"
                                        data-array-index="@index"
@@ -174,7 +187,7 @@
                swal({
                    title: "Đã xong",
                    type: "success",
-                   text: "Đã loại bỏ tài khoản mà bạn vừa chọn !!!"
+                   text: "Đã loại bỏ đầu sách mà bạn vừa chọn !!!"
                }, function () {
                    // --
                });

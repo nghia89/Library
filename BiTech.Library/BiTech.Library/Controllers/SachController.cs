@@ -963,19 +963,9 @@ namespace BiTech.Library.Controllers
                     {
                         item.ListError.Add("Rỗng ô nhập \"Tóm tắt\"");
                     }
-                    //
+                    // Lưu vào CSDL Sách không bị lỗi 
                     if (item.ListError.Count == 0)
-                        ListSuccess.Add(item);
-                    else
-                        ListFail.Add(item);
-                }
-                #endregion
-                #region Lưu vào CSDL ds không bị lỗi  
-                if (ListSuccess.Count > 0)
-                {
-                    foreach (var item in ListSuccess)
                     {
-                        // linh tinh
                         #region Linh tinh
                         // Thể loại sách
                         //string itemTheLoai = sachCommon.ChuanHoaChuoi(item.IdTheLoai);// Chuẩn hóa tên Thể Loại Sách
@@ -983,24 +973,12 @@ namespace BiTech.Library.Controllers
                         var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
                         if (machs.Length > 0)
                         {
-                            var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
-                            if (theloai != null)
-                            {
-                                item.IdTheLoai = theloai.Id;
-                            }
-                            else
-                            {
-                                // todo - ddc dictionary version 21
-                                var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
-                                {
-                                    TenTheLoai = item.IdTheLoai.Trim(),
-                                    MaDDC = itemTheLoai.Trim()
-                                });
-                                item.IdTheLoai = id;
-                            }
+                            // Nếu là mã DDC thì lưu vào trường DDC của Sách
+                            item.DDC = itemTheLoai;
                         }
                         else
                         {
+                            // Nếu là tên thì lưu vào trường tên thể loại của Sách
                             var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
                             if (theloai != null)
                             {
@@ -1012,7 +990,6 @@ namespace BiTech.Library.Controllers
                                 item.IdTheLoai = id;
                             }
                         }
-
                         // Kệ sách
                         // string nameKS = sachCommon.ChuanHoaChuoi(item.IdKeSach);// Chuẩn hóa tên Kệ Sách
                         string nameKS = item.IdKeSach.Trim();
@@ -1085,9 +1062,13 @@ namespace BiTech.Library.Controllers
                                 _SachLogic.Update(sachUpdate);
                             }
                         }
+                        //
+                        ListSuccess.Add(item);
                     }
+                    else
+                        ListFail.Add(item);
                 }
-                #endregion
+                #endregion             
                 #region Tạo file excel cho ds Thành Viên bị lỗi   
                 if (ListFail.Count > 0)
                 {
