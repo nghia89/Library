@@ -1,14 +1,14 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
+<div class="Title">Xuất báo cáo</div>
+
 <div class="row">
-    <div class="col-lg-11 marginAuto">
-        <div class="Leftcontent">
-            <div class="col-lg-11 marginAuto">
-                <h3>Xuất số lượng sách được mượn:</h3>
+    <div class="col-lg-6">
+        <div class="export_content">
+            <div class="title">Số lượng sách được mượn:</div>
+            <div>
                 <form action="/Exportreport/ExportTTSach" method="get" role="form">
                     <button style="margin-left: 20px;" type="submit" class="btn btn-primary">Tải excel</button>
                     <div style="float:left">
@@ -26,15 +26,16 @@
                     </div>
                 </form>
             </div>
-
         </div>
-        <div class="Rightcontent">
-            <div class="col-lg-11 marginAuto">
-                <h3>Xuất số lượng sách theo trạng thái:</h3>
+    </div>
+    <div class="col-lg-6">
+        <div class="export_content">
+
+            <div class="title">Số lượng trạng thái sách:</div>
+            <div>
                 <a href="/Exportreport/ExportSLSachTT" class="btn btn-info">Tải excel</a>
             </div>
         </div>
     </div>
-
 </div>
 

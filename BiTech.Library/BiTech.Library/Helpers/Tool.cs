@@ -19,7 +19,8 @@ namespace BiTech.Library.Helpers
         FileWord,
         FileMrc,
         Reports,
-        ReportsWordQR
+        ReportsWordQR,
+        Templates
     }
 
     public static class Tool
@@ -35,6 +36,8 @@ namespace BiTech.Library.Helpers
 
             switch (type)
             {
+                case UploadFolder.Templates:
+                    return @"Tempalates";
                 case UploadFolder.Upload:
                     return Path.Combine(mainUpload, subdomain);
                 case UploadFolder.CustomerBackup:
