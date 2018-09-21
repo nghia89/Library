@@ -1706,9 +1706,56 @@ a:hover {
 
 .pointer-eventsNone {
     pointer-events: none;
-    background: red;
 }
 
 .pointer-eventsAuto {
     pointer-events: auto;
+}
+
+.Leftcontent {
+    width: 48%;
+    min-height: 502px;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    margin-right: 29px;
+    float: left;
+}
+
+.Rightcontent {
+    width: 48%;
+    min-height: 502px;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    float: left;
+}
+
+.marginAuto {
+    margin: auto
+}
+
+/*responsive form Xuất báo cáo*/
+@media screen and (max-width: 1115px) {
+    .Leftcontent {
+        width: 100%;
+        min-height: 300px;
+        background: #fff;
+        border: 1px solid #f1f1f1;
+        border-radius: 10px;
+        margin-right: 29px;
+        margin-bottom: 10px;
+    }
+
+    .col-lg-4 {
+        width: 40.333333%;
+    }
+
+    .Rightcontent {
+        width: 100%;
+        min-height: 300px;
+        background: #fff;
+        border: 1px solid #f1f1f1;
+        border-radius: 10px;
+    }
 }

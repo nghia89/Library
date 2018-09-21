@@ -11,7 +11,9 @@
         $('.AddList').change(function () {
             if ($(this).is(":checked")) {
                 var idCheck = $(this).val();
-                AddList(idCheck);
+
+                $('.hidden').addClass('pointer-eventsNone');
+                AddList(idCheck, true);
 
             }
             else {
@@ -35,12 +37,18 @@
             //check cha thì check tất cả con
             $('.AddList').prop('checked', $(this).prop('checked'));
             if ($('#CheckAll').is(':checked')) {
+
+                $('.hidden').addClass('pointer-eventsNone');
+                var count = $('.AddList').length;
+                var stt = 0;
                 $('.AddList').each(function () {
+                    stt++;
                     if ($('.AddList').is(':checked')) {
                         var idCheck = $(this).val();
-                        AddList(idCheck);
+                        AddList(idCheck, (stt === count));
                     }
                 });
+
             }
             else {
                 DeleteAll();
@@ -50,7 +58,7 @@
 
 
     //thêm dánh sách
-    function AddList(idCheck) {
+    function AddList(idCheck, removeHidden) {
         $.ajax({
 
             url: '/ExportMarc/AddList',
@@ -60,6 +68,10 @@
             type: 'POST',
             dataType: 'json',
             success: function (response) {
+                if (removeHidden) {
+                    $('.pointer-eventsNone').removeClass('pointer-eventsNone');
+                    $('.hidden').addClass('pointer-eventsAuto');
+                }
                 return true;
             }
         });

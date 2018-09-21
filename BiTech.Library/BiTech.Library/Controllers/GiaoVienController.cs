@@ -53,7 +53,7 @@ namespace BiTech.Library.Controllers
                 model.ListAll[i + 1] = item.MaSoThanhVien;
                 i += 2;
             }
-            model.ListThanhVien = listThanhVien; // PartialView
+            model.ListThanhVien = listThanhVien.OrderBy(x => x.MaSoThanhVien).ToList(); // PartialView
             ViewBag.ThongBao = false;
             return View(model);
         }
