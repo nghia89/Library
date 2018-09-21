@@ -74,6 +74,8 @@
         Bool_TabThongTinSach = true;
     if (List_Controller_TabNghiepVu.Contains(controller))
         Bool_TabNghiepVu = true;
+
+    bool authflag = ((User.IsInRole(Role.CustomerAdmin) || User.IsInRole(Role.CustomerUser) || ViewBag.IsDebuging) && ViewBag._SubDomainAccessPermission);
 }
 
 @if (ViewBag.ShowLeft)
@@ -86,7 +88,6 @@
 
         </div>
         <div class="menu">
-
             <div class="logo">
                 <img src="~/Content/Images/logo.png" alt="logo" style="max-width: 100%" />
             </div>
@@ -127,7 +128,8 @@
                         </div>
                     </div>
                 </div>
-                @if ((User.IsInRole(Role.CustomerAdmin) || User.IsInRole(Role.CustomerUser) || ViewBag.IsDebuging) && ViewBag._SubDomainAccessPermission)
+
+                @if (authflag)
                 {
                     <div class="card @(Bool_TabThanhVien ? "active function_active" : "")">
                         <div class="card-header ">
@@ -209,7 +211,35 @@
                             </div>
                         </div>
                     </div>
+                }
 
+                <div class="card @((Bool_TabThongTinSach) ? "active function_active" : "")">
+                    <div class="card-header">
+                        <a class="card-link @((Bool_TabThongTinSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapse6">
+                            <i class="fa fa-search"></i>
+                            <span class="card-header-title">Thông tin sách</span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse @((Bool_TabThongTinSach) ? "show" : "")" data-parent="#accordion">
+                        <div class="card-body">
+                            <ul>
+                                <li class="@((controller == "Search" && @action == "Index") ? "active" : "")">
+                                    <a href="@Url.Action("Index", "Search")" title="Tra cứu">
+                                        Tra cứu
+                                    </a>
+                                </li>
+                                @*<li class="@((controller == "Search" && @action == "NewBook") ? "active" : "")">
+                            <a href="@Url.Action("NewBook", "Search")" title="Sách mới">
+                                Sách mới
+                            </a>
+                        </li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                @if (authflag)
+                {
                     <div class="card @((Bool_TabMuonTra) ? "active function_active" : "")">
                         <div class="card-header">
                             <a class="card-link @((Bool_TabMuonTra) ? " " : "collapsed")" data-toggle="collapse" href="#collapse2">
@@ -299,7 +329,10 @@
                             </div>
                         </div>
                     </div>
+                }
 
+                @if ((User.IsInRole(Role.CustomerAdmin) || ViewBag.IsDebuging) && ViewBag._SubDomainAccessPermission)
+                {
                     <div class="card @((Bool_TabQuanLyThuVien) ? "active function_active" : "")">
                         <div class="card-header">
                             <a class="card-link @((Bool_TabQuanLyThuVien) ? " " : "collapsed")" data-toggle="collapse" href="#collapse5">
@@ -335,31 +368,6 @@
                         </div>
                     </div>
                 }
-
-                <div class="card @((Bool_TabThongTinSach) ? "active function_active" : "")">
-                    <div class="card-header">
-                        <a class="card-link @((Bool_TabThongTinSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapse6">
-                            <i class="fa fa-search"></i>
-                            <span class="card-header-title">Thông tin sách</span>
-                        </a>
-                    </div>
-                    <div id="collapse6" class="collapse @((Bool_TabThongTinSach) ? "show" : "")" data-parent="#accordion">
-                        <div class="card-body">
-                            <ul>
-                                <li class="@((controller == "Search" && @action == "Index") ? "active" : "")">
-                                    <a href="@Url.Action("Index", "Search")" title="Tra cứu">
-                                        Tra cứu
-                                    </a>
-                                </li>
-                                @*<li class="@((controller == "Search" && @action == "NewBook") ? "active" : "")">
-                                    <a href="@Url.Action("NewBook", "Search")" title="Sách mới">
-                                        Sách mới
-                                    </a>
-                                </li>*@
-                            </ul>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="card @((Bool_TabNghiepVu) ? "active function_active" : "")">
                     <div class="card-header">
