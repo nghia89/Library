@@ -4,44 +4,25 @@
     Layout = null;
     ViewBag.Title = "ResultImportExcel";
 }
-<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count cuốn</h4>
-<h4 class="text-danger">Lưu thất bại @Model.ListFail.Count cuốn</h4>
+<h4 class="text-success">Lưu thành công @Model.ListSuccess.Count đầu sách</h4>
+<h4 class="text-danger">Lưu thất bại @Model.ListFail.Count đầu sách</h4>
 @if (@Model.ListFail.Count > 0)
 {
     <button type="button" class="btn btn-danger btn-sm" onclick="window.location='@Url.Action("DowloadExcel", "Sach",new {filePath=Model.FilePath, fileName = Model.FileName })'">
         <i class="fa fa-cloud-download" style="padding-right: 4px;font-size: 17px;"> Tải file lỗi để sửa</i>
     </button>
     <center><h3>Danh sách bị lỗi</h3></center>
-        <br />
-        <div @*class="table-wrapper-scroll-y"*@ @*class="scrollbar scrollbar-primary"*@>
-            <div @*id="tableContainer" class="tableContainer"*@>
-                <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
-                    <thead @*class="fixedHeader"*@>
-                        <tr class="table-info text-center">
-                            @{
-                                var longestRow = Model.ListShow.FirstOrDefault();
-                                if (longestRow != null)
-                                {
-                                    <th>STT</th>
-                                    @*for (int i = 0; i < longestRow.Count; i++)
-                                        {
-                                            <th>
-                                                <select class="form-control" onclick="clearSelectBoxDefaultOption(this)" id="select-@i" data-is-selected="false" data-datatype-chooser="true">
-                                                    <option>-----------------------------------------------------------------------------</option>
-                                                    <option value="FullName">Họ & tên</option>
-                                                    <option value="Username">Tên user</option>
-                                                    <option value="Password">Mã thành viên</option>
-                                                    <option value="Email">Loại tài khoản</option>
-                                                    <option value="PhoneNumber">Giới tính</option>
-                                                    <option value="GrantedPermissionList">Ngày sinh</option>
-                                                    <option value="RoleSystemName">Lớp học</option>
-                                                    <option value="GrantedGradeAndSubjectId">Niên khóa</option>
-                                                    <option value="Address">Địa chỉ</option>
-                                                    <option value="PhoneNumber">SĐT</option>
-                                                </select>
-                                            </th>
-
-                                        }*@
+    <br />
+    <div @*class="table-wrapper-scroll-y"*@ @*class="scrollbar scrollbar-primary"*@>
+        <div @*id="tableContainer" class="tableContainer"*@ style="overflow-x:auto">
+            <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
+                <thead @*class="fixedHeader"*@>
+                    <tr class="table-info text-center">
+                        @{
+                            var longestRow = Model.ListShow.FirstOrDefault();
+                            if (longestRow != null)
+                            {
+                                <th>STT</th>
                                     <th>Tên sách</th>
                                     <th>Mã ISBN</th>
                                     <th>Thể loại sách</th>
@@ -58,42 +39,52 @@
                                     <th>Lần xuất bản</th>
                                     <th>Tóm tắt</th>
                                     <th>Nguyên nhân lỗi </th>
-                                }
-                            }
-                            @*<th width="150px"><center>Thao tác</center></th>*@
-                        </tr>
-                    </thead>
-                    <tbody @*class="scrollContent"*@>
-                        @{
-                            var orderNumber = 0;
-                            int row = 1;
-                            foreach (var item in Model.ListShow)
-                            {
-                                var col = 0;
-                                <tr id="element-@orderNumber">
-                                    @foreach (var j in item)
-                                    {
-                                        // tô màu ô trống dữ liệu cần thiết
-                                        if (String.IsNullOrEmpty(j.ToString().Trim()) && (col == 1 || col == 3 || col == 5 || col == 7 ||
-                                             col == 8 || col == 9 || col == 11 || col == 15 || col == 4))
-                                        {
-                                            <td style="background: #dc354582;"></td>
-                                        }
-                                        else
-                                        {
-                                            <td>@j.ToString()</td>
-                                        }
-                                        col++;
-                                    }
-                                </tr>
-                                row++;
                             }
                         }
-                    </tbody>
-                </table>
-            </div>
+                    </tr>
+                </thead>
+                <tbody @*class="scrollContent"*@>
+                    @{
+                        var orderNumber = 0;
+                        int row = 1;
+                        foreach (var item in Model.ListShow)
+                        {
+                            var col = 0;
+                            <tr id="element-@orderNumber">
+                                @foreach (var j in item)
+                                {
+                                    // tô màu ô trống dữ liệu cần thiết
+                                    if (String.IsNullOrEmpty(j.ToString().Trim()) && (col == 1 || col == 3 || col == 5 || col == 7 ||
+                                         col == 8 || col == 9 || col == 11 || col == 15 || col == 4))
+                                    {
+                                        <td style="background: #dc354582;"></td>
+                                    }
+                                    // format ô ghi chú
+                                    else if (col == 15)
+                                    {
+                                        <td style="white-space: nowrap;
+                                        overflow:hidden;
+                                        text-overflow: ellipsis;
+                                        max-width: 50px;
+                                        max-height:50px;">
+                                            @j.ToString()
+                                            </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@j.ToString()</td>
+                                    }
+                                    col++;
+                                }
+                            </tr>
+                            row++;
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
-                            }
+    </div>
+                        }
 <br />
 <div class="f1-buttons">
     <button type="button" class="btn btn-sm btn-success" id="btn-finish"><i class=""></i>Hoàn tất</button>

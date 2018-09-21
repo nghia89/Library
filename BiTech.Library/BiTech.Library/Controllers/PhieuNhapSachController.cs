@@ -391,6 +391,16 @@ namespace BiTech.Library.Controllers
 
             if (listAll != null)
             {
+                // Tạo phiếu nhập sách
+                PhieuNhapSach pns = new PhieuNhapSach()
+                {
+                    GhiChu = ghiChu,
+                    IdUserAdmin = _UserAccessInfo.Id,
+                    UserName = _UserAccessInfo.UserName
+                };
+                string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);
+                var listAllTTS = _TrangThaiSachLogic.GetAll();
+                // 
                 foreach (var item in listAll)
                 {
                     // Mã sách rỗng
@@ -418,38 +428,12 @@ namespace BiTech.Library.Controllers
                     {
                         item.ListError.Add("Rỗng ô nhập \"Trạng thái sách\"");
                     }
-
+                    // Lưu vào CSDL Chi Tiết Phiếu Nhập không bị lỗi
                     if (item.ListError.Count == 0)
-                        ListSuccess.Add(item);
-                    else
-                        ListFail.Add(item);
-                }
-                #region Lưu vào CSDL ds Chi Tiết Phiếu Nhập không bị lỗi  
-                if (ListSuccess.Count > 0)
-                {
-                    // Tạo phiếu nhập sách
-                    PhieuNhapSach pns = new PhieuNhapSach()
                     {
-                        GhiChu = ghiChu,
-                        IdUserAdmin = _UserAccessInfo.Id,
-                        UserName = _UserAccessInfo.UserName
-                    };
-                    string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);
-                    var listAllTTS = _TrangThaiSachLogic.GetAll();
-                    int i = 0;
-                    // Tạo phiếu chi tiết nhập sách
-                    foreach (var item in ListSuccess)
-                    {
-                        var sach = _SachLogic.GetByMaMaKiemSoat(item.IdSach);
-                        i++;
-                        //-------- enum style--------
-                        /*int index = Int32.Parse(item.IdTinhtrang);
-                        TrangThaiSach trangThaiSach = null;
-                        if (index <= listAllTTS.Count())
-                            trangThaiSach = listAllTTS[index - 1];*/
-                        //----------- end------------
-                        // Trạng thái sách
-                        TrangThaiSach trangThaiSach = _TrangThaiSachLogic.GetByName(item.IdTinhtrang.Trim());
+                        // Tạo phiếu chi tiết nhập sách                        
+                        var sach = _SachLogic.GetByMaMaKiemSoat(item.IdSach);                        
+                        TrangThaiSach trangThaiSach = _TrangThaiSachLogic.GetByName(item.IdTinhtrang.Trim());// Trạng thái sách
                         // Nếu trạng thái sách chưa tồn tại thì thêm mới
                         if (trangThaiSach == null)
                         {
@@ -486,15 +470,16 @@ namespace BiTech.Library.Controllers
                             updateSach.SoLuongTong += item.SoLuong;
                             // Chỉ update số lượng còn lại cho Sách có trạng thái true (là sách cho mượn được)
                             //if (trangThaiSach.TrangThai == true)
-                               updateSach.SoLuongConLai += item.SoLuong;
+                            updateSach.SoLuongConLai += item.SoLuong;
                             _SachLogic.Update(updateSach);
                         }
-
+                        //
+                        ListSuccess.Add(item);
                     }
-                }
-                #endregion
+                    else
+                        ListFail.Add(item);
+                }               
                 #region Tạo file excel cho ds Chi Tiết Phiếu Nhập bị lỗi   
-
                 if (ListFail.Count > 0)
                 {
                     Workbook wb = new Workbook();
@@ -512,9 +497,6 @@ namespace BiTech.Library.Controllers
 
                     Style styleData = new Style();
                     styleData.Font.Size = 18;
-
-
-
                     styleData.Font.Name = "Times New Roman";
                     styleData.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
                     styleData.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;

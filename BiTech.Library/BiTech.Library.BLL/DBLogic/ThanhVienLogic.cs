@@ -78,6 +78,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetByName(ten);
         }
+        public ThanhVien GetByUserName(string userName)
+        {
+            return _ThanhVienEngine.GetByUserName(userName);
+        }
         public List<ThanhVien> GetAllHS()
         {
             return _ThanhVienEngine.GetAllHS();
