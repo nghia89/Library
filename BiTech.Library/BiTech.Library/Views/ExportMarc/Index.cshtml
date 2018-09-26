@@ -10,13 +10,13 @@
     var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
     var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
     var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
-    var list = (IEnumerable<BiTech.Library.Models.SachViewModels>)ViewBag.container;
-    var i = 0;
+    var list = (IEnumerable<BiTech.Library.Models.IDSach>)ViewBag.container;
+    int i = 0;
 }
 
 <div class="title" style="float: left;">Danh sách sách xuất marc</div>
 <div class="col-md-5" style="float: left;">
-    <div class="alert alert-success @TempData["error"] addError " id="success-alert">
+    <div class="alert alert-success @TempData["error"] addError " id="success-alert" style="margin-bottom:initial">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Thông Báo:! </strong>
         Bạn chưa chọn sách cần xuất.?
@@ -33,9 +33,20 @@
                 </button>
             </div>
         </div>
-        <div class="col-md-1 col-sm-12  form-group pull-left px-2 mt-1 mb-1" style="left:58px">
-            @*@Html.ActionLink("Xuất Tất Cả Marc", "exportAllMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2" })*@
-            @Html.ActionLink("Xuất Marc", "exportItemMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2 hidden" })
+        @if (list.Count() > 0)
+        {
+            <div class=" col-md-1 col-sm-12 col-xs-12 input-group-sm px-2 mt-1 mb-1 form-group float_left ">
+                @Html.ActionLink("Xuất Marc", "exportItemMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2 hidden" })
+            </div>
+        }
+        else
+        {
+            <div class=" col-md-1 col-sm-12 col-xs-12 input-group-sm px-2 mt-1 mb-1 form-group float_left ">
+                @Html.ActionLink("Xuất Marc", "exportItemMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2 hidden pointer-eventsNone " })
+            </div>
+        }
+        <div class=" col-md-1 col-sm-12 col-xs-12 px-2 input-group-sm mt-1 mb-1 form-group float_left">
+            @Html.ActionLink("Xuất Tất Cả Marc", "exportAllMarc", "ExportMarc", null, new { @class = "btn btn-sm btn-info ml-2" })
         </div>
         <form action="/ExportMarc/Index">
 
@@ -109,6 +120,7 @@
 {
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 }
+
 @section scripts{
     <script src="~/Scripts/Marc.js"></script>
     <script>
@@ -131,6 +143,7 @@
             });
         }, 4000);
     </script>
+
     <script src="~/Scripts/AutocompleteSach.js"></script>
 }
 
