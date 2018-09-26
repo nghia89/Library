@@ -148,7 +148,7 @@ namespace BiTech.Library.Models
         public List<string> ListNienKhoa { get; set; }
         public string LinkAvatar { get; set; }
         public string LoaiTK { get; set; }
-		[Display(Name = "Chức vụ")]
+		[Display(Name = "Tổ")]
 		public string ChucVu { get; set; } //sài cho giáo viên
     }
 

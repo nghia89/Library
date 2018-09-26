@@ -527,6 +527,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
     //Mượn sách - $http
     $scope.MuonSach = function () {
         var IdUser = parseLocation(window.location.search)['IdUser'];
+        IdUser = $scope.GetInfoIdUser(IdUser);
         var DTO = JSON.stringify($scope.list_book_queue);
         //todo
         //update database
@@ -641,6 +642,22 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
             var arrStr = masach.split('-');
             var MaKiemSoat = masach;
             if (arrStr[0] == "BLibBook") {
+                var id = arrStr[1];
+                MaKiemSoat = arrStr[2];
+                var tenSach = arrStr[3];
+            }
+            return MaKiemSoat;
+        }
+        catch (err) {
+            return masach;
+        }
+    }
+
+    $scope.GetInfoIdUser = function (masach) {
+        try {
+            var arrStr = masach.split('-');
+            var MaKiemSoat = masach;
+            if (arrStr[0] == "BLibUser") {
                 var id = arrStr[1];
                 MaKiemSoat = arrStr[2];
                 var tenSach = arrStr[3];
@@ -786,6 +803,7 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
     //Trả sách - $http
     $scope.TraSach = function () {
         var IdUser = parseLocation(window.location.search)['IdUser'];
+        IdUser = $scope.GetInfoIdUser(IdUser);
         var DTO = JSON.stringify($scope.list_book_queue);
         //todo
         //update database
@@ -964,6 +982,22 @@ app.controller('TraSachCtrlr', function ($scope, $http, $filter, $location) {
             var arrStr = masach.split('-');
             var MaKiemSoat = masach;
             if (arrStr[0] == "BLibBook") {
+                var id = arrStr[1];
+                MaKiemSoat = arrStr[2];
+                var tenSach = arrStr[3];
+            }
+            return MaKiemSoat;
+        }
+        catch (err) {
+            return masach;
+        }
+    }
+
+    $scope.GetInfoIdUser = function (masach) {
+        try {
+            var arrStr = masach.split('-');
+            var MaKiemSoat = masach;
+            if (arrStr[0] == "BLibUser") {
                 var id = arrStr[1];
                 MaKiemSoat = arrStr[2];
                 var tenSach = arrStr[3];
@@ -1161,6 +1195,7 @@ app.controller('GiaHanCtrlr', function ($scope, $http, $filter, $location) {
     //Gia hạn - $http
     $scope.GiaHan = function () {
         var IdUser = parseLocation(window.location.search)['IdUser'];
+        IdUser = $scope.GetInfoIdUser(IdUser);
         var DTO = JSON.stringify($scope.list_book_queue);
         //todo
         //update database
@@ -1344,6 +1379,22 @@ app.controller('GiaHanCtrlr', function ($scope, $http, $filter, $location) {
             var arrStr = masach.split('-');
             var MaKiemSoat = masach;
             if (arrStr[0] == "BLibBook") {
+                var id = arrStr[1];
+                MaKiemSoat = arrStr[2];
+                var tenSach = arrStr[3];
+            }
+            return MaKiemSoat;
+        }
+        catch (err) {
+            return masach;
+        }
+    }
+
+    $scope.GetInfoIdUser = function (masach) {
+        try {
+            var arrStr = masach.split('-');
+            var MaKiemSoat = masach;
+            if (arrStr[0] == "BLibUser") {
                 var id = arrStr[1];
                 MaKiemSoat = arrStr[2];
                 var tenSach = arrStr[3];

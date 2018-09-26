@@ -51,7 +51,16 @@
                 </div>
                 <div class="col-md-6">
                     <label class="col-form-label form-label">Ngày sinh</label>
-                    <p class="detail-control">@Model.NgaySinh.ToString("dd/MM/yyyy")</p>
+                    @{
+                        if (@Model.NgaySinh.ToString("dd-MM-yyyy").Equals("01-01-0001") == true)
+                        {
+                            <p>--/--/----</p>
+                        }
+                        else
+                        {
+                            <p class="detail-control">@Model.NgaySinh.ToString("dd/MM/yyyy")</p>
+                        }
+                    }
                 </div>
             </div>
             <div class="user-dl-spc">
@@ -109,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="form-group-sm row">
+            @*<div class="form-group-sm row">
                 <label class="col-sm-4 detail-label">Ngày sinh:</label>
                 <div class="col-sm-8">
                     @{
@@ -123,10 +132,10 @@
                         }
                     }
                 </div>
-            </div>
+            </div>*@
             <div class="form-group-sm row">
-                <label class="col-sm-4 detail-label">Chức vụ:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
+                    <label class="col-form-label form-label">Tổ:</label>
                     <p class="detail-control">@Model.ChucVu</p>
                 </div>
                 <div class="col-md-6">
