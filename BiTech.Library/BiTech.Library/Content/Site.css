@@ -9,7 +9,9 @@ html {
     background-size: cover;
     background-position: right;
 }
-
+body{
+    background: none;
+}
 a {
     color: #000;
 }
@@ -268,7 +270,9 @@ a:hover {
     }
 
 
-
+.contain{
+    position: relative;
+}
 .contain .top {
     background: #718D94;
     min-height: 50px;
@@ -307,8 +311,9 @@ a:hover {
         }
 
 .contain .left {
-    position: relative;
+    position: absolute;
     z-index: 1;
+    height: 100%;
 }
 
     .contain .left .bg {
@@ -337,6 +342,7 @@ a:hover {
         float: left;
         position: relative;
         overflow-x: hidden;
+        min-height: 100%;
     }
 
         .contain .left .menu .logo {
