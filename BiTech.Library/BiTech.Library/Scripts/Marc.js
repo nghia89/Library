@@ -1,5 +1,6 @@
 ﻿var controllerMarc = function () {
     this.initialize = function () {
+        var countListSession = 0;
         registerEvents();
         if ($('.AddList:checked').length === $('#tblFunction tbody tr .AddList').length) {
             $('#CheckAll').prop('checked', true);
@@ -7,14 +8,15 @@
     }
 
     function registerEvents() {
+
         //thêm xóa từng item trong session
         $('.AddList').change(function () {
             if ($(this).is(":checked")) {
                 var idCheck = $(this).val();
 
-                $('.hidden').addClass('pointer-eventsNone');
-                AddList(idCheck, true);
-
+                //$('.hidden').addClass('pointer-eventsNone');
+                AddList(idCheck);
+                LoadListSession();
             }
             else {
                 var removeIdCheck = $(this).val();
@@ -30,35 +32,40 @@
         });
 
         $('#CheckAll').on('click', function () {
+            var idCheck = [];
             if ($('.AddList').is(':checked')) {
-                DeleteAll();
+                $('.AddList').each(function () {
+                    //$('.hidden').addClass('pointer-eventsNone');
+                    if ($('.AddList').is(':checked')) {
+                        idCheck.push($(this).val());
+                    }
+                });
+                deleteItem(idCheck);
                 $(this).prop('checked', false);
+                LoadListSession();
             }
             //check cha thì check tất cả con
             $('.AddList').prop('checked', $(this).prop('checked'));
             if ($('#CheckAll').is(':checked')) {
-
-                $('.hidden').addClass('pointer-eventsNone');
-                var count = $('.AddList').length;
-                var stt = 0;
                 $('.AddList').each(function () {
-                    stt++;
+                    //$('.hidden').addClass('pointer-eventsNone');
                     if ($('.AddList').is(':checked')) {
-                        var idCheck = $(this).val();
-                        AddList(idCheck, (stt === count));
+                        idCheck.push($(this).val());
                     }
                 });
-
+                AddList(idCheck);
+                LoadListSession();
             }
             else {
-                DeleteAll();
+                deleteItem(idCheck);
+                LoadListSession();
             }
         });
     }
 
 
     //thêm dánh sách
-    function AddList(idCheck, removeHidden) {
+    function AddList(idCheck) {
         $.ajax({
 
             url: '/ExportMarc/AddList',
@@ -68,10 +75,27 @@
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                if (removeHidden) {
-                    $('.pointer-eventsNone').removeClass('pointer-eventsNone');
-                    $('.hidden').addClass('pointer-eventsAuto');
+                if (response.status === true) {
+                    //$('.pointer-eventsNone').removeClass('pointer-eventsNone');
+                    LoadListSession();
                 }
+                return true;
+            }
+        });
+    }
+
+    //load danh sách trong session
+    function LoadListSession() {
+        $.ajax({
+            url: '/ExportMarc/LoadListSession',
+            type: 'post',
+            dataType: 'json',
+            success: function (response) {
+                countListSession = response.data.length;
+                if (countListSession > 0)
+                    $('.pointer-eventsNone').removeClass('pointer-eventsNone');
+                else
+                    $('.hidden').addClass('pointer-eventsNone');
                 return true;
             }
         });
@@ -88,6 +112,8 @@
             dataType: 'json',
             success: function (response) {
                 if (response.status) {
+                    //$('.pointer-eventsNone').removeClass('pointer-eventsNone');
+                    LoadListSession();
                     return true;
                 }
             }
@@ -102,7 +128,7 @@
             dataType: 'json',
             success: function (response) {
                 if (response.status) {
-                    return true;    
+                    return true;
                 }
             }
         });

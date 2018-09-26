@@ -1706,10 +1706,8 @@ a:hover {
 
 .pointer-eventsNone {
     pointer-events: none;
-}
-
-.pointer-eventsAuto {
-    pointer-events: auto;
+    background: #b4c9ce;
+    visibility:hidden;
 }
 
 .Leftcontent {
@@ -1730,7 +1728,9 @@ a:hover {
     border-radius: 10px;
     float: left;
 }
-
+.float_left{
+    float:left
+}
 .marginAuto {
     margin: auto
 }
@@ -1757,5 +1757,11 @@ a:hover {
         background: #fff;
         border: 1px solid #f1f1f1;
         border-radius: 10px;
+    }
+}
+
+@media screen and (max-width: 1288px) {
+    .float_left {
+        float: none;
     }
 }

@@ -44,6 +44,7 @@ namespace BiTech.Library.Controllers
 
             char[] Character = { '/', '*', ' ', ':', '.', ',' };
 
+
             foreach (HttpPostedFileBase file in dataFieldMarcVm.Files)
             {
                 if (file != null)
