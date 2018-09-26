@@ -70,8 +70,14 @@ app.controller('ImportBookCtrlr', ['$scope', 'toaster', '$http', function ($scop
                     toaster.error({ title: "Thông tin sai", body: "Cần nhập đúng mã sách" });
                     $('#idSach').focus();
                 }
-                else
-                    toaster.error({ title: "Thiếu thông tin", body: $scope.errortext });
+                else {
+                    if ($scope.errortext.length != "Vui lòng ".length)
+                        toaster.error({ title: "Thiếu thông tin", body: $scope.errortext });
+                    else {
+                        toaster.error({ title: "Thông tin sai", body: "Mã sách không đúng" });
+                        $('#idSach').focus();
+                    }
+                }
             }
         }, function (e) {
             $scope.errortext = "Vui lòng ";            
@@ -202,7 +208,12 @@ app.controller('ExportBookCtrlr', ['$scope', 'toaster', '$http', function ($scop
                     if ($scope.errortext == "")
                         toaster.error({ title: "Thông tin sai", body: "Cần nhập đúng mã sách" });
                     else
-                        toaster.error({ title: "Thiếu thông tin", body: $scope.errortext });
+                        if ($scope.errortext.length != "Vui lòng ".length)
+                            toaster.error({ title: "Thiếu thông tin", body: $scope.errortext });
+                        else {
+                            toaster.error({ title: "Thông tin sai", body: "Mã sách không đúng" });
+                            $('#idSach').focus();
+                        }
                 }
             }
         }, function (e) {
