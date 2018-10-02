@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.DAL;
+using BiTech.Library.DAL.Common;
 using BiTech.Library.DAL.Engines;
 using BiTech.Library.DTO;
 using System;
@@ -92,5 +93,11 @@ namespace BiTech.Library.BLL.DBLogic
         }
         #endregion
 
+        #region Vinh
+        public List<ThanhVien> GetMembersSearch(string KeySearch)
+        {
+            return _ThanhVienEngine.GetMembersSearch(KeySearch);
+        }
+        #endregion
     }
 }

@@ -236,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseClass\XuLyChuoi.cs" />
+    <Compile Include="Controllers\ExportTheController.cs" />
     <Compile Include="Controllers\GiaHanController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -738,6 +739,7 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\themes\client.css" />
     <Content Include="Content\ThongKe.css" />
+    <Content Include="Scripts\ExportCard.js" />
     <Content Include="Scripts\Simple-Ajax-Uploader\examples\assets\css\bootstrap.min.css" />
     <Content Include="Scripts\Simple-Ajax-Uploader\examples\assets\css\styles.css" />
     <Content Include="Scripts\Simple-Ajax-Uploader\examples\basic_example\index.html" />
@@ -2154,6 +2156,8 @@
     <Content Include="Tempalates\ExportSlSach.xlsx" />
     <Content Include="Tempalates\OutExportSlSach.xlsx" />
     <Content Include="Tempalates\OutExportTTSach.xlsx" />
+    <Content Include="Views\ExportThe\XuatQR_HS.cshtml" />
+    <Content Include="Views\HocSinh\XuatTheHS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

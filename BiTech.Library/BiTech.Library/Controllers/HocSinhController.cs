@@ -15,6 +15,8 @@ using static BiTech.Library.Helpers.Tool;
 using Aspose.Cells;
 using System.Threading.Tasks;
 using System.Collections;
+using BiTech.Library.DAL.Common;
+using BiTech.Library.DAL.CommonConstants;
 
 namespace BiTech.Library.Controllers
 {
@@ -102,6 +104,24 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Xét 12 số cho mã số
+        /// </summary>
+        /// <param name="ms"></param>
+        public string ValidMaSo(string ms)
+        {
+            int len = ms.Length;
+            if (len < 12)
+            {
+                for (int i = 0; i < (12 - len); i++)
+                {
+                    ms = ms.Insert(0, "0");
+                }
+            }
+            else
+                return ms;
+            return ms;
+        }
         [HttpPost]
         public ActionResult _CreateUser(UserViewModel viewModel)
         {
@@ -126,6 +146,7 @@ namespace BiTech.Library.Controllers
                 // Loại tài khoản  
                 LoaiTK = "hs"
             };
+            thanhVien.MaSoThanhVien = ValidMaSo(thanhVien.MaSoThanhVien.Trim());
             DateTime ngaySinh = new DateTime();
             if (viewModel.TemptNgaySinh.Equals("--/--/----") == false)
             {
@@ -839,7 +860,7 @@ namespace BiTech.Library.Controllers
                     // Tạo ds Thành Viên bị lỗi  
                     else
                         ListFail.Add(item);
-                }               
+                }
                 #region Tạo file excel cho ds Thành Viên bị lỗi   
 
                 if (ListFail.Count > 0)
@@ -1007,5 +1028,47 @@ namespace BiTech.Library.Controllers
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(filedata, contentType);
         }
+
+        #region Vinh - Xuất thẻ Học sinh
+        /// <summary>
+        /// Hàm xuất thẻ - tìm kiếm theo mã hoặc tên
+        /// </summary>
+        /// <param name="KeySearch"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult XuatTheHS(string KeySearch, int? page)
+        {
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+
+            if (Session[CommonConstants.Session] == null)//nếu null mới được khởi tạo
+                Session[CommonConstants.Session] = new List<UserViewModel>();
+            ViewBag.container = (List<UserViewModel>)Session[CommonConstants.Session];
+
+            ListMemberModel model = new ListMemberModel();
+
+            var list = _ThanhVienLogic.GetMembersSearch(KeySearch);
+            ViewBag.number = list.Count();
+
+            foreach (var item in list)
+            {
+                UserViewModel member = new UserViewModel()
+                {
+                    Ten = item.Ten,
+                    ChucVu = item.ChucVu, //Tổ cho giáo viên
+                    LopHoc = item.LopHoc,
+                    GioiTinh = item.GioiTinh,
+                    NgaySinh = item.NgaySinh,
+                    MaSoThanhVien = item.MaSoThanhVien
+                };
+
+                model.Members.Add(member);
+            }
+
+            return View(model.Members.ToPagedList(pageNumber, pageSize));
+        }
+        #endregion
     }
 }

@@ -1,5 +1,7 @@
-﻿using BiTech.Library.DAL.Respository;
+﻿using BiTech.Library.DAL.Common;
+using BiTech.Library.DAL.Respository;
 using BiTech.Library.DTO;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -68,5 +70,25 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv").ToList();
         }
+
+        #region Vinh tim kiem thanh vien
+        public List<ThanhVien> GetMembersSearch (string KeySearch)
+        {
+            FilterDefinition<ThanhVien> filterDefinition = new BsonDocument();
+            var builder = Builders<ThanhVien>.Filter;
+            //Tim thanh vien khong bi xoa
+            filterDefinition = filterDefinition & builder.Where(_ => _.IsDeleted == false);
+
+            //Tim theo ma thanh vien 
+            if(!string.IsNullOrEmpty(KeySearch))
+            {
+                filterDefinition = filterDefinition 
+                    & builder.Where(_ => _.MaSoThanhVien.ToLower().Contains(KeySearch.ToLower())
+                    || _.Ten.ToLower().Contains(KeySearch.ToLower()));                    
+            }
+            
+            return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+        #endregion
     }
 }

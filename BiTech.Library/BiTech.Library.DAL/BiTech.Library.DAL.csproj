@@ -77,6 +77,7 @@
     <Compile Include="CommonConstants\CommonConstants.cs" />
     <Compile Include="CommonConstants\ConvertToTiengVietKhongDauConstants.cs" />
     <Compile Include="Common\KeySearchViewModel.cs" />
+    <Compile Include="Common\KeySearch_ThanhVienViewModel.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Engines\AccessInfoEngine.cs" />
     <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
