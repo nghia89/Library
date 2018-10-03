@@ -115,6 +115,12 @@ namespace BiTech.Library.Models
         public List<BookView> Books { get; set; } = new List<BookView>();
     }
 
+    [Serializable]
+    public class IDSach
+    {
+        public string Id { get; set; }
+      
+    }
     public class BookView
     {
         public Sach SachDTO { get; set; }
@@ -148,6 +154,13 @@ namespace BiTech.Library.Models
         }
 
     
+    }
+
+    public class CustomerMarc {
+        public List<BookView> Customers { get; set; }
+        public int PageIndex { get; set; }
+        public int PageSize { get; set; }
+        public int RecordCount { get; set; }
     }
 
     public class ImportExcelSachViewModel

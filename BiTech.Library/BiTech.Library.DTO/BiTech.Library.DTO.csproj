@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessInfo.cs" />
+    <Compile Include="BoSuuTap.cs" />
     <Compile Include="ChiTietNhapSach.cs" />
     <Compile Include="ChiTietPhieuMuon.cs" />
     <Compile Include="ChucVu.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NhaXuatBan.cs" />
+    <Compile Include="SachCaBiet.cs" />
     <Compile Include="SachTheLoai.cs" />
     <Compile Include="SoLuongSachTrangThai.cs" />
     <Compile Include="PhieuXuatSach.cs" />
