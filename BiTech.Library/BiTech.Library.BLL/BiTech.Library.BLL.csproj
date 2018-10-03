@@ -77,6 +77,7 @@
     <Compile Include="DBLogic\PhieuNhapSachLogic.cs" />
     <Compile Include="DBLogic\LanguageLogic.cs" />
     <Compile Include="DBLogic\NhaXuatBanLogic.cs" />
+    <Compile Include="DBLogic\SachTheLoaiLogic.cs" />
     <Compile Include="DBLogic\SoLuongSachTrangThaiLogic.cs" />
     <Compile Include="DBLogic\ThongKeLogic.cs" />
     <Compile Include="DBLogic\PhieuXuatSachLogic.cs" />

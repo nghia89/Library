@@ -4,6 +4,7 @@ using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -358,6 +359,41 @@ namespace BiTech.Library.Controllers
         }
 
         #region AngularJS
+
+        public JsonResult GetAllTheLoaiByIdSach(string idSach)
+        {
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTheLoaiLogic _SachTheLoaiLogic = new SachTheLoaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            List<SachTheLoai> list_IDTacGia = _SachTheLoaiLogic.getListById(idSach);
+            List<string> List_TenTacGia = new List<string>();
+            foreach (SachTheLoai item in list_IDTacGia)
+            {
+                TheLoaiSach tg = _TheLoaiSachLogic.getById(item.IdTheLoai);
+                if (tg != null)
+                    List_TenTacGia.Add(tg.TenTheLoai);
+            }
+
+            var list = _TheLoaiSachLogic.GetAllTheLoaiSach();
+            return Json(List_TenTacGia, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult FindTheLoai(string query)
+        {
+            TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            var list = _TheLoaiSachLogic.FindTheLoai(query);
+
+            List<TheLoaiSachViewModels> tgs = new List<TheLoaiSachViewModels>();
+            foreach (var item in list)
+            {
+                tgs.Add(new TheLoaiSachViewModels() { Id = item.Id, TenTheLoai  = item.TenTheLoai });
+            }
+
+            return Json(JsonConvert.SerializeObject(tgs), JsonRequestBehavior.AllowGet);
+
+        }
 
         public JsonResult Get_AllTheLoaiSach() //JsonResult
         {

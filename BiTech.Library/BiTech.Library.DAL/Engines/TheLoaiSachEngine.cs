@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace BiTech.Library.DAL.Engines
 {
@@ -78,6 +79,35 @@ namespace BiTech.Library.DAL.Engines
             }
             return false;
         }
+
+        public List<TheLoaiSach> FindTheLoai(string q)
+        {
+            return _DatabaseCollection.AsQueryable().Where(delegate (TheLoaiSach c)
+            {
+                if (ConvertToUnSign(c.TenTheLoai.ToLower()).Contains(ConvertToUnSign(q.ToLower())))
+                    return true;
+                else
+                    return false;
+            }).ToList(); //(name => ConvertToUnSign(name.TenTacGia.ToLower()).Contains(ConvertToUnSign(q.ToLower()))).ToList();
+        }
+
+        public string ConvertToUnSign(string input)
+        {
+            input = input.Trim();
+            for (int i = 0x20; i < 0x30; i++)
+            {
+                input = input.Replace(((char)i).ToString(), " ");
+            }
+            Regex regex = new Regex(@"\p{IsCombiningDiacriticalMarks}+");
+            string str = input.Normalize(NormalizationForm.FormD);
+            string str2 = regex.Replace(str, string.Empty).Replace('đ', 'd').Replace('Đ', 'D');
+            while (str2.IndexOf("?") >= 0)
+            {
+                str2 = str2.Remove(str2.IndexOf("?"), 1);
+            }
+            return str2;
+        }
+
         #region Tai
         public TheLoaiSach GetIdByDDC(string maDDC)
         {

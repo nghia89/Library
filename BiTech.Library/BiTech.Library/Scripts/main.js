@@ -11,6 +11,7 @@ $(document).ready(function () {
 
 /*====Main====*/
 $(document).ready(function () {
+    CreateHeightHeaderTop()
     $(".bt_menu").click(function () {
         turn_on_off_menu();
     });
@@ -43,6 +44,7 @@ $(document).ready(function () {
         turn_off_menu();
     }
     $(window).resize(function () {
+        CreateHeightHeaderTop()
         var width_screen = $(window).width();
         if (width_screen < 992) {
             turn_off_menu();
@@ -68,7 +70,6 @@ $(document).ready(function () {
         tinhvitri_in_parent_v2(".left_sticky_menu_main");
         $(window).resize(function () {
             tinhvitri_in_parent_v2(".left_sticky_menu_main");
-            
         });
     });
 
@@ -100,7 +101,7 @@ $(document).ready(function () {
                 } else {
                     //Scroll từ dưới lên
                     if (top < h_of_top ) {
-                        $(div).stop().css({ "position": "absolute", "top": kq, "bottom": "auto", "width": "100%" });
+                        $(div).stop().css({ "position": "absolute", "top": kq + h_parent_of_top, "bottom": "auto", "width": "100%" });
                     }
                     if (kq < 0) {
                         $(div).stop().css({ "position": "relative", "top": 0, "bottom": "auto" });
@@ -108,8 +109,8 @@ $(document).ready(function () {
                 }
             } else {
                 //console.log((h_s) + "-" + (h_left));
-                if (top > h_parent_of_top) {
-                    $(div).stop().css({ "position": "absolute", "top": kq, "bottom": "auto", "width": "100%" });
+                if (top > 0 /*h_parent_of_top*/) {
+                    $(div).stop().css({ "position": "absolute", "top": kq + h_parent_of_top, "bottom": "auto", "width": "100%" });
                 } else {
                     $(div).stop().css({ "position": "relative", "top": 0, "bottom": "auto" });
                 }
@@ -121,6 +122,11 @@ $(document).ready(function () {
             //
             temp_scroll = top;
         })
+    }
+
+    function CreateHeightHeaderTop() {
+        var h = $(".contain>.top>.top_in").height();
+        $(".contain>.top").css({ "height": h });
     }
 
 });

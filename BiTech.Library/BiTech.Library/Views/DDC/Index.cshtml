@@ -7,6 +7,7 @@
 }
 
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/AutoComplete.css" rel="stylesheet" />
 <div class="Title">Danh Sách DDC</div>
 <div class="row">
     <p class="col-md-12 bar_mobile_tl">
@@ -16,42 +17,180 @@
     </p>
 </div>
 
-<table class="table table-hover table-bordered ">
-    <thead>
-        <tr class="table-info">
-            <th width="50" align="right">STT</th>
-            <th scope="col">Mã DDC</th>
-            <th scope="col">Tên DDC</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
+@*<table class="table table-hover table-bordered ">
+        <thead>
+            <tr class="table-info">
+                <th width="50" align="right">STT</th>
+                <th scope="col">Mã DDC</th>
+                <th scope="col">Tên DDC</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
 
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
+                    <td>@item.MaDDC</td>
+                    <td>@item.Ten</td>
+
+                    <td>
+                        <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">
+                            <i class="fa">&#xf044;</i> Sửa
+                        </button>
+                    </td>
+
+                </tr>
+
+            }
+
+        </tbody>
+
+
+    </table>
+
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    </div>*@
+
+
+<div style="background: #fff; padding: 5px; border: 1px solid #DDE1E5;">
+
+
+    <form action="/DDC/Index" class="clearfix" id="search_short">
+        <div class="row m-0 mb-2">
+            <div class="col-sm-12 font-weight-bold">Tìm kiếm: </div>
+            <div class="input-group col-md-3 col-sm-12 col-xs-12 form-group pull-right input-group-sm px-2 mt-1 mb-1">
+                <div class="form-control form-control-sm p-0" style="position:relative;">
+                    <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm"
+                           style="border: none;"
+                           onkeydown="if (event.keyCode == 13) { search_user(); }"
+                           placeholder="Tên DDC hoặc mã DDC..." />
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary btn-sm" id="btnSearch" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-0 mb-2">
+            <div class="col-sm-12 font-weight-bold">Sắp xếp: </div>
+            <div class="col-md-3 col-sm-12  form-group px-2 mt-1 mb-1">
+                @{
+                    Dictionary<string, object> arry_short = new Dictionary<string, object>();
+                    arry_short.Add("1", @Html.Raw("Mã DDC &#xf175;"));
+                    arry_short.Add("11", @Html.Raw("Mã DDC &#xf176;"));
+                    arry_short.Add("2", @Html.Raw("Tên DDC &#xf175;"));
+                    arry_short.Add("22", @Html.Raw("Tên DDC &#xf176;"));
+                }
+                <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short').submit() ">
+                    <option value="">--Sắp xếp--</option>
+                    @foreach (var item_sx in arry_short)
+                    {
+                        <option value="@item_sx.Key" @((@item_sx.Key == @ViewBag.SapXep_selected) ? "selected" : " ")>@item_sx.Value</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+    </form>
+
+
+    <ul>
         @foreach (var item in Model)
         {
-            i++;
-            <tr>
-                <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
-                <td>@item.MaDDC</td>
-                <td>@item.Ten</td>
-
-                <td>
-                    <button class="color-white btn btn-primary btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">
-                        <i class="fa">&#xf044;</i> Sửa
-                    </button>
-                </td>
-
-            </tr>
-
+            <li>
+                <a href="@Url.Action("Edit", new { id = item.Id })" title="@item.Ten">
+                    @item.MaDDC - @item.Ten
+                </a>
+            </li>
         }
+    </ul>
 
-    </tbody>
-
-
-</table>
-
-<div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
 
+@section Scripts{
+    <script>
+        $(function () {
+            AutoComplete(document.getElementById("txtKeyword"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_search) + "'")]);
+        });
 
+        function search_user() {
+            setTimeout(function () {
+                $("#search_short").submit();
+            }, 10);
+        }
+
+        // AutoCompelete Search
+        function AutoComplete(inp, arr, blib_masach_bool) {
+            var currentFocus;
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "AutoComplete-list");
+                a.setAttribute("class", "AutoComplete-items");
+                this.parentNode.appendChild(a);
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        b.addEventListener("click", function (e) {
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            //End Gstore
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "AutoComplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("AutoComplete-active");
+            }
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("AutoComplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("AutoComplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+    </script>
+}

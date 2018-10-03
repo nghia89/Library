@@ -83,6 +83,7 @@
     <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NhaXuatBan.cs" />
+    <Compile Include="SachTheLoai.cs" />
     <Compile Include="SoLuongSachTrangThai.cs" />
     <Compile Include="PhieuXuatSach.cs" />
     <Compile Include="ThanhVien.cs" />

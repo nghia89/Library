@@ -153,6 +153,8 @@ namespace BiTech.Library.Controllers
                 SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachTheLoaiLogic _SachTheLoaiLogic = new SachTheLoaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -189,6 +191,35 @@ namespace BiTech.Library.Controllers
                         else
                         {
                             failTG += item.TenTacGia + ", ";
+                        }
+                    }
+
+                    string failTL = "";
+                    foreach (var tg in model.ListTheLoaiJson)
+                    {
+                        var item = JsonConvert.DeserializeObject<TheLoaiSachViewModels>(tg);
+                        string tlId = "";
+
+                        if (string.IsNullOrEmpty(item.Id))
+                        {
+                            tlId = _TheLoaiSachLogic.Insert(new TheLoaiSach() { TenTheLoai = item.TenTheLoai, MoTa = "" });
+                        }
+                        else
+                        {
+                            tlId = _TheLoaiSachLogic.getById(item.Id)?.Id ?? "";
+                        }
+
+                        if (!string.IsNullOrEmpty(tlId))
+                        {
+                            _SachTheLoaiLogic.ThemSachTheLoai(new SachTheLoai()
+                            {
+                                IdSach = id,
+                                IdTheLoai = tlId
+                            });
+                        }
+                        else
+                        {
+                            failTL += item.TenTheLoai + ", ";
                         }
                     }
 
@@ -238,6 +269,12 @@ namespace BiTech.Library.Controllers
                     {
                         failTG = failTG.Substring(0, failTG.Length - 2);
                         TempData["ThemSachMsg"] = string.Format("Chú ý: Chọn tác giả {0} thất bại, vui lòng cập nhật sau.", failTG);
+                    }
+
+                    if (failTL.Length > 0)
+                    {
+                        failTL = failTL.Substring(0, failTL.Length - 2);
+                        TempData["ThemSachMsg"] = string.Format("Chú ý: Chọn thể loại {0} thất bại, vui lòng cập nhật sau.", failTL);
                     }
 
                     //Tạo phiếu nhập - VINH
@@ -364,7 +401,9 @@ namespace BiTech.Library.Controllers
             {
                 SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachTheLoaiLogic _SachTheLoaiLogic = new SachTheLoaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
                 var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
@@ -424,7 +463,47 @@ namespace BiTech.Library.Controllers
                             }
                         }
                     }
+
+                    string failTL = "";
+                    if (_SachTheLoaiLogic.DeleteAllTheLoaiByidSach(sach.Id))
+                    {
+                        foreach (var tg in model.ListTheLoaiJson)
+                        {
+                            var item = JsonConvert.DeserializeObject<TheLoaiSachViewModels>(tg);
+                            string tgId = "";
+
+                            if (!string.IsNullOrEmpty(item.TenTheLoai))
+                            {
+                                TheLoaiSach tg_temp = _TheLoaiSachLogic.GetByTenTheLoai(item.TenTheLoai);
+                                if (tg_temp != null)
+                                {
+                                    tgId = tg_temp.Id;
+                                }
+                                else
+                                {
+
+                                    tgId = _TheLoaiSachLogic.Insert(new TheLoaiSach() { TenTheLoai = item.TenTheLoai, MoTa = "" });
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(tgId))
+                            {
+                                _SachTheLoaiLogic.ThemSachTheLoai(new SachTheLoai()
+                                {
+                                    IdSach = sach.Id,
+                                    IdTheLoai = tgId
+                                });
+                            }
+                            else
+                            {
+                                failTL += item.TenTheLoai + ", ";
+                            }
+                        }
+                    }
+
                 }
+
+
 
                 if (model.FileImageCover != null)
                 {
