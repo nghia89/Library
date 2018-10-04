@@ -62,7 +62,66 @@ $(document).ready(function () {
         $(this).parent().parent().removeClass("focused");
     });
 
-    
+    /*sticky*/
+    $(document).ready(function () {
+        //$(".left_sticky").stick_in_parent();
+        tinhvitri_in_parent_v2(".left_sticky_menu_main");
+        $(window).resize(function () {
+            tinhvitri_in_parent_v2(".left_sticky_menu_main");
+            
+        });
+    });
+
+    function tinhvitri_in_parent_v2(div) {
+        var w = $(div).width(); //width menu left
+        var h = $(div).height(); //height menu left
+        var temp_scroll = 0;
+        $(window).scroll(function () {
+            var h_s = $(window).height(); //height cửa sổ trình duyệt
+            var h_parent_of_top = $(div).parent().offset().top; //parent left menu cách top
+            var h_of_top = $(div).offset().top; //left menu cách top
+            var h_parent = $(div).parent().height(); //height parent left menu
+            var top = $(window).scrollTop();
+            
+            var h_left = $(div).height();
+            var kq = top - h_parent_of_top; //cach top khi scroll
+            var kq_dung = h_parent_of_top + h_parent - h_left;
+            //console.log((top + h_s) + "-" + (h_of_top + h_left));
+            
+            //màng hình nhỏ hơn menu
+            if (h_s < h_left) {
+                //console.log($(div).offset().top);
+                //kiểm tra hướng scroll
+                if (top > temp_scroll) {
+                    //Scroll từ trên xuống
+                    if (top + h_s > h_of_top + h_left) {                  
+                        $(div).stop().css({ "position": "absolute", "top": kq - h_left + h_s, "bottom": "auto", "width": "100%" });
+                    } 
+                } else {
+                    //Scroll từ dưới lên
+                    if (top < h_of_top ) {
+                        $(div).stop().css({ "position": "absolute", "top": kq, "bottom": "auto", "width": "100%" });
+                    }
+                    if (kq < 0) {
+                        $(div).stop().css({ "position": "relative", "top": 0, "bottom": "auto" });
+                    }
+                }
+            } else {
+                //console.log((h_s) + "-" + (h_left));
+                if (top > h_parent_of_top) {
+                    $(div).stop().css({ "position": "absolute", "top": kq, "bottom": "auto", "width": "100%" });
+                } else {
+                    $(div).stop().css({ "position": "relative", "top": 0, "bottom": "auto" });
+                }
+
+                if (top > kq_dung) {
+                    $(div).stop().css({ "position": "absolute", "bottom": 0, "top": "auto", "width": "100%" });
+                }
+            }
+            //
+            temp_scroll = top;
+        })
+    }
 
 });
 

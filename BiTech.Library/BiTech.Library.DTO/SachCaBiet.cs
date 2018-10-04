@@ -7,7 +7,7 @@ using System;
 namespace BiTech.Library.DTO
 {
     [CurrentVersion("0.0.1")]
-    public class SoLuongSachTrangThai : IModel
+    public class SachCaBiet : IModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -17,15 +17,14 @@ namespace BiTech.Library.DTO
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
+        public DocumentVersion Version { get; set; }
+
         public string IdSach { get; set; }
 
         public string IdTrangThai { get; set; }
 
-        public int SoLuong { get; set; }
-        
-        /// <summary>
-        /// Phiên bản hiện tại của đối tượng
-        /// </summary>
-        public DocumentVersion Version { get; set; }
+        public string MaKSCB { get; set; }
+
+        public string MaCaBienCu { get; set; }
     }
 }

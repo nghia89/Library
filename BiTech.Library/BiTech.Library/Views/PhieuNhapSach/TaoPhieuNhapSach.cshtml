@@ -20,22 +20,14 @@
 <div ng-app="LibraryApp" class="clearfix">
     <div class="form-group">
         <div ng-cloak ng-controller="ImportBookCtrlr" class="">
-            <toaster-container toaster-options="{'close-button':false, 'time-out':{ 'toast-success': 3000, 'toast-warning': 5000, 'toast-error': 0 }, 'prevent-duplicates': true, 'limit':7 }"></toaster-container>
+            <toaster-container toaster-options="{'close-button':false, 'time-out':{ 'toast-success': 3000, 'toast-warning': 5000, 'toast-error': 3000 }, 'prevent-duplicates': true, 'limit':7 }"></toaster-container>
             <div class="container-box-window clearfix">
                 <div class="top">
                     <span class="">Thông tin phiếu nhập</span>
                 </div>
                 <div class="content-box-window">
-                    @*<div class="form-group row">
-                            @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                <input id="idSach" name="idSach" onkeydown="if (event.keyCode == 13) { return false; }" placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
-                            </div>
-                        </div>*@
-
                     @*VINH*@
                     <div class="form-group row">
-                        @*@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })*@
                         <label class="col-md-2 control-label">Tên sách:</label>
                         <div class="col-md-10">
                             <input id="TenSach" placeholder="Tên sách" ng-model="TenSach" autocomplete="off"
@@ -44,7 +36,6 @@
                     </div>
 
                     <div class="form-group row">
-                        @*@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })*@
                         <label class="col-md-2 control-label">Mã sách <span style="color:red">*</span>:</label>
                         <div class="col-sm-10">
                             <div class="input-group mb-3">
@@ -63,28 +54,25 @@
                     @*V*@
 
                     <div class="form-group row">
-                        @*@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })*@
                         <label class="col-md-2 control-label">Trạng thái sách <span style="color:red">*</span>:</label>
                         <div class="col-md-10">
-                            @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn tình trạng--",
+                            @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn trạng thái sách--",
                            new { ng_model = "idTrangThai", @class = "form-control form-control-sm", onclick = "CompleteBookName()" })
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        @*@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })*@
                         <label class="col-md-2 control-label">Số lượng <span style="color:red">*</span>:</label>
                         <div class="col-md-10">
-                            <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off" onclick="CompleteBookName()">
+                            <input id="SoLuong" placeholder="Nhập số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off" onclick="CompleteBookName()">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
                         <label class="col-md-2 control-label">Ghi chú sách</label>
 
                         <div class="col-md-10">
-                            <textarea placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm" onclick="CompleteBookName()"></textarea>
+                            <textarea placeholder="Nhập ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm" onclick="CompleteBookName()"></textarea>
                         </div>
                     </div>
 
@@ -111,8 +99,8 @@
                                     <tr class="table-info text-center">
                                         <th width="50">STT</th>
                                         <th width="15%">Mã kiểm soát</th>
-                                        <th width="40%">Tên sách</th>
-                                        <th width="10%">Trạng thái sách</th>
+                                        <th width="35%">Tên sách</th>
+                                        <th width="15%">Trạng thái sách</th>
                                         <th width="10%">Số lượng</th>
                                         <th width="15%">Ghi chú sách</th>
                                         <th width="100" style="text-align: center;">
@@ -242,8 +230,8 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        console.log('Tim thay sach');
-                        $("#idSach").val(idBook);
+                        console.log('Tim thay sach');                        
+                        $("#idSach").val(data.MaKiemSoat);
                         $("#TenSach").val(data.TenSach)
                         $("#SoLuong").focus();
                     },
@@ -268,8 +256,11 @@
                     data: "idSach=" + idBook,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    success: function (data) {                        
-                        $("#idSach").val(idBook);
+                    success: function (data) {     
+                        if (idBook == data.ISBN)
+                            $("#idSach").val(idBook);
+                        else
+                            $("#idSach").val(data.MaKiemSoat);
                         $("#TenSach").val(data.TenSach)                        
                     },
                     error: function () {
