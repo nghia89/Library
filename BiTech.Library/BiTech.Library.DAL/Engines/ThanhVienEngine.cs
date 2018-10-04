@@ -61,12 +61,12 @@ namespace BiTech.Library.DAL.Engines
         }
         public List<ThanhVien> GetAllHS()
         {
-            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs").ToList();
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs" && _.IsDeleted == false).ToList();
         }
 
         public List<ThanhVien> GetAllGV()
         {
-            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv").ToList();
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv" && _.IsDeleted == false).ToList();
         }
     }
 }

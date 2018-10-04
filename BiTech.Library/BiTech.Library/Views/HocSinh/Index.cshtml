@@ -44,8 +44,8 @@
     <div class="col-md-12 bar_mobile_tl">
         @Html.ActionLink("Thêm học sinh", "_CreateUser", "HocSinh", new { @class = "btn btn-sm btn-primary" })
         @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "HocSinh", new { @class = "btn btn-sm btn-primary" })
-        @Html.ActionLink("Xuất mẫu thẻ học sinh", "ExportWord", "HocSinh", new { @idTV = "", @class = "btn btn-sm btn-primary" })
-        <a class="btn btn-sm btn-primary ml-2" href="~/Tempalates/MauHS.xlsx">Mẫu Excel</a>
+        @Html.ActionLink("Xuất mẫu thẻ học sinh", "ExportWord", "HocSinh", new { @idTV = "", @class = "btn btn-sm btn-primary" })      
+        @Html.ActionLink("Xoá học sinh", "DeleteMulti", "HocSinh", null, new { @class = "btn btn-sm btn-danger ml-sm-2" })  
     </div>
 </div>
 <h5 class="text-success">@ViewBag.Success</h5>

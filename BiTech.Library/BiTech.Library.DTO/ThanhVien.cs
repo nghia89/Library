@@ -52,6 +52,7 @@ namespace BiTech.Library.DTO
         public string QRData { get; set; }
         public string MaSoThe { get; set; }
         public string LoaiTK { get; set; }
+        public bool IsDeleted { get; set; } = false;
         [BsonIgnore]
         public string TenTrangThai { get; set; }
         [BsonIgnore]
