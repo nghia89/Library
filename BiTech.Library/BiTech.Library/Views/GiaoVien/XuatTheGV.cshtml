@@ -21,11 +21,10 @@
         </div>
     </div>
 
-    <form action="/HocSinh/XuatTheHS" class="clearfix">
+    <form action="/GiaoVien/XuatTheGV" class="clearfix">
         <div class="input-group form-group text-left">
             <div class="form-control form-control-sm p-0" style="position:relative;">
-                <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm border-0"
-                       placeholder="Nhập tên hoặc mã thành học sinh...">
+                <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm border-0" placeholder="Nhập tên hoặc mã giáo viên...">
             </div>
             <div class="input-group-append">
                 <button class="btn btn-sm btn-primary" id="btnSearch" type="submit">
@@ -35,7 +34,7 @@
         </div>
     </form>
 </div>
-<form action="/HocSinh/XuatTheHS" method="post" class="clearfix" id="ExportMany">
+<form action="/GiaoVien/XuatTheGV" method="post" class="clearfix" id="ExportMany">
     <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
         <input type="button" value="Xuất thẻ" onclick="XuatThe()" class="btn btn-sm btn-danger ml-sm-2" />
     </div>
@@ -45,9 +44,9 @@
                 <tr class="table-info">
                     <th width="10" scope="col"><input type="checkbox" id="CheckAll" /></th>
                     <th width="10">STT</th>
-                    <th width="30%" scope="col">Tên học sinh</th>
-                    <th width="20%" scope="col">Mã học sinh</th>
-                    <th width="20%" scope="col">Lớp</th>
+                    <th width="30%" scope="col">Tên giáo viên</th>
+                    <th width="20%" scope="col">Mã giáo viên</th>
+                    <th width="20%" scope="col">Tổ</th>
                     <th width="20%" scope="col">Ngày sinh</th>
                     <th width="10%" scope="col">Giới tính</th>
                 </tr>
@@ -65,13 +64,10 @@
                         {
                             <td> <input type="checkbox" name="chon" class="AddList_HS" value="@item.Id"></td>
                         }
-                        @*<td width="10">
-                                <input type="checkbox" name="chon" value="@item.Id" class="AddList_HS" />
-                            </td>*@
                         <td width="10" align="center">@i</td>
                         <td width="30%">@item.Ten</td>
                         <td width="20%">@item.MaSoThanhVien</td>
-                        <td width="20%">@item.LopHoc</td>
+                        <td width="20%">@item.ChucVu</td>
                         <td width="20%">@item.NgaySinh.ToString("dd-MM-yyyy")</td>
                         <td width="10%">@item.GioiTinh</td>
                     </tr>
@@ -82,10 +78,9 @@
 </form>
 @if (@ViewBag.number > 5)
 {
-    @Html.PagedListPager(Model, page => Url.Action("XuatTheHS", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    @Html.PagedListPager(Model, page => Url.Action("XuatTheGV", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 }
 @section scripts{
-    <script src="~/Scripts/ExportCard.js"></script>
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     @*<script>
             var ExportCardObject = new controllerExportCard();
@@ -160,7 +155,7 @@
         //thêm dánh sách
         function AddList(idCheck) {
             $.ajax({
-                url: '/HocSinh/AddList',
+                url: '/GiaoVien/AddList',
                 data: {
                     Id: idCheck
                 },
@@ -177,7 +172,7 @@
         //xóa từng danh sách
         function DeleteItem(rmIdCheck) {
             $.ajax({
-                url: '/HocSinh/DeleteItem',
+                url: '/GiaoVien/DeleteItem',
                 data: {
                     Id: rmIdCheck
                 },
@@ -194,7 +189,7 @@
         //xóa từng danh sách
         function DeleteAll() {
             $.ajax({
-                url: '/HocSinh/DeleteAll',
+                url: '/GiaoVien/DeleteAll',
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {

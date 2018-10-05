@@ -1467,5 +1467,42 @@ namespace BiTech.Library.Controllers
         }
 
         #endregion
+
+        #region Vinh Xuat QR sách - chọn nhiều
+        public ActionResult XuatQR_Mutil(KeySearchViewModel KeySearch, int? page)
+        {
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            if (Session["CheckBook"] == null)
+                Session["CheckBook"] = new List<UserViewModel>();
+            ViewBag.container = (List<UserViewModel>)Session["CheckBook"];
+
+            ListBooksModel model = new ListBooksModel();
+            var list = _SachLogic.getPageSach(KeySearch);
+            ViewBag.number = list.Count();
+
+            foreach (var item in list)
+            {
+                var listTG = _SachTacGiaLogic.getListById(item.Id);
+
+                string tenTG = "";
+                foreach (var item2 in listTG)
+                {
+                    tenTG += _TacGiaLogic.GetByIdTG(item2.IdTacGia)?.TenTacGia + ", " ?? "";
+                }
+                tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
+
+                BookView book = new BookView(item);                
+                book.Ten_TacGia = tenTG;
+
+                model.Books.Add(book);
+            }
+            return View(model.Books.ToPagedList(pageNumber, pageSize));
+        }
+        #endregion
     }
 }

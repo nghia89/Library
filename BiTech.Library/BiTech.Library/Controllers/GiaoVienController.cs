@@ -18,7 +18,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Web.Routing;
-
+using BiTech.Library.Common;
 
 namespace BiTech.Library.Controllers
 {
@@ -472,6 +472,10 @@ namespace BiTech.Library.Controllers
         public ActionResult ExportWord(string idTV)
         {
             ViewBag.IdTV = idTV;
+            if (string.IsNullOrEmpty(idTV))
+            {
+                TempData["lstMSGV"] = (List<UserViewModel>)TempData["lstMSGV"];
+            }
             return View();
         }
 
@@ -534,6 +538,8 @@ namespace BiTech.Library.Controllers
 
         public ActionResult MauThe(string mauThe, string idTV)
         {
+            var lstTV = (List<UserViewModel>)TempData["lstMSGV"];
+            TempData["lstMSGV"] = TempData["lstMSGV"];
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThongTinThuVienLogic _thongTinThuVienLogic = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             List<string> lstHeader = new List<string>();
@@ -544,7 +550,14 @@ namespace BiTech.Library.Controllers
             ExcelManager excelManager = new ExcelManager();
             List<ThanhVien> listTV = new List<ThanhVien>();
             if (string.IsNullOrEmpty(idTV))
-                listTV = _ThanhVienLogic.GetAllGV();
+            {
+                //listTV = _ThanhVienLogic.GetAllGV();
+                foreach (var item in lstTV)
+                {
+                    var mem = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
+                    listTV.Add(mem);
+                }
+            }
             else
             {
                 var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
@@ -967,5 +980,130 @@ namespace BiTech.Library.Controllers
             return File(filedata, contentType);
         }
 
+        #region Xuat The GV Chon nhieu
+        /// <summary>
+        /// Hàm xuất thẻ - tìm kiếm theo mã hoặc tên
+        /// </summary>
+        /// <param name="KeySearch"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult XuatTheGV(KeySearchViewModel KeySearch, int? page)
+        {
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            if (Session["CheckTV_GV"] == null)
+                Session["CheckTV_GV"] = new List<UserViewModel>();
+            ViewBag.container = (List<UserViewModel>)Session["CheckTV_GV"];
+
+            ListMemberModel model = new ListMemberModel();
+            string memType = "gv";
+            var list = _ThanhVienLogic.GetMembersSearch(KeySearch.Keyword, memType);
+            ViewBag.number = list.Count();
+
+            foreach (var item in list)
+            {
+                UserViewModel member = new UserViewModel()
+                {
+                    Id = item.Id,
+                    Ten = item.Ten,
+                    ChucVu = item.ChucVu, //Tổ cho giáo viên
+                    LopHoc = item.LopHoc,
+                    GioiTinh = item.GioiTinh,
+                    NgaySinh = item.NgaySinh,
+                    MaSoThanhVien = item.MaSoThanhVien
+                };
+
+                model.Members.Add(member);
+            }
+            return View(model.Members.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public ActionResult XuatTheGV()
+        {
+            try
+            {
+                // Lấy list id checked
+                var lstUserChecked = (List<UserViewModel>)Session["CheckTV_GV"];
+
+                //RedirectToAction("ExportWord", "");
+                TempData["lstMSGV"] = lstUserChecked;
+                //Xuất thẻ theo list lstUserChecked
+                if (lstUserChecked.Count != 0)
+                    return RedirectToAction("ExportWord", "GiaoVien");
+                return RedirectToAction("XuatTheGV", "GiaoVien");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddList(string Id)
+        {
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            if (Session["CheckTV_GV"] == null)//nếu null mới được khởi tạo
+                Session["CheckTV_GV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV_GV"];
+            var tv = _ThanhVienLogic.GetById(Id);
+
+            if (container == null)
+            {
+                container = new List<UserViewModel>();
+            }
+            if (!container.Any(x => x.Id == Id))
+            {
+                UserViewModel newItem = new UserViewModel();
+                newItem.Id = tv.Id;
+                newItem.Ten = tv.Ten;
+                newItem.MaSoThanhVien = tv.MaSoThanhVien;
+                newItem.GioiTinh = tv.GioiTinh;
+                newItem.NgaySinh = tv.NgaySinh;
+                newItem.LopHoc = tv.LopHoc;
+                newItem.ChucVu = tv.ChucVu; //Tổ - giáo viên
+
+                container.Add(newItem);
+            }
+
+            Session["CheckTV_GV"] = container;
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItem(string Id)
+        {
+            if (Session["CheckTV_GV"] == null)//nếu null mới được khởi tạo
+                Session["CheckTV_GV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV_GV"];
+            if (container != null)
+            {
+                container.RemoveAll(x => x.Id == Id);
+                Session["CheckTV_GV"] = container;
+            }
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteAll()
+        {
+            Session["CheckTV_GV"] = new List<UserViewModel>();
+            return Json(new
+            {
+                status = true
+            });
+        }
+        #endregion
     }
 }

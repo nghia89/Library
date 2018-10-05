@@ -236,7 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseClass\XuLyChuoi.cs" />
-    <Compile Include="Controllers\ExportTheController.cs" />
     <Compile Include="Controllers\GiaHanController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -2156,8 +2155,8 @@
     <Content Include="Tempalates\ExportSlSach.xlsx" />
     <Content Include="Tempalates\OutExportSlSach.xlsx" />
     <Content Include="Tempalates\OutExportTTSach.xlsx" />
-    <Content Include="Views\ExportThe\XuatQR_HS.cshtml" />
     <Content Include="Views\HocSinh\XuatTheHS.cshtml" />
+    <Content Include="Views\GiaoVien\XuatTheGV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

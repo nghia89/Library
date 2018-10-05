@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using BiTech.Library.DAL.Common;
 using BiTech.Library.DAL.CommonConstants;
+using BiTech.Library.Common;
 
 namespace BiTech.Library.Controllers
 {
@@ -534,9 +535,13 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult ExportWord(string idTV)
+        public ActionResult ExportWord(string IdTV)
         {
-            ViewBag.IdTV = idTV;
+            ViewBag.IdTV = IdTV;
+            if (string.IsNullOrEmpty(IdTV))
+            {
+                TempData["lstMS"] = (List<UserViewModel>)TempData["lstMS"];
+            }
             return View();
         }
 
@@ -599,6 +604,8 @@ namespace BiTech.Library.Controllers
 
         public ActionResult MauThe(string mauThe, string idTV)
         {
+            var lstTV = (List<UserViewModel>)TempData["lstMS"];
+            TempData["lstMS"] = TempData["lstMS"];
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThongTinThuVienLogic _thongTinThuVienLogic = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             List<string> lstHeader = new List<string>();
@@ -609,8 +616,15 @@ namespace BiTech.Library.Controllers
             ExcelManager excelManager = new ExcelManager();
 
             List<ThanhVien> listTV = new List<ThanhVien>();
-            if (string.IsNullOrEmpty(idTV))
-                listTV = _ThanhVienLogic.GetAllHS();
+            if (string.IsNullOrEmpty(idTV)) //Chon nhieu
+            {
+                //listTV = _ThanhVienLogic.GetAllHS();
+                foreach(var item in lstTV)
+                {
+                    var mem = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
+                    listTV.Add(mem);
+                }
+            }
             else
             {
                 var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
@@ -1029,33 +1043,33 @@ namespace BiTech.Library.Controllers
             return File(filedata, contentType);
         }
 
-        #region Vinh - Xuất thẻ Học sinh
+        #region Vinh - Xuất thẻ Học sinh - chọn nhiều 
         /// <summary>
         /// Hàm xuất thẻ - tìm kiếm theo mã hoặc tên
         /// </summary>
         /// <param name="KeySearch"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public ActionResult XuatTheHS(string KeySearch, int? page)
-        {
+        public ActionResult XuatTheHS(KeySearchViewModel KeySearch, int? page)
+        {            
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            int pageSize = 30;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
-
-            if (Session[CommonConstants.Session] == null)//nếu null mới được khởi tạo
-                Session[CommonConstants.Session] = new List<UserViewModel>();
-            ViewBag.container = (List<UserViewModel>)Session[CommonConstants.Session];
+            if (Session["CheckTV"] == null)
+                Session["CheckTV"] = new List<UserViewModel>();
+            ViewBag.container = (List<UserViewModel>)Session["CheckTV"];
 
             ListMemberModel model = new ListMemberModel();
-
-            var list = _ThanhVienLogic.GetMembersSearch(KeySearch);
+            string memType = "hs";
+            var list = _ThanhVienLogic.GetMembersSearch(KeySearch.Keyword, memType);
             ViewBag.number = list.Count();
 
             foreach (var item in list)
             {
                 UserViewModel member = new UserViewModel()
                 {
+                    Id = item.Id,
                     Ten = item.Ten,
                     ChucVu = item.ChucVu, //Tổ cho giáo viên
                     LopHoc = item.LopHoc,
@@ -1066,8 +1080,92 @@ namespace BiTech.Library.Controllers
 
                 model.Members.Add(member);
             }
-
             return View(model.Members.ToPagedList(pageNumber, pageSize));
+        }        
+
+        [HttpPost]
+        public ActionResult XuatTheHS()
+        {
+            try
+            {
+                // Lấy list id checked
+                var lstUserChecked = (List<UserViewModel>)Session["CheckTV"];
+
+                //RedirectToAction("ExportWord", "");
+                TempData["lstMS"] = lstUserChecked;
+                //Xuất thẻ theo list lstUserChecked
+                if (lstUserChecked.Count != 0)
+                    return RedirectToAction("ExportWord", "HocSinh");
+                return RedirectToAction("XuatTheHS", "HocSinh");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddList(string Id)
+        {
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            if (Session["CheckTV"] == null)//nếu null mới được khởi tạo
+                Session["CheckTV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV"];
+            var tv = _ThanhVienLogic.GetById(Id);
+
+            if (container == null)
+            {
+                container = new List<UserViewModel>();
+            }
+            if (!container.Any(x => x.Id == Id))
+            {
+                UserViewModel newItem = new UserViewModel();
+                newItem.Id = tv.Id;
+                newItem.Ten = tv.Ten;
+                newItem.MaSoThanhVien = tv.MaSoThanhVien;
+                newItem.GioiTinh = tv.GioiTinh;
+                newItem.NgaySinh = tv.NgaySinh;
+                newItem.LopHoc = tv.LopHoc;
+                newItem.ChucVu = tv.ChucVu; //Tổ - giáo viên
+
+                container.Add(newItem);
+            }
+
+            Session["CheckTV"] = container;
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItem(string Id)
+        {
+            if (Session["CheckTV"] == null)//nếu null mới được khởi tạo
+                Session["CheckTV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV"];
+            if (container != null)
+            {
+                container.RemoveAll(x => x.Id == Id);
+                Session["CheckTV"] = container;
+            }
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteAll()
+        {
+            Session["CheckTV"] = new List<UserViewModel>();
+            return Json(new
+            {
+                status = true
+            });
         }
         #endregion
     }

@@ -1,54 +1,41 @@
 ﻿var controllerExportCard = function () {
     this.initialize = function () {
-        registerEvents();
-        if ($('.AddList:checked').length === $('#tblFunction tbody tr .AddList').length) {
+        if ($('.AddList_HS:checked').length === $('#tblFunction tbody tr .AddList_HS').length) {
             $('#CheckAll').prop('checked', true);
         }
+        registerEvents();
     }
 
     function registerEvents() {
-        //thêm xóa từng item trong session
-        $('.AddList').change(function () {
+
+        $('.AddList_HS').change(function () {
             if ($(this).is(":checked")) {
                 var idCheck = $(this).val();
-
-                $('.hidden').addClass('pointer-eventsNone');
-                AddList(idCheck, true);
-
+                AddList(idCheck);
             }
             else {
-                var removeIdCheck = $(this).val();
-                deleteItem(removeIdCheck);
+                var rmIdCheck = $(this).val();
+                DeleteItem(rmIdCheck);
             }
 
-            //check tổng số con == cha thì check cha
-            if ($('.AddList:checked').length === $('#tblFunction tbody tr .AddList').length) {
+            if ($('.AddList_HS:checked').length === $('#tblFunction tbody tr .AddList_HS').length) {
                 $('#CheckAll').prop('checked', true);
             } else {
                 $('#CheckAll').prop('checked', false);
             }
+
         });
 
-        $('#CheckAll').on('click', function () {
-            if ($('.AddList').is(':checked')) {
-                DeleteAll();
-                $(this).prop('checked', false);
-            }
-            //check cha thì check tất cả con
-            $('.AddList').prop('checked', $(this).prop('checked'));
-            if ($('#CheckAll').is(':checked')) {
-
-                $('.hidden').addClass('pointer-eventsNone');
-                var count = $('.AddList').length;
-                var stt = 0;
-                $('.AddList').each(function () {
-                    stt++;
-                    if ($('.AddList').is(':checked')) {
+        $("#CheckAll").click(function () {
+            var status = this.checked;
+            $("input[name='chon']").each(function () { this.checked = status; })
+            if (status == true) {
+                $('.AddList_HS').each(function () {
+                    if ($('.AddList_HS').is(':checked')) {
                         var idCheck = $(this).val();
-                        AddList(idCheck, (stt === count));
+                        AddList(idCheck);
                     }
-                });
-
+                })
             }
             else {
                 DeleteAll();
@@ -56,33 +43,12 @@
         });
     }
 
-
     //thêm dánh sách
-    function AddList(idCheck, removeHidden) {
+    function AddList(idCheck) {
         $.ajax({
-
-            url: '/ExportMarc/AddList',
+            url: '/HocSinh/AddList',
             data: {
                 Id: idCheck
-            },
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-                if (removeHidden) {
-                    $('.pointer-eventsNone').removeClass('pointer-eventsNone');
-                    $('.hidden').addClass('pointer-eventsAuto');
-                }
-                return true;
-            }
-        });
-    }
-
-    //xóa từng danh sách
-    function deleteItem(removeIdCheck) {
-        $.ajax({
-            url: '/ExportMarc/DeleteItem',
-            data: {
-                Id: removeIdCheck
             },
             type: 'POST',
             dataType: 'json',
@@ -95,9 +61,26 @@
     }
 
     //xóa từng danh sách
+    function DeleteItem(rmIdCheck) {
+        $.ajax({
+            url: '/HocSinh/DeleteItem',
+            data: {
+                Id: rmIdCheck
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status) {
+                    return true;
+                }
+            }
+        });
+    }
+
+    //xóa tat ca danh sách
     function DeleteAll() {
         $.ajax({
-            url: '/ExportMarc/DeleteAll',
+            url: '/HocSinh/DeleteAll',
             type: 'POST',
             dataType: 'json',
             success: function (response) {

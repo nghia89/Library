@@ -72,21 +72,26 @@ namespace BiTech.Library.DAL.Engines
         }
 
         #region Vinh tim kiem thanh vien
-        public List<ThanhVien> GetMembersSearch (string KeySearch)
+        public List<ThanhVien> GetMembersSearch (string KeySearch, string memType)
         {
             FilterDefinition<ThanhVien> filterDefinition = new BsonDocument();
             var builder = Builders<ThanhVien>.Filter;
             //Tim thanh vien khong bi xoa
             filterDefinition = filterDefinition & builder.Where(_ => _.IsDeleted == false);
 
+            if (!string.IsNullOrEmpty(memType))
+            {
+                filterDefinition = filterDefinition & builder.Where(x => x.LoaiTK.ToLower().Contains(memType.ToLower()));
+            }
             //Tim theo ma thanh vien 
-            if(!string.IsNullOrEmpty(KeySearch))
+            if (!string.IsNullOrEmpty(KeySearch))
             {
                 filterDefinition = filterDefinition 
                     & builder.Where(_ => _.MaSoThanhVien.ToLower().Contains(KeySearch.ToLower())
                     || _.Ten.ToLower().Contains(KeySearch.ToLower()));                    
             }
-            
+           
+
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
         #endregion

@@ -94,9 +94,9 @@ namespace BiTech.Library.BLL.DBLogic
         #endregion
 
         #region Vinh
-        public List<ThanhVien> GetMembersSearch(string KeySearch)
+        public List<ThanhVien> GetMembersSearch(string KeySearch, string memType)
         {
-            return _ThanhVienEngine.GetMembersSearch(KeySearch);
+            return _ThanhVienEngine.GetMembersSearch(KeySearch, memType);
         }
         #endregion
     }
