@@ -115,6 +115,7 @@
     <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M001\V0_0_2_RemoveFields.cs" />
     <Compile Include="MongoMirgrations\Sach_Mirgrations\M002\V0_0_2_thembo_truong.cs" />
+    <Compile Include="MongoMirgrations\Sach_Mirgrations\M003\V0_0_3_thembo_truong.cs" />
     <Compile Include="MongoMirgrations\SoLuongSachTrangThai\M000\Init.cs" />
     <Compile Include="MongoMirgrations\SachTacGia_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\TacGia_Mirgrations\M000\Init.cs" />

@@ -11,6 +11,8 @@ using PagedList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -198,8 +200,11 @@ namespace BiTech.Library.Controllers
                         {
                             string physicalWebRootPath = Server.MapPath("~/");
                             string uploadFolder = Path.Combine(GetUploadFolder(UploadFolder.BookCovers, _SubDomain), id);
+                            string uploadFolderThumbail = Path.Combine(GetUploadFolder(UploadFolder.BookCovers, _SubDomain), id);
 
                             var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, "cover" + Path.GetExtension(model.FileImageCover.FileName));
+                            var ThumbnailName = Path.Combine(physicalWebRootPath, uploadFolder, "thumbnail" + Path.GetExtension(model.FileImageCover.FileName));
+
                             string location = Path.GetDirectoryName(uploadFileName);
 
                             if (!Directory.Exists(location))
@@ -207,14 +212,64 @@ namespace BiTech.Library.Controllers
                                 Directory.CreateDirectory(location);
                             }
 
-                            using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
-                            {
-                                model.FileImageCover.InputStream.CopyTo(fileStream);
+                            #region nghia
+                            model.FileImageCover.SaveAs(uploadFileName);
+                            int imageSize = 400;
 
-                                var book = _SachLogic.GetById(id);
-                                book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                                _SachLogic.Update(book);
+                            var image = Image.FromFile(uploadFileName);
+
+                            int thumbnailSize = imageSize;
+                            int newWidth;
+                            int newHeight;
+
+                            if (image.Height < thumbnailSize && image.Width < thumbnailSize)
+                            {
+                                newWidth = image.Width;
+                                newHeight = image.Height;
                             }
+                            else
+                            {
+                                if (image.Width > image.Height)
+                                {
+                                    newWidth = thumbnailSize;
+                                    newHeight = image.Height * thumbnailSize / image.Width;
+                                }
+                                else
+                                {
+                                    newWidth = image.Width * thumbnailSize / image.Height;
+                                    newHeight = thumbnailSize;
+                                }
+                            }
+
+                            var thumbnailBitmap = new Bitmap(newWidth, newHeight);
+
+                            var thumbnailGraph = Graphics.FromImage(thumbnailBitmap);
+                            thumbnailGraph.CompositingQuality = CompositingQuality.HighQuality;
+                            thumbnailGraph.SmoothingMode = SmoothingMode.HighQuality;
+                            thumbnailGraph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                            var imageRectangle = new Rectangle(0, 0, newWidth, newHeight);
+
+                            thumbnailGraph.DrawImage(image, imageRectangle);
+
+                            thumbnailBitmap.Save(ThumbnailName, image.RawFormat);           
+                            thumbnailGraph.Dispose();
+                            thumbnailBitmap.Dispose();
+                            image.Dispose();//ngắt tiến trình giải phóng bộ nhớ
+                            System.IO.File.Delete(uploadFileName);
+                            var book = _SachLogic.GetById(id);
+                            book.LinkBiaSach = ThumbnailName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                            _SachLogic.Update(book);
+                            #endregion
+
+                            //using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                            //{
+                            //    model.FileImageCover.InputStream.CopyTo(fileStream);
+                            //    var book = _SachLogic.GetById(id);
+                            //    book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                            //    _SachLogic.Update(book);
+
+                            //}
                         }
                         catch { }
                     }
@@ -307,7 +362,7 @@ namespace BiTech.Library.Controllers
                 TempData["ThemSachMsg"] = "Thêm sách thất bại";
             }
             model.Languages = _LanguageLogic.GetAll();
-           
+
             var modelTT = _trangThaiSachLogic.GetAll();
             ViewBag.TT = modelTT;
             return View(model);
@@ -434,6 +489,8 @@ namespace BiTech.Library.Controllers
                         string uploadFolder = Path.Combine(GetUploadFolder(UploadFolder.BookCovers, _SubDomain), model.SachDTO.Id);
 
                         var uploadFileName = Path.Combine(physicalWebRootPath, uploadFolder, "cover" + Path.GetExtension(model.FileImageCover.FileName));
+                        var ThumbnailName = Path.Combine(physicalWebRootPath, uploadFolder, "thumbnail" + Path.GetExtension(model.FileImageCover.FileName));
+
                         string location = Path.GetDirectoryName(uploadFileName);
 
                         if (!Directory.Exists(location))
@@ -441,14 +498,62 @@ namespace BiTech.Library.Controllers
                             Directory.CreateDirectory(location);
                         }
 
-                        using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                        #region nghia
+                        model.FileImageCover.SaveAs(uploadFileName);
+                        int imageSize = 400;
+
+                        var image = Image.FromFile(uploadFileName);
+
+                        int thumbnailSize = imageSize;
+                        int newWidth;
+                        int newHeight;
+
+                        if (image.Height < thumbnailSize && image.Width < thumbnailSize)
                         {
-                            model.FileImageCover.InputStream.CopyTo(fileStream);
-
-                            //var book = _SachLogic.GetById(model.SachDTO.Id);
-                            sach.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-
+                            newWidth = image.Width;
+                            newHeight = image.Height;
                         }
+                        else
+                        {
+                            if (image.Width > image.Height)
+                            {
+                                newWidth = thumbnailSize;
+                                newHeight = image.Height * thumbnailSize / image.Width;
+                            }
+                            else
+                            {
+                                newWidth = image.Width * thumbnailSize / image.Height;
+                                newHeight = thumbnailSize;
+                            }
+                        }
+
+                        var thumbnailBitmap = new Bitmap(newWidth, newHeight);
+
+                        var thumbnailGraph = Graphics.FromImage(thumbnailBitmap);
+                        thumbnailGraph.CompositingQuality = CompositingQuality.HighQuality;
+                        thumbnailGraph.SmoothingMode = SmoothingMode.HighQuality;
+                        thumbnailGraph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                        var imageRectangle = new Rectangle(0, 0, newWidth, newHeight);
+
+                        thumbnailGraph.DrawImage(image, imageRectangle);
+
+                        thumbnailBitmap.Save(ThumbnailName, image.RawFormat);
+                        thumbnailGraph.Dispose();
+                        thumbnailBitmap.Dispose();
+                        image.Dispose();//ngắt tiến trình giải phóng bộ nhớ
+                        System.IO.File.Delete(uploadFileName);
+                        sach.LinkBiaSach = ThumbnailName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+                        #endregion
+
+                        //using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
+                        //{
+                        //    model.FileImageCover.InputStream.CopyTo(fileStream);
+
+                        //    //var book = _SachLogic.GetById(model.SachDTO.Id);
+                        //    sach.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
+
+                        //}
                     }
                     catch { }
                 }
@@ -570,7 +675,7 @@ namespace BiTech.Library.Controllers
 
             return Json(vm, JsonRequestBehavior.AllowGet);
         }
-        
+
         public JsonResult GetAllTT(string id)
         {
             TrangThaiSachLogic _trangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);

@@ -9,7 +9,9 @@ html {
     background-size: cover;
     background-position: right;
 }
-
+body{
+    background: none;
+}
 a {
     color: #000;
 }
@@ -268,7 +270,9 @@ a:hover {
     }
 
 
-
+.contain{
+    position: relative;
+}
 .contain .top {
     background: #718D94;
     min-height: 50px;
@@ -307,8 +311,9 @@ a:hover {
         }
 
 .contain .left {
-    position: relative;
+    position: absolute;
     z-index: 1;
+    height: 100%;
 }
 
     .contain .left .bg {
@@ -337,6 +342,7 @@ a:hover {
         float: left;
         position: relative;
         overflow-x: hidden;
+        min-height: 100%;
     }
 
         .contain .left .menu .logo {
@@ -1703,10 +1709,8 @@ a:hover {
 
 .pointer-eventsNone {
     pointer-events: none;
-}
-
-.pointer-eventsAuto {
-    pointer-events: auto;
+    background: #b4c9ce;
+    visibility:hidden;
 }
 
 .export_content {
@@ -1725,12 +1729,51 @@ a:hover {
         color: #2E5894;
         display: inline-block;
         text-transform: uppercase;
+	}
+
+.Rightcontent {
+    width: 48%;
+    min-height: 502px;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    float: left;
+}
+
+.float_left{
+    float:left
+}
+.marginAuto {
+    margin: auto
+}
+
+/*responsive form Xuất báo cáo*/
+@media screen and (max-width: 1115px) {
+    .Leftcontent {
+        width: 100%;
+        min-height: 300px;
+        background: #fff;
+        border: 1px solid #f1f1f1;
+        border-radius: 10px;
+        margin-right: 29px;
+        margin-bottom: 10px;
     }
+
+    .col-lg-4 {
+        width: 40.333333%;
+	}
+}
 
 /*responsive form Xuất báo cáo*/
 @media screen and (max-width: 992px) {
     .export_content {
         min-height: 120px;
         margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 1288px) {
+    .float_left {
+        float: none;
     }
 }
