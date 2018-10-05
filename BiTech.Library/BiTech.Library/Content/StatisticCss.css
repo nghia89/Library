@@ -130,8 +130,27 @@ input[type="checkbox"] {
         flex: none;
     }
 }
+@media screen and (max-width: 1500px) {
+    .sm_Search {
+        max-width: 15%;
+    }
+}
+/*@media screen and (max-width: 930px) {
+    .sm_Search {
+        margin: auto;
+    }
+}*/
 /*@media (min-width: 768px) .col-md-10 {
     -ms-flex: 0 0 83.333333%;
     flex: 0 0 83.333333%;
     max-width: 83.333333%;
 }*/
+.margin_bottom {
+    margin-bottom:0px;
+}
+.form_input{
+    height:32px;
+}
+.btn_Search{
+    margin-top:-10px;
+}

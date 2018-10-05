@@ -1,0 +1,339 @@
+﻿@model PagedList.IPagedList<BiTech.Library.Models.BookView>
+@using PagedList.Mvc;
+@using PagedList;
+@*@model BiTech.Library.Models.ListBooksModel*@
+@{
+    /**/
+
+    ViewBag.Title = "SearchDetail";
+    var listSach = ViewBag.ListSach;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
+    var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
+    var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
+    var KeSach = (IEnumerable<BiTech.Library.DTO.KeSach>)ViewBag.KeSach;
+
+    Dictionary<string, object> arry_short = new Dictionary<string, object>();
+    arry_short.Add("1", Html.Raw("Thứ tự A-Z &#xf175;"));
+    arry_short.Add("11", Html.Raw("Thứ tự Z-A &#xf176;"));
+    arry_short.Add("2", Html.Raw("Mã kiểm soát &#xf175;"));
+    arry_short.Add("22", Html.Raw("Mã kiểm soát &#xf176;"));
+    arry_short.Add("3", Html.Raw("Thời gian nhập sách &#xf175;"));
+    arry_short.Add("33", Html.Raw("Thời gian nhập sách &#xf176;"));
+    arry_short.Add("4", Html.Raw("Năm xuất bản &#xf175;"));
+    arry_short.Add("44", Html.Raw("Năm xuất bản &#xf176;"));
+
+}
+
+@section scripts{
+    <script src="~/app/StatisticTransition.js"></script>
+    <link href="~/Content/StatisticCss.css" rel="stylesheet" />
+    <script src="~/Scripts/AutocompleteSach.js"></script>
+}
+
+<div style="margin-left:134px; padding-bottom:30px">
+    @*<button class="tablink" onclick="openCity('basic', this, '#1ab188')" style="outline:none" id="@((TempData["FrmSearchHigh"].Equals("FrmSearchHigh")==null?defaultOpen:n))">Cơ Bản</button>
+        <button class="tablink" onclick="openCity('high', this, '#1ab188')" style="outline:none" id="@((TempData["FrmSearchHigh"].Equals("FrmSearchHigh")?defaultOpen:n))">Nâng Cao</button>*@
+    @if (TempData["FrmSearchHigh"] == null)
+    {
+        <button class="tablink" onclick="openCity('basic', this, '#1ab188')" id="defaultOpen" style="outline:none">Cơ Bản</button>
+        <button class="tablink" onclick="openCity('high', this, '#1ab188')" style="outline:none">Nâng Cao</button>
+    }
+    else
+    {
+        <button class="tablink" onclick="openCity('basic', this, '#1ab188')" style="outline:none">Cơ Bản</button>
+        <button class="tablink" onclick="openCity('high', this, '#1ab188')" id="defaultOpen" style="outline:none">Nâng Cao</button>
+    }
+
+</div>
+<div class="clearfix"></div>
+<div class="clearfix">
+    <div class="row">
+        <div id="basic" class="tabcontent">
+            <form action="/Search/SearchDetail" class="clearfix" id="search_short1">
+                <div class="container clearfix col-md-8">
+
+                    <div class="form-group row clearfix">
+
+                        <div class="col-md-4">
+                            <div class="col-sm-12 font-weight-bold pl-0">Bộ sưu tập : </div>
+                            <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
+                                <option value="">--Chọn tất cả--</option>
+                                @foreach (var tg in TG)
+                                {
+                                    <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ")>@tg.TenTacGia</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-sm-12 font-weight-bold pl-0">Kho tài liệu :</div>
+                            <select class="form-control form-control-sm" name="KeSach" id="">
+                                <option value="">--Chọn tất cả--</option>
+                                @foreach (var ks in KeSach)
+                                {
+                                    <option value="@ks.Id" @((ks.Id.Equals(TempData["KeSach"])) ? "selected" : " ")>@ks.TenKe</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 font-weight-bold pl-0">Tìm kiếm: </div>
+                    <div class="form-group row clearfix">
+                        <div class="input-group input-group-sm col-md-8">
+                            <input class="form-control form-control-sm" type="text" id="txtKeyword" name="KeywordBasic" value="@TempData["KeywordBasic"]" placeholder="Nhập tên sách bạn muốn tìm kiếm.!">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" type="submit" name="FrmSearchBasic" value="searchBasic">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12 font-weight-bold pl-3">Sắp xếp: </div>
+                        <div class="col-md-4 col-sm-12  form-group mt-1 mb-1">
+                            <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short1').submit();">
+                                <option value="">--Sắp xếp--</option>
+                                @foreach (var item_sx in arry_short)
+                                {
+                                    <option value="@item_sx.Key" @((@item_sx.Key == @ViewBag.SapXep_selected) ? "selected" : " ")>@item_sx.Value</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div id="high" class="tabcontent">
+            <form action="/Search/SearchDetail" class="clearfix" id="search_short2" name="searchHigh">
+                <div class="container clearfix col-md-8">
+                    <div class="form-group row clearfix">
+                        <div class="col-md-4">
+                            <div class="col-sm-12 font-weight-bold pl-0">Bộ sưu tập : </div>
+                            <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
+                                <option value="">--Tác Giả--</option>
+                                @foreach (var tg in TG)
+                                {
+                                    <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ")>@tg.TenTacGia</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-sm-12 font-weight-bold pl-0">Kho tài liệu :</div>
+                            <select class="form-control form-control-sm" name="KeSach" id="">
+                                <option value="">--Chọn tất cả--</option>
+                                @foreach (var ks in KeSach)
+                                {
+                                    <option value="@ks.Id" @((ks.Id.Equals(TempData["KeSach"])) ? "selected" : " ")>@ks.TenKe</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="container clearfix col-md-9 col-lg-9">
+                    <div class="form-container">
+                        <div class="margin_bottom row">
+                            <label for="staticEmail" class="col-lg-pull-1 col-form-label font-weight-bold">Từ Khóa:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword"]" name="Keyword">
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control form-control-sm" name="ddlLoaiTimKiem0">
+                                    <option value="any">Tìm tất cả</option>
+                                    <option value="title" @((TempData["lLoaiTimKiem0"].Equals("title") ? "selected" : ""))> Nhan đề</option>
+                                    <option value="author" @((TempData["lLoaiTimKiem0"].Equals("author") ? "selected" : ""))>Tác giả</option>
+                                    <option value="isbn" @((TempData["lLoaiTimKiem0"].Equals("isbn") ? "selected" : ""))>ISBN</option>
+                                    <option value="place_publication" @((TempData["lLoaiTimKiem0"].Equals("place_publication") ? "selected" : ""))>Nhà xuất bản</option>
+                                    <option value="date_publication" @((TempData["lLoaiTimKiem0"].Equals("date_publication") ? "selected" : ""))>Năm xuất bản</option>
+                                </select>
+                            </div>
+                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                        </div>
+
+                        <div class="margin_bottom row">
+                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword1"]" name="Keyword1">
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control form-control-sm" name="ddlLoaiTimKiem1">
+                                    <option value="any">Tìm tất cả</option>
+                                    <option value="title" @((TempData["lLoaiTimKiem1"].Equals("title") ? "selected" : ""))> Nhan đề</option>
+                                    <option value="author" @((TempData["lLoaiTimKiem1"].Equals("author") ? "selected" : ""))>Tác giả</option>
+                                    <option value="isbn" @((TempData["lLoaiTimKiem1"].Equals("isbn") ? "selected" : ""))>ISBN</option>
+                                    <option value="place_publication" @((TempData["lLoaiTimKiem1"].Equals("place_publication") ? "selected" : ""))>Nhà xuất bản</option>
+                                    <option value="date_publication" @((TempData["lLoaiTimKiem1"].Equals("date_publication") ? "selected" : ""))>Năm xuất bản</option>
+                                </select>
+                            </div>
+                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                        </div>
+
+                        <div class="margin_bottom row">
+                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword2"]" name="Keyword2">
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control form-control-sm" name="ddlLoaiTimKiem2">
+                                    <option value="any">Tìm tất cả</option>
+                                    <option value="title" @((TempData["lLoaiTimKiem2"].Equals("title") ? "selected" : ""))> Nhan đề</option>
+                                    <option value="author" @((TempData["lLoaiTimKiem2"].Equals("author") ? "selected" : ""))>Tác giả</option>
+                                    <option value="isbn" @((TempData["lLoaiTimKiem2"].Equals("isbn") ? "selected" : ""))>ISBN</option>
+                                    <option value="place_publication" @((TempData["lLoaiTimKiem2"].Equals("place_publication") ? "selected" : ""))>Nhà xuất bản</option>
+                                    <option value="date_publication" @((TempData["lLoaiTimKiem2"].Equals("date_publication") ? "selected" : ""))>Năm xuất bản</option>
+                                </select>
+                            </div>
+                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                        </div>
+
+                        <div class=" margin_bottom row ">
+                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword3"]" name="Keyword3">
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control form-control-sm" name="ddlLoaiTimKiem3">
+                                    <option value="any">Tìm tất cả</option>
+                                    <option value="title" @((TempData["lLoaiTimKiem3"].Equals("title") ? "selected" : ""))> Nhan đề</option>
+                                    <option value="author" @((TempData["lLoaiTimKiem3"].Equals("author") ? "selected" : ""))>Tác giả</option>
+                                    <option value="isbn" @((TempData["lLoaiTimKiem3"].Equals("isbn") ? "selected" : ""))>ISBN</option>
+                                    <option value="place_publication" @((TempData["lLoaiTimKiem3"].Equals("place_publication") ? "selected" : ""))>Nhà xuất bản</option>
+                                    <option value="date_publication" @((TempData["lLoaiTimKiem3"].Equals("date_publication") ? "selected" : ""))>Năm xuất bản</option>
+                                </select>
+                            </div>
+                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                        </div>
+
+                        <div class="margin_bottom row">
+                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword4"]" name="Keyword4">
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control form-control-sm" name="ddlLoaiTimKiem4">
+                                    <option value="any">Tìm tất cả</option>
+                                    <option value="title" @((TempData["lLoaiTimKiem4"].Equals("title") ? "selected" : ""))> Nhan đề</option>
+                                    <option value="author" @((TempData["lLoaiTimKiem4"].Equals("author") ? "selected" : ""))>Tác giả</option>
+                                    <option value="isbn" @((TempData["lLoaiTimKiem4"].Equals("isbn") ? "selected" : ""))>ISBN</option>
+                                    <option value="place_publication" @((TempData["lLoaiTimKiem4"].Equals("place_publication") ? "selected" : ""))>Nhà xuất bản</option>
+                                    <option value="date_publication" @((TempData["lLoaiTimKiem4"].Equals("date_publication") ? "selected" : ""))>Năm xuất bản</option>
+                                </select>
+                            </div>
+                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                            <div class="col-sm-1 sm_Search">
+                                <button type="submit" class="btn btn-primary btn-block btn_Search" name="FrmSearchHigh" value="FrmSearchHigh">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-sm-12 font-weight-bold pl-3">Sắp xếp: </div>
+                    <div class="col-md-4 col-sm-12  form-group mt-1 mb-1">
+                        <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short2').submit()" value="FrmSearchHigh">
+                            <option value="">--Sắp xếp--</option>
+                            @foreach (var item_sx in arry_short)
+                            {
+                                <option value="@item_sx.Key" @((@item_sx.Key == @ViewBag.SapXep_selected) ? "selected" : " ")>@item_sx.Value</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    @if (ViewBag.Number > 0)
+    {
+        <div><strong>Có @ViewBag.Number kết quả tìm được</strong></div>
+    }
+    else
+    {
+        <div><strong class="text-danger">Không có kết quả tìm được</strong></div>
+    }
+
+    @{int i = 1;}
+    <div class="book_content clearfix">
+        @foreach (var item in Model)
+        {
+            <div Class="book_box_v3 clearfix">
+                <div class="container-box-window clearfix">
+                    <div class="top">
+                        <div class="title" title="@item.SachDTO.TenSach"> <span>@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</span> @item.SachDTO.TenSach</div>
+                    </div>
+
+                    <div class="content-box-window clearfix">
+                        <div class="book_image">
+                            <img src="@(string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) == false ? item.SachDTO.LinkBiaSach : "/Content/Images/book.png" )"
+                                 onerror="this.src = '/Content/Images/book.png';">
+                        </div>
+                        <div class="book_cell_information clearfix width_left">
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Mã kiểm soát:</span>
+                                    @item.SachDTO.MaKiemSoat
+                                </span>
+                            </div>
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Tác giả:</span>
+                                    @item.Ten_TacGia
+                                </span>
+                            </div>
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">ISBN:</span>
+                                    @item.SachDTO.ISBN
+                                </span>
+                            </div>
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Ngôn ngữ:</span>
+                                    @item.Ten_NgonNgu
+                                </span>
+                            </div>
+                        </div>
+                        <div class="book_cell_information clearfix width_right">
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Năm xuất bản:</span>
+                                    @item.SachDTO.NamXuatBan
+                                </span>
+                            </div>
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Tổng số sách:</span>
+                                    @item.SachDTO.SoLuongTong
+                                </span>
+                            </div>
+                            <div class="book_information clearfix">
+                                <span>
+                                    <span class="book_title_information">Còn lại:</span>
+                                    @item.SachDTO.SoLuongConLai
+                                </span>
+                            </div>
+                            <a href="@Url.Action("ThongTinChiTiet", new { id=item.SachDTO.Id })"
+                               class="btn btn-primary btn-sm"
+                               style="position: absolute; bottom: 10px; right: 10px; font-size: 15px">Xem</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            { i++; }
+        }
+        <div class="clearfix"></div>
+        <br />
+        @if (@ViewBag.number > 30)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("SearchDetail", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+        }
+    </div>
+</div>
+
+

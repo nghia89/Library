@@ -2150,6 +2150,7 @@
     <Content Include="Tempalates\PhieuNhapSach.xlsx" />
     <Content Include="Tempalates\Sach.xlsx" />
     <Content Include="Tempalates\ThanhVien.xlsx" />
+    <Content Include="Views\Search\SearchDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

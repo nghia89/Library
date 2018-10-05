@@ -187,9 +187,9 @@ namespace BiTech.Library.Controllers
                             dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (GetId.XuatXu != null) ? GetId.XuatXu : ""));
                             record.AddVariableField(dataField);
 
-                            dataField = MarcFactory.Instance.NewDataField("500", '#', '#');
-                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (GetId.TomTat != null) ? GetId.TomTat : ""));
-                            record.AddVariableField(dataField);
+                            //dataField = MarcFactory.Instance.NewDataField("500", '#', '#');
+                            //dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', (GetId.TomTat != null) ? GetId.TomTat : ""));
+                            //record.AddVariableField(dataField);
 
 
                             writer.Write(record);

@@ -6,6 +6,7 @@ using BiTech.Library.Controllers.BaseClass;
 using BiTech.Library.DTO;
 using BiTech.Library.Helpers;
 using BiTech.Library.Models;
+using MARC4J.Net.MARC;
 using Newtonsoft.Json;
 using PagedList;
 using System;
@@ -155,6 +156,8 @@ namespace BiTech.Library.Controllers
 
                 PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
 
                 var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
                 model.SachDTO.TenSachKhongDau = TenSachKhongDau;
@@ -190,6 +193,96 @@ namespace BiTech.Library.Controllers
                             failTG += item.TenTacGia + ", ";
                         }
                     }
+
+                    #region nghia: convertSachMarcXml
+                    var book = _SachLogic.GetById(id);
+                    IRecord record = MarcFactory.Instance.NewRecord();
+                    IDataField dataField = null;
+
+                    record.AddVariableField(MarcFactory.Instance.NewControlField("001", book.MaKiemSoat));
+
+                    dataField = MarcFactory.Instance.NewDataField("020", '#', '#');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', model.SachDTO.ISBN));
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('c', model.SachDTO.GiaBia));
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("041", '0', '#');
+                    var getById = _LanguageLogic.GetById(model.SachDTO.IdNgonNgu);
+                    if (getById != null)
+                    {
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', getById.Ten));
+                        record.AddVariableField(dataField);
+                    }
+
+                    dataField = MarcFactory.Instance.NewDataField("250", '#', '#');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', model.SachDTO.TaiBan));
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("300", '#', '#');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', model.SachDTO.SoTrang));
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("520", '#', '#');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', model.SachDTO.TomTat));
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("100", '1', '#');
+                    var TenTG = "";
+                    foreach (var tg in model.ListTacGiaJson)
+                    {
+                        var item = JsonConvert.DeserializeObject<TacGiaViewModel>(tg);
+                        if (tg.Count() < 1)
+                        {
+                            TenTG += item.TenTacGia;
+                        }
+                        else
+                        {
+                            TenTG += item.TenTacGia + ",";
+                        }
+
+                    }
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', TenTG.Trim(',')));
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("245", '1', '0');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', model.SachDTO.TenSach));
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("260", '#', '#');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('c', model.SachDTO.NamXuatBan));
+
+                    var getNameNXB = _NhaXuatBanLogic.getById(model.SachDTO.IdNhaXuatBan);
+                    //var GetNamNXB= _NhaXuatBanLogic.getById
+                    if (getNameNXB != null)
+                    {
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('b', (getNameNXB.Ten != null) ? getNameNXB.Ten : ""));
+                    }
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("082", '0', '4');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', model.SachDTO.DDC));
+                    record.AddVariableField(dataField);
+
+                    dataField = MarcFactory.Instance.NewDataField("044", '#', '#');
+                    dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', model.SachDTO.XuatXu));
+                    record.AddVariableField(dataField);
+
+                    var recordXml = record.GetDataFields();
+                    var ControlField = record.GetControlFields();
+                    for (int i = 0; i < ControlField.Count; i++)
+                    {
+                        book.MARC21 = "=" + ControlField[i].ToString();
+                        book.MARC21 += "\n";
+                    }
+
+                    for (int i = 0; i < recordXml.Count; i++)
+                    {
+                        book.MARC21 += "=" + recordXml[i] + "  ";
+                        book.MARC21 += "\n";
+                    }
+                    _SachLogic.Update(book);
+
+                    #endregion
 
                     if (model.FileImageCover != null)
                     {
@@ -249,12 +342,12 @@ namespace BiTech.Library.Controllers
 
                             thumbnailGraph.DrawImage(image, imageRectangle);
 
-                            thumbnailBitmap.Save(ThumbnailName, image.RawFormat);           
+                            thumbnailBitmap.Save(ThumbnailName, image.RawFormat);
                             thumbnailGraph.Dispose();
                             thumbnailBitmap.Dispose();
                             image.Dispose();//ngắt tiến trình giải phóng bộ nhớ
                             System.IO.File.Delete(uploadFileName);
-                            var book = _SachLogic.GetById(id);
+
                             book.LinkBiaSach = ThumbnailName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                             _SachLogic.Update(book);
                             #endregion
@@ -356,6 +449,9 @@ namespace BiTech.Library.Controllers
 
                     return RedirectToAction("Index");
                 }
+
+
+
                 TempData["ThemSachMsg"] = "Thêm sách thất bại";
             }
             model.Languages = _LanguageLogic.GetAll();

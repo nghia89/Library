@@ -60,6 +60,14 @@ namespace BiTech.Library.DAL.Engines
             return str2;
         }
 
+        public List<TacGia> GetByListName(string Name)
+        {
+            FilterDefinition<TacGia> filterDefinition = new BsonDocument();
+            var builder = Builders<TacGia>.Filter;
+            filterDefinition = builder.Where(x => x.TenTacGia.ToLower().Contains(Name.ToLower()));
+            return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+
         #region Tai
         public TacGia GetByTenTacGia(string tenTacGia)
         {

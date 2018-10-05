@@ -31,7 +31,16 @@ namespace BiTech.Library.DAL.Engines
         #region nghia
         public NhaXuatBan GetByIdFindName(string Name)
         {
-            return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).FirstOrDefault();
+            return _DatabaseCollection.Find(_ => _.Ten.ToLower() == Name.ToLower()).FirstOrDefault();
+            //return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).FirstOrDefault();
+        }
+
+        public List<NhaXuatBan> GetByListName(string Name)
+        {
+            FilterDefinition<NhaXuatBan> filterDefinition = new BsonDocument();
+            var builder = Builders<NhaXuatBan>.Filter;
+            filterDefinition = builder.Where(x => x.Ten.ToLower().Contains(Name.ToLower()));
+            return _DatabaseCollection.Find(filterDefinition).ToList();
         }
         #endregion
 

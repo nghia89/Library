@@ -279,7 +279,7 @@ namespace BiTech.Library.Controllers
                                         }
 
                                         //tóm tắt
-                                        if (dataFile.Tag == "500")
+                                        if (dataFile.Tag == "520")
                                         {
                                             var subfields = dataFile.GetSubfields();
                                             foreach (var subfield in subfields)

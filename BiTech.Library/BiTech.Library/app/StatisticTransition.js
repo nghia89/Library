@@ -1,18 +1,18 @@
 ﻿$('#slide-two').on('click', function () {
     if ($('#slide-two1').prop('checked'))
-        $('#slide-two1').prop('')
+        $('#slide-two1').prop('');
     if ($(this).prop('checked'))
-        $('#disableYear').css('display', 'block')
+        $('#disableYear').css('display', 'block');
     else
-        $('#disableYear').css('display', 'none')
+        $('#disableYear').css('display', 'none');
 });
 
 
 $('#slide-two1').on('click', function () {
     if ($(this).prop('checked'))
-        $('#disableMonth').css('display', 'block')
+        $('#disableMonth').css('display', 'block');
     else
-        $('#disableMonth').css('display', 'none')
+        $('#disableMonth').css('display', 'none');
 });
 
 
