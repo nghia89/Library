@@ -2151,13 +2151,10 @@
     <Content Include="Tempalates\PhieuNhapSach.xlsx" />
     <Content Include="Tempalates\Sach.xlsx" />
     <Content Include="Tempalates\ThanhVien.xlsx" />
-<<<<<<< HEAD
     <Content Include="Views\Search\SearchDetail.cshtml" />
-=======
     <Content Include="Tempalates\ExportSlSach.xlsx" />
     <Content Include="Tempalates\OutExportSlSach.xlsx" />
     <Content Include="Tempalates\OutExportTTSach.xlsx" />
->>>>>>> 6a455a0a3d0dcc39beffe25b368ae46ea409a164
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

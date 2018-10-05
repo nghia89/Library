@@ -537,6 +537,7 @@ namespace BiTech.Library.Controllers
                     sach.XuatXu = model.SachDTO.XuatXu;
                     sach.NguoiBienDich = model.SachDTO.NguoiBienDich;
                     sach.TaiBan = model.SachDTO.TaiBan;
+                    sach.TaiLieuDinhKem = model.SachDTO.TaiLieuDinhKem;
                     sach.TomTat = model.SachDTO.TomTat;
 
                     string failTG = "";

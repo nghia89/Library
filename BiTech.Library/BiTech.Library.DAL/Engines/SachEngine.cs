@@ -32,7 +32,6 @@ namespace BiTech.Library.DAL.Engines
             return entity.Id.ToString();
         }
 
-<<<<<<< HEAD
         #region vinh
         /// <summary>
         /// Get book by makiemsoat isdelete = false
@@ -47,25 +46,24 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.IsDeleted == false).ToList();
         }
+
+
+        //#region vinh
+        ///// <summary>
+        ///// Get book by makiemsoat hoặc ISBN isdelete = false
+        ///// </summary>
+        ///// <param name="idBook"></param>
+        ///// <returns></returns>
+        //public Sach GetBook_NonDelete_ByMKS(string maKS)
+        //{
+        //          //return _DatabaseCollection.Find(_ => _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
+        //          return _DatabaseCollection.Find(_ => _.ISBN == maKS || _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
+        //      }
+        //public List<Sach> GetAll_NonDelete()
+        //{
+        //	return _DatabaseCollection.Find(_ => _.IsDeleted == false).ToList();
+        //}
         public Sach GetByMaKiemSoat(string MaKS)
-=======
-		#region vinh
-		/// <summary>
-		/// Get book by makiemsoat hoặc ISBN isdelete = false
-		/// </summary>
-		/// <param name="idBook"></param>
-		/// <returns></returns>
-		public Sach GetBook_NonDelete_ByMKS(string maKS)
-		{
-            //return _DatabaseCollection.Find(_ => _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
-            return _DatabaseCollection.Find(_ => _.ISBN == maKS || _.MaKiemSoat == maKS && _.IsDeleted == false).FirstOrDefault();
-        }
-		public List<Sach> GetAll_NonDelete()
-		{
-			return _DatabaseCollection.Find(_ => _.IsDeleted == false).ToList();
-		}
-		public Sach GetByMaKiemSoat(string MaKS)
->>>>>>> 6a455a0a3d0dcc39beffe25b368ae46ea409a164
         {
             return _DatabaseCollection.Find(x => x.MaKiemSoat == MaKS).FirstOrDefault();
         }
@@ -120,7 +118,7 @@ namespace BiTech.Library.DAL.Engines
                 //ToLower chuyễn chữ hoa sang thường
                 filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
                 || x.MaKiemSoat.ToLower().Contains(KeySearch.Keyword.ToLower())
-                || x.ISBN.ToLower().Contains(KeySearch.Keyword.ToLower()) 
+                || x.ISBN.ToLower().Contains(KeySearch.Keyword.ToLower())
                 || x.NamXuatBan.ToLower().Contains(KeySearch.Keyword.ToLower())
                 );
             }
@@ -172,7 +170,7 @@ namespace BiTech.Library.DAL.Engines
             FilterDefinition<Sach> filterDefinition4 = builder.Where(x => false);
             #region tìm kiếm thep opac 5 tiu chí
             if (KeySearch.Keyword != null && KeySearch.ddlLoaiTimKiem0 != null)
-            {         
+            {
                 switch (KeySearch.ddlLoaiTimKiem0)
                 {
                     case "title":
@@ -467,7 +465,7 @@ namespace BiTech.Library.DAL.Engines
                        || x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
                                        || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()));
                         if (KeySearch.ListIdNXB.Count > 0)
-                        {  
+                        {
                             foreach (var item in KeySearch.ListIdNXB)
                             {
                                 filterDefinition4 = filterDefinition | builder.Where(x => x.IdNhaXuatBan.Equals(item));
