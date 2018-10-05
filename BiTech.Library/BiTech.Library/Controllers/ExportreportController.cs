@@ -252,13 +252,13 @@ namespace BiTech.Library.Controllers
 
             string fileName = string.Concat("ExportTTSach.xlsx");
             string fileNameOut = string.Concat("OutExportTTSach.xlsx");
-            var folderReport = "/Upload/Reports";
-            string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
-            if (!Directory.Exists(filePath))
+            var folderReport = Path.Combine(Server.MapPath("~/"), Tool.GetUploadFolder(UploadFolder.Templates, _SubDomain)); //= "/Upload/Reports";
+            //string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+            if (!Directory.Exists(folderReport))
             {
-                Directory.CreateDirectory(filePath);
+                Directory.CreateDirectory(folderReport);
             }
-            string fullPath = Path.Combine(filePath, fileName);
+            string fullPath = Path.Combine(folderReport, fileName);
 
             // Khai báo
             Workbook wb = new Workbook(fullPath);
@@ -299,7 +299,7 @@ namespace BiTech.Library.Controllers
             arrayListThang.Add("Tháng 12");
 
             ArrayList arrayYear = new ArrayList();
-            arrayYear.Add("Bảng Thống Kê Số  Sách  số người mượn trong năm "+year);
+            arrayYear.Add("Bảng Thống Kê Số  Sách  số người mượn trong năm " + year);
 
             // Thêm vào vị trí nào trong excel
             ws.Cells.ImportArrayList(arrListInfor.ArrayList1, 4, 1, true);
@@ -309,13 +309,12 @@ namespace BiTech.Library.Controllers
 
             // Save 
             ws.AutoFitColumns();
-            string FoderFileOut = Path.Combine(filePath, fileNameOut);
+            string FoderFileOut = Path.Combine(folderReport, fileNameOut);
             wb.Save(FoderFileOut, SaveFormat.Xlsx);
 
             string filename = fileName;
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + fileNameOut;
-            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-            string contentType = MimeMapping.GetMimeMapping(filepath);
+            byte[] filedata = System.IO.File.ReadAllBytes(FoderFileOut);
+            string contentType = MimeMapping.GetMimeMapping(FoderFileOut);
 
             var cd = new System.Net.Mime.ContentDisposition
             {
@@ -371,13 +370,13 @@ namespace BiTech.Library.Controllers
             //ArrayList arrayList = new ArrayList(ListAll);
             string fileName = string.Concat("ExportSlSach.xlsx");
             string fileNameOut = string.Concat("OutExportSlSach.xlsx");
-            var folderReport = "/Upload/Reports";
-            string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
-            if (!Directory.Exists(filePath))
+            var folderReport = Path.Combine(Server.MapPath("~/"), Tool.GetUploadFolder(UploadFolder.Templates, _SubDomain)); //= "/Upload/Reports";
+            //string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+            if (!Directory.Exists(folderReport))
             {
-                Directory.CreateDirectory(filePath);
+                Directory.CreateDirectory(folderReport);
             }
-            string fullPath = Path.Combine(filePath, fileName);
+            string fullPath = Path.Combine(folderReport, fileName);
 
             // Khai báo
             Workbook workbook = new Workbook(fullPath);
@@ -409,12 +408,11 @@ namespace BiTech.Library.Controllers
             var range = ws.Cells.CreateRange(3, 0, ListAll.Count + 1, 5);
             range.ApplyStyle(_S_All_Borders, _SF_Borders);
 
-            string FoderFileOut = Path.Combine(filePath, fileNameOut);
+            string FoderFileOut = Path.Combine(folderReport, fileNameOut);
             workbook.Save(FoderFileOut, SaveFormat.Xlsx);
             string filename = fileName;
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + fileNameOut;
-            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-            string contentType = MimeMapping.GetMimeMapping(filepath);
+            byte[] filedata = System.IO.File.ReadAllBytes(FoderFileOut);
+            string contentType = MimeMapping.GetMimeMapping(FoderFileOut);
 
 
             var cd = new System.Net.Mime.ContentDisposition

@@ -119,8 +119,9 @@ namespace BiTech.Library.Controllers
             }
 
             //Lấy item có ngày trả nhỏ nhất
+            Sach _sach = _SachLogicLogic.GetByMaKiemSoatorISBN(new SachCommon().GetInfo(maSach));
             //OrderBy list theo NgayTra
-            list_book = list_book_team.Where(_ => _.MaKiemSoat == new SachCommon().GetInfo(maSach)).OrderBy(_ => _.NgayTra).ToList();
+            list_book = list_book_team.Where(_ => _.MaKiemSoat == (_sach != null ?_sach.MaKiemSoat: new SachCommon().GetInfo(maSach))).OrderBy(_ => _.NgayTra).ToList();
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
 

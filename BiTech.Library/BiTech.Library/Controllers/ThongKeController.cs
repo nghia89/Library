@@ -98,7 +98,7 @@ namespace BiTech.Library.Controllers
                         item.TrangThai = ETinhTrangPhieuMuon.TraTre;
                         item.TrangThaiString = ETinhTrangPhieuMuon.TraTre.ToString();
                         item.TenTrangThai = "Trả trễ";
-                        TimeSpan ts = ((DateTime)ngayTraThucTe) - ngayPhaiTra;
+                         TimeSpan ts = ((DateTime)ngayTraThucTe) - ngayPhaiTra;
                         item.SoNgayGiaoDong = ts.Days;
                     }
                 }

@@ -17,9 +17,9 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
+<body class="clearfix">
 
-    <div class="contain @(Request.Cookies["menu"] != null ?Request.Cookies["menu"].Value:"")" id="contain">
+    <div class="contain clearfix @(Request.Cookies["menu"] != null ?Request.Cookies["menu"].Value:"")" id="contain">
         @Html.Partial("layout/header")
         @Html.Partial("layout/menuleft")
         <div class="right">

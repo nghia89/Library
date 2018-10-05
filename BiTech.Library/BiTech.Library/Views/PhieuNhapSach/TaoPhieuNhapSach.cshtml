@@ -2,13 +2,14 @@
 @{
                 /**/
 
+                /**/
+
                 ViewBag.Title = "Tạo phiếu nhập kho";
                 Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-
-<script src="~/Scripts/angular-1.6.8/angular.min.js"></script>
-<script src="~/Scripts/LibraryAngularJS.js"></script>
+<link href="~/Content/toaster/toaster.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/bower_components/custom-file-input/css/component.css" />
 
 <div class="Title">Tạo Phiếu Nhập Kho</div>
 <br />
@@ -19,21 +20,22 @@
 <div ng-app="LibraryApp" class="clearfix">
     <div class="form-group">
         <div ng-cloak ng-controller="ImportBookCtrlr" class="">
+            <toaster-container toaster-options="{'close-button':false, 'time-out':{ 'toast-success': 3000, 'toast-warning': 5000, 'toast-error': 3000 }, 'prevent-duplicates': true, 'limit':7 }"></toaster-container>
             <div class="container-box-window clearfix">
                 <div class="top">
                     <span class="">Thông tin phiếu nhập</span>
                 </div>
                 <div class="content-box-window">
-                    @*<div class="form-group row">
-                            @Html.Label("Mã sách", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                <input id="idSach" name="idSach" onkeydown="if (event.keyCode == 13) { return false; }" placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
-                            </div>
-                        </div>*@
-
                     @*VINH*@
                     <div class="form-group row">
-                        @*@Html.Label("Mã sách", new { @class = "col-md-2 control-label" })*@
+                        <label class="col-md-2 control-label">Tên sách:</label>
+                        <div class="col-md-10">
+                            <input id="TenSach" placeholder="Tên sách" ng-model="TenSach" autocomplete="off"
+                                   class="form-control form-control-sm" readonly="readonly" onclick="CompleteBookName()">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-md-2 control-label">Mã sách <span style="color:red">*</span>:</label>
                         <div class="col-sm-10">
                             <div class="input-group mb-3">
@@ -52,28 +54,25 @@
                     @*V*@
 
                     <div class="form-group row">
-                        @*@Html.Label("Số lượng", new { @class = "col-md-2 control-label" })*@
-                        <label class="col-md-2 control-label">Số lượng <span style="color:red">*</span>:</label>
-                        <div class="col-md-10">
-                            <input id="SoLuong" placeholder="Số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @*@Html.Label("Trạng thái sách", new { @class = "col-md-2 control-label" })*@
                         <label class="col-md-2 control-label">Trạng thái sách <span style="color:red">*</span>:</label>
                         <div class="col-md-10">
-                            @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn trạng thái--", new { ng_model = "idTrangThai",
-                           @class = "form-control form-control-sm" })
+                            @Html.DropDownList("TrangThai", new SelectList(ViewBag.listtt, "Id", "TenTT"), "--Chọn trạng thái sách--",
+                           new { ng_model = "idTrangThai", @class = "form-control form-control-sm", onclick = "CompleteBookName()" })
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        @*@Html.LabelFor(m => m.GhiChu, new { @class = "col-md-2 control-label" })*@
+                        <label class="col-md-2 control-label">Số lượng <span style="color:red">*</span>:</label>
+                        <div class="col-md-10">
+                            <input id="SoLuong" placeholder="Nhập số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off" onclick="CompleteBookName()">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-md-2 control-label">Ghi chú sách</label>
 
                         <div class="col-md-10">
-                            <textarea placeholder="Ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm"></textarea>
+                            <textarea placeholder="Nhập ghi chú" ng-model="GhiChuDon" class="form-control form-control-sm" onclick="CompleteBookName()"></textarea>
                         </div>
                     </div>
 
@@ -100,8 +99,8 @@
                                     <tr class="table-info text-center">
                                         <th width="50">STT</th>
                                         <th width="15%">Mã kiểm soát</th>
-                                        <th width="40%">Tên sách</th>
-                                        <th width="10%">Trạng thái sách</th>
+                                        <th width="35%">Tên sách</th>
+                                        <th width="15%">Trạng thái sách</th>
                                         <th width="10%">Số lượng</th>
                                         <th width="15%">Ghi chú sách</th>
                                         <th width="100" style="text-align: center;">
@@ -180,11 +179,21 @@
 <div id="ajax"></div>
 
 @section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 
-    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-route.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-sanitize.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-touch.min.js"></script>
+    <script src="~/Scripts/angular-1.6.8/angular-animate.min.js"></script>
+
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/angular-modules/toaster.min.js"></script>
+    <script src="~/Scripts/toastr/toastr.min.js"></script>
+
+    <script src="~/app/ImportExportModule.js"></script>
+
+    <script src="~/Scripts/simple-ajax-uploader/SimpleAjaxUploader.min.js"></script>
     <script type="text/javascript" language="javascript">
 
         $("#idSach").autocomplete({
@@ -209,9 +218,9 @@
         function EnterMaSach() {
             var idBook = $("#idSach").val();
             console.log(idBook);
-			if (idBook == "") {
-				alert('Chưa nhập mã sách');
-				$("#idSach").focusout();
+            if (idBook == "") {
+                console.log('Ma sach trong');
+                //swal("Mã sách đang trống", "Chưa nhập mã sách", "warning");
 			}
             else {
                 $.ajax({
@@ -221,18 +230,48 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        console.log('Tim thay sach');
+                        console.log('Tim thay sach');                        
                         $("#idSach").val(data.MaKiemSoat);
+                        $("#TenSach").val(data.TenSach)
                         $("#SoLuong").focus();
                     },
                     error: function () {
-                        alert('Mã sách không tồn tại');
+                        swal("Không tìm thấy", "Sách không tồn tại hoặc đã bị xóa!", "warning");
+                        //alert('Mã sách không tồn tại');
+                        $("#idSach").focus();
                         $("#idSach").val('');
+                        $("#TenSach").val('')
                         console.log($("#idSach").val(""));
                     }
                 });
             }
-		}
+        }
+
+        function CompleteBookName() {
+            var idBook = $("#idSach").val();
+            if (idBook != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "@(Url.Action("GetBookByID", "PhieuNhapSach"))",
+                    data: "idSach=" + idBook,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {     
+                        if (idBook == data.ISBN)
+                            $("#idSach").val(idBook);
+                        else
+                            $("#idSach").val(data.MaKiemSoat);
+                        $("#TenSach").val(data.TenSach)                        
+                    },
+                    error: function () {
+                        swal("Không tìm thấy", "Sách không tồn tại hoặc đã bị xóa!", "warning");
+                        $("#idSach").focus();
+                        $("#idSach").val('');
+                        $("#TenSach").val('')
+                    }
+                });
+            }
+        }
 
 		function RequestAltInsertGuiBegin() {
 			$(this).addClass('active');
@@ -251,6 +290,6 @@
 			form.removeData('validator');
 			form.removeData('unobtrusiveValidation');
 			$.validator.unobtrusive.parse(form);
-		}
+        }
     </script>
 }

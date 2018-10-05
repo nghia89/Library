@@ -327,6 +327,7 @@
     <Content Include="app\AngularChartJs\jquery.min.js" />
     <Content Include="app\AngularChartJs\script.js" />
     <Content Include="app\app.js" />
+    <Content Include="app\ImportExportModule.js" />
     <Content Include="app\ngTagInputAngular.js" />
     <Content Include="app\StatisticTransition.js" />
     <Content Include="Assets\Images\bg.jpg" />
@@ -2150,14 +2151,18 @@
     <Content Include="Tempalates\PhieuNhapSach.xlsx" />
     <Content Include="Tempalates\Sach.xlsx" />
     <Content Include="Tempalates\ThanhVien.xlsx" />
+<<<<<<< HEAD
     <Content Include="Views\Search\SearchDetail.cshtml" />
+=======
+    <Content Include="Tempalates\ExportSlSach.xlsx" />
+    <Content Include="Tempalates\OutExportSlSach.xlsx" />
+    <Content Include="Tempalates\OutExportTTSach.xlsx" />
+>>>>>>> 6a455a0a3d0dcc39beffe25b368ae46ea409a164
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Views\" />
     <Folder Include="Content\TempFiles\" />
-    <Folder Include="filemarc\" />
-    <Folder Include="Reports\" />
     <Folder Include="Scripts\angular-1.6.8\i18n\ngLocale\" />
     <Folder Include="Scripts\mustache.js-master\test\spec\" />
   </ItemGroup>

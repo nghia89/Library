@@ -9,7 +9,9 @@ html {
     background-size: cover;
     background-position: right;
 }
-
+body{
+    background: none;
+}
 a {
     color: #000;
 }
@@ -268,7 +270,9 @@ a:hover {
     }
 
 
-
+.contain{
+    position: relative;
+}
 .contain .top {
     background: #718D94;
     min-height: 50px;
@@ -307,8 +311,9 @@ a:hover {
         }
 
 .contain .left {
-    position: relative;
+    position: absolute;
     z-index: 1;
+    height: 100%;
 }
 
     .contain .left .bg {
@@ -337,6 +342,7 @@ a:hover {
         float: left;
         position: relative;
         overflow-x: hidden;
+        min-height: 100%;
     }
 
         .contain .left .menu .logo {
@@ -1244,10 +1250,7 @@ a:hover {
     .box_temp_lg {
         display: none;
     }
-
-    .content .Title {
-    }
-
+    
     .book_box .book_content .book_image {
         width: 100%;
     }
@@ -1710,15 +1713,23 @@ a:hover {
     visibility:hidden;
 }
 
-.Leftcontent {
-    width: 48%;
-    min-height: 502px;
+.export_content {
+    min-height: 200px;
     background: #fff;
     border: 1px solid #f1f1f1;
     border-radius: 10px;
-    margin-right: 29px;
-    float: left;
+    padding: 10px 25px;
 }
+
+    .export_content .title {
+        font-size: 1.3rem;
+        margin: 0 0px 10px;
+        border-bottom: 2px solid;
+        position: relative;
+        color: #2E5894;
+        display: inline-block;
+        text-transform: uppercase;
+	}
 
 .Rightcontent {
     width: 48%;
@@ -1728,6 +1739,7 @@ a:hover {
     border-radius: 10px;
     float: left;
 }
+
 .float_left{
     float:left
 }
@@ -1749,14 +1761,14 @@ a:hover {
 
     .col-lg-4 {
         width: 40.333333%;
-    }
+	}
+}
 
-    .Rightcontent {
-        width: 100%;
-        min-height: 300px;
-        background: #fff;
-        border: 1px solid #f1f1f1;
-        border-radius: 10px;
+/*responsive form Xuất báo cáo*/
+@media screen and (max-width: 992px) {
+    .export_content {
+        min-height: 120px;
+        margin-bottom: 20px;
     }
 }
 

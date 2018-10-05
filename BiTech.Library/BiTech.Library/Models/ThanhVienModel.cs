@@ -120,12 +120,12 @@ namespace BiTech.Library.Models
         }
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "nhập tên người dùng")]
+        [Required(ErrorMessage = "Bạn chưa nhập tên người dùng")]
         [Display(Name = "Tên người dùng")]
         public string Ten { get; set; }
 
-        [Required]
-        [Display(Name = "Giới tính")]
+        [Required(ErrorMessage = "Bạn chưa chọn giới tính")]
+        [Display(Name = "Giới tính")]      
         public string GioiTinh { get; set; }
 
         //[Required]
@@ -190,7 +190,8 @@ namespace BiTech.Library.Models
         /// <summary>
         /// Mảng chứa các dòng bị trùng Mã Thành Viên
         /// </summary>
-        public bool[] ArrRows { get; set; }      
+        public bool[] ArrRowsMSTV { get; set; }
+        public bool[] ArrRowsUser { get; set; }
     }
 
 }

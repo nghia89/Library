@@ -236,22 +236,16 @@ namespace BiTech.Library.Controllers
                     {
                         item.ListError.Add("Rỗng ô nhập \"Tên thể loại\"");
                     }
+                    // Lưu vào CSDL mã DDC không bị lỗi
                     if (item.ListError.Count == 0)
+                    {
+                        _DDCLogic.Add(new DDC { MaDDC = item.MaDDC, Ten = xuLyChuoi.ChuanHoaChuoi(item.Ten) });                       
                         ListSuccess.Add(item);
+                    }
                     else
                         ListFail.Add(item);
-                }
-                #region Lưu vào CSDL ds DDC không bị lỗi  
-                if (ListSuccess.Count > 0)
-                {
-                    foreach (var item in ListSuccess)
-                    {
-                        _DDCLogic.Add(new DDC { MaDDC = item.MaDDC, Ten = xuLyChuoi.ChuanHoaChuoi(item.Ten) });
-                    }
-                }
-                #endregion
+                }               
                 #region Tạo file excel cho ds DDC bị lỗi   
-
                 if (ListFail.Count > 0)
                 {
                     Workbook wb = new Workbook();

@@ -64,6 +64,8 @@ namespace BiTech.Library.Controllers
             ViewBag.NXB_selected = KeySearch.TenNXB ?? " ";
             ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
 
+            KeySearch.Keyword = sachCommon.GetInfo(KeySearch.Keyword);
+
             var list = _SachLogic.getPageSach(KeySearch);
             ViewBag.number = list.Count();
 
@@ -97,6 +99,7 @@ namespace BiTech.Library.Controllers
             }
 
             //Sắp xếp
+            
             if (KeySearch.SapXep == "1")
                 model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
             if (KeySearch.SapXep == "11")
@@ -1164,19 +1167,9 @@ namespace BiTech.Library.Controllers
                     {
                         item.ListError.Add("Rỗng ô nhập \"Tóm tắt\"");
                     }
-                    //
+                    // Lưu vào CSDL Sách không bị lỗi 
                     if (item.ListError.Count == 0)
-                        ListSuccess.Add(item);
-                    else
-                        ListFail.Add(item);
-                }
-                #endregion
-                #region Lưu vào CSDL ds không bị lỗi  
-                if (ListSuccess.Count > 0)
-                {
-                    foreach (var item in ListSuccess)
                     {
-                        // linh tinh
                         #region Linh tinh
                         // Thể loại sách
                         //string itemTheLoai = sachCommon.ChuanHoaChuoi(item.IdTheLoai);// Chuẩn hóa tên Thể Loại Sách
@@ -1184,24 +1177,12 @@ namespace BiTech.Library.Controllers
                         var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
                         if (machs.Length > 0)
                         {
-                            var theloai = _TheLoaiSachLogic.GetIdByDDC(itemTheLoai);
-                            if (theloai != null)
-                            {
-                                item.IdTheLoai = theloai.Id;
-                            }
-                            else
-                            {
-                                // todo - ddc dictionary version 21
-                                var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach()
-                                {
-                                    TenTheLoai = item.IdTheLoai.Trim(),
-                                    MaDDC = itemTheLoai.Trim()
-                                });
-                                item.IdTheLoai = id;
-                            }
+                            // Nếu là mã DDC thì lưu vào trường DDC của Sách
+                            item.DDC = itemTheLoai;
                         }
                         else
                         {
+                            // Nếu là tên thì lưu vào trường tên thể loại của Sách
                             var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
                             if (theloai != null)
                             {
@@ -1213,7 +1194,6 @@ namespace BiTech.Library.Controllers
                                 item.IdTheLoai = id;
                             }
                         }
-
                         // Kệ sách
                         // string nameKS = sachCommon.ChuanHoaChuoi(item.IdKeSach);// Chuẩn hóa tên Kệ Sách
                         string nameKS = item.IdKeSach.Trim();
@@ -1286,9 +1266,13 @@ namespace BiTech.Library.Controllers
                                 _SachLogic.Update(sachUpdate);
                             }
                         }
+                        //
+                        ListSuccess.Add(item);
                     }
+                    else
+                        ListFail.Add(item);
                 }
-                #endregion
+                #endregion             
                 #region Tạo file excel cho ds Thành Viên bị lỗi   
                 if (ListFail.Count > 0)
                 {
@@ -1603,6 +1587,7 @@ namespace BiTech.Library.Controllers
             List<ChiTietXuatSach> list_CTXS = _ChiTietXuatSachLogic.GetAllChiTietByIdSach(s.Id);
 
             RemoveFileFromServer(s.LinkBiaSach);
+            RemoveFileFromServer(s.QRlink, false);
 
             //if: (1)(2)(3) === 0 
             if ((list_TTMS.Count() + list_CTNS.Count() + list_CTXS.Count()) == 0)
@@ -1629,7 +1614,7 @@ namespace BiTech.Library.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private bool RemoveFileFromServer(string path)
+        private bool RemoveFileFromServer(string path, bool isDeleteFolderParent = true)
         {
             var fullPath = Request.MapPath(path);
             if (!System.IO.File.Exists(fullPath)) return false;
@@ -1637,7 +1622,8 @@ namespace BiTech.Library.Controllers
             try //Maybe error could happen like Access denied or Presses Already User used
             {
                 System.IO.File.Delete(fullPath);
-                DeleteFolderParent(fullPath);
+                if(isDeleteFolderParent)
+                    DeleteFolderParent(fullPath);
                 return true;
             }
             catch (Exception e)

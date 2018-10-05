@@ -55,12 +55,15 @@ namespace BiTech.Library.Controllers
 
                     string physicalWebRootPath = Server.MapPath("~/");
                     var localMarcFolder = Path.Combine(physicalWebRootPath, marcFolder);
+
                     if (!Directory.Exists(localMarcFolder))
                         Directory.CreateDirectory(localMarcFolder);
 
                     file.SaveAs(Path.Combine(localMarcFolder, file.FileName));
                     
                     string LinkFile = Path.Combine(localMarcFolder, file.FileName);
+
+                    #region Read Marc data
 
                     using (var fs = new FileStream(LinkFile, FileMode.Open))
                     {
@@ -435,6 +438,9 @@ namespace BiTech.Library.Controllers
                             }
                         }
                     }
+                    #endregion
+
+                    Directory.Delete(localMarcFolder, true);
                 }
                 else
                 {

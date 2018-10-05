@@ -11,7 +11,7 @@ namespace BiTech.Library.DAL.Engines
 {
     public class ThanhVienEngine : EntityRepository<ThanhVien>
     {
-        public ThanhVienEngine(IDatabase database, string databaseName, string tableName) : base(database,databaseName, tableName)
+        public ThanhVienEngine(IDatabase database, string databaseName, string tableName) : base(database, databaseName, tableName)
         {
             _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<ThanhVien>(tableName);
@@ -23,7 +23,7 @@ namespace BiTech.Library.DAL.Engines
         public List<ThanhVien> GetAll()
         {
             //return _DatabaseCollection.Find(_ => _.TrangThai != EUser.Deleted).ToList();
-            return _DatabaseCollection.Find(_ =>true).ToList();
+            return _DatabaseCollection.Find(_ => true).ToList();
         }
         /// <summary>
         /// Get all ThanhVien object (Active)GetByIdUser
@@ -55,7 +55,10 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.Ten == ten).ToList();
         }
-
+        public ThanhVien GetByUserName(string userName)
+        {
+            return _DatabaseCollection.Find(_ => _.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
+        }
         public List<ThanhVien> GetAllHS()
         {
             return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs").ToList();

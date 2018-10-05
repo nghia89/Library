@@ -97,7 +97,7 @@ namespace BiTech.Library.Controllers
             
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            Sach _sach = _SachLogicLogic.GetByMaMaKiemSoat(new SachCommon().GetInfo(maSach));
+            Sach _sach = _SachLogicLogic.GetByMaKiemSoatorISBN(new SachCommon().GetInfo(maSach));
             if (_sach != null)
             {
                 list_book.Add(new MuonTraSachViewModel()
@@ -123,7 +123,17 @@ namespace BiTech.Library.Controllers
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
-        
+
+        // Lấy mks từ Ma_input(mks or isbn)
+        //
+        [HttpPost]
+        public JsonResult GetMSKByString(string maInput)
+        {
+            SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            Sach _sach = _SachLogicLogic.GetByMaKiemSoatorISBN(new SachCommon().GetInfo(maInput));
+            return Json(_sach.MaKiemSoat, JsonRequestBehavior.AllowGet);
+        }
+
         // insert row table ThongTinMuonSach (dữ liệu lấy từ list sách chuẩn bị mượn)
         // POST: MuonSach/UpdateListBook
         [HttpPost]

@@ -73,6 +73,7 @@ namespace BiTech.Library.Controllers
 
             return View(model.Books.ToPagedList(pageNumber, pageSize));
         }
+		
         [HttpGet]
         public ActionResult exportItemMarc()
         {
@@ -90,10 +91,15 @@ namespace BiTech.Library.Controllers
             var ListSession = (List<IDSach>)Session[CommonConstants.Session];
             if (ListSession.Count() != 0)
             {
-
                 string fileName = string.Concat("FileMarc_" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".mrc");
-                var folderReport = "/Upload/filemarc";
-                string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+                //var folderReport = "/Upload/filemarc";
+                //string filePath = System.Web.HttpContext.Current.Server.MapPath(folderReport);
+
+                var folderReport = Tool.GetUploadFolder(UploadFolder.FileMrc, _SubDomain);
+
+                string physicalWebRootPath = Server.MapPath("~/");
+                var filePath = Path.Combine(physicalWebRootPath, folderReport);
+
                 //kiễm tra nếu chưa có thì tạo mới
                 if (!Directory.Exists(filePath))
                 {
@@ -199,10 +205,12 @@ namespace BiTech.Library.Controllers
                 }
 
                 string filename = fileName;
-                string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + filename;
+                string filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, folderReport, filename);
                 byte[] filedata = System.IO.File.ReadAllBytes(filepath);
                 string contentType = MimeMapping.GetMimeMapping(filepath);
 
+                System.IO.File.Delete(filepath);
+					
                 var cd = new System.Net.Mime.ContentDisposition
                 {
                     FileName = filename,
@@ -211,8 +219,6 @@ namespace BiTech.Library.Controllers
 
                 Response.AppendHeader("Content-Disposition", cd.ToString());
                 return File(filedata, contentType);
-
-
             }
             else
             {
