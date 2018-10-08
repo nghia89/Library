@@ -48,12 +48,9 @@
             <thead>
                 <tr class="table-info">
                     <th width="50" align="right">STT</th>
-                    <th width="15%">Mã kiểm soát</th>
-                    <th width="30%">Tên sách</th>
-                    <th width="10%">Số lượng</th>
+                    <th width="30%">Mã kiểm soát</th>
+                    <th width="50%">Tên sách</th>
                     <th width="20%">Trạng thái sách</th>
-                    <th width="20%">Lý do</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -62,11 +59,9 @@
                 {
                     <tr>
                         <td align="center">@i.ToString()</td>
-                        <td>@item.MaKiemSoat</td>
+                        <td>@item.MaCaBiet</td>
                         <td>@item.ten</td>
-                        <td>@item.soLuong</td>
                         <td>@item.tenTinhTrang</td>
-                        <td>@item.GhiChuDon</td>
                     </tr>
                     i++;
                 }

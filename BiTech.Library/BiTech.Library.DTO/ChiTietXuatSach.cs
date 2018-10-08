@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.2")]
+    [CurrentVersion("0.0.3")]
     public class ChiTietXuatSach : IModel
     {
         [BsonId]
@@ -26,11 +26,9 @@ namespace BiTech.Library.DTO
 		
         public string IdSach { get; set; }
 
-        public string IdTinhTrang { get; set; }
-        
-        public int SoLuong { get; set; }
+        public string IdTinhTrang { get; set; }        
 
-        public string  GhiChu { get; set; }
+        public string MaCaBiet { get; set; }
 
         /// <summary>
         /// Phiên bản hiện tại của đối tượng

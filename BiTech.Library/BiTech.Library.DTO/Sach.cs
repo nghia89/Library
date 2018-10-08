@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.3")]
+    [CurrentVersion("0.0.4")]
     public class Sach : IModel
     {
 
@@ -144,6 +144,8 @@ namespace BiTech.Library.DTO
         public string ISSN { get; set; }
 
         public string LLC { get; set; }
+
+        public int STTMaCB { get; set; }
 
         #region Tai
         [BsonIgnore]

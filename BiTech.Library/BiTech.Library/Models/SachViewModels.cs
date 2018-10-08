@@ -170,4 +170,12 @@ namespace BiTech.Library.Models
         public string FileName { get; set; }
         public string FilePath { get; set; }
     }
+
+    public class SachCaBietViewModel
+    {
+        public string MaKSCB { get; set; }
+        public string  MaCaBietCu { get; set; }
+        public string IdSach { get; set; }
+        public string TenSach { get; set; }
+    }
 }

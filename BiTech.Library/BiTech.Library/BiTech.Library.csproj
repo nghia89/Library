@@ -2157,6 +2157,7 @@
     <Content Include="Tempalates\OutExportTTSach.xlsx" />
     <Content Include="Views\HocSinh\XuatTheHS.cshtml" />
     <Content Include="Views\GiaoVien\XuatTheGV.cshtml" />
+    <Content Include="Views\Sach\XuatQR_Mutil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

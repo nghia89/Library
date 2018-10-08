@@ -1371,6 +1371,8 @@ namespace BiTech.Library.Controllers
         //- Xuất QR
         public ActionResult XuatQR()
         {
+            var _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            var lstIdSach = (List<IDSach>)TempData["lstMS"];
             var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             string fileName = string.Concat("QR_Word" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".docx");
 
@@ -1387,6 +1389,12 @@ namespace BiTech.Library.Controllers
             }
 
             string fullPath = Path.Combine(filePath, fileName);
+
+            //Get list sach biet từ listIDSach
+            //foreach(var item in lstIdSach)
+            //{
+            //    _SachCaBietLogic.GetListCaBietFromIdSach(item.Id);
+            //}
 
             var listBook = _SachLogic.GetAll_NonDelete();
             if (listBook.Count != 0)
@@ -1583,8 +1591,8 @@ namespace BiTech.Library.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             if (Session["CheckBook"] == null)
-                Session["CheckBook"] = new List<UserViewModel>();
-            ViewBag.container = (List<UserViewModel>)Session["CheckBook"];
+                Session["CheckBook"] = new List<IDSach>();
+            ViewBag.container = (List<IDSach>)Session["CheckBook"];
 
             ListBooksModel model = new ListBooksModel();
             var list = _SachLogic.getPageSach(KeySearch);
@@ -1607,6 +1615,78 @@ namespace BiTech.Library.Controllers
                 model.Books.Add(book);
             }
             return View(model.Books.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public ActionResult XuatQR_Mutil()
+        {
+            try
+            {
+                var lstUserChecked = (List<IDSach>)Session["CheckBook"];
+
+                TempData["lstMS"] = lstUserChecked;
+                if (lstUserChecked.Count != 0)
+                    return RedirectToAction("XuatQR", "Sach");
+                return RedirectToAction("XuatQR_Mutil", "Sach");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddList(string Id)
+        {            
+            if (Session["CheckBook"] == null)//nếu null mới được khởi tạo
+                Session["CheckBook"] = new List<IDSach>();
+
+            var container = (List<IDSach>)Session["CheckBook"];
+           
+            if (container == null)
+            {
+                container = new List<IDSach>();
+            }
+            if (!container.Any(x => x.Id == Id))
+            {
+                IDSach newItem = new IDSach();
+                newItem.Id = Id;             
+                container.Add(newItem);
+            }
+
+            Session["CheckBook"] = container;
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItem(string Id)
+        {
+            if (Session["CheckBook"] == null)//nếu null mới được khởi tạo
+                Session["CheckBook"] = new List<IDSach>();
+
+            var container = (List<IDSach>)Session["CheckBook"];
+            if (container != null)
+            {
+                container.RemoveAll(x => x.Id == Id);
+                Session["CheckBook"] = container;
+            }
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteAll()
+        {
+            Session["CheckBook"] = new List<IDSach>();
+            return Json(new
+            {
+                status = true
+            });
         }
         #endregion
     }

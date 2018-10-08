@@ -116,7 +116,7 @@ namespace BiTech.Library.Controllers
             PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             if (model.listChiTietJsonString.Count > 0)
             {
@@ -147,34 +147,54 @@ namespace BiTech.Library.Controllers
                         };
 
                         _ChiTietNhapSachLogic.Insert(ctns);
+                        #region So luong sach trang thai - k dung 
+                        //// update số lượng sách trạng thái
+                        //var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctModel.IdTinhTrang);
+                        //if (sltt != null)
+                        //{
+                        //    sltt.SoLuong += ctns.SoLuong;
+                        //    _SoLuongSachTrangThaiLogic.Update(sltt);
+                        //}
+                        //else
+                        //{
+                        //    sltt = new SoLuongSachTrangThai();
+                        //    sltt.IdSach = ctns.IdSach;
+                        //    sltt.IdTrangThai = ctModel.IdTinhTrang;
+                        //    sltt.SoLuong = ctns.SoLuong;
+                        //    _SoLuongSachTrangThaiLogic.Insert(sltt);
+                        //}
+
+                        //// update tổng số lượng sách
+                        //var updatesl = _SachLogic.GetBookById(sltt.IdSach);
+                        //updatesl.SoLuongTong += ctns.SoLuong;
+
+                        //// ktr neu cho muon moi cong them
+                        ////var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
+                        ////if (tinhTrang.TrangThai == true)
+                        //updatesl.SoLuongConLai += ctns.SoLuong;
+
+                        // _SachLogic.Update(updatesl);
+                        #endregion
+
+                        //Insert vào bảng SachCaBiet từng cuốn một
+                        //MaKSCB = MaKS.MaCB , Ex: 0001.1, 0001.2 ...
+                        int STTHienTai = _SachLogic.GetByID_IsDeleteFalse(ctModel.IdSach).STTMaCB; //Lấy STTCB của đầu sách hiện tại
+                        SachCaBiet scb = new SachCaBiet()
                         {
-                            // update số lượng sách trạng thái
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctModel.IdTinhTrang);
-                            if (sltt != null)
-                            {
-                                sltt.SoLuong += ctns.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Update(sltt);
-                            }
-                            else
-                            {
-                                sltt = new SoLuongSachTrangThai();
-                                sltt.IdSach = ctns.IdSach;
-                                sltt.IdTrangThai = ctModel.IdTinhTrang;
-                                sltt.SoLuong = ctns.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Insert(sltt);
-                            }
-
-                            // update tổng số lượng sách
-                            var updatesl = _SachLogic.GetBookById(sltt.IdSach);
-                            updatesl.SoLuongTong += ctns.SoLuong;
-
-                            // ktr neu cho muon moi cong them
-                            //var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
-                            //if (tinhTrang.TrangThai == true)
-                            updatesl.SoLuongConLai += ctns.SoLuong;
-
-                            _SachLogic.Update(updatesl);
+                            IdSach = ctModel.IdSach,
+                            IdTrangThai = ctModel.IdTinhTrang,
+                        };
+                        for (int i = 0; i < ctModel.soLuong; i++)
+                        {
+                            scb.MaKSCB = ctModel.MaKiemSoat + "." + (++STTHienTai);
+                            _SachCaBietLogic.Insert(scb);
                         }
+
+                        //Update bảng Sach 
+                        //Cập nhật STT Cá biệt cho mỗi đầu sách  
+                        var modelSach = _SachLogic.GetBook_NonDelete_ByMKS(ctModel.MaKiemSoat);
+                        modelSach.STTMaCB = STTHienTai;
+                        _SachLogic.Update(modelSach);
                     }
                     return RedirectToAction("Index");
                 }
@@ -432,7 +452,7 @@ namespace BiTech.Library.Controllers
                     if (item.ListError.Count == 0)
                     {
                         // Tạo phiếu chi tiết nhập sách                        
-                        var sach = _SachLogic.GetByMaMaKiemSoat(item.IdSach);                        
+                        var sach = _SachLogic.GetByMaMaKiemSoat(item.IdSach);
                         TrangThaiSach trangThaiSach = _TrangThaiSachLogic.GetByName(item.IdTinhtrang.Trim());// Trạng thái sách
                         // Nếu trạng thái sách chưa tồn tại thì thêm mới
                         if (trangThaiSach == null)
@@ -478,7 +498,7 @@ namespace BiTech.Library.Controllers
                     }
                     else
                         ListFail.Add(item);
-                }               
+                }
                 #region Tạo file excel cho ds Chi Tiết Phiếu Nhập bị lỗi   
                 if (ListFail.Count > 0)
                 {

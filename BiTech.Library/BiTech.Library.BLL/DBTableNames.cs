@@ -16,6 +16,7 @@ namespace BiTech.Library.BLL
         public static string Sach_Table = "Sach";
         public static string Sach_TacGia_Table = "SachTacGia";
         public static string ThongTinThuVien_Table = "ThongTinThuVien";
+        public static string SachCaBiet_Table = "SachCaBiet";
         //public static string _Table = "";
         //public static string _Table = "";
         //public static string _Table = "";
