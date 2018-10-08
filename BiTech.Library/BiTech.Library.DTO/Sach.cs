@@ -35,7 +35,7 @@ namespace BiTech.Library.DTO
 
         public string TenSachKhongDau { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng không để trống")]
+        
         /// <summary>
         /// Mã thể loại sách
         /// </summary>

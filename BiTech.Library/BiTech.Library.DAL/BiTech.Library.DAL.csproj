@@ -88,6 +88,7 @@
     <Compile Include="Engines\LanguageEngine.cs" />
     <Compile Include="Engines\NhaXuatBanEngine.cs" />
     <Compile Include="Engines\SachCaBietEngine.cs" />
+    <Compile Include="Engines\SachTheLoaiEngine.cs" />
     <Compile Include="Engines\SoLuongSachTrangThaiEngine.cs" />
     <Compile Include="Engines\PhieuXuatSachEngine.cs" />
     <Compile Include="Engines\ThongTinMuonSachEngine.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\PhieuXuatSach_Mirgrations\M001\V0_0_2_RemoveFields.cs" />
     <Compile Include="MongoMirgrations\SachCaBiet_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\SachTheLoai_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\Sach_Mirgrations\M002\V0_0_2_thembo_truong.cs" />
     <Compile Include="MongoMirgrations\Sach_Mirgrations\M003\V0_0_3_thembo_truong.cs" />
     <Compile Include="MongoMirgrations\Sach_Mirgrations\M004\V0_0_4_thembo_truong.cs" />
@@ -155,6 +157,7 @@
     <Folder Include="MongoMirgrations\Language_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\NhaXuatBan_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\SachTacGia_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\SachTheLoai_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\SoLuongSachTrangThai\M001\" />
     <Folder Include="MongoMirgrations\TacGia_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\ThanhVien_Mirgrations\M001\" />

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BiTech.Library.DTO;
 using BiTech.Library.DAL.Engines;
 using BiTech.Library.DAL;
+using BiTech.Library.Common;
 
 namespace BiTech.Library.BLL.DBLogic
 {
@@ -22,7 +23,11 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _DDCEngine.GetAllDDC();
         }
-
+        public List<DDC> getDDCByKeySearch(KeySearchViewModel KeySearch)
+        {
+            return _DDCEngine.getDDCByKeySearch(KeySearch);
+        }
+        
         public string Add(DDC TL)
         {
             return _DDCEngine.Insert(TL);

@@ -15,6 +15,7 @@ using static BiTech.Library.Helpers.Tool;
 using System.IO;
 using Aspose.Cells;
 using System.Collections;
+using BiTech.Library.Common;
 
 namespace BiTech.Library.Controllers
 {
@@ -31,11 +32,12 @@ namespace BiTech.Library.Controllers
             new Aspose.Cells.License().SetLicense(LicenseHelper.License.LStream);
         }
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(KeySearchViewModel KeySearch, int? page)
         {
             DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            var list = _DDCLogic.GetAllDDC();
+            var list = _DDCLogic.getDDCByKeySearch(KeySearch);
+            var list_getall = _DDCLogic.GetAllDDC();
             List<DDC> lst = new List<DDC>();
             foreach (var item in list)
             {
@@ -53,7 +55,24 @@ namespace BiTech.Library.Controllers
             ViewBag.pageSize = PageSize;
             ViewBag.pages = PageNumber;
 
-            return View(lst.OrderBy(x => x.Ten).ToPagedList(PageNumber, PageSize));
+            ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
+            List<string> temp = new List<string>();
+            temp.AddRange(list_getall.Select(_ => _.Ten).ToList());
+            temp.AddRange(list_getall.Select(_ => _.MaDDC).ToList());
+            ViewBag.list_search = temp;
+            
+            //Sắp xếp
+
+            if (KeySearch.SapXep == "1" || KeySearch.SapXep == null || KeySearch.SapXep == "")
+                lst = lst.OrderBy(_ => _.MaDDC).ToList();
+            if (KeySearch.SapXep == "11")
+                lst = lst.OrderByDescending(_ => _.MaDDC).ToList();
+            if (KeySearch.SapXep == "2")
+                lst = lst.OrderBy(_ => _.Ten).ToList();
+            if (KeySearch.SapXep == "22")
+                lst = lst.OrderByDescending(_ => _.Ten).ToList();
+
+            return View(lst.ToPagedList(PageNumber, PageSize));
         }
 
         public ActionResult Create()

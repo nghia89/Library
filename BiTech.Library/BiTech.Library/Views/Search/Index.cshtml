@@ -99,53 +99,46 @@
                                  onerror="this.src = '/Content/Images/book.png';">
                         </div>
                         <div class="book_cell_information clearfix width_left">
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Mã kiểm soát:</span>
-                                    @item.SachDTO.MaKiemSoat
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Tác giả:</span>
-                                    @item.Ten_TacGia
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">ISBN:</span>
-                                    @item.SachDTO.ISBN
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Ngôn ngữ:</span>
-                                    @item.Ten_NgonNgu
-                                </span>
-                            </div>
-                        </div>
-                        <div class="book_cell_information clearfix width_right">
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Năm xuất bản:</span>
-                                    @item.SachDTO.NamXuatBan
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Tổng số sách:</span>
-                                    @item.SachDTO.SoLuongTong
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Còn lại:</span>
-                                    @item.SachDTO.SoLuongConLai
-                                </span>
-                            </div>
-                            <a href="@Url.Action("ThongTinChiTiet", new { id=item.SachDTO.Id })"
+
+                            <span>
+                                <span class="book_title_information">Mã kiểm soát:</span>
+                                @item.SachDTO.MaKiemSoat
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Tác giả:</span>
+                                @item.Ten_TacGia
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">ISBN:</span>
+                                @item.SachDTO.ISBN
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Ngôn ngữ:</span>
+                                @item.Ten_NgonNgu
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Năm xuất bản:</span>
+                                @item.SachDTO.NamXuatBan
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Tổng:</span>
+                                @item.SachDTO.SoLuongTong
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Kho:</span>
+                                @item.SachDTO.SoLuongConLai
+                            </span>
+
+                            <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })"
                                class="btn btn-primary btn-sm"
-                               style="position: absolute; bottom: 10px; right: 10px; font-size: 15px">Xem</a>
+                               style="position: absolute; bottom: 10px; right: 10px; font-size: 15px">Chi tiết</a>
+
                         </div>
                     </div>
                 </div>
