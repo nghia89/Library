@@ -53,7 +53,7 @@ namespace BiTech.Library.Controllers
                 model.ListAll[i + 1] = item.MaSoThanhVien;
                 i += 2;
             }
-            model.ListThanhVien = listThanhVien.OrderBy(x => x.MaSoThanhVien).ToList(); // PartialView
+            model.ListThanhVien = listThanhVien.ToList(); // PartialView
             ViewBag.ThongBao = false;
             return View(model);
         }
@@ -76,18 +76,23 @@ namespace BiTech.Library.Controllers
             }
             // Todo
             string strSearch = model.TextForSearch;
-            var listByName = _ThanhVienLogic.GetByName(strSearch);
-            var listByMSTV = _ThanhVienLogic.GetByMaSoThanhVien(strSearch);
-            if (listByName.Count > 0)
-                model.ListThanhVien = listByName;
-            else if (listByMSTV != null)
-                model.ListThanhVien = new List<ThanhVien>() { listByMSTV };
-            else
+            if (!String.IsNullOrEmpty(strSearch))
             {
-                model.ListThanhVien = listAll;
-                ViewBag.ThongBao = true;
-                ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
+                var listByName = _ThanhVienLogic.GetByName(strSearch.Trim());
+                var listByMSTV = _ThanhVienLogic.GetByMaSoThanhVien(strSearch.Trim());
+                if (listByName.Count > 0)
+                    model.ListThanhVien = listByName;
+                else if (listByMSTV != null)
+                    model.ListThanhVien = new List<ThanhVien>() { listByMSTV };
+                else
+                {
+                    model.ListThanhVien = listAll;
+                    ViewBag.ThongBao = true;
+                    ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
+                }
             }
+            else
+                model.ListThanhVien = listAll;
             return View(model);
         }
 
@@ -775,6 +780,19 @@ namespace BiTech.Library.Controllers
                     {
                         item.ListError.Add("Rỗng ô nhập \"Ngày sinh\"");
                     }
+                    // Định dạng mã thành viên 12 số 
+                    int length = item.MaSoThanhVien.Length;
+                    if (length < 12)
+                    {
+                        for (int i = 0; i < 12 - length; i++)
+                        {
+                            item.MaSoThanhVien = item.MaSoThanhVien.Insert(0, "0");
+                        }
+                    }
+                    if (length > 12)
+                    {
+                        item.ListError.Add("Mã giáo viên không được quá 12 số");
+                    }
                     // Lưu vào CSDL Thành Viên không bị lỗi  
                     if (item.ListError.Count == 0)
                     {
@@ -797,7 +815,7 @@ namespace BiTech.Library.Controllers
                     // Tạo ds Thành Viên bị lỗi  
                     else
                         ListFail.Add(item);
-                }              
+                }
                 #region Tạo file excel cho ds Thành Viên bị lỗi   
 
                 if (ListFail.Count > 0)
@@ -901,6 +919,11 @@ namespace BiTech.Library.Controllers
                         if (String.IsNullOrEmpty(item.MaSoThanhVien.Trim()))
                             ws.Cells[firstRow, firstColumn + 3].SetStyle(styleError);
 
+                        if (item.MaSoThanhVien.Length > 12)
+                        {
+                            ws.Cells[firstRow, firstColumn + 3].SetStyle(styleError);
+                        }
+
                         if (String.IsNullOrEmpty(item.GioiTinh.Trim()))
                             ws.Cells[firstRow, firstColumn + 4].SetStyle(styleError);
 
@@ -943,7 +966,7 @@ namespace BiTech.Library.Controllers
                     model.FilePath = uploadFileName;
                 }
                 #endregion
-            }          
+            }
             model.ListSuccess = ListSuccess;
             model.ListFail = ListFail;
             model.ListShow = ListShow;
@@ -1036,24 +1059,7 @@ namespace BiTech.Library.Controllers
             var pathFolder = Directory.GetParent(path).FullName;
             Directory.Delete(pathFolder);
             return false;
-        }
-
-        /// <summary>
-        /// Xoa het cac file trong folder
-        /// </summary>
-        /// <param name="directory"></param>
-        private void EmptyFolder(DirectoryInfo directory)
-        {
-            foreach (FileInfo file in directory.GetFiles())
-            {
-                file.Delete();
-            }
-            foreach (DirectoryInfo subdirectory in directory.GetDirectories())
-            {
-                EmptyFolder(subdirectory);
-                subdirectory.Delete();
-            }
-        }
+        }       
 
         public ActionResult DeleteMulti(string strSearch, int? page)
         {
@@ -1129,12 +1135,12 @@ namespace BiTech.Library.Controllers
                 {
                     SlItemInPage = SlItemInPage - kq_so1;
 
-                    //Nếu cái item ở trang cuối được xoá hết thì luồi 1 page
+                    //Nếu cái item ở trang cuối được xoá hết thì lùi 1 page
                     if (chon.Count == SlItemInPage)
                     {
                         paging = (((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
                     }
-                }              
+                }
             }
 
             if (chon != null)
@@ -1144,11 +1150,10 @@ namespace BiTech.Library.Controllers
                     DeleteById(item);
                 }
             }
-
             return RedirectToAction("DeleteMulti", "GiaoVien", new
             {
                 page = paging
-            });            
+            });
         }
 
         #endregion

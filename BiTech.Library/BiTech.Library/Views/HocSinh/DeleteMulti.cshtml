@@ -3,6 +3,7 @@
 @using PagedList;
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <link href="~/Content/AutoComplete.css" rel="stylesheet" />
+<div class="Title">Xóa học sinh</div>
 <div class="form-group row">
     <div class="col-md-12">
         <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/HocSinh'">
@@ -19,79 +20,103 @@
         <strong>Thông báo!</strong> @ViewBag.SearchFail
     </div>
 }
-<form action="DeleteMulti" class="clearfix" id="autocomplete">
-    <div class="input-group form-group text-left">
-        <div value="temp" class="form-control form-control-sm p-0" style="position:relative;">
-            <input type="text"
-                   id="searchName"
-                   name="strSearch"
-                   class="form-control form-control-sm border-0"
-                   autocomplete="off"
-                   onkeydown="if (event.keyCode == 13) { search_user(); }"
-                   placeholder="Nhập mã hoặc tên học sinh ..." />
-        </div>
-        <div class="input-group-append">
-            <input id="btnsearch" type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
-        </div>
-    </div>
-</form>
-@{int i = 1;}
-<form action="/HocSinh/DeleteMulti" method="post" class="clearfix" id="DeleteMulti">
-
-    <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
-        <div class="clearfix pl-sm-2">
-            <input type="button" value="Xoá học sinh" onclick="XoaThanhVien()" class="btn btn-sm btn-danger ml-sm-2" />
-            <input type="hidden" name="paging" value="@ViewBag.paged" />
-            <input type="hidden" name="pageSize" value="@ViewBag.pageSize" />
-            <input type="hidden" name="colRowCount" value="@ViewBag.number" />
-        </div>
-    </div>
-
-    <div class="book_content p-3 clearfix">
-
-        <table class="table table-hover table-bordered ">
-            <thead>
-                <tr class="table-info">
-                    <th style="width: 10px">
-                        <input type="checkbox" name="chonhet" id="chonhet" />
-                    </th>
-                    <th align="center">STT</th>
-                    <th></th>
-                    <th>Tên học sinh</th>
-                    <th>Tên User</th>
-                    <th>Mã số học sinh</th>
-                    <th>Giới tính</th>
-                    <th>Ngày sinh</th>
-                    <th>Lớp học</th>
-                    <th>Niêm khóa</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="chon" value="@item.Id" class="chon" />
-                        </td>
-                        <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
-                        <td><img width="100" src="@item.HinhChanDung??null" onerror="this.src = '/Content/Images/user5.jpg'"></td>
-                        <td>@item.Ten</td>
-                        <td>@item.UserName</td>
-                        <td>@item.MaSoThanhVien</td>
-                        <td>@item.GioiTinh</td>
-                        <td>@item.NgaySinh.ToShortDateString()</td>
-                        <td>@item.LopHoc</td>
-                        <td>@item.NienKhoa</td>
-                    </tr>
-                    i++;
-                }
-            </tbody>
-        </table>
-    </div>
-</form>
-@if (ViewBag.number > 30)
+@if (Model.Count == 0)
 {
-    @Html.PagedListPager(Model, page => Url.Action("DeleteMulti", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    <div style="font-size:22px;color:#FF4C4C;">Danh sách học sinh rỗng!</div>
+    //
+    <form action="DeleteMulti" class="clearfix" id="autocomplete" hidden>
+        <div class="input-group form-group text-left">
+            <div value="temp" class="form-control form-control-sm p-0" style="position:relative;">
+                <input type="text"
+                       id="searchName"
+                       name="strSearch"
+                       class="form-control form-control-sm border-0"
+                       autocomplete="off"
+                       onkeydown="if (event.keyCode == 13) { search_user(); }"
+                       placeholder="Nhập mã hoặc tên học sinh ..." />
+            </div>
+            <div class="input-group-append">
+                <input id="btnsearch" type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <form action="DeleteMulti" class="clearfix" id="autocomplete">
+        <div class="input-group form-group text-left">
+            <div value="temp" class="form-control form-control-sm p-0" style="position:relative;">
+                <input type="text"
+                       id="searchName"
+                       name="strSearch"
+                       class="form-control form-control-sm border-0"
+                       autocomplete="off"
+                       onkeydown="if (event.keyCode == 13) { search_user(); }"
+                       placeholder="Nhập mã hoặc tên học sinh ..." />
+            </div>
+            <div class="input-group-append">
+                <input id="btnsearch" type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+            </div>
+        </div>
+    </form>
+    int i = 1;
+    <form action="/HocSinh/DeleteMulti" method="post" class="clearfix" id="DeleteMulti">
+
+        <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
+            <div class="clearfix pl-sm-2">
+                <input type="button" value="Xoá học sinh" onclick="XoaThanhVien()" class="btn btn-sm btn-danger ml-sm-2" />
+                <input type="hidden" name="paging" value="@ViewBag.paged" />
+                <input type="hidden" name="pageSize" value="@ViewBag.pageSize" />
+                <input type="hidden" name="colRowCount" value="@ViewBag.number" />
+            </div>
+        </div>
+
+        <div class="book_content p-3 clearfix">
+
+            <table class="table table-hover table-bordered ">
+                <thead>
+                    <tr class="table-info">
+                        <th style="width: 10px">
+                            <input type="checkbox" name="chonhet" id="chonhet" />
+                        </th>
+                        <th align="center">STT</th>
+                        <th></th>
+                        <th>Tên học sinh</th>
+                        <th>Tên User</th>
+                        <th>Mã số học sinh</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>Lớp học</th>
+                        <th>Niêm khóa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="chon" value="@item.Id" class="chon" />
+                            </td>
+                            <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
+                            <td><img width="100" src="@item.HinhChanDung??null" onerror="this.src = '/Content/Images/user5.jpg'"></td>
+                            <td>@item.Ten</td>
+                            <td>@item.UserName</td>
+                            <td>@item.MaSoThanhVien</td>
+                            <td>@item.GioiTinh</td>
+                            <td>@item.NgaySinh.ToShortDateString()</td>
+                            <td>@item.LopHoc</td>
+                            <td>@item.NienKhoa</td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
+    if (ViewBag.number > 30)
+    {
+        @Html.PagedListPager(Model, page => Url.Action("DeleteMulti", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    }
 }
 @{
     // Tạo mảng chứ 1 phần tử tempt khi mảng rỗng

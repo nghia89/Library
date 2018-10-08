@@ -2139,8 +2139,6 @@
     <Content Include="Views\DDC\ImportFromExcel.cshtml" />
     <Content Include="Views\Sach\DeleteMany.cshtml" />
     <Content Include="Views\GiaHan\Index.cshtml" />
-    <Content Include="Views\TheLoaiSach\PreviewImport.cshtml" />
-    <Content Include="Views\TheLoaiSach\ImportSave.cshtml" />
     <Content Include="Tempalates\DDC.xlsx" />
     <Content Include="Tempalates\ExportTTSach.xlsx" />
     <Content Include="Tempalates\MauDDC.xlsx" />

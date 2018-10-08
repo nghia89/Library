@@ -1633,7 +1633,3 @@ app.controller('ThongKeCtrlr', function ($scope, $http) {
 })
 //======================================END Thống Kê===================================
 
-app.controller('AutoCompleteCtrlr', function ($scope, $http) {
-
-}
-

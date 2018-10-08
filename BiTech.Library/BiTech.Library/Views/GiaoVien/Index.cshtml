@@ -182,13 +182,18 @@
         }
         // Gọi hàm AutoComplete
         AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@Model.ListAll) + "'")]);
-        // Hàm Enter Excute
+        // Sự kiện Press Enter khi con trỏ trong ô text box
         function search_user() {
             setTimeout(function () {
                 $('#GVIndex').submit();
             }, 10);
         }
-
+        // Sự kiện Press Enter khi con trỏ ngoài ô text box
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                $("#GVIndex").submit();
+            }
+        });
         // Choice Search
         @*$("#tv_tk").on("change", "#choice", function () {
             if ($(this).val() == "matv") {

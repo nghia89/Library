@@ -52,8 +52,8 @@
                                 {
                                     <td style="background: #dc354582;"></td>
                                 }
-                                // tô màu ô trùng Mã Thành Viên
-                                else if (col == 4 && Model.ArrRowsMSTV[row] == true)
+                                // tô màu ô trùng Mã Thành Viên || Mã Thành Viên > 12 số
+                                else if (col == 4 && (Model.ArrRowsMSTV[row] == true || @j.ToString().Length > 12))
                                 {
                                     <td style="background: #dc354582;">@j.ToString()</td>
                                 }

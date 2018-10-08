@@ -28,8 +28,9 @@
             <a class="color-white btn btn-sm btn-primary" href="@Url.Action("ExportWord", new { @idTV = @Model.MaSoThanhVien })">
                 <i style="font-size:20px" class="fa fa-id-card"></i> In thẻ thư viện
             </a>
-
-            <input type="button" class="btn btn-danger btn-sm" value="Xóa" onclick="XoaThanhVien('@Model.Id','@Model.Ten')" />
+           
+            <a href="#" class="btn btn-danger btn-sm" onclick="XoaThanhVien('@Model.Id','@Model.Ten')"> Xóa </a>
+              
         </div>
         
         <img class="detail-control-img" src="@Model.QRLink" alt="Mã QR" style="width:auto" />
