@@ -134,7 +134,7 @@
                     </div>
 
                     @if (authflag)
-                {
+                    {
                         <div class="card @(Bool_TabThanhVien ? "active function_active" : "")">
                             <div class="card-header ">
                                 <a class="card-link @(Bool_TabThanhVien ? " " : "collapsed")" data-toggle="collapse" href="#collapse0">
@@ -232,18 +232,18 @@
                                             Tra cứu
                                         </a>
                                     </li>
-                                    @*<li class="@((controller == "Search" && @action == "NewBook") ? "active" : "")">
-                                            <a href="@Url.Action("NewBook", "Search")" title="Sách mới">
-                                                Sách mới
-                                            </a>
-                                        </li>*@
+                                    <li class="@((controller == "Search" && @action == "NewBook") ? "active" : "")">
+                                        <a href="@Url.Action("NewBook", "Search")" title="Sách mới">
+                                            Sách mới
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     @if (authflag)
-                {
+                    {
                         <div class="card @((Bool_TabMuonTra) ? "active function_active" : "")">
                             <div class="card-header">
                                 <a class="card-link @((Bool_TabMuonTra) ? " " : "collapsed")" data-toggle="collapse" href="#collapse2">
@@ -336,7 +336,7 @@
                     }
 
                     @if ((User.IsInRole(Role.CustomerAdmin) || ViewBag.IsDebuging) && ViewBag._SubDomainAccessPermission)
-                {
+                    {
                         <div class="card @((Bool_TabQuanLyThuVien) ? "active function_active" : "")">
                             <div class="card-header">
                                 <a class="card-link @((Bool_TabQuanLyThuVien) ? " " : "collapsed")" data-toggle="collapse" href="#collapse5">
@@ -388,6 +388,37 @@
                                             Phân loại sách
                                         </a>
                                     </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card @((Bool_TabThongTinSach) ? "active function_active" : "")">
+                        <div class="card-header">
+                            <a class="card-link @((Bool_TabThongTinSach) ? " " : "collapsed")" data-toggle="collapse" href="#collapse6">
+                                <i class="fa fa-search"></i>
+                                <span class="card-header-title">Thông tin sách</span>
+                            </a>
+                        </div>
+                        <div id="collapse6" class="collapse @((Bool_TabThongTinSach) ? "show" : "")" data-parent="#accordion">
+                            <div class="card-body">
+                                <ul>
+                                    <li class="@((controller == "Search" && @action == "Index") ? "active" : "")">
+                                        <a href="@Url.Action("Index", "Search")" title="Tra cứu">
+                                            Tra cứu
+                                        </a>
+                                    </li>
+                                    <li class="@((controller == "Search" && @action == "Index") ? "active" : "")">
+                                        <a href="@Url.Action("SearchDetail", "Search")" title=" Tìm Kiếm nâng cao">
+                                            Tìm Kiếm nâng cao
+                                        </a>
+                                    </li>
+                                    @*<li class="@((controller == "Search" && @action == "NewBook") ? "active" : "")">
+                                            <a href="@Url.Action("NewBook", "Search")" title="Sách mới">
+                                                Sách mới
+                                            </a>
+                                        </li>*@
                                 </ul>
                             </div>
                         </div>

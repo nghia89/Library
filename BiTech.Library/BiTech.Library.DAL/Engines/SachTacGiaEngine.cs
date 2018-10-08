@@ -26,6 +26,10 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.IdSach == id).FirstOrDefault();
         }
 
+        public SachTacGia GetId(string id)
+        {
+            return _DatabaseCollection.Find(x => x.IdTacGia.Equals(id)).FirstOrDefault();
+        }
         #region Phong
         public List<SachTacGia> GetAllBookIdBySachId_list(string id)
         {
