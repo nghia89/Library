@@ -34,6 +34,7 @@ namespace BiTech.Library.DTO
         public EUser TrangThai { get; set; }
 
         public string ChucVu { get; set; } //Sài cho giáo viên
+
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateDateTime { get; set; }
 
@@ -41,32 +42,46 @@ namespace BiTech.Library.DTO
         /// Phiên bản hiện tại của đối tượng
         /// </summary>
         public DocumentVersion Version { get; set; }
-
-        #region Tai
+        
         public string GioiTinh { get; set; }
+
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime NgaySinh { get; set; }
+
         public string LopHoc { get; set; }
+
         public string NienKhoa { get; set; }
+
         public string QRLink { get; set; }
+
         public string QRData { get; set; }
+
         public string MaSoThe { get; set; }
+
         public string LoaiTK { get; set; }
+
         public bool IsDeleted { get; set; } = false; 
+
         [BsonIgnore]
         public string TenTrangThai { get; set; }
+
         [BsonIgnore]
         public int ColumnExcel { get; set; }
+
         [BsonIgnore]
         public int RowExcel { get; set; }
+
         [BsonIgnore]
         public List<string> ListError { get; set; } = new List<string>();
+
         [BsonIgnore]
         public bool IsDuplicateMSTV { get; set; } = false;
+
         [BsonIgnore]
         public bool IsDuplicateUser { get; set; } = false;
+
         [BsonIgnore]
         public string NgaySinhForAngular { get; set; }
-        #endregion
+
     }
 }
