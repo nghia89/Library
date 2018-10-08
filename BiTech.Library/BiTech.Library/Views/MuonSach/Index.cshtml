@@ -200,6 +200,8 @@
                                                     <input class="form-control form-control-sm border-0" id="MaSach" ng-model="masach"
                                                            tabindex="0"
                                                            autocomplete="off"
+                                                           data-lenght="0"
+                                                           onkeyup="AddAutoComplete(this)"
                                                            onkeydown="if (event.keyCode == 13) {search_book()}"
                                                            placeholder="Nhập mã sách ..." />
                                                 </div>
@@ -379,7 +381,8 @@
         {
             <script>
                 $(function () {
-                    AutoComplete(document.getElementById("MaSach"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maSach) + "'")], true);
+                    @*AutoComplete(document.getElementById("MaSach"), [@Html.Raw("'" + string.Join("', '", (List<string>)ViewBag.list_maSach) + "'")], true);*@
+                    AutoComplete(document.getElementById("MaSach"), [], true);
                 });
             </script>
         }
@@ -431,6 +434,43 @@
                 minDate: 0,
                 maxDate: @Html.Raw(ViewBag.MaxDate),
             }).datepicker("setDate", new Date() + 1).attr("readonly", "readonly");
+        }
+
+        function AddAutoComplete(obj){
+            try{
+                var L_old = $(obj).data("lenght");
+                $(obj).data("lenght", obj.value.length);
+                //Thêm ký tự vào input text
+                if(L_old < obj.value.length){
+                    if(obj.value.length == 2){
+                        var Sach = {
+                            maSach: obj.value
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MuonSach/GetAllListById",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify(Sach),
+                            success: function (data) {
+                                AutoComplete(document.getElementById("MaSach"), data, true);
+                            },
+                            error: function () { console.log('AddAutoComplete False!');}
+                        });
+                    }
+                }
+
+                //Xoá ký tự vào input text
+                if(L_old > obj.value.length){
+                    if(obj.value.length == 3){
+                        //AutoComplete(document.getElementById("MaSach"), [], true);
+                    }
+                }
+            }catch(ex){
+
+            }
+            
         }
 
         // AutoCompelete Search
