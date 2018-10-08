@@ -82,7 +82,7 @@
 					<div class="form-group col">
 						<label class="control-label">Mã số giáo viên <span style="color:#dc3545">*</span></label>
 						<div>
-							@Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "50" })
+							@Html.TextBoxFor(m => m.MaSoThanhVien, new { @class = "form-control form-control-sm", @maxlength = "12", oninput = "validity.valid||(value='');" })
 							@Html.ValidationMessageFor(m => m.MaSoThanhVien, "", new { @class = "text-danger" })
 						</div>
 					</div>

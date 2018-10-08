@@ -54,8 +54,8 @@ namespace BiTech.Library.Models
         public DateTime NgaySinh { get; set; }
         [Required(ErrorMessage = "Bạn chưa chọn ngày sinh!")]
         public string TemptNgaySinh { get; set; }
-        [Required(ErrorMessage = "Bạn chưa nhập mã số!")]
-        [Display(Name = "Mã số thành viên")]
+        [Required(ErrorMessage = "Bạn chưa nhập mã số!"), StringLength(12, ErrorMessage = "Độ dài mã số cần < 12")]
+        [Display(Name = "Mã số thành viên")]        
         public string MaSoThanhVien { get; set; }
 
         [Display(Name = "Lớp học")]
@@ -101,7 +101,8 @@ namespace BiTech.Library.Models
 
 		[Display(Name = "Tổ")]
 		public string ChucVu { get; set; } //Sài cho giáo viên
-	}
+        public string NumberPage { get; set; }
+    }
     public class EditUserViewModel
     {
         public EditUserViewModel()
@@ -194,4 +195,13 @@ namespace BiTech.Library.Models
         public bool[] ArrRowsUser { get; set; }
     }
 
+    public class ListMemberModel
+    {
+        public List<UserViewModel> Members { get; set; } = new List<UserViewModel>();
+    }
+	
+    public class DeleteMultiViewModel
+    {
+        public List<UserViewModel> ListThanhVien { get; set; } = new List<UserViewModel>();       
+    }
 }

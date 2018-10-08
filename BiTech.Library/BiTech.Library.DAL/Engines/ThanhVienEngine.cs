@@ -1,5 +1,7 @@
-﻿using BiTech.Library.DAL.Respository;
+﻿using BiTech.Library.DAL.Common;
+using BiTech.Library.DAL.Respository;
 using BiTech.Library.DTO;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -61,12 +63,37 @@ namespace BiTech.Library.DAL.Engines
         }
         public List<ThanhVien> GetAllHS()
         {
-            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs").ToList();
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs" && _.IsDeleted == false).ToList();
         }
 
         public List<ThanhVien> GetAllGV()
         {
-            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv").ToList();
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv" && _.IsDeleted == false).ToList();
         }
+
+        #region Vinh tim kiem thanh vien
+        public List<ThanhVien> GetMembersSearch (string KeySearch, string memType)
+        {
+            FilterDefinition<ThanhVien> filterDefinition = new BsonDocument();
+            var builder = Builders<ThanhVien>.Filter;
+            //Tim thanh vien khong bi xoa
+            filterDefinition = filterDefinition & builder.Where(_ => _.IsDeleted == false);
+
+            if (!string.IsNullOrEmpty(memType))
+            {
+                filterDefinition = filterDefinition & builder.Where(x => x.LoaiTK.ToLower().Contains(memType.ToLower()));
+            }
+            //Tim theo ma thanh vien 
+            if (!string.IsNullOrEmpty(KeySearch))
+            {
+                filterDefinition = filterDefinition 
+                    & builder.Where(_ => _.MaSoThanhVien.ToLower().Contains(KeySearch.ToLower())
+                    || _.Ten.ToLower().Contains(KeySearch.ToLower()));                    
+            }
+           
+
+            return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+        #endregion
     }
 }

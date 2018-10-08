@@ -19,11 +19,11 @@
     <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
         <div class="clearfix pb-sm-2 pl-sm-2">
             @Html.ActionLink("Thêm mới", "Create", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
-            @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
-            <a class="btn btn-sm btn-primary ml-2" href="~/Tempalates/MauSach.xlsx">Tải mẫu Excel</a>
+            @Html.ActionLink("Thêm từ file Excel", "ImportFromExcel", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })           
             @Html.ActionLink("Thêm từ Marc21", "ImportMarc", "Marc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Xuất Marc21", "Index", "ExportMarc", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
-            @Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
+            @*@Html.ActionLink("Xuất QR sách", "XuatQR", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })*@
+            @Html.ActionLink("Xuất QR sách", "XuatQR_Mutil", "Sach", null, new { @class = "btn btn-sm btn-primary ml-sm-2" })
             @Html.ActionLink("Xoá sách", "DeleteMany", "Sach", null, new { @class = "btn btn-sm btn-danger ml-sm-2" })
         </div>
     </div>
@@ -72,15 +72,15 @@
             <div class="col-sm-12 font-weight-bold">Sắp xếp: </div>
             <div class="col-md-3 col-sm-12  form-group px-2 mt-1 mb-1">
                 @{
-                    Dictionary<string, object> arry_short = new Dictionary<string, object>();
-                    arry_short.Add("1", @Html.Raw("Thứ tự A-Z &#xf175;"));
-                    arry_short.Add("11", @Html.Raw("Thứ tự Z-A &#xf176;"));
-                    arry_short.Add("2", @Html.Raw("Mã kiểm soát &#xf175;"));
-                    arry_short.Add("22", @Html.Raw("Mã kiểm soát &#xf176;"));
-                    arry_short.Add("3", @Html.Raw("Thời gian nhập sách &#xf175;"));
-                    arry_short.Add("33", @Html.Raw("Thời gian nhập sách &#xf176;"));
-                    arry_short.Add("4", @Html.Raw("Năm xuất bản &#xf175;"));
-                    arry_short.Add("44", @Html.Raw("Năm xuất bản &#xf176;"));
+    Dictionary<string, object> arry_short = new Dictionary<string, object>();
+    arry_short.Add("1", @Html.Raw("Thứ tự A-Z &#xf175;"));
+    arry_short.Add("11", @Html.Raw("Thứ tự Z-A &#xf176;"));
+    arry_short.Add("2", @Html.Raw("Mã kiểm soát &#xf175;"));
+    arry_short.Add("22", @Html.Raw("Mã kiểm soát &#xf176;"));
+    arry_short.Add("3", @Html.Raw("Thời gian nhập sách &#xf175;"));
+    arry_short.Add("33", @Html.Raw("Thời gian nhập sách &#xf176;"));
+    arry_short.Add("4", @Html.Raw("Năm xuất bản &#xf175;"));
+    arry_short.Add("44", @Html.Raw("Năm xuất bản &#xf176;"));
                 }
                 <select class="form-control form-control-sm" name="SapXep" id="SapXep" onchange="$('#search_short').submit() ">
                     <option value="">--Sắp xếp--</option>
@@ -102,60 +102,54 @@
                         <div class="title" title="@item.SachDTO.TenSach"> <span>@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</span> @item.SachDTO.TenSach</div>
                     </div>
                     <div class="content-box-window clearfix">
-                        
+
                         <div class="book_image">
                             <img src="@(string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) == false ? item.SachDTO.LinkBiaSach : "/Content/Images/book.png" )"
                                  onerror="this.src = '/Content/Images/book.png';">
                         </div>
                         <div class="book_cell_information clearfix width_left">
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Mã kiểm soát:</span>
-                                    @item.SachDTO.MaKiemSoat
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Tác giả:</span>
-                                    @item.Ten_TacGia
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">ISBN:</span>
-                                    @item.SachDTO.ISBN
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Ngôn ngữ:</span>
-                                    @item.Ten_NgonNgu
-                                </span>
-                            </div>
-                        </div>
-                        <div class="book_cell_information clearfix width_right">
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Năm xuất bản:</span>
-                                    @item.SachDTO.NamXuatBan
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Tổng số sách:</span>
-                                    @item.SachDTO.SoLuongTong
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Còn lại:</span>
-                                    @item.SachDTO.SoLuongConLai
-                                </span>
-                            </div>
+
+                            <span>
+                                <span class="book_title_information">Mã kiểm soát:</span>
+                                @item.SachDTO.MaKiemSoat
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Tác giả:</span>
+                                @item.Ten_TacGia
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">ISBN:</span>
+                                @item.SachDTO.ISBN
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Ngôn ngữ:</span>
+                                @item.Ten_NgonNgu
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Năm xuất bản:</span>
+                                @item.SachDTO.NamXuatBan
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Tổng:</span>
+                                @item.SachDTO.SoLuongTong
+                            </span>
+
+                            <span>
+                                <span class="book_title_information">Kho:</span>
+                                @item.SachDTO.SoLuongConLai
+                            </span>
+
                             <a href="@Url.Action("Edit", new { id=item.SachDTO.Id })"
                                class="btn btn-primary btn-sm"
-                               style="position: absolute; bottom: 10px; right: 10px; font-size: 15px">Xem</a>
+                               style="position: absolute; bottom: 10px; right: 10px; font-size: 15px">Chi tiết</a>
+
                         </div>
+
                     </div>
                 </div>
             </div>

@@ -103,12 +103,41 @@
                             </div>
 
                             <div class="form-group-sm row">
-                                <label class="col-form-label col-dl-label form-label" for="IdTheLoai">Thể loại sách <span style="color:red">*</span>:</label>
+                                <label class="col-form-label col-dl-label form-label">Thể loại sách <span style="color:red">*</span>:</label>
+                                <div class="col-dl-full">
+
+                                    <div class="input-group" style="margin-bottom:4px" id="ListTheLoai" ng-controller="TheLoaiFinder" ng-init="GetAllTheLoaiByIdSach('@Model.SachDTO.Id');">
+                                        <tags-input ng-model="listtg"
+                                                    replace-spaces-with-dashes="false"
+                                                    display-property="TenTheLoai"
+                                                    allowDuplicates="true"
+                                                    placeholder="Nhập tên thể loại ..."
+                                                    class="form-control form-control-sm form-control-tag">
+                                            <auto-complete source="loadData($query)"></auto-complete>
+                                            <div ng-repeat="s in listtg">
+                                                <input hidden="hidden" ng-cloak class="btn btn-default" required name="ListTheLoaiJson" value="{{s}}" />
+                                            </div>
+                                        </tags-input>
+                                        <div class="input-group-append">
+                                            <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
+                                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
+                                                <i class="fa fa-plus" style="opacity:0"></i>
+                                                <i class="fa fa-plus" style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ListTheLoaiJson, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group-sm row">
+                                @*<label class="col-form-label col-dl-label form-label" for="IdTheLoai">Thể loại sách <span style="color:red">*</span>:</label>
                                 <div class="col-dl-half">
                                     <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData('@ViewBag.TLS')">
                                         @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn Loại Sách--",
                                new { @id = "IdTheLoai", @class = "form-control form-control-sm", @ng_model = "IdTheLoai", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
-                                        @*s.Id as s.TenTheLoai for s in list*@
                                         <div class="input-group-append">
                                             <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
                                                data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
@@ -118,12 +147,12 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SachDTO.IdTheLoai, "", new { @class = "text-danger" })
 
-                                </div>
+                                </div>*@
 
                                 @*Nhà xuất bản*@
 
                                 <label class="col-form-label col-dl-label form-label" for="IdNhaXuatBan">Nhà xuất bản <span style="color:red">*</span>:</label>
-                                <div class="col-dl-half">
+                                <div class="col-dl-full">
                                     <div class="input-group mb-3" id="ListNXB" ng-controller="PublishersCtrlr" ng-init="GetAllData('@ViewBag.NXB')">
                                         @Html.DropDownListFor(m => m.SachDTO.IdNhaXuatBan, new SelectList(new List<BiTech.Library.DTO.NhaXuatBan>(), "Id", "Ten"), "--Chọn NXB--",
                                new { @id = "IdNhaXuatBan", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.Ten for s in list track by s.Id" })

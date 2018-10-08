@@ -9,9 +9,11 @@ html {
     background-size: cover;
     background-position: right;
 }
-body{
+
+body {
     background: none;
 }
+
 a {
     color: #000;
 }
@@ -270,92 +272,101 @@ a:hover {
     }
 
 
-.contain{
+.contain {
     position: relative;
 }
-.contain .top {
-    background: #718D94;
-    min-height: 50px;
-    position: relative;
-    z-index: 3;
-}
 
-    .contain .top .banner {
-        float: left;
-    }
-
-        .contain .top .banner .apptitle1 {
-            color: white;
-            margin: 0px;
-            padding-top: 2px;
-            padding-left: 15px;
-            font-size: 1.1rem;
-            font-family: inherit;
-            font-weight: 500;
-            line-height: 1.2;
-        }
-
-        .contain .top .banner .apptitle2 {
-            color: white;
-            margin: 0px;
-            padding-top: 2px;
-            padding-left: 15px;
-            font-size: 1.1rem;
-            font-family: inherit;
-            font-weight: 500;
-            line-height: 1.2;
-        }
-
-        .contain .top .banner .dash {
-            display: none;
-        }
-
-.contain .left {
-    position: absolute;
-    z-index: 1;
-    height: 100%;
-}
-
-    .contain .left .bg {
-        background: #728D94;
-        height: 100%;
-        width: 225px;
-        display: inline-block;
-        left: 0;
+    .contain .top_in {
+        min-height: 40px;
+        background: #718D94;
+        display: block;
         position: fixed;
-        top: 0;
+        width: 100%;
     }
 
-    .contain .left .bg_icon {
-        /*background: #2A5598;*/
-        height: 100%;
-        width: 40px;
-        display: inline-block;
-        left: 0;
-        position: fixed;
-        top: 0;
-    }
-
-    .contain .left .menu {
-        width: 225px;
-        display: inline-block;
-        float: left;
+    .contain .top {
+        background: #718D94;
+        min-height: 50px;
         position: relative;
-        overflow-x: hidden;
-        min-height: 100%;
+        z-index: 3;
     }
 
-        .contain .left .menu .logo {
-            text-align: center;
-            background: #f8f9fa;
-            height: 90px;
+        .contain .top .banner {
+            float: left;
         }
 
-        .contain .left .menu ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
+            .contain .top .banner .apptitle1 {
+                color: white;
+                margin: 0px;
+                padding-top: 2px;
+                padding-left: 15px;
+                font-size: 1.1rem;
+                font-family: inherit;
+                font-weight: 500;
+                line-height: 1.2;
+            }
+
+            .contain .top .banner .apptitle2 {
+                color: white;
+                margin: 0px;
+                padding-top: 2px;
+                padding-left: 15px;
+                font-size: 1.1rem;
+                font-family: inherit;
+                font-weight: 500;
+                line-height: 1.2;
+            }
+
+            .contain .top .banner .dash {
+                display: none;
+            }
+
+    .contain .left {
+        position: absolute;
+        z-index: 1;
+        height: 100%;
+    }
+
+        .contain .left .bg {
+            background: #728D94;
+            height: 100%;
+            width: 225px;
+            display: inline-block;
+            left: 0;
+            position: fixed;
+            top: 0;
         }
+
+        .contain .left .bg_icon {
+            /*background: #2A5598;*/
+            height: 100%;
+            width: 40px;
+            display: inline-block;
+            left: 0;
+            position: fixed;
+            top: 0;
+        }
+
+        .contain .left .menu {
+            width: 225px;
+            display: inline-block;
+            float: left;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100%;
+        }
+
+            .contain .left .menu .logo {
+                text-align: center;
+                background: #f8f9fa;
+                height: 90px;
+            }
+
+            .contain .left .menu ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
 
 @media (min-width: 492px) {
 
@@ -858,12 +869,12 @@ a:hover {
         }
 
         .book_box_v3 .container-box-window .book_image {
-            width: 30%;
-            max-width: 110px;
+            /*width: 32%;*/
+            max-width: 115px;
             float: left;
             text-align: center;
             position: relative;
-            height: 150px;
+            height: 155px;
         }
 
             .book_box_v3 .container-box-window .book_image img {
@@ -872,15 +883,33 @@ a:hover {
             }
 
         .book_box_v3 .container-box-window .book_cell_information {
-            float: left;
+            /*float: left;*/
         }
 
             .book_box_v3 .container-box-window .book_cell_information.width_left {
-                width: calc(73% - 110px);
+                /*width: calc(60% - 140px);*/
             }
 
+                .book_box_v3 .container-box-window .book_cell_information.width_left .book_title_information {
+                    font-weight: bold;
+                }
+
+                .book_box_v3 .container-box-window .book_cell_information.width_left > span {
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
+                }
+
+                .book_box_v3 .container-box-window .book_cell_information.width_left .book_information {
+                    /*overflow: hidden;
+                    white-space: pre;
+                    text-overflow: ellipsis;*/
+                }
+
             .book_box_v3 .container-box-window .book_cell_information.width_right {
-                width: calc(27%);
+                /*width: calc(60% - 140px);*/
             }
 
     .book_box_v3 .book_information > div {
@@ -909,7 +938,7 @@ a:hover {
 }
 
 .book_content {
-    margin: -9px;
+    margin: -9px -9px -9px 0px;
     position: relative;
 }
 
@@ -1201,10 +1230,10 @@ a:hover {
 /*End Mượn sách*/
 @media screen and (max-width: 1500px) {
     .book_box_v3 {
-        width: calc(50% - 20px);
+        width: calc(33% - 20px);
     }
 
-        .book_box_v3:nth-child(2n + 1) {
+        .book_box_v3:nth-child(3n + 1) {
             clear: both;
         }
 
@@ -1214,6 +1243,7 @@ a:hover {
 }
 
 @media screen and (max-width: 1200px) {
+    
     .book_box_v3 {
         margin: 3px;
         width: calc(50% - 6px);
@@ -1226,7 +1256,9 @@ a:hover {
             .book_box_v3 .container-box-window .top .title {
                 font-size: 15px;
             }
-
+            .book_box_v3 .container-box-window .top .title span{
+                top: 0;
+            }
     .book_box .book_content .book_image {
         width: 20%;
     }
@@ -1250,7 +1282,7 @@ a:hover {
     .box_temp_lg {
         display: none;
     }
-    
+
     .book_box .book_content .book_image {
         width: 100%;
     }

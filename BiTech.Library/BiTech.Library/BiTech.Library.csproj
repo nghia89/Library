@@ -740,6 +740,7 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\themes\client.css" />
     <Content Include="Content\ThongKe.css" />
+    <Content Include="Scripts\ExportCard.js" />
     <Content Include="Scripts\Simple-Ajax-Uploader\examples\assets\css\bootstrap.min.css" />
     <Content Include="Scripts\Simple-Ajax-Uploader\examples\assets\css\styles.css" />
     <Content Include="Scripts\Simple-Ajax-Uploader\examples\basic_example\index.html" />
@@ -2141,8 +2142,6 @@
     <Content Include="Views\DDC\ImportFromExcel.cshtml" />
     <Content Include="Views\Sach\DeleteMany.cshtml" />
     <Content Include="Views\GiaHan\Index.cshtml" />
-    <Content Include="Views\TheLoaiSach\PreviewImport.cshtml" />
-    <Content Include="Views\TheLoaiSach\ImportSave.cshtml" />
     <Content Include="Tempalates\DDC.xlsx" />
     <Content Include="Tempalates\ExportTTSach.xlsx" />
     <Content Include="Tempalates\MauDDC.xlsx" />
@@ -2160,6 +2159,11 @@
     <Content Include="Views\BoSuuTap\Create.cshtml" />
     <Content Include="Views\BoSuuTap\Index.cshtml" />
     <Content Include="Views\BoSuuTap\Edit.cshtml" />
+    <Content Include="Views\HocSinh\XuatTheHS.cshtml" />
+    <Content Include="Views\GiaoVien\XuatTheGV.cshtml" />
+    <Content Include="Views\Sach\XuatQR_Mutil.cshtml" />
+    <Content Include="Views\HocSinh\DeleteMulti.cshtml" />
+    <Content Include="Views\GiaoVien\DeleteMulti.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

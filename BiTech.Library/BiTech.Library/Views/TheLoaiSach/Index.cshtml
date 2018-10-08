@@ -14,7 +14,7 @@
            data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">Thêm mới</a>
 
         @Html.ActionLink("Thêm từ file excel", "ImportFromExcel", "TheLoaiSach", new { @class = "btn btn-sm btn-primary" })
-        <a class="btn btn-sm btn-primary" href="~/Tempalates/DDC.xlsx">Mẫu Excel</a>
+        
 
         <input type="button" value="Xoá thể loại" onclick="XoaTheloai()" class="btn btn-sm btn-danger" />
         <input type="hidden" name="paging" value="@ViewBag.paged" />

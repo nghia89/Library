@@ -72,6 +72,16 @@ namespace BiTech.Library.BLL.DBLogic
             return _theloaiSachEngine.Remove(id);
         }
 
+        public List<TheLoaiSach> FindTheLoai(string q)
+        {
+            return _theloaiSachEngine.FindTheLoai(q);
+        }
+
+        public string Insert(TheLoaiSach tacgia)
+        {
+            return _theloaiSachEngine.Insert(tacgia);
+        }
+
         #region Tai
         public TheLoaiSach GetIdByDDC(string maDDC)
         {

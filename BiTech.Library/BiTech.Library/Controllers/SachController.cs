@@ -156,6 +156,8 @@ namespace BiTech.Library.Controllers
                 SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachTheLoaiLogic _SachTheLoaiLogic = new SachTheLoaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -204,6 +206,35 @@ namespace BiTech.Library.Controllers
                         }
                     }
 
+                    string failTL = "";
+                    foreach (var tg in model.ListTheLoaiJson)
+                    {
+                        var item = JsonConvert.DeserializeObject<TheLoaiSachViewModels>(tg);
+                        string tlId = "";
+
+                        if (string.IsNullOrEmpty(item.Id))
+                        {
+                            tlId = _TheLoaiSachLogic.Insert(new TheLoaiSach() { TenTheLoai = item.TenTheLoai, MoTa = "" });
+                        }
+                        else
+                        {
+                            tlId = _TheLoaiSachLogic.getById(item.Id)?.Id ?? "";
+                        }
+
+                        if (!string.IsNullOrEmpty(tlId))
+                        {
+                            _SachTheLoaiLogic.ThemSachTheLoai(new SachTheLoai()
+                            {
+                                IdSach = id,
+                                IdTheLoai = tlId
+                            });
+                        }
+                        else
+                        {
+                            failTL += item.TenTheLoai + ", ";
+                        }
+                    }
+					
                     #region nghia: convertSachMarcXml
                     var book = _SachLogic.GetById(id);
                     IRecord record = MarcFactory.Instance.NewRecord();
@@ -395,6 +426,12 @@ namespace BiTech.Library.Controllers
                         TempData["ThemSachMsg"] = string.Format("Chú ý: Chọn tác giả {0} thất bại, vui lòng cập nhật sau.", failTG);
                     }
 
+                    if (failTL.Length > 0)
+                    {
+                        failTL = failTL.Substring(0, failTL.Length - 2);
+                        TempData["ThemSachMsg"] = string.Format("Chú ý: Chọn thể loại {0} thất bại, vui lòng cập nhật sau.", failTL);
+                    }
+
                     //Tạo phiếu nhập - VINH
                     bool nhapSach = false;
                     if (model.ListTTSach != null)
@@ -522,7 +559,9 @@ namespace BiTech.Library.Controllers
             {
                 SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachTheLoaiLogic _SachTheLoaiLogic = new SachTheLoaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 Sach sach = _SachLogic.GetBookById(model.SachDTO.Id);
                 var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
@@ -585,7 +624,47 @@ namespace BiTech.Library.Controllers
                             }
                         }
                     }
+
+                    string failTL = "";
+                    if (_SachTheLoaiLogic.DeleteAllTheLoaiByidSach(sach.Id))
+                    {
+                        foreach (var tg in model.ListTheLoaiJson)
+                        {
+                            var item = JsonConvert.DeserializeObject<TheLoaiSachViewModels>(tg);
+                            string tgId = "";
+
+                            if (!string.IsNullOrEmpty(item.TenTheLoai))
+                            {
+                                TheLoaiSach tg_temp = _TheLoaiSachLogic.GetByTenTheLoai(item.TenTheLoai);
+                                if (tg_temp != null)
+                                {
+                                    tgId = tg_temp.Id;
+                                }
+                                else
+                                {
+
+                                    tgId = _TheLoaiSachLogic.Insert(new TheLoaiSach() { TenTheLoai = item.TenTheLoai, MoTa = "" });
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(tgId))
+                            {
+                                _SachTheLoaiLogic.ThemSachTheLoai(new SachTheLoai()
+                                {
+                                    IdSach = sach.Id,
+                                    IdTheLoai = tgId
+                                });
+                            }
+                            else
+                            {
+                                failTL += item.TenTheLoai + ", ";
+                            }
+                        }
+                    }
+
                 }
+
+
 
                 if (model.FileImageCover != null)
                 {
@@ -1477,6 +1556,8 @@ namespace BiTech.Library.Controllers
         //- Xuất QR
         public ActionResult XuatQR()
         {
+            var _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            var lstIdSach = (List<IDSach>)TempData["lstMS"];
             var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             string fileName = string.Concat("QR_Word" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".docx");
 
@@ -1493,6 +1574,12 @@ namespace BiTech.Library.Controllers
             }
 
             string fullPath = Path.Combine(filePath, fileName);
+
+            //Get list sach biet từ listIDSach
+            //foreach(var item in lstIdSach)
+            //{
+            //    _SachCaBietLogic.GetListCaBietFromIdSach(item.Id);
+            //}
 
             var listBook = _SachLogic.GetAll_NonDelete();
             if (listBook.Count != 0)
@@ -1677,6 +1764,115 @@ namespace BiTech.Library.Controllers
 
         }
 
+        #endregion
+
+        #region Vinh Xuat QR sách - chọn nhiều
+        public ActionResult XuatQR_Mutil(KeySearchViewModel KeySearch, int? page)
+        {
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            if (Session["CheckBook"] == null)
+                Session["CheckBook"] = new List<IDSach>();
+            ViewBag.container = (List<IDSach>)Session["CheckBook"];
+
+            ListBooksModel model = new ListBooksModel();
+            var list = _SachLogic.getPageSach(KeySearch);
+            ViewBag.number = list.Count();
+
+            foreach (var item in list)
+            {
+                var listTG = _SachTacGiaLogic.getListById(item.Id);
+
+                string tenTG = "";
+                foreach (var item2 in listTG)
+                {
+                    tenTG += _TacGiaLogic.GetByIdTG(item2.IdTacGia)?.TenTacGia + ", " ?? "";
+                }
+                tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
+
+                BookView book = new BookView(item);                
+                book.Ten_TacGia = tenTG;
+
+                model.Books.Add(book);
+            }
+            return View(model.Books.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public ActionResult XuatQR_Mutil()
+        {
+            try
+            {
+                var lstUserChecked = (List<IDSach>)Session["CheckBook"];
+
+                TempData["lstMS"] = lstUserChecked;
+                if (lstUserChecked.Count != 0)
+                    return RedirectToAction("XuatQR", "Sach");
+                return RedirectToAction("XuatQR_Mutil", "Sach");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddList(string Id)
+        {            
+            if (Session["CheckBook"] == null)//nếu null mới được khởi tạo
+                Session["CheckBook"] = new List<IDSach>();
+
+            var container = (List<IDSach>)Session["CheckBook"];
+           
+            if (container == null)
+            {
+                container = new List<IDSach>();
+            }
+            if (!container.Any(x => x.Id == Id))
+            {
+                IDSach newItem = new IDSach();
+                newItem.Id = Id;             
+                container.Add(newItem);
+            }
+
+            Session["CheckBook"] = container;
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItem(string Id)
+        {
+            if (Session["CheckBook"] == null)//nếu null mới được khởi tạo
+                Session["CheckBook"] = new List<IDSach>();
+
+            var container = (List<IDSach>)Session["CheckBook"];
+            if (container != null)
+            {
+                container.RemoveAll(x => x.Id == Id);
+                Session["CheckBook"] = container;
+            }
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteAll()
+        {
+            Session["CheckBook"] = new List<IDSach>();
+            return Json(new
+            {
+                status = true
+            });
+        }
         #endregion
     }
 }

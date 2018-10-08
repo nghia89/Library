@@ -154,3 +154,33 @@ app.controller('TacGiaFinder', function ($scope, $http) {
     };
 
 });
+
+app.controller('TheLoaiFinder', function ($scope, $http) {
+
+    $scope.listtg = [];
+
+    $scope.loadData = function (query) {
+        return $http({
+            method: "get",
+            url: "/TheLoaiSach/FindTheLoai",
+            params: { query: query }
+        }).then(function (response) {
+            return JSON.parse(response.data);
+        }, function () {
+            console.log("TacGiaSelectorCtrlr - loadData - load fail.");
+        })
+    };
+
+    $scope.GetAllTheLoaiByIdSach = function (id) {
+        return $http({
+            method: "Post",
+            url: "/TheLoaiSach/GetAllTheLoaiByIdSach",
+            params: { idSach: id }
+        }).then(function (response) {
+            $scope.listtg = response.data;
+        }, function () {
+            console.log("TacGiaSelectorCtrlr - GetAllTacGiaByIdSach - load fail.");
+        })
+    };
+
+});

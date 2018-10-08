@@ -15,6 +15,9 @@ using static BiTech.Library.Helpers.Tool;
 using Aspose.Cells;
 using System.Threading.Tasks;
 using System.Collections;
+using BiTech.Library.DAL.Common;
+using BiTech.Library.DAL.CommonConstants;
+using BiTech.Library.Common;
 
 namespace BiTech.Library.Controllers
 {
@@ -48,7 +51,7 @@ namespace BiTech.Library.Controllers
                 model.ListAll[i + 1] = item.MaSoThanhVien;
                 i += 2;
             }
-            model.ListThanhVien = listThanhVien.OrderBy(x => x.MaSoThanhVien).ToList();
+            model.ListThanhVien = listThanhVien.ToList();
             ViewBag.ThongBao = false;
             return View(model);
         }
@@ -71,18 +74,23 @@ namespace BiTech.Library.Controllers
             }
             // Todo
             string strSearch = model.TextForSearch;
-            var listByName = _ThanhVienLogic.GetByName(strSearch);
-            var listByMSTV = _ThanhVienLogic.GetByMaSoThanhVien(strSearch);
-            if (listByName.Count > 0)
-                model.ListThanhVien = listByName;
-            else if (listByMSTV != null)
-                model.ListThanhVien = new List<ThanhVien>() { listByMSTV };
-            else
+            if (!String.IsNullOrEmpty(strSearch))
             {
-                model.ListThanhVien = listAll;
-                ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
-                ViewBag.ThongBao = true;
+                var listByName = _ThanhVienLogic.GetByName(strSearch.Trim());
+                var listByMSTV = _ThanhVienLogic.GetByMaSoThanhVien(strSearch.Trim());
+                if (listByName.Count > 0)
+                    model.ListThanhVien = listByName;
+                else if (listByMSTV != null)
+                    model.ListThanhVien = new List<ThanhVien>() { listByMSTV };
+                else
+                {
+                    model.ListThanhVien = listAll;
+                    ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
+                    ViewBag.ThongBao = true;
+                }
             }
+            else
+                model.ListThanhVien = listAll;
             return View(model);
         }
 
@@ -100,6 +108,25 @@ namespace BiTech.Library.Controllers
             UserViewModel model = new UserViewModel();
             model.TemptNgaySinh = "--/--/----";
             return View(model);
+        }
+
+        /// <summary>
+        /// Xét 12 số cho mã số
+        /// </summary>
+        /// <param name="ms"></param>
+        public string ValidMaSo(string ms)
+        {
+            int len = ms.Length;
+            if (len < 12)
+            {
+                for (int i = 0; i < (12 - len); i++)
+                {
+                    ms = ms.Insert(0, "0");
+                }
+            }
+            else
+                return ms;
+            return ms;
         }
 
         [HttpPost]
@@ -126,6 +153,7 @@ namespace BiTech.Library.Controllers
                 // Loại tài khoản  
                 LoaiTK = "hs"
             };
+            thanhVien.MaSoThanhVien = ValidMaSo(thanhVien.MaSoThanhVien.Trim());
             DateTime ngaySinh = new DateTime();
             if (viewModel.TemptNgaySinh.Equals("--/--/----") == false)
             {
@@ -513,9 +541,13 @@ namespace BiTech.Library.Controllers
             return View(model);
         }
 
-        public ActionResult ExportWord(string idTV)
+        public ActionResult ExportWord(string IdTV)
         {
-            ViewBag.IdTV = idTV;
+            ViewBag.IdTV = IdTV;
+            if (string.IsNullOrEmpty(IdTV))
+            {
+                TempData["lstMS"] = (List<UserViewModel>)TempData["lstMS"];
+            }
             return View();
         }
 
@@ -578,6 +610,8 @@ namespace BiTech.Library.Controllers
 
         public ActionResult MauThe(string mauThe, string idTV)
         {
+            var lstTV = (List<UserViewModel>)TempData["lstMS"];
+            TempData["lstMS"] = TempData["lstMS"];
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             ThongTinThuVienLogic _thongTinThuVienLogic = new ThongTinThuVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             List<string> lstHeader = new List<string>();
@@ -588,8 +622,15 @@ namespace BiTech.Library.Controllers
             ExcelManager excelManager = new ExcelManager();
 
             List<ThanhVien> listTV = new List<ThanhVien>();
-            if (string.IsNullOrEmpty(idTV))
-                listTV = _ThanhVienLogic.GetAllHS();
+            if (string.IsNullOrEmpty(idTV)) //Chon nhieu
+            {
+                //listTV = _ThanhVienLogic.GetAllHS();
+                foreach(var item in lstTV)
+                {
+                    var mem = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
+                    listTV.Add(mem);
+                }
+            }
             else
             {
                 var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
@@ -816,6 +857,19 @@ namespace BiTech.Library.Controllers
                     {
                         item.ListError.Add("Rỗng ô nhập \"Ngày sinh\"");
                     }
+                    // Định dạng mã thành viên 12 số 
+                    int length = item.MaSoThanhVien.Length;
+                    if (length < 12)
+                    {
+                        for (int i = 0; i < 12 - length; i++)
+                        {
+                            item.MaSoThanhVien = item.MaSoThanhVien.Insert(0, "0");
+                        }
+                    }
+                    if (length > 12)
+                    {
+                        item.ListError.Add("Mã học sinh không được quá 12 số");
+                    }
                     // Lưu vào CSDL Thành Viên không bị lỗi  
                     if (item.ListError.Count == 0)
                     {
@@ -839,7 +893,7 @@ namespace BiTech.Library.Controllers
                     // Tạo ds Thành Viên bị lỗi  
                     else
                         ListFail.Add(item);
-                }               
+                }
                 #region Tạo file excel cho ds Thành Viên bị lỗi   
 
                 if (ListFail.Count > 0)
@@ -943,6 +997,11 @@ namespace BiTech.Library.Controllers
                         if (String.IsNullOrEmpty(item.MaSoThanhVien.Trim()))
                             ws.Cells[firstRow, firstColumn + 3].SetStyle(styleError);
 
+                        if (item.MaSoThanhVien.Length > 12)
+                        {
+                            ws.Cells[firstRow, firstColumn + 3].SetStyle(styleError);
+                        }
+
                         if (String.IsNullOrEmpty(item.GioiTinh.Trim()))
                             ws.Cells[firstRow, firstColumn + 4].SetStyle(styleError);
 
@@ -1007,5 +1066,301 @@ namespace BiTech.Library.Controllers
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(filedata, contentType);
         }
+
+        #region Vinh - Xuất thẻ Học sinh - chọn nhiều 
+        /// <summary>
+        /// Hàm xuất thẻ - tìm kiếm theo mã hoặc tên
+        /// </summary>
+        /// <param name="KeySearch"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult XuatTheHS(KeySearchViewModel KeySearch, int? page)
+        {            
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            if (Session["CheckTV"] == null)
+                Session["CheckTV"] = new List<UserViewModel>();
+            ViewBag.container = (List<UserViewModel>)Session["CheckTV"];
+
+            ListMemberModel model = new ListMemberModel();
+            string memType = "hs";
+            var list = _ThanhVienLogic.GetMembersSearch(KeySearch.Keyword, memType);
+            ViewBag.number = list.Count();
+
+            foreach (var item in list)
+            {
+                UserViewModel member = new UserViewModel()
+                {
+                    Id = item.Id,
+                    Ten = item.Ten,
+                    ChucVu = item.ChucVu, //Tổ cho giáo viên
+                    LopHoc = item.LopHoc,
+                    GioiTinh = item.GioiTinh,
+                    NgaySinh = item.NgaySinh,
+                    MaSoThanhVien = item.MaSoThanhVien
+                };
+
+                model.Members.Add(member);
+            }
+            return View(model.Members.ToPagedList(pageNumber, pageSize));
+        }        
+
+        [HttpPost]
+        public ActionResult XuatTheHS()
+        {
+            try
+            {
+                // Lấy list id checked
+                var lstUserChecked = (List<UserViewModel>)Session["CheckTV"];
+
+                //RedirectToAction("ExportWord", "");
+                TempData["lstMS"] = lstUserChecked;
+                //Xuất thẻ theo list lstUserChecked
+                if (lstUserChecked.Count != 0)
+                    return RedirectToAction("ExportWord", "HocSinh");
+                return RedirectToAction("XuatTheHS", "HocSinh");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        #endregion
+
+        #region Tai
+        [HttpPost]
+        public ActionResult DeleteSingle(string idThanhVien)
+        {
+            try
+            {
+                DeleteById(idThanhVien);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddList(string Id)
+        {
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+
+            if (Session["CheckTV"] == null)//nếu null mới được khởi tạo
+                Session["CheckTV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV"];
+            var tv = _ThanhVienLogic.GetById(Id);
+
+            if (container == null)
+            {
+                container = new List<UserViewModel>();
+            }
+            if (!container.Any(x => x.Id == Id))
+            {
+                UserViewModel newItem = new UserViewModel();
+                newItem.Id = tv.Id;
+                newItem.Ten = tv.Ten;
+                newItem.MaSoThanhVien = tv.MaSoThanhVien;
+                newItem.GioiTinh = tv.GioiTinh;
+                newItem.NgaySinh = tv.NgaySinh;
+                newItem.LopHoc = tv.LopHoc;
+                newItem.ChucVu = tv.ChucVu; //Tổ - giáo viên
+
+                container.Add(newItem);
+            }
+
+            Session["CheckTV"] = container;
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteItem(string Id)
+        {
+            if (Session["CheckTV"] == null)//nếu null mới được khởi tạo
+                Session["CheckTV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV"];
+            if (container != null)
+            {
+                container.RemoveAll(x => x.Id == Id);
+                Session["CheckTV"] = container;
+            }
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteAll()
+        {
+            Session["CheckTV"] = new List<UserViewModel>();
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        private void DeleteById(string idThanhVien)
+        {
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            ThanhVien thanhVien = _ThanhVienLogic.GetById(idThanhVien);
+            //GetList: thông tin mượn sách by idUser
+            List<ThongTinMuonSach> list_TTMS = _ThongTinMuonSachLogic.GetAllbyIdUser(thanhVien.MaSoThanhVien);
+            RemoveFileFromServer(thanhVien.HinhChanDung);
+            RemoveFileFromServer(thanhVien.QRLink, false);
+            if (list_TTMS.Count() == 0)
+            {
+                //Xoá row table Thành Viên - xoá thật
+                _ThanhVienLogic.DeleteUser(thanhVien.Id);
+            }
+            else
+            {
+                thanhVien.IsDeleted = true;
+                _ThanhVienLogic.Update(thanhVien);
+            }
+        }
+
+        /// <summary>
+        /// Xoa image khoi server
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private bool RemoveFileFromServer(string path, bool isDeleteFolderParent = true)
+        {
+            var fullPath = Request.MapPath(path);
+            if (!System.IO.File.Exists(fullPath)) return false;
+            try //Maybe error could happen like Access denied or Presses Already User used
+            {
+                System.IO.File.Delete(fullPath);
+                if (isDeleteFolderParent)
+                    DeleteFolderParent(fullPath);
+                return true;
+            }
+            catch (Exception e)
+            {
+                //Debug.WriteLine(e.Message);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Xoa folder chua file
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private bool DeleteFolderParent(string path)
+        {
+            var pathFolder = Directory.GetParent(path).FullName;
+            Directory.Delete(pathFolder);
+            return false;
+        }      
+
+        public ActionResult DeleteMulti(string strSearch, int? page)
+        {
+            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            UserViewModel user = new UserViewModel();
+            DeleteMultiViewModel model = new DeleteMultiViewModel();
+            // Autocomplete
+            List<ThanhVien> listAll = _ThanhVienLogic.GetAllHS();
+            int i = 0;
+            user.ListAll = new string[listAll.Count * 2];
+            foreach (var item in listAll)
+            {
+                user.ListAll[i] = item.Ten;
+                user.ListAll[i + 1] = item.MaSoThanhVien;
+                i += 2;
+            }
+            ViewBag.ThongBao = false;
+            // Todo           
+            if (!String.IsNullOrEmpty(strSearch))
+            {
+                var listByName = _ThanhVienLogic.GetByName(strSearch.Trim());
+                var listByMSTV = _ThanhVienLogic.GetByMaSoThanhVien(strSearch.Trim());
+                if (listByName.Count > 0)
+                    user.ListThanhVien = listByName;
+                else if (listByMSTV != null)
+                    user.ListThanhVien = new List<ThanhVien>() { listByMSTV };
+                else
+                {
+                    user.ListThanhVien = listAll;
+                    ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
+                    ViewBag.ThongBao = true;
+                }
+            }
+            else
+                user.ListThanhVien = listAll;
+            // Truyền dữ liệu
+            foreach (var item in user.ListThanhVien)
+            {
+                UserViewModel userTemp = new UserViewModel();
+                userTemp.Id = item.Id;
+                userTemp.Ten = item.Ten;
+                userTemp.NgaySinh = item.NgaySinh;
+                userTemp.GioiTinh = item.GioiTinh;
+                userTemp.NienKhoa = item.NienKhoa;
+                userTemp.UserName = item.UserName;
+                userTemp.MaSoThanhVien = item.MaSoThanhVien;
+                userTemp.LinkAvatar = item.HinhChanDung;
+                userTemp.ListAll = user.ListAll;
+                model.ListThanhVien.Add(userTemp);
+            }
+            // Phân trang
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+            ViewBag.paged = page;
+            ViewBag.pageSize = pageSize;
+            ViewBag.pages = pageNumber;
+            ViewBag.number = user.ListThanhVien.Count();
+            return View(model.ListThanhVien.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public ActionResult DeleteMulti(List<string> chon, string paging, string pageSize, string colRowCount)
+        {
+            // xóa thành viên         
+            if (paging != "")
+            {
+                //Count max item in page
+                int kq_so1 = (int.Parse(paging) * int.Parse(pageSize)) - int.Parse(colRowCount);
+                int SlItemInPage = int.Parse(pageSize);
+
+                //kq_so1 >= 0 => đang ở page cuối
+                if (kq_so1 >= 0)
+                {
+                    SlItemInPage = SlItemInPage - kq_so1;
+
+                    //Nếu cái item ở trang cuối được xoá hết thì lùi 1 page
+                    if (chon.Count == SlItemInPage)
+                    {
+                        paging = (((int.Parse(paging) - 1) == 0) ? 1 : int.Parse(paging) - 1).ToString();
+                    }
+                }
+            }
+
+            if (chon != null)
+            {
+                foreach (string item in chon)
+                {
+                    DeleteById(item);
+                }
+            }
+
+            return RedirectToAction("DeleteMulti", "HocSinh", new
+            {
+                page = paging
+            });
+        }
+
+        #endregion
     }
 }

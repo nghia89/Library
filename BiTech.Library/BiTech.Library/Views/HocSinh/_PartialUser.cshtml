@@ -1,5 +1,4 @@
-﻿@*@model  List<BiTech.Library.DTO.ThanhVien>*@
-@model PagedList.IPagedList<ThanhVien>
+﻿@model PagedList.IPagedList<ThanhVien>
 @using PagedList.Mvc;
 @using BiTech.Library.DTO
 @{
@@ -7,8 +6,7 @@
     int stt = 1;
 }
 <div class="text-danger">@ViewBag.SearchFail</div>
-@*<input class="form-control" id="mySearch" type="text" placeholder="Tìm kiếm..">*@
-<table ng-app="LibraryApp" border="1" class="table table-hover table-bordered">
+<table border="1" class="table table-hover table-bordered">
 
     <thead>
         <tr class="table-info text-center">
@@ -30,7 +28,6 @@
                 <td>@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
                 <td class="a_td" onclick="window.location = '/HocSinh/Details?idUser=@item.Id'">
                     @item.Ten
-                    @*@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null)*@
                 </td>
                 <td>@item.MaSoThanhVien</td>
                 <td>@item.LopHoc</td>
@@ -55,11 +52,7 @@
                         <td>Đã bị khóa</td>
                     }
                 }
-                @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
-                    @*<a class="color-white btn btn-sm btn-primary btn-inTable" href="@Url.Action("Details", new { @IdUser = @item.Id })">
-                            <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
-                        </a>*@
                     @if (item.TrangThai == EUser.Active)
                     {
                         <a class="color-white btn btn-sm btn-success my-button btn-inTable" title="Khoá" href="javascript:Delete('@item.Id','@item.Ten')">
@@ -74,7 +67,6 @@
                     }
 
                 </td>
-                @*<td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>*@
             </tr>
                         { stt++; }
                     }

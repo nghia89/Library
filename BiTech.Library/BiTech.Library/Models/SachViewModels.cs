@@ -19,6 +19,9 @@ namespace BiTech.Library.Models
         [Required(ErrorMessage ="Vui lòng không để trống")]
         public List<string> ListTacGiaJson { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng không để trống")]
+        public List<string> ListTheLoaiJson { get; set; }
+
         public SachUploadModel()
         {
 
@@ -45,7 +48,7 @@ namespace BiTech.Library.Models
         [Required]
         public string TenSachKhongDau { get; set; }
 
-        [Required] 
+        
 		public string IdTheLoai { get; set; }
 
 		[Required] 
@@ -169,5 +172,13 @@ namespace BiTech.Library.Models
         public List<ArrayList> ListShow { get; set; } = new List<ArrayList>();
         public string FileName { get; set; }
         public string FilePath { get; set; }
+    }
+
+    public class SachCaBietViewModel
+    {
+        public string MaKSCB { get; set; }
+        public string  MaCaBietCu { get; set; }
+        public string IdSach { get; set; }
+        public string TenSach { get; set; }
     }
 }

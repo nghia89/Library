@@ -1,4 +1,5 @@
 ﻿using BiTech.Library.DAL;
+using BiTech.Library.DAL.Common;
 using BiTech.Library.DAL.Engines;
 using BiTech.Library.DTO;
 using System;
@@ -90,7 +91,17 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetAllGV();
         }
+        public bool DeleteUser(string id)
+        {
+            return _ThanhVienEngine.Remove(id);
+        }
         #endregion
 
+        #region Vinh
+        public List<ThanhVien> GetMembersSearch(string KeySearch, string memType)
+        {
+            return _ThanhVienEngine.GetMembersSearch(KeySearch, memType);
+        }
+        #endregion
     }
 }

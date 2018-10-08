@@ -1,0 +1,226 @@
+﻿@model IPagedList<BiTech.Library.Models.UserViewModel>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+    var listSach = ViewBag.ListSach;
+    var list = (IEnumerable<BiTech.Library.Models.UserViewModel>)ViewBag.container;
+    var i = 0;
+}
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<div class="title" style="float: left;">Danh sách thành viên</div>
+<div class="clearfix"></div>
+<div class="clearfix">
+    <div class="form-group row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/HocSinh'">
+                <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+            </button>
+        </div>
+    </div>
+
+    <form action="/GiaoVien/XuatTheGV" class="clearfix">
+        <div class="input-group form-group text-left">
+            <div class="form-control form-control-sm p-0" style="position:relative;">
+                <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm border-0" placeholder="Nhập tên hoặc mã giáo viên...">
+            </div>
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-primary" id="btnSearch" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<form action="/GiaoVien/XuatTheGV" method="post" class="clearfix" id="ExportMany">
+    <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
+        <input type="button" value="Xuất thẻ" onclick="XuatThe()" class="btn btn-sm btn-danger ml-sm-2" />
+    </div>
+    <div class="book_content pb-sm-2 pl-sm-2 p-3 clearfix">
+        <table class="table table-bordered" id="tblFunction">
+            <thead>
+                <tr class="table-info">
+                    <th width="10" scope="col"><input type="checkbox" id="CheckAll" /></th>
+                    <th width="10">STT</th>
+                    <th width="30%" scope="col">Tên giáo viên</th>
+                    <th width="20%" scope="col">Mã giáo viên</th>
+                    <th width="20%" scope="col">Tổ</th>
+                    <th width="20%" scope="col">Ngày sinh</th>
+                    <th width="10%" scope="col">Giới tính</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    i++;
+                    <tr class="">
+                        @if (list.Any(x => x.Id == item.Id))
+                        {
+                            <td> <input type="checkbox" checked name="chon" class="AddList_HS" value="@item.Id"></td>
+                        }
+                        else
+                        {
+                            <td> <input type="checkbox" name="chon" class="AddList_HS" value="@item.Id"></td>
+                        }
+                        <td width="10" align="center">@i</td>
+                        <td width="30%">@item.Ten</td>
+                        <td width="20%">@item.MaSoThanhVien</td>
+                        <td width="20%">@item.ChucVu</td>
+                        <td width="20%">@item.NgaySinh.ToString("dd-MM-yyyy")</td>
+                        <td width="10%">@item.GioiTinh</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+@if (@ViewBag.number > 5)
+{
+    @Html.PagedListPager(Model, page => Url.Action("XuatTheGV", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+}
+@section scripts{
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    @*<script>
+            var ExportCardObject = new controllerExportCard();
+            ExportCardObject.initialize();
+        </script>*@
+    <script>
+        $(document).ready(function () {
+            if ($('.AddList_HS:checked').length === $('#tblFunction tbody tr .AddList_HS').length) {
+                $('#CheckAll').prop('checked', true);
+            }
+        });
+    </script>
+    <script>
+        $(document).keypress(function (e) {
+            if (e.which === 13) {
+                $("#btnSearch").submit();
+            }
+        });
+    </script>
+
+    <script>
+        window.setTimeout(function () {
+            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 4000);
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            //Chọn Sách
+            $("#CheckAll").click(function () {
+                var status = this.checked;
+                $("input[name='chon']").each(function () { this.checked = status; })
+                if (status == true) {
+                    $('.AddList_HS').each(function () {
+                        if ($('.AddList_HS').is(':checked')) {
+                            var idCheck = $(this).val();
+                            AddList(idCheck);
+                        }
+                    })
+                }
+                else {
+                    DeleteAll();
+                }
+            });
+
+            //$('tbody :checkbox').on('click', function () {
+            //    $(this).closest('table').find('#CheckAll').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll
+            //});
+
+        });
+
+        $('.AddList_HS').change(function () {
+            if ($(this).is(":checked")) {
+                var idCheck = $(this).val();
+                AddList(idCheck);
+            }
+            else {
+                var rmIdCheck = $(this).val();
+                DeleteItem(rmIdCheck);
+            }
+
+            if ($('.AddList_HS:checked').length === $('#tblFunction tbody tr .AddList_HS').length) {
+                $('#CheckAll').prop('checked', true);
+            } else {
+                $('#CheckAll').prop('checked', false);
+            }
+
+        });
+
+        //thêm dánh sách
+        function AddList(idCheck) {
+            $.ajax({
+                url: '/GiaoVien/AddList',
+                data: {
+                    Id: idCheck
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        return true;
+                    }
+                }
+            });
+        }
+
+        //xóa từng danh sách
+        function DeleteItem(rmIdCheck) {
+            $.ajax({
+                url: '/GiaoVien/DeleteItem',
+                data: {
+                    Id: rmIdCheck
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        return true;
+                    }
+                }
+            });
+        }
+
+        //xóa từng danh sách
+        function DeleteAll() {
+            $.ajax({
+                url: '/GiaoVien/DeleteAll',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        return true;
+                    }
+                }
+            });
+        }
+
+        //Xuat
+        function XuatThe() {
+            //swal({
+            //    title: " Bạn có muốn xuất danh sách đã chọn ?",
+            //    text: "ABC",
+            //    type: "info",
+            //    showCancelButton: true,
+            //    confirmButtonClass: "btn-danger",
+            //    confirmButtonText: "Có",
+            //    cancelButtonText: "Không",
+            //    closeOnConfirm: false,
+            //    closeOnCancel: true
+            //},
+            //    function (isConfirm) {
+            //        if (isConfirm) {
+            //            $("#ExportMany").submit();
+            //        }
+            //    });
+            $("#ExportMany").submit();
+        }
+    </script>
+
+    @*<script src="~/Scripts/AutocompleteSach.js"></script>*@
+}

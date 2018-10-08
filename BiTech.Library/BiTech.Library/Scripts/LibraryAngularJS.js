@@ -81,7 +81,7 @@ app.controller('ImportBookCtrlr', function ($scope, $http) {
                 else
                     $scope.list.push(response.data);
                 $('#idSach').focus();
-                $scope.maKS = null;                                
+                $scope.maKS = null;
                 $scope.soLuong = null;
                 $scope.GhiChuDon = null;
                 $("#TenSach").val("");
@@ -573,14 +573,7 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
             var bool_kq = false;
             //Kiểm tra
             if ($scope.list.length > 0) {
-                //Số lượng sách còn lại lớn hơn không
-                if ((parseInt($scope.list[0].SoLuong) - parseInt($scope.Get_SoluongSachDangMuonTheoMKS($scope.list[0].MaKiemSoat))) > 0) {
-                    bool_kq = true;
-                } else {
-                    //Số lượng trong sách hết
-                    bool_kq = false;
-                    $scope.NoiDungThongBao = "Sách trong kho đã hết";
-                }
+                bool_kq = true;
             } else {
                 bool_kq = false;
                 $scope.NoiDungThongBao = ($scope.masach == "") ? "Chưa nhập mã sách" : "Mã sách không tồn tại";
@@ -588,28 +581,19 @@ app.controller('MuonSachCtrlr', function ($scope, $http, $filter, $location) {
 
             //kết quả
             if (bool_kq) {
-                //Kiểm tra MaKiemSoat có tồn tại trong list chưa
-                let index = $scope.list_book_queue.findIndex(_ => _.MaKiemSoat == $scope.list[0].MaKiemSoat);
-                if (index >= 0) {
-                    //Đã tồn tại
-                    $scope.list_book_queue[index].SoLuong = (parseInt($scope.list_book_queue[index].SoLuong) + parseInt($scope.SoluongSachMuon)).toString();
-                    $("#List_" + $scope.list_book_queue[index].MaKiemSoat).val($scope.list_book_queue[index].SoLuong);
-                } else {
-                    //Chưa tồn tại
-                    $scope.items = {
-                        Id: "",
-                        IdUser: parseLocation(window.location.search)['IdUser'],
-                        MaKiemSoat: $scope.list[0].MaKiemSoat,
-                        TenSach: $scope.list[0].TenSach,
-                        SoLuong: "1",
-                        SoLuongMax: (parseInt($scope.list[0].SoLuong)).toString(),
-                        NgayMuon: Date.now().toString(),
-                        NgayTra: $("#ngayPhaiTra").val(),
-                        TinhTrang: false
-                    };
-                    $scope.list_book_queue.push($scope.items);
-
-                }
+                //Chưa tồn tại
+                $scope.items = {
+                    Id: "",
+                    IdUser: parseLocation(window.location.search)['IdUser'],
+                    MaKiemSoat: $scope.list[0].MaKiemSoat,
+                    TenSach: $scope.list[0].TenSach,
+                    SoLuong: "1",
+                    SoLuongMax: (parseInt($scope.list[0].SoLuong)).toString(),
+                    NgayMuon: Date.now().toString(),
+                    NgayTra: $("#ngayPhaiTra").val(),
+                    TinhTrang: false
+                };
+                $scope.list_book_queue.push($scope.items);
             } else {
                 $scope.show_thongbao = true;
             }

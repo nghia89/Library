@@ -8,6 +8,6 @@ namespace BiTech.Library.DAL.CommonConstants
 {
   public  class CommonConstants
     {
-        public const string Session= "SessionCart";
+        public const string Session= "SessionCart";        
     }
 }
