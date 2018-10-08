@@ -1,0 +1,47 @@
+﻿@model  IList<BiTech.Library.Models.BoSuuTapViewModel>
+@{
+    ViewBag.Title = "Danh sách bộ sưu tập";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var i = 0;
+}
+
+<div class="Title">Danh Sách bộ sưu tập</div>
+
+<p>@Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary btn-sm" })</p>
+
+
+<table class="table table-hover table-bordered ">
+    <thead>
+        <tr class="table-info">
+            <th width="50" align="right">STT</th>
+            <th scope="col">Tên bộ sưu tập</th>
+            <th scope="col">Ngày tạo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            i++;
+            <tr>
+                <td align="center">@i</td>
+                <td>@item.Name</td>
+                <td>@item.CreateDateTime</td>
+
+                <td>
+                    <button class="color-white btn btndanger btn-sm btn-inTable" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">
+                        <i class="fa">&#xf044;</i> Sửa
+                    </button>
+                </td>
+
+            </tr>
+
+        }
+
+    </tbody>
+
+
+</table>
+
+

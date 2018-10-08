@@ -70,6 +70,7 @@
     <Compile Include="DBLogic\AccessInfoLogic.cs" />
     <Compile Include="DBLogic\BackupAndRestore.cs" />
     <Compile Include="DBLogic\Base\BaseLogic.cs" />
+    <Compile Include="DBLogic\BoSuuTapLogic.cs" />
     <Compile Include="DBLogic\ChiTietNhapSachLogic.cs" />
     <Compile Include="DBLogic\ChiTietXuatSachLogic.cs" />
     <Compile Include="DBLogic\ChucVuLogic.cs" />

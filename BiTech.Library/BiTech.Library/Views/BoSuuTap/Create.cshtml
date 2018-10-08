@@ -1,0 +1,47 @@
+﻿
+@model BiTech.Library.Models.BoSuuTapViewModel
+@{
+    ViewBag.Title = "Thêm mới bộ sưu tập";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+<div class="Title">Thêm mới bộ sưu tập</div>
+
+<div class="form-group row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
+            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+        </button>
+    </div>
+</div>
+
+@using (Html.BeginForm("Create", "BoSuuTap", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="tenke">Tên kệ:<span style="color:#dc3545">*</span></label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control form-control-sm", @id = "tenke" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <label class="col-form-label col-sm-2" for="tenke">mã bộ sưu tập:<span style="color:#dc3545">*</span></label>    
+
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <input type="submit" value="Tạo mới" class="btn btn-primary btn-sm" />
+            </div>
+        </div>
+
+    </div>
+}
+
+
+

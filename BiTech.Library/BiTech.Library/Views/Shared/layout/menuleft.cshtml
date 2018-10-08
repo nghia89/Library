@@ -21,7 +21,7 @@
     List_Controller_TabThanhVien[0] = "HocSinh";
     List_Controller_TabThanhVien[1] = "GiaoVien";
 
-    string[] List_Controller_TabSach = new string[10];
+    string[] List_Controller_TabSach = new string[11];
     List_Controller_TabSach[0] = "Sach";
     List_Controller_TabSach[1] = "TheLoaiSach";
     List_Controller_TabSach[2] = "Kesach";
@@ -32,6 +32,7 @@
     List_Controller_TabSach[7] = "DDC";
     List_Controller_TabSach[8] = "Marc";
     List_Controller_TabSach[9] = "ExportMarc";
+    List_Controller_TabSach[10] = "BoSuuTap";
 
     string[] List_Controller_TabMuonTra = new string[7];
     List_Controller_TabMuonTra[0] = "MuonSach";
@@ -171,6 +172,11 @@
                             <div id="collapse1" class="collapse @((Bool_TabSach) ? "show" : "")" data-parent="#accordion">
                                 <div class="card-body">
                                     <ul>
+                                        <li class="@((controller == "BoSuuTap") ? "active" : "")">
+                                            <a href="@Url.Action("index", "BoSuuTap")" title="Sách">
+                                                Bộ sưu tập
+                                            </a>
+                                        </li>
                                         <li class="@((controller == "Sach" || controller == "Marc") ? "active" : "")">
                                             <a href="@Url.Action("index", "Sach")" title="Sách">
                                                 Sách

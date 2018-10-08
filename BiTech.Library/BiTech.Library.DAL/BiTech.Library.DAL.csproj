@@ -79,6 +79,7 @@
     <Compile Include="Common\KeySearchViewModel.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Engines\AccessInfoEngine.cs" />
+    <Compile Include="Engines\BoSuuTapEngines.cs" />
     <Compile Include="Engines\ChiTietNhapSachEngine.cs" />
     <Compile Include="Engines\ChiTietXuatSachEngine.cs" />
     <Compile Include="Engines\ChucVuEngine.cs" />
@@ -99,6 +100,8 @@
     <Compile Include="Engines\TheLoaiSachEngine.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="MongoMirgrations\AccessInfo_Mirgrations\M001_Init.cs" />
+    <Compile Include="MongoMirgrations\BoSuutap_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\BoSuutap_Mirgrations\M001\V0_0_1_thembo_BoSuuTap.cs" />
     <Compile Include="MongoMirgrations\ChiTietNhapSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\M001\V_0_0_2_RemoveField.cs" />

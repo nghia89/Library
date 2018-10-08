@@ -20,5 +20,8 @@ namespace BiTech.Library.DTO
         public DocumentVersion Version { get; set; }
 
         public string Name { get; set; }
+
+        public string Code { get; set; }
+        public bool Status { get; set; }
     }
 }

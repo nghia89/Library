@@ -99,7 +99,7 @@ namespace BiTech.Library.Controllers
             }
 
             //Sắp xếp
-            
+
             if (KeySearch.SapXep == "1")
                 model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
             if (KeySearch.SapXep == "11")
@@ -160,7 +160,14 @@ namespace BiTech.Library.Controllers
                 PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                BoSuuTapLogic _BoSuuTapLogic = new BoSuuTapLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
+                if (model.SachDTO.IdBoSuuTap == null)
+                {
+                    var nameId = _BoSuuTapLogic.GetName("sach");
+                    if (nameId != null)
+                        model.SachDTO.IdBoSuuTap = nameId.Id;
+                }
 
                 var TenSachKhongDau = ConvertToUnSign.ConvertName(model.SachDTO.TenSach);
                 model.SachDTO.TenSachKhongDau = TenSachKhongDau;
@@ -538,6 +545,8 @@ namespace BiTech.Library.Controllers
                     sach.NguoiBienDich = model.SachDTO.NguoiBienDich;
                     sach.TaiBan = model.SachDTO.TaiBan;
                     sach.TaiLieuDinhKem = model.SachDTO.TaiLieuDinhKem;
+                    sach.TaiLieuDinhKem = model.SachDTO.ISSN;
+                    sach.TomTat = model.SachDTO.LLC;
                     sach.TomTat = model.SachDTO.TomTat;
 
                     string failTG = "";
@@ -1623,7 +1632,7 @@ namespace BiTech.Library.Controllers
             try //Maybe error could happen like Access denied or Presses Already User used
             {
                 System.IO.File.Delete(fullPath);
-                if(isDeleteFolderParent)
+                if (isDeleteFolderParent)
                     DeleteFolderParent(fullPath);
                 return true;
             }
