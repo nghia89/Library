@@ -91,6 +91,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetAllGV();
         }
+        public bool DeleteUser(string id)
+        {
+            return _ThanhVienEngine.Remove(id);
+        }
         #endregion
 
         #region Vinh

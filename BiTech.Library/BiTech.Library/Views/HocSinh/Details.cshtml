@@ -28,7 +28,11 @@
             <a class="color-white btn btn-sm btn-primary" href="@Url.Action("ExportWord", new { @idTV = @Model.MaSoThanhVien })">
                 <i style="font-size:20px" class="fa fa-id-card"></i> In thẻ thư viện
             </a>
+           
+            <a href="#" class="btn btn-danger btn-sm" onclick="XoaThanhVien('@Model.Id','@Model.Ten')"> Xóa </a>
+              
         </div>
+        
         <img class="detail-control-img" src="@Model.QRLink" alt="Mã QR" style="width:auto" />
     </div>
 
@@ -143,7 +147,6 @@
         </div>
     </div>
 </div>
-
 <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     function DeactiveMember(Id, Ten) {
@@ -243,6 +246,42 @@
                     })
                 } else {
                     swal("Hủy!", null, "error");
+                }
+            });
+    }
+
+    //Xoá Thành Viên
+    function XoaThanhVien(id, ten) {
+        swal({
+            title: " Bạn có muốn xóa học sinh " + ten + "?",
+            text: "Bạn sẽ không thể khôi phục lại học sinh này sau khi xóa!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Có",
+            cancelButtonText: "Không",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/HocSinh/DeleteSingle",
+                        data: { "idThanhVien": id },
+                        success: function (resultData) {
+                            swal({
+                                title: "Bạn đã xóa thành công!",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                                function (isConfirm) {
+                                    window.location.href = '/HocSinh/Index';
+                                });
+                        }
+                    });
                 }
             });
     }

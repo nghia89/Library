@@ -1,5 +1,4 @@
-﻿@*@model  List<BiTech.Library.DTO.ThanhVien>*@
-@model PagedList.IPagedList<ThanhVien>
+﻿@model PagedList.IPagedList<ThanhVien>
 @using PagedList.Mvc;
 @using BiTech.Library.DTO
 @{
@@ -7,13 +6,11 @@
     int stt = 1;
 }
 <div class="text-danger">@ViewBag.SearchFail</div>
-@*<input class="form-control" id="mySearch" type="text" placeholder="Tìm kiếm..">*@
-<table ng-app="LibraryApp" border="1" class="table table-hover table-bordered">
+<table border="1" class="table table-hover table-bordered">
 
     <thead>
         <tr class="table-info text-center">
             <th class="text-center">STT</th>
-            @*<th>Ảnh thành viên</th>*@
             <th>Tên giáo viên</th>
             <th>Mã giáo viên</th>
             <th>Tổ</th>
@@ -29,20 +26,8 @@
 
             <tr class="text-center">
                 <td class="text-center">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</td>
-                @*<td>@stt</td>*@
-                <!--<td class="book_box">
-                    <div class="book_content">
-                        <div class="book_image">
-                            <div class="book_image_in">
-                                @*<div class="book_number">@((ViewBag.pageSize * (ViewBag.pages - 1)) + stt)</div>*@
-                                <object data='@Html.Raw(!string.IsNullOrEmpty(item.HinhChanDung) ? item.HinhChanDung : "/Content/Images/nancyy.jpg")' type="image/png"></object>
-                            </div>
-                        </div>
-                    </div>
-                </td>-->
                 <td class="a_td" onclick="window.location = '/GiaoVien/Details?idUser=@item.Id'">
                     @item.Ten
-                    @*@Html.ActionLink(@item.Ten, "Details", new { idUser = @item.Id }, null)*@
                 </td>
                 <td>@item.MaSoThanhVien</td>
                 <td>@item.ChucVu</td>
@@ -68,11 +53,7 @@
                     }
                 }
 
-                @*<td ng-controller="UserChucVuCtrlr" ng-init="GetNameChucVu('@item.IdChucVu')">{{ ChucVu }}</td>*@
                 <td>
-                    @*<a class="color-white btn btn-sm btn-primary btn-inTable" href="@Url.Action("Details", new { @IdUser = @item.Id })">
-                            <i style="font-size:20px" class="fa">&#xf0f6;</i> Xem thông tin chi tiết
-                        </a>*@
                     @if (item.TrangThai == EUser.Active)
                     {
                         <a class="color-white btn btn-sm btn-success my-button btn-inTable" title="Khoá" href="javascript:Delete('@item.Id','@item.Ten')">
@@ -87,7 +68,6 @@
                     }
 
                 </td>
-                @*<td><a href="@Url.Action("_Edit",new { @id = item.Id})">Sửa</a> | <a href="@Url.Action("Delete",new { id = item.Id})"> Xóa</a></td>*@
             </tr>
                         { stt++; }
                     }

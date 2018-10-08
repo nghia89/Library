@@ -1,10 +1,17 @@
-﻿using BiTech.Library.DAL.Respository;
+﻿using BiTech.Library.Common;
+using BiTech.Library.DAL.Respository;
 using BiTech.Library.DTO;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
+>>>>>>> Tai
 using System.Threading.Tasks;
 
 namespace BiTech.Library.DAL.Engines
@@ -16,6 +23,7 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<SachCaBiet>(tableName);
         }
+		
         #region Vinh      
 
         public SachCaBiet GetIdSachFromMaCaBiet(string maCaBiet)

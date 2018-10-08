@@ -11,8 +11,10 @@
         <button type="button" class="btn btn-primary btn-sm" onclick="window.location='@Url.Action("Index", "HocSinh")'">
             <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
         </button>
+        <a class="btn btn-sm btn-primary ml-2" href="~/Tempalates/MauHS.xlsx">Mẫu Excel</a>
     </div>
 </div>
+
 @*   @using (Html.BeginForm("ImportFromExcel", "GiaoVien", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()

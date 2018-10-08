@@ -1,0 +1,262 @@
+﻿@model IPagedList<BiTech.Library.Models.UserViewModel>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/AutoComplete.css" rel="stylesheet" />
+<div class="Title">Xóa giáo viên</div>
+<div class="form-group row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/GiaoVien'">
+            <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
+        </button>
+    </div>
+</div>
+
+
+@if (ViewBag.ThongBao)
+{
+    <div class="alert p-2 alert-danger alert-dismissible fade show">
+        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+        <strong>Thông báo!</strong> @ViewBag.SearchFail
+    </div>
+}
+
+@if (Model.Count == 0)
+{
+    <div style="font-size:22px;color:#FF4C4C">Danh sách giáo viên rỗng!</div>
+    <form action="DeleteMulti" class="clearfix" id="autocomplete" hidden>
+        <div class="input-group form-group text-left">
+            <div value="temp" class="form-control form-control-sm p-0" style="position:relative;">
+                <input type="text"
+                       id="searchName"
+                       name="strSearch"
+                       class="form-control form-control-sm border-0"
+                       autocomplete="off"
+                       onkeydown="if (event.keyCode == 13) { search_user(); }"
+                       placeholder="Nhập mã hoặc tên giáo viên ..." />
+            </div>
+            <div class="input-group-append">
+                <input id="btnsearch" type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <form action="DeleteMulti" class="clearfix" id="autocomplete">
+        <div class="input-group form-group text-left">
+            <div value="temp" class="form-control form-control-sm p-0" style="position:relative;">
+                <input type="text"
+                       id="searchName"
+                       name="strSearch"
+                       class="form-control form-control-sm border-0"
+                       autocomplete="off"
+                       onkeydown="if (event.keyCode == 13) { search_user(); }"
+                       placeholder="Nhập mã hoặc tên giáo viên ..." />
+            </div>
+            <div class="input-group-append">
+                <input id="btnsearch" type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+            </div>
+        </div>
+    </form>
+    int i = 1;
+    <form action="/GiaoVien/DeleteMulti" method="post" class="clearfix" id="DeleteMulti">
+
+        <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
+            <div class="clearfix pl-sm-2">
+                <input type="button" value="Xoá giáo viên" onclick="XoaThanhVien()" class="btn btn-sm btn-danger ml-sm-2" />
+                <input type="hidden" name="paging" value="@ViewBag.paged" />
+                <input type="hidden" name="pageSize" value="@ViewBag.pageSize" />
+                <input type="hidden" name="colRowCount" value="@ViewBag.number" />
+            </div>
+        </div>
+
+        <div class="book_content p-3 clearfix">
+
+            <table class="table table-hover table-bordered ">
+                <thead>
+                    <tr class="table-info">
+                        <th style="width: 10px">
+                            <input type="checkbox" name="chonhet" id="chonhet" />
+                        </th>
+                        <th align="center">STT</th>
+                        <th></th>
+                        <th>Tên giáo viên</th>
+                        <th>Tên User</th>
+                        <th>Mã số giáo viên</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>Lớp học</th>
+                        <th>Niêm khóa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="chon" value="@item.Id" class="chon" />
+                            </td>
+                            <td align="center">@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</td>
+                            <td><img width="100" src="@item.HinhChanDung??null" onerror="this.src = '/Content/Images/user5.jpg'"></td>
+                            <td>@item.Ten</td>
+                            <td>@item.UserName</td>
+                            <td>@item.MaSoThanhVien</td>
+                            <td>@item.GioiTinh</td>
+                            <td>@item.NgaySinh.ToShortDateString()</td>
+                            <td>@item.LopHoc</td>
+                            <td>@item.NienKhoa</td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
+    if (ViewBag.number > 30)
+    {
+        @Html.PagedListPager(Model, page => Url.Action("DeleteMulti", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    }
+}
+@{
+
+    // Tạo mảng chứ 1 phần tử tempt khi mảng rỗng
+    string[] listTempt = new string[ViewBag.number];
+    if (Model.FirstOrDefault() != null)
+    {
+        listTempt = Model.FirstOrDefault().ListAll;
+    }
+    else
+    {
+        listTempt = new string[1] { "" };
+    }
+}
+@section scripts{
+    <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        // Sự kiện Press Enter khi con trỏ ngoài ô text box
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                $("#autocomplete").submit();
+            }
+        });
+        // Sự kiện Press Enter khi con trỏ trong ô text box
+        function search_user() {
+            setTimeout(function () {
+                $('#autocomplete').submit();
+            }, 10);
+        }
+        //Xoá Thành Viên
+        function XoaThanhVien() {
+
+            swal({
+                title: " Bạn có muốn xóa danh sách đã chọn ?",
+                text: "Bạn sẽ không thể khôi phục lại sau khi xóa!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        title: "Bạn đã xóa thành công!",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonText: "OK",
+                        closeOnConfirm: false
+                    },
+                      function (isConfirm) {
+                          $("#DeleteMulti").submit();
+                      });
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            //Chọn Thành viên
+            $("#chonhet").click(function () {
+                var status = this.checked;
+                $("input[name='chon']").each(function () { this.checked = status; })
+            });
+
+            $('tbody :checkbox').on('click', function () {
+                $(this).closest('table').find('#chonhet').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll
+            });
+
+        });
+
+        // AutoCompelete Search
+        function AutoComplete(inp, arr) {
+            var currentFocus;
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "AutoComplete-list");
+                a.setAttribute("class", "AutoComplete-items");
+                this.parentNode.appendChild(a);
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        b.addEventListener("click", function (e) {
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "AutoComplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("AutoComplete-active");
+            }
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("AutoComplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("AutoComplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+        // Gọi hàm AutoComplete
+        AutoComplete(document.getElementById("searchName"), [@Html.Raw("'" + string.Join("', '", (string[])@listTempt) + "'")]);
+    </script>
+}
+

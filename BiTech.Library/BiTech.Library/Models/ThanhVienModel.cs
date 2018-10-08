@@ -101,7 +101,8 @@ namespace BiTech.Library.Models
 
 		[Display(Name = "Tổ")]
 		public string ChucVu { get; set; } //Sài cho giáo viên
-	}
+        public string NumberPage { get; set; }
+    }
     public class EditUserViewModel
     {
         public EditUserViewModel()
@@ -197,5 +198,10 @@ namespace BiTech.Library.Models
     public class ListMemberModel
     {
         public List<UserViewModel> Members { get; set; } = new List<UserViewModel>();
+    }
+	
+    public class DeleteMultiViewModel
+    {
+        public List<UserViewModel> ListThanhVien { get; set; } = new List<UserViewModel>();       
     }
 }

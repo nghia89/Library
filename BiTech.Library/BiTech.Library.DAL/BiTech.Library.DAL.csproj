@@ -126,6 +126,7 @@
     <Compile Include="MongoMirgrations\SachTacGia_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\TacGia_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\ThanhVien_Mirgrations\M000\Init.cs" />
+    <Compile Include="MongoMirgrations\ThanhVien_Mirgrations\M001\V0_0_02_AddIsDelete.cs" />
     <Compile Include="MongoMirgrations\TheLoaiSach_Mirgrations\M000\Init.cs" />
     <Compile Include="MongoMirgrations\TheLoaiSach_Mirgrations\M001\XoaIdTheLoaiCha_Thua.cs" />
     <Compile Include="MongoMirgrations\ThongTinThuVien_Mirgrations\M000\Init.cs" />
@@ -156,11 +157,11 @@
     <Folder Include="MongoMirgrations\KeSach_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\Language_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\NhaXuatBan_Mirgrations\M001\" />
+    <Folder Include="MongoMirgrations\SachCaBiet_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\SachTacGia_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\SachTheLoai_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\SoLuongSachTrangThai\M001\" />
     <Folder Include="MongoMirgrations\TacGia_Mirgrations\M001\" />
-    <Folder Include="MongoMirgrations\ThanhVien_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\ThongTinThuVien_Mirgrations\M001\" />
     <Folder Include="MongoMirgrations\TrangThaiSach_Mirgrations\M001\" />
   </ItemGroup>
