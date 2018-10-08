@@ -1058,12 +1058,15 @@ namespace BiTech.Library.Controllers
                 if (lstUserChecked.Count != 0)
                     return RedirectToAction("ExportWord", "GiaoVien");
                 return RedirectToAction("XuatTheGV", "GiaoVien");
+            }
             catch (Exception)
             {
                 return RedirectToAction("NotFound", "Error");
             }
         }
-		
+        #endregion
+
+
         #region Tai
         [HttpPost]
         public ActionResult DeleteSingle(string idThanhVien)

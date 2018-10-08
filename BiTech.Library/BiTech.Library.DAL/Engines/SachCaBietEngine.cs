@@ -11,7 +11,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
->>>>>>> Tai
 using System.Threading.Tasks;
 
 namespace BiTech.Library.DAL.Engines

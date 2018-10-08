@@ -1,21 +1,11 @@
-<<<<<<< HEAD
 ﻿using BiTech.Library.DAL;
 using BiTech.Library.DAL.Engines;
 using BiTech.Library.DTO;
-using System;
-=======
-﻿using System;
->>>>>>> Phongv25
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
-=======
-using BiTech.Library.DTO;
-using BiTech.Library.DAL.Engines;
-using BiTech.Library.DAL;
->>>>>>> Phongv25
+
 
 namespace BiTech.Library.BLL.DBLogic
 {
