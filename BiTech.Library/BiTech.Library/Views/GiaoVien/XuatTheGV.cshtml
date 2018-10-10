@@ -10,12 +10,19 @@
     var i = 0;
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
-<div class="title" style="float: left;">Danh sách thành viên</div>
+<div class="Title">Xuất Thẻ Thư Viện</div>
 <div class="clearfix"></div>
+@if (@ViewBag.SearchFail != "")
+{
+    <div class="alert p-2 alert-danger alert-dismissible fade show">
+        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+        <strong>Thông báo!</strong> @ViewBag.SearchFail
+    </div>
+}
 <div class="clearfix">
     <div class="form-group row">
         <div class="col-md-12">
-            <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/HocSinh'">
+            <button type="button" class="btn btn-primary btn-sm" onclick="window.location='/GiaoVien'">
                 <i class="fa fa-arrow-circle-left" style="padding-right: 4px;font-size: 17px;"></i>Trở lại
             </button>
         </div>
@@ -35,14 +42,23 @@
     </form>
 </div>
 <form action="/GiaoVien/XuatTheGV" method="post" class="clearfix" id="ExportMany">
-    <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
-        <input type="button" value="Xuất thẻ" onclick="XuatThe()" class="btn btn-sm btn-danger ml-sm-2" />
-    </div>
-    <div class="book_content pb-sm-2 pl-sm-2 p-3 clearfix">
+    @if (list.Count() > 0)
+    {
+        <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
+            <input type="button" value="Xuất thẻ" onclick="XuatThe()" class="btn btn-sm btn-danger ml-sm-2" id="btnXuat" />
+        </div>
+    }
+    else
+    {
+        <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
+            <input type="button" value="Xuất thẻ" onclick="XuatThe()" class="btn btn-sm btn-danger ml-sm-2" id="btnXuat" disabled />
+        </div>
+    }
+    <div class="pb-sm-2 pl-sm-3 row bar_mobile clearfix">
         <table class="table table-bordered" id="tblFunction">
             <thead>
-                <tr class="table-info">
-                    <th width="10" scope="col"><input type="checkbox" id="CheckAll" /></th>
+                <tr class="table-info text-center">
+                    <th width="10" scope="col"><input type="checkbox" id="CheckAll_GV" /></th>
                     <th width="10">STT</th>
                     <th width="30%" scope="col">Tên giáo viên</th>
                     <th width="20%" scope="col">Mã giáo viên</th>
@@ -58,38 +74,34 @@
                     <tr class="">
                         @if (list.Any(x => x.Id == item.Id))
                         {
-                            <td> <input type="checkbox" checked name="chon" class="AddList_HS" value="@item.Id"></td>
+                            <td> <input type="checkbox" checked name="chon" class="AddList_GV" value="@item.Id"></td>
                         }
                         else
                         {
-                            <td> <input type="checkbox" name="chon" class="AddList_HS" value="@item.Id"></td>
+                            <td> <input type="checkbox" name="chon" class="AddList_GV" value="@item.Id"></td>
                         }
                         <td width="10" align="center">@i</td>
                         <td width="30%">@item.Ten</td>
-                        <td width="20%">@item.MaSoThanhVien</td>
-                        <td width="20%">@item.ChucVu</td>
-                        <td width="20%">@item.NgaySinh.ToString("dd-MM-yyyy")</td>
-                        <td width="10%">@item.GioiTinh</td>
+                        <td width="20%" align="center">@item.MaSoThanhVien</td>
+                        <td width="20%" align="center">@item.ChucVu</td>
+                        <td width="20%" align="center">@item.NgaySinh.ToString("dd-MM-yyyy")</td>
+                        <td width="10%" align="center">@item.GioiTinh</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </form>
-@if (@ViewBag.number > 5)
+@if (@ViewBag.number > 30)
 {
     @Html.PagedListPager(Model, page => Url.Action("XuatTheGV", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 }
 @section scripts{
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    @*<script>
-            var ExportCardObject = new controllerExportCard();
-            ExportCardObject.initialize();
-        </script>*@
     <script>
         $(document).ready(function () {
-            if ($('.AddList_HS:checked').length === $('#tblFunction tbody tr .AddList_HS').length) {
-                $('#CheckAll').prop('checked', true);
+            if ($('.AddList_GV:checked').length === $('#tblFunction tbody tr .AddList_GV').length) {
+                $('#CheckAll_GV').prop('checked', true);
             }
         });
     </script>
@@ -112,52 +124,69 @@
 
         $(document).ready(function () {
             //Chọn Sách
-            $("#CheckAll").click(function () {
+            $("#CheckAll_GV").click(function () {
+                var arrIdCheck = [];
                 var status = this.checked;
+                console.log(status);
                 $("input[name='chon']").each(function () { this.checked = status; })
                 if (status == true) {
-                    $('.AddList_HS').each(function () {
-                        if ($('.AddList_HS').is(':checked')) {
-                            var idCheck = $(this).val();
-                            AddList(idCheck);
-                        }
+                    $('.AddList_GV').each(function () {
+                        arrIdCheck.push($(this).val());
                     })
+                    AddAllList(arrIdCheck); 
                 }
                 else {
                     DeleteAll();
                 }
             });
-
-            //$('tbody :checkbox').on('click', function () {
-            //    $(this).closest('table').find('#CheckAll').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll
-            //});
-
         });
 
-        $('.AddList_HS').change(function () {
+        $('.AddList_GV').click(function () {
             if ($(this).is(":checked")) {
                 var idCheck = $(this).val();
+                console.log("111");
                 AddList(idCheck);
             }
             else {
                 var rmIdCheck = $(this).val();
+                console.log("222");
                 DeleteItem(rmIdCheck);
             }
-
-            if ($('.AddList_HS:checked').length === $('#tblFunction tbody tr .AddList_HS').length) {
-                $('#CheckAll').prop('checked', true);
+           
+            if ($('.AddList_GV:checked').length === $('#tblFunction tbody tr .AddList_GV').length) {
+                $('#CheckAll_GV').prop('checked', true);
             } else {
-                $('#CheckAll').prop('checked', false);
+                $('#CheckAll_GV').prop('checked', false);
             }
 
         });
 
+        $("[type=checkbox]").change(function () {
+            $('#btnXuat').prop('disabled', $('.AddList_GV:checked').length == 0);
+        });
         //thêm dánh sách
         function AddList(idCheck) {
             $.ajax({
                 url: '/GiaoVien/AddList',
                 data: {
                     Id: idCheck
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        return true;
+                    }
+                }
+            });
+        }
+
+        //thêm dánh sách tat ca
+        function AddAllList(arrIdCheck) {
+            $.ajax({
+                url: '/GiaoVien/AddAllList',
+                data: {
+                    lstId: arrIdCheck
                 },
                 type: 'POST',
                 dataType: 'json',
@@ -202,25 +231,7 @@
 
         //Xuat
         function XuatThe() {
-            //swal({
-            //    title: " Bạn có muốn xuất danh sách đã chọn ?",
-            //    text: "ABC",
-            //    type: "info",
-            //    showCancelButton: true,
-            //    confirmButtonClass: "btn-danger",
-            //    confirmButtonText: "Có",
-            //    cancelButtonText: "Không",
-            //    closeOnConfirm: false,
-            //    closeOnCancel: true
-            //},
-            //    function (isConfirm) {
-            //        if (isConfirm) {
-            //            $("#ExportMany").submit();
-            //        }
-            //    });
             $("#ExportMany").submit();
         }
     </script>
-
-    @*<script src="~/Scripts/AutocompleteSach.js"></script>*@
 }

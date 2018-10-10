@@ -25,9 +25,11 @@ namespace BiTech.Library.Controllers
 #endif
     public class PhieuNhapSachController : BaseController
     {
+        SachCommon sachCommon;
         XuLyChuoi xuLyChuoi;
         public PhieuNhapSachController()
         {
+            sachCommon = new SachCommon();
             xuLyChuoi = new XuLyChuoi();
             new Aspose.Cells.License().SetLicense(LicenseHelper.License.LStream);
         }
@@ -139,60 +141,52 @@ namespace BiTech.Library.Controllers
                         {
                             IdPhieuNhap = idPhieuNhap,
                             IdSach = ctModel.IdSach,
-                            //tenTinhTrang = ctModel.tenTinhTrang,
                             SoLuong = ctModel.soLuong,
                             CreateDateTime = DateTime.Now,
                             IdTinhtrang = ctModel.IdTinhTrang,
                             GhiChu = ctModel.GhiChuDon
                         };
 
-                        _ChiTietNhapSachLogic.Insert(ctns);
-                        #region So luong sach trang thai - k dung 
-                        //// update số lượng sách trạng thái
-                        //var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(ctns.IdSach, ctModel.IdTinhTrang);
-                        //if (sltt != null)
-                        //{
-                        //    sltt.SoLuong += ctns.SoLuong;
-                        //    _SoLuongSachTrangThaiLogic.Update(sltt);
-                        //}
-                        //else
-                        //{
-                        //    sltt = new SoLuongSachTrangThai();
-                        //    sltt.IdSach = ctns.IdSach;
-                        //    sltt.IdTrangThai = ctModel.IdTinhTrang;
-                        //    sltt.SoLuong = ctns.SoLuong;
-                        //    _SoLuongSachTrangThaiLogic.Insert(sltt);
-                        //}
-
-                        //// update tổng số lượng sách
-                        //var updatesl = _SachLogic.GetBookById(sltt.IdSach);
-                        //updatesl.SoLuongTong += ctns.SoLuong;
-
-                        //// ktr neu cho muon moi cong them
-                        ////var tinhTrang = _TrangThaiSachLogic.getById(ctModel.IdTinhTrang);
-                        ////if (tinhTrang.TrangThai == true)
-                        //updatesl.SoLuongConLai += ctns.SoLuong;
-
-                        // _SachLogic.Update(updatesl);
-                        #endregion
-
+                        _ChiTietNhapSachLogic.Insert(ctns);                       
                         //Insert vào bảng SachCaBiet từng cuốn một
-                        //MaKSCB = MaKS.MaCB , Ex: 0001.1, 0001.2 ...
+                        ///MaKSCB = MaKS.MaCB , Ex: 0001.1, 0001.2 ... + QR
                         int STTHienTai = _SachLogic.GetByID_IsDeleteFalse(ctModel.IdSach).STTMaCB; //Lấy STTCB của đầu sách hiện tại
+           
                         SachCaBiet scb = new SachCaBiet()
                         {
                             IdSach = ctModel.IdSach,
                             IdTrangThai = ctModel.IdTinhTrang,
+                            TenSach = _SachLogic.GetByID_IsDeleteFalse(ctModel.IdSach).TenSach,
                         };
                         for (int i = 0; i < ctModel.soLuong; i++)
                         {
                             scb.MaKSCB = ctModel.MaKiemSoat + "." + (++STTHienTai);
                             _SachCaBietLogic.Insert(scb);
                         }
-
+                        ///Lưu mã QR
+                        var lstSachCB = _SachCaBietLogic.GetListCaBietFromIdSach(ctModel.IdSach);
+                        try
+                        {
+                            string physicalWebRootPath = Server.MapPath("/");
+                            foreach (var item in lstSachCB)
+                            {
+                                SachCaBiet temp = sachCommon.LuuMaVachSach_SachCaBiet(physicalWebRootPath, item, null, _SubDomain);
+                                if (temp != null)
+                                {
+                                    item.QRlink = temp.QRlink;
+                                    item.QRData = temp.QRData;
+                                    _SachCaBietLogic.Update(item);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                         //Update bảng Sach 
                         //Cập nhật STT Cá biệt cho mỗi đầu sách  
                         var modelSach = _SachLogic.GetBook_NonDelete_ByMKS(ctModel.MaKiemSoat);
+                        modelSach.SoLuongTong += ctModel.soLuong;
+                        modelSach.SoLuongConLai += ctModel.soLuong;
                         modelSach.STTMaCB = STTHienTai;
                         _SachLogic.Update(modelSach);
                     }
@@ -702,7 +696,7 @@ namespace BiTech.Library.Controllers
         {
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            Sach _sach = _SachLogicLogic.GetBook_NonDelete_ByMKS(new SachCommon().GetInfo(idSach));
+            Sach _sach = _SachLogicLogic.GetByMaKiemSoatorISBN(new SachCommon().GetInfo(idSach));
 
             return Json(_sach, JsonRequestBehavior.AllowGet);
         }

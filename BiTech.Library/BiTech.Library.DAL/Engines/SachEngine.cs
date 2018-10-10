@@ -73,7 +73,7 @@ namespace BiTech.Library.DAL.Engines
 
         public Sach GetByMaKiemSoatorISBN(string mastring)
         {
-            return _DatabaseCollection.Find(x => x.MaKiemSoat == mastring || x.ISBN == mastring).FirstOrDefault();
+            return _DatabaseCollection.Find(x => x.IsDeleted == false && (x.MaKiemSoat == mastring || x.ISBN == mastring)).FirstOrDefault();
         }
 
         public Sach GetByID_IsDeleteFalse(string id)

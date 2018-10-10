@@ -48,6 +48,7 @@ namespace BiTech.Library.Models
         public string Id { get; set; }
         public string TenSach { get; set; }
         public string MaCaBiet { get; set; }
+        public string MaKiemSoat { get; set; }
         public string IdTinhTrang { get; set; }
         public string IdSach { get; set; }
         public string TrangThai { get; set; }

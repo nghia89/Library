@@ -6,7 +6,7 @@ using System;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.1")]
+    [CurrentVersion("0.0.2")]
     public class SachCaBiet : IModel
     {
         [BsonId]
@@ -26,6 +26,10 @@ namespace BiTech.Library.DTO
         public string MaKSCB { get; set; }
 
         public string MaCaBienCu { get; set; }
+
+        public string QRlink { get; set; }
+		
+        public string QRData { get; set; }
 
         [BsonIgnore]
         public string TenSach { get; set; }

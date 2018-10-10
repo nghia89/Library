@@ -35,7 +35,7 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.IdSach == idSach).ToList();
         }
         #endregion
-		
+
         #region Phong
 
         public List<SachCaBiet> GetAllSachCaBiet()

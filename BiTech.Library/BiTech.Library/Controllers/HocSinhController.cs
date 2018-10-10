@@ -1078,7 +1078,7 @@ namespace BiTech.Library.Controllers
         {            
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            int pageSize = 10;
+            int pageSize = 30;
             int pageNumber = (page ?? 1);
             if (Session["CheckTV"] == null)
                 Session["CheckTV"] = new List<UserViewModel>();
@@ -1087,6 +1087,13 @@ namespace BiTech.Library.Controllers
             ListMemberModel model = new ListMemberModel();
             string memType = "hs";
             var list = _ThanhVienLogic.GetMembersSearch(KeySearch.Keyword, memType);
+            if(list.Count == 0)
+            {
+                list = _ThanhVienLogic.GetAllHS_Active();
+                ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
+            }
+            else
+                ViewBag.SearchFail = "";
             ViewBag.number = list.Count();
 
             foreach (var item in list)
@@ -1118,6 +1125,7 @@ namespace BiTech.Library.Controllers
                 //RedirectToAction("ExportWord", "");
                 TempData["lstMS"] = lstUserChecked;
                 //Xuất thẻ theo list lstUserChecked
+                Session["CheckTV"] = new List<UserViewModel>();
                 if (lstUserChecked.Count != 0)
                     return RedirectToAction("ExportWord", "HocSinh");
                 return RedirectToAction("XuatTheHS", "HocSinh");
@@ -1128,6 +1136,38 @@ namespace BiTech.Library.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult AddAllList(List<string> lstId)
+        {
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            Session["CheckTV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV"];
+            foreach (var item in lstId)
+            {
+                var tv = _ThanhVienLogic.GetById(item);
+
+                if (container == null)
+                {
+                    container = new List<UserViewModel>();
+                }
+                UserViewModel newItem = new UserViewModel();
+                newItem.Id = tv.Id;
+                newItem.Ten = tv.Ten;
+                newItem.MaSoThanhVien = tv.MaSoThanhVien;
+                newItem.GioiTinh = tv.GioiTinh;
+                newItem.NgaySinh = tv.NgaySinh;
+                newItem.LopHoc = tv.LopHoc;
+                newItem.ChucVu = tv.ChucVu; //Tổ - giáo viên
+
+                container.Add(newItem);
+                Session["CheckTV"] = container;
+            }
+            return Json(new
+            {
+                status = true
+            });
+        }
         #endregion
 
         #region Tai

@@ -91,7 +91,7 @@
                                             <thead>
                                                 <tr class="table-info text-center">
                                                     <th width="50">STT</th>
-                                                    <th width="20%">Mã sách cá biệt</th>
+                                                    <th width="20%">Mã sách</th>
                                                     <th width="60%">Tên sách</th>
                                                     <th width="20%">Trạng thái sách</th>
 
@@ -105,7 +105,7 @@
                                                     ng-click="addItema(x)">
                                                     <td align="center">{{$index + 1}}</td>
                                                     <td>{{ x.MaCaBiet }}</td>
-                                                    <td align="left">{{ x.TenSach }}</td>
+                                                    <td align="center">{{ x.TenSach }}</td>
                                                     <td>{{ x.TrangThai}}</td>
                                                     <td align="center">
                                                         <i class="fa fa-remove text-danger" ng-click="removeItem_Queue($index)" style="font-size:20px; cursor:pointer;"></i>
@@ -149,7 +149,7 @@
                                             <tr class="text-center" ng-repeat="x in list | orderBy : '-MaKiemSoat'" my-repeat-directive>
                                                 <td align="center">{{$index + 1}}</td>
                                                 <td>{{ x.MaCaBiet }}</td>
-                                                <td align="left">{{ x.TenSach }}</td>
+                                                <td align="center">{{ x.TenSach }}</td>
                                                 <td>{{ x.TrangThai}}</td>
                                                 @*<td>{{ x.tenTinhTrang }}</td>
         <td id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}" width="100px">{{x.soLuong}}</td>

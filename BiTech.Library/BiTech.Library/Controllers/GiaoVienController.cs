@@ -1003,7 +1003,7 @@ namespace BiTech.Library.Controllers
             return File(filedata, contentType);
         }
 
-		
+
         #region Xuat The GV Chon nhieu
         /// <summary>
         /// Hàm xuất thẻ - tìm kiếm theo mã hoặc tên
@@ -1015,7 +1015,7 @@ namespace BiTech.Library.Controllers
         {
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            int pageSize = 5;
+            int pageSize = 30;
             int pageNumber = (page ?? 1);
             if (Session["CheckTV_GV"] == null)
                 Session["CheckTV_GV"] = new List<UserViewModel>();
@@ -1024,6 +1024,13 @@ namespace BiTech.Library.Controllers
             ListMemberModel model = new ListMemberModel();
             string memType = "gv";
             var list = _ThanhVienLogic.GetMembersSearch(KeySearch.Keyword, memType);
+            if (list.Count == 0)
+            {
+                list = _ThanhVienLogic.GetAllGV();
+                ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
+            }
+            else
+                ViewBag.SearchFail = "";
             ViewBag.number = list.Count();
 
             foreach (var item in list)
@@ -1038,7 +1045,6 @@ namespace BiTech.Library.Controllers
                     NgaySinh = item.NgaySinh,
                     MaSoThanhVien = item.MaSoThanhVien
                 };
-
                 model.Members.Add(member);
             }
             return View(model.Members.ToPagedList(pageNumber, pageSize));
@@ -1055,6 +1061,7 @@ namespace BiTech.Library.Controllers
                 //RedirectToAction("ExportWord", "");
                 TempData["lstMSGV"] = lstUserChecked;
                 //Xuất thẻ theo list lstUserChecked
+                Session["CheckTV_GV"] = null;
                 if (lstUserChecked.Count != 0)
                     return RedirectToAction("ExportWord", "GiaoVien");
                 return RedirectToAction("XuatTheGV", "GiaoVien");
@@ -1112,6 +1119,39 @@ namespace BiTech.Library.Controllers
             }
 
             Session["CheckTV_GV"] = container;
+            return Json(new
+            {
+                status = true
+            });
+        }
+
+        [HttpPost]
+        public JsonResult AddAllList(List<string> lstId)
+        {
+            ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            Session["CheckTV_GV"] = new List<UserViewModel>();
+
+            var container = (List<UserViewModel>)Session["CheckTV_GV"];
+            foreach (var item in lstId)
+            {
+                var tv = _ThanhVienLogic.GetById(item);
+
+                if (container == null)
+                {
+                    container = new List<UserViewModel>();
+                }
+                UserViewModel newItem = new UserViewModel();
+                newItem.Id = tv.Id;
+                newItem.Ten = tv.Ten;
+                newItem.MaSoThanhVien = tv.MaSoThanhVien;
+                newItem.GioiTinh = tv.GioiTinh;
+                newItem.NgaySinh = tv.NgaySinh;
+                newItem.LopHoc = tv.LopHoc;
+                newItem.ChucVu = tv.ChucVu; //Tổ - giáo viên
+
+                container.Add(newItem);
+                Session["CheckTV_GV"] = container;
+            }
             return Json(new
             {
                 status = true
@@ -1200,7 +1240,7 @@ namespace BiTech.Library.Controllers
             var pathFolder = Directory.GetParent(path).FullName;
             Directory.Delete(pathFolder);
             return false;
-        }       
+        }
 
         public ActionResult DeleteMulti(string strSearch, int? page)
         {

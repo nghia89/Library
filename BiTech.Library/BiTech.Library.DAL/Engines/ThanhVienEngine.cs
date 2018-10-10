@@ -79,6 +79,8 @@ namespace BiTech.Library.DAL.Engines
             //Tim thanh vien khong bi xoa
             filterDefinition = filterDefinition & builder.Where(_ => _.IsDeleted == false);
 
+            filterDefinition = filterDefinition & builder.Where(_ => _.TrangThai == EUser.Active);
+
             if (!string.IsNullOrEmpty(memType))
             {
                 filterDefinition = filterDefinition & builder.Where(x => x.LoaiTK.ToLower().Contains(memType.ToLower()));
@@ -93,6 +95,16 @@ namespace BiTech.Library.DAL.Engines
            
 
             return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+
+        public List<ThanhVien> GetAllHS_Active()
+        {
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs" && _.IsDeleted == false && _.TrangThai == EUser.Active).ToList();
+        }
+
+        public List<ThanhVien> GetAllGV_Active()
+        {
+            return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv" && _.IsDeleted == false && _.TrangThai == EUser.Active).ToList();
         }
         #endregion
     }

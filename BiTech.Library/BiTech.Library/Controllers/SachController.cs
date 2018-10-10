@@ -158,11 +158,11 @@ namespace BiTech.Library.Controllers
                 TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 SachTheLoaiLogic _SachTheLoaiLogic = new SachTheLoaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
                 PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                 BoSuuTapLogic _BoSuuTapLogic = new BoSuuTapLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
                 if (model.SachDTO.IdBoSuuTap == null)
                 {
@@ -455,8 +455,8 @@ namespace BiTech.Library.Controllers
 
                             string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
-                            int tongSach = 0;
-                            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                            #region SL cũ
+                            //SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                             foreach (var item in model.ListTTSach)
                             {
                                 if (item.SoLuong > 0)
@@ -469,8 +469,7 @@ namespace BiTech.Library.Controllers
                                         SoLuong = item.SoLuong,
                                         CreateDateTime = DateTime.Now,
                                     };
-                                    tongSach += dtoModel.SoLuong;
-                                    _SlTrangThaisach.Insert(dtoModel);
+                                    //_SlTrangThaisach.Insert(dtoModel);
 
                                     //Chi tiet phieu nhap
 
@@ -483,14 +482,48 @@ namespace BiTech.Library.Controllers
                                         IdTinhtrang = item.IdTrangThai,
                                     };
                                     _ChiTietNhapSachLogic.Insert(ctns);
+
+                                    ////Insert vào bảng SachCaBiet từng cuốn một
+                                    int STTHienTai = _SachLogic.GetByID_IsDeleteFalse(id).STTMaCB; //Lấy STTCB của đầu sách hiện tại
+                                    SachCaBiet scb = new SachCaBiet()
+                                    {
+                                        IdSach = id,
+                                        IdTrangThai = item.IdTrangThai,
+                                        TenSach = _SachLogic.GetByID_IsDeleteFalse(id).TenSach,
+                                    };
+                                    for (int i = 0; i < item.SoLuong; i++)
+                                    {
+                                        scb.MaKSCB = sach.MaKiemSoat + "." + (++STTHienTai);
+                                        _SachCaBietLogic.Insert(scb);
+                                    }
+
+                                    ///Lưu mã QR
+                                    var lstSachCB = _SachCaBietLogic.GetListCaBietFromIdSach(id);
+                                    try
+                                    {
+                                        string physicalWebRootPath = Server.MapPath("/");
+                                        foreach (var itemS in lstSachCB)
+                                        {
+                                            SachCaBiet temp = sachCommon.LuuMaVachSach_SachCaBiet(physicalWebRootPath, itemS, null, _SubDomain);
+                                            if (temp != null)
+                                            {
+                                                itemS.QRlink = temp.QRlink;
+                                                itemS.QRData = temp.QRData;
+                                                _SachCaBietLogic.Update(itemS);
+                                            }
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                    }
+                                    //Update bảng Sach 
+                                    //Cập nhật STT Cá biệt cho mỗi đầu sách  
+                                    var modelSach = _SachLogic.GetBook_NonDelete_ByMKS(sach.MaKiemSoat);
+                                    modelSach.STTMaCB = STTHienTai;
+                                    _SachLogic.Update(modelSach);
                                 }
                             }
-
-                            //Update tổng số lượng sách
-
-                            sach.SoLuongTong = tongSach;
-                            sach.SoLuongConLai = tongSach;
-                            _SachLogic.Update(sach);
+                            #endregion
                         }
                     }
 
@@ -1701,8 +1734,12 @@ namespace BiTech.Library.Controllers
             //    _SachCaBietLogic.GetListCaBietFromIdSach(item.Id);
             //}
 
-            var listBook = _SachLogic.GetAll_NonDelete();
-            if (listBook.Count != 0)
+            List<SachCaBiet> lstSachCB = new List<SachCaBiet>();
+            foreach (var item in lstIdSach)
+            {
+                lstSachCB.AddRange(_SachCaBietLogic.GetListCaBietFromIdSach(item.Id));
+            }
+            if (lstSachCB.Count != 0)
             {
                 string linkMau = null;
                 linkMau = "/Content/MauWord/QRBook_Template.docx";
@@ -1710,7 +1747,7 @@ namespace BiTech.Library.Controllers
                 {
                 }
                 ExcelManager wordExport = new ExcelManager();
-                wordExport.ExportQRToWord(linkMau, listBook, fullPath);
+                wordExport.ExportQRToWord(linkMau, lstSachCB, fullPath);
 
                 //string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + fileName;
                 byte[] filedata = System.IO.File.ReadAllBytes(fullPath);
@@ -1723,10 +1760,14 @@ namespace BiTech.Library.Controllers
                 };
 
                 Response.AppendHeader("Content-Disposition", cd.ToString());
-
-                return File(filedata, contentType);
+              //  Session["CheckBook"] = null;               
+                return File(filedata, contentType);               
             }
-            return RedirectToAction("Index", "Sach");
+            else
+            {
+                TempData["NonItem"] = "Đầu sách hiện chưa có sách trong kho!";
+                return RedirectToAction("XuatQR_Mutil", "Sach");
+            }
         }
 
         //- Thêm sách ajax
@@ -1889,18 +1930,39 @@ namespace BiTech.Library.Controllers
         #region Vinh Xuat QR sách - chọn nhiều
         public ActionResult XuatQR_Mutil(KeySearchViewModel KeySearch, int? page)
         {
+            var nonItem = TempData["NonItem"];
+            if (nonItem != null)
+                ViewBag.NonItem = nonItem;
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            int pageSize = 10;
+            int pageSize = 30;
             int pageNumber = (page ?? 1);
             if (Session["CheckBook"] == null)
                 Session["CheckBook"] = new List<IDSach>();
             ViewBag.container = (List<IDSach>)Session["CheckBook"];
 
             ListBooksModel model = new ListBooksModel();
-            var list = _SachLogic.getPageSach(KeySearch);
+            var list = new List<Sach>();
+            list = _SachLogic.getPageSach(KeySearch);
+            if (list.Count == 0)
+            {
+                list = _SachLogic.GetAll_NonDelete();
+                ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
+            }
+            else
+                ViewBag.SearchFail = "";
+            //Kiem tra sach ca biet da co hay chua
+            var lstTemp = new List<Sach>(list);            
+            foreach (var item in lstTemp)
+            {
+                var temp = _SachCaBietLogic.GetListCaBietFromIdSach(item.Id);
+                if (temp.Count == 0)
+                    list.Remove(item);
+            }
+
             ViewBag.number = list.Count();
 
             foreach (var item in list)
@@ -1929,7 +1991,7 @@ namespace BiTech.Library.Controllers
             {
                 var lstUserChecked = (List<IDSach>)Session["CheckBook"];
 
-                TempData["lstMS"] = lstUserChecked;
+                TempData["lstMS"] = lstUserChecked;              
                 if (lstUserChecked.Count != 0)
                     return RedirectToAction("XuatQR", "Sach");
                 return RedirectToAction("XuatQR_Mutil", "Sach");
