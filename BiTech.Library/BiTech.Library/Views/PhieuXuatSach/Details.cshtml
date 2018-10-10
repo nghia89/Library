@@ -46,18 +46,18 @@
     <div class="content-box-window">
         <table class="table table-hover table-bordered">
             <thead>
-                <tr class="table-info">
-                    <th width="50" align="right">STT</th>
-                    <th width="30%">Mã kiểm soát</th>
+                <tr class="table-info text-center">
+                    <th width="20" align="right">STT</th>
+                    <th width="20%">Mã kiểm soát</th>
                     <th width="50%">Tên sách</th>
-                    <th width="20%">Trạng thái sách</th>
+                    <th width="30%">Trạng thái sách</th>
                 </tr>
             </thead>
             <tbody>
                 @{int i = 1;}
                 @foreach (var item in ViewBag.lstctxuat)
                 {
-                    <tr>
+                    <tr class="text-center">
                         <td align="center">@i.ToString()</td>
                         <td>@item.MaCaBiet</td>
                         <td>@item.ten</td>

@@ -348,7 +348,7 @@ namespace BiTech.Library.BLL.BarCode_QR
 
         #region Vinh ExportWord_QR
 
-        public void ExportQRToWord(string srcDir, List<Sach> lstBook, string filePath)
+        public void ExportQRToWord(string srcDir, List<SachCaBiet> lstBook, string filePath)
         {
             string sourceSavePath = HttpContext.Current.Server.MapPath(srcDir.ToString());
             Document outputDoc = new Document();
@@ -361,8 +361,8 @@ namespace BiTech.Library.BLL.BarCode_QR
                 //1
                 if (lstBook[i].TenSach != null)
                     docx.Range.Replace("_TenSach1_", lstBook[i].TenSach, true, true);
-                if (lstBook[i].MaKiemSoat != null)
-                    docx.Range.Replace("_MaKiemSoat1_", lstBook[i].MaKiemSoat, true, true);
+                if (lstBook[i].MaKSCB != null)
+                    docx.Range.Replace("_MaCaBiet1_", lstBook[i].MaKSCB, true, true);
 
                 if (lstBook[i].QRlink != null)
                 {
@@ -375,8 +375,8 @@ namespace BiTech.Library.BLL.BarCode_QR
                 {
                     if (lstBook[i + 1].TenSach != null)
                         docx.Range.Replace("_TenSach2_", lstBook[i + 1].TenSach, true, true);
-                    if (lstBook[i + 1].MaKiemSoat != null)
-                        docx.Range.Replace("_MaKiemSoat2_", lstBook[i + 1].MaKiemSoat, true, true);
+                    if (lstBook[i + 1].MaKSCB != null)
+                        docx.Range.Replace("_MaCaBiet2_", lstBook[i + 1].MaKSCB, true, true);
 
                     if (lstBook[i + 1].QRlink != null)
                     {
@@ -387,7 +387,7 @@ namespace BiTech.Library.BLL.BarCode_QR
                 else
                 {
                     docx.Range.Replace("_TenSach2_", "", true, true);
-                    docx.Range.Replace("_MaKiemSoat2_", "", true, true);
+                    docx.Range.Replace("_MaCaBiet2_", "", true, true);
                     docx.Range.Replace("_ImgQR2_", "", true, true);
                 }
                 outputBuilder.MoveToDocumentEnd();

@@ -96,11 +96,21 @@ namespace BiTech.Library.BLL.DBLogic
             return _ThanhVienEngine.Remove(id);
         }
         #endregion
-
+        
         #region Vinh
         public List<ThanhVien> GetMembersSearch(string KeySearch, string memType)
         {
             return _ThanhVienEngine.GetMembersSearch(KeySearch, memType);
+        }
+
+        public List<ThanhVien> GetAllHS_Active()
+        {
+            return _ThanhVienEngine.GetAllHS_Active();
+        }
+
+        public List<ThanhVien> GetAllGV_Active()
+        {
+            return _ThanhVienEngine.GetAllGV_Active();
         }
         #endregion
     }

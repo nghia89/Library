@@ -217,6 +217,11 @@
                                                 DDC
                                             </a>
                                         </li>
+                                        <li class="@((controller == "Sach" && @action == "XuatQR_Mutil") ? "active" : "")">
+                                            <a href="@Url.Action("XuatQR_Mutil", "Sach")" title="In mã QR sách">
+                                                In mã QR sách
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -296,8 +301,8 @@
                                             </a>
                                         </li>
                                         <li class="@((controller == "PhieuXuatSach") ? "active" : "")">
-                                            <a href="@Url.Action("Index", "PhieuXuatSach")" title="Xuất sách">
-                                                Xuất sách
+                                            <a href="@Url.Action("Index", "PhieuXuatSach")" title="Thanh lý sách">
+                                                Thanh lý sách
                                             </a>
                                         </li>
                                     </ul>

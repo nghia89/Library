@@ -26,6 +26,7 @@
                             <th>Tên sách</th>
                             <th>Mã ISBN</th>
                             <th>Thể loại sách</th>
+                            <th>Mã DDC</th>
                             <th>Tác giả</th>
                             <th>Nhà sản xuất</th>
                             <th>Kệ sách</th>
@@ -37,8 +38,8 @@
                             <th>Nước xuất xứ</th>
                             <th>Người biên dịch</th>
                             <th>Lần xuất bản</th>
+                            <th>Tài liệu đính kèm</th>
                             <th>Tóm tắt</th>
-
                         }
                     }
                     <th><center>Thao tác</center></th>
@@ -56,7 +57,7 @@
                             <td class="text-center SL_STT-@stt" data-tongstt="@stt">@stt</td>
                             @for (int j = 1; j < item.Length; j++)
                             {
-                                if (j == 15)// Cột tóm tắt sách
+                                if (j == 17)// Cột tóm tắt sách
                                 {                                  
                                         <td style="white-space: nowrap;
                                         overflow:hidden;

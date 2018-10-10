@@ -138,8 +138,7 @@
                                                 <tr class="table-info text-center">
                                                     <th width="50" align="right">STT</th>
                                                     <th width="10%">Mã sách</th>
-                                                    <th width="35%">Tên sách</th>
-                                                    <th width="15%">Số lượng</th>
+                                                    <th width="50%">Tên sách</th>
                                                     <th width="15%">Ngày mượn</th>
                                                     <th width="15%">Ngày trả</th>
                                                 </tr>
@@ -149,9 +148,8 @@
                                                 {
                                                     <tr class="text-center">
                                                         <td align="center">@(index_list_tb++)</td>
-                                                        <td>@item.MaKiemSoat</td>
+                                                        <td>@item.MaKSCB</td>
                                                         <td>@item.TenSach</td>
-                                                        <td>@item.SoLuong</td>
                                                         <td>@(DateTime.Now.ToString("dd/MM/yyyy"))</td>
                                                         <td>@item.NgayTra</td>
                                                     </tr>
@@ -213,27 +211,11 @@
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
                                             </div>
                                             <div class="hidden_lib" id="box_ThongBao" ng-class="{hidden_lib: show_thongbao==false}">
-                                                @*<div ng-if="show_thongbao_CoSach" class="alert alert-info m-1 p-2 alert-dismissible fade show">
-
-                                                    <div>
-                                                    <strong>Mã sách:</strong> {{masach}}
-                                                    </div>
-                                                    <div>
-                                                    <strong>Tên sách:</strong> {{TenSach}}
-                                                    </div>
-                                                    <div>
-                                                    <strong>Số lượng:</strong> {{SoLuong}}
-                                                    </div>
-                                                    </div>*@
                                                 <div ng-if="!show_thongbao_CoSach" class="alert mt-1 mb-1 p-2 alert-danger alert-dismissible fade show">
                                                     <strong>Thông báo!</strong> {{NoiDungThongBao}}
                                                 </div>
                                             </div>
                                         </div>
-                                        @*<div class="form-group mb-0">
-                                            <label for="pwd">Số lượng:</label>
-                                            <input type="number" id="SoLuongSach" ng-model="SoluongSachMuon" ng-blur="loadfocus_input_soluongsachmuon()" class="form-control form-control-sm" min="0" max="{{SoLuong}}" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" ng-disabled="disabled_input">
-                                            </div>*@
                                         <div class="form-group" style="display: none;">
                                             <label for="pwd">Ngày trả:</label>
                                             <input type="text" class="form-control form-control-sm " ng-model="ngaytra" id="ngayPhaiTra">
@@ -252,8 +234,7 @@
                                                         <tr class="table-info text-center">
                                                             <th width="50">STT</th>
                                                             <th width="15%">Mã sách</th>
-                                                            <th width="31%">Tên sách</th>
-                                                            <th width="15%">Số lượng</th>
+                                                            <th width="41%">Tên sách</th>
                                                             <th width="17%">Ngày mượn</th>
                                                             <th width="17%">Ngày trả</th>
                                                             <th width="100" style="text-align: center;">
@@ -264,21 +245,8 @@
                                                     <tbody>
                                                         <tr class="text-center" ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'" my-repeat-directive>
                                                             <td align="center">{{$index + 1}}</td>
-                                                            <td>{{ x.MaKiemSoat }}</td>
+                                                            <td>{{ x.MaKSCB }}</td>
                                                             <td>{{ x.TenSach }}</td>
-                                                            <td width="100px">
-                                                                <div style="display: flex;">
-                                                                    <div style="width:100%">
-                                                                        <input type="number" ng-value="{{x.SoLuong}}" id="List_{{x.MaKiemSoat}}"
-                                                                               class="form-control form-control-sm"
-                                                                               ng-blur="loadfocus_input_soluongsachmuon($index, x.SoLuong)"
-                                                                               min="1"
-                                                                               max="{{x.SoLuongMax}}"
-                                                                               required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                                                                    </div>
-                                                                    <div style="float:right; padding:4px;">&nbsp/&nbsp{{x.SoLuongMax}}</div>
-                                                                </div>
-                                                            </td>
                                                             <td>
                                                                 {{ x.NgayMuon | date : "dd/MM/y" }}
                                                             </td>
@@ -331,8 +299,7 @@
                                         <tr class="table-info text-center">
                                             <th width="50" align="right">STT</th>
                                             <th width="15%">Mã sách</th>
-                                            <th width="40%">Tên sách</th>
-                                            <th width="10%">Số lượng</th>
+                                            <th width="50%">Tên sách</th>
                                             <th width="15%">Ngày mượn</th>
                                             <th width="15%">Ngày trả</th>
                                         </tr>
@@ -342,7 +309,6 @@
                                             <td align="center">{{$index + 1}}</td>
                                             <td>{{ x.MaKiemSoat }}</td>
                                             <td>{{ x.TenSach }}</td>
-                                            <td>{{ x.SoLuong }}</td>
                                             <td>{{ x.NgayMuon }}</td>
                                             <td>{{ x.NgayTra }}</td>
                                         </tr>
@@ -440,11 +406,13 @@
             try{
                 var L_old = $(obj).data("lenght");
                 $(obj).data("lenght", obj.value.length);
+                
                 //Thêm ký tự vào input text
                 if(L_old < obj.value.length){
-                    if(obj.value.length == 2){
+                    if(obj.value.length == 4){
+                        $(".AutoComplete-items").css({"display":"block"});
                         var Sach = {
-                            maSach: obj.value
+                            maSach: obj.value.split('.')[0]
                         }
 
                         $.ajax({
@@ -463,7 +431,8 @@
 
                 //Xoá ký tự vào input text
                 if(L_old > obj.value.length){
-                    if(obj.value.length == 3){
+                    if(obj.value.length <= 4){
+                        //$(".AutoComplete-items").css({"display":"none"});
                         //AutoComplete(document.getElementById("MaSach"), [], true);
                     }
                 }

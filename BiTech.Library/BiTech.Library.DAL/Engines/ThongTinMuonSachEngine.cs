@@ -39,6 +39,11 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.idSach == idSach).ToList();
         }
 
+        public List<ThongTinMuonSach> GetAllbyIdSachCaBiet_ChuaTra(string IdSachCaBiet)
+        {
+            return _DatabaseCollection.Find(x => x.IdSachCaBiet == IdSachCaBiet && x.DaTra == false).ToList();
+        }
+
         public List<ThongTinMuonSach> GetByThongTinMuonSach(ThongTinMuonSach TT)
         {
             DateTime NgayGioMuon2 = TT.NgayGioMuon.AddDays(1);

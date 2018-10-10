@@ -55,16 +55,15 @@ else
                        placeholder="Nhập mã hoặc tên học sinh ..." />
             </div>
             <div class="input-group-append">
-                <input id="btnsearch" type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary" />
+                <input id="btnsearch" type="submit" value="Tìm kiếm" class="btn btn-sm btn-primary"/>
             </div>
         </div>
     </form>
     int i = 1;
     <form action="/HocSinh/DeleteMulti" method="post" class="clearfix" id="DeleteMulti">
-
         <div class="clearfix pb-sm-2 pl-sm-2 row bar_mobile">
             <div class="clearfix pl-sm-2">
-                <input type="button" value="Xoá học sinh" onclick="XoaThanhVien()" class="btn btn-sm btn-danger ml-sm-2" />
+                <input id="btnXoa" type="button" value="Xoá học sinh" onclick="XoaThanhVien()" disabled="disabled" class="btn btn-sm btn-danger ml-sm-2"/>
                 <input type="hidden" name="paging" value="@ViewBag.paged" />
                 <input type="hidden" name="pageSize" value="@ViewBag.pageSize" />
                 <input type="hidden" name="colRowCount" value="@ViewBag.number" />
@@ -173,7 +172,7 @@ else
                 }
             });
         }
-
+        // CheckBox
         $(document).ready(function () {
             //Chọn Thành viên
             $("#chonhet").click(function () {
@@ -182,9 +181,14 @@ else
             });
 
             $('tbody :checkbox').on('click', function () {
-                $(this).closest('table').find('#chonhet').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll
+                $(this).closest('table').find('#chonhet')
+                    .prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll
+                
             });
 
+            $("[type=checkbox]").change(function () {
+                $('#btnXoa').prop('disabled', $('.chon:checked').length == 0);
+            });
         });
 
         // AutoCompelete Search

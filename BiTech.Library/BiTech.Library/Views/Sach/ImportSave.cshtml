@@ -13,37 +13,39 @@
     </button>
     <center><h3>Danh sách bị lỗi</h3></center>
     <br />
-    <div @*class="table-wrapper-scroll-y"*@ @*class="scrollbar scrollbar-primary"*@>
-        <div @*id="tableContainer" class="tableContainer"*@ style="overflow-x:auto">
+    <div>
+        <div style="overflow-x:auto">
             <table class="table table-hover table-bordered mb-0" border="1" id="result-table">
-                <thead @*class="fixedHeader"*@>
+                <thead>
                     <tr class="table-info text-center">
                         @{
                             var longestRow = Model.ListShow.FirstOrDefault();
                             if (longestRow != null)
                             {
                                 <th>STT</th>
-                                    <th>Tên sách</th>
-                                    <th>Mã ISBN</th>
-                                    <th>Thể loại sách</th>
-                                    <th>Tác giả</th>
-                                    <th>Nhà xuất bản</th>
-                                    <th>Kệ sách</th>
-                                    <th>Số trang</th>
-                                    <th>Ngôn ngữ</th>
-                                    <th>Năm xuất bản</th>
-                                    <th>Giá bìa</th>
-                                    <th>Phí mượn</th>
-                                    <th>Nước xuất xứ</th>
-                                    <th>Người biên soạn</th>
-                                    <th>Lần xuất bản</th>
-                                    <th>Tóm tắt</th>
-                                    <th>Nguyên nhân lỗi </th>
+                                <th>Tên sách</th>
+                                <th>Mã ISBN</th>
+                                <th>Thể loại sách</th>
+                                <th>Mã DDC</th>
+                                <th>Tác giả</th>
+                                <th>Nhà xuất bản</th>
+                                <th>Kệ sách</th>
+                                <th>Số trang</th>
+                                <th>Ngôn ngữ</th>
+                                <th>Năm xuất bản</th>
+                                <th>Giá bìa</th>
+                                <th>Phí mượn</th>
+                                <th>Nước xuất xứ</th>
+                                <th>Người biên soạn</th>
+                                <th>Lần xuất bản</th>
+                                <th>Tài liệu đính kèm</th>
+                                <th>Tóm tắt</th>
+                                <th>Nguyên nhân lỗi </th>
                             }
                         }
                     </tr>
                 </thead>
-                <tbody @*class="scrollContent"*@>
+                <tbody>
                     @{
                         var orderNumber = 0;
                         int row = 1;
@@ -54,13 +56,26 @@
                                 @foreach (var j in item)
                                 {
                                     // tô màu ô trống dữ liệu cần thiết
-                                    if (String.IsNullOrEmpty(j.ToString().Trim()) && (col == 1 || col == 3 || col == 5 || col == 7 ||
-                                         col == 8 || col == 9 || col == 11 || col == 15 || col == 4))
+                                    if (String.IsNullOrEmpty(j.ToString().Trim()) && (col == 1 || col == 3 || col == 6 || col == 8 ||
+                                         col == 9 || col == 10 || col == 12 || col == 17 || col == 5))
                                     {
                                         <td style="background: #dc354582;"></td>
                                     }
+                                    // format ô DDC
+                                    else if (col == 4)
+                                    {
+                                        string strDDC = System.Text.RegularExpressions.Regex.Match(@j.ToString().Trim(), @"^\d{3}$").ToString();
+                                        if (strDDC.Trim().Length == 3 || @j.ToString().Trim().Length == 0)
+                                        {
+                                            <td> @j.ToString()</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="background: #dc354582;"> @j.ToString()</td>
+                                        }
+                                    }
                                     // format ô ghi chú
-                                    else if (col == 15)
+                                    else if (col == 17)
                                     {
                                         <td style="white-space: nowrap;
                                         overflow:hidden;
@@ -68,7 +83,7 @@
                                         max-width: 50px;
                                         max-height:50px;">
                                             @j.ToString()
-                                            </td>
+                                        </td>
                                     }
                                     else
                                     {

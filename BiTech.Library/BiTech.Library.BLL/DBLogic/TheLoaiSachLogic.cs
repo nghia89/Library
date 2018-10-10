@@ -87,10 +87,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _theloaiSachEngine.GetIdByDDC(maDDC);
         }
+
         public bool Update(TheLoaiSach tls)
         {
             return _theloaiSachEngine.Update(tls);
         }
+
         public TheLoaiSach GetByTenTheLoai(string tenTheLoai)
         {
             return _theloaiSachEngine.GetByTenTheLoai(tenTheLoai);
@@ -99,8 +101,7 @@ namespace BiTech.Library.BLL.DBLogic
         public bool ktrTrung(TheLoaiSach tls)
         {
             return _theloaiSachEngine.ktrTrung(tls);
-        }
-
+        }       
         #endregion
 
         /// <summary>
