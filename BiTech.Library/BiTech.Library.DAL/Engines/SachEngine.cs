@@ -3,15 +3,9 @@ using BiTech.Library.DAL.Respository;
 using BiTech.Library.DTO;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace BiTech.Library.DAL.Engines
 {
@@ -162,364 +156,1523 @@ namespace BiTech.Library.DAL.Engines
             var builder = Builders<Sach>.Filter;
             //filterDefinition = filterDefinition & builder.Where(_ => _.IsDeleted == false);
 
+            //Bộ sưu tập
+            if (!string.IsNullOrEmpty(KeySearch.BoSuuTap))
+            {
+                if (KeySearch.BoSuuTap == "Any")
+                    filterDefinition = filterDefinition & builder.Where(x => x.IsDeleted==false);
+                else
+                    filterDefinition = filterDefinition & builder.Where(x => x.IdBoSuuTap.Equals(KeySearch.BoSuuTap));
+            }
             //tìm theo kệ sách
             if (!string.IsNullOrEmpty(KeySearch.KeSach))
             {
-                filterDefinition = filterDefinition & builder.Where(x => x.IdKeSach.Equals(KeySearch.KeSach));
+                if (KeySearch.KeSach == "Any")
+                    filterDefinition = filterDefinition & builder.Where(x => x.IsDeleted == false);
+                else
+                    filterDefinition = filterDefinition & builder.Where(x => x.IdKeSach.Equals(KeySearch.KeSach));
             }
-            FilterDefinition<Sach> filterDefinition4 = builder.Where(x => false);
+
+            FilterDefinition<Sach> filterDefinitionTacGia = null;
+            FilterDefinition<Sach> filterDefinitionTacGia1 = null;
+            FilterDefinition<Sach> filterDefinitionTacGia2 = null;
+            FilterDefinition<Sach> filterDefinitionTacGia3 = null;
+            FilterDefinition<Sach> filterDefinitionTacGia4 = null;
+
+            FilterDefinition<Sach> filterDefinitionNXB = null;
+            FilterDefinition<Sach> filterDefinitionNXB1 = null;
+            FilterDefinition<Sach> filterDefinitionNXB2 = null;
+            FilterDefinition<Sach> filterDefinitionNXB3 = null;
+            FilterDefinition<Sach> filterDefinitionNXB4 = null;
+
+
             #region tìm kiếm thep opac 5 tiu chí
             if (KeySearch.Keyword != null && KeySearch.ddlLoaiTimKiem0 != null)
             {
                 switch (KeySearch.ddlLoaiTimKiem0)
                 {
                     case "title":
-                        filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
-                                        || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
+                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                        }
+                        else
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword.ToLower()
+                                          || x.TenSachKhongDau.ToLower() == KeySearch.Keyword.ToLower());
+                        }
                         break;
                     case "author":
-                        foreach (var item in KeySearch.ListSachIds)
+                        if (KeySearch.ListSachIds.Count() > 0)
                         {
-                            filterDefinition4 = builder.Where(x => x.Id.Equals(item));
+                            foreach (var item in KeySearch.ListSachIds)
+                            {
+                                if (filterDefinitionTacGia == null)
+                                {
+                                    filterDefinitionTacGia = builder.Where(x => x.Id == item);
+                                }
+                                else
+                                {
+                                    filterDefinitionTacGia =filterDefinitionTacGia | builder.Where(x => x.Id == item);
+                                }
+                            }
+                            filterDefinition = filterDefinition & filterDefinitionTacGia;
                         }
+                        else
+                            filterDefinition = filterDefinition & builder.Where(x => x.Id.Contains(KeySearch.Keyword));
 
-                        filterDefinition = filterDefinition & filterDefinition4;
                         break;
 
                     case "isbn":
-                        filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword));
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Contains(KeySearch.Keyword));
+                        }
+                        else
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword));
+                        }
                         break;
 
                     case "place_publication":
-                        FilterDefinition<Sach> filterDefinition3 = builder.Where(x => false);
-                        foreach (var item in KeySearch.ListIdNXB)
+                        if (KeySearch.ListIdNXB.Count() > 0)
                         {
-                            filterDefinition3 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                            foreach (var item in KeySearch.ListIdNXB)
+                            {
+                                if (filterDefinitionNXB == null)
+                                {
+                                    filterDefinitionNXB = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                }
+                                else
+                                {
+                                    filterDefinitionNXB = filterDefinitionNXB | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                }
+                            }
+                            filterDefinition = filterDefinition & filterDefinitionNXB;
                         }
-                        filterDefinition = filterDefinition & filterDefinition3;
+                        else
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword));
+                        }
                         break;
 
                     case "date_publication":
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword));
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword));
+                        }
+                        else
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword));
+                        }
                         break;
 
                     default:
-
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword) || x.ISBN.Equals(KeySearch.Keyword)
-                        || x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
-                                        || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
-                        if (KeySearch.ListIdNXB.Count > 0)
+                        if (KeySearch.Condition == "Contains")
                         {
-                            //FilterDefinition<Sach> filterDefinition4 = builder.Where(x => false);
-                            foreach (var item in KeySearch.ListIdNXB)
+                            filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword) || x.ISBN.Contains(KeySearch.Keyword)
+                                          || x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
+                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                            if (KeySearch.ListIdNXB.Count > 0)
                             {
-                                filterDefinition4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                foreach (var item in KeySearch.ListIdNXB)
+                                {
+                                    if (filterDefinitionNXB == null)
+                                    {
+                                        filterDefinitionNXB = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB = filterDefinitionNXB | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionNXB;
                             }
-                            filterDefinition = filterDefinition | filterDefinition4;
+
+                            if (KeySearch.ListSachIds.Count > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds)
+                                {
+                                    if (filterDefinitionTacGia == null)
+                                    {
+                                        filterDefinitionTacGia = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia =  filterDefinitionTacGia | builder.Where(x => x.Id == item);
+                                    }
+                                }
+
+                                filterDefinition = filterDefinition | filterDefinitionTacGia;
+                            }
                         }
-
-                        if (KeySearch.ListSachIds.Count > 0)
+                        else
                         {
-                            FilterDefinition<Sach> filterDefinition2 = builder.Where(x => false);
-
-                            foreach (var item in KeySearch.ListSachIds)
+                            filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword)
+                            || x.ISBN.Equals(KeySearch.Keyword)
+                            || x.TenSach.ToLower() == KeySearch.Keyword.ToLower()
+                                       || x.TenSachKhongDau.ToLower() == KeySearch.Keyword.ToLower());
+                            if (KeySearch.ListIdNXB.Count > 0)
                             {
-                                filterDefinition2 = builder.Where(x => x.Id.Equals(item));
+                                foreach (var item in KeySearch.ListIdNXB)
+                                {
+                                    if (filterDefinitionNXB == null)
+                                    {
+                                        filterDefinitionNXB = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB = filterDefinitionNXB | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionNXB;
                             }
 
-                            filterDefinition = filterDefinition | filterDefinition2;
+                            if (KeySearch.ListSachIds.Count > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds)
+                                {
+                                    if (filterDefinitionTacGia == null)
+                                    {
+                                        filterDefinitionTacGia = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia = filterDefinitionTacGia | builder.Where(x => x.Id == item);
+                                    }
+                                }
+
+                                filterDefinition = filterDefinition & filterDefinitionTacGia;
+                            }
                         }
                         break;
                 }
             }
 
             if (KeySearch.Keyword1 != null && KeySearch.ddlLoaiTimKiem1 != null)
-            {
-                switch (KeySearch.ddlLoaiTimKiem1)
+            {  
+                if(KeySearch.dlOperator1=="and")
                 {
-                    case "title":
-                        filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
-                                       || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
-                        break;
-                    case "author":
-                        foreach (var item in KeySearch.ListSachIds)
-                        {
-                            filterDefinition4 = builder.Where(x => x.Id.Equals(item));
-                        }
-
-                        filterDefinition = filterDefinition & filterDefinition4;
-                        break;
-
-                    case "isbn":
-                        filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword1));
-                        break;
-
-                    case "place_publication":
-                        FilterDefinition<Sach> filterDefinition3 = builder.Where(x => false);
-                        foreach (var item in KeySearch.ListIdNXB)
-                        {
-                            filterDefinition3 = filterDefinition3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
-                        }
-                        filterDefinition = filterDefinition & (filterDefinition3);
-                        break;
-
-                    case "date_publication":
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1));
-                        break;
-
-                    default:
-
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1) || x.ISBN.Equals(KeySearch.Keyword1)
-                         || x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
-                                         || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
-                        if (KeySearch.ListIdNXB.Count > 0)
-                        {
-                            foreach (var item in KeySearch.ListIdNXB)
+                    switch (KeySearch.ddlLoaiTimKiem1)
+                    {
+                        case "title":
+                            if (KeySearch.Condition == "Contains")
                             {
-                                filterDefinition4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
                             }
-                            filterDefinition = filterDefinition | filterDefinition4;
-                        }
-
-                        if (KeySearch.ListSachIds.Count > 0)
-                        {
-                            //string[] Id = KeySearch.ListSachIds.Split(',');
-
-                            FilterDefinition<Sach> filterDefinition2 = builder.Where(x => false);
-
-                            foreach (var item in KeySearch.ListSachIds)
+                            else
                             {
-                                filterDefinition2 = builder.Where(x => x.Id.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
                             }
+                            break;
+                        case "author":
 
-                            filterDefinition = filterDefinition | filterDefinition2;
-                        }
-                        break;
+                            if (KeySearch.ListSachIds1.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds1)
+                                {
+                                    if (filterDefinitionTacGia1 == null)
+                                    {
+                                        filterDefinitionTacGia1 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia1 = filterDefinitionTacGia1 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionTacGia1;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.Id.Contains(KeySearch.Keyword1));
+                            break;
+
+                        case "isbn":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB1.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB1)
+                                {
+                                    if (filterDefinitionNXB1 == null)
+                                    {
+                                        filterDefinitionNXB1 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB1 = filterDefinitionNXB1 & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionNXB1;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1) || x.ISBN.Contains(KeySearch.Keyword1)
+                              || x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
+
+                                if (KeySearch.ListIdNXB1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB1)
+                                    {
+                                        if (filterDefinitionNXB1 == null)
+                                        {
+                                            filterDefinitionNXB1 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB1 = filterDefinitionNXB1 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB1;
+                                }
+
+                                if (KeySearch.ListSachIds1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds1)
+                                    {
+                                        if (filterDefinitionTacGia1 == null)
+                                        {
+                                            filterDefinitionTacGia1 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia1 = filterDefinitionTacGia1 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword1) || x.ISBN.Equals(KeySearch.Keyword1)
+                                             || x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
+                                             || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
+
+                                if (KeySearch.ListIdNXB1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB1)
+                                    {
+                                        if (filterDefinitionNXB1 == null)
+                                        {
+                                            filterDefinitionNXB1 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB1 = filterDefinitionNXB1 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB1;
+                                }
+
+                                if (KeySearch.ListSachIds1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds1)
+                                    {
+                                        if (filterDefinitionTacGia1 == null)
+                                        {
+                                            filterDefinitionTacGia1 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia1 = filterDefinitionTacGia1 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+                            }
+                            break;
+                    }
                 }
+                else
+                {
+                    switch (KeySearch.ddlLoaiTimKiem1)
+                    {
+                        case "title":
+                            if (KeySearch.Condition == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
+                            }
+                            break;
+                        case "author":
+
+                            if (KeySearch.ListSachIds1.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds1)
+                                {
+                                    if (filterDefinitionTacGia1 == null)
+                                    {
+                                        filterDefinitionTacGia1 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia1 = filterDefinitionTacGia1 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.Id.Contains(KeySearch.Keyword1));
+                            break;
+
+                        case "isbn":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB1.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB1)
+                                {
+                                    if (filterDefinitionNXB1 == null)
+                                    {
+                                        filterDefinitionNXB1 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB1 = filterDefinitionNXB1 & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionNXB1;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1) || x.ISBN.Contains(KeySearch.Keyword1)
+                              || x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
+
+                                if (KeySearch.ListIdNXB1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB1)
+                                    {
+                                        if (filterDefinitionNXB1 == null)
+                                        {
+                                            filterDefinitionNXB1 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB1 = filterDefinitionNXB1 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB1;
+                                }
+
+                                if (KeySearch.ListSachIds1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds1)
+                                    {
+                                        if (filterDefinitionTacGia1 == null)
+                                        {
+                                            filterDefinitionTacGia1 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia1 = filterDefinitionTacGia1 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword1) || x.ISBN.Equals(KeySearch.Keyword1)
+                                             || x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
+                                             || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
+
+                                if (KeySearch.ListIdNXB1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB1)
+                                    {
+                                        if (filterDefinitionNXB1 == null)
+                                        {
+                                            filterDefinitionNXB1 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB1 = filterDefinitionNXB1 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB1;
+                                }
+
+                                if (KeySearch.ListSachIds1.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds1)
+                                    {
+                                        if (filterDefinitionTacGia1 == null)
+                                        {
+                                            filterDefinitionTacGia1 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia1 = filterDefinitionTacGia1 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+                            }
+                            break;
+                    }
+                }
+
             }
 
             if (KeySearch.Keyword2 != null && KeySearch.ddlLoaiTimKiem2 != null)
             {
-                switch (KeySearch.ddlLoaiTimKiem2)
+                if (KeySearch.dlOperator2 == "and")
                 {
-                    case "title":
-                        filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
-                                        || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()));
-                        break;
-                    case "author":
-                        foreach (var item in KeySearch.ListSachIds)
-                        {
-                            filterDefinition4 = builder.Where(x => x.Id.Equals(item));
-                        }
-
-                        filterDefinition = filterDefinition & filterDefinition4;
-                        break;
-
-                    case "isbn":
-                        filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword2));
-                        break;
-
-                    case "place_publication":
-                        FilterDefinition<Sach> filterDefinition3 = builder.Where(x => false);
-                        foreach (var item in KeySearch.ListIdNXB)
-                        {
-                            filterDefinition3 = filterDefinition3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
-                        }
-                        filterDefinition = filterDefinition & (filterDefinition3);
-                        break;
-
-                    case "date_publication":
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2));
-                        break;
-
-                    default:
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2) || x.ISBN.Equals(KeySearch.Keyword2)
-                       || x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
-                                       || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()));
-                        if (KeySearch.ListIdNXB.Count > 0)
-                        {
-                            foreach (var item in KeySearch.ListIdNXB)
+                    switch (KeySearch.ddlLoaiTimKiem2)
+                    {
+                        case "title":
+                            if (KeySearch.Condition2 == "Contains")
                             {
-                                filterDefinition4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
                             }
-                            filterDefinition = filterDefinition | filterDefinition4;
-                        }
-
-                        if (KeySearch.ListSachIds.Count > 0)
-                        {
-                            //string[] Id = KeySearch.ListSachIds.Split(',');
-
-                            FilterDefinition<Sach> filterDefinition2 = builder.Where(x => false);
-
-                            foreach (var item in KeySearch.ListSachIds)
+                            else
                             {
-                                filterDefinition2 = builder.Where(x => x.Id.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
                             }
+                            break;
+                        case "author":
+                            if (KeySearch.ListSachIds2.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds2)
+                                {
+                                    if (filterDefinitionTacGia2 == null)
+                                    {
+                                        filterDefinitionTacGia2 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia2 = filterDefinitionTacGia2 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionTacGia2;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.Id.Contains(KeySearch.Keyword2));
+                            break;
 
-                            filterDefinition = filterDefinition | filterDefinition2;
-                        }
-                        break;
+                        case "isbn":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB2.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB2)
+                                {
+                                    if (filterDefinitionNXB2 == null)
+                                    {
+                                        filterDefinitionNXB2 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB2 = filterDefinitionNXB2 & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionNXB2;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2) || x.ISBN.Contains(KeySearch.Keyword2)
+                                           || x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
+                                           || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()));
+
+                                if (KeySearch.ListIdNXB2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB2)
+                                    {
+                                        if (filterDefinitionNXB2 == null)
+                                        {
+                                            filterDefinitionNXB2 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB2 = filterDefinitionNXB2 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB2;
+                                }
+
+                                if (KeySearch.ListSachIds2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds2)
+                                    {
+                                        if (filterDefinitionTacGia2 == null)
+                                        {
+                                            filterDefinitionTacGia2 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia2 = filterDefinitionTacGia2 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword2) || x.ISBN.Equals(KeySearch.Keyword2)
+                                          || x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
+                                          || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
+                                if (KeySearch.ListIdNXB2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB2)
+                                    {
+                                        if (filterDefinitionNXB2 == null)
+                                        {
+                                            filterDefinitionNXB2 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB2 = filterDefinitionNXB2 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB2;
+                                }
+
+                                if (KeySearch.ListSachIds2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds2)
+                                    {
+                                        if (filterDefinitionTacGia2 == null)
+                                        {
+                                            filterDefinitionTacGia2 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia2 = filterDefinitionTacGia2 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                                }
+                            }
+                            break;
+                    }
                 }
+                else
+                {
+                    switch (KeySearch.ddlLoaiTimKiem2)
+                    {
+                        case "title":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
+                            }
+                            break;
+                        case "author":
+                            if (KeySearch.ListSachIds2.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds2)
+                                {
+                                    if (filterDefinitionTacGia2 == null)
+                                    {
+                                        filterDefinitionTacGia2 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia2 = filterDefinitionTacGia2 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.Id.Contains(KeySearch.Keyword2));
+                            break;
+
+                        case "isbn":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB2.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB2)
+                                {
+                                    if (filterDefinitionNXB2 == null)
+                                    {
+                                        filterDefinitionNXB2 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB2 = filterDefinitionNXB2 & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionNXB2;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2) || x.ISBN.Contains(KeySearch.Keyword2)
+                                           || x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
+                                           || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()));
+
+                                if (KeySearch.ListIdNXB2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB2)
+                                    {
+                                        if (filterDefinitionNXB2 == null)
+                                        {
+                                            filterDefinitionNXB2 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB2 = filterDefinitionNXB2 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB2;
+                                }
+
+                                if (KeySearch.ListSachIds2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds2)
+                                    {
+                                        if (filterDefinitionTacGia2 == null)
+                                        {
+                                            filterDefinitionTacGia2 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia2 = filterDefinitionTacGia2 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword2) || x.ISBN.Equals(KeySearch.Keyword2)
+                                          || x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
+                                          || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
+                                if (KeySearch.ListIdNXB2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB2)
+                                    {
+                                        if (filterDefinitionNXB2 == null)
+                                        {
+                                            filterDefinitionNXB2 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB2 = filterDefinitionNXB2 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB2;
+                                }
+
+                                if (KeySearch.ListSachIds2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds2)
+                                    {
+                                        if (filterDefinitionTacGia2 == null)
+                                        {
+                                            filterDefinitionTacGia2 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia2 = filterDefinitionTacGia2 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                                }
+                            }
+                            break;
+                    }
+                }
+                    
             }
 
             if (KeySearch.Keyword3 != null && KeySearch.ddlLoaiTimKiem3 != null)
             {
-                switch (KeySearch.ddlLoaiTimKiem3)
+                if (KeySearch.dlOperator3 == "and")
                 {
-                    case "title":
-                        filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
-                                        || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()));
-                        break;
-                    case "author":
-                        foreach (var item in KeySearch.ListSachIds)
-                        {
-                            filterDefinition4 = builder.Where(x => x.Id.Equals(item));
-                        }
-
-                        filterDefinition = filterDefinition & filterDefinition4;
-                        break;
-
-                    case "isbn":
-                        filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword3));
-                        break;
-
-                    case "place_publication":
-                        FilterDefinition<Sach> filterDefinition3 = builder.Where(x => false);
-                        foreach (var item in KeySearch.ListIdNXB)
-                        {
-                            filterDefinition3 = filterDefinition3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
-                        }
-                        filterDefinition = filterDefinition & (filterDefinition3);
-                        break;
-
-                    case "date_publication":
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3));
-                        break;
-
-                    default:
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3) || x.ISBN.Equals(KeySearch.Keyword3)
-                       || x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
-                                       || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()));
-                        if (KeySearch.ListIdNXB.Count > 0)
-                        {
-                            foreach (var item in KeySearch.ListIdNXB)
+                    switch (KeySearch.ddlLoaiTimKiem3)
+                    {
+                        case "title":
+                            if (KeySearch.Condition3 == "Contains")
                             {
-                                filterDefinition4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
                             }
-                            filterDefinition = filterDefinition | filterDefinition4;
-                        }
-
-                        if (KeySearch.ListSachIds.Count > 0)
-                        {
-                            //string[] Id = KeySearch.ListSachIds.Split(',');
-
-                            FilterDefinition<Sach> filterDefinition2 = builder.Where(x => false);
-
-                            foreach (var item in KeySearch.ListSachIds)
+                            else
                             {
-                                filterDefinition2 = builder.Where(x => x.Id.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword3.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
+                            }
+                            break;
+                        case "author":
+                            if (KeySearch.ListSachIds3.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds3)
+                                {
+                                    if (filterDefinitionTacGia3 == null)
+                                    {
+                                        filterDefinitionTacGia3 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia3 = filterDefinitionTacGia3 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionTacGia3;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.Id.Contains(KeySearch.Keyword3));
+                            break;
+
+                        case "isbn":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB3.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB3)
+                                {
+                                    if (filterDefinitionNXB3 == null)
+                                    {
+                                        filterDefinitionNXB3 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB3 = filterDefinitionNXB3 & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionNXB3;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3) || x.ISBN.Contains(KeySearch.Keyword3)
+                          || x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
+                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()));
+
+                                if (KeySearch.ListIdNXB3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB3)
+                                    {
+                                        if (filterDefinitionNXB3 == null)
+                                        {
+                                            filterDefinitionNXB3 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB3 = filterDefinitionNXB3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB3;
+                                }
+
+                                if (KeySearch.ListSachIds3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds3)
+                                    {
+                                        if (filterDefinitionTacGia3 == null)
+                                        {
+                                            filterDefinitionTacGia3 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia3 = filterDefinitionTacGia3 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword3) || x.ISBN.Equals(KeySearch.Keyword3)
+                                                  || x.TenSach.ToLower() == KeySearch.Keyword3.ToLower()
+                                                  || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
+
+                                if (KeySearch.ListIdNXB3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB3)
+                                    {
+                                        if (filterDefinitionNXB3 == null)
+                                        {
+                                            filterDefinitionNXB3 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB3 = filterDefinitionNXB3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB3;
+                                }
+
+                                if (KeySearch.ListSachIds3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds3)
+                                    {
+                                        if (filterDefinitionTacGia3 == null)
+                                        {
+                                            filterDefinitionTacGia3 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia3 = filterDefinitionTacGia3 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                                }
                             }
 
-                            filterDefinition = filterDefinition2 | filterDefinition2;
-                        }
-                        break;
+                            break;
+                    }
                 }
+                else
+                {
+                    switch (KeySearch.ddlLoaiTimKiem3)
+                    {
+                        case "title":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword3.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
+                            }
+                            break;
+                        case "author":
+                            if (KeySearch.ListSachIds3.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds3)
+                                {
+                                    if (filterDefinitionTacGia3 == null)
+                                    {
+                                        filterDefinitionTacGia3 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia3 = filterDefinitionTacGia3 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                            }
+                            else
+                                filterDefinition = filterDefinition | builder.Where(x => x.Id.Contains(KeySearch.Keyword3));
+                            break;
+
+                        case "isbn":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB3.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB3)
+                                {
+                                    if (filterDefinitionNXB3 == null)
+                                    {
+                                        filterDefinitionNXB3 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB3 = filterDefinitionNXB3 & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionNXB3;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3) || x.ISBN.Contains(KeySearch.Keyword3)
+                          || x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
+                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()));
+
+                                if (KeySearch.ListIdNXB3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB3)
+                                    {
+                                        if (filterDefinitionNXB3 == null)
+                                        {
+                                            filterDefinitionNXB3 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB3 = filterDefinitionNXB3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB3;
+                                }
+
+                                if (KeySearch.ListSachIds3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds3)
+                                    {
+                                        if (filterDefinitionTacGia3 == null)
+                                        {
+                                            filterDefinitionTacGia3 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia3 = filterDefinitionTacGia3 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword3) || x.ISBN.Equals(KeySearch.Keyword3)
+                                                  || x.TenSach.ToLower() == KeySearch.Keyword3.ToLower()
+                                                  || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
+
+                                if (KeySearch.ListIdNXB3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB3)
+                                    {
+                                        if (filterDefinitionNXB3 == null)
+                                        {
+                                            filterDefinitionNXB3 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB3 = filterDefinitionNXB3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB3;
+                                }
+
+                                if (KeySearch.ListSachIds3.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds3)
+                                    {
+                                        if (filterDefinitionTacGia3 == null)
+                                        {
+                                            filterDefinitionTacGia3 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia3 = filterDefinitionTacGia3 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                                }
+                            }
+
+                            break;
+                    }
+                }
+                
             }
 
             if (KeySearch.Keyword4 != null && KeySearch.ddlLoaiTimKiem4 != null)
             {
-                switch (KeySearch.ddlLoaiTimKiem4)
+                if (KeySearch.dlOperator4 == "and")
                 {
-                    case "title":
-                        filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
-                                      || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()));
-                        break;
-                    case "author":
-                        foreach (var item in KeySearch.ListSachIds)
-                        {
-                            filterDefinition4 = builder.Where(x => x.Id.Equals(item));
-                        }
-
-                        filterDefinition = filterDefinition & filterDefinition4;
-                        break;
-
-                    case "isbn":
-                        filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword4));
-                        break;
-
-                    case "place_publication":
-                        FilterDefinition<Sach> filterDefinition3 = builder.Where(x => false);
-                        foreach (var item in KeySearch.ListIdNXB)
-                        {
-                            filterDefinition3 = filterDefinition3 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
-                        }
-                        filterDefinition = filterDefinition & (filterDefinition3);
-                        break;
-
-                    case "date_publication":
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4));
-                        break;
-
-                    default:
-                        filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4) || x.ISBN.Equals(KeySearch.Keyword4)
-                       || x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
-                                       || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()));
-                        if (KeySearch.ListIdNXB.Count > 0)
-                        {
-                            foreach (var item in KeySearch.ListIdNXB)
+                    switch (KeySearch.ddlLoaiTimKiem4)
+                    {
+                        case "title":
+                            if (KeySearch.Condition4 == "Contains")
                             {
-                                filterDefinition4 = filterDefinition | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
                             }
-                            filterDefinition = filterDefinition4;
-                        }
-
-                        if (KeySearch.ListSachIds.Count > 0)
-                        {
-                            //string[] Id = KeySearch.ListSachIds.Split(',');
-
-                            FilterDefinition<Sach> filterDefinition2 = builder.Where(x => false);
-
-                            foreach (var item in KeySearch.ListSachIds)
+                            else
                             {
-                                filterDefinition2 = builder.Where(x => x.Id.Equals(item));
+                                filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
+                            }
+                            break;
+                        case "author":
+                            if (KeySearch.ListSachIds4.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds4)
+                                {
+                                    if (filterDefinitionTacGia4 == null)
+                                    {
+                                        filterDefinitionTacGia4 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia4 = filterDefinitionTacGia4 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionTacGia4;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.Id.Contains(KeySearch.Keyword4));
+                            break;
+
+                        case "isbn":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB4.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB4)
+                                {
+                                    if (filterDefinitionNXB4 == null)
+                                    {
+                                        filterDefinitionNXB4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB4 = filterDefinitionNXB & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionNXB4;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4) || x.ISBN.Contains(KeySearch.Keyword4)
+                            || x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
+                                            || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()));
+                                if (KeySearch.ListIdNXB4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB4)
+                                    {
+                                        if (filterDefinitionNXB4 == null)
+                                        {
+                                            filterDefinitionNXB4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB4 = filterDefinitionNXB4 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB4;
+                                }
+
+                                if (KeySearch.ListSachIds4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds4)
+                                    {
+                                        if (filterDefinitionTacGia4 == null)
+                                        {
+                                            filterDefinitionTacGia4 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia4 = filterDefinitionTacGia4 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword4) || x.ISBN.Equals(KeySearch.Keyword4)
+                                                     || x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
+                                                     || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
+                                if (KeySearch.ListIdNXB4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB4)
+                                    {
+                                        if (filterDefinitionNXB4 == null)
+                                        {
+                                            filterDefinitionNXB4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB4 = filterDefinitionNXB4 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB4;
+                                }
+
+                                if (KeySearch.ListSachIds4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds4)
+                                    {
+                                        if (filterDefinitionTacGia4 == null)
+                                        {
+                                            filterDefinitionTacGia4 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia4 = filterDefinitionTacGia4 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                                }
                             }
 
-                            filterDefinition = filterDefinition | filterDefinition2;
-                        }
-                        break;
+                            break;
+                    }
                 }
+                else
+                {
+                    switch (KeySearch.ddlLoaiTimKiem4)
+                    {
+                        case "title":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
+                                              || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
+                            }
+                            break;
+                        case "author":
+                            if (KeySearch.ListSachIds4.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListSachIds4)
+                                {
+                                    if (filterDefinitionTacGia4 == null)
+                                    {
+                                        filterDefinitionTacGia4 = builder.Where(x => x.Id == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionTacGia4 = filterDefinitionTacGia4 | builder.Where(x => x.Id == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                            }
+                            else
+                                filterDefinition = filterDefinition | builder.Where(x => x.Id.Contains(KeySearch.Keyword4));
+                            break;
+
+                        case "isbn":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        case "place_publication":
+                            if (KeySearch.ListIdNXB4.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListIdNXB4)
+                                {
+                                    if (filterDefinitionNXB4 == null)
+                                    {
+                                        filterDefinitionNXB4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionNXB4 = filterDefinitionNXB & builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionNXB4;
+                            }
+                            else
+                            {
+                                filterDefinition = builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        case "date_publication":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        default:
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4) || x.ISBN.Contains(KeySearch.Keyword4)
+                            || x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
+                                            || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()));
+                                if (KeySearch.ListIdNXB4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB4)
+                                    {
+                                        if (filterDefinitionNXB4 == null)
+                                        {
+                                            filterDefinitionNXB4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB4 = filterDefinitionNXB4 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB4;
+                                }
+
+                                if (KeySearch.ListSachIds4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds4)
+                                    {
+                                        if (filterDefinitionTacGia4 == null)
+                                        {
+                                            filterDefinitionTacGia4 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia4 = filterDefinitionTacGia4 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                                }
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword4) || x.ISBN.Equals(KeySearch.Keyword4)
+                                                     || x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
+                                                     || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
+                                if (KeySearch.ListIdNXB4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListIdNXB4)
+                                    {
+                                        if (filterDefinitionNXB4 == null)
+                                        {
+                                            filterDefinitionNXB4 = builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionNXB4 = filterDefinitionNXB4 | builder.Where(x => x.IdNhaXuatBan.Equals(item));
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionNXB4;
+                                }
+
+                                if (KeySearch.ListSachIds4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListSachIds4)
+                                    {
+                                        if (filterDefinitionTacGia4 == null)
+                                        {
+                                            filterDefinitionTacGia4 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionTacGia4 = filterDefinitionTacGia4 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                                }
+                            }
+
+                            break;
+                    }
+                }
+                  
             }
             #endregion
 
-
-
+            //search cơ bản
             if (!string.IsNullOrEmpty(KeySearch.KeywordBasic))
             {
                 filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower().Contains(KeySearch.KeywordBasic.ToLower())
                     || x.TenSachKhongDau.ToLower().Contains(KeySearch.KeywordBasic.ToLower()) || x.ISBN.Equals(KeySearch.KeywordBasic)
                     || x.NamXuatBan.Contains(KeySearch.KeywordBasic));
             }
-            //if (!string.IsNullOrEmpty(KeySearch.TheLoaiSach))
-            //{
-            //    filterDefinition = filterDefinition & builder.Where(x => x.IdTheLoai.ToLower().Contains(KeySearch.TheLoaiSach.ToLower()));
-            //}
-            //if (KeySearch.ListSachIds.Count > 0)
-            //{
-            //    //string[] Id = KeySearch.ListSachIds.Split(',');
-
-            //    foreach (var item in KeySearch.ListSachIds)
-            //    {
-            //        filterDefinition2 = filterDefinition2 | builder.Where(x => x.Id.Equals(item));
-            //    }
-
-            //    filterDefinition = filterDefinition & (filterDefinition2);
-            //}
-            ////if (!string.IsNullOrEmpty(KeySearch.ListSachIds))
-            ////{
-            ////    filterDefinition = filterDefinition & builder.Where(x => x.Id.Equals(KeySearch.ListSachIds));
-            ////}
-            #endregion           
+            #endregion
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
     }
 }
+

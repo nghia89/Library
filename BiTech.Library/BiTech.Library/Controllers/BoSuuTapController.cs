@@ -82,6 +82,11 @@ namespace BiTech.Library.Controllers
         public ActionResult Create(BoSuuTapViewModel model)
         {
             BoSuuTapLogic _BoSuuTapLogic = new BoSuuTapLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            if(!ModelState.IsValid)
+            {
+                ModelState.AddModelError(ModelState.Keys.ToString(), ModelState.Values.ToString());
+                return View(model);
+            }
             BoSuuTap BST = new BoSuuTap()
             {
                 Name = model.Name,
