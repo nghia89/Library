@@ -115,9 +115,9 @@ namespace BiTech.Library.Controllers
                     UserName = _UserAccessInfo.UserName
                 };
                 string idPhieuXuat = _PhieuNhapSachLogic.XuatSach(pxs);
-                SachCaBiet scDTO = new SachCaBiet();
+                SachCaBiet scDTO = new SachCaBiet();              
                 if (!String.IsNullOrEmpty(idPhieuXuat))
-                {
+                {                   
                     foreach (var json in model.listChiTietJsonString)
                     {
                         var ctModel = Newtonsoft.Json.JsonConvert.DeserializeObject<ChiTietXuatSachViewModels>(json);
@@ -128,16 +128,23 @@ namespace BiTech.Library.Controllers
                             IdSach = ctModel.IdSach,
                             IdTinhTrang = ctModel.IdTinhTrang,
                             MaCaBiet = ctModel.MaCaBiet,
-                            //MaCaBiet = ctModel.
                             CreateDateTime = DateTime.Now
                         };
                         _ChiTietNhapSachLogic.Insert(ctxs);
                         ;
                         _SachCaBietLogic.Remove(_SachCaBietLogic.GetIdSachFromMaCaBiet(ctModel.MaCaBiet).Id);
+
+                        //Update bảng Sach 
+                        //Cập nhật số lượng cho mỗi đầu sách  
+                        var modelSach = _SachLogic.GetByID_IsDeleteFalse(ctModel.IdSach);
+                        modelSach.SoLuongTong-- ;
+                        modelSach.SoLuongConLai--;                        
+                        _SachLogic.Update(modelSach);
                     }
                     return RedirectToAction("Index");
                 }
             }
+            
 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
             ModelState.Clear();
@@ -215,6 +222,7 @@ namespace BiTech.Library.Controllers
                     IdTinhTrang = tt.Id,
                     TenSach = book.TenSach,
                     MaCaBiet = maCaBiet,
+                    MaKiemSoat = book.MaKiemSoat,
                     TrangThai = tt.TenTT
                 };
                 result.Data = cnpx;

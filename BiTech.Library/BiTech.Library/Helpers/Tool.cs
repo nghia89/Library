@@ -14,6 +14,7 @@ namespace BiTech.Library.Helpers
         BookCovers,
         QRCodeUser,
         QRCodeBook,
+        QRCodeBook_CaBiet,
         AvatarUser,
         FileExcel,
         FileWord,
@@ -48,6 +49,8 @@ namespace BiTech.Library.Helpers
                     return Path.Combine(mainUpload, subdomain, @"QRCodeUser");
                 case UploadFolder.QRCodeBook:
                     return Path.Combine(mainUpload, subdomain, @"QRCodeBook");
+                case UploadFolder.QRCodeBook_CaBiet:
+                    return Path.Combine(mainUpload, subdomain, @"QRCodeBook_CaBiet");
                 case UploadFolder.AvatarUser:
                     return Path.Combine(mainUpload, subdomain, @"AvatarUser");
                 case UploadFolder.FileExcel:

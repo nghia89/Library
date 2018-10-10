@@ -171,7 +171,7 @@
                             <div id="collapse1" class="collapse @((Bool_TabSach) ? "show" : "")" data-parent="#accordion">
                                 <div class="card-body">
                                     <ul>
-                                        <li class="@((controller == "Sach" || controller == "Marc") ? "active" : "")">
+                                        <li class="@(((controller == "Sach" && @action != "XuatQR_Mutil") || controller == "Marc") ? "active" : "")">
                                             <a href="@Url.Action("index", "Sach")" title="Sách">
                                                 Sách
                                             </a>
@@ -209,6 +209,11 @@
                                         <li class="@((controller == "DDC") ? "active" : "")">
                                             <a href="@Url.Action("Index", "DDC")" title="DDC">
                                                 DDC
+                                            </a>
+                                        </li>
+                                        <li class="@((controller == "Sach" && @action == "XuatQR_Mutil") ? "active" : "")">
+                                            <a href="@Url.Action("XuatQR_Mutil", "Sach")" title="In mã QR sách">
+                                                In mã QR sách
                                             </a>
                                         </li>
                                     </ul>
@@ -290,8 +295,8 @@
                                             </a>
                                         </li>
                                         <li class="@((controller == "PhieuXuatSach") ? "active" : "")">
-                                            <a href="@Url.Action("Index", "PhieuXuatSach")" title="Xuất sách">
-                                                Xuất sách
+                                            <a href="@Url.Action("Index", "PhieuXuatSach")" title="Thanh lý sách">
+                                                Thanh lý sách
                                             </a>
                                         </li>
                                     </ul>

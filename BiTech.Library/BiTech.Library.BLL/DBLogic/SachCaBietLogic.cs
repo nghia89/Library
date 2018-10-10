@@ -46,6 +46,17 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _SachCaBietEngine.GetAllSachCaBiet();
         }
+
+        public List<string> GetAllIdSach()
+        {
+            var lstSCB = _SachCaBietEngine.GetAllSachCaBiet();
+            var lsId = new List<string>();
+            foreach(var item in lstSCB)
+            {
+                lsId.Add(item.IdSach);
+            }
+            return lsId; //tra ve danh sach idSach
+        }
         #endregion
 
         public string Add(SachCaBiet TL)
