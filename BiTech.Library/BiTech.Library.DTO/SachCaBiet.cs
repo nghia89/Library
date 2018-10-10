@@ -26,5 +26,8 @@ namespace BiTech.Library.DTO
         public string MaKSCB { get; set; }
 
         public string MaCaBienCu { get; set; }
+
+        [BsonIgnore]
+        public string TenSach { get; set; }
     }
 }

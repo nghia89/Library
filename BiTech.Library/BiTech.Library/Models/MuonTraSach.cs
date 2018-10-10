@@ -12,6 +12,7 @@ namespace BiTech.Library.Models
         public string Id { get; set; }
         public string IdUser { get; set; }
         public string MaKiemSoat { get; set; }
+        public string MaKSCB { get; set; }
         public string TenSach { get; set; }
         public string SoLuong { get; set; }
         public string SoLuongMax { get; set; }

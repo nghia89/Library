@@ -79,7 +79,7 @@ namespace BiTech.Library.Controllers
                 #endregion
             }
 
-            ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien).ToList();
+            ViewBag.list_maThanhVien = list_user.Select(_ => _.MaSoThanhVien + "-" + _.Ten).ToList();
             //ViewBag.list_maSach = list_Sach.Select(_ => _.MaKiemSoat + "-" + _.TenSach).ToList();
 
             if (list_ChuanBiMuon != null)
@@ -99,17 +99,36 @@ namespace BiTech.Library.Controllers
 
             SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            SachCaBiet _SachCaBiet = _SachCaBietLogic.GetAllByMaKSCBorMaCaBienCu(new SachCommon().GetInfo(maSach));
-            Sach _Sach = _SachLogicLogic.GetBookById(_SachCaBiet.IdSach);
+            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachCaBiet _SachCaBiet = _SachCaBietLogic.GetByMaKSCBorMaCaBienCu(new SachCommon().GetInfo(maSach));
+            
 
             if (_SachCaBiet != null)
             {
-                list_book.Add(new MuonTraSachViewModel()
+                TrangThaiSach _tt = _TrangThaiSachLogic.getById(_SachCaBiet.IdTrangThai);
+                if(_tt != null)
                 {
-                    MaKiemSoat = _SachCaBiet.MaKSCB,
-                    TenSach = _Sach.TenSach
-                });
+                    if (_tt.TrangThai)
+                    {
+                        Sach _Sach = _SachLogicLogic.GetBookById(_SachCaBiet.IdSach);
+                        list_book.Add(new MuonTraSachViewModel()
+                        {
+                            MaKiemSoat = _SachCaBiet.MaKSCB.Replace(".", "_"),
+                            MaKSCB = _SachCaBiet.MaKSCB,
+                            TenSach = _Sach.TenSach
+                        });
+                    }
+                }                
+
+                List<ThongTinMuonSach> List_SachDuocMuon = _ThongTinMuonSachLogic.GetAllbyIdSachCaBiet_ChuaTra(_SachCaBiet.Id);
+                
+                MuonTraSachViewModel Sach_ChuanBiMuon = (list_ChuanBiMuon != null)?list_ChuanBiMuon.Find(_=>_.MaKSCB == _SachCaBiet.MaKSCB):null; //sách đã tồn tại trong danh sách chuẩn bị mượn chưa
+
+                if (List_SachDuocMuon.Count > 0 || Sach_ChuanBiMuon != null)
+                {
+                    list_book.Clear();
+                }
             }
 
             return Json(list_book, JsonRequestBehavior.AllowGet);
@@ -142,8 +161,13 @@ namespace BiTech.Library.Controllers
         public JsonResult GetAllListById(string maSach)
         {
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            List<Sach> list_Sach = _SachLogic.getPageSach(new Common.KeySearchViewModel()); //Danh sách trong kho
-            var list = list_Sach.Select(_ => _.MaKiemSoat + "-" + _.TenSach).ToList();
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            List<SachCaBiet> list_Sach_CaBiet = _SachCaBietLogic.GetAllByMaKSCBorMaCaBienCu(maSach);
+            foreach(SachCaBiet item in list_Sach_CaBiet)
+            {
+                item.TenSach = _SachLogic.GetBookById(item.IdSach).TenSach;
+            }
+            var list = list_Sach_CaBiet.Select(_ => _.MaKSCB + "-" + _.TenSach).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -164,20 +188,24 @@ namespace BiTech.Library.Controllers
             {
                 foreach (MuonTraSachViewModel item in List_newitem)
                 {
-                    SachCaBiet _SachCaBiet = _SachCaBietLogic.GetAllByMaKSCBorMaCaBienCu(item.MaKiemSoat);
-                    //Sach _sach = _SachLogic.GetByMaMaKiemSoat(item.MaKiemSoat); //Lấy thông tin sách
+                    SachCaBiet _SachCaBiet = _SachCaBietLogic.GetByMaKSCBorMaCaBienCu(item.MaKSCB);
+                    Sach _sach = _SachLogic.GetByMaMaKiemSoat(item.MaKiemSoat.Split('_')[0]); //Lấy thông tin sách
+                    if(_sach != null)
+                        _sach.SoLuongConLai--; 
                     if (_SachCaBiet != null)
                     {
                         ThongTinMuonSach team = new ThongTinMuonSach()
                         {
                             idUser = ThanhVienCommon.GetInfo(item.IdUser),
                             idSach = _SachCaBiet.IdSach,
+                            IdSachCaBiet = _SachCaBiet.Id,
                             NgayGioMuon = DateTime.Now,
                             NgayPhaiTra = DateTime.ParseExact(item.NgayTra, "dd/MM/yyyy", CultureInfo.InvariantCulture),//item.NgayTra,
                             DaTra = false,
                             NgayTraThucTe = DateTime.ParseExact("01/01/0001", "dd/MM/yyyy", null),
                         };
                         _ThongTinMuonSachLogic.Insert(team); //Thêm sách (Insert to database)
+                        _SachLogic.Update(_sach);
                     }
                 }
                 list_book = GetByIdUser(ThanhVienCommon.GetInfo(List_newitem[0].IdUser), Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -233,13 +261,12 @@ namespace BiTech.Library.Controllers
             SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(connectionString, databaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(connectionString, databaseName);
 
-
             List<ThongTinMuonSach> list_TTMS = _ThongTinMuonSachLogic.GetAllIdUser_ChuaTra(IdUser); //Thông tin  mượn sách với IdUser (những sách chưa trả)
             List<MuonTraSachCheckViewTable> list_maSach = new List<MuonTraSachCheckViewTable>(); //Danh sách mã sách đã được thêm vào list_book
 
             foreach (ThongTinMuonSach item in list_TTMS)
             {
-                SachCaBiet _SachCaBiet = _SachCaBietLogic.getById(item.idSach); //lấy thông tin sách cá biệt bằng idSach
+                SachCaBiet _SachCaBiet = _SachCaBietLogic.getById(item.IdSachCaBiet); //lấy thông tin sách cá biệt bằng idSach
                 if (_SachCaBiet == null)
                     continue;
                 Sach _Sach = _SachLogic.GetByID_IsDeleteFalse(_SachCaBiet.IdSach); //Lấy thông tin đầu sách

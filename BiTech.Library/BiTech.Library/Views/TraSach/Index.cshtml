@@ -141,8 +141,7 @@
                                                 <tr class="table-info text-center">
                                                     <th width="50">STT</th>
                                                     <th width="15%">Mã sách</th>
-                                                    <th width="25%">Tên sách</th>
-                                                    <th width="10%">Số lượng</th>
+                                                    <th width="35%">Tên sách</th>
                                                     <th width="15%">Ngày mượn</th>
                                                     <th width="15%">Ngày phải trả</th>
                                                     <th width="15%">Trạng thái sách</th>
@@ -153,9 +152,8 @@
                                                 {
                                                     <tr class="text-center">
                                                         <td align="center">@(index_list_tb++)</td>
-                                                        <td>@item.MaKiemSoat</td>
+                                                        <td>@item.MaKSCB</td>
                                                         <td>@item.TenSach</td>
-                                                        <td>@item.SoLuong</td>
                                                         <td>@DateTime.Now.ToString("dd/MM/yyyy")</td>
                                                         <td>@item.NgayTra</td>
                                                         <td>@item.TinhTrangSachTen</td>
@@ -254,8 +252,7 @@
                                                         <tr class="table-info text-center">
                                                             <th width="50">STT</th>
                                                             <th width="15%">Mã sách</th>
-                                                            <th width="25%">Tên sách</th>
-                                                            <th width="10%">Số lượng</th>
+                                                            <th width="35%">Tên sách</th>
                                                             <th width="15%">Ngày mượn</th>
                                                             <th width="15%">Ngày phải trả</th>
                                                             <th width="15%">Trạng thái sách</th>
@@ -268,16 +265,8 @@
 
                                                         <tr class="text-center" ng-repeat="x in list_book_queue | orderBy : '-NgayMuon'" my-repeat-directive>
                                                             <td>{{$index + 1}}</td>
-                                                            <td>{{ x.MaKiemSoat }}</td>
+                                                            <td>{{ x.MaKSCB }}</td>
                                                             <td>{{ x.TenSach }}</td>
-                                                            <td width="100px">
-                                                                <input type="number" ng-value="{{x.SoLuong}}" id="List_{{x.Id}}"
-                                                                       class="form-control form-control-sm"
-                                                                       ng-blur="loadfocus_input_soluongsachmuon($index, x.SoLuong)"
-                                                                       min="0"
-                                                                       max="{{x.SoLuongMax}}"
-                                                                       required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                                                            </td>
                                                             <td>
                                                                 {{ x.NgayMuon }}
                                                             </td>
@@ -334,19 +323,17 @@
                                         <tr class="table-info text-center">
                                             <th width="50" align="right">STT</th>
                                             <th width="15%">Mã sách</th>
-                                            <th width="40%">Tên sách</th>
-                                            <th width="10%">Số lượng</th>
+                                            <th width="50%">Tên sách</th>
                                             <th width="15%">Ngày mượn</th>
                                             <th width="15%">Ngày phải trả</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        <tr style="cursor: pointer;" class="text-center" ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''" ng-click="GetBook_Choice_TinhTrang(x.MaKiemSoat, x.NgayMuon,x.NgayTra)">
+                                        <tr style="cursor: pointer;" class="text-center" ng-repeat="x in list_book_dangmuon | orderBy : '-NgayMuon'" ng-class="x.TinhTrang?'table-danger':''" ng-click="GetBook_Choice_TinhTrang(x.MaKSCB, x.NgayMuon,x.NgayTra)">
                                             <td align="center">{{$index + 1}}</td>
-                                            <td>{{ x.MaKiemSoat }}</td>
+                                            <td>{{ x.MaKSCB }}</td>
                                             <td>{{ x.TenSach }}</td>
-                                            <td>{{ x.SoLuong }}</td>
                                             <td>{{ x.NgayMuon | date  }}</td>
                                             <td>{{ x.NgayTra | date  }}</td>
                                         </tr>

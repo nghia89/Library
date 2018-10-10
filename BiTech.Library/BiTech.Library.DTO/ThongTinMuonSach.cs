@@ -24,7 +24,7 @@ namespace BiTech.Library.DTO
         public string idUser { get; set; }
 
         public string idSach { get; set; }
-
+        public string IdSachCaBiet { get; set; }
         //[BsonDateTimeOptions(Kind = DateTimeKind.Local, Representation = BsonType.Document)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime NgayGioMuon { get; set; }

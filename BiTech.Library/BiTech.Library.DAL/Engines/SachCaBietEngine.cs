@@ -43,10 +43,23 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(_ => true).ToList();
         }
 
-        public SachCaBiet GetAllByMaKSCBorMaCaBienCu(string idMaCaBiet)
+        public SachCaBiet GetByMaKSCBorMaCaBienCu(string idMaCaBiet)
         {
             return _DatabaseCollection.Find(_ => _.MaKSCB == idMaCaBiet || _.MaCaBienCu == idMaCaBiet).FirstOrDefault();
         }
+
+        public List<SachCaBiet> GetAllByMaKSCBorMaCaBienCu(string idMaCaBiet)
+        {
+            //return _DatabaseCollection.Find(_ => _.MaKSCB == idMaCaBiet || _.MaCaBienCu == idMaCaBiet).FirstOrDefault();
+
+            FilterDefinition<SachCaBiet> filterDefinition = new BsonDocument();
+            var builder = Builders<SachCaBiet>.Filter;
+            filterDefinition = builder.Where(x => x.MaKSCB.Contains(idMaCaBiet) 
+                                            || x.MaCaBienCu.Contains(idMaCaBiet));
+            return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+
+        
 
         #endregion
     }
