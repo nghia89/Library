@@ -111,6 +111,8 @@ namespace BiTech.Library.Controllers.BaseClass
                     id = arrStr[1];
                     maSo = arrStr[2];
                     ten = arrStr[3];
+                }else{
+                    maSo = arrStr[0];
                 }
                 return maSo;
             }

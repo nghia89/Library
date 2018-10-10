@@ -18,7 +18,6 @@ namespace BiTech.Library.BLL.DBLogic
             _sachTacGiaEngine = new SachTacGiaEngine(database, databaseName, "SachTacGia");
         }
 
-
         public string ThemSachTacGia(SachTacGia s)
         {
             return _sachTacGiaEngine.Insert(s);

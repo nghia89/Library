@@ -69,7 +69,12 @@ namespace BiTech.Library.BLL.DBLogic
 
         #region Phong
 
-        public SachCaBiet GetAllByMaKSCBorMaCaBienCu(string masach)
+        public SachCaBiet GetByMaKSCBorMaCaBienCu(string masach)
+        {
+            return _SachCaBietEngine.GetByMaKSCBorMaCaBienCu(masach);
+        }
+
+        public List<SachCaBiet> GetAllByMaKSCBorMaCaBienCu(string masach)
         {
             return _SachCaBietEngine.GetAllByMaKSCBorMaCaBienCu(masach);
         }
