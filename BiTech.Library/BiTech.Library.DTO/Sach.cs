@@ -154,6 +154,10 @@ namespace BiTech.Library.DTO
         public List<string> ListError { get; set; } = new List<string>();
         [BsonIgnore]
         public string Error { get; set; }
+        [BsonIgnore]
+        public bool ErrorDDC { get; set; } = false;
+        [BsonIgnore]
+        public List<TheLoaiSach> ListTheLoai { get; set; } = new List<TheLoaiSach>();
         #endregion
     }
 }

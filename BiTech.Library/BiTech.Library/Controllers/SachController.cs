@@ -99,7 +99,7 @@ namespace BiTech.Library.Controllers
             }
 
             //Sắp xếp
-            
+
             if (KeySearch.SapXep == "1")
                 model.Books = model.Books.OrderBy(_ => _.TenSach).ToList();
             if (KeySearch.SapXep == "11")
@@ -227,7 +227,7 @@ namespace BiTech.Library.Controllers
                             failTL += item.TenTheLoai + ", ";
                         }
                     }
-					
+
                     #region nghia: convertSachMarcXml
                     var book = _SachLogic.GetById(id);
                     IRecord record = MarcFactory.Instance.NewRecord();
@@ -1066,7 +1066,6 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<ActionResult> PreviewImport(HttpPostedFileBase file)
         {
@@ -1151,13 +1150,14 @@ namespace BiTech.Library.Controllers
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            ///   PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            //   ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             TheLoaiSachLogic _TheLoaiSachLogic = new TheLoaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             KeSachLogic _keSachLogic = new KeSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             NhaXuatBanLogic _NhaXuatBanLogic = new NhaXuatBanLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachTheLoaiLogic _sachTheLoaiLogic = new SachTheLoaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var listAll = new List<Sach>();
             List<Sach> ListFail = new List<Sach>();
@@ -1171,11 +1171,25 @@ namespace BiTech.Library.Controllers
                 Sach sach = new Sach();
                 sach.TenSach = item[1].ToString().Trim();
                 sach.ISBN = item[2].ToString().Trim();
-                sach.IdTheLoai = item[3].ToString().Trim();
-                var input = item[4].ToString().Trim();
-                if (!String.IsNullOrEmpty(input))
+
+                var theLoai = item[3].ToString().Trim();
+                if (!String.IsNullOrEmpty(theLoai))
                 {
-                    string[] tenTacGia = input.Split(new Char[] { ',', '.', '!', '\\', '/', ':', ';', '\n', '_', '-' });
+                    string[] tenTheLoai = theLoai.Split(new Char[] { ',', '.', '!', '\\', '/', ':', ';', '\n',
+                        '_', '-', '>', '<', '^', '&', '+', '*', '~', '=','x' });
+                    sach.ListTheLoai = new List<TheLoaiSach>();
+                    foreach (var ten in tenTheLoai)
+                    {
+                        if (!String.IsNullOrEmpty(ten.Trim()))
+                            sach.ListTheLoai.Add(new TheLoaiSach() { TenTheLoai = ten.Trim() });
+                    }
+                }
+                sach.DDC = item[4].ToString().Trim();
+                var tacGia = item[5].ToString().Trim();
+                if (!String.IsNullOrEmpty(tacGia))
+                {
+                    string[] tenTacGia = tacGia.Split(new Char[] { ',', '.', '!', '\\', '/', ':', ';', '\n',
+                        '_','-', '>', '<', '^', '&', '+', '*', '~', '=','x' });
                     sach.listTacGia = new List<TacGia>();
                     foreach (var ten in tenTacGia)
                     {
@@ -1183,17 +1197,18 @@ namespace BiTech.Library.Controllers
                             sach.listTacGia.Add(new TacGia() { TenTacGia = ten.Trim() });
                     }
                 }
-                sach.IdNhaXuatBan = item[5].ToString().Trim();
-                sach.IdKeSach = item[6].ToString().Trim();
-                sach.SoTrang = item[7].ToString().Trim();
-                sach.IdNgonNgu = item[8].ToString().Trim();
-                sach.NamXuatBan = item[9].ToString().Trim();
-                sach.GiaBia = item[10].ToString().Trim();
-                sach.PhiMuonSach = item[11].ToString().Trim();
-                sach.XuatXu = item[12].ToString().Trim();
-                sach.NguoiBienDich = item[13].ToString().Trim();
-                sach.TaiBan = item[14].ToString().Trim();
-                sach.TomTat = item[15].ToString().Trim();
+                sach.IdNhaXuatBan = item[6].ToString().Trim();
+                sach.IdKeSach = item[7].ToString().Trim();
+                sach.SoTrang = item[8].ToString().Trim();
+                sach.IdNgonNgu = item[9].ToString().Trim();
+                sach.NamXuatBan = item[10].ToString().Trim();
+                sach.GiaBia = item[11].ToString().Trim();
+                sach.PhiMuonSach = item[12].ToString().Trim();
+                sach.XuatXu = item[13].ToString().Trim();
+                sach.NguoiBienDich = item[14].ToString().Trim();
+                sach.TaiBan = item[15].ToString().Trim();
+                sach.TaiLieuDinhKem = item[16].ToString().Trim();
+                sach.TomTat = item[17].ToString().Trim();
                 listAll.Add(sach);
             }
             #endregion
@@ -1208,9 +1223,19 @@ namespace BiTech.Library.Controllers
                         item.ListError.Add("Rỗng ô nhập \"Tên sách\"");
                     }
                     // TheLoai
-                    if (String.IsNullOrEmpty(item.IdTheLoai.Trim()))
+                    if (item.ListTheLoai.Count == 0)
                     {
-                        item.ListError.Add("Rỗng ô nhập \"Thể loại\"");
+                        item.ListError.Add("Rỗng ô nhập \"Thể loại sách\"");
+                    }
+                    // Mã DDC
+                    if (!String.IsNullOrEmpty(item.DDC.Trim()))
+                    {
+                        var machs = System.Text.RegularExpressions.Regex.Match(item.DDC.Trim(), @"^\d{3}$");
+                        if (machs.Length != 3 && machs != null)
+                        {
+                            item.ListError.Add("\"Mã DDC\" không hợp lệ");
+                            item.ErrorDDC = true;
+                        }
                     }
                     // TacGia
                     if (item.listTacGia.Count == 0)
@@ -1250,30 +1275,8 @@ namespace BiTech.Library.Controllers
                     // Lưu vào CSDL Sách không bị lỗi 
                     if (item.ListError.Count == 0)
                     {
-                        #region Linh tinh
-                        // Thể loại sách
-                        //string itemTheLoai = sachCommon.ChuanHoaChuoi(item.IdTheLoai);// Chuẩn hóa tên Thể Loại Sách
-                        string itemTheLoai = item.IdTheLoai.Trim();
-                        var machs = System.Text.RegularExpressions.Regex.Match(itemTheLoai, @"^\d{3}$");
-                        if (machs.Length > 0)
-                        {
-                            // Nếu là mã DDC thì lưu vào trường DDC của Sách
-                            item.DDC = itemTheLoai;
-                        }
-                        else
-                        {
-                            // Nếu là tên thì lưu vào trường tên thể loại của Sách
-                            var theloai = _TheLoaiSachLogic.GetByTenTheLoai(itemTheLoai);
-                            if (theloai != null)
-                            {
-                                item.IdTheLoai = theloai.Id;
-                            }
-                            else
-                            {
-                                var id = _TheLoaiSachLogic.ThemTheLoaiSach(new TheLoaiSach() { TenTheLoai = itemTheLoai });
-                                item.IdTheLoai = id;
-                            }
-                        }
+                        #region Lưu sách
+                        #region Linh tinh                       
                         // Kệ sách
                         // string nameKS = sachCommon.ChuanHoaChuoi(item.IdKeSach);// Chuẩn hóa tên Kệ Sách
                         string nameKS = item.IdKeSach.Trim();
@@ -1318,7 +1321,7 @@ namespace BiTech.Library.Controllers
                         var idSach = _SachLogic.ThemSach(item);
                         if (idSach.Length > 0)
                         {
-                            // Tác giả 
+                            // Lưu tác giả 
                             foreach (var tg in item.listTacGia)
                             {
                                 tg.TenTacGia = xuLyChuoi.ChuanHoaChuoi(tg.TenTacGia);// Chuẩn hóa tên Tác Giả
@@ -1335,6 +1338,23 @@ namespace BiTech.Library.Controllers
                                 }
                                 _SachTacGiaLogic.ThemSachTacGia(new SachTacGia() { IdTacGia = idTG, IdSach = idSach });
                             }
+                            // Lưu thể loại sách                                                                             
+                            foreach (var tl in item.ListTheLoai)
+                            {
+                                tl.TenTheLoai = xuLyChuoi.ChuanHoaChuoi(tl.TenTheLoai);// Chuẩn hóa tên Thể Loại
+                                string idTL = null;
+                                var theLoaiSach = _TheLoaiSachLogic.GetByTenTheLoai(tl.TenTheLoai);
+                                if (theLoaiSach != null)
+                                {
+                                    idTL = theLoaiSach.Id;
+                                }
+                                else
+                                {
+                                    // Thêm mới nếu thể loại sách không tồn tại
+                                    idTL = _TheLoaiSachLogic.Insert(tl);
+                                }
+                                _sachTheLoaiLogic.ThemSachTheLoai(new SachTheLoai() { IdTheLoai = idTL, IdSach = idSach });
+                            }
                             // Lưu mã vạch
                             string physicalWebRootPath = Server.MapPath("/");
                             Sach sachUpdate = _SachLogic.GetBookById(idSach);
@@ -1346,7 +1366,87 @@ namespace BiTech.Library.Controllers
                                 _SachLogic.Update(sachUpdate);
                             }
                         }
-                        //
+                        #endregion
+                        #region Tạo Marc 21
+                        var book = _SachLogic.GetById(idSach);
+                        IRecord record = MarcFactory.Instance.NewRecord();
+                        IDataField dataField = null;
+
+                        record.AddVariableField(MarcFactory.Instance.NewControlField("001", book.MaKiemSoat));
+
+                        dataField = MarcFactory.Instance.NewDataField("020", '#', '#');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', item.ISBN));
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('c', item.GiaBia));
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("041", '0', '#');
+                        var getById = _LanguageLogic.GetById(item.IdNgonNgu);
+                        if (getById != null)
+                        {
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', getById.Ten));
+                            record.AddVariableField(dataField);
+                        }
+
+                        dataField = MarcFactory.Instance.NewDataField("250", '#', '#');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', item.TaiBan));
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("300", '#', '#');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', item.SoTrang));
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("520", '#', '#');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', item.TomTat));
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("100", '1', '#');
+
+                        var TenTG = "";
+                        foreach (var tg in item.listTacGia)
+                        {
+                            TenTG += tg.TenTacGia + ", ";
+                        }
+
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', TenTG.Trim(',')));
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("245", '1', '0');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', item.TenSach));
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("260", '#', '#');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('c', item.NamXuatBan));
+
+                        var getNameNXB = _NhaXuatBanLogic.getById(item.IdNhaXuatBan);                   
+                        if (getNameNXB != null)
+                        {
+                            dataField.AddSubfield(MarcFactory.Instance.NewSubfield('b', (getNameNXB.Ten != null) ? getNameNXB.Ten : ""));
+                        }
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("082", '0', '4');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', item.DDC));
+                        record.AddVariableField(dataField);
+
+                        dataField = MarcFactory.Instance.NewDataField("044", '#', '#');
+                        dataField.AddSubfield(MarcFactory.Instance.NewSubfield('a', item.XuatXu));
+                        record.AddVariableField(dataField);
+
+                        var recordXml = record.GetDataFields();
+                        var ControlField = record.GetControlFields();
+                        for (int i = 0; i < ControlField.Count; i++)
+                        {
+                            book.MARC21 = "=" + ControlField[i].ToString();
+                            book.MARC21 += "\n";
+                        }
+
+                        for (int i = 0; i < recordXml.Count; i++)
+                        {
+                            book.MARC21 += "=" + recordXml[i] + "  ";
+                            book.MARC21 += "\n";
+                        }
+                        _SachLogic.Update(book);
+                        #endregion
                         ListSuccess.Add(item);
                     }
                     else
@@ -1395,30 +1495,34 @@ namespace BiTech.Library.Controllers
                     ws.Cells["C1"].SetStyle(style);
                     ws.Cells["D1"].PutValue("Thể loại sách");
                     ws.Cells["D1"].SetStyle(style);
-                    ws.Cells["E1"].PutValue("Tác giả");
+                    ws.Cells["E1"].PutValue("Mã DDC");
                     ws.Cells["E1"].SetStyle(style);
-                    ws.Cells["F1"].PutValue("Nhà xuất bản");
+                    ws.Cells["F1"].PutValue("Tác giả");
                     ws.Cells["F1"].SetStyle(style);
-                    ws.Cells["G1"].PutValue("Kệ sách");
+                    ws.Cells["G1"].PutValue("Nhà xuất bản");
                     ws.Cells["G1"].SetStyle(style);
-                    ws.Cells["H1"].PutValue("Số trang");
+                    ws.Cells["H1"].PutValue("Kệ sách");
                     ws.Cells["H1"].SetStyle(style);
-                    ws.Cells["I1"].PutValue("Ngôn ngữ");
+                    ws.Cells["I1"].PutValue("Số trang");
                     ws.Cells["I1"].SetStyle(style);
-                    ws.Cells["J1"].PutValue("Năm xuất bản");
+                    ws.Cells["J1"].PutValue("Ngôn ngữ");
                     ws.Cells["J1"].SetStyle(style);
-                    ws.Cells["K1"].PutValue("Giá bìa");
+                    ws.Cells["K1"].PutValue("Năm xuất bản");
                     ws.Cells["K1"].SetStyle(style);
-                    ws.Cells["L1"].PutValue("Phí mượn");
+                    ws.Cells["L1"].PutValue("Giá bìa");
                     ws.Cells["L1"].SetStyle(style);
-                    ws.Cells["M1"].PutValue("Nước xuất xứ");
+                    ws.Cells["M1"].PutValue("Phí mượn");
                     ws.Cells["M1"].SetStyle(style);
-                    ws.Cells["N1"].PutValue("Người biên dịch");
+                    ws.Cells["N1"].PutValue("Nước xuất xứ");
                     ws.Cells["N1"].SetStyle(style);
-                    ws.Cells["O1"].PutValue("Lần xuất bản");
+                    ws.Cells["O1"].PutValue("Người biên dịch");
                     ws.Cells["O1"].SetStyle(style);
-                    ws.Cells["P1"].PutValue("Tóm tắt");
+                    ws.Cells["P1"].PutValue("Lần xuất bản");
                     ws.Cells["P1"].SetStyle(style);
+                    ws.Cells["Q1"].PutValue("Tài liệu đính kèm");
+                    ws.Cells["Q1"].SetStyle(style);
+                    ws.Cells["R1"].PutValue("Tóm tắt");
+                    ws.Cells["R1"].SetStyle(style);
                     // Import data             
                     int firstRow = 1;
                     int firstColumn = 0;
@@ -1429,7 +1533,17 @@ namespace BiTech.Library.Controllers
                         arrList.Add(stt);
                         arrList.Add(item.TenSach);
                         arrList.Add(item.ISBN);
-                        arrList.Add(item.IdTheLoai);
+                        // Danh sách tên Thể Loại
+                        string nameCategory = null;
+                        foreach (var name in item.ListTheLoai)
+                        {
+                            nameCategory += name.TenTheLoai + ", ";
+                        }
+                        if (nameCategory != null && nameCategory.Equals(", ") == false)
+                            arrList.Add(nameCategory);
+                        else
+                            arrList.Add("");
+                        arrList.Add(item.DDC);
                         // Danh sách tên tác giả
                         string nameAuthor = null;
                         foreach (var name in item.listTacGia)
@@ -1450,6 +1564,7 @@ namespace BiTech.Library.Controllers
                         arrList.Add(item.XuatXu);
                         arrList.Add(item.NguoiBienDich);
                         arrList.Add(item.TaiBan);
+                        arrList.Add(item.TaiLieuDinhKem);
                         arrList.Add(item.TomTat);
                         // Danh sách thông báo lỗi
                         string errorExcel = null;
@@ -1464,36 +1579,41 @@ namespace BiTech.Library.Controllers
                         }
                         ws.Cells.ImportArrayList(arrList, firstRow, firstColumn, false);
                         // Set style màu sắc
-                        for (int i = firstColumn; i < firstColumn + 16; i++)
+                        for (int i = firstColumn; i < firstColumn + 18; i++)
                         {
                             ws.Cells[firstRow, i].SetStyle(styleData);
                         }
                         if (String.IsNullOrEmpty(item.TenSach.Trim()))
                             ws.Cells[firstRow, firstColumn + 1].SetStyle(styleError);
 
-                        if (String.IsNullOrEmpty(item.IdTheLoai.Trim()))
+                        if (String.IsNullOrEmpty(nameCategory) || nameCategory.Equals(", "))
                             ws.Cells[firstRow, firstColumn + 3].SetStyle(styleError);
 
-                        if (String.IsNullOrEmpty(nameAuthor) || nameAuthor.Equals(", "))
+                        if (item.ErrorDDC == true)
+                        {
                             ws.Cells[firstRow, firstColumn + 4].SetStyle(styleError);
+                        }
 
-                        if (String.IsNullOrEmpty(item.IdNhaXuatBan.Trim()))
+                        if (String.IsNullOrEmpty(nameAuthor) || nameAuthor.Equals(", "))
                             ws.Cells[firstRow, firstColumn + 5].SetStyle(styleError);
 
-                        if (String.IsNullOrEmpty(item.SoTrang.Trim()))
-                            ws.Cells[firstRow, firstColumn + 7].SetStyle(styleError);
+                        if (String.IsNullOrEmpty(item.IdNhaXuatBan.Trim()))
+                            ws.Cells[firstRow, firstColumn + 6].SetStyle(styleError);
 
-                        if (String.IsNullOrEmpty(item.IdNgonNgu.Trim()))
+                        if (String.IsNullOrEmpty(item.SoTrang.Trim()))
                             ws.Cells[firstRow, firstColumn + 8].SetStyle(styleError);
 
-                        if (String.IsNullOrEmpty(item.NamXuatBan.Trim()))
+                        if (String.IsNullOrEmpty(item.IdNgonNgu.Trim()))
                             ws.Cells[firstRow, firstColumn + 9].SetStyle(styleError);
 
+                        if (String.IsNullOrEmpty(item.NamXuatBan.Trim()))
+                            ws.Cells[firstRow, firstColumn + 10].SetStyle(styleError);
+
                         if (String.IsNullOrEmpty(item.PhiMuonSach.Trim()))
-                            ws.Cells[firstRow, firstColumn + 11].SetStyle(styleError);
+                            ws.Cells[firstRow, firstColumn + 12].SetStyle(styleError);
 
                         if (String.IsNullOrEmpty(item.TomTat.Trim()))
-                            ws.Cells[firstRow, firstColumn + 15].SetStyle(styleError);
+                            ws.Cells[firstRow, firstColumn + 17].SetStyle(styleError);
                         // K lưu lý do lỗi vào file Excel, chỉ xuất lên table
                         item.Error = errorExcel;
                         arrList.Add(errorExcel);
@@ -1710,7 +1830,7 @@ namespace BiTech.Library.Controllers
             try //Maybe error could happen like Access denied or Presses Already User used
             {
                 System.IO.File.Delete(fullPath);
-                if(isDeleteFolderParent)
+                if (isDeleteFolderParent)
                     DeleteFolderParent(fullPath);
                 return true;
             }
@@ -1785,7 +1905,7 @@ namespace BiTech.Library.Controllers
                 }
                 tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
 
-                BookView book = new BookView(item);                
+                BookView book = new BookView(item);
                 book.Ten_TacGia = tenTG;
 
                 model.Books.Add(book);
@@ -1813,12 +1933,12 @@ namespace BiTech.Library.Controllers
 
         [HttpPost]
         public JsonResult AddList(string Id)
-        {            
+        {
             if (Session["CheckBook"] == null)//nếu null mới được khởi tạo
                 Session["CheckBook"] = new List<IDSach>();
 
             var container = (List<IDSach>)Session["CheckBook"];
-           
+
             if (container == null)
             {
                 container = new List<IDSach>();
@@ -1826,7 +1946,7 @@ namespace BiTech.Library.Controllers
             if (!container.Any(x => x.Id == Id))
             {
                 IDSach newItem = new IDSach();
-                newItem.Id = Id;             
+                newItem.Id = Id;
                 container.Add(newItem);
             }
 
