@@ -98,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BiTech.Library.DAL\BiTech.Library.DAL.csproj">
       <Project>{84b2f5e7-9457-49c4-824b-87dd63e3b2d8}</Project>
       <Name>BiTech.Library.DAL</Name>
@@ -106,9 +109,6 @@
       <Project>{0585cc2f-7e2b-474e-8b5f-f480287225e9}</Project>
       <Name>BiTech.Library.DTO</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

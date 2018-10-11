@@ -2184,7 +2184,7 @@
       <Name>BiTech.Library.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\BiTech.Library.DAL\BiTech.Library.DAL.csproj">
-      <Project>{84B2F5E7-9457-49C4-824B-87DD63E3B2D8}</Project>
+      <Project>{84b2f5e7-9457-49c4-824b-87dd63e3b2d8}</Project>
       <Name>BiTech.Library.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\BiTech.Library.DTO\BiTech.Library.DTO.csproj">

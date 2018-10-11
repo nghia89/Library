@@ -179,7 +179,7 @@ namespace BiTech.Library.Controllers
                                 }
                             }
                         }
-                        catch (Exception ex)
+                        catch 
                         {
                         }
                         //Update bảng Sach 
