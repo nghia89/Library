@@ -112,8 +112,9 @@ namespace BiTech.Library.Controllers
                 {
                     GhiChu = model.GhiChu,
                     IdUserAdmin = _UserAccessInfo.Id,
-                    UserName = _UserAccessInfo.UserName
+                    UserName = _UserAccessInfo.FullName
                 };
+
                 string idPhieuXuat = _PhieuNhapSachLogic.XuatSach(pxs);
                 SachCaBiet scDTO = new SachCaBiet();              
                 if (!String.IsNullOrEmpty(idPhieuXuat))
