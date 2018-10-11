@@ -30,8 +30,7 @@ namespace BiTech.Library.DTO
         public string QRlink { get; set; }
 		
         public string QRData { get; set; }
-
-        [BsonIgnore]
+        
         public string TenSach { get; set; }
     }
 }

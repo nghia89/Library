@@ -126,7 +126,7 @@ namespace BiTech.Library.Controllers
                 {
                     GhiChu = model.GhiChu,
                     IdUserAdmin = _UserAccessInfo.Id,
-                    UserName = _UserAccessInfo.UserName
+                    UserName = _UserAccessInfo.FullName
                 };
 
                 string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);

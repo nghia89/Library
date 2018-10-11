@@ -33,13 +33,36 @@
 
 <div ng-app="MyApp" class="container-box-window clearfix">
     <h1 class="text-info text-center"> Sơ Đồ Thống kê </h1>
+    <div ng-controller="Statistic" class="row col-lg-12 ">
+        <div class="col-md-2 summarybox" style="background: #09084b;">
+            <div class="block-wrapper return" style="border:1px solid dashed">
+                <div class="text-des">
+                    <span>Tổng Số Sách</span>
+                    <div class="service-wrapper ">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                        <strong>{{SumSl}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 summarybox" style="background: #7d046e;">
+            <div class="block-wrapper return" style="border:1px solid dashed">
+                <div class="text-des">
+                    <span>Tổng Sách Mới</span>
+                    <div class="service-wrapper ">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                        <strong>{{sumSixMonth}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div style="margin-left:134px; padding-bottom:30px">
             <button class="tablink" onclick="openCity('Day', this, '#1ab188')" style="outline:none" id="defaultOpen">Thống kê tuần</button>
             <button class="tablink" onclick="openCity('MonthYear', this, '#1ab188')" style="outline:none">Thống kê tháng</button>
             <button class="tablink" onclick="openCity('Year', this, '#1ab188')" style="outline:none">Thống kê năm</button>
             <button class="tablink" onclick="openCity('TTSach', this, '#1ab188')" style="outline:none">Thống kê trạng thái </button>
-
         </div>
         @*thống kê theo ngày*@
         <div id="Day" class="tabcontent">
@@ -145,28 +168,6 @@
                                     </select>
                                 </div>
 
-                            </div>
-                            <div class="col-md-2" style="float:left;border: 1px solid #09084b;border-radius: 7px;margin: 0px 15px;height: 55px;background: #09084b;color: white;max-width: 172px;min-width: 104px;margin-left: 305px;">
-                                <div class="block-wrapper return" style="border:1px solid dashed">
-                                    <div class="text-des">
-                                        <span>Tổng Số Sách</span>
-                                        <div class="service-wrapper ">
-                                            <i class="fa fa-book" aria-hidden="true"></i>
-                                            <strong>{{SumSl}}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2" style="float:left;border: 1px solid #7d046e;border-radius: 7px;height: 55px;background: #7d046e;color: white;max-width: 172px;min-width: 104px;">
-                                <div class="block-wrapper return" style="border:1px solid dashed">
-                                    <div class="text-des">
-                                        <span>Tổng Sách Mới</span>
-                                        <div class="service-wrapper ">
-                                            <i class="fa fa-book" aria-hidden="true"></i>
-                                            <strong>{{sumSixMonth}}</strong>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
