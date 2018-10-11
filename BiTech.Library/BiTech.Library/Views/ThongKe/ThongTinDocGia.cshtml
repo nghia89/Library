@@ -29,8 +29,20 @@
                     <td class="Detail_info">@Model.NgaySinh.ToString("dd-MM-yyyy")</td>
                 </tr>
                 <tr>
-                    <td class="Title_info">Lớp học:</td>
-                    <td class="Detail_info">@Model.LopHoc</td>
+                    @{
+                        string title = null;
+                        string detail = Model.LopHoc ?? Model.ChucVu;
+                        if (detail == Model.LopHoc)
+                        {
+                            title = "Lớp học";
+                        }
+                        else
+                        {
+                            title = "Tổ";
+                        }
+                    }
+                    <td class="Title_info">@title:</td>
+                    <td class="Detail_info">@detail</td>
                 </tr>
                 <tr>
                     <td class="Title_info">Niên khóa:</td>
@@ -63,7 +75,7 @@
         <table class="table table-hover table-striped">
             <thead>
                 <tr class="table-info text-center">
-                    <th>STT</th>                  
+                    <th>STT</th>
                     <th>Tên sách</th>
                     <th>Số lượng</th>
                     <th>Ngày mượn</th>
@@ -78,7 +90,7 @@
                 //{
                 <tbody>
                     <tr class="text-center">
-                        <td class="text-center">@dem.ToString()</td>                       
+                        <td class="text-center">@dem.ToString()</td>
                         <td>@ViewBag.ListSach[i].TenSach</td>
                         <td class="text-center">@item.SoSachTong.ToString()</td>
                         <td>@item.NgayGioMuon.ToString("dd-MM-yyyy")</td>

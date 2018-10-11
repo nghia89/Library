@@ -1204,7 +1204,8 @@ namespace BiTech.Library.Controllers
                 QRLink = thanhVien.QRLink,
                 NgaySinh = thanhVien.NgaySinh,
                 GioiTinh = thanhVien.GioiTinh,
-                idUser = thanhVien.MaSoThanhVien
+                idUser = thanhVien.MaSoThanhVien,
+                ChucVu=thanhVien.ChucVu
             };
             if (thanhVien.HinhChanDung != null)
                 model.LinkAvatar = thanhVien.HinhChanDung;

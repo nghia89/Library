@@ -58,6 +58,8 @@ namespace BiTech.Library.Models
 
         [Display(Name = "Lớp học")]
         public string LopHoc { get; set; }
+        [Display(Name = "Tổ")]
+        public string ChucVu { get; set; }
         [Display(Name = "Niên khóa")]
         public string NienKhoa { get; set; }
         [Display(Name = "Mã QR")]
