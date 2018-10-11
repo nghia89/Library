@@ -147,11 +147,11 @@ namespace BiTech.Library.Controllers
                             GhiChu = ctModel.GhiChuDon
                         };
 
-                        _ChiTietNhapSachLogic.Insert(ctns);                       
+                        _ChiTietNhapSachLogic.Insert(ctns);
                         //Insert vào bảng SachCaBiet từng cuốn một
                         ///MaKSCB = MaKS.MaCB , Ex: 0001.1, 0001.2 ... + QR
                         int STTHienTai = _SachLogic.GetByID_IsDeleteFalse(ctModel.IdSach).STTMaCB; //Lấy STTCB của đầu sách hiện tại
-           
+
                         SachCaBiet scb = new SachCaBiet()
                         {
                             IdSach = ctModel.IdSach,
@@ -381,6 +381,7 @@ namespace BiTech.Library.Controllers
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var listAll = new List<ChiTietNhapSach>();
             var ListFail = new List<ChiTietNhapSach>();
             var ListSuccess = new List<ChiTietNhapSach>();
@@ -479,7 +480,38 @@ namespace BiTech.Library.Controllers
                                 sltt.SoLuong = item.SoLuong;
                                 _SoLuongSachTrangThaiLogic.Insert(sltt);
                             }
-
+                            ///MaKSCB = MaKS.MaCB , Ex: 0001.1, 0001.2 ... + QR
+                            int STTHienTai = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).STTMaCB; //Lấy STTCB của đầu sách hiện tại
+                            string maKiemSoat = _SachLogic.GetById(item.IdSach).MaKiemSoat;
+                            SachCaBiet scb = new SachCaBiet()
+                            {
+                                IdSach = item.IdSach,
+                                IdTrangThai = item.IdTinhtrang,
+                                TenSach = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).TenSach,
+                            };
+                            for (int i = 0; i < item.SoLuong; i++)
+                            {
+                                scb.MaKSCB = maKiemSoat + "." + (++STTHienTai);
+                                _SachCaBietLogic.Insert(scb);
+                            }
+                            ///Lưu mã QR
+                            var lstSachCB = _SachCaBietLogic.GetListCaBietFromIdSach(item.IdSach);
+                            try
+                            {
+                                string physicalWebRootPath = Server.MapPath("/");
+                                foreach (var sachCB in lstSachCB)
+                                {
+                                    SachCaBiet temp = sachCommon.LuuMaVachSach_SachCaBiet(physicalWebRootPath, sachCB, null, _SubDomain);
+                                    if (temp != null)
+                                    {
+                                        sachCB.QRlink = temp.QRlink;
+                                        sachCB.QRData = temp.QRData;
+                                        _SachCaBietLogic.Update(sachCB);
+                                    }
+                                }
+                            }
+                            catch { }
+                            //Update bảng Đầu Sách 
                             var updateSach = _SachLogic.GetBookById(sltt.IdSach);
                             updateSach.SoLuongTong += item.SoLuong;
                             // Chỉ update số lượng còn lại cho Sách có trạng thái true (là sách cho mượn được)
