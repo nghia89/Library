@@ -875,7 +875,9 @@ namespace BiTech.Library.Controllers
                     {
                         item.Password = item.MaSoThanhVien;
 
-                        // Thêm thành viên,lưu mã vạch  
+                        // Thêm thành viên,lưu mã vạch (có sử lý chuỗi)
+                        item.Ten = xuLyChuoi.ChuanHoaChuoi(item.Ten);
+                        item.GioiTinh = xuLyChuoi.ChuanHoaChuoi(item.GioiTinh);
                         var id = _ThanhVienLogic.Insert(item);
                         ThanhVien tv = _ThanhVienLogic.GetById(id);
                         ThanhVien temp = new ThanhVien();
