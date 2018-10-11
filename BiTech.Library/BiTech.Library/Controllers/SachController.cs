@@ -1925,6 +1925,8 @@ namespace BiTech.Library.Controllers
 
         }
 
+        
+
         #endregion
 
         #region Vinh Xuat QR sách - chọn nhiều

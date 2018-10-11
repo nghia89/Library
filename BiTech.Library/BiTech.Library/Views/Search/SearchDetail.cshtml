@@ -9,7 +9,7 @@
     var listSach = ViewBag.ListSach;
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
     var TLS = (IEnumerable<BiTech.Library.DTO.TheLoaiSach>)ViewBag.theLoaiSach;
-    var TG = (IEnumerable<BiTech.Library.DTO.TacGia>)ViewBag.tacGia;
+    var BST = (IEnumerable<BiTech.Library.DTO.BoSuuTap>)ViewBag.BoSuuTap;
     var NXB = (IEnumerable<BiTech.Library.DTO.NhaXuatBan>)ViewBag.NXB;
     var KeSach = (IEnumerable<BiTech.Library.DTO.KeSach>)ViewBag.KeSach;
 
@@ -29,6 +29,23 @@
     <script src="~/app/StatisticTransition.js"></script>
     <link href="~/Content/StatisticCss.css" rel="stylesheet" />
     <script src="~/Scripts/AutocompleteSach.js"></script>
+    <script src="~/bower_components/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+            $("#search_short2").validate({
+                rules: {
+                    Keyword: {
+                        required: true
+                    }
+                }, messages: {
+                    Keyword: {
+                        required: "Vui lòng không để trống bắt buộc phải nhập nhập"
+                    }
+                }
+            });
+    </script>
 }
 
 <div style="margin-left:134px; padding-bottom:30px">
@@ -57,18 +74,18 @@
 
                         <div class="col-md-4">
                             <div class="col-sm-12 font-weight-bold pl-0">Bộ sưu tập : </div>
-                            <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
-                                <option value="">--Chọn tất cả--</option>
-                                @foreach (var tg in TG)
+                            <select class="form-control form-control-sm" name="BoSuuTap" id="ddlCategorySearch">
+                                <option value="Any">--Chọn tất cả--</option>
+                                @foreach (var item in BST)
                                 {
-                                    <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ")>@tg.TenTacGia</option>
+                                    <option value="@item.Id" @((item.Id.Equals(TempData["BoSuuTap"])) ? "selected" : " ")>@item.Name</option>
                                 }
                             </select>
                         </div>
                         <div class="col-md-4">
                             <div class="col-sm-12 font-weight-bold pl-0">Kho tài liệu :</div>
                             <select class="form-control form-control-sm" name="KeSach" id="">
-                                <option value="">--Chọn tất cả--</option>
+                                <option value="Any">--Chọn tất cả--</option>
                                 @foreach (var ks in KeSach)
                                 {
                                     <option value="@ks.Id" @((ks.Id.Equals(TempData["KeSach"])) ? "selected" : " ")>@ks.TenKe</option>
@@ -108,38 +125,56 @@
 
         <div id="high" class="tabcontent">
             <form action="/Search/SearchDetail" class="clearfix" id="search_short2" name="searchHigh">
-                <div class="container clearfix col-md-8">
-                    <div class="form-group row clearfix">
-                        <div class="col-md-4">
-                            <div class="col-sm-12 font-weight-bold pl-0">Bộ sưu tập : </div>
-                            <select class="form-control form-control-sm" name="TenTacGia" id="ddlCategorySearch">
-                                <option value="">--Tác Giả--</option>
-                                @foreach (var tg in TG)
-                                {
-                                    <option value="@tg.Id" @((@tg.Id == @ViewBag.tacGia_selected) ? "selected" : " ")>@tg.TenTacGia</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="col-sm-12 font-weight-bold pl-0">Kho tài liệu :</div>
-                            <select class="form-control form-control-sm" name="KeSach" id="">
-                                <option value="">--Chọn tất cả--</option>
-                                @foreach (var ks in KeSach)
-                                {
-                                    <option value="@ks.Id" @((ks.Id.Equals(TempData["KeSach"])) ? "selected" : " ")>@ks.TenKe</option>
-                                }
-                            </select>
+                <div class="container clearfix col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="margin_bottom row">
+                            <div class="col-sm-2">
+
+                            </div>
+                            <div style="width:62px">
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="col-sm-12 font-weight-bold pl-0">Bộ sưu tập : </div>
+                                <select class="form-control form-control-sm" name="BoSuuTap" id="ddlCategorySearch">
+                                    <option value="Any">--Chọn tất cả--</option>
+                                    @foreach (var item in BST)
+                                    {
+                                        <option value="@item.Id" @((item.Id.Equals(TempData["BoSuuTap"])) ? "selected" : " ")>@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="col-sm-12 font-weight-bold pl-0">Kho tài liệu :</div>
+                                <select class="form-control form-control-sm" name="KeSach" id="">
+                                    <option value="Any">--Chọn tất cả--</option>
+                                    @foreach (var ks in KeSach)
+                                    {
+                                        <option value="@ks.Id" @((ks.Id.Equals(TempData["KeSach"])) ? "selected" : " ")>@ks.TenKe</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="container clearfix col-md-9 col-lg-9">
+                <div class="clearfix"></div>
+                <div class="container clearfix col-md-12 col-lg-12">
                     <div class="form-container">
                         <div class="margin_bottom row">
+                            <div class="col-sm-2">
+
+                            </div>
                             <label for="staticEmail" class="col-lg-pull-1 col-form-label font-weight-bold">Từ Khóa:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword"]" name="Keyword">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="Condition">
+                                    <option value="Contains" @((TempData["Condition"].Equals("Contains") ? "selected" : ""))>Gần giống</option>
+                                    <option value="Equals" @((TempData["Condition"].Equals("Equals") ? "selected" : ""))> Chính xác</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
                                 <select class="form-control form-control-sm" name="ddlLoaiTimKiem0">
                                     <option value="any">Tìm tất cả</option>
                                     <option value="title" @((TempData["lLoaiTimKiem0"].Equals("title") ? "selected" : ""))> Nhan đề</option>
@@ -153,11 +188,23 @@
                         </div>
 
                         <div class="margin_bottom row">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="dlOperator1">
+                                    <option value="and" @((TempData["dlOperator1"].Equals("and") ? "selected" : ""))>Và</option>
+                                    <option value="or" @((TempData["dlOperator1"].Equals("or") ? "selected" : ""))> hoặc</option>
+                                </select>
+                            </div>
                             <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword1"]" name="Keyword1">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="Condition1">
+                                    <option value="Contains" @((TempData["Condition1"].Equals("Contains") ? "selected" : ""))>Gần giống</option>
+                                    <option value="Equals" @((TempData["Condition1"].Equals("Equals") ? "selected" : ""))> Chính xác</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
                                 <select class="form-control form-control-sm" name="ddlLoaiTimKiem1">
                                     <option value="any">Tìm tất cả</option>
                                     <option value="title" @((TempData["lLoaiTimKiem1"].Equals("title") ? "selected" : ""))> Nhan đề</option>
@@ -171,11 +218,23 @@
                         </div>
 
                         <div class="margin_bottom row">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="dlOperator2">
+                                    <option value="and" @((TempData["dlOperator2"].Equals("and") ? "selected" : ""))>Và</option>
+                                    <option value="or" @((TempData["dlOperator2"].Equals("or") ? "selected" : ""))> hoặc</option>
+                                </select>
+                            </div>
                             <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword2"]" name="Keyword2">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="Condition2">
+                                    <option value="Contains" @((TempData["Condition2"].Equals("Contains") ? "selected" : ""))>Gần giống</option>
+                                    <option value="Equals" @((TempData["Condition2"].Equals("Equals") ? "selected" : ""))> Chính xác</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
                                 <select class="form-control form-control-sm" name="ddlLoaiTimKiem2">
                                     <option value="any">Tìm tất cả</option>
                                     <option value="title" @((TempData["lLoaiTimKiem2"].Equals("title") ? "selected" : ""))> Nhan đề</option>
@@ -189,11 +248,23 @@
                         </div>
 
                         <div class=" margin_bottom row ">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="dlOperator3">
+                                    <option value="and" @((TempData["dlOperator3"].Equals("and") ? "selected" : ""))>Và</option>
+                                    <option value="or" @((TempData["dlOperator3"].Equals("or") ? "selected" : ""))> hoặc</option>
+                                </select>
+                            </div>
                             <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword3"]" name="Keyword3">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="Condition3">
+                                    <option value="Contains" @((TempData["Condition3"].Equals("Contains") ? "selected" : ""))>Gần giống</option>
+                                    <option value="Equals" @((TempData["Condition3"].Equals("Equals") ? "selected" : ""))> Chính xác</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
                                 <select class="form-control form-control-sm" name="ddlLoaiTimKiem3">
                                     <option value="any">Tìm tất cả</option>
                                     <option value="title" @((TempData["lLoaiTimKiem3"].Equals("title") ? "selected" : ""))> Nhan đề</option>
@@ -207,11 +278,23 @@
                         </div>
 
                         <div class="margin_bottom row">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="dlOperator4">
+                                    <option value="and" @((TempData["dlOperator4"].Equals("and") ? "selected" : ""))>Và</option>
+                                    <option value="or" @((TempData["dlOperator4"].Equals("or") ? "selected" : ""))> hoặc</option>
+                                </select>
+                            </div>
                             <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword4"]" name="Keyword4">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                                <select class="form-control form-control-sm" name="Condition4">
+                                    <option value="Contains" @((TempData["Condition4"].Equals("Contains") ? "selected" : ""))>Gần giống</option>
+                                    <option value="Equals" @((TempData["Condition4"].Equals("Equals") ? "selected" : ""))> Chính xác</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
                                 <select class="form-control form-control-sm" name="ddlLoaiTimKiem4">
                                     <option value="any">Tìm tất cả</option>
                                     <option value="title" @((TempData["lLoaiTimKiem4"].Equals("title") ? "selected" : ""))> Nhan đề</option>
@@ -222,15 +305,18 @@
                                 </select>
                             </div>
                             <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
-                            <div class="col-sm-1 sm_Search">
-                                <button type="submit" class="btn btn-primary btn-block btn_Search" name="FrmSearchHigh" value="FrmSearchHigh">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
+
                         </div>
+
+
                     </div>
                 </div>
-
+                <div class="clearfix"></div>
+                <div style="width:100px;height:15px;margin:15px auto">
+                    <button type="submit" class="btn btn-primary btn-block btn_Search" name="FrmSearchHigh" value="FrmSearchHigh">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
                 <div class="row mb-2">
                     <div class="col-sm-12 font-weight-bold pl-3">Sắp xếp: </div>
                     <div class="col-md-4 col-sm-12  form-group mt-1 mb-1">
@@ -247,93 +333,93 @@
         </div>
 
     </div>
+</div>
+@if (ViewBag.Number > 0)
+{
+    <div><strong>Có @ViewBag.Number kết quả tìm được</strong></div>
+}
+else
+{
+    <div><strong class="text-danger">Không tìm được tài liệu nào</strong></div>
+}
 
-    @if (ViewBag.Number > 0)
+@{int i = 1;}
+<div class="book_content clearfix">
+    @foreach (var item in Model)
     {
-        <div><strong>Có @ViewBag.Number kết quả tìm được</strong></div>
-    }
-    else
-    {
-        <div><strong class="text-danger">Không có kết quả tìm được</strong></div>
-    }
+        <div Class="book_box_v3 clearfix">
+            <div class="container-box-window clearfix">
+                <div class="top">
+                    <div class="title" title="@item.SachDTO.TenSach"> <span>@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</span> @item.SachDTO.TenSach</div>
+                </div>
 
-    @{int i = 1;}
-    <div class="book_content clearfix">
-        @foreach (var item in Model)
-        {
-            <div Class="book_box_v3 clearfix">
-                <div class="container-box-window clearfix">
-                    <div class="top">
-                        <div class="title" title="@item.SachDTO.TenSach"> <span>@(i + (ViewBag.pages - 1) * ViewBag.pageSize)</span> @item.SachDTO.TenSach</div>
+                <div class="content-box-window clearfix">
+                    <div class="book_image">
+                        <img src="@(string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) == false ? item.SachDTO.LinkBiaSach : "/Content/Images/book.png" )"
+                             onerror="this.src = '/Content/Images/book.png';">
                     </div>
-
-                    <div class="content-box-window clearfix">
-                        <div class="book_image">
-                            <img src="@(string.IsNullOrEmpty(item.SachDTO.LinkBiaSach) == false ? item.SachDTO.LinkBiaSach : "/Content/Images/book.png" )"
-                                 onerror="this.src = '/Content/Images/book.png';">
+                    <div class="book_cell_information clearfix width_left">
+                        <div class="book_information clearfix">
+                            <span>
+                                <span class="book_title_information">Mã kiểm soát:</span>
+                                @item.SachDTO.MaKiemSoat
+                            </span>
                         </div>
-                        <div class="book_cell_information clearfix width_left">
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Mã kiểm soát:</span>
-                                    @item.SachDTO.MaKiemSoat
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Tác giả:</span>
-                                    @item.Ten_TacGia
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">ISBN:</span>
-                                    @item.SachDTO.ISBN
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Ngôn ngữ:</span>
-                                    @item.Ten_NgonNgu
-                                </span>
-                            </div>
+                        <div class="book_information clearfix">
+                            <span>
+                                <span class="book_title_information">Tác giả:</span>
+                                @item.Ten_TacGia
+                            </span>
                         </div>
-                        <div class="book_cell_information clearfix width_right">
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Năm xuất bản:</span>
-                                    @item.SachDTO.NamXuatBan
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Tổng số sách:</span>
-                                    @item.SachDTO.SoLuongTong
-                                </span>
-                            </div>
-                            <div class="book_information clearfix">
-                                <span>
-                                    <span class="book_title_information">Còn lại:</span>
-                                    @item.SachDTO.SoLuongConLai
-                                </span>
-                            </div>
-                            <a href="@Url.Action("ThongTinChiTiet", new { id=item.SachDTO.Id })"
-                               class="btn btn-primary btn-sm"
-                               style="position: absolute; bottom: 10px; right: 10px; font-size: 15px">Xem</a>
+                        <div class="book_information clearfix">
+                            <span>
+                                <span class="book_title_information">ISBN:</span>
+                                @item.SachDTO.ISBN
+                            </span>
                         </div>
+                        <div class="book_information clearfix">
+                            <span>
+                                <span class="book_title_information">Ngôn ngữ:</span>
+                                @item.Ten_NgonNgu
+                            </span>
+                        </div>
+                    </div>
+                    <div class="book_cell_information clearfix width_right">
+                        <div class="book_information clearfix">
+                            <span>
+                                <span class="book_title_information">Năm xuất bản:</span>
+                                @item.SachDTO.NamXuatBan
+                            </span>
+                        </div>
+                        <div class="book_information clearfix">
+                            <span>
+                                <span class="book_title_information">Tổng số sách:</span>
+                                @item.SachDTO.SoLuongTong
+                            </span>
+                        </div>
+                        <div class="book_information clearfix">
+                            <span>
+                                <span class="book_title_information">Còn lại:</span>
+                                @item.SachDTO.SoLuongConLai
+                            </span>
+                        </div>
+                        <a href="@Url.Action("ThongTinChiTiet", new { id=item.SachDTO.Id })"
+                           class="btn btn-primary btn-sm"
+                           style="position: absolute; bottom: 10px; right: 10px; font-size: 15px">Xem</a>
                     </div>
                 </div>
             </div>
+        </div>
 
-            { i++; }
-        }
-        <div class="clearfix"></div>
-        <br />
-        @if (@ViewBag.number > 30)
-        {
-            @Html.PagedListPager(Model, page => Url.Action("SearchDetail", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
-        }
-    </div>
+        { i++; }
+    }
+    <div class="clearfix"></div>
+    <br />
+    @if (@ViewBag.number > 30)
+    {
+        @Html.PagedListPager(Model, page => Url.Action("SearchDetail", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    }
+
 </div>
 
 

@@ -41,7 +41,7 @@
                             <div class="input-group mb-3">
                                 <input id="idSach" name="idSach"
                                        onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
-                                       @*onfocusout="EnterMaSach()"*@ autofocus
+                                       autofocus
                                        placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
                                 <div class="input-group-append">
                                     <a href="@Url.Action("Create", "Sach")" target="_blank" class="btn btn-primary btn-sm" title="Tạo sách mới">
@@ -114,39 +114,15 @@
                                         <td>{{ x.MaKiemSoat }}</td>
                                         <td>{{ x.ten }}</td>
                                         <td>{{ x.tenTinhTrang }}</td>
-                                        <td id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}" width="100px">{{x.soLuong}}</td>
-                                        @*VINH*@
-                                        @*<td width="100px">
-                                                <div style="display: flex;">
-                                                    <div style="width:100%">
-                                                        <input type="number" ng-value="{{x.soLuong}}" id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}"
-                                                               class="form-control form-control-sm"
-                                                               min="1"
-                                                               required oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                                                    </div>
-                                                </div>
-                                            </td>*@
-                                        @*END VINH*@
+                                        <td id="List_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}" width="100px">{{x.soLuong}}</td>                                     
                                         <td id="GhiChu_{{x.MaKiemSoat}}_{{x.IdTinhTrang}}">{{x.GhiChuDon}}</td>
                                         <td align="center">
-                                            <button ng-click="removeItem(x.MaKiemSoat, x.IdTinhTrang)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
+                                            <button ng-click="removeItem(x.MaKiemSoat)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
-                        @*<label class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <div ng-repeat="s in list" id="lstItem">
-                                    {{s.MaKiemSoat}} - {{s.ten}} - Số Lượng: {{s.soLuong}} - Tình Trạng: {{s.tenTinhTrang}} - Ghi Chú:{{s.GhiChuDon}}
-                                    <button ng-click="removeItem($index)" class="btn btn-sm btn-danger" style="cursor:pointer;float:right">×</button><hr />
-                                </div>
-
-                                <div ng-repeat="s in list">
-                                    <input hidden="hidden" ng-cloak class="btn btn-default" name="listChiTietJsonString" value="{{s}}" />
-                                </div>
-                            </div>*@
                     </div>
 
                     @using (Html.BeginForm("TaoPhieuNhapSach", "PhieuNhapSach", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -165,8 +141,7 @@
                         <div class="form-group row">
                             <div class="col-md-2"></div>
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" class="btn btn-sm btn-primary" value="Tạo phiếu" />
-                                @*<input type="button" onclick="goBack()" class="btn btn-sm btn-default" value="Trở lại" />*@
+                                <input type="submit" class="btn btn-sm btn-primary" value="Tạo phiếu" />                           
                             </div>
                         </div>
                     }

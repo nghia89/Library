@@ -74,6 +74,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.Update(model);
         }
+
+        public void UpdateDBVersion()
+        {
+            _ThanhVienEngine.UpdateDBVersion();
+        }
+
         #region Tai
         public List<ThanhVien> GetByName(string ten)
         {

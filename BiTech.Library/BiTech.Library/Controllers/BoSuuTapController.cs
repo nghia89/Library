@@ -17,22 +17,6 @@ namespace BiTech.Library.Controllers
 #endif
     public class BoSuuTapController : BaseController
     {
-        List<BoSuuTapViewModel> AddList = new List<BoSuuTapViewModel>()
-        {
-            new BoSuuTapViewModel(){Name="Sách",Code="sach",Status=true},
-            new BoSuuTapViewModel(){Name="Ấn phẩm định kỳ",Code="an-pham-dinh-ky",Status=false},
-             new BoSuuTapViewModel(){Name="Bài trích",Code="bai-trich",Status=false},
-            new BoSuuTapViewModel(){Name="Băng từ",Code="bang-tu",Status=false},
-             new BoSuuTapViewModel(){Name="CD-bộ",Code="cd-bo",Status=false},
-            new BoSuuTapViewModel(){Name="CD-ROM",Code="cd-rom",Status=false},
-             new BoSuuTapViewModel(){Name="CD-tập",Code="cd-tap",Status=false},
-            new BoSuuTapViewModel(){Name="Luận án",Code="luan-an",Status=false},
-             new BoSuuTapViewModel(){Name="Luận án địa chí",Code="lan-an-dia-chi",Status=false},
-            new BoSuuTapViewModel(){Name="Sách bộ",Code="sach-bo",Status=false},
-            new BoSuuTapViewModel(){Name="Sách tập",Code="sach-tap",Status=false},
-            new BoSuuTapViewModel(){Name="Tranh thiếu nhi",Code="tranh-thieu-nhi",Status=false}
-        };
-
         //public BoSuuTapController()
         //{
         //    _BoSuuTapLogic = new BoSuuTapLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -41,22 +25,7 @@ namespace BiTech.Library.Controllers
         public ActionResult Index()
         {
             BoSuuTapLogic _BoSuuTapLogic = new BoSuuTapLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            var ListCout = _BoSuuTapLogic.GetAll();
-            if (ListCout.Count() <= 0)
-            {
-                foreach (var item in AddList)
-                {
-                    BoSuuTap BST = new BoSuuTap()
-                    {
-                        Name = item.Name,
-                        Code = item.Code,
-                        Status = item.Status,
-                        CreateDateTime = DateTime.Now,
-                    };
-                    _BoSuuTapLogic.Insert(BST);
-                }
-            }
+            
             var List = _BoSuuTapLogic.GetAll();
             List<BoSuuTapViewModel> ListAll = new List<BoSuuTapViewModel>();
             foreach (var item in List)
@@ -82,6 +51,11 @@ namespace BiTech.Library.Controllers
         public ActionResult Create(BoSuuTapViewModel model)
         {
             BoSuuTapLogic _BoSuuTapLogic = new BoSuuTapLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            if(!ModelState.IsValid)
+            {
+                ModelState.AddModelError(ModelState.Keys.ToString(), ModelState.Values.ToString());
+                return View(model);
+            }
             BoSuuTap BST = new BoSuuTap()
             {
                 Name = model.Name,

@@ -108,19 +108,24 @@ namespace BiTech.Library.Controllers
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             SachTacGiaLogic _SachTacGiaLogic = new SachTacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            BoSuuTapLogic _BoSuuTapLogic = new BoSuuTapLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             ListBooksModel model = new ListBooksModel();
 
             TempData["KeSach"] = KeySearch.KeSach;      
+            TempData["BoSuuTap"] = KeySearch.BoSuuTap;      
             TempData["FrmSearchHigh"] = KeySearch.FrmSearchHigh;
 
+            #region //Keyword
             TempData["Keyword"] = KeySearch.Keyword;
             TempData["Keyword1"] = KeySearch.Keyword1;
             TempData["Keyword2"] = KeySearch.Keyword2;
             TempData["Keyword3"] = KeySearch.Keyword3;
             TempData["Keyword4"] = KeySearch.Keyword4;
             TempData["KeywordBasic"] = KeySearch.KeywordBasic;
+            #endregion
 
+            #region //ddlLoaiTimKiem
             if (KeySearch.ddlLoaiTimKiem0 != null)
                 TempData["lLoaiTimKiem0"] = KeySearch.ddlLoaiTimKiem0;
             else
@@ -145,6 +150,57 @@ namespace BiTech.Library.Controllers
                 TempData["lLoaiTimKiem4"] = KeySearch.ddlLoaiTimKiem4;
             else
                 TempData["lLoaiTimKiem4"] = "";
+            #endregion
+
+            #region //Condition (điều kiện)
+            if (KeySearch.Condition != null)
+                TempData["Condition"] = KeySearch.Condition;
+            else
+                TempData["Condition"] = "";
+
+            if (KeySearch.Condition1 != null)
+                TempData["Condition1"] = KeySearch.Condition1;
+            else
+                TempData["Condition1"] = "";
+
+            if (KeySearch.Condition2 != null)
+                TempData["Condition2"] = KeySearch.Condition2;
+            else
+                TempData["Condition2"] = "";
+
+            if (KeySearch.Condition3 != null)
+                TempData["Condition3"] = KeySearch.Condition3;
+            else
+                TempData["Condition3"] = "";
+
+            if (KeySearch.Condition4 != null)
+                TempData["Condition4"] = KeySearch.Condition4;
+            else
+                TempData["Condition4"] = "";
+            #endregion
+
+            #region //Operator (toán tử)
+            if (KeySearch.dlOperator1 != null)
+                TempData["dlOperator1"] = KeySearch.dlOperator1;
+            else
+                TempData["dlOperator1"] = "";
+
+            if (KeySearch.dlOperator2 != null)
+                TempData["dlOperator2"] = KeySearch.dlOperator2;
+            else
+                TempData["dlOperator2"] = "";
+
+            if (KeySearch.dlOperator3 != null)
+                TempData["dlOperator3"] = KeySearch.dlOperator3;
+            else
+                TempData["dlOperator3"] = "";
+
+            if (KeySearch.dlOperator4 != null)
+                TempData["dlOperator4"] = KeySearch.dlOperator4;
+            else
+                TempData["dlOperator4"] = "";
+            #endregion
+
 
             int pageSize = 30;
             int pageNumber = (page ?? 1);
@@ -152,7 +208,7 @@ namespace BiTech.Library.Controllers
             ViewBag.pages = pageNumber;
 
             ViewBag.theLoaiSach = _TheLoaiSachLogic.GetAllTheLoaiSach();
-            ViewBag.tacGia = _TacGiaLogic.GetAllTacGia();
+            ViewBag.BoSuuTap = _BoSuuTapLogic.GetAll();
             ViewBag.NXB = _NhaXuatBanLogic.GetAllNhaXuatBan();
             ViewBag.KeSach = _KeSachLogic.GetAll();
 

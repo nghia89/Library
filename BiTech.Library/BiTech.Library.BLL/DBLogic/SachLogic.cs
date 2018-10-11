@@ -125,54 +125,126 @@ namespace BiTech.Library.BLL.DBLogic
                     KeySearch.ddlLoaiTimKiem2.Contains("any") || KeySearch.ddlLoaiTimKiem3.Contains("any") || KeySearch.ddlLoaiTimKiem4.Contains("any"))
                 {
                     KeySearch.ListSachIds = new List<string>();
+                    KeySearch.ListSachIds1 = new List<string>();
+                    KeySearch.ListSachIds2 = new List<string>();
+                    KeySearch.ListSachIds3 = new List<string>();
+                    KeySearch.ListSachIds4 = new List<string>();
                     if (KeySearch.Keyword != null)
                     {
-                        var listIdTacGia = _TacGiaEngine.GetByListName(KeySearch.Keyword);
-                        foreach (var item in listIdTacGia)
+                        if(KeySearch.Condition== "Contains")
                         {
-                            var IdSach = _SachTacGiaEngine.GetId(item.Id);
-                            if (IdSach != null)
-                                KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            var listIdTacGia = _TacGiaEngine.GetByListName1(KeySearch.Keyword);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            }
                         }
+                        else
+                        {
+                            var listIdTacGia = _TacGiaEngine.GetByListName2(KeySearch.Keyword);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            }
+                        }
+                       
+                        
                     }
                     if (KeySearch.Keyword1 != null)
                     {
-                        var listIdTacGia = _TacGiaEngine.GetByListName(KeySearch.Keyword1);
-                        foreach (var item in listIdTacGia)
+                        if (KeySearch.Condition1 == "Contains")
                         {
-                            var IdSach = _SachTacGiaEngine.GetId(item.Id);
-                            if (IdSach != null)
-                                KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            var listIdTacGia = _TacGiaEngine.GetByListName1(KeySearch.Keyword1);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds1.Add(IdSach.IdSach);
+                            }
                         }
+                        else
+                        {
+                            var listIdTacGia = _TacGiaEngine.GetByListName2(KeySearch.Keyword1);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            }
+                        }
+
                     }
                     if (KeySearch.Keyword2 != null)
                     {
-                        var listIdTacGia = _TacGiaEngine.GetByListName(KeySearch.Keyword2);
-                        foreach (var item in listIdTacGia)
+                        if (KeySearch.Condition2 == "Contains")
                         {
-                            var IdSach = _SachTacGiaEngine.GetId(item.Id);
-                            if (IdSach != null)
-                                KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            var listIdTacGia = _TacGiaEngine.GetByListName1(KeySearch.Keyword2);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds2.Add(IdSach.IdSach);
+                            }
+                        }
+                        else
+                        {
+                            var listIdTacGia = _TacGiaEngine.GetByListName2(KeySearch.Keyword2);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds2.Add(IdSach.IdSach);
+                            }
                         }
                     }
                     if (KeySearch.Keyword3 != null)
                     {
-                        var listIdTacGia = _TacGiaEngine.GetByListName(KeySearch.Keyword3);
-                        foreach (var item in listIdTacGia)
+                        if (KeySearch.Condition3 == "Contains")
                         {
-                            var IdSach = _SachTacGiaEngine.GetId(item.Id);
-                            if (IdSach != null)
-                                KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            var listIdTacGia = _TacGiaEngine.GetByListName1(KeySearch.Keyword3);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds3.Add(IdSach.IdSach);
+                            }
+                        }
+                        else
+                        {
+                            var listIdTacGia = _TacGiaEngine.GetByListName2(KeySearch.Keyword3);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds3.Add(IdSach.IdSach);
+                            }
                         }
                     }
                     if (KeySearch.Keyword4 != null)
                     {
-                        var listIdTacGia = _TacGiaEngine.GetByListName(KeySearch.Keyword4);
-                        foreach (var item in listIdTacGia)
+                        if (KeySearch.Condition4 == "Contains")
                         {
-                            var IdSach = _SachTacGiaEngine.GetId(item.Id);
-                            if (IdSach != null)
-                                KeySearch.ListSachIds.Add(IdSach.IdSach);
+                            var listIdTacGia = _TacGiaEngine.GetByListName1(KeySearch.Keyword4);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds4.Add(IdSach.IdSach);
+                            }
+                        }
+                        else
+                        {
+                            var listIdTacGia = _TacGiaEngine.GetByListName2(KeySearch.Keyword4);
+                            foreach (var item in listIdTacGia)
+                            {
+                                var IdSach = _SachTacGiaEngine.GetId(item.Id);
+                                if (IdSach != null)
+                                    KeySearch.ListSachIds4.Add(IdSach.IdSach);
+                            }
                         }
                     }
 
@@ -188,53 +260,136 @@ namespace BiTech.Library.BLL.DBLogic
                     KeySearch.ddlLoaiTimKiem2.Contains("any") || KeySearch.ddlLoaiTimKiem3.Contains("any") || KeySearch.ddlLoaiTimKiem4.Contains("any"))
                 {
                     KeySearch.ListIdNXB = new List<string>();
+                    KeySearch.ListIdNXB1 = new List<string>();
+                    KeySearch.ListIdNXB2 = new List<string>();
+                    KeySearch.ListIdNXB3 = new List<string>();
+                    KeySearch.ListIdNXB4 = new List<string>();
+                  
                     if (KeySearch.Keyword != null)
                     {
-                        var ListNXB = _NXBEngine.GetByListName(KeySearch.Keyword);
-                        if (ListNXB != null)
+                        if (KeySearch.Condition == "Contains")
                         {
-                            foreach (var item in ListNXB)
+                            var ListNXB = _NXBEngine.GetByListName1(KeySearch.Keyword);
+                            if (ListNXB != null)
                             {
-                                KeySearch.ListIdNXB.Add(item.Id);
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB.Add(item.Id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var ListNXB = _NXBEngine.GetByListName2(KeySearch.Keyword);
+                            if (ListNXB != null)
+                            {
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB.Add(item.Id);
+                                }
+                            }
+                        }
+                    }
+                    if (KeySearch.Keyword1 != null)
+                    {
+                        if (KeySearch.Condition1 == "Contains")
+                        {
+                            var ListNXB = _NXBEngine.GetByListName1(KeySearch.Keyword1);
+                            if (ListNXB != null)
+                            {
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB1.Add(item.Id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var ListNXB = _NXBEngine.GetByListName2(KeySearch.Keyword1);
+                            if (ListNXB != null)
+                            {
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB1.Add(item.Id);
+                                }
                             }
                         }
 
                     }
-                    if (KeySearch.Keyword1 != null)
-                    {
-                        var ListNXB = _NXBEngine.GetByListName(KeySearch.Keyword1);
-                        if (ListNXB != null)
-                            foreach (var item in ListNXB)
-                            {
-                                KeySearch.ListIdNXB.Add(item.Id);
-                            }
-                    }
                     if (KeySearch.Keyword2 != null)
                     {
-                        var ListNXB = _NXBEngine.GetByListName(KeySearch.Keyword2);
-                        if (ListNXB != null)
-                            foreach (var item in ListNXB)
+                        if (KeySearch.Condition2 == "Contains")
+                        {
+                            var ListNXB = _NXBEngine.GetByListName1(KeySearch.Keyword2);
+                            if (ListNXB != null)
                             {
-                                KeySearch.ListIdNXB.Add(item.Id);
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB2.Add(item.Id);
+                                }
                             }
+                        }
+                        else
+                        {
+                            var ListNXB = _NXBEngine.GetByListName2(KeySearch.Keyword2);
+                            if (ListNXB != null)
+                            {
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB2.Add(item.Id);
+                                }
+                            }
+                        }
                     }
                     if (KeySearch.Keyword3 != null)
                     {
-                        var ListNXB = _NXBEngine.GetByListName(KeySearch.Keyword3);
-                        if (ListNXB != null)
-                            foreach (var item in ListNXB)
+                        if (KeySearch.Condition3 == "Contains")
+                        {
+                            var ListNXB = _NXBEngine.GetByListName1(KeySearch.Keyword3);
+                            if (ListNXB != null)
                             {
-                                KeySearch.ListIdNXB.Add(item.Id);
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB3.Add(item.Id);
+                                }
                             }
+                        }
+                        else
+                        {
+                            var ListNXB = _NXBEngine.GetByListName2(KeySearch.Keyword3);
+                            if (ListNXB != null)
+                            {
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB3.Add(item.Id);
+                                }
+                            }
+                        }
                     }
                     if (KeySearch.Keyword4 != null)
                     {
-                        var ListNXB = _NXBEngine.GetByListName(KeySearch.Keyword4);
-                        if (ListNXB != null)
-                            foreach (var item in ListNXB)
+                        if (KeySearch.Condition4 == "Contains")
+                        {
+                            var ListNXB = _NXBEngine.GetByListName1(KeySearch.Keyword4);
+                            if (ListNXB != null)
                             {
-                                KeySearch.ListIdNXB.Add(item.Id);
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB4.Add(item.Id);
+                                }
                             }
+                        }
+                        else
+                        {
+                            var ListNXB = _NXBEngine.GetByListName2(KeySearch.Keyword4);
+                            if (ListNXB != null)
+                            {
+                                foreach (var item in ListNXB)
+                                {
+                                    KeySearch.ListIdNXB4.Add(item.Id);
+                                }
+                            }
+                        }
                     }
 
                 }

@@ -186,6 +186,7 @@ namespace BiTech.Library.Controllers
                             {
                                 item_TT.TrangThaiTra = _SachCaBiet.IdTrangThai = _trangthai.Id;
                                 item_TT.DaTra = true;
+                                item_TT.NgayTraThucTe = DateTime.Now;
                                 if (_trangthai.TrangThai)
                                 {
                                     _SachLogic.Update(_sach);

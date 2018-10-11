@@ -35,11 +35,19 @@ namespace BiTech.Library.DAL.Engines
             //return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).FirstOrDefault();
         }
 
-        public List<NhaXuatBan> GetByListName(string Name)
+        public List<NhaXuatBan> GetByListName1(string Name)
         {
             FilterDefinition<NhaXuatBan> filterDefinition = new BsonDocument();
             var builder = Builders<NhaXuatBan>.Filter;
             filterDefinition = builder.Where(x => x.Ten.ToLower().Contains(Name.ToLower()));
+            return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+
+        public List<NhaXuatBan> GetByListName2(string Name)
+        {
+            FilterDefinition<NhaXuatBan> filterDefinition = new BsonDocument();
+            var builder = Builders<NhaXuatBan>.Filter;
+            filterDefinition = builder.Where(x => x.Ten.ToLower()==(Name.ToLower()));
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
         #endregion
