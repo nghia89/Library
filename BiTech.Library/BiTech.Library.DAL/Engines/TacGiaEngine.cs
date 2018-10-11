@@ -60,11 +60,19 @@ namespace BiTech.Library.DAL.Engines
             return str2;
         }
 
-        public List<TacGia> GetByListName(string Name)
+        public List<TacGia> GetByListName1(string Name)
         {
             FilterDefinition<TacGia> filterDefinition = new BsonDocument();
             var builder = Builders<TacGia>.Filter;
             filterDefinition = builder.Where(x => x.TenTacGia.ToLower().Contains(Name.ToLower()));
+            return _DatabaseCollection.Find(filterDefinition).ToList();
+        }
+
+        public List<TacGia> GetByListName2(string Name)
+        {
+            FilterDefinition<TacGia> filterDefinition = new BsonDocument();
+            var builder = Builders<TacGia>.Filter;
+            filterDefinition = builder.Where(x => x.TenTacGia.ToLower()==(Name.ToLower()));
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
 
