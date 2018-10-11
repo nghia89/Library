@@ -2179,12 +2179,18 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BiTech.Library.BLL\BiTech.Library.BLL.csproj">
       <Project>{9ccde0bb-9361-4e82-bd13-728913346db7}</Project>
       <Name>BiTech.Library.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\BiTech.Library.DAL\BiTech.Library.DAL.csproj">
-      <Project>{84B2F5E7-9457-49C4-824B-87DD63E3B2D8}</Project>
+      <Project>{84b2f5e7-9457-49c4-824b-87dd63e3b2d8}</Project>
       <Name>BiTech.Library.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\BiTech.Library.DTO\BiTech.Library.DTO.csproj">
@@ -2192,15 +2198,9 @@
       <Name>BiTech.Library.DTO</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mongo.Migration\Mongo.Migration.csproj">
-      <Project>{6D7736C2-BF1B-4552-A56C-C225F9F33588}</Project>
+      <Project>{6d7736c2-bf1b-4552-a56c-c225f9f33588}</Project>
       <Name>Mongo.Migration</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
