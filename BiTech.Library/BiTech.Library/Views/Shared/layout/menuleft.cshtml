@@ -177,7 +177,7 @@
                                                 Bộ sưu tập
                                             </a>
                                         </li>
-                                        <li class="@((controller == "Sach" || controller == "Marc") ? "active" : "")">
+                                        <li class="@(((controller == "Sach" && @action != "XuatQR_Mutil")|| controller == "Marc") ? "active" : "")">
                                             <a href="@Url.Action("index", "Sach")" title="Sách">
                                                 Sách
                                             </a>
