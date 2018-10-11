@@ -40,7 +40,7 @@ namespace BiTech.Library.Controllers
         public ActionResult Index()
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
+            _ThanhVienLogic.UpdateDBVersion();
             UserViewModel model = new UserViewModel();
             List<ThanhVien> listThanhVien = _ThanhVienLogic.GetAllHS();
             int i = 0;

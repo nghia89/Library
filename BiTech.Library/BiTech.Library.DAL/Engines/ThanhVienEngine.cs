@@ -71,6 +71,17 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv" && _.IsDeleted == false).ToList();
         }
 
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(ThanhVien).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
+
         #region Vinh tim kiem thanh vien
         public List<ThanhVien> GetMembersSearch (string KeySearch, string memType)
         {

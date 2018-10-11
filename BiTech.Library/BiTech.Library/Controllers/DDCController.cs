@@ -32,7 +32,7 @@ namespace BiTech.Library.Controllers
             new Aspose.Cells.License().SetLicense(LicenseHelper.License.LStream);
         }
 
-        public ActionResult Index(KeySearchViewModel KeySearch, int? page)
+        public ActionResult Index(KeySearchViewModel KeySearch)
         {
             DDCLogic _DDCLogic = new DDCLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
@@ -50,10 +50,6 @@ namespace BiTech.Library.Controllers
                 };
                 lst.Add(ks);
             }
-            int PageSize = 10;
-            int PageNumber = (page ?? 1);
-            ViewBag.pageSize = PageSize;
-            ViewBag.pages = PageNumber;
 
             ViewBag.SapXep_selected = KeySearch.SapXep ?? " ";
             List<string> temp = new List<string>();
@@ -72,7 +68,7 @@ namespace BiTech.Library.Controllers
             if (KeySearch.SapXep == "22")
                 lst = lst.OrderByDescending(_ => _.Ten).ToList();
 
-            return View(lst.ToPagedList(PageNumber, PageSize));
+            return View(lst);
         }
 
         public ActionResult Create()
