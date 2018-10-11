@@ -112,8 +112,9 @@ namespace BiTech.Library.Controllers
                 {
                     GhiChu = model.GhiChu,
                     IdUserAdmin = _UserAccessInfo.Id,
-                    UserName = _UserAccessInfo.UserName
+                    UserName = _UserAccessInfo.FullName
                 };
+
                 string idPhieuXuat = _PhieuNhapSachLogic.XuatSach(pxs);
                 SachCaBiet scDTO = new SachCaBiet();              
                 if (!String.IsNullOrEmpty(idPhieuXuat))
@@ -207,6 +208,12 @@ namespace BiTech.Library.Controllers
             var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             var _TrangThaiLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             JsonResult result = new JsonResult();
+            if (maCaBiet.Length > 25 || maCaBiet.Contains("BLibBook"))
+            {
+                //get ma kiem soat tu QR
+                SachCommon s = new SachCommon();
+                maCaBiet = s.GetInfo(maCaBiet); 
+            }
             var cabiet = _SachCaBietLogic.GetIdSachFromMaCaBiet(maCaBiet);
             if (cabiet != null)
             {
@@ -230,36 +237,50 @@ namespace BiTech.Library.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Add vào list queue - maSach( MKS || maQR || ISBN)
+        /// </summary>
+        /// <param name="maSach"></param>
+        /// <returns></returns>
         public JsonResult AddBookToListQueue(string maSach)
         {
-            var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            var _TrangThaiLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             JsonResult result = new JsonResult();
-            var idDauSach = _SachLogic.GetByMaKiemSoatorISBN(maSach);
-            if (idDauSach != null)
+            if (!string.IsNullOrEmpty(maSach))
             {
-                //Lay danh sách sách cá biệt từ IdDauSach
-                var _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                var lstSachCB = _SachCaBietLogic.GetListCaBietFromIdSach(idDauSach.Id);
-                result.Data = null;
-                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-                List<ChiTietXuatModels> lstCtxs = new List<ChiTietXuatModels>();
-
-                foreach (var item in lstSachCB)
+                var _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                var _TrangThaiLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                if (maSach.Contains("BLibBook")) //QR
                 {
-                    var tt = _TrangThaiLogic.getById(item.IdTrangThai);
-                    ChiTietXuatModels cnpxQueue = new ChiTietXuatModels()
-                    {
-                        IdSach = item.IdSach,
-                        IdTinhTrang = tt.Id,
-                        TenSach = idDauSach.TenSach,
-                        MaCaBiet = item.MaKSCB,
-                        TrangThai = tt.TenTT
-                    };
-                    lstCtxs.Add(cnpxQueue);
+                    //get ma kiem soat tu QR
+                    Sach _sach = _SachLogic.GetByMaKiemSoatorISBN(new SachCommon().GetInfo(maSach));
+                    maSach = _sach.MaKiemSoat;
                 }
+                var idDauSach = _SachLogic.GetByMaKiemSoatorISBN(maSach);
+                if (idDauSach != null)
+                {
+                    //Lay danh sách sách cá biệt từ IdDauSach
+                    var _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+                    var lstSachCB = _SachCaBietLogic.GetListCaBietFromIdSach(idDauSach.Id);
+                    result.Data = null;
+                    result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                    List<ChiTietXuatModels> lstCtxs = new List<ChiTietXuatModels>();
 
-                result.Data = lstCtxs;
+                    foreach (var item in lstSachCB)
+                    {
+                        var tt = _TrangThaiLogic.getById(item.IdTrangThai);
+                        ChiTietXuatModels cnpxQueue = new ChiTietXuatModels()
+                        {
+                            IdSach = item.IdSach,
+                            IdTinhTrang = tt.Id,
+                            TenSach = idDauSach.TenSach,
+                            MaCaBiet = item.MaKSCB,
+                            TrangThai = tt.TenTT
+                        };
+                        lstCtxs.Add(cnpxQueue);
+                    }
+
+                    result.Data = lstCtxs;
+                }
             }
             return result;
         }

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BiTech.Library.DTO
 {
-    [CurrentVersion("0.0.1")]
+    [CurrentVersion("0.0.3")]
     public class BoSuuTap : IModel
     {
         [BsonId]
@@ -24,6 +24,7 @@ namespace BiTech.Library.DTO
         public string Name { get; set; }
 
         public string Code { get; set; }
+
         public bool Status { get; set; }
     }
 }

@@ -11,13 +11,16 @@ namespace BiTech.Library.DAL.MongoMirgrations.ThanhVien_Mirgrations
 {
     public class V0_0_02_AddIsDelete : Migration<ThanhVien>
     {
-        public V0_0_02_AddIsDelete() : base("0.0.2")
+        public V0_0_02_AddIsDelete() 
+            : base("0.0.2")
         {
         }
+
         public override void Up(BsonDocument document)
         {
             document.Add("IsDeleted",false);
         }
+
         public override void Down(BsonDocument document)
         {
             document.Remove("IsDeleted");

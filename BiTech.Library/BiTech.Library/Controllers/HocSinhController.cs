@@ -40,7 +40,7 @@ namespace BiTech.Library.Controllers
         public ActionResult Index()
         {
             var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
+            _ThanhVienLogic.UpdateDBVersion();
             UserViewModel model = new UserViewModel();
             List<ThanhVien> listThanhVien = _ThanhVienLogic.GetAllHS();
             int i = 0;
@@ -875,7 +875,9 @@ namespace BiTech.Library.Controllers
                     {
                         item.Password = item.MaSoThanhVien;
 
-                        // Thêm thành viên,lưu mã vạch  
+                        // Thêm thành viên,lưu mã vạch (có sử lý chuỗi)
+                        item.Ten = xuLyChuoi.ChuanHoaChuoi(item.Ten);
+                        item.GioiTinh = xuLyChuoi.ChuanHoaChuoi(item.GioiTinh);
                         var id = _ThanhVienLogic.Insert(item);
                         ThanhVien tv = _ThanhVienLogic.GetById(id);
                         ThanhVien temp = new ThanhVien();
