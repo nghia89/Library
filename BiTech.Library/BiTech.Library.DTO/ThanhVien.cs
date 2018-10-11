@@ -60,7 +60,7 @@ namespace BiTech.Library.DTO
 
         public string LoaiTK { get; set; }
 
-        public bool IsDeleted { get; set; } = false; 
+        public bool IsDeleted { get; set; } 
 
         [BsonIgnore]
         public string TenTrangThai { get; set; }

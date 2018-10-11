@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BiTech.Library.DAL.MongoMirgrations.BoSuuTap_Mirgrations.M000
+namespace BiTech.Library.DAL.MongoMirgrations.BoSuuTap_Mirgrations
 {
     public class Init : Migration<BoSuuTap>
     {

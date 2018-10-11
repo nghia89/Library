@@ -44,10 +44,6 @@ input[type="checkbox"] {
     opacity: 1;
 }
 
-
-
-
-
 .slide-two1 {
     position: relative;
 }
@@ -153,4 +149,15 @@ input[type="checkbox"] {
 }
 .btn_Search{
     margin-top:-10px;
+}
+
+.summarybox{
+    float:left;
+    padding-top:3px;
+    border-radius: 7px;
+    margin: 0px 0px 15px 15px;
+    height: 55px;
+    color: white;
+    max-width: 172px;
+    min-width: 104px;
 }

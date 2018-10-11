@@ -18,6 +18,7 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<ThanhVien>(tableName);
         }
+
         /// <summary>
         /// Get all ThanhVien object (Active - DeActive)GetByIdUser
         /// </summary>
@@ -27,6 +28,7 @@ namespace BiTech.Library.DAL.Engines
             //return _DatabaseCollection.Find(_ => _.TrangThai != EUser.Deleted).ToList();
             return _DatabaseCollection.Find(_ => true).ToList();
         }
+
         /// <summary>
         /// Get all ThanhVien object (Active)GetByIdUser
         /// </summary>
@@ -35,6 +37,7 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.TrangThai == EUser.Active).ToList();
         }
+
         /// <summary>
         /// Get ThanhVien object (DeActive)GetByIdUser
         /// </summary>
@@ -43,6 +46,7 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.TrangThai == EUser.DeActive && _.MaSoThanhVien == idUser).FirstOrDefault();
         }
+
         /// <summary>
         /// Lấy 1 thành viên thông qua mã thành viên 
         /// </summary>
@@ -57,10 +61,12 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.Ten == ten).ToList();
         }
+
         public ThanhVien GetByUserName(string userName)
         {
             return _DatabaseCollection.Find(_ => _.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
         }
+
         public List<ThanhVien> GetAllHS()
         {
             return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "hs" && _.IsDeleted == false).ToList();
@@ -83,6 +89,7 @@ namespace BiTech.Library.DAL.Engines
         }
 
         #region Vinh tim kiem thanh vien
+
         public List<ThanhVien> GetMembersSearch (string KeySearch, string memType)
         {
             FilterDefinition<ThanhVien> filterDefinition = new BsonDocument();
@@ -117,6 +124,18 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv" && _.IsDeleted == false && _.TrangThai == EUser.Active).ToList();
         }
+
         #endregion
+
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(ThanhVien).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach(var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
     }
 }
