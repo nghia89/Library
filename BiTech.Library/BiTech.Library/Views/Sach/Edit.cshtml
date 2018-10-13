@@ -359,10 +359,29 @@
     <script src="~/Scripts/JsSoluongsach.js"></script>
 
     <script>
-        var sltts = new SoLuongTTSach();
-        sltts.initialize();
+        //var sltts = new SoLuongTTSach();
+        //sltts.initialize();
     </script>
     <script>
+        $('#btnSave').click(function () {
+            var txtMaCB = $('#txtID').val();
+            var txtIdttCategory = $('.txtIdttCategory').val();
+            $.ajax({
+                url: "/Sach/EditSaveChange",
+                method: "post",
+                data: {
+                    IdSach: txtMaCB,
+                    IdTrangThai: txtIdttCategory
+                },
+                dataType: "json",
+                success: function (res) {
+                    $('#modal-add-edit').modal('hide');
+                    angular.element(document.getElementById('AngCtrl')).scope().GetAllData();
+                    //loadData();
+                }
+            });
+            return false;
+        });
 
         // Ảnh thành viên
         $("#FileImageCover").change(function () {

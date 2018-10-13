@@ -106,23 +106,6 @@
                 </div>
             </div>
 
-            @*<div class="form-group row">
-                <label class="col-form-label col-sm-3 form-label" for="ListTT">Thể loại sách <span style="color:red">*</span>:</label>
-                <div class="col-sm-6">
-                    <div class="input-group mb-3" id="ListTT" ng-controller="BookGenresCtrlr" ng-init="GetAllData()">
-                        @Html.DropDownListFor(m => m.SachDTO.IdTheLoai, new SelectList(new List<BiTech.Library.DTO.TheLoaiSach>(), "Id", "TenTheLoai"), "--Chọn loại sách--",
-         new { @id = "IdTheLoai", @class = "form-control form-control-sm", @ng_model = "IdNhaXuatBan", @data_ng_disabled = "!list", @ng_options = "s.TenTheLoai for s in list track by s.Id" })
-                        <div class="input-group-append">
-                            <a href="@Url.Content("~/Sach/RequestThemTheLoaiGui")" class="btn btn-primary btn-sm"
-                               data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess">
-                                <i class="fa fa-plus" style="line-height: 20px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                    @Html.ValidationMessageFor(model => model.SachDTO.IdTheLoai, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
             <div class="form-group row">
                 <label class="col-form-label col-sm-3 form-label" for="ListTheLoaiJson">Thể loại sách <span style="color:red">*</span>:</label>
                 <div class="col-sm-6">
@@ -322,14 +305,6 @@
                     @Html.ValidationMessageFor(model => model.SachDTO.TomTat, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            @*<div class="form-group row mt-3">
-            <label class="col-form-label col-sm-3 form-label"></label>
-            <div class="col-sm-6">
-                <input type="submit" class="btn btn-primary btn-sm" name="btnThemSach" value="Thêm mới"
-                       data-ajax="true" data-ajax-begin="RequestAltInsertGuiBegin" data-ajax-success="RequestAltInsertGuiSuccess" />
-            </div>
-        </div>*@
         </div>
         <div id="SoLuong" class="tabcontent">
             <div class="form-group-sm row">
@@ -469,13 +444,6 @@
         $("#FileImageCover").change(function () {
             readURL(this);
         });
-
-        //$(document).ready(function () {
-        //    setInterval(function () {
-        //        angular.element(document.getElementById('ListTT')).scope().GetAllData();
-        //        angular.element(document.getElementById('ListNXB')).scope().GetAllData();
-        //    }, 30000);
-        //});
 
         $(function () {
             var multiSelect = $('[data-multiple]');

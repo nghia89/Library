@@ -65,7 +65,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="text-center" ng-repeat="x in list_book_queue | orderBy : '-MaCaBiet'" my-repeat-directive>
+                                                <tr class="text-center" ng-repeat="x in list_book_queue" my-repeat-directive>
                                                     <td align="center">{{$index + 1}}</td>
                                                     <td>{{ x.MaCaBiet }}</td>
                                                     <td align="center">{{ x.TenSach }}</td>
@@ -74,7 +74,6 @@
                                                         <i class="fa fa-hand-o-right text-info" ng-click="addItema(x)" style="font-size:20px; cursor:pointer;"></i>
                                                     </td>
                                                 </tr>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -91,7 +90,6 @@
                         </div>
                         <div class="content-box-window">
                             <div class="form-group row">
-
                                 <div class="danhsach-mt-sach-old col-md-12">
                                     <table class="table table-hover table-bordered mb-0" border="1">
                                         <thead>
@@ -112,7 +110,7 @@
                                                 <td align="center">{{ x.TenSach }}</td>
                                                 <td>{{ x.TrangThai}}</td>
                                                 <td align="center">
-                                                    <button ng-click="removeItem(x.MaKiemSoat)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
+                                                    <button ng-click="removeItem(x.MaCaBiet)" class="btn btn-sm btn-danger" style="cursor:pointer;float:none">×</button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -139,7 +137,6 @@
                                         <input type="submit" class="btn btn-primary btn-sm" value="Tạo phiếu" />
                                     </div>
                                 </div>
-
                             }
                         </div>
                     </div>
@@ -167,53 +164,7 @@
 
     <script src="~/app/ImportExportModule.js"></script>
 
-    <script src="~/Scripts/simple-ajax-uploader/SimpleAjaxUploader.min.js"></script>
-    <script type="text/javascript" language="javascript">
-        //$(document).ready(function () {
-        //    $("#idSach").autocomplete({
-        //        source: function (request, response) {
-        //            $.ajax({
-        //                url: "/PhieuNhapSach/AutoComplete",
-        //                dataType: "json",
-        //                method: "post",
-        //                data: { a: request.term },
-        //                success: function (data) {
-        //                    response($.map(data, function (item) {
-        //                        return { label: item.MaKiemSoat, value: item.MaKiemSoat };
-        //                    }))
-        //                }
-        //            })
-        //        },
-        //        messages: {
-        //            noResults: "", results: ""
-        //        }
-        //    });
-        //})
-
-         function CompleteBookName() {
-            var idBook = $("#idSach").val();
-            if (idBook != "") {
-                $.ajax({
-                    type: "GET",
-                    url: "@(Url.Action("GetBookByID", "PhieuNhapSach"))",
-                    data: "idSach=" + idBook,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        console.log('Tim thay sach');
-                        $("#idSach").val(idBook);
-                        $("#TenSach").val(data.TenSach)
-                    },
-                    error: function () {
-                        swal("Không tìm thấy", "Sách không tồn tại hoặc đã bị xóa!", "warning");
-                        $("#idSach").focus();
-                        $("#idSach").val('');
-                        $("#TenSach").val('')
-                    }
-                });
-            }
-        }
-    </script>
+    <script src="~/Scripts/simple-ajax-uploader/SimpleAjaxUploader.min.js"></script>   
 }
 
 

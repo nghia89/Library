@@ -36,7 +36,7 @@ namespace BiTech.Library.Controllers
         public ActionResult Index(int? page)
         {
             PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            int PageSize = 10;
+            int PageSize = 20;
             int PageNumber = (page ?? 1);
             var lst = _PhieuNhapSachLogic.Getall();
             List<PhieuNhapSachModels> lstpns = new List<PhieuNhapSachModels>();
@@ -55,6 +55,7 @@ namespace BiTech.Library.Controllers
 
             ViewBag.pageSize = PageSize;
             ViewBag.pages = PageNumber;
+            ViewBag.number = lst.Count;
             return View(lstpns.OrderByDescending(x => x.NgayNhap).ToPagedList(PageNumber, PageSize));
         }
 
@@ -62,10 +63,8 @@ namespace BiTech.Library.Controllers
         {
             ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            SachLogic _SachLogic =
-              new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            PhieuNhapSachLogic _PhieuNhapSachLogic =
-             new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             var model = _ChiTietNhapSachLogic.GetAllChiTietById(id);
             var phieunhap = _PhieuNhapSachLogic.GetById(id);
@@ -179,7 +178,7 @@ namespace BiTech.Library.Controllers
                                 }
                             }
                         }
-                        catch 
+                        catch
                         {
                         }
                         //Update bảng Sach 
@@ -196,7 +195,6 @@ namespace BiTech.Library.Controllers
 
             ViewBag.listtt = _TrangThaiSachLogic.GetAll();
             ModelState.Clear();
-
             return View();
         }
 
@@ -713,8 +711,6 @@ namespace BiTech.Library.Controllers
             var ListTD = (from N in _SachLogic.getAllSach()
                           where N.MaKiemSoat.StartsWith(a)
                           select new { N.MaKiemSoat });
-
-
             return Json(ListTD, JsonRequestBehavior.AllowGet);
         }
 
@@ -731,12 +727,6 @@ namespace BiTech.Library.Controllers
             Sach _sach = _SachLogicLogic.GetByMaKiemSoatorISBN(new SachCommon().GetInfo(idSach));
 
             return Json(_sach, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult PreToInsert(List<SoLuongTrangThaiSachVM> lstModel)
-        {
-            ViewData["LstTTS"] = lstModel;
-            return Json(true);
         }
     }
 }

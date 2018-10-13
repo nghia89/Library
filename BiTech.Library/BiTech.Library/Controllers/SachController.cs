@@ -392,15 +392,6 @@ namespace BiTech.Library.Controllers
                             book.LinkBiaSach = ThumbnailName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
                             _SachLogic.Update(book);
                             #endregion
-
-                            //using (FileStream fileStream = new FileStream(uploadFileName, FileMode.Create))
-                            //{
-                            //    model.FileImageCover.InputStream.CopyTo(fileStream);
-                            //    var book = _SachLogic.GetById(id);
-                            //    book.LinkBiaSach = uploadFileName.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                            //    _SachLogic.Update(book);
-
-                            //}
                         }
                         catch { }
                     }
@@ -455,24 +446,11 @@ namespace BiTech.Library.Controllers
 
                             string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns); //Insert phieu nhap
 
-                            #region SL cũ
-                            //SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
                             foreach (var item in model.ListTTSach)
                             {
                                 if (item.SoLuong > 0)
                                 {
-                                    //Sach - trang thai (so luong)
-                                    SoLuongSachTrangThai dtoModel = new SoLuongSachTrangThai()
-                                    {
-                                        IdSach = id, //id sach khi da insert
-                                        IdTrangThai = item.IdTrangThai,
-                                        SoLuong = item.SoLuong,
-                                        CreateDateTime = DateTime.Now,
-                                    };
-                                    //_SlTrangThaisach.Insert(dtoModel);
-
                                     //Chi tiet phieu nhap
-
                                     ChiTietNhapSach ctns = new ChiTietNhapSach()
                                     {
                                         IdPhieuNhap = idPhieuNhap,
@@ -513,25 +491,21 @@ namespace BiTech.Library.Controllers
                                             }
                                         }
                                     }
-                                    catch (Exception ex)
+                                    catch
                                     {
                                     }
                                     //Update bảng Sach 
                                     //Cập nhật STT Cá biệt cho mỗi đầu sách  
                                     var modelSach = _SachLogic.GetBook_NonDelete_ByMKS(sach.MaKiemSoat);
-                                    modelSach.STTMaCB = STTHienTai;
+                                    modelSach.SoLuongTong++;
+                                    modelSach.SoLuongConLai++;
                                     _SachLogic.Update(modelSach);
                                 }
                             }
-                            #endregion
                         }
                     }
-
                     return RedirectToAction("Index");
                 }
-
-
-
                 TempData["ThemSachMsg"] = "Thêm sách thất bại";
             }
             model.Languages = _LanguageLogic.GetAll();
@@ -558,7 +532,7 @@ namespace BiTech.Library.Controllers
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             LanguageLogic _LanguageLogic = new LanguageLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TacGiaLogic _TacGiaLogic = new TacGiaLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             Sach sachDTO = _SachLogic.GetById(id);
             if (sachDTO == null)
@@ -566,7 +540,7 @@ namespace BiTech.Library.Controllers
                 return RedirectToAction("Index");
             }
 
-            var sltts = _SlTrangThaisach.GetByIdSach(id);
+            var sltts = _SachCaBietLogic.GetListCaBietFromIdSach(id);
             ViewBag.SlTTsach = sltts;
 
             var idTG = _TacGiaLogic.GetAllTacGia();
@@ -811,86 +785,70 @@ namespace BiTech.Library.Controllers
 
         public JsonResult GetByFindId(string Id)
         {
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            var model = _SlTrangThaisach.GetByIdSach(Id);
-            var tt = _TrangThaiSachLogic.GetAll();
+            JsonResult result = new JsonResult();
+            result.Data = null;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            var model = _SachCaBietLogic.GetListCaBietFromIdSach(Id);
             List<SoLuongTrangThaiSachVM> list = new List<SoLuongTrangThaiSachVM>();
             foreach (var i in model)
             {
-                SoLuongTrangThaiSachVM vm = new SoLuongTrangThaiSachVM();
-                foreach (var item in tt)
+                SoLuongTrangThaiSachVM vm = new SoLuongTrangThaiSachVM()
                 {
-
-                    if (item.Id == i.IdTrangThai)
-                    {
-                        vm.Id = i.Id;
-                        vm.IdSach = i.IdSach;
-                        vm.SoLuong = i.SoLuong;
-                        vm.TrangThai = item.TenTT;
-                        vm.IdTrangThai = i.IdTrangThai;
-                    }
-                }
+                    Id = i.Id,
+                    IdSach = i.IdSach,
+                    IdTrangThai = i.IdTrangThai,
+                    TrangThai = _TrangThaiSachLogic.getById(i.IdTrangThai).TenTT,
+                };
+                if (i.MaKSCB == "" && i.MaCaBienCu != "")
+                    vm.MaCaBiet = i.MaCaBienCu;
+                else
+                    vm.MaCaBiet = i.MaKSCB;
                 list.Add(vm);
             }
-
-            return Json(list, JsonRequestBehavior.AllowGet);
+            result.Data = list;
+            return result;
         }
 
         [HttpPost]
         public JsonResult EditSaveChange(SoLuongSachTrangThai vm, string txtIdttCategory)
-        {
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            var id = _SlTrangThaisach.GetById(vm.Id);
-            int numberSl = id.SoLuong - vm.SoLuong;
-            var IdSlTT = _SlTrangThaisach.GetByIdTT(txtIdttCategory, vm.IdSach);
-            if (IdSlTT != null)
+        {            
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            bool update = false;
+            if (!string.IsNullOrEmpty(vm.IdTrangThai))
             {
-                SoLuongSachTrangThai md = new SoLuongSachTrangThai();
-
-                md.Id = IdSlTT.Id;
-                md.IdSach = IdSlTT.IdSach;
-                md.IdTrangThai = IdSlTT.IdTrangThai;
-                md.SoLuong = IdSlTT.SoLuong + vm.SoLuong;
-                _SlTrangThaisach.Update(md);
-            }
-            else
-            {
-                SoLuongSachTrangThai md = new SoLuongSachTrangThai();
-
-                md.Id = vm.Id;
-                md.IdSach = vm.IdSach;
-                md.IdTrangThai = txtIdttCategory;
-                md.SoLuong = vm.SoLuong;
-                _SlTrangThaisach.Insert(md);
-            }
-            vm.SoLuong = numberSl;
-            var model = _SlTrangThaisach.Update(vm);
-            return Json(model, JsonRequestBehavior.AllowGet);
+                var sachCaBiet = _SachCaBietLogic.GetIdSachFromMaCaBiet(vm.IdSach);
+                sachCaBiet.IdTrangThai = vm.IdTrangThai;
+                update = _SachCaBietLogic.Update(sachCaBiet);
+            }            
+            return Json(update, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Load data to fix status
+        /// </summary>
+        /// <param name="Id">id bang sach ca biet</param>
+        /// <returns></returns>
         public JsonResult GetById(string Id)
         {
-            SoLuongSachTrangThaiLogic _SlTrangThaisach = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
+            SachCaBietLogic _SachCaBietLogic = new SachCaBietLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
             TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
-            var model = _SlTrangThaisach.GetById(Id);
-            var tt = _TrangThaiSachLogic.GetAll();
+            var model = _SachCaBietLogic.getById(Id);
 
             SoLuongTrangThaiSachVM vm = new SoLuongTrangThaiSachVM();
-            foreach (var item in tt)
+            vm = new SoLuongTrangThaiSachVM()
             {
-                if (item.Id == model.IdTrangThai)
-                {
-                    vm.Id = model.Id;
-                    vm.IdSach = model.IdSach;
-                    vm.SoLuong = model.SoLuong;
-                    vm.TrangThai = item.TenTT;
-                    vm.IdTrangThai = model.IdTrangThai;
-                }
-            }
-
+                Id = model.Id,
+                IdSach = model.IdSach,
+                IdTrangThai = model.IdTrangThai,
+                TrangThai = _TrangThaiSachLogic.getById(model.IdTrangThai).TenTT,
+            };
+            if (model.MaKSCB == "" && model.MaCaBienCu != "")
+                vm.MaCaBiet = model.MaCaBienCu;
+            else
+                vm.MaCaBiet = model.MaKSCB;
             return Json(vm, JsonRequestBehavior.AllowGet);
         }
 
@@ -1459,7 +1417,7 @@ namespace BiTech.Library.Controllers
                         dataField = MarcFactory.Instance.NewDataField("260", '#', '#');
                         dataField.AddSubfield(MarcFactory.Instance.NewSubfield('c', item.NamXuatBan));
 
-                        var getNameNXB = _NhaXuatBanLogic.getById(item.IdNhaXuatBan);                   
+                        var getNameNXB = _NhaXuatBanLogic.getById(item.IdNhaXuatBan);
                         if (getNameNXB != null)
                         {
                             dataField.AddSubfield(MarcFactory.Instance.NewSubfield('b', (getNameNXB.Ten != null) ? getNameNXB.Ten : ""));
@@ -1715,9 +1673,7 @@ namespace BiTech.Library.Controllers
             string fileName = string.Concat("QR_Word" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".docx");
 
             var folderReport = Tool.GetUploadFolder(UploadFolder.ReportsWordQR, _SubDomain);
-
-            //string fileUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:64002/Reports/WordQR/{fileName}";
-
+            
             string physicalWebRootPath = Server.MapPath("~/");
 
             string filePath = Path.Combine(physicalWebRootPath, folderReport); //System.Web.HttpContext.Current.Server.MapPath(folderReport);
@@ -1727,12 +1683,6 @@ namespace BiTech.Library.Controllers
             }
 
             string fullPath = Path.Combine(filePath, fileName);
-
-            //Get list sach biet từ listIDSach
-            //foreach(var item in lstIdSach)
-            //{
-            //    _SachCaBietLogic.GetListCaBietFromIdSach(item.Id);
-            //}
 
             List<SachCaBiet> lstSachCB = new List<SachCaBiet>();
             foreach (var item in lstIdSach)
@@ -1748,8 +1698,6 @@ namespace BiTech.Library.Controllers
                 }
                 ExcelManager wordExport = new ExcelManager();
                 wordExport.ExportQRToWord(linkMau, lstSachCB, fullPath);
-
-                //string filepath = AppDomain.CurrentDomain.BaseDirectory + folderReport + "/" + fileName;
                 byte[] filedata = System.IO.File.ReadAllBytes(fullPath);
                 string contentType = MimeMapping.GetMimeMapping(fullPath);
 
@@ -1760,8 +1708,7 @@ namespace BiTech.Library.Controllers
                 };
 
                 Response.AppendHeader("Content-Disposition", cd.ToString());
-              //  Session["CheckBook"] = null;               
-                return File(filedata, contentType);               
+                return File(filedata, contentType);
             }
             else
             {
@@ -1925,7 +1872,7 @@ namespace BiTech.Library.Controllers
 
         }
 
-        
+
 
         #endregion
 
@@ -1957,7 +1904,7 @@ namespace BiTech.Library.Controllers
             else
                 ViewBag.SearchFail = "";
             //Kiem tra sach ca biet da co hay chua
-            var lstTemp = new List<Sach>(list);            
+            var lstTemp = new List<Sach>(list);
             foreach (var item in lstTemp)
             {
                 var temp = _SachCaBietLogic.GetListCaBietFromIdSach(item.Id);
@@ -1993,7 +1940,7 @@ namespace BiTech.Library.Controllers
             {
                 var lstUserChecked = (List<IDSach>)Session["CheckBook"];
 
-                TempData["lstMS"] = lstUserChecked;              
+                TempData["lstMS"] = lstUserChecked;
                 if (lstUserChecked.Count != 0)
                     return RedirectToAction("XuatQR", "Sach");
                 return RedirectToAction("XuatQR_Mutil", "Sach");

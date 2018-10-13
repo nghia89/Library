@@ -624,7 +624,6 @@ namespace BiTech.Library.Controllers
             List<ThanhVien> listTV = new List<ThanhVien>();
             if (string.IsNullOrEmpty(idTV)) //Chon nhieu
             {
-                //listTV = _ThanhVienLogic.GetAllHS();
                 foreach(var item in lstTV)
                 {
                     var mem = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
@@ -1123,8 +1122,7 @@ namespace BiTech.Library.Controllers
             {
                 // Lấy list id checked
                 var lstUserChecked = (List<UserViewModel>)Session["CheckTV"];
-
-                //RedirectToAction("ExportWord", "");
+                
                 TempData["lstMS"] = lstUserChecked;
                 //Xuất thẻ theo list lstUserChecked
                 Session["CheckTV"] = new List<UserViewModel>();

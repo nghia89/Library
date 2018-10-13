@@ -2,28 +2,30 @@
 @using PagedList.Mvc;
 @using PagedList;
 @{
-    ViewBag.Title = "Xuất QR sách";
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+                /**/
 
-    var list = (IEnumerable<BiTech.Library.Models.IDSach>)ViewBag.container;
-    var i = 0;
+                ViewBag.Title = "Xuất QR sách";
+                Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+                var list = (IEnumerable<BiTech.Library.Models.IDSach>)ViewBag.container;
+                var i = 0;
 }
 <link href="~/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
 <div class="title" style="float: left;">Xuất mã QR theo đầu sách</div>
 <div class="clearfix"></div>
 @if (@ViewBag.SearchFail != "" || @ViewBag.NonItem != null)
 {
-<div class="alert p-2 alert-danger alert-dismissible fade show">
-    <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
-    @if (@ViewBag.SearchFail != "")
-    {
-        <strong>Thông báo!</strong> @ViewBag.SearchFail
-    }
-    @if (@ViewBag.NonItem != "")
-    {
-       @ViewBag.NonItem
-    }
-</div>
+    <div class="alert p-2 alert-danger alert-dismissible fade show">
+        <button type="button" class="close p-1" data-dismiss="alert">&times;</button>
+        @if (@ViewBag.SearchFail != "")
+        {
+            <strong>Thông báo!</strong> @ViewBag.SearchFail
+        }
+        @if (@ViewBag.NonItem != "")
+        {
+            @ViewBag.NonItem
+        }
+    </div>
 }
 <div class="clearfix">
     <form action="/Sach/XuatQR_Mutil" class="clearfix">
@@ -78,9 +80,6 @@
                         {
                             <td> <input type="checkbox" name="chon" class="AddList_Book" value="@item.SachDTO.Id"></td>
                         }
-                        @*<td width="10">
-                                <input type="checkbox" name="chon" value="@item.Id" class="AddList_Book" />
-                            </td>*@
                         <td width="10" align="center">@i</td>
                         <td width="30%">@item.SachDTO.TenSach</td>
                         <td width="20%" align="center">@item.SachDTO.MaKiemSoat</td>
@@ -99,10 +98,6 @@
 @section scripts{
     <script src="~/Scripts/ExportCard.js"></script>
     <script src="~/bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    @*<script>
-            var ExportCardObject = new controllerExportCard();
-            ExportCardObject.initialize();
-        </script>*@
     <script>
         $(document).ready(function () {
             if ($('.AddList_Book:checked').length === $('#tblFunction tbody tr .AddList_Book').length) {
@@ -144,11 +139,6 @@
                     DeleteAll();
                 }
             });
-
-            //$('tbody :checkbox').on('click', function () {
-            //    $(this).closest('table').find('#CheckAll_Book').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .CheckAll_Book
-            //});
-
         });
 
         $('.AddList_Book').click(function () {
@@ -224,9 +214,6 @@
         //Xuat
         function XuatThe() {
             $("#ExportMany").submit();
-            //window.location.reload(true); 
         }
     </script>
-
-    @*<script src="~/Scripts/AutocompleteSach.js"></script>*@
 }

@@ -184,3 +184,50 @@ app.controller('TheLoaiFinder', function ($scope, $http) {
     };
 
 });
+
+app.controller('TrangThaiSachCtrlr', function ($scope, $http) {
+    $scope.list = [];
+    var that = $('#Data-IDsach').val();
+    $scope.GetAllData = function () {       
+        return $http({
+            method: "get",
+            url: "/Sach/GetByFindId",
+            params: {
+                Id: that
+            }
+        }).then(function (response) {
+            $scope.list = response.data;
+        }, function () {
+
+        })
+    };
+
+    $scope.OpenPopup = function (x) {
+        
+        var that = x.MaCaBiet;
+        var idtt = x.IdTrangThai;      
+        $.ajax({
+            type: 'get',
+            url: '/Sach/GetAllTT',
+            data: {
+                Id: idtt
+            },
+            dataType: 'json',
+            success: function (response) {
+                var render = "<option value=''>--Chọn trạng thái mới--</option>";
+                $.each(response, function (i, item) {
+                    render += "<option value='" + item.Id + "'>" + item.TenTT + "</option>"
+                });
+                $('#tbl-bill-TTDetail').html(render);
+
+                var ren = "<input id='txtID' value='" + that + "'></input>"
+                $('#txtMaCaBiet').html(ren);
+
+                var renTTHienTai = "<input class='form-control' readonly value='" + x.TrangThai + "'></input>"
+                $('#txtTTHienTai').html(renTTHienTai);
+                $('#modal-add-edit').modal('show');
+            }
+        });
+     
+    }
+})

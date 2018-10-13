@@ -48,15 +48,6 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetAll_NonDelete();
         }
-        /// <summary>
-        /// Get book by idBook
-        /// </summary>
-        /// <param name="idBook"></param>
-        /// <returns></returns>
-        //public Sach GetByIdBook(string idBook)
-        //{
-        //    return _sachEngine.GetByIdBook(idBook);
-        //}
 
         public Sach GetBookById(string idBook)
         {
@@ -71,16 +62,6 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _sachEngine.GetBook_NonDelete_ByMKS(maKS);
         }
-
-		/// <summary>
-		/// Ham get all isDelete = false thong qua Ma kiem soat hoặc ISBN
-		/// </summary>
-		/// <param name=""></param>
-		/// <returns></returns>
-		//public Sach GetBook_NonDelete_ByMKS(string maKS)
-		//{
-		//	return _sachEngine.GetBook_NonDelete_ByMKS(maKS);
-		//}
 
         #endregion
 
