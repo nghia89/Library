@@ -32,7 +32,7 @@
         <div class="input-group form-group text-left">
             <div class="form-control form-control-sm p-0" style="position:relative;">
                 <input type="text" id="txtKeyword" name="Keyword" class="form-control form-control-sm border-0"
-                       placeholder="Nhập tên hoặc mã thành học sinh...">
+                       placeholder="Nhập tên hoặc mã học sinh...">
             </div>
             <div class="input-group-append">
                 <button class="btn btn-sm btn-primary" id="btnSearch" type="submit">
@@ -80,10 +80,7 @@
                         else
                         {
                             <td> <input type="checkbox" name="chon" class="AddList_HS" value="@item.Id"></td>
-                        }
-                        @*<td width="10">
-                                <input type="checkbox" name="chon" value="@item.Id" class="AddList_HS" />
-                            </td>*@
+                        }                      
                         <td width="10" align="center">@i</td>
                         <td width="30%">@item.Ten</td>
                         <td width="20%" align="center">@item.MaSoThanhVien</td>
@@ -235,7 +232,5 @@
         function XuatThe() {
             $("#ExportMany").submit();
         }
-    </script>
-
-    @*<script src="~/Scripts/AutocompleteSach.js"></script>*@
+    </script> 
 }

@@ -33,8 +33,19 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.Ten.ToLower() == tenNgonNgu.ToLower()).FirstOrDefault();
         }
+
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(Language).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
         #endregion
-		
+
         public List<Language> GetByFindName(string Name)
         {
             return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).ToList();

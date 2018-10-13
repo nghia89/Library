@@ -22,7 +22,17 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<SachCaBiet>(tableName);
         }
-		
+
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(SachCaBiet).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
         #region Vinh      
 
         public SachCaBiet GetIdSachFromMaCaBiet(string maCaBiet)

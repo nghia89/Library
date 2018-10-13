@@ -62,10 +62,16 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _tacGiaEngine.Remove(id);
         }
+
         #region Tai
         public TacGia GetByTenTacGia(string tenTacGia)
         {
             return _tacGiaEngine.GetByTenTacGia(tenTacGia);
+        }
+
+        public void UpdateDBVersion()
+        {
+            _tacGiaEngine.UpdateDBVersion();
         }
         #endregion
     }

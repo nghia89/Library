@@ -117,27 +117,6 @@ namespace BiTech.Library.Controllers.BaseClass
                 return maSo;
             }
             catch { return info; }
-        }
-
-        public List<ThanhVien> ImportFromExcel(string physicalWebRootPath, HttpPostedFileBase linkExcel, string subDomain)
-        {
-            ExcelManager excelManager = new ExcelManager();
-            List<ThanhVien> list = new List<ThanhVien>();
-            string uploadForder = GetUploadFolder(Helpers.UploadFolder.FileExcel, subDomain);
-            var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, linkExcel.FileName);
-            string location = Path.GetDirectoryName(sourceFileName);
-            if (!Directory.Exists(location))
-            {
-                Directory.CreateDirectory(location);
-            }
-            using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
-            {
-                linkExcel.InputStream.CopyTo(fileStream);
-                var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                // Todo Excel
-                list = excelManager.ImportThanhVien(sourceDir);
-            }
-            return list;
-        }
+        }    
     }
 }

@@ -2,45 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
 
 namespace BiTech.Library.Models
 {
     public class ThongKeViewModel
-    {
-
-        public string Id { get; set; }
-        public List<ThanhVien> TenNguoiMuon { get; set; }
-        public List<Sach> Sach { get; set; }
-        public string TenSach { get; set; }
-        public string NgayMuon { get; set; }
-        public string NgayPhaiTra { get; set; }
-        public string TinhTrang { get; set; }
-        public string GiaHan { get; set; }
-        public string GhiChu { get; set; }
-        public IEnumerable<SelectListItem> Months
-        {
-            get
-            {
-                return DateTimeFormatInfo.InvariantInfo.MonthNames.Select((monthName, index) => new SelectListItem
-                {
-                    Value = (index + 1).ToString(),
-                    Text = monthName
-                });
-            }
-        }
-
-        public List<ThongTinMuonSach> ListPhieuMuon { get; set; }
-        public IEnumerable<ChiTietPhieuMuon> ListCTMP { get; set; }
-        public IEnumerable<Sach> ListSach { get; set; }
-        public List<List<Sach>> ListChaCuaSach { get; set; }
-        public List<int> ListSoLuong { get; set; }
-        public List<Sach> ListSach1 { get; set; }
-
+    {      
+        public List<ThongTinMuonSach> ListPhieuMuon { get; set; }       
 
         [Display(Name = "Tên đọc giả")]
         public string TenDocGia { get; set; }
@@ -91,8 +58,7 @@ namespace BiTech.Library.Models
         public int[] lsoSachDuocTraTrongQuy { get; set; }
         public int[] lsoSachKhongTraTrongQuy { get; set; }
         // List chứa dữ liệu thống kê trong 31 ngày
-        public int SoNgayTrongThang { get; set; }
-        public int[] lsoNgayTrongThang { get; set; }
+        public int SoNgayTrongThang { get; set; }     
         public int[] lsoPMTrongNgay { get; set; }
         public int[] lsoNguoiMuonTrongNgay { get; set; }
         public int[] lsoSachDuocMuonTrongNgay { get; set; }
@@ -109,7 +75,4 @@ namespace BiTech.Library.Models
         public int[] lsoSachDuocTraTrongTuan { get; set; }
         public int[] lsoSachKhongTraTrongTuan { get; set; }
     }
-
-
-
 }

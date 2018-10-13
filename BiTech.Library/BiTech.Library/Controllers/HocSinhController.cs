@@ -623,9 +623,8 @@ namespace BiTech.Library.Controllers
 
             List<ThanhVien> listTV = new List<ThanhVien>();
             if (string.IsNullOrEmpty(idTV)) //Chon nhieu
-            {
-                //listTV = _ThanhVienLogic.GetAllHS();
-                foreach(var item in lstTV)
+            {               
+                foreach (var item in lstTV)
                 {
                     var mem = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
                     listTV.Add(mem);
@@ -951,7 +950,6 @@ namespace BiTech.Library.Controllers
                     ws.Cells["I1"].SetStyle(style);
                     ws.Cells["J1"].PutValue("SĐT");
                     ws.Cells["J1"].SetStyle(style);
-                    // ws.Cells["N4"].PutValue("Lý do");
                     // Import data             
                     int firstRow = 1;
                     int firstColumn = 0;
@@ -1077,7 +1075,7 @@ namespace BiTech.Library.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         public ActionResult XuatTheHS(KeySearchViewModel KeySearch, int? page)
-        {            
+        {
             ThanhVienLogic _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
 
             int pageSize = 30;
@@ -1089,7 +1087,7 @@ namespace BiTech.Library.Controllers
             ListMemberModel model = new ListMemberModel();
             string memType = "hs";
             var list = _ThanhVienLogic.GetMembersSearch(KeySearch.Keyword, memType);
-            if(list.Count == 0)
+            if (list.Count == 0)
             {
                 list = _ThanhVienLogic.GetAllHS_Active();
                 ViewBag.SearchFail = "Chưa tìm được kết quả phù hợp!";
@@ -1114,7 +1112,7 @@ namespace BiTech.Library.Controllers
                 model.Members.Add(member);
             }
             return View(model.Members.ToPagedList(pageNumber, pageSize));
-        }        
+        }
 
         [HttpPost]
         public ActionResult XuatTheHS()
@@ -1288,10 +1286,7 @@ namespace BiTech.Library.Controllers
                     DeleteFolderParent(fullPath);
                 return true;
             }
-            catch (Exception e)
-            {
-                //Debug.WriteLine(e.Message);
-            }
+            catch { }
             return false;
         }
 
@@ -1305,7 +1300,7 @@ namespace BiTech.Library.Controllers
             var pathFolder = Directory.GetParent(path).FullName;
             Directory.Delete(pathFolder);
             return false;
-        }      
+        }
 
         public ActionResult DeleteMulti(string strSearch, int? page)
         {
@@ -1388,7 +1383,6 @@ namespace BiTech.Library.Controllers
                     }
                 }
             }
-
             if (chon != null)
             {
                 foreach (string item in chon)
@@ -1396,7 +1390,6 @@ namespace BiTech.Library.Controllers
                     DeleteById(item);
                 }
             }
-
             return RedirectToAction("DeleteMulti", "HocSinh", new
             {
                 page = paging

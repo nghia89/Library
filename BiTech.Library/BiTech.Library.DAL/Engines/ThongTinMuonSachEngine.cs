@@ -82,19 +82,20 @@ namespace BiTech.Library.DAL.Engines
         }
 
         #region Tai
-
         public List<ThongTinMuonSach> GetTTMSByIdUser(string idUser)
         {
             return _DatabaseCollection.Find(x => x.idUser == idUser).ToList();
         }
 
-        public List<ThongTinMuonSach> GetTTMSByNgayMuon(DateTime ngayMuon)
+        public void UpdateDBVersion()
         {
-            return _DatabaseCollection.Find(x => x.NgayGioMuon == ngayMuon).ToList();
-        }
-        public List<ThongTinMuonSach> GetTTMSByNgayTra(DateTime ngayTra)
-        {
-            return _DatabaseCollection.Find(x => x.NgayTraThucTe == ngayTra).ToList();
+            var aa = (typeof(ThongTinThuVien).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
         }
         #endregion
 

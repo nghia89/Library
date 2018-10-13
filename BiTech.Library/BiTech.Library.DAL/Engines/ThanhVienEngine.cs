@@ -18,17 +18,7 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<ThanhVien>(tableName);
         }
-
-        /// <summary>
-        /// Get all ThanhVien object (Active - DeActive)GetByIdUser
-        /// </summary>
-        /// <returns></returns>
-        public List<ThanhVien> GetAll()
-        {
-            //return _DatabaseCollection.Find(_ => _.TrangThai != EUser.Deleted).ToList();
-            return _DatabaseCollection.Find(_ => true).ToList();
-        }
-
+      
         /// <summary>
         /// Get all ThanhVien object (Active)GetByIdUser
         /// </summary>
@@ -125,17 +115,6 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(_ => _.LoaiTK.ToLower() == "gv" && _.IsDeleted == false && _.TrangThai == EUser.Active).ToList();
         }
 
-        #endregion
-
-        public void UpdateDBVersion()
-        {
-            var aa = (typeof(ThanhVien).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
-            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
-
-            foreach(var ss in listOld)
-            {
-                this.Update(ss);
-            }
-        }
+        #endregion      
     }
 }

@@ -130,5 +130,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThongTinThuVienEngine.GetByKey(key);
         }
+
+        public void UpdateDBVersion()
+        {
+            _ThongTinThuVienEngine.UpdateDBVersion();
+        }
     }
 }

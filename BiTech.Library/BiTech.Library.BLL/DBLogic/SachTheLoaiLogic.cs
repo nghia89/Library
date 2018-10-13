@@ -38,5 +38,10 @@ namespace BiTech.Library.BLL.DBLogic
             return _sachTacGiaEngine.GetAllBookIdBySachId(id);
 
         }
+
+        public void UpdateDBVersion()
+        {
+            _sachTacGiaEngine.UpdateDBVersion();
+        }
     }
 }

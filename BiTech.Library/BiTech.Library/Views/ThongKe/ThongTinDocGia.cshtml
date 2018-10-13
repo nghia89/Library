@@ -86,8 +86,6 @@
             @{ int i = 0; int soLuongSach = 0; int dem = 1;}
             @foreach (var item in Model.ListPhieuMuon)
             {
-                //foreach (var sach in @ViewBag.ListSach)
-                //{
                 <tbody>
                     <tr class="text-center">
                         <td class="text-center">@dem.ToString()</td>
@@ -129,9 +127,7 @@
                         }
                     </tr>
                 </tbody>
-                { soLuongSach++; dem++; }
-                @*}*@
-                { i++; }
+                { soLuongSach++; dem++; i++; }
             }
 
         </table>

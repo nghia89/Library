@@ -26,6 +26,17 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(x => x.IdSach == id).FirstOrDefault();
         }
 
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(SachTheLoai).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
+
         #region Phong
         public List<SachTheLoai> GetAllBookIdBySachId_list(string id)
         {

@@ -78,6 +78,11 @@ namespace BiTech.Library.BLL.DBLogic
             return _SachCaBietEngine.Remove(Id);
         }
 
+        public void UpdateDBVersion()
+        {
+            _SachCaBietEngine.UpdateDBVersion();
+        }
+
         #region Phong
 
         public SachCaBiet GetByMaKSCBorMaCaBienCu(string masach)

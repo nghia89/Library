@@ -155,7 +155,7 @@
                         type: "error",
                         text: "Có lỗi xảy ra, vui lòng thử lại !!! \r\n Kiểm tra định dạng, dung lượng tập tin hoặc trường truyền Internet"
                     }, function myfunction() {
-                         location.reload();
+                        location.reload();
                     });
                 }
             });
@@ -193,24 +193,6 @@
         }
 
         $(document).ready(function () {
-            $("#submit-button").on('click', function () {
-                $("#fill-information-step-container #data").val(JSON.stringify(data));
-
-                swal({
-                    title: "Xác nhận",
-                    text: "Bấm \"Đồng ý\" để chắc chắn bạn muốn tạo tài khoản hàng loạt. !!!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Đồng ý",
-                    cancelButtonText: "Hủy",
-                    closeOnConfirm: true
-                },
-                function () {
-                    $("#save-data-form").submit();
-                });
-            });
-
             $("#BrowseButton").on('click', function () {
                 $("#files").click();
             });

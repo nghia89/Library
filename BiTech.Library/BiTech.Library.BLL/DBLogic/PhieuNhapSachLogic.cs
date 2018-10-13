@@ -31,5 +31,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _NhapSachEngine.GetById(id);
         }
+
+        public void UpdateDBVersion()
+        {
+            _NhapSachEngine.UpdateDBVersion();
+        }
     }
 }

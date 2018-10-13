@@ -1674,7 +1674,16 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
 
-        
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(Sach).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
 
     }
 }

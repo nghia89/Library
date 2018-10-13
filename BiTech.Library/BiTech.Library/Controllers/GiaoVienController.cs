@@ -430,49 +430,7 @@ namespace BiTech.Library.Controllers
             }
             //  ViewBag.UnSussces= TempData["UnSussces"] = "Đổi mật khẩu không thành công!";
             return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult ImportFromExcel(UserViewModel model)
-        {
-            var _ThanhVienLogic = new ThanhVienLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            ExcelManager excelManager = new ExcelManager();
-            List<ThanhVien> list = new List<ThanhVien>();
-            if (model.LinkExcel != null)
-            {
-                string physicalWebRootPath = Server.MapPath("/");
-                // Todo Excel
-                list = thanhVienCommon.ImportFromExcel(physicalWebRootPath, model.LinkExcel, _SubDomain);
-                int i = 0;
-                foreach (var item in list)
-                {
-                    // ktr trùng mã số thành viên
-                    var thanhVien = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
-                    if (thanhVien == null)
-                    {
-                        // Thêm thành viên,lưu mã vạch                        
-                        var id = _ThanhVienLogic.Insert(item); //insert toàn bộ,chưa ktra gv hs
-                        ThanhVien tv = _ThanhVienLogic.GetById(id);
-                        ThanhVien temp = new ThanhVien();
-                        temp = thanhVienCommon.LuuMaVach(physicalWebRootPath, tv, null, _SubDomain);
-                        if (temp != null)
-                        {
-                            tv.QRLink = temp.QRLink;
-                            tv.QRData = temp.QRData;
-                            _ThanhVienLogic.Update(tv);
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.Duplicate = "Mã thành viên bị trùng ở dòng số " + (item.RowExcel + i).ToString();
-                        return View();
-                    }
-                    i++;
-                }
-            }
-            return RedirectToAction("Index", "GiaoVien");
-        }
+        }      
 
         public ActionResult ExportWord(string idTV)
         {
@@ -555,8 +513,7 @@ namespace BiTech.Library.Controllers
             ExcelManager excelManager = new ExcelManager();
             List<ThanhVien> listTV = new List<ThanhVien>();
             if (string.IsNullOrEmpty(idTV))
-            {
-                //listTV = _ThanhVienLogic.GetAllGV();
+            {               
                 foreach (var item in lstTV)
                 {
                     var mem = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
@@ -567,9 +524,7 @@ namespace BiTech.Library.Controllers
             {
                 var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
                 listTV.Add(tv);
-            }
-            //DateTime today = DateTime.Today;
-            //string fileName = "MauTheGV ("+ today.Day.ToString() + "-" + today.Month.ToString() + "-"+today.Year.ToString() + ")"+".docx";
+            }            
             string fileName = "";
             string linkMau = null;
             // Chọn file mẫu thẻ
@@ -823,8 +778,7 @@ namespace BiTech.Library.Controllers
                             tv.QRLink = temp.QRLink;
                             tv.QRData = temp.QRData;
                             _ThanhVienLogic.Update(tv);
-                        }
-                        //
+                        }                        
                         ListSuccess.Add(item);
                     }
                     // Tạo ds Thành Viên bị lỗi  
@@ -832,7 +786,6 @@ namespace BiTech.Library.Controllers
                         ListFail.Add(item);
                 }
                 #region Tạo file excel cho ds Thành Viên bị lỗi   
-
                 if (ListFail.Count > 0)
                 {
                     Workbook wb = new Workbook();
@@ -885,8 +838,7 @@ namespace BiTech.Library.Controllers
                     ws.Cells["I1"].PutValue("Địa chỉ");
                     ws.Cells["I1"].SetStyle(style);
                     ws.Cells["J1"].PutValue("SĐT");
-                    ws.Cells["J1"].SetStyle(style);
-                    // ws.Cells["N4"].PutValue("Lý do");
+                    ws.Cells["J1"].SetStyle(style);                    
                     // Import data             
                     int firstRow = 1;
                     int firstColumn = 0;
@@ -1225,10 +1177,7 @@ namespace BiTech.Library.Controllers
                     DeleteFolderParent(fullPath);
                 return true;
             }
-            catch (Exception e)
-            {
-                //Debug.WriteLine(e.Message);
-            }
+            catch { }     
             return false;
         }
 
@@ -1312,7 +1261,6 @@ namespace BiTech.Library.Controllers
                 //Count max item in page
                 int kq_so1 = (int.Parse(paging) * int.Parse(pageSize)) - int.Parse(colRowCount);
                 int SlItemInPage = int.Parse(pageSize);
-
                 //kq_so1 >= 0 => đang ở page cuối
                 if (kq_so1 >= 0)
                 {
@@ -1325,7 +1273,6 @@ namespace BiTech.Library.Controllers
                     }
                 }
             }
-
             if (chon != null)
             {
                 foreach (string item in chon)

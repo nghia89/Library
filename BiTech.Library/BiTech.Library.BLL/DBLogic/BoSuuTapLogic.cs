@@ -80,5 +80,10 @@ namespace BiTech.Library.BLL.DBLogic
             var Getname = _BoSuuTapEngines.Getname(name);
             return _BoSuuTapEngines.GetById(Getname.Id);
         }
+
+        public void UpdateDBVersion()
+        {
+            _BoSuuTapEngines.UpdateDBVersion();
+        }
     }
 }

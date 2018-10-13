@@ -179,7 +179,7 @@ namespace BiTech.Library.Controllers
                                 }
                             }
                         }
-                        catch 
+                        catch
                         {
                         }
                         //Update bảng Sach 
@@ -205,94 +205,7 @@ namespace BiTech.Library.Controllers
             return View();
         }
 
-        #region Tai
-        [HttpPost]
-        public ActionResult ImportFromExcel(PhieuNhapSachModels model)
-        {
-            PhieuNhapSachLogic _PhieuNhapSachLogic = new PhieuNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            ChiTietNhapSachLogic _ChiTietNhapSachLogic = new ChiTietNhapSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            ExcelManager excelManager = new ExcelManager();
-            List<ChiTietNhapSach> list = new List<ChiTietNhapSach>();
-            if (model.LinkExcel != null)
-            {
-                string uploadForder = GetUploadFolder(UploadFolder.FileExcel, _SubDomain);
-                string physicalWebRootPath = Server.MapPath("/");
-
-                var sourceFileName = Path.Combine(physicalWebRootPath, uploadForder, model.LinkExcel.FileName);
-                string location = Path.GetDirectoryName(sourceFileName);
-                if (!Directory.Exists(location))
-                {
-                    Directory.CreateDirectory(location);
-                }
-                using (FileStream fileStream = new FileStream(sourceFileName, FileMode.Create))
-                {
-                    model.LinkExcel.InputStream.CopyTo(fileStream);
-                    var sourceDir = fileStream.Name.Replace(physicalWebRootPath, "/").Replace(@"\", @"/").Replace(@"//", @"/");
-                    // Todo Excel
-                    list = excelManager.ImportPhieuNhapSach(sourceDir);
-                }
-                PhieuNhapSach pns = new PhieuNhapSach()
-                {
-                    GhiChu = model.GhiChu,
-                    IdUserAdmin = _UserAccessInfo.Id,
-                    UserName = _UserAccessInfo.UserName
-                };
-                string idPhieuNhap = _PhieuNhapSachLogic.NhapSach(pns);
-                var listAllTTS = _TrangThaiSachLogic.GetAll();
-                int i = 0;
-                foreach (var item in list)
-                {
-                    var sach = _SachLogic.GetByMaMaKiemSoat(item.IdSach);
-                    if (sach == null)
-                    {
-                        //ViewBag.NullSach = "Mã sách không tồn tại ở dòng thứ " + (item.RowExcel + i).ToString();
-                        return View();
-                    }
-                    i++;
-                    int index = Int32.Parse(item.IdTinhtrang);
-                    TrangThaiSach trangThaiSach = null;
-                    if (index <= listAllTTS.Count())
-                        trangThaiSach = listAllTTS[index - 1];
-                    if (trangThaiSach != null && sach != null)
-                    {
-                        item.IdSach = sach.Id;
-                        item.IdPhieuNhap = idPhieuNhap;
-                        item.IdTinhtrang = trangThaiSach.Id;
-
-                        _ChiTietNhapSachLogic.Insert(item);
-                        //todo
-                        {
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(sach.Id, trangThaiSach.Id);
-                            if (sltt != null)
-                            {
-                                sltt.SoLuong += item.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Update(sltt);
-                            }
-                            else
-                            {
-                                sltt = new SoLuongSachTrangThai();
-                                sltt.IdSach = sach.Id;
-                                sltt.IdTrangThai = trangThaiSach.Id;
-                                sltt.SoLuong = item.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Insert(sltt);
-                            }
-
-                            var updateSach = _SachLogic.GetBookById(sltt.IdSach);
-                            updateSach.SoLuongTong += item.SoLuong;
-                            if (trangThaiSach.TrangThai == true)
-                                updateSach.SoLuongConLai += item.SoLuong;
-                            _SachLogic.Update(updateSach);
-                        }
-                    }
-                }
-            }
-            //return View();
-            return RedirectToAction("Index", "PhieuNhapSach");
-        }
-
+        #region Tai        
         [HttpPost]
         public async Task<ActionResult> PreviewImport(HttpPostedFileBase file, string ghiChu)
         {
@@ -325,8 +238,7 @@ namespace BiTech.Library.Controllers
                         int firstColumn = workSheet.Cells.FirstCell.Column;
                         // Số dòng, cột tối đa
                         var maxRows = workSheet.Cells.MaxDataRow - workSheet.Cells.MinDataRow;
-                        var maxColumns = (workSheet.Cells.MaxDataColumn + 1) - workSheet.Cells.MinDataColumn;
-                        //
+                        var maxColumns = (workSheet.Cells.MaxDataColumn + 1) - workSheet.Cells.MinDataColumn;                        
                         viewModel.RawDataList = new List<string[]>();
                         // Đọc từng dòng trong Excel
                         for (int rowIndex = firstRow; rowIndex <= firstRow + maxRows; rowIndex++)
@@ -403,7 +315,6 @@ namespace BiTech.Library.Controllers
                 };
                 listAll.Add(ctns);
             }
-
             if (listAll != null)
             {
                 // Tạo phiếu nhập sách
@@ -464,62 +375,58 @@ namespace BiTech.Library.Controllers
                         item.IdTinhtrang = trangThaiSach.Id;
 
                         _ChiTietNhapSachLogic.Insert(item);
-                        // update số lượng sách trạng thái
+                        // update số lượng sách trạng thái                        
+                        var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(sach.Id, trangThaiSach.Id);
+                        if (sltt != null)
                         {
-                            var sltt = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(sach.Id, trangThaiSach.Id);
-                            if (sltt != null)
+                            sltt.SoLuong += item.SoLuong;
+                            _SoLuongSachTrangThaiLogic.Update(sltt);
+                        }
+                        else
+                        {
+                            sltt = new SoLuongSachTrangThai();
+                            sltt.IdSach = sach.Id;
+                            sltt.IdTrangThai = trangThaiSach.Id;
+                            sltt.SoLuong = item.SoLuong;
+                            _SoLuongSachTrangThaiLogic.Insert(sltt);
+                        }
+                        ///MaKSCB = MaKS.MaCB , Ex: 0001.1, 0001.2 ... + QR
+                        Sach dauSach = _SachLogic.GetByID_IsDeleteFalse(item.IdSach);
+                        int STTHienTai = dauSach.STTMaCB; //Lấy STTCB của đầu sách hiện tại
+                        string maKiemSoat = dauSach.MaKiemSoat;
+                        SachCaBiet scb = new SachCaBiet()
+                        {
+                            IdSach = item.IdSach,
+                            IdTrangThai = item.IdTinhtrang,
+                            TenSach = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).TenSach,
+                        };
+                        for (int i = 0; i < item.SoLuong; i++)
+                        {
+                            scb.MaKSCB = maKiemSoat + "." + (++STTHienTai);
+                            _SachCaBietLogic.Insert(scb);
+                        }
+                        ///Lưu mã QR
+                        var lstSachCB = _SachCaBietLogic.GetListCaBietFromIdSach(item.IdSach);
+                        try
+                        {
+                            string physicalWebRootPath = Server.MapPath("/");
+                            foreach (var sachCB in lstSachCB)
                             {
-                                sltt.SoLuong += item.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Update(sltt);
-                            }
-                            else
-                            {
-                                sltt = new SoLuongSachTrangThai();
-                                sltt.IdSach = sach.Id;
-                                sltt.IdTrangThai = trangThaiSach.Id;
-                                sltt.SoLuong = item.SoLuong;
-                                _SoLuongSachTrangThaiLogic.Insert(sltt);
-                            }
-                            ///MaKSCB = MaKS.MaCB , Ex: 0001.1, 0001.2 ... + QR
-                            int STTHienTai = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).STTMaCB; //Lấy STTCB của đầu sách hiện tại
-                            string maKiemSoat = _SachLogic.GetById(item.IdSach).MaKiemSoat;
-                            SachCaBiet scb = new SachCaBiet()
-                            {
-                                IdSach = item.IdSach,
-                                IdTrangThai = item.IdTinhtrang,
-                                TenSach = _SachLogic.GetByID_IsDeleteFalse(item.IdSach).TenSach,
-                            };
-                            for (int i = 0; i < item.SoLuong; i++)
-                            {
-                                scb.MaKSCB = maKiemSoat + "." + (++STTHienTai);
-                                _SachCaBietLogic.Insert(scb);
-                            }
-                            ///Lưu mã QR
-                            var lstSachCB = _SachCaBietLogic.GetListCaBietFromIdSach(item.IdSach);
-                            try
-                            {
-                                string physicalWebRootPath = Server.MapPath("/");
-                                foreach (var sachCB in lstSachCB)
+                                SachCaBiet temp = sachCommon.LuuMaVachSach_SachCaBiet(physicalWebRootPath, sachCB, null, _SubDomain);
+                                if (temp != null)
                                 {
-                                    SachCaBiet temp = sachCommon.LuuMaVachSach_SachCaBiet(physicalWebRootPath, sachCB, null, _SubDomain);
-                                    if (temp != null)
-                                    {
-                                        sachCB.QRlink = temp.QRlink;
-                                        sachCB.QRData = temp.QRData;
-                                        _SachCaBietLogic.Update(sachCB);
-                                    }
+                                    sachCB.QRlink = temp.QRlink;
+                                    sachCB.QRData = temp.QRData;
+                                    _SachCaBietLogic.Update(sachCB);
                                 }
                             }
-                            catch { }
-                            //Update bảng Đầu Sách 
-                            var updateSach = _SachLogic.GetBookById(sltt.IdSach);
-                            updateSach.SoLuongTong += item.SoLuong;
-                            // Chỉ update số lượng còn lại cho Sách có trạng thái true (là sách cho mượn được)
-                            //if (trangThaiSach.TrangThai == true)
-                            updateSach.SoLuongConLai += item.SoLuong;
-                            _SachLogic.Update(updateSach);
                         }
-                        //
+                        catch { }
+                        //Update bảng Đầu Sách                       
+                        dauSach.SoLuongTong += item.SoLuong;
+                        dauSach.STTMaCB = STTHienTai;
+                        dauSach.SoLuongConLai += item.SoLuong;
+                        _SachLogic.Update(dauSach);                        
                         ListSuccess.Add(item);
                     }
                     else

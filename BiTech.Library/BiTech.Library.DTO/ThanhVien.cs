@@ -60,16 +60,7 @@ namespace BiTech.Library.DTO
 
         public string LoaiTK { get; set; }
 
-        public bool IsDeleted { get; set; } 
-
-        [BsonIgnore]
-        public string TenTrangThai { get; set; }
-
-        [BsonIgnore]
-        public int ColumnExcel { get; set; }
-
-        [BsonIgnore]
-        public int RowExcel { get; set; }
+        public bool IsDeleted { get; set; }         
 
         [BsonIgnore]
         public List<string> ListError { get; set; } = new List<string>();
@@ -78,10 +69,6 @@ namespace BiTech.Library.DTO
         public bool IsDuplicateMSTV { get; set; } = false;
 
         [BsonIgnore]
-        public bool IsDuplicateUser { get; set; } = false;
-
-        [BsonIgnore]
-        public string NgaySinhForAngular { get; set; }
-
+        public bool IsDuplicateUser { get; set; } = false;       
     }
 }

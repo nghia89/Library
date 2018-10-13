@@ -1,9 +1,7 @@
 ﻿
 @model PagedList.IPagedList<ThongTinMuonSach>
 @using System;
-@using System.Globalization;
 @using BiTech.Library.DTO;
-@using PagedList.Mvc;
 @{
     ViewBag.Title = "MuonSach";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
@@ -16,15 +14,15 @@
 <br />
 <div ng-app="LibraryApp" ng-controller="ThongKeCtrlr" class="container-mt clearfix">
     <div class="tab">
-        <button class="tablinks active" onclick="openCity(event, 'isMonth')">Thống kê theo tháng</button>
-        <button class="tablinks" onclick="openCity(event, 'isDay')" ng-click="GetDayFirst()">Thống kê theo ngày</button>
+        <button class="tablinks active" onclick="openCity(event, 'isMonth')" ng-init="GetMonthInit()" ng-click="GetMonthClick()">Thống kê theo tháng</button>
+        <button class="tablinks" onclick="openCity(event, 'isDay')" ng-click="GetDayClick()">Thống kê theo ngày</button>
     </div>
     <div id="isMonth" class="tabcontent" style="display:block">
         <table>
             <tr>
                 <td style="font-size:18px;padding:15px">Tháng</td>
                 <td>
-                    <select class="form-control form-control-sm" style="width:90px" ng-model="SelectedMonth" ng-change="GetDataMonth()">
+                    <select id="month" class="form-control form-control-sm" style="width:90px" ng-model="SelectedMonth" ng-change="GetDataMonth()">
                         @for (int month = 1; month <= 12; month++)
                         {
                             <option value="@month">@month</option>
@@ -33,7 +31,7 @@
                 </td>
                 <td style="font-size:18px;padding:15px">Năm</td>
                 <td>
-                    <select class="form-control form-control-sm" style="width:90px" ng-model="SelectedYear" ng-click="GetDataMonth()">
+                    <select id="year" class="form-control form-control-sm" style="width:90px" ng-model="SelectedYear" ng-click="GetDataMonth()">
                         @for (int year = 2018; year <= DateTime.Now.Year; year++)
                         {
                             <option value="@year">@year</option>
@@ -75,13 +73,12 @@
                 </tr>
             </tbody>
         </table>
-        @*<p>
-                @Html.PagedListPager(Model, Page => Url.Action("MuonSach", new { page = Page, day = ViewBag.Day, month = ViewBag.Month, year = ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
-            </p>*@
     </div>
     <div id="isDay" class="tabcontent">
         <div class="pb-1">
-            <input id="day" class="form-control form-control-sm datepicker" ng-model="SelectedDay" ng-change="GetDataDay()" />
+            <div data-tip="Chọn ngày">
+                <input id="day" class="form-control form-control-sm datepicker" ng-model="SelectedDay" ng-change="GetDataDay()" />
+            </div>        
         </div>
         <h6> Tổng số sách được mượn là: {{SoSachDuocMuon}} cuốn</h6>
         <h6> Tổng số người mượn sách là: {{SoNguoiMuonSach}} người</h6>
@@ -115,41 +112,23 @@
                 </tr>
             </tbody>
         </table>
-        @*<p>
-                @Html.PagedListPager(Model, Page => Url.Action("MuonSach", new { page = Page, day = ViewBag.Day, month = ViewBag.Month, year = ViewBag.Year }), PagedListRenderOptions.ClassicPlusFirstAndLast)
-            </p>*@
-
     </div>
 </div>
-
 @section scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/angular-1.6.8/angular.min.js"></script>
     <script src="~/Scripts/LibraryAngularJS.js"></script>
     <script>
         // Day
-        $(function () {
+        $(document).ready(function () {
             $(".datepicker").datepicker({
                 dateFormat: "dd/mm/yy",
                 monthNamesShort: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "2018:(DateTime.Now.Year-2018)+1)",
-                //  onSelect: function (dateText, inst) {
-                //    var ngay = $("input[name='day']").val();
-                //    window.location.href = '/ThongKe/MuonSach?page=1&day=' + ngay + '&month=' + 0 + '&year=' + 0;
-                // }
-                // }).datepicker("setDate", new Date(Date.now())).attr("readonly", "readonly");
             }).datepicker("setDate", new Date("20/03/2018")).attr("readonly", "readonly");
         });
-        // Month
-        function onMonthSelectedChagned() {
-            window.location.href = '/ThongKe/MuonSach?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
-        }
-        // Year
-        function onYearSelectedChagned() {
-            window.location.href = '/ThongKe/MuonSach?page=1&day=' + 0 + '&month=' + $("#month").val() + '&year=' + $("#year").val();
-        }
         // Tabs
         function openCity(evt, cityName) {
             var i, tabcontent, tablinks;
@@ -163,7 +142,7 @@
             }
             document.getElementById(cityName).style.display = "block";
             evt.currentTarget.className += " active";
-        }
+        }          
     </script>
 }
 

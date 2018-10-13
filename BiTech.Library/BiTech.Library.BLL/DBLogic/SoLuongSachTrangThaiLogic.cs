@@ -59,5 +59,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _SoLuongSachTrangThaiEngine.DeleteAllSoLuongSachTrangThaiByidSach(idSach);
         }
+
+        public void UpdateDBVersion()
+        {
+            _SoLuongSachTrangThaiEngine.UpdateDBVersion();
+        }
     }
 }

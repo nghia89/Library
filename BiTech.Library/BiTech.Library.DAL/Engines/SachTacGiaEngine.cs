@@ -30,6 +30,17 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(x => x.IdTacGia.Equals(id)).FirstOrDefault();
         }
+
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(SachTacGia).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
         #region Phong
         public List<SachTacGia> GetAllBookIdBySachId_list(string id)
         {
