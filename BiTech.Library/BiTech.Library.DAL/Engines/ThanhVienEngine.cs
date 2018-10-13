@@ -127,15 +127,5 @@ namespace BiTech.Library.DAL.Engines
 
         #endregion
 
-        public void UpdateDBVersion()
-        {
-            var aa = (typeof(ThanhVien).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
-            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
-
-            foreach(var ss in listOld)
-            {
-                this.Update(ss);
-            }
-        }
     }
 }

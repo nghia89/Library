@@ -58,10 +58,6 @@ namespace BiTech.Library.Controllers
                 }
                 tenTG = tenTG.Length == 0 ? "--" : tenTG.Substring(0, tenTG.Length - 2);
 
-                // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được
-                var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(item.Id, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-                item.SoLuongConLai = item.SoLuongConLai - numKhongMuonDuoc;
-
                 BookView book = new BookView(item);
                 book.TenSach = book.SachDTO.TenSach;
                 book.MaKiemSoat = book.SachDTO.MaKiemSoat;
@@ -285,10 +281,6 @@ namespace BiTech.Library.Controllers
             {
                 return RedirectToAction("Index");
             }
-
-            // cập nhật model số lượng còn lại = sl còn lại - sl trong trạng thái không mượn được
-            var numKhongMuonDuoc = MuonSachController.GetSoLuongSach(sachDTO.Id, Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            sachDTO.SoLuongConLai = sachDTO.SoLuongConLai - numKhongMuonDuoc;
 
             SachUploadModel model = new SachUploadModel(sachDTO);
             return View(model);

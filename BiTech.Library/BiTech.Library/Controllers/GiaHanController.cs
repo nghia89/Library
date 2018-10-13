@@ -91,11 +91,9 @@ namespace BiTech.Library.Controllers
             return View(list_book);
         }
 
-        /// <summary>
-        /// Lấy thông tin sách và cập nhật số lượng sách có thể cho mượn
-        /// </summary>
-        /// <param name="maSach"></param>
-        /// <returns></returns>
+        // Lấy thông tin sách và cập nhật số lượng sách có thể cho mượn
+        // Nơi gọi: Scripts->LibraryAngularJS.js->GiaHanCtrlr->GetBook
+        // POST: GiaHan/GetBook
         [HttpPost]
         public JsonResult GetBook(string maSach, string IdUser, string NgayMuon = "", string NgayTra = "")
         {
@@ -125,6 +123,7 @@ namespace BiTech.Library.Controllers
         }
 
         // Lấy danh sách những cuốn sách đang mượn theo IdUser
+        // Nơi gọi: Scripts->LibraryAngularJS.js->GiaHanCtrlr->GetListBook
         // POST: GiaHan/GetListBook_IdUser
         [HttpPost]
         public JsonResult GetListBook_IdUser(string IdUser)
@@ -134,7 +133,8 @@ namespace BiTech.Library.Controllers
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
 
-        // ChuanBiTra
+        // Lấy danh sách chuẩn bị gia hạn
+        // Nơi gọi: Scripts->LibraryAngularJS.js->GiaHanCtrlr->UpdateListChuanBiTra
         // POST: /GiaHan/UpdateList_ChuanBiTra
         [HttpPost]
         public JsonResult UpdateList_ChuanBiTra(List<MuonTraSachViewModel> List_newitem)
@@ -144,7 +144,8 @@ namespace BiTech.Library.Controllers
         }
 
         // Gia hạn - update row table ThongTinMuonSach (dữ liệu lấy từ list sách chuẩn bị trả)
-        // POST: /TraSach/UpdateListBook
+        // Nơi gọi: Scripts->LibraryAngularJS.js->GiaHanCtrlr->GiaHan
+        // POST: /GiaHan/UpdateListBook
         [HttpPost]
         public JsonResult UpdateListBook(List<MuonTraSachViewModel> List_newitem)
         {
@@ -181,10 +182,9 @@ namespace BiTech.Library.Controllers
             return Json(false, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Lấy list trạng thái sách
-        /// </summary>
-        /// <returns></returns>
+        // Lấy list trạng thái sách
+        // Nơi gọi: Scripts->LibraryAngularJS.js->GiaHanCtrlr->GetAllTrangThaiSach
+        // POST: /GiaHan/GetAllTrangThaiSach
         [HttpPost]
         public JsonResult GetAllTrangThaiSach()
         {
@@ -194,40 +194,6 @@ namespace BiTech.Library.Controllers
         }
 
         #region Function
-
-        /// <summary>
-        /// Danh sách còn sách để trả
-        /// </summary>
-        /// <param name="List_item">list đang mượn</param>
-        /// <returns>List result = list đang mượn - list chuẩn bị trả</returns>
-        private List<MuonTraSachViewModel> GetDanhSachCoTheTra(List<MuonTraSachViewModel> List_item)
-        {
-            if (list_ChuanBiTra == null)
-            {
-                return List_item;
-            }
-
-            List<MuonTraSachViewModel> list_chuanbixoa = new List<MuonTraSachViewModel>(); //Danh sách item thoả điều kiện để xoá khỏi List_item
-            //Kiểm tra item đã chọn hết sách để trả chưa
-            foreach (MuonTraSachViewModel item in List_item)
-            {
-                MuonTraSachViewModel item_chuanbitra = list_ChuanBiTra.Where(_ => _.MaKiemSoat == item.MaKiemSoat
-                                                                               && _.NgayMuon == item.NgayMuon
-                                                                               && _.NgayTra == item.NgayTra).SingleOrDefault();
-                if (item_chuanbitra != null)
-                {
-                    if (item.SoLuong == item_chuanbitra.SoLuong)
-                    {
-                        list_chuanbixoa.Add(item);
-                    }
-                }
-            }
-            foreach (MuonTraSachViewModel item in list_chuanbixoa)
-            {
-                List_item.Remove(item);
-            }
-            return List_item;
-        }
 
         /// <summary>
         /// Convert ThongTinMuonSach to MuonTraSachViewModel
@@ -279,33 +245,6 @@ namespace BiTech.Library.Controllers
                 list_book.Add(mtsach);
             }
             return list_book;
-        }
-
-        /// <summary>
-        /// Lấy số lượng sách có thể cho mượn theo idSach (SoLuongMax)
-        /// </summary>
-        /// <param name="idSach"></param>
-        /// <returns></returns>
-        private string GetSoLuongSach(string idSach)
-        {
-            SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-
-            Sach _Sach = _SachLogic.GetBookById(idSach);
-            List<TrangThaiSach> _ListTrangThai_true = _TrangThaiSachLogic.GetAllTT_True(); //Lấy những trạng thái sách có thể cho mượn
-            int soluongsach = 0;
-            //Tính tổng trạng thái sách có thể cho mượn
-            foreach (TrangThaiSach item_trangthai in _ListTrangThai_true)
-            {
-                SoLuongSachTrangThai sl_sach = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(_Sach.Id, item_trangthai.Id);
-                if (sl_sach != null)
-                    soluongsach = soluongsach + sl_sach.SoLuong;
-            }
-            //Số lượng sách còn lại có thể cho mượn = tổng sách có thế cho mượn - số sách hiện đang cho mượn
-            soluongsach = soluongsach - _ThongTinMuonSachLogic.Count_ChuaTra_byIdSach(_Sach.Id);
-            return soluongsach.ToString();
         }
 
         #endregion

@@ -147,16 +147,9 @@ namespace BiTech.Library.Controllers
             return Json(list_book, JsonRequestBehavior.AllowGet);
         }
 
-        // Lấy mks từ Ma_input(mks or isbn)
-        //
-        [HttpPost]
-        public JsonResult GetMSKByString(string maInput)
-        {
-            SachLogic _SachLogicLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
-            Sach _sach = _SachLogicLogic.GetByMaKiemSoatorISBN(new SachCommon().GetInfo(maInput));
-            return Json(_sach.MaKiemSoat, JsonRequestBehavior.AllowGet);
-        }
-
+        // Lấy danh sách những cuốn sách cá biệt bằng keyword
+        // Nơi gọi: Views->MuonSach->index.cshtml->AddAutoComplete
+        // POST: MuonSach/GetListBook_IdUser
         [HttpPost]
         public JsonResult GetAllListById(string maSach)
         {
@@ -215,7 +208,8 @@ namespace BiTech.Library.Controllers
         }
 
         // ChuanBiTra
-        // POST: /TraSach/UpdateList_ChuanBiMuon
+        // Nơi gọi: Scripts->LibraryAngularJS.js->MuonSachCtrlr->UpdateList_ChuanBiMuon
+        // POST: /MuonSach/UpdateList_ChuanBiMuon
         [HttpPost]
         public JsonResult UpdateList_ChuanBiMuon(List<MuonTraSachViewModel> List_newitem)
         {
@@ -274,46 +268,6 @@ namespace BiTech.Library.Controllers
                 list_book.Add(mtsach);
             }
             return list_book;
-        }
-
-        /// <summary>
-        /// Lấy số lượng sách có thể cho mượn theo idSach (SoLuongMax)
-        /// </summary>
-        /// <param name="idSach"></param>
-        /// <returns></returns>
-        internal static int GetSoLuongSach(string idSach, string connectionString, string databaseName)
-        {
-            SachLogic _SachLogic = new SachLogic(connectionString, databaseName);
-            SoLuongSachTrangThaiLogic _SoLuongSachTrangThaiLogic = new SoLuongSachTrangThaiLogic(connectionString, databaseName);
-            TrangThaiSachLogic _TrangThaiSachLogic = new TrangThaiSachLogic(connectionString, databaseName);
-            ThongTinMuonSachLogic _ThongTinMuonSachLogic = new ThongTinMuonSachLogic(connectionString, databaseName);
-
-            Sach _Sach = _SachLogic.GetBookById(idSach);
-            int soluongsach = 0;
-            int soluongsach_true = 0;
-            int soluongsach_false = 0;
-
-            //Tính tổng trạng thái sách có thể cho mượn
-            List<TrangThaiSach> _ListTrangThai_true = _TrangThaiSachLogic.GetAllTT_True(); //Lấy những trạng thái sách có thể cho mượn
-            foreach (TrangThaiSach item_trangthai in _ListTrangThai_true)
-            {
-                SoLuongSachTrangThai sl_sach = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(_Sach.Id, item_trangthai.Id);
-                if (sl_sach != null)
-                    soluongsach_true = soluongsach_true + sl_sach.SoLuong;
-            }
-            //Tính tổng trạng thái sách không thể cho mượn
-            List<TrangThaiSach> _ListTrangThai_false = _TrangThaiSachLogic.GetAllTT_False(); //Lấy những trạng thái sách có thể cho mượn
-            foreach (TrangThaiSach item_trangthai in _ListTrangThai_false)
-            {
-                SoLuongSachTrangThai sl_sach = _SoLuongSachTrangThaiLogic.getBy_IdSach_IdTT(_Sach.Id, item_trangthai.Id);
-                if (sl_sach != null)
-                    soluongsach_false = soluongsach_false + sl_sach.SoLuong;
-            }
-            //Số lượng sách còn có thể cho mượn (chưa tính những sách đang cho mượn)
-            //soluongsach = soluongsach_true - soluongsach_false;
-            //Số lượng sách còn lại có thể cho mượn thực tế = tổng sách có thế cho mượn - số sách hiện đang cho mượn
-            soluongsach = soluongsach_true - _ThongTinMuonSachLogic.Count_ChuaTra_byIdSach(_Sach.Id);
-            return soluongsach;
         }
 
         #endregion
