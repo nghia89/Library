@@ -30,6 +30,12 @@ namespace BiTech.Library.BLL.DBLogic
 
         }
 
+        public void UpdateDBVersion()
+        {
+            _sachEngine.UpdateDBVersion();
+        }
+
+
         #region Vinh
 
         public Sach GetById(string id)

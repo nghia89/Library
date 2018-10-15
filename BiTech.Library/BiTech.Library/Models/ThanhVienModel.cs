@@ -81,27 +81,17 @@ namespace BiTech.Library.Models
         public List<string> ListNienKhoa { get; set; }
 
         public string LinkAvatar { get; set; }
-
-        public string[] ListName { get; set; }
-
-        public string[] ListMaTV { get; set; }
-
+       
         public string[] ListAll { get; set; }
 
         public List<ThanhVien> ListThanhVien { get; set; }
-
-        [Display(Name = "Đường dẫn file Excel")]
-        public HttpPostedFileBase LinkExcel { get; set; }
-
-        public HttpPostedFileBase LinkWord { get; set; }
-
-        public string LoaiTK { get; set; }
+       
+        public HttpPostedFileBase LinkWord { get; set; }      
 
         public string TextForSearch { get; set; }
 
 		[Display(Name = "Tổ")]
-		public string ChucVu { get; set; } //Sài cho giáo viên
-        public string NumberPage { get; set; }
+		public string ChucVu { get; set; } //Sài cho giáo viên        
     }
     public class EditUserViewModel
     {
@@ -147,8 +137,7 @@ namespace BiTech.Library.Models
         [Display(Name = "Hình ảnh")]
         public HttpPostedFileBase HinhChanDung { get; set; }
         public List<string> ListNienKhoa { get; set; }
-        public string LinkAvatar { get; set; }
-        public string LoaiTK { get; set; }
+        public string LinkAvatar { get; set; }       
 		[Display(Name = "Tổ")]
 		public string ChucVu { get; set; } //sài cho giáo viên
     }
@@ -161,10 +150,7 @@ namespace BiTech.Library.Models
         [Required(ErrorMessage = "Bạn chưa nhập mật khẩu hiện tại!")]
         [Display(Name = "Mật khẩu hiện tại")]
         public string OldPassword { get; set; }
-
-
-        // [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-
+       
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Bạn chưa nhập mật khẩu mới!")]
         [Display(Name = "Mật khẩu mới")]
@@ -175,8 +161,7 @@ namespace BiTech.Library.Models
         [Display(Name = "Nhập lại mật khẩu mới")]
         [Required(ErrorMessage = "Bạn chưa nhập lại mật khẩu!")]
         [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Nhập lại mật khẩu không khớp nhau!")]
-        public string ConfirmPassword { get; set; }
-        public string LoaiTK { get; set; }
+        public string ConfirmPassword { get; set; }       
     }
 
     public class ImportExcelTVViewModel

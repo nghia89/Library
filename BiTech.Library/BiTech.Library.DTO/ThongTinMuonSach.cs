@@ -63,20 +63,12 @@ namespace BiTech.Library.DTO
         [BsonIgnore]
         public string NgayTraTemp { get; set; }
         [BsonIgnore]
-        public string NgayTraThucTeTemp { get; set; }
-        [BsonIgnore]
-        public List<string> ListSach { get; set; } = new List<string>();
+        public string NgayTraThucTeTemp { get; set; }       
         [BsonIgnore]
         public string TenThanhVien { get; set; }     
         [BsonIgnore]
         public string TenSach { get; set; }
         [BsonIgnore]
-        public string STT { get; set; }
-        [BsonIgnore]
-        public string SoSachDuocMuon { get; set; }
-        [BsonIgnore]
-        public string SoNguoiMuonSach { get; set; }
-
-
+        public string STT { get; set; }      
     }
 }

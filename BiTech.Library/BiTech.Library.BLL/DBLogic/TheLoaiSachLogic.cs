@@ -101,7 +101,12 @@ namespace BiTech.Library.BLL.DBLogic
         public bool ktrTrung(TheLoaiSach tls)
         {
             return _theloaiSachEngine.ktrTrung(tls);
-        }       
+        }
+
+        public void UpdateDBVersion()
+        {
+            _theloaiSachEngine.UpdateDBVersion();
+        }
         #endregion
 
         /// <summary>

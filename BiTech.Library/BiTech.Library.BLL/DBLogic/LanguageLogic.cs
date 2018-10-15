@@ -48,8 +48,13 @@ namespace BiTech.Library.BLL.DBLogic
         {
            return _LanguageEngine.GetByTenNgonNgu(tenNgonNgu);
         }
+
+        public void UpdateDBVersion()
+        {
+            _LanguageEngine.UpdateDBVersion();
+        }
         #endregion
-		
+
         public List<Language> FindNamelanguge(string q)
         {
             return _LanguageEngine.GetByFindName(q);

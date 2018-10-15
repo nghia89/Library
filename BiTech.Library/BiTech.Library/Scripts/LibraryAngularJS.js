@@ -1387,6 +1387,7 @@ app.controller('ThongKeCtrlr', function ($scope, $http) {
             }
         })
     }
+    // Xử lý khi chọn Tháng/Năm
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
@@ -1417,16 +1418,27 @@ app.controller('ThongKeCtrlr', function ($scope, $http) {
             }
         })
     }
+    // Xử lý khi chọn Ngày
     $scope.SelectedDay = new Date;
     $scope.GetDataDay = function () {
         key = $scope.SelectedDay;
         $scope.Day = key;
         GetDay();
     }
-
-    $scope.GetDayFirst = function () {
+    // Xử lý khi click Tab Ngày
+    $scope.GetDayClick = function () {
         $scope.Day = $("#day").val();
         GetDay();
+    }
+    // Xử lý khi click Tab Tháng
+    $scope.GetMonthClick = function () {
+        $scope.SelectedMonth=$("#month").val();
+        $scope.SelectedYear = $("#year").val();
+        GetMonth();
+    }
+    // Init
+    $scope.GetMonthInit = function () {       
+        GetMonth();
     }
     GetDay();
     //-----

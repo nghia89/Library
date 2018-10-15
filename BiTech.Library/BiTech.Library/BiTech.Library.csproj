@@ -249,7 +249,6 @@
     <Compile Include="Areas\Models\Enums.cs" />
     <Compile Include="Areas\Models\WorkPlaceApiModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BarCodeDemoController.cs" />
     <Compile Include="Controllers\BaseClass\BaseController.cs" />
     <Compile Include="Controllers\BaseClass\NghiepVuThongKe.cs" />
     <Compile Include="Controllers\BaseClass\SachCommon.cs" />
@@ -280,6 +279,7 @@
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Controllers\TheLoaiSachController.cs" />
     <Compile Include="Controllers\TraSachController.cs" />
+    <Compile Include="Controllers\UpdateDBVersionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1967,7 +1967,6 @@
     <Content Include="Views\ThongKe\DanhSachChuaTra.cshtml" />
     <Content Include="Views\ThongKe\LichSuMuonSach.cshtml" />
     <Content Include="Views\ThongKe\ThongTinDocGia.cshtml" />
-    <Content Include="Views\ThongKe\BieuDoPhieuMuon.cshtml" />
     <Content Include="Views\PhieuXuatSach\TaoPhieuXuatSach.cshtml" />
     <Content Include="Views\PhieuXuatSach\Index.cshtml" />
     <Content Include="Views\PhieuXuatSach\Details.cshtml" />
@@ -1975,7 +1974,6 @@
     <Content Include="Views\PhieuNhapSach\Details.cshtml" />
     <Content Include="Views\PhieuNhapSach\Index.cshtml" />
     <Content Include="Views\Statistic\Index.cshtml" />
-    <Content Include="Views\BarCodeDemo\BarCodeRead.cshtml" />
     <Content Include="Views\NgonNgu\Index.cshtml" />
     <Content Include="Views\NgonNgu\Edit.cshtml" />
     <Content Include="Views\NgonNgu\Create.cshtml" />
@@ -2142,16 +2140,12 @@
     <Content Include="Views\DDC\ImportFromExcel.cshtml" />
     <Content Include="Views\Sach\DeleteMany.cshtml" />
     <Content Include="Views\GiaHan\Index.cshtml" />
-    <Content Include="Tempalates\DDC.xlsx" />
     <Content Include="Tempalates\ExportTTSach.xlsx" />
     <Content Include="Tempalates\MauDDC.xlsx" />
     <Content Include="Tempalates\MauGV.xlsx" />
     <Content Include="Tempalates\MauHS.xlsx" />
     <Content Include="Tempalates\MauPNS.xlsx" />
     <Content Include="Tempalates\MauSach.xlsx" />
-    <Content Include="Tempalates\PhieuNhapSach.xlsx" />
-    <Content Include="Tempalates\Sach.xlsx" />
-    <Content Include="Tempalates\ThanhVien.xlsx" />
     <Content Include="Views\Search\SearchDetail.cshtml" />
     <Content Include="Tempalates\ExportSlSach.xlsx" />
     <Content Include="Tempalates\OutExportSlSach.xlsx" />
@@ -2164,6 +2158,7 @@
     <Content Include="Views\Sach\XuatQR_Mutil.cshtml" />
     <Content Include="Views\HocSinh\DeleteMulti.cshtml" />
     <Content Include="Views\GiaoVien\DeleteMulti.cshtml" />
+    <Content Include="Views\UpdateDBVersion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

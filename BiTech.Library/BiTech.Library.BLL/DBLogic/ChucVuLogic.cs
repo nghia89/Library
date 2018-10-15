@@ -42,5 +42,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _chucVuEngine.Remove(id);
         }
+
+        public void UpdateDBVersion()
+        {
+            _chucVuEngine.UpdateDBVersion();
+        }
     }
 }

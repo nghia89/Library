@@ -45,5 +45,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ChiTietNhapSachEngine.Remove(id);
         }
+
+        public void UpdateDBVersion()
+        {
+            _ChiTietNhapSachEngine.UpdateDBVersion();
+        }
     }
 }

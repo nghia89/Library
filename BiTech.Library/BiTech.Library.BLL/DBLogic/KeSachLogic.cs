@@ -45,6 +45,11 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _keSachEngine.GetByTenKeSach(tenKeSach);
         }
+
+        public void UpdateDBVersion()
+        {
+            _keSachEngine.UpdateDBVersion();
+        }
         #endregion
 
     }

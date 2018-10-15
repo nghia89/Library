@@ -58,6 +58,17 @@ namespace BiTech.Library.DAL.Engines
         {
             return _DatabaseCollection.Find(_ => _.Ten.ToLower() == tenNXB.ToLower()).FirstOrDefault();
         }
+
+        public void UpdateDBVersion()
+        {
+            var aa = (typeof(NhaXuatBan).GetCustomAttributes(typeof(Mongo.Migration.Documents.Attributes.CurrentVersion), true).FirstOrDefault() as Mongo.Migration.Documents.Attributes.CurrentVersion);
+            var listOld = _DatabaseCollection.Find(x => x.Version != aa.Version).ToList();
+
+            foreach (var ss in listOld)
+            {
+                this.Update(ss);
+            }
+        }
         #endregion
     }
 }

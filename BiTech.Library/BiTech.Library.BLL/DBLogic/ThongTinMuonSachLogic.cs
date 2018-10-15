@@ -104,5 +104,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThongTinMuonSachEngine.Remove(id);
         }
+
+        public void UpdateDBVersion()
+        {
+            _ThongTinMuonSachEngine.UpdateDBVersion();
+        }
     }
 }

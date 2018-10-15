@@ -76,6 +76,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _TrangThaiSachEngine.GetByName(tenTrangThai);
         }
+        public void UpdateDBVersion()
+        {
+            _TrangThaiSachEngine.UpdateDBVersion();
+        }
         #endregion
 
 

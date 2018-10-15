@@ -62,5 +62,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _DDCEngine.Remove(Id);
         }
+
+        public void UpdateDBVersion()
+        {
+            _DDCEngine.UpdateDBVersion();
+        }
     }
 }

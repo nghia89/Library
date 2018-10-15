@@ -31,5 +31,10 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuXuatSachEngine.GetById(id);
         }
+
+        public void UpdateDBVersion()
+        {
+            _PhieuXuatSachEngine.UpdateDBVersion();
+        }
     }
 }

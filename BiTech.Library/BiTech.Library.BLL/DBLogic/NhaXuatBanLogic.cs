@@ -65,6 +65,11 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _NhaXuatBanEngine.GetByTenNXB(tenNXB);
         }
+
+        public void UpdateDBVersion()
+        {
+            _NhaXuatBanEngine.UpdateDBVersion();
+        }
         #endregion
     }
 }

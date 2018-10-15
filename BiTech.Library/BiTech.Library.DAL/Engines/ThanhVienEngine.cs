@@ -18,17 +18,7 @@ namespace BiTech.Library.DAL.Engines
             _Database = (IMongoDatabase)database.GetConnection(databaseName);
             _DatabaseCollection = _Database.GetCollection<ThanhVien>(tableName);
         }
-
-        /// <summary>
-        /// Get all ThanhVien object (Active - DeActive)GetByIdUser
-        /// </summary>
-        /// <returns></returns>
-        public List<ThanhVien> GetAll()
-        {
-            //return _DatabaseCollection.Find(_ => _.TrangThai != EUser.Deleted).ToList();
-            return _DatabaseCollection.Find(_ => true).ToList();
-        }
-
+      
         /// <summary>
         /// Get all ThanhVien object (Active)GetByIdUser
         /// </summary>

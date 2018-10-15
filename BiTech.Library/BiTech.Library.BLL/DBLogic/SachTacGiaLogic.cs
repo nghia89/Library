@@ -38,5 +38,10 @@ namespace BiTech.Library.BLL.DBLogic
 
         }
 
+        public void UpdateDBVersion()
+        {
+            _sachTacGiaEngine.UpdateDBVersion();
+        }
+
     }
 }
