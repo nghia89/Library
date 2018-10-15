@@ -56,5 +56,11 @@ namespace BiTech.Library.Common
         public List<string> ListIdNXB2 { get; set; }
         public List<string> ListIdNXB3 { get; set; }
         public List<string> ListIdNXB4 { get; set; }
+
+        public List<string> ListLanguage { get; set; }
+        public List<string> ListLanguage1 { get; set; }
+        public List<string> ListLanguage2 { get; set; }
+        public List<string> ListLanguage3 { get; set; }
+        public List<string> ListLanguage4 { get; set; }
     }
 }

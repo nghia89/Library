@@ -17,6 +17,7 @@ namespace BiTech.Library.BLL.DBLogic
         SachTacGiaEngine _SachTacGiaEngine;
         NhaXuatBanEngine _NXBEngine;
         TacGiaEngine _TacGiaEngine;
+        LanguageEngine _LanguageEngine;
         public SachLogic(string connectionString, string databaseName)
         {
             Database database = new Database(connectionString);
@@ -25,6 +26,7 @@ namespace BiTech.Library.BLL.DBLogic
             _SachTacGiaEngine = new SachTacGiaEngine(database, databaseName, DBTableNames.Sach_TacGia_Table);
             _NXBEngine = new NhaXuatBanEngine(database, databaseName, DBTableNames.NhaXuatBan_Table);
             _TacGiaEngine = new TacGiaEngine(database, databaseName, DBTableNames.TacGia_Table);
+            _LanguageEngine = new LanguageEngine(database, databaseName, DBTableNames.Languages_Table);
 
         }
 
@@ -249,22 +251,18 @@ namespace BiTech.Library.BLL.DBLogic
                     }
 
                 }
-            }
 
-            if (!string.IsNullOrEmpty(KeySearch.ddlLoaiTimKiem0) || !string.IsNullOrEmpty(KeySearch.ddlLoaiTimKiem1)
-                || !string.IsNullOrEmpty(KeySearch.ddlLoaiTimKiem2) || !string.IsNullOrEmpty(KeySearch.ddlLoaiTimKiem3) || !string.IsNullOrEmpty(KeySearch.ddlLoaiTimKiem4))
-            {
                 if (KeySearch.ddlLoaiTimKiem0.Contains("place_publication") || KeySearch.ddlLoaiTimKiem1.Contains("place_publication")
-                    || KeySearch.ddlLoaiTimKiem2.Contains("place_publication") || KeySearch.ddlLoaiTimKiem3.Contains("place_publication")
-                    || KeySearch.ddlLoaiTimKiem4.Contains("place_publication")|| KeySearch.ddlLoaiTimKiem0.Contains("any")|| KeySearch.ddlLoaiTimKiem1.Contains("any") ||
-                    KeySearch.ddlLoaiTimKiem2.Contains("any") || KeySearch.ddlLoaiTimKiem3.Contains("any") || KeySearch.ddlLoaiTimKiem4.Contains("any"))
+                   || KeySearch.ddlLoaiTimKiem2.Contains("place_publication") || KeySearch.ddlLoaiTimKiem3.Contains("place_publication")
+                   || KeySearch.ddlLoaiTimKiem4.Contains("place_publication") || KeySearch.ddlLoaiTimKiem0.Contains("any") || KeySearch.ddlLoaiTimKiem1.Contains("any") ||
+                   KeySearch.ddlLoaiTimKiem2.Contains("any") || KeySearch.ddlLoaiTimKiem3.Contains("any") || KeySearch.ddlLoaiTimKiem4.Contains("any"))
                 {
                     KeySearch.ListIdNXB = new List<string>();
                     KeySearch.ListIdNXB1 = new List<string>();
                     KeySearch.ListIdNXB2 = new List<string>();
                     KeySearch.ListIdNXB3 = new List<string>();
                     KeySearch.ListIdNXB4 = new List<string>();
-                  
+
                     if (KeySearch.Keyword != null)
                     {
                         if (KeySearch.Condition == "Contains")
@@ -393,7 +391,149 @@ namespace BiTech.Library.BLL.DBLogic
                     }
 
                 }
+
+                if (KeySearch.ddlLoaiTimKiem0.Contains("lang") || KeySearch.ddlLoaiTimKiem1.Contains("lang")
+                   || KeySearch.ddlLoaiTimKiem2.Contains("lang") || KeySearch.ddlLoaiTimKiem3.Contains("lang")
+                   || KeySearch.ddlLoaiTimKiem4.Contains("lang") || KeySearch.ddlLoaiTimKiem0.Contains("any") || KeySearch.ddlLoaiTimKiem1.Contains("any") ||
+                   KeySearch.ddlLoaiTimKiem2.Contains("any") || KeySearch.ddlLoaiTimKiem3.Contains("any") || KeySearch.ddlLoaiTimKiem4.Contains("any"))
+                {
+                    KeySearch.ListLanguage = new List<string>();
+                    KeySearch.ListLanguage1 = new List<string>();
+                    KeySearch.ListLanguage2 = new List<string>();
+                    KeySearch.ListLanguage3 = new List<string>();
+                    KeySearch.ListLanguage4 = new List<string>();
+
+                    if (KeySearch.Keyword != null)
+                    {
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName1(KeySearch.Keyword);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName(KeySearch.Keyword);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                    }
+                    if (KeySearch.Keyword1 != null)
+                    {
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName1(KeySearch.Keyword1);
+
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName(KeySearch.Keyword1);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+
+                    }
+                    if (KeySearch.Keyword2 != null)
+                    {
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName1(KeySearch.Keyword2);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName(KeySearch.Keyword2);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                    }
+                    if (KeySearch.Keyword3 != null)
+                    {
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName1(KeySearch.Keyword3);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName(KeySearch.Keyword3);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                    }
+                    if (KeySearch.Keyword4 != null)
+                    {
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName1(KeySearch.Keyword4);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var Listlang = _LanguageEngine.GetByFindName(KeySearch.Keyword4);
+                            if (Listlang != null)
+                            {
+                                foreach (var item in Listlang)
+                                {
+                                    KeySearch.ListLanguage.Add(item.Id);
+                                }
+                            }
+                        }
+                    }
+
+                }
             }
+
 
             return _sachEngine.getPageHighPerformance(KeySearch);
         }

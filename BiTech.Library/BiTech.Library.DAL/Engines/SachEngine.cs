@@ -160,7 +160,7 @@ namespace BiTech.Library.DAL.Engines
             if (!string.IsNullOrEmpty(KeySearch.BoSuuTap))
             {
                 if (KeySearch.BoSuuTap == "Any")
-                    filterDefinition = filterDefinition & builder.Where(x => x.IsDeleted==false);
+                    filterDefinition = filterDefinition & builder.Where(x => x.IsDeleted == false);
                 else
                     filterDefinition = filterDefinition & builder.Where(x => x.IdBoSuuTap.Equals(KeySearch.BoSuuTap));
             }
@@ -185,6 +185,11 @@ namespace BiTech.Library.DAL.Engines
             FilterDefinition<Sach> filterDefinitionNXB3 = null;
             FilterDefinition<Sach> filterDefinitionNXB4 = null;
 
+            FilterDefinition<Sach> filterDefinitionlang = null;
+            FilterDefinition<Sach> filterDefinitionlang1 = null;
+            FilterDefinition<Sach> filterDefinitionlang2 = null;
+            FilterDefinition<Sach> filterDefinitionlang3 = null;
+            FilterDefinition<Sach> filterDefinitionlang4 = null;
 
             #region tìm kiếm thep opac 5 tiu chí
             if (KeySearch.Keyword != null && KeySearch.ddlLoaiTimKiem0 != null)
@@ -203,6 +208,25 @@ namespace BiTech.Library.DAL.Engines
                                           || x.TenSachKhongDau.ToLower() == KeySearch.Keyword.ToLower());
                         }
                         break;
+                    case "lang":
+                        if (KeySearch.ListLanguage.Count() > 0)
+                        {
+                            foreach (var item in KeySearch.ListLanguage)
+                            {
+                                if (filterDefinitionlang == null)
+                                {
+                                    filterDefinitionlang = builder.Where(x => x.IdNgonNgu == item);
+                                }
+                                else
+                                {
+                                    filterDefinitionlang = filterDefinitionlang | builder.Where(x => x.IdNgonNgu == item);
+                                }
+                            }
+                            filterDefinition = filterDefinition & filterDefinitionlang;
+                        }
+                        else
+                            filterDefinition = filterDefinition & builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword));
+                        break;
                     case "author":
                         if (KeySearch.ListSachIds.Count() > 0)
                         {
@@ -214,7 +238,7 @@ namespace BiTech.Library.DAL.Engines
                                 }
                                 else
                                 {
-                                    filterDefinitionTacGia =filterDefinitionTacGia | builder.Where(x => x.Id == item);
+                                    filterDefinitionTacGia = filterDefinitionTacGia | builder.Where(x => x.Id == item);
                                 }
                             }
                             filterDefinition = filterDefinition & filterDefinitionTacGia;
@@ -256,6 +280,26 @@ namespace BiTech.Library.DAL.Engines
                             filterDefinition = filterDefinition & builder.Where(x => x.IdNhaXuatBan.Equals(KeySearch.Keyword));
                         }
                         break;
+                    case "issn":
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.ISSN.Contains(KeySearch.Keyword));
+                        }
+                        else
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.ISSN.Equals(KeySearch.Keyword));
+                        }
+                        break;
+                    case "ddc":
+                        if (KeySearch.Condition == "Contains")
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.DDC.Contains(KeySearch.Keyword));
+                        }
+                        else
+                        {
+                            filterDefinition = filterDefinition & builder.Where(x => x.DDC.Equals(KeySearch.Keyword));
+                        }
+                        break;
 
                     case "date_publication":
                         if (KeySearch.Condition == "Contains")
@@ -273,7 +317,7 @@ namespace BiTech.Library.DAL.Engines
                         {
                             filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword) || x.ISBN.Contains(KeySearch.Keyword)
                                           || x.TenSach.ToLower().Contains(KeySearch.Keyword.ToLower())
-                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()));
+                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword.ToLower()) || x.DDC.Contains(KeySearch.Keyword) || x.ISSN.Contains(KeySearch.Keyword));
                             if (KeySearch.ListIdNXB.Count > 0)
                             {
                                 foreach (var item in KeySearch.ListIdNXB)
@@ -300,11 +344,27 @@ namespace BiTech.Library.DAL.Engines
                                     }
                                     else
                                     {
-                                        filterDefinitionTacGia =  filterDefinitionTacGia | builder.Where(x => x.Id == item);
+                                        filterDefinitionTacGia = filterDefinitionTacGia | builder.Where(x => x.Id == item);
                                     }
                                 }
 
                                 filterDefinition = filterDefinition | filterDefinitionTacGia;
+                            }
+
+                            if (KeySearch.ListLanguage.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage)
+                                {
+                                    if (filterDefinitionlang == null)
+                                    {
+                                        filterDefinitionlang = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang = filterDefinitionlang | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang;
                             }
                         }
                         else
@@ -345,14 +405,29 @@ namespace BiTech.Library.DAL.Engines
 
                                 filterDefinition = filterDefinition & filterDefinitionTacGia;
                             }
+                            if (KeySearch.ListLanguage.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage)
+                                {
+                                    if (filterDefinitionlang == null)
+                                    {
+                                        filterDefinitionlang = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang = filterDefinitionlang | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition | filterDefinitionlang;
+                            }
                         }
                         break;
                 }
             }
 
             if (KeySearch.Keyword1 != null && KeySearch.ddlLoaiTimKiem1 != null)
-            {  
-                if(KeySearch.dlOperator1=="and")
+            {
+                if (KeySearch.dlOperator1 == "and")
                 {
                     switch (KeySearch.ddlLoaiTimKiem1)
                     {
@@ -367,6 +442,25 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
                             }
+                            break;
+                        case "lang":
+                            if (KeySearch.ListLanguage.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage)
+                                {
+                                    if (filterDefinitionlang1 == null)
+                                    {
+                                        filterDefinitionlang1 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang1 = filterDefinitionlang1 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang1;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword));
                             break;
                         case "author":
 
@@ -397,6 +491,27 @@ namespace BiTech.Library.DAL.Engines
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+
+                        case "issn":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISSN.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISSN.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+                        case "ddc":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.DDC.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.DDC.Equals(KeySearch.Keyword1));
                             }
                             break;
 
@@ -438,7 +553,7 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1) || x.ISBN.Contains(KeySearch.Keyword1)
                               || x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
-                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()) || x.DDC.Contains(KeySearch.Keyword1) || x.ISSN.Contains(KeySearch.Keyword1));
 
                                 if (KeySearch.ListIdNXB1.Count > 0)
                                 {
@@ -470,13 +585,28 @@ namespace BiTech.Library.DAL.Engines
                                         }
                                     }
                                     filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+                                if (KeySearch.ListLanguage.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage)
+                                    {
+                                        if (filterDefinitionlang1 == null)
+                                        {
+                                            filterDefinitionlang1 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang1 = filterDefinitionlang1 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang1;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword1) || x.ISBN.Equals(KeySearch.Keyword1)
                                              || x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
-                                             || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
+                                             || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower() || x.DDC.Equals(KeySearch.Keyword2) || x.ISSN.Equals(KeySearch.Keyword2));
 
                                 if (KeySearch.ListIdNXB1.Count > 0)
                                 {
@@ -508,6 +638,22 @@ namespace BiTech.Library.DAL.Engines
                                         }
                                     }
                                     filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+
+                                if (KeySearch.ListLanguage1.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage)
+                                    {
+                                        if (filterDefinitionlang1 == null)
+                                        {
+                                            filterDefinitionlang1 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang1 = filterDefinitionlang1 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang1;
                                 }
                             }
                             break;
@@ -528,6 +674,25 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
                             }
+                            break;
+                        case "lang":
+                            if (KeySearch.ListLanguage.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage)
+                                {
+                                    if (filterDefinitionlang1 == null)
+                                    {
+                                        filterDefinitionlang1 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang1 = filterDefinitionlang1 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang1;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword1));
                             break;
                         case "author":
 
@@ -558,6 +723,26 @@ namespace BiTech.Library.DAL.Engines
                             else
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+                        case "issn":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Equals(KeySearch.Keyword1));
+                            }
+                            break;
+                        case "ddc":
+                            if (KeySearch.Condition1 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Contains(KeySearch.Keyword1));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Equals(KeySearch.Keyword1));
                             }
                             break;
 
@@ -599,7 +784,7 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword1) || x.ISBN.Contains(KeySearch.Keyword1)
                               || x.TenSach.ToLower().Contains(KeySearch.Keyword1.ToLower())
-                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()));
+                                              || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword1.ToLower()) || x.DDC.Contains(KeySearch.Keyword1) || x.ISSN.Contains(KeySearch.Keyword1));
 
                                 if (KeySearch.ListIdNXB1.Count > 0)
                                 {
@@ -631,13 +816,44 @@ namespace BiTech.Library.DAL.Engines
                                         }
                                     }
                                     filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+
+                                if (KeySearch.ListLanguage.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage)
+                                    {
+                                        if (filterDefinitionlang1 == null)
+                                        {
+                                            filterDefinitionlang1 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang1 = filterDefinitionlang1 & builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang1;
+                                }
+                                if (KeySearch.ListLanguage.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage)
+                                    {
+                                        if (filterDefinitionlang1 == null)
+                                        {
+                                            filterDefinitionlang1 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang1 = filterDefinitionlang1 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang1;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword1) || x.ISBN.Equals(KeySearch.Keyword1)
                                              || x.TenSach.ToLower() == KeySearch.Keyword1.ToLower()
-                                             || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower());
+                                             || x.TenSachKhongDau.ToLower() == KeySearch.Keyword1.ToLower() || x.DDC.Equals(KeySearch.Keyword2) || x.ISSN.Equals(KeySearch.Keyword2));
 
                                 if (KeySearch.ListIdNXB1.Count > 0)
                                 {
@@ -669,6 +885,21 @@ namespace BiTech.Library.DAL.Engines
                                         }
                                     }
                                     filterDefinition = filterDefinition | filterDefinitionTacGia1;
+                                }
+                                if (KeySearch.ListLanguage.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage)
+                                    {
+                                        if (filterDefinitionlang1 == null)
+                                        {
+                                            filterDefinitionlang1 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang1 = filterDefinitionlang1 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang1;
                                 }
                             }
                             break;
@@ -694,6 +925,25 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
                             }
+                            break;
+                        case "lang":
+                            if (KeySearch.ListLanguage2.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage2)
+                                {
+                                    if (filterDefinitionlang2 == null)
+                                    {
+                                        filterDefinitionlang2 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang2 = filterDefinitionlang2 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang2;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword2));
                             break;
                         case "author":
                             if (KeySearch.ListSachIds2.Count() > 0)
@@ -723,6 +973,28 @@ namespace BiTech.Library.DAL.Engines
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "issn":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISSN.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.ISSN.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "ddc":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.DDC.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.DDC.Equals(KeySearch.Keyword2));
                             }
                             break;
 
@@ -764,7 +1036,7 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2) || x.ISBN.Contains(KeySearch.Keyword2)
                                            || x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
-                                           || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()));
+                                           || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()) || x.DDC.Contains(KeySearch.Keyword2) || x.ISSN.Contains(KeySearch.Keyword2));
 
                                 if (KeySearch.ListIdNXB2.Count > 0)
                                 {
@@ -797,13 +1069,28 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                                }
+                                if (KeySearch.ListLanguage2.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage2)
+                                    {
+                                        if (filterDefinitionlang2 == null)
+                                        {
+                                            filterDefinitionlang2 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang2 = filterDefinitionlang2 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang2;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword2) || x.ISBN.Equals(KeySearch.Keyword2)
                                           || x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
-                                          || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
+                                          || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower() || x.DDC.Equals(KeySearch.Keyword2) || x.ISSN.Equals(KeySearch.Keyword2));
                                 if (KeySearch.ListIdNXB2.Count > 0)
                                 {
                                     foreach (var item in KeySearch.ListIdNXB2)
@@ -835,6 +1122,21 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                                }
+                                if (KeySearch.ListLanguage2.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage2)
+                                    {
+                                        if (filterDefinitionlang2 == null)
+                                        {
+                                            filterDefinitionlang2 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang2 = filterDefinitionlang2 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang2;
                                 }
                             }
                             break;
@@ -855,6 +1157,25 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
                             }
+                            break;
+                        case "lang":
+                            if (KeySearch.ListLanguage2.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage2)
+                                {
+                                    if (filterDefinitionlang2 == null)
+                                    {
+                                        filterDefinitionlang2 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang2 = filterDefinitionlang2 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang2;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword2));
                             break;
                         case "author":
                             if (KeySearch.ListSachIds2.Count() > 0)
@@ -884,6 +1205,28 @@ namespace BiTech.Library.DAL.Engines
                             else
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.ISBN.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "issn":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Equals(KeySearch.Keyword2));
+                            }
+                            break;
+
+                        case "ddc":
+                            if (KeySearch.Condition2 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Contains(KeySearch.Keyword2));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Equals(KeySearch.Keyword2));
                             }
                             break;
 
@@ -925,7 +1268,7 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword2) || x.ISBN.Contains(KeySearch.Keyword2)
                                            || x.TenSach.ToLower().Contains(KeySearch.Keyword2.ToLower())
-                                           || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()));
+                                           || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword2.ToLower()) || x.DDC.Contains(KeySearch.Keyword2) || x.ISSN.Contains(KeySearch.Keyword2));
 
                                 if (KeySearch.ListIdNXB2.Count > 0)
                                 {
@@ -958,13 +1301,29 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia2;
+                                }
+                                if (KeySearch.ListLanguage2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage2)
+                                    {
+                                        if (filterDefinitionlang2 == null)
+                                        {
+                                            filterDefinitionlang2 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang2 = filterDefinitionlang2 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionlang2;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword2) || x.ISBN.Equals(KeySearch.Keyword2)
                                           || x.TenSach.ToLower() == KeySearch.Keyword2.ToLower()
-                                          || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower());
+                                          || x.TenSachKhongDau.ToLower() == KeySearch.Keyword2.ToLower() || x.DDC.Equals(KeySearch.Keyword2) || x.ISSN.Equals(KeySearch.Keyword2));
                                 if (KeySearch.ListIdNXB2.Count > 0)
                                 {
                                     foreach (var item in KeySearch.ListIdNXB2)
@@ -997,11 +1356,27 @@ namespace BiTech.Library.DAL.Engines
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia2;
                                 }
+                                if (KeySearch.ListLanguage2.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage2)
+                                    {
+                                        if (filterDefinitionlang2 == null)
+                                        {
+                                            filterDefinitionlang2 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang2 = filterDefinitionlang2 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionlang2;
+                                }
                             }
                             break;
                     }
                 }
-                    
+
             }
 
             if (KeySearch.Keyword3 != null && KeySearch.ddlLoaiTimKiem3 != null)
@@ -1021,6 +1396,25 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword3.ToLower()
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
                             }
+                            break;
+                        case "lang":
+                            if (KeySearch.ListLanguage3.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage3)
+                                {
+                                    if (filterDefinitionlang3 == null)
+                                    {
+                                        filterDefinitionlang3 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang3 = filterDefinitionlang3 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang3;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword3));
                             break;
                         case "author":
                             if (KeySearch.ListSachIds3.Count() > 0)
@@ -1052,6 +1446,28 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword3));
                             }
                             break;
+                        case "issn":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        case "ddc":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.DDC.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition & builder.Where(x => x.DDC.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
 
                         case "place_publication":
                             if (KeySearch.ListIdNXB3.Count() > 0)
@@ -1091,7 +1507,7 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3) || x.ISBN.Contains(KeySearch.Keyword3)
                           || x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
-                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()));
+                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()) || x.ISSN.Contains(KeySearch.Keyword3) || x.DDC.Contains(KeySearch.Keyword3));
 
                                 if (KeySearch.ListIdNXB3.Count > 0)
                                 {
@@ -1124,13 +1540,28 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                                }
+                                if (KeySearch.ListLanguage3.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage3)
+                                    {
+                                        if (filterDefinitionlang3 == null)
+                                        {
+                                            filterDefinitionlang3 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang3 = filterDefinitionlang3 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang3;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword3) || x.ISBN.Equals(KeySearch.Keyword3)
                                                   || x.TenSach.ToLower() == KeySearch.Keyword3.ToLower()
-                                                  || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
+                                                  || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower() || x.ISSN.Equals(KeySearch.Keyword3) || x.DDC.Equals(KeySearch.Keyword3));
 
                                 if (KeySearch.ListIdNXB3.Count > 0)
                                 {
@@ -1163,6 +1594,21 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                                }
+                                if (KeySearch.ListLanguage3.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage3)
+                                    {
+                                        if (filterDefinitionlang3 == null)
+                                        {
+                                            filterDefinitionlang3 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang3 = filterDefinitionlang3 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition & filterDefinitionlang3;
                                 }
                             }
 
@@ -1185,6 +1631,25 @@ namespace BiTech.Library.DAL.Engines
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
                             }
                             break;
+                        case "lang":
+                            if (KeySearch.ListLanguage3.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage3)
+                                {
+                                    if (filterDefinitionlang3 == null)
+                                    {
+                                        filterDefinitionlang3 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang3 = filterDefinitionlang3 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang3;
+                            }
+                            else
+                                filterDefinition = filterDefinition | builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword3));
+                            break;
                         case "author":
                             if (KeySearch.ListSachIds3.Count() > 0)
                             {
@@ -1201,8 +1666,9 @@ namespace BiTech.Library.DAL.Engines
                                 }
                                 filterDefinition = filterDefinition | filterDefinitionTacGia3;
                             }
-                            else
+                             else
                                 filterDefinition = filterDefinition | builder.Where(x => x.Id.Contains(KeySearch.Keyword3));
+                           
                             break;
 
                         case "isbn":
@@ -1216,6 +1682,27 @@ namespace BiTech.Library.DAL.Engines
                             }
                             break;
 
+                        case "issn":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Equals(KeySearch.Keyword3));
+                            }
+                            break;
+
+                        case "ddc":
+                            if (KeySearch.Condition3 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Contains(KeySearch.Keyword3));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Equals(KeySearch.Keyword3));
+                            }
+                            break;
                         case "place_publication":
                             if (KeySearch.ListIdNXB3.Count() > 0)
                             {
@@ -1254,7 +1741,7 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword3) || x.ISBN.Contains(KeySearch.Keyword3)
                           || x.TenSach.ToLower().Contains(KeySearch.Keyword3.ToLower())
-                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()));
+                                          || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword3.ToLower()) || x.ISSN.Contains(KeySearch.Keyword3) || x.DDC.Contains(KeySearch.Keyword3));
 
                                 if (KeySearch.ListIdNXB3.Count > 0)
                                 {
@@ -1287,13 +1774,28 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia3;
+                                }
+                                if (KeySearch.ListLanguage3.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage3)
+                                    {
+                                        if (filterDefinitionlang3 == null)
+                                        {
+                                            filterDefinitionlang3 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang3 = filterDefinitionlang3 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang3;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition | builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword3) || x.ISBN.Equals(KeySearch.Keyword3)
                                                   || x.TenSach.ToLower() == KeySearch.Keyword3.ToLower()
-                                                  || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower());
+                                                  || x.TenSachKhongDau.ToLower() == KeySearch.Keyword3.ToLower() || x.ISSN.Equals(KeySearch.Keyword3) || x.DDC.Equals(KeySearch.Keyword3));
 
                                 if (KeySearch.ListIdNXB3.Count > 0)
                                 {
@@ -1327,12 +1829,27 @@ namespace BiTech.Library.DAL.Engines
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia3;
                                 }
+                                if (KeySearch.ListLanguage3.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage3)
+                                    {
+                                        if (filterDefinitionlang3 == null)
+                                        {
+                                            filterDefinitionlang3 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang3 = filterDefinitionlang3 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang3;
+                                }
                             }
 
                             break;
                     }
                 }
-                
+
             }
 
             if (KeySearch.Keyword4 != null && KeySearch.ddlLoaiTimKiem4 != null)
@@ -1352,6 +1869,25 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition & builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
                             }
+                            break;
+                        case "lang":
+                            if (KeySearch.ListLanguage4.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage3)
+                                {
+                                    if (filterDefinitionlang4 == null)
+                                    {
+                                        filterDefinitionlang4 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang4 = filterDefinitionlang4 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang4;
+                            }
+                            else
+                                filterDefinition = filterDefinition & builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword4));
                             break;
                         case "author":
                             if (KeySearch.ListSachIds4.Count() > 0)
@@ -1381,6 +1917,28 @@ namespace BiTech.Library.DAL.Engines
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.ISBN.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        case "issn":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        case "ddc":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Equals(KeySearch.Keyword4));
                             }
                             break;
 
@@ -1422,7 +1980,8 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4) || x.ISBN.Contains(KeySearch.Keyword4)
                             || x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
-                                            || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()));
+                                            || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()) || x.DDC.Contains(KeySearch.Keyword4)
+                                            || x.ISSN.Contains(KeySearch.Keyword4));
                                 if (KeySearch.ListIdNXB4.Count > 0)
                                 {
                                     foreach (var item in KeySearch.ListIdNXB4)
@@ -1454,13 +2013,29 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                                }
+                                if (KeySearch.ListLanguage4.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage3)
+                                    {
+                                        if (filterDefinitionlang4 == null)
+                                        {
+                                            filterDefinitionlang4 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang4 = filterDefinitionlang4 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang4;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword4) || x.ISBN.Equals(KeySearch.Keyword4)
                                                      || x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
-                                                     || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
+                                                     || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower() || x.DDC.Equals(KeySearch.Keyword4)
+                                                     || x.ISSN.Equals(KeySearch.Keyword4));
                                 if (KeySearch.ListIdNXB4.Count > 0)
                                 {
                                     foreach (var item in KeySearch.ListIdNXB4)
@@ -1492,6 +2067,21 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                                }
+                                if (KeySearch.ListLanguage4.Count() > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage3)
+                                    {
+                                        if (filterDefinitionlang4 == null)
+                                        {
+                                            filterDefinitionlang4 = builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang4 = filterDefinitionlang4 | builder.Where(x => x.IdNgonNgu == item);
+                                        }
+                                    }
+                                    filterDefinition = filterDefinition | filterDefinitionlang4;
                                 }
                             }
 
@@ -1513,6 +2103,25 @@ namespace BiTech.Library.DAL.Engines
                                 filterDefinition = filterDefinition | builder.Where(x => x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
                                               || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
                             }
+                            break;
+                        case "lang":
+                            if (KeySearch.ListLanguage4.Count() > 0)
+                            {
+                                foreach (var item in KeySearch.ListLanguage3)
+                                {
+                                    if (filterDefinitionlang4 == null)
+                                    {
+                                        filterDefinitionlang4 = builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                    else
+                                    {
+                                        filterDefinitionlang4 = filterDefinitionlang4 | builder.Where(x => x.IdNgonNgu == item);
+                                    }
+                                }
+                                filterDefinition = filterDefinition & filterDefinitionlang4;
+                            }
+                            else
+                                filterDefinition = filterDefinition | builder.Where(x => x.IdNgonNgu.Contains(KeySearch.Keyword4));
                             break;
                         case "author":
                             if (KeySearch.ListSachIds4.Count() > 0)
@@ -1545,6 +2154,27 @@ namespace BiTech.Library.DAL.Engines
                             }
                             break;
 
+                        case "issn":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.ISSN.Equals(KeySearch.Keyword4));
+                            }
+                            break;
+
+                        case "ddc":
+                            if (KeySearch.Condition4 == "Contains")
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Contains(KeySearch.Keyword4));
+                            }
+                            else
+                            {
+                                filterDefinition = filterDefinition | builder.Where(x => x.DDC.Equals(KeySearch.Keyword4));
+                            }
+                            break;
                         case "place_publication":
                             if (KeySearch.ListIdNXB4.Count() > 0)
                             {
@@ -1583,7 +2213,8 @@ namespace BiTech.Library.DAL.Engines
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Contains(KeySearch.Keyword4) || x.ISBN.Contains(KeySearch.Keyword4)
                             || x.TenSach.ToLower().Contains(KeySearch.Keyword4.ToLower())
-                                            || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()));
+                                            || x.TenSachKhongDau.ToLower().Contains(KeySearch.Keyword4.ToLower()) || x.DDC.Contains(KeySearch.Keyword4)
+                                            || x.ISSN.Contains(KeySearch.Keyword4));
                                 if (KeySearch.ListIdNXB4.Count > 0)
                                 {
                                     foreach (var item in KeySearch.ListIdNXB4)
@@ -1615,13 +2246,30 @@ namespace BiTech.Library.DAL.Engines
                                     }
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia4;
+                                }
+                                if (KeySearch.ListLanguage4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage4)
+                                    {
+                                        if (filterDefinitionlang4 == null)
+                                        {
+                                            filterDefinitionlang4 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang4 = filterDefinitionlang4 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionlang4;
                                 }
                             }
                             else
                             {
                                 filterDefinition = filterDefinition & builder.Where(x => x.NamXuatBan.Equals(KeySearch.Keyword4) || x.ISBN.Equals(KeySearch.Keyword4)
                                                      || x.TenSach.ToLower() == KeySearch.Keyword4.ToLower()
-                                                     || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower());
+                                                     || x.TenSachKhongDau.ToLower() == KeySearch.Keyword4.ToLower()
+                                                     || x.DDC.Equals(KeySearch.Keyword4) || x.ISSN.Equals(KeySearch.Keyword4));
                                 if (KeySearch.ListIdNXB4.Count > 0)
                                 {
                                     foreach (var item in KeySearch.ListIdNXB4)
@@ -1654,12 +2302,28 @@ namespace BiTech.Library.DAL.Engines
 
                                     filterDefinition = filterDefinition | filterDefinitionTacGia4;
                                 }
+                                if (KeySearch.ListLanguage4.Count > 0)
+                                {
+                                    foreach (var item in KeySearch.ListLanguage4)
+                                    {
+                                        if (filterDefinitionlang4 == null)
+                                        {
+                                            filterDefinitionlang4 = builder.Where(x => x.Id == item);
+                                        }
+                                        else
+                                        {
+                                            filterDefinitionlang4 = filterDefinitionlang4 | builder.Where(x => x.Id == item);
+                                        }
+                                    }
+
+                                    filterDefinition = filterDefinition | filterDefinitionlang4;
+                                }
                             }
 
                             break;
                     }
                 }
-                  
+
             }
             #endregion
 
@@ -1674,7 +2338,7 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.Find(filterDefinition).ToList();
         }
 
-        
+
 
     }
 }

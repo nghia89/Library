@@ -105,10 +105,7 @@
     <Compile Include="IDatabase.cs" />
     <Compile Include="MongoMirgrations\AccessInfo_Mirgrations\M001_Init.cs" />
     <Compile Include="MongoMirgrations\BoSuutap_Mirgrations\Init.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="MongoMirgrations\BoSuutap_Mirgrations\V0_0_3_thembo_BoSuuTap.cs" />
->>>>>>> 0a36e7834924fb21471f885876dce3c92bcd0259
     <Compile Include="MongoMirgrations\ChiTietNhapSach_Mirgrations\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\Init.cs" />
     <Compile Include="MongoMirgrations\ChiTietXuatSach_Mirgrations\V_0_0_2_RemoveField.cs" />

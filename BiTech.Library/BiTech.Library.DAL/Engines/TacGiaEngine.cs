@@ -62,18 +62,29 @@ namespace BiTech.Library.DAL.Engines
 
         public List<TacGia> GetByListName1(string Name)
         {
-            FilterDefinition<TacGia> filterDefinition = new BsonDocument();
-            var builder = Builders<TacGia>.Filter;
-            filterDefinition = builder.Where(x => x.TenTacGia.ToLower().Contains(Name.ToLower()));
-            return _DatabaseCollection.Find(filterDefinition).ToList();
+            var query = _DatabaseCollection.AsQueryable().Where(delegate (TacGia x)
+            {
+                if (ConvertToUnSign(x.TenTacGia.ToLower()).Contains(ConvertToUnSign(Name.ToLower())))
+                    return true;
+                else
+                    return false;
+            }).AsQueryable();
+            return query.ToList();
         }
-
         public List<TacGia> GetByListName2(string Name)
         {
-            FilterDefinition<TacGia> filterDefinition = new BsonDocument();
-            var builder = Builders<TacGia>.Filter;
-            filterDefinition = builder.Where(x => x.TenTacGia.ToLower()==(Name.ToLower()));
-            return _DatabaseCollection.Find(filterDefinition).ToList();
+            var query = _DatabaseCollection.AsQueryable().Where(delegate (TacGia x)
+            {
+                if (ConvertToUnSign(x.TenTacGia.ToLower()).Equals(ConvertToUnSign(Name.ToLower())))
+                    return true;
+                else
+                    return false;
+            }).AsQueryable();
+            return query.ToList();
+            //FilterDefinition<TacGia> filterDefinition = new BsonDocument();
+            //var builder = Builders<TacGia>.Filter;
+            //filterDefinition = builder.Where(x => x.TenTacGia.ToLower()==(Name.ToLower()));
+            //return _DatabaseCollection.Find(filterDefinition).ToList();
         }
 
         #region Tai

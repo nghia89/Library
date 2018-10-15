@@ -40,6 +40,11 @@ namespace BiTech.Library.DAL.Engines
             return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Equals(Name)).ToList();
 
         }
+        public List<Language> GetByFindName1(string Name)
+        {
+            return _DatabaseCollection.AsQueryable().Where(x => x.Ten.Contains(Name)).ToList();
+
+        }
         public Language GetByNameId(string Name)
         {
             return _DatabaseCollection.AsQueryable().Where(x => x.Ten == Name).FirstOrDefault();

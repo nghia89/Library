@@ -37,7 +37,6 @@ namespace BiTech.Library.Controllers
             xuLyChuoi = new XuLyChuoi();
             new Aspose.Cells.License().SetLicense(LicenseHelper.License.LStream);
         }
-
         public ActionResult Index(KeySearchViewModel KeySearch, int? page)
         {
             SachLogic _SachLogic = new SachLogic(Tool.GetConfiguration("ConnectionString"), _UserAccessInfo.DatabaseName);
@@ -617,8 +616,8 @@ namespace BiTech.Library.Controllers
                     sach.NguoiBienDich = model.SachDTO.NguoiBienDich;
                     sach.TaiBan = model.SachDTO.TaiBan;
                     sach.TaiLieuDinhKem = model.SachDTO.TaiLieuDinhKem;
-                    sach.TaiLieuDinhKem = model.SachDTO.ISSN;
-                    sach.TomTat = model.SachDTO.LLC;
+                    sach.ISSN = model.SachDTO.ISSN;
+                    sach.LLC = model.SachDTO.LLC;
                     sach.TomTat = model.SachDTO.TomTat;
 
                     string failTG = "";
