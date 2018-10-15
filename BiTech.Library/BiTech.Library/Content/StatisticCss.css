@@ -95,15 +95,23 @@ input[type="checkbox"] {
 
 
 .tablink {
-    background-color: #4b5252;
+    /*background-color: #4b5252;
     color: white;
     float: left;
-    /* border: none; */
+    border: none;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
-    border: 1px solid;
+    border: 1px solid;*/
+    background-color: #1ab188;
+    color: white;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 16px;
+    font-size: 17px;
+    border: 0px solid;
 }
 
     /* Change background color of buttons on hover */
@@ -126,6 +134,7 @@ input[type="checkbox"] {
         flex: none;
     }
 }
+
 @media screen and (max-width: 1500px) {
     .sm_Search {
         max-width: 15%;
@@ -142,18 +151,20 @@ input[type="checkbox"] {
     max-width: 83.333333%;
 }*/
 .margin_bottom {
-    margin-bottom:0px;
-}
-.form_input{
-    height:32px;
-}
-.btn_Search{
-    margin-top:-10px;
+    margin-bottom: 0px;
 }
 
-.summarybox{
-    float:left;
-    padding-top:3px;
+.form_input {
+    height: 32px;
+}
+
+.btn_Search {
+    margin-top: -10px;
+}
+
+.summarybox {
+    float: left;
+    padding-top: 3px;
     border-radius: 7px;
     margin: 0px 0px 15px 15px;
     height: 55px;

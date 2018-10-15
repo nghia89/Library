@@ -26,6 +26,38 @@ select {
     font-family: 'FontAwesome', 'Arial';
 }
 /*bootstap edit*/
+
+/*SearchDetail*/
+.SearchDetail .box {
+    padding: 5px;
+    border-bottom: 1px solid #728B90;
+    border-left: 1px solid #728B90;
+    border-right: 1px solid #728B90;
+    border-top: 5px solid #728B90;
+    margin-bottom: 20px;
+    margin-right: 0;
+    margin-left: 0px;
+    background: #fdfcf7;
+}
+
+    .SearchDetail .box .high_style {
+        width: 100%;
+    }
+
+        .SearchDetail .box .high_style .col-lg-12 {
+            padding: 0 12px;
+        }
+
+        .SearchDetail .box .high_style .col-sm-2,
+        .SearchDetail .box .high_style .col-sm-6 {
+            padding: 2px;
+        }
+
+        .SearchDetail .box .high_style .form-group {
+            margin: 0;
+        }
+/*SearchDetail end*/
+
 .btn-primary {
     color: #fff;
     background-color: #728D94;
@@ -1243,7 +1275,7 @@ a:hover {
 }
 
 @media screen and (max-width: 1200px) {
-    
+
     .book_box_v3 {
         margin: 3px;
         width: calc(50% - 6px);
@@ -1256,9 +1288,11 @@ a:hover {
             .book_box_v3 .container-box-window .top .title {
                 font-size: 15px;
             }
-            .book_box_v3 .container-box-window .top .title span{
-                top: 0;
-            }
+
+                .book_box_v3 .container-box-window .top .title span {
+                    top: 0;
+                }
+
     .book_box .book_content .book_image {
         width: 20%;
     }
@@ -1742,7 +1776,7 @@ a:hover {
 .pointer-eventsNone {
     pointer-events: none;
     background: #b4c9ce;
-    visibility:hidden;
+    visibility: hidden;
 }
 
 .export_content {
@@ -1761,7 +1795,7 @@ a:hover {
         color: #2E5894;
         display: inline-block;
         text-transform: uppercase;
-	}
+    }
 
 .Rightcontent {
     width: 48%;
@@ -1772,14 +1806,16 @@ a:hover {
     float: left;
 }
 
-.float_left{
-    float:left
+.float_left {
+    float: left;
 }
+
 .marginAuto {
-    margin: auto
+    margin: auto;
 }
+
 .error {
-    color: red
+    color: red;
 }
 
 /*responsive form Xuất báo cáo*/
@@ -1796,7 +1832,7 @@ a:hover {
 
     .col-lg-4 {
         width: 40.333333%;
-	}
+    }
 }
 
 /*responsive form Xuất báo cáo*/

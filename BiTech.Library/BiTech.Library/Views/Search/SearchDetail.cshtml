@@ -34,38 +34,38 @@
     <script src="~/bower_components/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <script>
-            $("#search_short2").validate({
-                rules: {
-                    Keyword: {
-                        required: true
-                    }
-                }, messages: {
-                    Keyword: {
-                        required: "Vui lòng không để trống bắt buộc phải nhập"
-                    }
+        $("#search_short2").validate({
+            rules: {
+                Keyword: {
+                    required: true
                 }
-            });
+            }, messages: {
+                Keyword: {
+                    required: "Vui lòng không để trống bắt buộc phải nhập nhập"
+                }
+            }
+        });
     </script>
 }
 
-<div style="margin-left:134px; padding-bottom:30px">
+<div style="padding-bottom:30px">
     @*<button class="tablink" onclick="openCity('basic', this, '#1ab188')" style="outline:none" id="@((TempData["FrmSearchHigh"].Equals("FrmSearchHigh")==null?defaultOpen:n))">Cơ Bản</button>
         <button class="tablink" onclick="openCity('high', this, '#1ab188')" style="outline:none" id="@((TempData["FrmSearchHigh"].Equals("FrmSearchHigh")?defaultOpen:n))">Nâng Cao</button>*@
     @if (TempData["FrmSearchHigh"] == null)
     {
-        <button class="tablink" onclick="openCity('basic', this, '#1ab188')" id="defaultOpen" style="outline:none">Cơ Bản</button>
-        <button class="tablink" onclick="openCity('high', this, '#1ab188')" style="outline:none">Nâng Cao</button>
+        <button class="tablink" onclick="openCity('basic', this, '#728A8E')" id="defaultOpen" style="outline:none">Cơ Bản</button>
+        <button class="tablink" onclick="openCity('high', this, '#728A8E')" style="outline:none">Nâng Cao</button>
     }
     else
     {
-        <button class="tablink" onclick="openCity('basic', this, '#1ab188')" style="outline:none">Cơ Bản</button>
-        <button class="tablink" onclick="openCity('high', this, '#1ab188')" id="defaultOpen" style="outline:none">Nâng Cao</button>
+        <button class="tablink" onclick="openCity('basic', this, '#728A8E')" style="outline:none">Cơ Bản</button>
+        <button class="tablink" onclick="openCity('high', this, '#728A8E')" id="defaultOpen" style="outline:none">Nâng Cao</button>
     }
 
 </div>
 <div class="clearfix"></div>
-<div class="clearfix">
-    <div class="row">
+<div class="clearfix SearchDetail">
+    <div class="row box">
         <div id="basic" class="tabcontent">
             <form action="/Search/SearchDetail" class="clearfix" id="search_short1">
                 <div class="container clearfix col-md-8">
@@ -123,31 +123,31 @@
             </form>
         </div>
 
-        <div id="high" class="tabcontent">
+        <div id="high" class="tabcontent high_style">
             <form action="/Search/SearchDetail" class="clearfix" id="search_short2" name="searchHigh">
                 <div class="container clearfix col-md-12 col-lg-12">
                     <div class="form-group">
                         <div class="margin_bottom row">
+                            @*<div class="col-sm-2">
+
+                                </div>
+                                <div style="width:62px">
+
+                                </div>*@
                             <div class="col-sm-2">
-
-                            </div>
-                            <div style="width:62px">
-
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="col-sm-12 font-weight-bold pl-0">Bộ sưu tập : </div>
+                                @*<div class="col-sm-12 font-weight-bold pl-0">Bộ sưu tập : </div>*@
                                 <select class="form-control form-control-sm" name="BoSuuTap" id="ddlCategorySearch">
-                                    <option value="Any">--Chọn tất cả--</option>
+                                    <option value="Any">--Chọn tất cả bộ sưu tập--</option>
                                     @foreach (var item in BST)
                                     {
                                         <option value="@item.Id" @((item.Id.Equals(TempData["BoSuuTap"])) ? "selected" : " ")>@item.Name</option>
                                     }
                                 </select>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="col-sm-12 font-weight-bold pl-0">Kho tài liệu :</div>
+                            <div class="col-sm-2">
+                                @*<div class="col-sm-12 font-weight-bold pl-0">Kho tài liệu :</div>*@
                                 <select class="form-control form-control-sm" name="KeSach" id="">
-                                    <option value="Any">--Chọn tất cả--</option>
+                                    <option value="Any">--Chọn tất cả kho tài liệu--</option>
                                     @foreach (var ks in KeSach)
                                     {
                                         <option value="@ks.Id" @((ks.Id.Equals(TempData["KeSach"])) ? "selected" : " ")>@ks.TenKe</option>
@@ -164,8 +164,8 @@
                             <div class="col-sm-2">
 
                             </div>
-                            <label for="staticEmail" class="col-lg-pull-1 col-form-label font-weight-bold">Từ Khóa:</label>
-                            <div class="col-sm-4">
+                            @*<label for="staticEmail" class="col-lg-pull-1 col-form-label font-weight-bold">Từ Khóa:</label>*@
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword"]" name="Keyword">
                             </div>
                             <div class="col-sm-2">
@@ -187,7 +187,7 @@
                                     <option value="lang" @((TempData["lLoaiTimKiem0"].Equals("lang") ? "selected" : ""))>Ngôn ngữ</option>
                                 </select>
                             </div>
-                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                            @*<i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>*@
                         </div>
 
                         <div class="margin_bottom row">
@@ -197,8 +197,8 @@
                                     <option value="or" @((TempData["dlOperator1"].Equals("or") ? "selected" : ""))> hoặc</option>
                                 </select>
                             </div>
-                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
-                            <div class="col-sm-4">
+                            @*<label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>*@
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword1"]" name="Keyword1">
                             </div>
                             <div class="col-sm-2">
@@ -220,7 +220,7 @@
                                     <option value="lang" @((TempData["lLoaiTimKiem1"].Equals("lang") ? "selected" : ""))>Ngôn ngữ</option>
                                 </select>
                             </div>
-                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                            @*<i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>*@
                         </div>
 
                         <div class="margin_bottom row">
@@ -230,8 +230,8 @@
                                     <option value="or" @((TempData["dlOperator2"].Equals("or") ? "selected" : ""))> hoặc</option>
                                 </select>
                             </div>
-                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
-                            <div class="col-sm-4">
+                            @*<label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>*@
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword2"]" name="Keyword2">
                             </div>
                             <div class="col-sm-2">
@@ -253,7 +253,7 @@
                                     <option value="lang" @((TempData["lLoaiTimKiem2"].Equals("lang") ? "selected" : ""))>Ngôn ngữ</option>
                                 </select>
                             </div>
-                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                            @*<i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>*@
                         </div>
 
                         <div class=" margin_bottom row ">
@@ -263,8 +263,8 @@
                                     <option value="or" @((TempData["dlOperator3"].Equals("or") ? "selected" : ""))> hoặc</option>
                                 </select>
                             </div>
-                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
-                            <div class="col-sm-4">
+                            @*<label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>*@
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword3"]" name="Keyword3">
                             </div>
                             <div class="col-sm-2">
@@ -286,7 +286,7 @@
                                     <option value="lang" @((TempData["lLoaiTimKiem3"].Equals("lang") ? "selected" : ""))>Ngôn ngữ</option>
                                 </select>
                             </div>
-                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                            @*<i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>*@
                         </div>
 
                         <div class="margin_bottom row">
@@ -296,8 +296,8 @@
                                     <option value="or" @((TempData["dlOperator4"].Equals("or") ? "selected" : ""))> hoặc</option>
                                 </select>
                             </div>
-                            <label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>
-                            <div class="col-sm-4">
+                            @*<label for="inputPassword" class="col-lg-pull-1 col-form-label font-weight-bold">Từ khóa:</label>*@
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control form_input" id="inputPassword" value="@TempData["Keyword4"]" name="Keyword4">
                             </div>
                             <div class="col-sm-2">
@@ -319,7 +319,7 @@
                                     <option value="lang" @((TempData["lLoaiTimKiem4"].Equals("lang") ? "selected" : ""))>Ngôn ngữ</option>
                                 </select>
                             </div>
-                            <i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>
+                            @*<i class="fa fa-book fa-2x" aria-hidden="true" style="color:#0c78a5"></i>*@
 
                         </div>
 
@@ -327,8 +327,10 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <div style="width:100px;height:15px;margin:15px auto">
-                    <button type="submit" class="btn btn-primary btn-block btn_Search" name="FrmSearchHigh" value="FrmSearchHigh">
+                <div style="width: 100%; text-align: right;">
+                    <button type="submit" class="btn btn-primary btn-block btn_Search" 
+                            style="margin: 0; width: 100px; padding: 2px; display: inline-block;"
+                            name="FrmSearchHigh" value="FrmSearchHigh">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
