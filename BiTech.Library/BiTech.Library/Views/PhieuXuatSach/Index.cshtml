@@ -45,7 +45,10 @@
 </table>
 
 <div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    @if (@ViewBag.number > 20)
+    {
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    }
 </div>
 
 

@@ -133,7 +133,7 @@
                     $('.AddList_GV').each(function () {
                         arrIdCheck.push($(this).val());
                     })
-                    AddAllList(arrIdCheck); 
+                    AddAllList(arrIdCheck);
                 }
                 else {
                     DeleteAll();
@@ -152,7 +152,7 @@
                 console.log("222");
                 DeleteItem(rmIdCheck);
             }
-           
+
             if ($('.AddList_GV:checked').length === $('#tblFunction tbody tr .AddList_GV').length) {
                 $('#CheckAll_GV').prop('checked', true);
             } else {

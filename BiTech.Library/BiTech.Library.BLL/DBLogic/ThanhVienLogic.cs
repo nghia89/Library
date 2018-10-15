@@ -18,8 +18,17 @@ namespace BiTech.Library.BLL.DBLogic
         public ThanhVienLogic(string connectionString, string dbName)
         {
             _ThanhVienEngine = new ThanhVienEngine(new Database(connectionString ), dbName, TableName);
-        }       
-   
+        }
+
+        /// <summary>
+        /// Get all ThanhVien object (Active - DeActive)
+        /// </summary>
+        /// <returns></returns>
+        public List<ThanhVien> GetAll()
+        {
+            return _ThanhVienEngine.GetAll();
+        }
+
         /// <summary>
         /// Get all ThanhVien object Active
         /// </summary>
@@ -28,6 +37,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetAllActive();
         }
+
         /// <summary>
         /// Get ThanhVien object DeActive
         /// </summary>
@@ -36,10 +46,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetByMaSoThanhVienDeActive(idUser);
         }
+
         public ThanhVien GetById(string id)
         {
             return _ThanhVienEngine.GetById(id);
         }
+
         /// <summary>
         /// get by idUser
         /// </summary>
@@ -49,6 +61,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.GetByMaSoThanhVien(idUser);
         }
+
         /// <summary>
         /// Insert a ThanhVien object
         /// </summary>
@@ -58,6 +71,7 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _ThanhVienEngine.Insert(model);
         }
+
         /// <summary>
         /// update - delete( update status)
         /// </summary>

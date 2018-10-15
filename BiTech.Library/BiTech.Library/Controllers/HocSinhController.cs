@@ -1121,8 +1121,7 @@ namespace BiTech.Library.Controllers
             {
                 // Lấy list id checked
                 var lstUserChecked = (List<UserViewModel>)Session["CheckTV"];
-
-                //RedirectToAction("ExportWord", "");
+                
                 TempData["lstMS"] = lstUserChecked;
                 //Xuất thẻ theo list lstUserChecked
                 Session["CheckTV"] = new List<UserViewModel>();

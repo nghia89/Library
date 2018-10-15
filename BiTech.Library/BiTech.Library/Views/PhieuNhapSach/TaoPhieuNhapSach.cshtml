@@ -30,7 +30,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 control-label">Tên sách:</label>
                         <div class="col-md-10">
-                            <input id="TenSach" placeholder="Tên sách" ng-model="TenSach" autocomplete="off"
+                            <input id="TenSach" placeholder="Tên sách" ng-model="TenSach"
                                    class="form-control form-control-sm" readonly="readonly" onclick="CompleteBookName()">
                         </div>
                     </div>
@@ -40,8 +40,7 @@
                         <div class="col-sm-10">
                             <div class="input-group mb-3">
                                 <input id="idSach" name="idSach"
-                                       onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }"
-                                       autofocus
+                                       onkeydown="if (event.keyCode == 13 || event.keyCode == 9) { EnterMaSach() }" autofocus
                                        placeholder="Nhập mã sách" ng-model="maKS" class="form-control form-control-sm">
                                 <div class="input-group-append">
                                     <a href="@Url.Action("Create", "Sach")" target="_blank" class="btn btn-primary btn-sm" title="Tạo sách mới">
@@ -51,8 +50,6 @@
                             </div>
                         </div>
                     </div>
-                    @*V*@
-
                     <div class="form-group row">
                         <label class="col-md-2 control-label">Trạng thái sách <span style="color:red">*</span>:</label>
                         <div class="col-md-10">
@@ -64,7 +61,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 control-label">Số lượng <span style="color:red">*</span>:</label>
                         <div class="col-md-10">
-                            <input id="SoLuong" placeholder="Nhập số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" autocomplete="off" onclick="CompleteBookName()">
+                            <input id="SoLuong" placeholder="Nhập số lượng" ng-model="soLuong" class="form-control form-control-sm" type="number" onclick="CompleteBookName()">
                         </div>
                     </div>
 
@@ -194,8 +191,7 @@
             var idBook = $("#idSach").val();
             console.log(idBook);
             if (idBook == "") {
-                console.log('Ma sach trong');
-                //swal("Mã sách đang trống", "Chưa nhập mã sách", "warning");
+                console.log('Ma sach trong');                
 			}
             else {
                 $.ajax({
@@ -212,7 +208,6 @@
                     },
                     error: function () {
                         swal("Không tìm thấy", "Sách không tồn tại hoặc đã bị xóa!", "warning");
-                        //alert('Mã sách không tồn tại');
                         $("#idSach").focus();
                         $("#idSach").val('');
                         $("#TenSach").val('')
@@ -253,9 +248,7 @@
 		}
 
 		function RequestAltInsertGuiSuccess(data) {
-			$(this).removeClass('active');
-
-			//$("#ajax").html(data);
+			$(this).removeClass('active');            
 
 			$("#ajax").append(data);
 

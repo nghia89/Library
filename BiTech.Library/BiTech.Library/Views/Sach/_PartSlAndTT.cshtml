@@ -1,33 +1,32 @@
 ﻿
 @{
-    var sltts = (List<BiTech.Library.DTO.SoLuongSachTrangThai>)ViewBag.SlTTsach;
+    var sltts = (List<BiTech.Library.DTO.SachCaBiet>)ViewBag.SlTTsach;
 }
 
 <div class="container-box-window clearfix">
     <div class="top">
-        <span class="">Số lượng trạng thái sách</span>
+        <span class="">Trạng thái từng cuốn sách</span>
     </div>
-    <div class="content-box-window">
-
-        <div class="">
-            <div id="tbl-content">
-
-            </div>
-        </div>
-        <script id="table-template" type="x-tmpl-mustache">
-            <div class="form-group row">
-                <label class="control-label form-label col-sm-4" style="font-size:13px; margin-top:5px;" for="IdTrangThai">{{TrangThai}}:</label>
-                <div class="input-group col-sm-6 mb-6">
-                    <span type="text" id="KeyInput"class="form-control first-child form-control-sm">{{SoLuong}}</span>
-                    <input type="text" id="KeyInput" value="{{IdSach}}" hidden>
-                    <div class="input-group-append">
-                        <a class=" btn btn-danger btn-edit " style="color:white" data-id="{{Id}}">Sửa</a>
-                        <input type="text" class="txtIdTrangThai" value="{{IdTrangThai}}" hidden>
-                    </div>
-                </div>
-            </div>
-        </script>
-
+    <div class="content-box-window" id="AngCtrl" ng-controller="TrangThaiSachCtrlr" ng-init="GetAllData()">
+        <table class="table table-hover table-bordered table-min mb-0" border="1">
+            <thead>
+                <tr class="table-info text-center">
+                    <th width="30%">Mã cá biệt</th>
+                    <th width="30%">Trạng thái sách</th>
+                    <th width="10%">Thay đổi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center" ng-repeat="x in list | orderBy : '-MaCaBiet'" my-repeat-directive>
+                    <td align="center" id="maCB">{{x.MaCaBiet}}</td>
+                    <td>{{x.TrangThai}}</td>
+                    <td align="center">
+                        <i class="btn btn-danger col-sm-0 btn-edit" id="btnSua" ng-click="OpenPopup(x)" style="font-size:12; cursor:pointer;">Sửa</i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
+
 

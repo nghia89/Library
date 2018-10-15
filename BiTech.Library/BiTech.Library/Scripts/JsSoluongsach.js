@@ -2,7 +2,7 @@
 var SoLuongTTSach = function () {
 
     this.initialize = function () {
-       
+
         loadData();
         registerEvents();
     }
@@ -28,8 +28,8 @@ var SoLuongTTSach = function () {
             }
         });
 
-        $('body').on('click', '.btn-edit', function (e) {   
-       
+        $('body').on('click', '.btn-edit', function (e) {
+
             e.preventDefault();
             var that = $(this).data('id');
             var idtt = $(this).next().val();
@@ -40,7 +40,7 @@ var SoLuongTTSach = function () {
                 url: '/Sach/GetAllTT',
                 data: {
                     Id: idtt
-              
+
                 },
                 dataType: 'json',
                 success: function (response) {
@@ -50,7 +50,7 @@ var SoLuongTTSach = function () {
                     });
                     $('#tbl-bill-TTDetail').html(render);
                 }
-            });        
+            });
         });
 
         $('#txtSave').on('click', function () {
@@ -59,11 +59,10 @@ var SoLuongTTSach = function () {
         });
     }
 
-   
+
     function SaveChange(e) {
         if ($('#frmMaintainance').valid()) {
             var txtid = $('#txtId').val();
-            var txtSoLuong = $('#txtSoLuong').val();
             var txtIdTT = $('#txtEditIdtt').val();
             var txtIdSach = $('#txtEditIdSach').val();
             var txtIdttCategory = $('.txtIdttCategory').val();
@@ -72,7 +71,6 @@ var SoLuongTTSach = function () {
                 url: "/Sach/EditSaveChange",
                 data: {
                     Id: txtid,
-                    SoLuong: txtSoLuong,
                     IdTrangThai: txtIdTT,
                     IdSach: txtIdSach,
                     txtIdttCategory: txtIdttCategory
@@ -82,7 +80,6 @@ var SoLuongTTSach = function () {
                     $('#modal-add-edit').modal('hide');
                     loadData();
                 }
-
             });
             return false;
         }
@@ -95,7 +92,7 @@ var SoLuongTTSach = function () {
             data: { id: that },
             dataType: "json",
             success: function (response) {
-                sl = parseInt(response.SoLuong);     
+                sl = parseInt(response.SoLuong);
                 var template = $('#template').html();
                 var render = "";
                 Mustache.parse(template);
@@ -109,7 +106,7 @@ var SoLuongTTSach = function () {
                     });
                 });
                 if (render !== undefined) {
-                    $('#tbl-content-detail').html(render);              
+                    $('#tbl-content-detail').html(render);
                 }
                 else {
                     $('#tbl-content-detail').html('');
@@ -133,16 +130,13 @@ var SoLuongTTSach = function () {
                 var render = "";
                 Mustache.parse(template);
                 $.each(response, function (i, item) {
-                    if (item.SoLuong !== 0) {
-                        render += Mustache.render(template, {
-                            TrangThai: item.TrangThai,
-                            SoLuong: item.SoLuong,
-                            Id: item.Id,
-                            IdTrangThai: item.IdTrangThai,
-                            IdSach: item.IdSach
+                    render += Mustache.render(template, {
+                        TrangThai: item.TrangThai,
+                        Id: item.Id,
+                        IdTrangThai: item.IdTrangThai,
+                        IdSach: item.IdSach,
+                        MaCaBiet: item.MaCaBiet,
                         });
-                    }
-                 
                 });
                 if (render !== undefined) {
                     $('#tbl-content').html(render);

@@ -226,7 +226,6 @@ namespace BiTech.Library.Controllers
             ThanhVien tv = _ThanhVienLogic.GetById(id);
             if (tv == null)
                 return RedirectToAction("NotFound", "Error");
-            // tv.NgaySinh.ToString("dd-mm-yyyy");
 
             EditUserViewModel model = new EditUserViewModel()
             {
@@ -513,7 +512,7 @@ namespace BiTech.Library.Controllers
             ExcelManager excelManager = new ExcelManager();
             List<ThanhVien> listTV = new List<ThanhVien>();
             if (string.IsNullOrEmpty(idTV))
-            {               
+            {
                 foreach (var item in lstTV)
                 {
                     var mem = _ThanhVienLogic.GetByMaSoThanhVien(item.MaSoThanhVien);
@@ -524,7 +523,8 @@ namespace BiTech.Library.Controllers
             {
                 var tv = _ThanhVienLogic.GetByMaSoThanhVien(idTV);
                 listTV.Add(tv);
-            }            
+            }
+			
             string fileName = "";
             string linkMau = null;
             // Chọn file mẫu thẻ
@@ -1011,8 +1011,7 @@ namespace BiTech.Library.Controllers
             {
                 // Lấy list id checked
                 var lstUserChecked = (List<UserViewModel>)Session["CheckTV_GV"];
-
-                //RedirectToAction("ExportWord", "");
+                
                 TempData["lstMSGV"] = lstUserChecked;
                 //Xuất thẻ theo list lstUserChecked
                 Session["CheckTV_GV"] = null;

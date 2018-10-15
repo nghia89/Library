@@ -23,10 +23,12 @@ namespace BiTech.Library.BLL.DBLogic
         {
             return _PhieuXuatSachEngine.Insert(xs);
         }
+
         public List<PhieuXuatSach> Getall()
         {
             return _PhieuXuatSachEngine.getAll();
         }
+
         public PhieuXuatSach GetById(string id)
         {
             return _PhieuXuatSachEngine.GetById(id);
